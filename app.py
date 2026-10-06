@@ -6,14 +6,15 @@ import pandas as pd
 import requests
 import streamlit as st
 
-# 페이지 설정
+# [1] 페이지 설정
 st.set_page_config(
     page_title="배트맨 프로젝트 통합 마스터 규격 및 분석 엔진", layout="wide"
 )
 
-TARGET_URL = "https://www.scoreman123.com/?id=71"
+TARGET_URL = "https://www.scoreman123.com/"
 
 
+# [2] 데이터 파싱 함수 정의
 @st.cache_data(ttl=60)
 def fetch_live_matches_from_scoreman():
   matches = []
@@ -128,7 +129,9 @@ def load_match_data():
   }
 
 
- 
+# [3] 데이터 로드 및 matches 변수 선언 (이 부분이 빠져서 NameError가 나던 구간입니다)
+data = load_match_data()
+matches = data.get("matches", [])
 
 st.subheader("🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
 match_options = [m["match_name"] for m in matches]
