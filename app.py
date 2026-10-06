@@ -128,10 +128,11 @@ def load_match_data():
   }
 
 
-# 데이터 로드 및 렌더링 (파일 내 단 한 번만 실행)
+# 데이터 로드
 data = load_match_data()
 matches = data.get("matches", [])
 
+# 메인 UI 렌더링 (파일 전체 통틀어 단 한 번만 호출되도록 보장)
 st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
 st.markdown(
     "구글 독스 원문 규격 100% 반영 • 생략 없는 0~6단계 세부 정량 표 완벽 탑재"
@@ -149,7 +150,6 @@ selected_match = next(
 )
 home_team = selected_match.get("home_team", selected_match.get("home", "홈팀"))
 away_team = selected_match.get("away_team", selected_match.get("away", "원정팀"))
-match_date = selected_match.get("time", "오늘")
 
 tab_titles = [
     "0단계 (메타)",
@@ -215,7 +215,6 @@ with tabs[1]:
       "방어 가중치": ["-8.0% (최상위)", "-6.0%", "-4.0%", "-2.0%", "0.0%"],
   })
   st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
-
 # 데이터 로드 및 초기화
 data = load_match_data()
 matches = data.get("matches", [])
