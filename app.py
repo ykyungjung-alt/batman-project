@@ -184,51 +184,9 @@ with tabs[0]:
       ],
   })
 
-with tabs[1]:
-  st.markdown(
-      f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] -"
-      f" {home_team} vs {away_team}"
-  )
-  tier_weight_df = pd.DataFrame({
-      "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
-      "공격력 기준 (평균 득점)": [
-          "2.3골 이상",
-          "1.7 ~ 2.2골 미만",
-          "1.1 ~ 1.6골 미만",
-          "0.5 ~ 1.1골 미만",
-          "0.5골 미만 (< 0.5)",
-      ],
-      "공격 가중치": ["+8.0%", "+6.0%", "+4.0%", "+2.0%", "0.0% (최하위)"],
-      "방어력 기준 (평균 실점)": [
-          "0.5골 미만 (< 0.5)",
-          "0.5 ~ 0.9골 미만",
-          "0.9 ~ 1.3골 미만",
-          "1.3 ~ 1.7골 미만",
-          "1.7골 이상",
-      ],
-      "방어 가중치": ["-8.0% (최상위)", "-6.0%", "-4.0%", "-2.0%", "0.0%"],
-  })
+
   st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
-# 데이터 로드 및 초기화
-data = load_match_data()
-matches = data.get("matches", [])
 
-st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
-st.markdown(
-    "구글 독스 원문 규격 100% 반영 • 생략 없는 0~6단계 세부 정량 표 완벽 탑재"
-    " 시스템"
-)
-
-st.subheader("🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
-match_options = [m["match_name"] for m in matches]
-
-
-selected_match = next(
-    (m for m in matches if m["match_name"] == selected_match_name), matches[0]
-)
-home_team = selected_match.get("home_team", selected_match.get("home", "홈팀"))
-away_team = selected_match.get("away_team", selected_match.get("away", "원정팀"))
-match_date = selected_match.get("time", "오늘")
 
 tab_titles = [
     "0단계 (메타)",
