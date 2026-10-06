@@ -74,30 +74,9 @@ def fetch_live_matches_from_scoreman():
   return matches
 
 
-@st.cache_data
+@st.cache_data(ttl=60)
 def load_match_data():
-  # 1순위: [스코어맨](https://www.scoreman123.com/) 실시간 크롤링 우선 시도
-  live_matches = fetch_live_matches_from_scoreman()
-  if live_matches:
-    formatted_matches = []
-    for m in live_matches:
-      m["match_name"] = (
-          f"[{m['league']}] {m['home']} vs {m['away']} ({m['time']})"
-      )
-      m["home_team"] = m["home"]
-      m["away_team"] = m["away"]
-      m["tournament"] = m["league"]
-      m["home_recent_stats"] = "실시간 수집 체급 적용"
-      m["away_recent_stats"] = "실시간 수집 체급 적용"
-      formatted_matches.append(m)
-
-    return {
-        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "source": TARGET_URL,
-        "matches": formatted_matches,
-    }
-
-  # 2순위: 로컬 data.json 참조
+  # 1순위: 로컬에 있는 최신 data.json 파일 강제 로드 (가장 안정적)
   if os.path.exists("data.json"):
     try:
       with open("data.json", "r", encoding="utf-8") as f:
@@ -121,23 +100,100 @@ def load_match_data():
     except Exception:
       pass
 
-  return {
-      "last_updated": "연동 대기 중",
-      "matches": [{
-          "id": 1,
-          "league": "기본 대기",
-          "match_name": "[기본 대기] 데이터 연동 대기중 vs 확인 필요",
-          "home": "데이터 수집 대기",
-          "away": "스코어맨 확인",
-          "home_team": "데이터 수집 대기",
-          "away_team": "스코어맨 확인",
-          "tournament": "기본 대기",
-          "time": "오늘",
-          "home_recent_stats": "4전/3승1무/0패",
-          "away_recent_stats": "4전/2승1무/1패",
-      }],
-  }
+  # 2순위: 실시간 크롤링 시도 (스코어맨 접속 차단 대비 안전장치 포함)
+  try:
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,"
+            " like Gecko) Chrome/122.0.0.0 Safari/537.36"
+        ),
+        "Referer": "https://www.scoreman123.com/",
+    }
+    response = requests.get(
+        "https://www.scoreman123.com/", headers=headers, timeout=5
+    )
+    if response.status_code == 200:
+      soup = BeautifulSoup(response.text, "html.parser")
+      matches = []
+      current_league = "해외축구 (실시간)"
+      rows = soup.select("tr")
 
+      for row in rows:
+        league_el = row.select_one("th span, .league_title, td[colspan]")
+        if league_el:
+          text = league_el.get_text(strip=True)
+          if text and len(text) > 1 and "스코어맨" not in text:
+            current_league = text.replace("+", "").strip()
+          continue
+        tds = row.select("td")
+        if len(tds) >= 5:
+          time_str = tds[1].get_text(strip=True) if len(tds) > 1 else "진행중"
+          home_raw = tds[2].get_text(strip=True) if len(tds) > 2 else ""
+          away_raw = tds[4].get_text(strip=True) if len(tds) > 4 else ""
+
+          import re
+
+          home_str = re.sub(r"\[.*?\]", "", home_raw).strip()
+          away_str = re.sub(r"\[.*?\]", "", away_raw).strip()
+
+          if home_str and away_str and "-" in row.get_text():
+            matches.append({
+                "id": len(matches) + 1,
+                "league": current_league,
+                "time": time_str,
+                "home": home_str,
+                "away": away_str,
+                "home_team": home_str,
+                "away_team": away_str,
+                "tournament": current_league,
+                "home_recent_stats": "실시간 수집 체급 적용",
+                "away_recent_stats": "실시간 수집 체급 적용",
+                "match_name": (
+                    f"[{current_league}] {home_str} vs {away_str} ({time_str})"
+                ),
+            })
+      if matches:
+        return {
+            "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "matches": matches,
+        }
+  except Exception:
+    pass
+
+  # 3순위: 최종 안전 폴백 대진 데이터 (화면 멈춤 방지)
+  return {
+      "last_updated": "수동 입력 모드",
+      "matches": [
+          {
+              "id": 1,
+              "league": "잉글랜드 FA 컵",
+              "match_name": (
+                  "[잉글랜드 FA 컵] 윈게이트&핀칠리 vs 베드포드 (28)"
+              ),
+              "home": "윈게이트&핀칠리",
+              "away": "베드포드",
+              "home_team": "윈게이트&핀칠리",
+              "away_team": "베드포드",
+              "tournament": "잉글랜드 FA 컵",
+              "time": "28",
+              "home_recent_stats": "4전/3승1무/0패",
+              "away_recent_stats": "4전/2승1무/1패",
+          },
+          {
+              "id": 2,
+              "league": "UEFA 네이션스리그",
+              "match_name": "[UEFA 네이션스리그] 크로아티아 vs 스페인 (30)",
+              "home": "크로아티아",
+              "away": "스페인",
+              "home_team": "크로아티아",
+              "away_team": "스페인",
+              "tournament": "UEFA 네이션스리그",
+              "time": "30",
+              "home_recent_stats": "5전/3승1무/1패",
+              "away_recent_stats": "5전/4승1무/0패",
+          },
+      ],
+  }
 
 # 대시보드 데이터 로드 실행
 data = load_match_data()
