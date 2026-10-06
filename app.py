@@ -160,10 +160,27 @@ selected_match_name = st.selectbox(
     "실시간 수집 대진 선택 (리그 | 홈 vs 원정 | 시간)", match_options
 )
 
-# 선택된 경기 매칭
+# 선택된 경기 매칭 및 필수 변수 정의 (NameError 방지)
 selected_match = next(
     (m for m in matches if m["match_name"] == selected_match_name), matches[0]
 )
+
+home_team = selected_match.get("home_team", selected_match.get("home", "홈팀"))
+away_team = selected_match.get("away_team", selected_match.get("away", "원정팀"))
+match_date = selected_match.get("time", "오늘")
+
+# 탭 구성 정의 (0단계부터 7단계 요약까지)
+tab_titles = [
+    "0단계 (메타)",
+    "규칙 1 (LIFO 7경기)",
+    "규칙 2 (구장 Shift)",
+    "규칙 3 (누수·피로)",
+    "규칙 4 (H2H 상성)",
+    "규칙 5 (최종 람다)",
+    "규칙 6 (푸아송 예측)",
+    "요약 리포트",
+]
+tabs = st.tabs(tab_titles)
 
 # 0단계 메타 화면 출력
 st.markdown(
