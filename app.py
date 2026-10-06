@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 import os
 from bs4 import BeautifulSoup
+import pandas as pd  # pandas 임포트 명시적 추가
 import requests
 import streamlit as st
 
@@ -13,7 +14,7 @@ st.set_page_config(
 TARGET_URL = "https://www.scoreman123.com/"
 
 
-@st.cache_data(ttl=60)  # 1분 캐시로 실시간성 유지
+@st.cache_data(ttl=60)
 def fetch_live_matches_from_scoreman():
   matches = []
   headers = {
@@ -31,7 +32,6 @@ def fetch_live_matches_from_scoreman():
       rows = soup.select("table tr, .score_table tr")
 
       for row in rows:
-        # 리그 헤더 감지
         league_header = row.select_one("th, .league_title, td[colspan]")
         if league_header and not row.select(".home_team, .home"):
           text = league_header.get_text(strip=True)
@@ -39,7 +39,6 @@ def fetch_live_matches_from_scoreman():
             current_league = text
           continue
 
-        # 경기 행 파싱
         try:
           time_el = row.select_one("td:nth-child(2), .match_time, .time")
           match_time = time_el.get_text(strip=True) if time_el else "진행중"
@@ -79,7 +78,6 @@ def fetch_live_matches_from_scoreman():
 
 @st.cache_data
 def load_match_data():
-  # 1순위: 앱 내부에서 스코어맨 사이트를 직접 실시간 크롤링 시도
   live_matches = fetch_live_matches_from_scoreman()
   if live_matches:
     formatted_matches = []
@@ -100,7 +98,6 @@ def load_match_data():
         "matches": formatted_matches,
     }
 
-  # 2순위: 로컬 data.json 파일 참조
   if os.path.exists("data.json"):
     try:
       with open("data.json", "r", encoding="utf-8") as f:
@@ -124,7 +121,6 @@ def load_match_data():
     except Exception:
       pass
 
-  # 3순위: 기본 방어 폴백 데이터
   return {
       "last_updated": "연동 대기 중",
       "matches": [{
@@ -143,7 +139,6 @@ def load_match_data():
   }
 
 
-# 대시보드 데이터 로드 실행
 data = load_match_data()
 matches = data.get("matches", [])
 
@@ -153,23 +148,19 @@ st.markdown(
     " 시스템"
 )
 
-# 경기 선택 드롭다운
 st.subheader("🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
 match_options = [m["match_name"] for m in matches]
 selected_match_name = st.selectbox(
     "실시간 수집 대진 선택 (리그 | 홈 vs 원정 | 시간)", match_options
 )
 
-# 선택된 경기 매칭 및 필수 변수 정의 (NameError 방지)
 selected_match = next(
     (m for m in matches if m["match_name"] == selected_match_name), matches[0]
 )
-
 home_team = selected_match.get("home_team", selected_match.get("home", "홈팀"))
 away_team = selected_match.get("away_team", selected_match.get("away", "원정팀"))
 match_date = selected_match.get("time", "오늘")
 
-# 탭 구성 정의 (0단계부터 7단계 요약까지)
 tab_titles = [
     "0단계 (메타)",
     "규칙 1 (LIFO 7경기)",
@@ -217,19 +208,6 @@ with tabs[1]:
       f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] -"
       f" {home_team} vs {away_team}"
   )
-  st.markdown(
-      """
-        <div class="step-box">
-            <b>📌 규격 원칙 및 요약 설명:</b><br>
-            • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 7개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여하고 각 경기 상대팀에 '상대 공·방 티어'를 배치합니다.<br>
-            • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 FIFA/대륙연맹 주관 공식 A매치 및 공식 예선·토너먼트 경기만을 채택합니다.<br>
-            • <b>특수 룰 (경고등 프로토콜 및 50% 할인):</b> E티어 상대 득점 50% 할인, A티어 상대 실점 50% 할인 및 경고등 발동 프로토콜을 적용합니다.
-        </div>
-    """,
-      unsafe_allow_html=True,
-  )
-
-  st.markdown("#### 공수 티어 가중치 부호 비대칭 규격 기준표")
   tier_weight_df = pd.DataFrame({
       "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
       "공격력 기준 (평균 득점)": [
