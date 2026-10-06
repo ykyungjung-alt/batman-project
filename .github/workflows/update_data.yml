@@ -33,6 +33,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git reset --mixed origin/main || true
           git add data.json
           git diff --staged --quiet || git commit -m "Auto-update data.json via GitHub Actions"
-          git push origin HEAD:main
+          git push origin HEAD:main --force
