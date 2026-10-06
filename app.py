@@ -14,7 +14,7 @@ st.set_page_config(
 TARGET_URL = "https://www.scoreman123.com/"
 
 
-@st.cache_data(ttl=60)  # 1분 캐시로 실시간성 유지
+@st.cache_data(ttl=60)
 def fetch_live_matches_from_scoreman():
   matches = []
   headers = {
@@ -29,58 +29,54 @@ def fetch_live_matches_from_scoreman():
     if response.status_code == 200:
       soup = BeautifulSoup(response.text, "html.parser")
       current_league = "해외축구 (실시간)"
-      rows = soup.select("table tr, .score_table tr")
+      rows = soup.select("tr")
 
       for row in rows:
-        # 리그 헤더 감지
-        league_header = row.select_one("th, .league_title, td[colspan]")
-        if league_header and not row.select(".home_team, .home"):
-          text = league_header.get_text(strip=True)
-          if text and len(text) > 1:
-            current_league = text
+        # 1. 리그 타이틀 행 감지 (예: 메이저리그사커, 잉글랜드 FA컵 등)
+        league_el = row.select_one("th span, .league_title, td[colspan]")
+        if league_el:
+          text = league_el.get_text(strip=True)
+          if text and len(text) > 1 and "스코어맨" not in text:
+            current_league = text.replace("+", "").strip()
           continue
 
-        # 경기 행 파싱
         try:
-          time_el = row.select_one("td:nth-child(2), .match_time, .time")
-          match_time = time_el.get_text(strip=True) if time_el else "진행중"
-
           tds = row.select("td")
-          home_text, away_text = "", ""
-          for td in tds:
-            text = td.get_text(strip=True)
-            if " - " in text and not home_text:
-              parts = text.split(" - ")
-              if len(parts) == 2:
-                home_text = parts[0].strip()
-                away_text = parts[1].strip()
+          if len(tds) >= 5:
+            time_str = tds[1].get_text(strip=True) if len(tds) > 1 else "진행중"
+            home_raw = tds[2].get_text(strip=True) if len(tds) > 2 else ""
+            away_raw = tds[4].get_text(strip=True) if len(tds) > 4 else ""
 
-          if not home_text:
-            home_el = row.select_one(".home_team, .team_home, td:nth-child(3)")
-            away_el = row.select_one(".away_team, .team_away, td:nth-child(5)")
-            home_text = home_el.get_text(strip=True) if home_el else ""
-            away_text = away_el.get_text(strip=True) if away_el else ""
+            # 대괄호 내 순위 정보 제거 (예: [5] 시카고 파이어 -> 시카고 파이어)
+            import re
 
-          if home_text and away_text and len(home_text) > 1:
-            matches.append({
-                "id": len(matches) + 1,
-                "league": current_league,
-                "time": match_time,
-                "home": home_text.replace("[", "").split("]")[-1].strip(),
-                "away": away_text.replace("[", "").split("]")[-1].strip(),
-                "status": "라이브",
-            })
+            home_str = re.sub(r"\[.*?\]", "", home_raw).strip()
+            away_str = re.sub(r"\[.*?\]", "", away_raw).strip()
+
+            # 스코어(`-`)가 포함된 실제 경기 행만 추출
+            if home_str and away_str and "-" in row.get_text():
+              matches.append({
+                  "id": len(matches) + 1,
+                  "league": current_league,
+                  "time": time_str if ":" in time_str else "라이브",
+                  "home": home_str,
+                  "away": away_str,
+                  "home_team": home_str,
+                  "away_team": away_str,
+                  "tournament": current_league,
+                  "status": "라이브",
+              })
         except Exception:
           continue
   except Exception as e:
-    print(f"앱 내부 실시간 크롤링 오류: {e}")
+    print(f"실시간 파싱 오류: {e}")
 
   return matches
 
 
 @st.cache_data
 def load_match_data():
-  # 1순위: 앱 내부에서 스코어맨 사이트를 직접 실시간 크롤링 시도
+  # 1순위: [스코어맨](https://www.scoreman123.com/) 실시간 크롤링 우선 시도
   live_matches = fetch_live_matches_from_scoreman()
   if live_matches:
     formatted_matches = []
@@ -101,7 +97,7 @@ def load_match_data():
         "matches": formatted_matches,
     }
 
-  # 2순위: 로컬 data.json 파일 참조
+  # 2순위: 로컬 data.json 참조
   if os.path.exists("data.json"):
     try:
       with open("data.json", "r", encoding="utf-8") as f:
@@ -125,7 +121,6 @@ def load_match_data():
     except Exception:
       pass
 
-  # 3순위: 기본 방어 폴백 데이터
   return {
       "last_updated": "연동 대기 중",
       "matches": [{
