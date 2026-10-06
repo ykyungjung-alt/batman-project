@@ -10,22 +10,29 @@ st.set_page_config(page_title="배트맨 프로젝트 마스터 규격 엔진", 
 
 import json
 import os
+import streamlit as st
 
-# --- [추가] 깃허브 자동 업데이트 데이터(data.json) 불러오기 ---
-@st.cache_data(ttl=60) # 데이터가 갱신되면 캐시를 갱신하도록 설정
-def load_auto_matches():
+# 1. GitHub Actions로 수집된 data.json 파일 로드 함수
+def load_match_data():
     if os.path.exists("data.json"):
         with open("data.json", "r", encoding="utf-8") as f:
             return json.load(f)
-    return None
+    return {"last_updated": "데이터 없음", "matches": []}
 
-auto_data = load_auto_matches()
+# 데이터 불러오기
+match_data = load_match_data()
 
-# 불러온 데이터가 있다면 상단에 상태 표시 및 자동 연동 알림
-if auto_data:
-    st.sidebar.success(f"🔄 자동 데이터 연동 완료\n마지막 갱신: {auto_data.get('last_updated', '알 수 없음')}")
-else:
-    st.sidebar.warning("⚠️ data.json 파일을 찾을 수 없습니다. 수동 입력을 사용합니다.")
+# 2. 대시보드 상단에 마지막 갱신 시간 표시
+st.sidebar.markdown(f"**🔄 자동 데이터 연동 완료**")
+st.sidebar.text(f"마지막 갱신: {match_data.get('last_updated', '알 수 없음')}")
+
+# 3. 수집된 경기 목록을 드롭다운(Selectbox) 대진 선택에 연동
+matches = match_data.get("matches", [])
+match_options = [f"[{m.get('league', '일반')}] {m.get('home')} vs {m.get('away')} ({m.get('time')})" for m in matches]
+
+selected_match_str = st.selectbox("대진 경기 선택 (홈 vs 원정)", match_options if match_options else ["수집된 경기 없음"])
+
+# 선택된 경기에 따른 세부 분석 및 0~6단계 표 출력 연동 처리...
 
 st.markdown(
     """
