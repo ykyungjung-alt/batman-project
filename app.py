@@ -65,95 +65,9 @@ def fetch_live_matches_from_scoreman():
   return matches
 
 
-from datetime import datetime
-import json
-import os
-from bs4 import BeautifulSoup
-import pandas as pd
-import requests
-import streamlit as st
-
-# 페이지 설정
-st.set_page_config(
-    page_title="배트맨 프로젝트 통합 마스터 규격 및 분석 엔진", layout="wide"
-)
-
-TARGET_URL = "https://www.scoreman123.com/?id=71"
-
-
-@st.cache_data(ttl=60)
-def fetch_live_matches_from_scoreman():
-  matches = []
-  headers = {
-      "User-Agent": (
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,"
-          " like Gecko) Chrome/122.0.0.0 Safari/537.36"
-      ),
-      "Referer": TARGET_URL,
-  }
-  try:
-    response = requests.get(TARGET_URL, headers=headers, timeout=5)
-    if response.status_code == 200:
-      soup = BeautifulSoup(response.text, "html.parser")
-      current_league = "해외축구 (실시간)"
-      rows = soup.select("tr")
-
-      for row in rows:
-        league_el = row.select_one(
-            ".league_title, th span, td[colspan] b, td[colspan]"
-        )
-        if league_el:
-          text = league_el.get_text(strip=True)
-          if text and len(text) > 1 and "스코어맨" not in text:
-            current_league = text
-          continue
-
-        try:
-          tds = row.select("td")
-          if len(tds) >= 5:
-            time_str = tds[1].get_text(strip=True) if len(tds) > 1 else "진행중"
-            home_str = tds[2].get_text(strip=True) if len(tds) > 2 else ""
-            away_str = tds[4].get_text(strip=True) if len(tds) > 4 else ""
-
-            if home_str and away_str and "-" in row.get_text():
-              matches.append({
-                  "id": len(matches) + 1,
-                  "league": current_league,
-                  "time": time_str if ":" in time_str else "라이브",
-                  "home": home_str.replace("[", "").split("]")[-1].strip(),
-                  "away": away_str.replace("[", "").split("]")[-1].strip(),
-                  "status": "라이브",
-              })
-        except Exception:
-          continue
-  except Exception as e:
-    print(f"실시간 파싱 오류: {e}")
-
-  return matches
-
-
 @st.cache_data
 def load_match_data():
-  live_matches = fetch_live_matches_from_scoreman()
-  if live_matches:
-    formatted_matches = []
-    for m in live_matches:
-      m["match_name"] = (
-          f"[{m['league']}] {m['home']} vs {m['away']} ({m['time']})"
-      )
-      m["home_team"] = m["home"]
-      m["away_team"] = m["away"]
-      m["tournament"] = m["league"]
-      m["home_recent_stats"] = "실시간 수집 체급 적용"
-      m["away_recent_stats"] = "실시간 수집 체급 적용"
-      formatted_matches.append(m)
-
-    return {
-        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "source": TARGET_URL,
-        "matches": formatted_matches,
-    }
-
+  # 1순위: 로컬 data.json 파일 우선 참조 (업데이트된 데이터 반영)
   if os.path.exists("data.json"):
     try:
       with open("data.json", "r", encoding="utf-8") as f:
@@ -177,6 +91,28 @@ def load_match_data():
     except Exception:
       pass
 
+  # 2순위: 실시간 파싱 시도
+  live_matches = fetch_live_matches_from_scoreman()
+  if live_matches:
+    formatted_matches = []
+    for m in live_matches:
+      m["match_name"] = (
+          f"[{m['league']}] {m['home']} vs {m['away']} ({m['time']})"
+      )
+      m["home_team"] = m["home"]
+      m["away_team"] = m["away"]
+      m["tournament"] = m["league"]
+      m["home_recent_stats"] = "실시간 수집 체급 적용"
+      m["away_recent_stats"] = "실시간 수집 체급 적용"
+      formatted_matches.append(m)
+
+    return {
+        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "source": TARGET_URL,
+        "matches": formatted_matches,
+    }
+
+  # 3순위: 기본 폴백 데이터
   return {
       "last_updated": "연동 대기 중",
       "matches": [{
