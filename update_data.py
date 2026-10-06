@@ -21,45 +21,68 @@ def fetch_scoreman_data():
     if response.status_code == 200:
       soup = BeautifulSoup(response.text, "html.parser")
 
-      # 스코어맨 실시간 경기 행(Row) 선택자 탐색
-      match_rows = soup.select(
-          "tr.match-row, .row_item, .game-item, table.score_table tr"
-      )
+      current_league = "해외축구"
+      # 스코어맨 페이지의 전체 본문 행(리그 헤더와 경기 row 모두 포함) 순회
+      rows = soup.select("table tr, .score_table tr")
 
-      for idx, el in enumerate(match_rows, 1):
+      for row in rows:
+        # 리그 헤더 행인 경우
+        league_header = row.select_one("th, .league_title, td[colspan]")
+        if league_header and not row.select(".home_team, .home"):
+          text = league_header.get_text(strip=True)
+          if text and len(text) > 1:
+            current_league = text
+          continue
+
+        # 경기 데이터 행 파싱
         try:
-          league_el = el.select_one(".league_name, .league, th, .s_league")
-          league = league_el.get_text(strip=True) if league_el else "해외축구"
-
-          time_el = el.select_one(".match_time, .time, .s_time")
+          # 시간 추출
+          time_el = row.select_one("td:nth-child(2), .match_time, .time")
           match_time = time_el.get_text(strip=True) if time_el else "진행중"
 
-          home_el = el.select_one(".home_team, .team_home, .home")
-          away_el = el.select_one(".away_team, .team_away, .away")
+          # 홈팀, 원정팀 추출 (스코어맨 테이블 구조 기준)
+          tds = row.select("td")
+          if len(tds) >= 5:
+            # 보통 홈팀과 원정팀이 특정 셀에 위치
+            home_text = ""
+            away_text = ""
 
-          home = home_el.get_text(strip=True) if home_el else ""
-          away = away_el.get_text(strip=True) if away_el else ""
+            # 텍스트 구조 분석을 통한 팀명 추출
+            for td in tds:
+              text = td.get_text(strip=True)
+              if " - " in text and not home_text:
+                parts = text.split(" - ")
+                if len(parts) == 2:
+                  home_text = parts[0].strip()
+                  away_text = parts[1].strip()
 
-          if home and away:
-            status_el = el.select_one(".match_status, .status, .s_state")
-            status = (
-                status_el.get_text(strip=True) if status_el else "라이브"
-            )
+            if not home_text:
+              # 대체 셀렉터 시도
+              home_el = row.select_one(
+                  ".home_team, .team_home, td:nth-child(3)"
+              )
+              away_el = row.select_one(
+                  ".away_team, .team_away, td:nth-child(5)"
+              )
+              home_text = home_el.get_text(strip=True) if home_el else ""
+              away_text = away_el.get_text(strip=True) if away_el else ""
 
-            matches.append({
-                "id": len(matches) + 1,
-                "league": league,
-                "time": match_time,
-                "home": home,
-                "away": away,
-                "status": status,
-            })
+            # 스코어, 상태 등 정제
+            if home_text and away_text and len(home_text) > 1:
+              matches.append({
+                  "id": len(matches) + 1,
+                  "league": current_league,
+                  "time": match_time,
+                  "home": home_text.replace("[", "").split("]")[-1].strip(),
+                  "away": away_text.replace("[", "").split("]")[-1].strip(),
+                  "status": "라이브",
+              })
         except Exception:
           continue
   except Exception as e:
     print(f"크롤링 오류 발생: {e}")
 
-  # 데이터가 없을 경우 앱 깨짐 방지용 안전 기본 구조
+  # 데이터가 없을 경우 방어 코드
   if not matches:
     matches = [{
         "id": 1,
@@ -79,7 +102,7 @@ def fetch_scoreman_data():
   with open("data.json", "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
-  print(f"data.json 갱신 완료 (총 {len(matches)}경기)")
+  print(f"data.json 업데이트 완료 (총 {len(matches)}개 경기)")
 
 
 if __name__ == "__main__":
