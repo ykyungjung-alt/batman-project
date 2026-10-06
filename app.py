@@ -128,9 +128,7 @@ def load_match_data():
   }
 
 
-    "구글 독스 원문 규격 100% 반영 • 생략 없는 0~6단계 세부 정량 표 완벽 탑재"
-    " 시스템"
-)
+ 
 
 st.subheader("🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
 match_options = [m["match_name"] for m in matches]
