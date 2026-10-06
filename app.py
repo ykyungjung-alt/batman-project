@@ -14,22 +14,6 @@ st.set_page_config(
 TARGET_URL = "https://www.scoreman123.com/"
 
 
-from datetime import datetime
-import json
-import os
-from bs4 import BeautifulSoup
-import pandas as pd  # pandas 임포트 명시적 추가
-import requests
-import streamlit as st
-
-# 페이지 설정
-st.set_page_config(
-    page_title="배트맨 프로젝트 통합 마스터 규격 및 분석 엔진", layout="wide"
-)
-
-TARGET_URL = "https://www.scoreman123.com/"
-
-
 @st.cache_data(ttl=60)
 def fetch_live_matches_from_scoreman():
   matches = []
