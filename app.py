@@ -221,7 +221,7 @@ st.markdown(
 
 st.subheader("🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
 match_options = [m["match_name"] for m in matches]
-)
+
 
 selected_match = next(
     (m for m in matches if m["match_name"] == selected_match_name), matches[0]
