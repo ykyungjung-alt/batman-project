@@ -78,37 +78,41 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ==========================================
-# 📂 data.json 데이터 로드 함수 (실시간 동적 연동)
-# ==========================================
-
-
 @st.cache_data
 def load_match_data():
-  if os.path.exists("data.json"):
-    try:
-      with open("data.json", "r", encoding="utf-8") as f:
-        return json.load(f)
-    except Exception:
-      pass
-  return {
-      "matches": [{
-          "tournament": "FIFA 월드컵 (본선 및 아시아/대륙별 최종예선 통합)",
-          "match_name": "대한민국 vs 일본",
-          "home_team": "대한민국",
-          "away_team": "일본",
-          "match_date": "2026-09-26",
-          "home_recent_stats": "4전/3승1무/0패 (8득/3실)",
-          "away_recent_stats": "4전/2승1무/1패 (7득/3실)",
-          "home_tier_atk": "Tier B",
-          "home_tier_def": "Tier C",
-          "away_tier_atk": "Tier B",
-          "away_tier_def": "Tier A",
-          "home_lambda": 0.94,
-          "away_lambda": 1.70,
-          "prediction_1st": "1골 vs 2골 (일본 승리 유력)",
-      }]
-  }
+    if os.path.exists("data.json"):
+        try:
+            with open("data.json", "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if data and "matches" in data and len(data["matches"]) > 0:
+                    for m in data["matches"]:
+                        # data.json의 실시간 데이터 키를 대시보드 규격에 맞게 매핑
+                        if "match_name" not in m:
+                            m["match_name"] = f"[{m.get('league', '일반 리그')}] {m.get('home', '홈팀')} vs {m.get('away', '원정팀')}"
+                        if "home_team" not in m:
+                            m["home_team"] = m.get('home', '홈팀')
+                        if "away_team" not in m:
+                            m["away_team"] = m.get('away', '원정팀')
+                        if "tournament" not in m:
+                            m["tournament"] = m.get('league', '일반 리그')
+                        if "match_date" not in m:
+                            m["match_date"] = m.get('time', '오늘')
+                    return data
+        except Exception as e:
+            st.error(f"data.json 파싱 오류: {e}")
+            
+    return {
+        "matches": [{
+            "id": 1,
+            "tournament": "수집 대기 중",
+            "match_name": "대한민국 vs 일본",
+            "home_team": "대한민국",
+            "away_team": "일본",
+            "match_date": "2026-09-26",
+            "home_recent_stats": "4전/3승1무/0패 (8득/3실)",
+            "away_recent_stats": "4전/2승1무/1패 (7득/3실)"
+        }]
+    }
 
 
 db_data = load_match_data()
