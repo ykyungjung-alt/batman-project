@@ -119,82 +119,41 @@ db_data = load_match_data()
 match_items = db_data.get("matches", [])
 match_names = [m["match_name"] for m in match_items]
 
-# ==========================================
-# 🏆 [최상단 배치] 날짜 ➔ 대회 ➔ 대진 실시간 연동 지정 틀
-# ==========================================
+# ========================================== #
+# 🏆 [실시간 연동형] 메타 설정 및 대진 선택 영역 #
+# ========================================== #
 st.markdown("### 🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
+
 with st.container():
-  col1, col2, col3 = st.columns([1.2, 2.2, 2.2])
-
-  with col1:
-    match_date = st.date_input(
-        "경기 일시 (날짜)", value=date(2026, 9, 26), key="top_date"
-    )
-
-  with col2:
-    selected_tournament = st.selectbox(
-        "대회 / 리그 선택",
-        [
-            "FIFA 월드컵 (본선 및 아시아/대륙별 최종예선 통합)",
-            "AFC 아시안컵 (본선 및 예선 토너먼트)",
-            "UEFA 유로 (유럽축구선수권대회 본선 및 예선)",
-            "AFC 아시아 국가대항 컵대회 / 걸프컵 (Gulf Cup)",
-            "UEFA 유럽 국가대항 컵대회 / 네이션스리그",
-            "FIFA U-23 아시안컵 및 연령별 국제대회",
-            "FIFA 여자 월드컵 및 A매치",
-            "A매치 친선평가전 (공식)",
-            "UEFA 챔피언스리그 (UCL)",
-            "UEFA 유로파리그 (UEL)",
-            "UEFA 컨퍼런스리그",
-            "K리그 1 (대한민국)",
-            "K리그 2 (대한민국)",
-            "코리아컵 (대한민국 FA컵)",
-            "J리그 (J1 / 일본)",
-            "J리그 (J2 / 일본)",
-            "일본 천황배 및 J리그 컵 (YBC 르바인컵)",
-            "AFC 챔피언스리그 엘리트",
-            "잉글랜드 프리미어리그 (EPL)",
-            "잉글랜드 FA컵 및 리그컵 (카라바오컵)",
-            "스페인 프리메라리가 (라리가)",
-            "스페인 코파 델 레이 (국왕컵)",
-            "이탈리아 세리에 A",
-            "이탈리아 코파 이탈리아",
-            "독일 분데스리가",
-            "독일 DFB 포칼",
-            "프랑스 리그 1 (Ligue 1)",
-            "프랑스 리그 2 (Ligue 2)",
-            "프랑스 쿠프 드 프랑스",
-            "터키 쉬페르리그 (Süper Lig)",
-            "네덜란드 에레디비시",
-            "포르투갈 프리메이라 리가",
-        ],
-        key="top_tournament",
-    )
-
-  with col3:
-    if match_names:
-      selected_match = st.selectbox(
-          "대진 경기 선택 (홈 vs 원정)", match_names, key="top_match"
-      )
+    # data.json에서 수집된 매치 아이템 활용
+    if match_items:
+        selected_match_str = st.selectbox("실시간 수집 대진 선택 (리그 | 홈 vs 원정 | 시간)", match_names, key="top_match")
+        
+        # 선택된 매치 객체 추출
+        current_match = next((m for m in match_items if m["match_name"] == selected_match_str), match_items[0])
+        
+        home_team = current_match.get("home", current_match.get("home_team", "홈팀"))
+        away_team = current_match.get("away", current_match.get("away_team", "원정팀"))
+        selected_tournament = current_match.get("league", "일반 리그")
+        match_time_str = current_match.get("time", "오늘")
+        
     else:
-      selected_match = "대한민국 vs 일본"
+        selected_match_str = "수집된 경기 없음"
+        home_team = "대한민국"
+        away_team = "일본"
+        selected_tournament = "수집 대기 중"
+        match_time_str = "2026-09-26"
 
 st.markdown("---")
 
-current_match = next(
-    (m for m in match_items if m["match_name"] == selected_match),
-    match_items[0] if match_items else {},
-)
-
-home_team = current_match.get("home_team", "대한민국")
-away_team = current_match.get("away_team", "일본")
-home_stats = current_match.get("home_recent_stats", "4전/3승1무/0패 (8득/3실)")
-away_stats = current_match.get("away_recent_stats", "4전/2승1무/1패 (7득/3실)")
-
+# 세션 상태 및 하단 0~6단계 분석 로직에 실시간 팀명/대회명 매핑
 st.session_state["tournament"] = selected_tournament
-st.session_state["match_date"] = match_date
+st.session_state["match_date"] = match_time_str
 st.session_state["home_team"] = home_team
 st.session_state["away_team"] = away_team
+
+home_stats = "실시간 수집 체급 적용"
+away_stats = "실시간 수집 체급 적용"
 
 # 탭 구조 정의
 tabs = st.tabs([
