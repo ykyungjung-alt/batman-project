@@ -1,6 +1,7 @@
 import json
 import os  # <--- 이 부분을 추가해 주세요!
 import re
+import pandas as pd
 from bs4 import BeautifulSoup
 import requests
 import streamlit as st
