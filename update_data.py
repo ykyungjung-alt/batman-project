@@ -23,14 +23,11 @@ def fetch_scoreman_data():
       soup = BeautifulSoup(response.text, "html.parser")
 
       # 스코어맨 실시간 경기 리스트 컨테이너 및 아이템 셀렉터 (전체 통째로 파싱)
-      # 사이트 구조에 맞춰 행이나 카드 단위 요소를 전부 탐색합니다.
       match_rows = soup.select(
           ".row_item, .game-item, tr.match-row, .schedule_box"
       )
 
-      # 만약 위 공통 셀렉터로 잡히지 않을 경우를 대비해 스코어맨 주요 클래스 영역 전체 탐색
       if not match_rows:
-        # 테이블 구조나 리스트 전체를 순회
         match_rows = soup.select("ul.game_list > li, table.score_table tr")
 
       for idx, el in enumerate(match_rows, 1):
@@ -50,7 +47,6 @@ def fetch_scoreman_data():
           home = home_el.get_text(strip=True) if home_el else ""
           away = away_el.get_text(strip=True) if away_el else ""
 
-          # 팀명이 정상적으로 파싱된 경우에만 추가
           if home and away:
             status_el = el.select_one(".match_status, .status, .s_state")
             status = (
@@ -65,12 +61,12 @@ def fetch_scoreman_data():
                 "away": away,
                 "status": status,
             })
-        except Exception as inner_e:
+        except Exception:
           continue
   except Exception as e:
     print(f"스코어맨 데이터 크롤링 중 오류 발생: {e}")
 
-  # 크롤링된 데이터가 비어있을 경우 대시보드 에러 방지를 위한 폴백(Fallback) 구조
+  # 크롤링된 데이터가 비어있을 경우 대시보드 에러 방지를 위한 폴백 구조
   if not matches:
     matches = [{
         "id": 1,
@@ -94,9 +90,6 @@ def fetch_scoreman_data():
       f"data.json 업데이트 완료! (총 {len(matches)}개 경기 데이터 연동됨)"
   )
 
-
-if __name__ == "__main__":
-  fetch_scoreman_data()
 
 if __name__ == "__main__":
   fetch_scoreman_data()
