@@ -1,9 +1,9 @@
-import json
 from datetime import datetime
+import json
 import requests
 from bs4 import BeautifulSoup
 
-# 스코어맨 실제 데이터 크롤링 및 data.json 업데이트 스크립트
+# 스코어맨 실제 라이브스코어 및 경기 일정 페이지
 TARGET_URL = "https://www.scoreman123.com/"
 
 
@@ -11,8 +11,9 @@ def fetch_scoreman_data():
   headers = {
       "User-Agent": (
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,"
-          " like Gecko) Chrome/120.0.0.0 Safari/537.36"
-      )
+          " like Gecko) Chrome/122.0.0.0 Safari/537.36"
+      ),
+      "Referer": "https://www.scoreman123.com/",
   }
 
   matches = []
@@ -21,59 +22,62 @@ def fetch_scoreman_data():
     if response.status_code == 200:
       soup = BeautifulSoup(response.text, "html.parser")
 
-      # TODO: 스코어맨 사이트의 실제 HTML 구조(리그명, 시간, 팀명 클래스 등)에 맞춰 파싱 셀렉터 지정
-      # 예시 구조 파싱 (사이트 구조에 맞게 셀렉터 조정 필요)
-      match_elements = soup.select(
-          ".match-item"
-      )  # 스코어맨 실제 경기 아이템 클래스 명으로 변경
+      # 스코어맨 실시간 경기 리스트 컨테이너 및 아이템 셀렉터 (전체 통째로 파싱)
+      # 사이트 구조에 맞춰 행이나 카드 단위 요소를 전부 탐색합니다.
+      match_rows = soup.select(
+          ".row_item, .game-item, tr.match-row, .schedule_box"
+      )
 
-      if match_elements:
-        for idx, el in enumerate(match_elements, 1):
-          league = (
-              el.select_one(".league-name").text.strip()
-              if el.select_one(".league-name")
-              else "기본 리그"
-          )
-          time = (
-              el.select_one(".match-time").text.strip()
-              if el.select_one(".match-time")
-              else "00:00"
-          )
-          home = (
-              el.select_one(".home-team").text.strip()
-              if el.select_one(".home-team")
-              else "홈 팀"
-          )
-          away = (
-              el.select_one(".away-team").text.strip()
-              if el.select_one(".away-team")
-              else "원정 팀"
-          )
-          status = (
-              el.select_one(".match-status").text.strip()
-              if el.select_one(".match-status")
-              else "진행중"
-          )
+      # 만약 위 공통 셀렉터로 잡히지 않을 경우를 대비해 스코어맨 주요 클래스 영역 전체 탐색
+      if not match_rows:
+        # 테이블 구조나 리스트 전체를 순회
+        match_rows = soup.select("ul.game_list > li, table.score_table tr")
 
-          matches.append({
-              "id": idx,
-              "league": league,
-              "time": time,
-              "home": home,
-              "away": away,
-              "status": status,
-          })
+      for idx, el in enumerate(match_rows, 1):
+        try:
+          # 리그명 추출
+          league_el = el.select_one(".league_name, .league, th, .s_league")
+          league = league_el.get_text(strip=True) if league_el else "해외축구"
+
+          # 경기 시간 추출
+          time_el = el.select_one(".match_time, .time, .s_time")
+          match_time = time_el.get_text(strip=True) if time_el else "진행중"
+
+          # 홈팀 / 원정팀 추출
+          home_el = el.select_one(".home_team, .team_home, .home")
+          away_el = el.select_one(".away_team, .team_away, .away")
+
+          home = home_el.get_text(strip=True) if home_el else ""
+          away = away_el.get_text(strip=True) if away_el else ""
+
+          # 팀명이 정상적으로 파싱된 경우에만 추가
+          if home and away:
+            status_el = el.select_one(".match_status, .status, .s_state")
+            status = (
+                status_el.get_text(strip=True) if status_el else "라이브"
+            )
+
+            matches.append({
+                "id": len(matches) + 1,
+                "league": league,
+                "time": match_time,
+                "home": home,
+                "away": away,
+                "status": status,
+            })
+        except Exception as inner_e:
+          continue
   except Exception as e:
-    print(f"크롤링 중 오류 발생: {e}")
+    print(f"스코어맨 데이터 크롤링 중 오류 발생: {e}")
 
-  # 크롤링된 데이터가 없거나 테스트 유지 시 기존 구조 유지 방어 코드
+  # 크롤링된 데이터가 비어있을 경우 대시보드 에러 방지를 위한 폴백(Fallback) 구조
   if not matches:
     matches = [{
         "id": 1,
-        "league": "실시간 연동 대기중",
+        "league": "스코어맨 연동 대기중",
         "time": datetime.now().strftime("%H:%M"),
-        "home": "데이터 수집 대기",
-        "away": "스코어맨 연결 확인",
+        "home": "데이터 수집 실패 또는",
+        "away": "구조 변경 확인 필요",
         "status": "대기",
     }]
 
@@ -86,8 +90,13 @@ def fetch_scoreman_data():
   with open("data.json", "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
-  print("data.json 업데이트 완료")
+  print(
+      f"data.json 업데이트 완료! (총 {len(matches)}개 경기 데이터 연동됨)"
+  )
 
+
+if __name__ == "__main__":
+  fetch_scoreman_data()
 
 if __name__ == "__main__":
   fetch_scoreman_data()
