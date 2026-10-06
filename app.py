@@ -12,7 +12,6 @@ import json
 import os
 import streamlit as st
 
-# 1. GitHub Actions로 갱신된 data.json 로드 함수
 # ========================================== #
 # 📂 data.json 데이터 로드 함수 (실시간 동적 연동) #
 # ========================================== #
@@ -22,16 +21,19 @@ def load_match_data():
         try:
             with open("data.json", "r", encoding="utf-8") as f:
                 data = json.load(f)
-                # matches 데이터가 존재하면 그대로 반환
                 if data and "matches" in data and len(data["matches"]) > 0:
-                    # 대시보드 호환을 위해 match_name 키가 없으면 생성
                     for m in data["matches"]:
+                        # data.json의 실시간 데이터 키를 대시보드 규격에 맞게 매핑
                         if "match_name" not in m:
-                            m["match_name"] = f"{m.get('home')} vs {m.get('away')}"
+                            m["match_name"] = f"{m.get('home', '홈팀')} vs {m.get('away', '원정팀')}"
                         if "home_team" not in m:
-                            m["home_team"] = m.get('home')
+                            m["home_team"] = m.get('home', '홈팀')
                         if "away_team" not in m:
-                            m["away_team"] = m.get('away')
+                            m["away_team"] = m.get('away', '원정팀')
+                        if "tournament" not in m:
+                            m["tournament"] = m.get('league', '일반 리그')
+                        if "match_date" not in m:
+                            m["match_date"] = m.get('time', '오늘')
                     return data
         except Exception as e:
             st.error(f"data.json 파싱 오류: {e}")
@@ -41,7 +43,8 @@ def load_match_data():
         "last_updated": "수집 대기 중",
         "matches": [
             {
-                "tournament": "실시간 수집 대기",
+                "id": 1,
+                "league": "실시간 수집 대기",
                 "match_name": "대한민국 vs 일본",
                 "home_team": "대한민국",
                 "away_team": "일본",
@@ -51,9 +54,6 @@ def load_match_data():
             }
         ]
     }
-
-# 선택된 경기 정보 파싱 및 0~6단계 정량 분석 엔진 연결 로직...
-# 선택된 경기에 따른 세부 분석 및 0~6단계 표 출력 연동 처리...
 
 st.markdown(
     """
