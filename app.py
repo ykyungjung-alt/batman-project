@@ -67,7 +67,6 @@ def fetch_live_matches_from_scoreman():
 
 @st.cache_data
 def load_match_data():
-  # 1순위: 로컬 data.json 파일 우선 참조 (업데이트된 데이터 반영)
   if os.path.exists("data.json"):
     try:
       with open("data.json", "r", encoding="utf-8") as f:
@@ -91,7 +90,6 @@ def load_match_data():
     except Exception:
       pass
 
-  # 2순위: 실시간 파싱 시도
   live_matches = fetch_live_matches_from_scoreman()
   if live_matches:
     formatted_matches = []
@@ -112,7 +110,6 @@ def load_match_data():
         "matches": formatted_matches,
     }
 
-  # 3순위: 기본 폴백 데이터
   return {
       "last_updated": "연동 대기 중",
       "matches": [{
@@ -131,7 +128,7 @@ def load_match_data():
   }
 
 
-# 데이터 로드 및 초기화
+# 데이터 로드 및 렌더링 (파일 내 단 한 번만 실행)
 data = load_match_data()
 matches = data.get("matches", [])
 
@@ -166,7 +163,6 @@ tab_titles = [
 ]
 tabs = st.tabs(tab_titles)
 
-# 0단계 메타 화면 출력
 with tabs[0]:
   st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
   st.markdown(
@@ -194,7 +190,6 @@ with tabs[0]:
       ],
   })
 
-# --- [1단계] ---
 with tabs[1]:
   st.markdown(
       f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] -"
@@ -220,7 +215,6 @@ with tabs[1]:
       "방어 가중치": ["-8.0% (최상위)", "-6.0%", "-4.0%", "-2.0%", "0.0%"],
   })
   st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
-
 
 # 데이터 로드 및 초기화
 data = load_match_data()
