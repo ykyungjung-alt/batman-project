@@ -17,17 +17,21 @@ def load_live_matches_from_scoreman():
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,"
           " like Gecko) Chrome/122.0.0.0 Safari/537.36"
       ),
-      "Referer": TARGET_URL,
+      "Referer": "https://www.scoreman123.com/football/fixture",
   }
   try:
-    response = requests.get(TARGET_URL, headers=headers, timeout=5)
+    response = requests.get(
+        "https://www.scoreman123.com/football/fixture",
+        headers=headers,
+        timeout=5,
+    )
     if response.status_code == 200:
       soup = BeautifulSoup(response.text, "html.parser")
       current_league = "해외축구 (실시간)"
       rows = soup.select("tr")
 
       for row in rows:
-        # 리그 타이틀 행 감지
+        # 스코어맨 실제 리그 타이틀 및 헤더 구조 감지
         league_el = row.select_one("th span, .league_title, td[colspan]")
         if league_el:
           text = league_el.get_text(strip=True)
@@ -43,19 +47,23 @@ def load_live_matches_from_scoreman():
             score_str = tds[3].get_text(strip=True)
             away_raw = tds[4].get_text(strip=True)
 
-            # 팀명 대괄호 메타데이터 정제 ([5] 시카고 파이어 -> 시카고 파이어)
+            # 팀명 앞뒤 대괄호 메타데이터 정제 ([5] 시카고 파이어 -> 시카고 파이어)
             home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
             away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
             if home_team and away_team and("-" in score_str or ":" in time_str):
               matches.append({
+                  "id": len(matches) + 1,
                   "league": current_league,
                   "time": time_str if time_str else "진행중",
                   "home": home_team,
                   "away": away_team,
                   "home_team": home_team,
                   "away_team": away_team,
+                  "tournament": current_league,
                   "score": score_str,
+                  "home_recent_stats": "실시간 수집 체급 적용",
+                  "away_recent_stats": "실시간 수집 체급 적용",
                   "match_name": (
                       f"[{current_league}] {home_team} vs {away_team}"
                       f" ({time_str})"
@@ -66,18 +74,21 @@ def load_live_matches_from_scoreman():
   except Exception:
     pass
 
-  # 수집된 데이터가 없을 경우 기본 테스트 데이터 방어 코드
+  # 수집된 데이터가 없을 경우에만 최소 방어 코드 작동
   if not matches:
     matches = [{
+        "id": 1,
         "league": "테스트 리그",
         "time": "03:45",
         "home": "레알 마드리드",
         "away": "FC 바르셀로나",
+        "home_team": "레알 마드리드",
+        "away_team": "FC 바르셀로나",
+        "tournament": "테스트 리그",
         "match_name": "[테스트 리그] 레알 마드리드 vs FC 바르셀로나 (03:45)",
     }]
 
   return matches
-
 
 @st.cache_data(ttl=60)
 def load_match_data():
