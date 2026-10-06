@@ -13,25 +13,44 @@ import os
 import streamlit as st
 
 # 1. GitHub Actions로 갱신된 data.json 로드 함수
+# ========================================== #
+# 📂 data.json 데이터 로드 함수 (실시간 동적 연동) #
+# ========================================== #
+@st.cache_data
 def load_match_data():
     if os.path.exists("data.json"):
-        with open("data.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    return {"last_updated": "데이터 없음", "matches": []}
-
-match_data = load_match_data()
-
-# 2. 사이드바에 실제 데이터 갱신 시각 실시간 표출
-st.sidebar.markdown(f"**🔄 자동 데이터 연동 완료**")
-st.sidebar.text(f"마지막 갱신: {match_data.get('last_updated', '알 수 없음')}")
-
-# 3. 수집된 실제 경기 목록을 대진 선택 드롭다운에 동적 바인딩
-matches = match_data.get("matches", [])
-match_options = [f"[{m.get('league', '일반')}] {m.get('home')} vs {m.get('away')} ({m.get('time')})" for m in matches]
-
-selected_match_str = st.selectbox(
-    "대진 경기 선택 (홈 vs 원정)", 
-    match_options if match_options else ["수집된 경기 없음"]
+        try:
+            with open("data.json", "r", encoding="utf-8") as f:
+                data = json.load(f)
+                # matches 데이터가 존재하면 그대로 반환
+                if data and "matches" in data and len(data["matches"]) > 0:
+                    # 대시보드 호환을 위해 match_name 키가 없으면 생성
+                    for m in data["matches"]:
+                        if "match_name" not in m:
+                            m["match_name"] = f"{m.get('home')} vs {m.get('away')}"
+                        if "home_team" not in m:
+                            m["home_team"] = m.get('home')
+                        if "away_team" not in m:
+                            m["away_team"] = m.get('away')
+                    return data
+        except Exception as e:
+            st.error(f"data.json 파싱 오류: {e}")
+            
+    # 수집 데이터가 없을 때의 최소 방어 코드
+    return {
+        "last_updated": "수집 대기 중",
+        "matches": [
+            {
+                "tournament": "실시간 수집 대기",
+                "match_name": "대한민국 vs 일본",
+                "home_team": "대한민국",
+                "away_team": "일본",
+                "match_date": "2026-09-26",
+                "home_recent_stats": "4전/3승1무/0패 (8득/3실)",
+                "away_recent_stats": "4전/2승1무/1패 (7득/3실)"
+            }
+        ]
+    }
 )
 
 # 선택된 경기 정보 파싱 및 0~6단계 정량 분석 엔진 연결 로직...
