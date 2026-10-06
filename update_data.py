@@ -7,37 +7,47 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
-def fetch_matches_with_selenium():
+def fetch_scoreman_data():
     options = Options()
-    options.add_argument("--headless")  # 화면 없이 백그라운드 실행
+    options.add_argument("--headless")  # 백그라운드 실행
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-    
     matches_list = []
     
     try:
-        # 예시로 타겟팅할 스포츠 정보 페이지 주소 (필요한 사이트 주소로 변경 가능)
-        target_url = "https://www.livescore.co.kr" # 또는 플래시스코어 등
+        target_url = "https://www.scoreman123.com/"
         driver.get(target_url)
-        time.sleep(3) # 페이지 로딩 대기
+        time.sleep(4)  # 동적 데이터 로딩 대기
         
-        # [예시] 해당 페이지의 경기 항목 CSS 셀렉터에 맞춰 데이터 추출
-        # elements = driver.find_elements(By.CSS_SELECTOR, ".match-row-class")
-        # for el in elements:
-        #     home_team = el.find_element(By.CSS_SELECTOR, ".home-team").text
-        #     away_team = el.find_element(By.CSS_SELECTOR, ".away-team").text
-        #     matches_list.append({"home": home_team, "away": away_team, "status": "예정"})
+        # 스코어맨 경기 목록 테이블의 행들을 셀렉터로 수집
+        # (사이트 구조에 맞춘 행 추출 예시)
+        match_rows = driver.find_elements(By.CSS_SELECTOR, "table tr, .match-row-class")
         
-        # 임시 테스트용 데이터 (실제 파싱 로직이 안착되기 전 테스트용)
-        matches_list = [
-            {"id": 1, "home": "셀레니움홈A", "away": "셀레니움원정B", "status": "크롤링수집됨"}
-        ]
-        
+        count = 0
+        for row in match_rows:
+            try:
+                text_content = row.text.strip()
+                if not text_content:
+                    continue
+                
+                # 예시 파싱 구조: 홈팀 / 원정팀 / 시간 등의 텍스트가 포함된 행을 필터링
+                # 실제 DOM 구조에 맞추어 세부 클래스명(.home, .away 등)을 튜닝할 수 있습니다.
+                matches_list.append({
+                    "id": count + 1,
+                    "raw_info": text_content,
+                    "status": "수집완료"
+                })
+                count += 1
+                if count >= 20:  # 상위 20경기만 샘플 수집
+                    break
+            except Exception:
+                continue
+                
     except Exception as e:
-        print(f"크롤링 실행 중 오류 발생: {e}")
+        print(f"크롤링 중 오류 발생: {e}")
     finally:
         driver.quit()
 
@@ -45,13 +55,14 @@ def fetch_matches_with_selenium():
     
     data = {
         "last_updated": current_time,
-        "matches": matches_list if matches_list else [{"id": 0, "home": "수집 실패", "away": "확인 요망", "status": "대기"}]
+        "source": "https://www.scoreman123.com/",
+        "matches": matches_list if matches_list else [{"id": 0, "raw_info": "수집된 데이터 없음", "status": "대기"}]
     }
     
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
         
-    print(f"Selenium crawler updated data.json at {current_time}")
+    print(f"Scoreman data updated at {current_time}")
 
 if __name__ == "__main__":
-    fetch_matches_with_selenium()
+    fetch_scoreman_data()
