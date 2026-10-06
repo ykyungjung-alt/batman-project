@@ -221,8 +221,6 @@ st.markdown(
 
 st.subheader("🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
 match_options = [m["match_name"] for m in matches]
-selected_match_name = st.selectbox(
-    "실시간 수집 대진 선택 (리그 | 홈 vs 원정 | 시간)", match_options
 )
 
 selected_match = next(
