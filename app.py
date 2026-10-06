@@ -125,11 +125,9 @@ match_names = [m["match_name"] for m in match_items]
 st.markdown("### 🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
 
 with st.container():
-    # data.json에서 수집된 매치 아이템 활용
     if match_items:
         selected_match_str = st.selectbox("실시간 수집 대진 선택 (리그 | 홈 vs 원정 | 시간)", match_names, key="top_match")
         
-        # 선택된 매치 객체 추출
         current_match = next((m for m in match_items if m["match_name"] == selected_match_str), match_items[0])
         
         home_team = current_match.get("home", current_match.get("home_team", "홈팀"))
@@ -146,15 +144,15 @@ with st.container():
 
 st.markdown("---")
 
-# 세션 상태 및 하단 0~6단계 분석 로직에 실시간 팀명/대회명 매핑
+# 변수명 통일 및 세션 매핑 (NameError 방지)
+match_date = match_time_str  # 날짜 오류 방지를 위해 문자열 그대로 매핑
 st.session_state["tournament"] = selected_tournament
-st.session_state["match_date"] = match_time_str
+st.session_state["match_date"] = match_date
 st.session_state["home_team"] = home_team
 st.session_state["away_team"] = away_team
 
 home_stats = "실시간 수집 체급 적용"
 away_stats = "실시간 수집 체급 적용"
-
 # 탭 구조 정의
 tabs = st.tabs([
     "0단계: 메타",
@@ -185,7 +183,7 @@ with tabs[0]:
         <thead><tr><th>메타 항목</th><th>내용</th></tr></thead>
         <tbody>
             <tr><td><b>대회 성격</b></td><td>{selected_tournament}</td></tr>
-            <tr><td><b>기준 경기 일시</b></td><td>{match_date.strftime('%Y년 %m월 %d일')} ({home_team} 홈, 지정 경기장)</td></tr>
+            <tr><td><b>기준 경기 일시</b></td><td>{match_date} ({home_team} 홈, 지정 경기장)</td></tr>
             <tr><td><b>구장 정보</b></td><td>{home_team} 홈구장</td></tr>
             <tr><td><b>대결 정보</b></td><td>{home_team}(홈) 상위 전력 {home_stats}<br>{away_team}(원정) 상위 전력 {away_stats}</td></tr>
             <tr><td><b>필터 검증 결과</b></td><td>PASS (공식 경기 유효성 검증 완료)</td></tr>
