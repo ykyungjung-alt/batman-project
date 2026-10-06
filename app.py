@@ -184,10 +184,6 @@ with tabs[0]:
       ],
   })
 
-
-  st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
-
-
 tab_titles = [
     "0단계 (메타)",
     "규칙 1 (LIFO 7경기)",
