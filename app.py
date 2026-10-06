@@ -8,6 +8,25 @@ import streamlit as st
 
 st.set_page_config(page_title="배트맨 프로젝트 마스터 규격 엔진", layout="wide")
 
+import json
+import os
+
+# --- [추가] 깃허브 자동 업데이트 데이터(data.json) 불러오기 ---
+@st.cache_data(ttl=60) # 데이터가 갱신되면 캐시를 갱신하도록 설정
+def load_auto_matches():
+    if os.path.exists("data.json"):
+        with open("data.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    return None
+
+auto_data = load_auto_matches()
+
+# 불러온 데이터가 있다면 상단에 상태 표시 및 자동 연동 알림
+if auto_data:
+    st.sidebar.success(f"🔄 자동 데이터 연동 완료\n마지막 갱신: {auto_data.get('last_updated', '알 수 없음')}")
+else:
+    st.sidebar.warning("⚠️ data.json 파일을 찾을 수 없습니다. 수동 입력을 사용합니다.")
+
 st.markdown(
     """
     <style>
