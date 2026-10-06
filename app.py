@@ -12,26 +12,29 @@ import json
 import os
 import streamlit as st
 
-# 1. GitHub Actions로 수집된 data.json 파일 로드 함수
+# 1. GitHub Actions로 갱신된 data.json 로드 함수
 def load_match_data():
     if os.path.exists("data.json"):
         with open("data.json", "r", encoding="utf-8") as f:
             return json.load(f)
     return {"last_updated": "데이터 없음", "matches": []}
 
-# 데이터 불러오기
 match_data = load_match_data()
 
-# 2. 대시보드 상단에 마지막 갱신 시간 표시
+# 2. 사이드바에 실제 데이터 갱신 시각 실시간 표출
 st.sidebar.markdown(f"**🔄 자동 데이터 연동 완료**")
 st.sidebar.text(f"마지막 갱신: {match_data.get('last_updated', '알 수 없음')}")
 
-# 3. 수집된 경기 목록을 드롭다운(Selectbox) 대진 선택에 연동
+# 3. 수집된 실제 경기 목록을 대진 선택 드롭다운에 동적 바인딩
 matches = match_data.get("matches", [])
 match_options = [f"[{m.get('league', '일반')}] {m.get('home')} vs {m.get('away')} ({m.get('time')})" for m in matches]
 
-selected_match_str = st.selectbox("대진 경기 선택 (홈 vs 원정)", match_options if match_options else ["수집된 경기 없음"])
+selected_match_str = st.selectbox(
+    "대진 경기 선택 (홈 vs 원정)", 
+    match_options if match_options else ["수집된 경기 없음"]
+)
 
+# 선택된 경기 정보 파싱 및 0~6단계 정량 분석 엔진 연결 로직...
 # 선택된 경기에 따른 세부 분석 및 0~6단계 표 출력 연동 처리...
 
 st.markdown(
