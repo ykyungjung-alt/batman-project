@@ -1,0 +1,36 @@
+{
+  "matches": [
+    {
+      "tournament": "FIFA 월드컵 (본선 및 아시아/대륙별 최종예선 통합)",
+      "match_name": "대한민국 vs 일본",
+      "home_team": "대한민국",
+      "away_team": "일본",
+      "match_date": "2026-09-26",
+      "home_recent_stats": "4전/3승1무/0패 (8득/3실)",
+      "away_recent_stats": "4전/2승1무/1패 (7득/3실)",
+      "home_tier_atk": "Tier B",
+      "home_tier_def": "Tier C",
+      "away_tier_atk": "Tier B",
+      "away_tier_def": "Tier A",
+      "home_lambda": 0.94,
+      "away_lambda": 1.70,
+      "prediction_1st": "1골 vs 2골 (일본 승리 유력)"
+    },
+    {
+      "tournament": "UEFA 챔피언스리그 (UCL)",
+      "match_name": "레알 마드리드 vs FC 바르셀로나",
+      "home_team": "레알 마드리드",
+      "away_team": "FC 바르셀로나",
+      "match_date": "2026-09-28",
+      "home_recent_stats": "4전/4승0무/0패 (12득/2실)",
+      "away_recent_stats": "4전/3승1무/0패 (10득/3실)",
+      "home_tier_atk": "Tier A",
+      "home_tier_def": "Tier B",
+      "away_tier_atk": "Tier A",
+      "away_tier_def": "Tier B",
+      "home_lambda": 1.85,
+      "away_lambda": 1.60,
+      "prediction_1st": "2골 vs 2골 (무승부 또는 홈 1점차 승)"
+    }
+  ]
+}
