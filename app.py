@@ -13,42 +13,57 @@ st.set_page_config(page_title="배트맨 프로젝트 마스터 규격 엔진", 
 # ========================================== #
 @st.cache_data
 def load_match_data():
-    if os.path.exists("data.json"):
-        try:
-            with open("data.json", "r", encoding="utf-8") as f:
-                data = json.load(f)
-                if data and "matches" in data and len(data["matches"]) > 0:
-                    for m in data["matches"]:
-                        # data.json의 'home'/'away' 키를 대시보드 규격명으로 매핑
-                        if "match_name" not in m:
-                            m["match_name"] = f"[{m.get('league', '일반')}] {m.get('home', '홈')} vs {m.get('away', '원정')}"
-                        if "home_team" not in m:
-                            m["home_team"] = m.get('home', '홈팀')
-                        if "away_team" not in m:
-                            m["away_team"] = m.get('away', '원정팀')
-                        if "home_recent_stats" not in m:
-                            m["home_recent_stats"] = "실시간 수집 데이터 적용"
-                        if "away_recent_stats" not in m:
-                            m["away_recent_stats"] = "실시간 수집 데이터 적용"
-                    return data
-        except Exception as e:
-            st.error(f"data.json 파싱 오류: {e}")
-            
-    # 수집 파일이 없을 때의 방어용 기본값
-    return {
-        "last_updated": "수집 대기 중",
-        "matches": [
-            {
-                "id": 1,
-                "league": "기본 대기",
-                "match_name": "[기본] 대한민국 vs 일본",
-                "home_team": "대한민국",
-                "away_team": "일본",
-                "home_recent_stats": "4전/3승1무/0패 (8득/3실)",
-                "away_recent_stats": "4전/2승1무/1패 (7득/3실)"
-            }
-        ]
-    }
+  if os.path.exists("data.json"):
+    try:
+      with open("data.json", "r", encoding="utf-8") as f:
+        data = json.load(f)
+        if data and "matches" in data and len(data["matches"]) > 0:
+          for m in data["matches"]:
+            # 필수 키값이 누락되었을 경우 깨짐 방지를 위한 안전 기본값 매핑
+            if "home" not in m:
+              m["home"] = m.get("home_team", "홈팀")
+            if "away" not in m:
+              m["away"] = m.get("away_team", "원정팀")
+            if "league" not in m:
+              m["league"] = m.get("tournament", "일반 리그")
+            if "time" not in m:
+              m["time"] = m.get("match_date", "오늘")
+
+            # 대시보드 규격명 자동 완성
+            m["match_name"] = (
+                f"[{m['league']}] {m['home']} vs {m['away']} ({m['time']})"
+            )
+            m["home_team"] = m["home"]
+            m["away_team"] = m["away"]
+            m["tournament"] = m["league"]
+            m["match_date"] = m["time"]
+            m["home_recent_stats"] = m.get(
+                "home_recent_stats", "실시간 수집 체급 적용"
+            )
+            m["away_recent_stats"] = m.get(
+                "away_recent_stats", "실시간 수집 체급 적용"
+            )
+          return data
+    except Exception as e:
+      st.error(f"데이터 파일 파싱 오류 발생: {e}")
+
+  # 파일이 없거나 오류 발생 시 대시보드 레이아웃 유지용 기본 폴백 구조
+  return {
+      "last_updated": "수집 대기 중",
+      "matches": [{
+          "id": 1,
+          "league": "기본 대기",
+          "match_name": "[기본 대기] 데이터 연동 대기중 vs 확인 필요",
+          "home": "데이터 수집 대기",
+          "away": "스코어맨 확인",
+          "home_team": "데이터 수집 대기",
+          "away_team": "스코어맨 확인",
+          "tournament": "기본 대기",
+          "time": "오늘",
+          "home_recent_stats": "4전/3승1무/0패 (8득/3실)",
+          "away_recent_stats": "4전/2승1무/1패 (7득/3실)",
+      }],
+  }
 
 db_data = load_match_data()
 match_items = db_data.get("matches", [])
