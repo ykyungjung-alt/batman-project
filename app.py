@@ -8,12 +8,8 @@ import streamlit as st
 
 st.set_page_config(page_title="배트맨 프로젝트 마스터 규격 엔진", layout="wide")
 
-import json
-import os
-import streamlit as st
-
 # ========================================== #
-# 📂 data.json 데이터 로드 함수 (실시간 동적 연동) #
+# 📂 단일화된 실시간 data.json 데이터 로드 함수 #
 # ========================================== #
 @st.cache_data
 def load_match_data():
@@ -23,37 +19,40 @@ def load_match_data():
                 data = json.load(f)
                 if data and "matches" in data and len(data["matches"]) > 0:
                     for m in data["matches"]:
-                        # data.json의 실시간 데이터 키를 대시보드 규격에 맞게 매핑
+                        # data.json의 'home'/'away' 키를 대시보드 규격명으로 매핑
                         if "match_name" not in m:
-                            m["match_name"] = f"{m.get('home', '홈팀')} vs {m.get('away', '원정팀')}"
+                            m["match_name"] = f"[{m.get('league', '일반')}] {m.get('home', '홈')} vs {m.get('away', '원정')}"
                         if "home_team" not in m:
                             m["home_team"] = m.get('home', '홈팀')
                         if "away_team" not in m:
                             m["away_team"] = m.get('away', '원정팀')
-                        if "tournament" not in m:
-                            m["tournament"] = m.get('league', '일반 리그')
-                        if "match_date" not in m:
-                            m["match_date"] = m.get('time', '오늘')
+                        if "home_recent_stats" not in m:
+                            m["home_recent_stats"] = "실시간 수집 데이터 적용"
+                        if "away_recent_stats" not in m:
+                            m["away_recent_stats"] = "실시간 수집 데이터 적용"
                     return data
         except Exception as e:
             st.error(f"data.json 파싱 오류: {e}")
             
-    # 수집 데이터가 없을 때의 최소 방어 코드
+    # 수집 파일이 없을 때의 방어용 기본값
     return {
         "last_updated": "수집 대기 중",
         "matches": [
             {
                 "id": 1,
-                "league": "실시간 수집 대기",
-                "match_name": "대한민국 vs 일본",
+                "league": "기본 대기",
+                "match_name": "[기본] 대한민국 vs 일본",
                 "home_team": "대한민국",
                 "away_team": "일본",
-                "match_date": "2026-09-26",
                 "home_recent_stats": "4전/3승1무/0패 (8득/3실)",
                 "away_recent_stats": "4전/2승1무/1패 (7득/3실)"
             }
         ]
     }
+
+db_data = load_match_data()
+match_items = db_data.get("matches", [])
+match_names = [m["match_name"] for m in match_items]
 
 st.markdown(
     """
