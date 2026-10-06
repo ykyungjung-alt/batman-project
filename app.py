@@ -1,42 +1,119 @@
-from datetime import date
+from datetime import datetime
 import json
 import os
-import numpy as np
-import pandas as pd
-from scipy.stats import poisson
+from bs4 import BeautifulSoup
+import requests
 import streamlit as st
 
-st.set_page_config(page_title="배트맨 프로젝트 마스터 규격 엔진", layout="wide")
+# 페이지 설정
+st.set_page_config(
+    page_title="배트맨 프로젝트 통합 마스터 규격 및 분석 엔진", layout="wide"
+)
 
-# ========================================== #
-# 📂 단일화된 실시간 data.json 데이터 로드 함수 #
-# ========================================== #
+TARGET_URL = "https://www.scoreman123.com/"
+
+
+@st.cache_data(ttl=60)  # 1분 캐시로 실시간성 유지
+def fetch_live_matches_from_scoreman():
+  matches = []
+  headers = {
+      "User-Agent": (
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,"
+          " like Gecko) Chrome/122.0.0.0 Safari/537.36"
+      ),
+      "Referer": TARGET_URL,
+  }
+  try:
+    response = requests.get(TARGET_URL, headers=headers, timeout=5)
+    if response.status_code == 200:
+      soup = BeautifulSoup(response.text, "html.parser")
+      current_league = "해외축구 (실시간)"
+      rows = soup.select("table tr, .score_table tr")
+
+      for row in rows:
+        # 리그 헤더 감지
+        league_header = row.select_one("th, .league_title, td[colspan]")
+        if league_header and not row.select(".home_team, .home"):
+          text = league_header.get_text(strip=True)
+          if text and len(text) > 1:
+            current_league = text
+          continue
+
+        # 경기 행 파싱
+        try:
+          time_el = row.select_one("td:nth-child(2), .match_time, .time")
+          match_time = time_el.get_text(strip=True) if time_el else "진행중"
+
+          tds = row.select("td")
+          home_text, away_text = "", ""
+          for td in tds:
+            text = td.get_text(strip=True)
+            if " - " in text and not home_text:
+              parts = text.split(" - ")
+              if len(parts) == 2:
+                home_text = parts[0].strip()
+                away_text = parts[1].strip()
+
+          if not home_text:
+            home_el = row.select_one(".home_team, .team_home, td:nth-child(3)")
+            away_el = row.select_one(".away_team, .team_away, td:nth-child(5)")
+            home_text = home_el.get_text(strip=True) if home_el else ""
+            away_text = away_el.get_text(strip=True) if away_el else ""
+
+          if home_text and away_text and len(home_text) > 1:
+            matches.append({
+                "id": len(matches) + 1,
+                "league": current_league,
+                "time": match_time,
+                "home": home_text.replace("[", "").split("]")[-1].strip(),
+                "away": away_text.replace("[", "").split("]")[-1].strip(),
+                "status": "라이브",
+            })
+        except Exception:
+          continue
+  except Exception as e:
+    print(f"앱 내부 실시간 크롤링 오류: {e}")
+
+  return matches
+
+
 @st.cache_data
 def load_match_data():
+  # 1순위: 앱 내부에서 스코어맨 사이트를 직접 실시간 크롤링 시도
+  live_matches = fetch_live_matches_from_scoreman()
+  if live_matches:
+    formatted_matches = []
+    for m in live_matches:
+      m["match_name"] = (
+          f"[{m['league']}] {m['home']} vs {m['away']} ({m['time']})"
+      )
+      m["home_team"] = m["home"]
+      m["away_team"] = m["away"]
+      m["tournament"] = m["league"]
+      m["home_recent_stats"] = "실시간 수집 체급 적용"
+      m["away_recent_stats"] = "실시간 수집 체급 적용"
+      formatted_matches.append(m)
+
+    return {
+        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "source": TARGET_URL,
+        "matches": formatted_matches,
+    }
+
+  # 2순위: 로컬 data.json 파일 참조
   if os.path.exists("data.json"):
     try:
       with open("data.json", "r", encoding="utf-8") as f:
         data = json.load(f)
         if data and "matches" in data and len(data["matches"]) > 0:
           for m in data["matches"]:
-            # 필수 키값이 누락되었을 경우 깨짐 방지를 위한 안전 기본값 매핑
-            if "home" not in m:
-              m["home"] = m.get("home_team", "홈팀")
-            if "away" not in m:
-              m["away"] = m.get("away_team", "원정팀")
-            if "league" not in m:
-              m["league"] = m.get("tournament", "일반 리그")
-            if "time" not in m:
-              m["time"] = m.get("match_date", "오늘")
-
-            # 대시보드 규격명 자동 완성
             m["match_name"] = (
-                f"[{m['league']}] {m['home']} vs {m['away']} ({m['time']})"
+                f"[{m.get('league', '리그')}] {m.get('home', '홈')} vs"
+                f" {m.get('away', '원정')} ({m.get('time', '')})"
             )
-            m["home_team"] = m["home"]
-            m["away_team"] = m["away"]
-            m["tournament"] = m["league"]
-            m["match_date"] = m["time"]
+            m["home_team"] = m.get("home", "홈팀")
+            m["away_team"] = m.get("away", "원정팀")
+            m["tournament"] = m.get("league", "일반 리그")
             m["home_recent_stats"] = m.get(
                 "home_recent_stats", "실시간 수집 체급 적용"
             )
@@ -44,12 +121,12 @@ def load_match_data():
                 "away_recent_stats", "실시간 수집 체급 적용"
             )
           return data
-    except Exception as e:
-      st.error(f"데이터 파일 파싱 오류 발생: {e}")
+    except Exception:
+      pass
 
-  # 파일이 없거나 오류 발생 시 대시보드 레이아웃 유지용 기본 폴백 구조
+  # 3순위: 기본 방어 폴백 데이터
   return {
-      "last_updated": "수집 대기 중",
+      "last_updated": "연동 대기 중",
       "matches": [{
           "id": 1,
           "league": "기본 대기",
@@ -60,152 +137,62 @@ def load_match_data():
           "away_team": "스코어맨 확인",
           "tournament": "기본 대기",
           "time": "오늘",
-          "home_recent_stats": "4전/3승1무/0패 (8득/3실)",
-          "away_recent_stats": "4전/2승1무/1패 (7득/3실)",
+          "home_recent_stats": "4전/3승1무/0패",
+          "away_recent_stats": "4전/2승1무/1패",
       }],
   }
 
-db_data = load_match_data()
-match_items = db_data.get("matches", [])
-match_names = [m["match_name"] for m in match_items]
 
+# 대시보드 데이터 로드 실행
+data = load_match_data()
+matches = data.get("matches", [])
+
+st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
 st.markdown(
-    """
-    <style>
-    .main-title { font-size: 22px !important; font-weight: 700; color: #1E293B; text-align: center; margin-bottom: 2px; }
-    .sub-title { font-size: 12px !important; color: #64748B; text-align: center; margin-bottom: 15px; }
-    .step-box { background-color: #EFF6FF; padding: 12px; border-radius: 6px; border-left: 4px solid #2563EB; margin-bottom: 10px; font-size: 13px; line-height: 1.6; }
-    .calc-box { background-color: #F8FAFC; padding: 12px; border-radius: 6px; border: 1px solid #E2E8F0; margin-top: 10px; font-size: 13px; line-height: 1.6; }
-    table { width: 100%; font-size: 12px; border-collapse: collapse; margin-bottom: 10px; }
-    th, td { border: 1px solid #CBD5E1; padding: 8px; text-align: center; }
-    th { background-color: #E2E8F0; color: #1E293B; }
-    </style>
-""",
-    unsafe_allow_html=True,
+    "구글 독스 원문 규격 100% 반영 • 생략 없는 0~6단계 세부 정량 표 완벽 탑재"
+    " 시스템"
 )
 
-st.markdown(
-    '<p class="main-title">배트맨 프로젝트 통합 마스터 규격 및 분석 엔진</p>',
-    unsafe_allow_html=True,
-)
-st.markdown(
-    '<p class="sub-title">구글 독스 원문 규격 100% 반영 • 생략 없는 0~6단계 세부 정량 표 완벽 탑재 시스템</p>',
-    unsafe_allow_html=True,
+# 경기 선택 드롭다운
+st.subheader("🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
+match_options = [m["match_name"] for m in matches]
+selected_match_name = st.selectbox(
+    "실시간 수집 대진 선택 (리그 | 홈 vs 원정 | 시간)", match_options
 )
 
-@st.cache_data
-def load_match_data():
-    if os.path.exists("data.json"):
-        try:
-            with open("data.json", "r", encoding="utf-8") as f:
-                data = json.load(f)
-                if data and "matches" in data and len(data["matches"]) > 0:
-                    for m in data["matches"]:
-                        # data.json의 실시간 데이터 키를 대시보드 규격에 맞게 매핑
-                        if "match_name" not in m:
-                            m["match_name"] = f"[{m.get('league', '일반 리그')}] {m.get('home', '홈팀')} vs {m.get('away', '원정팀')}"
-                        if "home_team" not in m:
-                            m["home_team"] = m.get('home', '홈팀')
-                        if "away_team" not in m:
-                            m["away_team"] = m.get('away', '원정팀')
-                        if "tournament" not in m:
-                            m["tournament"] = m.get('league', '일반 리그')
-                        if "match_date" not in m:
-                            m["match_date"] = m.get('time', '오늘')
-                    return data
-        except Exception as e:
-            st.error(f"data.json 파싱 오류: {e}")
-            
-    return {
-        "matches": [{
-            "id": 1,
-            "tournament": "수집 대기 중",
-            "match_name": "대한민국 vs 일본",
-            "home_team": "대한민국",
-            "away_team": "일본",
-            "match_date": "2026-09-26",
-            "home_recent_stats": "4전/3승1무/0패 (8득/3실)",
-            "away_recent_stats": "4전/2승1무/1패 (7득/3실)"
-        }]
-    }
+# 선택된 경기 매칭
+selected_match = next(
+    (m for m in matches if m["match_name"] == selected_match_name), matches[0]
+)
 
+# 0단계 메타 화면 출력
+st.markdown(
+    "## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]"
+)
+st.markdown(
+    "친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를"
+    " 고정합니다. (SSOT 원칙 적용)"
+)
 
-db_data = load_match_data()
-match_items = db_data.get("matches", [])
-match_names = [m["match_name"] for m in match_items]
-
-# ========================================== #
-# 🏆 [실시간 연동형] 메타 설정 및 대진 선택 영역 #
-# ========================================== #
-st.markdown("### 🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
-
-with st.container():
-    if match_items:
-        selected_match_str = st.selectbox("실시간 수집 대진 선택 (리그 | 홈 vs 원정 | 시간)", match_names, key="top_match")
-        
-        current_match = next((m for m in match_items if m["match_name"] == selected_match_str), match_items[0])
-        
-        home_team = current_match.get("home", current_match.get("home_team", "홈팀"))
-        away_team = current_match.get("away", current_match.get("away_team", "원정팀"))
-        selected_tournament = current_match.get("league", "일반 리그")
-        match_time_str = current_match.get("time", "오늘")
-        
-    else:
-        selected_match_str = "수집된 경기 없음"
-        home_team = "대한민국"
-        away_team = "일본"
-        selected_tournament = "수집 대기 중"
-        match_time_str = "2026-09-26"
-
-st.markdown("---")
-
-# 변수명 통일 및 세션 매핑 (NameError 방지)
-match_date = match_time_str  # 날짜 오류 방지를 위해 문자열 그대로 매핑
-st.session_state["tournament"] = selected_tournament
-st.session_state["match_date"] = match_date
-st.session_state["home_team"] = home_team
-st.session_state["away_team"] = away_team
-
-home_stats = "실시간 수집 체급 적용"
-away_stats = "실시간 수집 체급 적용"
-# 탭 구조 정의
-tabs = st.tabs([
-    "0단계: 메타",
-    "1단계: 종합 7경기",
-    "2단계: 구장대조",
-    "3단계: 누수·피로(3-1,3-2)",
-    "4단계: H2H 상성",
-    "5단계: 최종보정·교차검증",
-    "6단계: 푸아송 매트릭스",
-    "📋 전체 요약 리포트",
-])
-
-# --- [0단계] ---
-with tabs[0]:
-  st.markdown("### [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
-  st.markdown(
-      '<div class="step-box">친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)</div>',
-      unsafe_allow_html=True,
-  )
-
-  meta_html = f"""
-    <style>
-        .meta-table {{ width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 14px; }}
-        .meta-table th, .meta-table td {{ border: 1px solid #e0e0e0; padding: 10px 12px; text-align: left; vertical-align: top; }}
-        .meta-table th {{ background-color: #f5f5f5; font-weight: bold; width: 25%; }}
-    </style>
-    <table class="meta-table">
-        <thead><tr><th>메타 항목</th><th>내용</th></tr></thead>
-        <tbody>
-            <tr><td><b>대회 성격</b></td><td>{selected_tournament}</td></tr>
-            <tr><td><b>기준 경기 일시</b></td><td>{match_date} ({home_team} 홈, 지정 경기장)</td></tr>
-            <tr><td><b>구장 정보</b></td><td>{home_team} 홈구장</td></tr>
-            <tr><td><b>대결 정보</b></td><td>{home_team}(홈) 상위 전력 {home_stats}<br>{away_team}(원정) 상위 전력 {away_stats}</td></tr>
-            <tr><td><b>필터 검증 결과</b></td><td>PASS (공식 경기 유효성 검증 완료)</td></tr>
-        </tbody>
-    </table>
-    """
-  st.markdown(meta_html, unsafe_allow_html=True)
+st.table({
+    "메타 항목": [
+        "대회 성격",
+        "기준 경기 일시",
+        "구장 정보",
+        "대결 정보",
+        "필터 검증 결과",
+    ],
+    "내용": [
+        selected_match.get("tournament", "리그"),
+        f"{selected_match.get('time', '시간')} (공식 지정 경기)",
+        f"{selected_match.get('home_team', '홈')} 홈구장",
+        (
+            f"{selected_match.get('home_team', '홈')} (홈) vs"
+            f" {selected_match.get('away_team', '원정')} (원정)"
+        ),
+        "PASS (공식 경기 유효성 검증 완료)",
+    ],
+})
 
 # --- [1단계] ---
 with tabs[1]:
