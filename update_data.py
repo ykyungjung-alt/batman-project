@@ -1,7 +1,8 @@
 from datetime import datetime
 import json
-import requests
+import re
 from bs4 import BeautifulSoup
+import requests
 
 TARGET_URL = "https://www.scoreman123.com/"
 
@@ -14,96 +15,93 @@ def fetch_scoreman_data():
       ),
       "Referer": "https://www.scoreman123.com/",
   }
-
   matches = []
   try:
     response = requests.get(TARGET_URL, headers=headers, timeout=10)
     if response.status_code == 200:
       soup = BeautifulSoup(response.text, "html.parser")
-
       current_league = "해외축구"
-      # 스코어맨 페이지의 전체 본문 행(리그 헤더와 경기 row 모두 포함) 순회
       rows = soup.select("table tr, .score_table tr")
 
       for row in rows:
-        # 리그 헤더 행인 경우
+        # 1. 리그 헤더 행 감지
         league_header = row.select_one("th, .league_title, td[colspan]")
-        if league_header and not row.select(".home_team, .home"):
+        if league_header and not row.select("td:nth-child(3)"):
           text = league_header.get_text(strip=True)
-          if text and len(text) > 1:
-            current_league = text
+          if text and len(text) > 1 and "스코어맨" not in text:
+            current_league = text.replace("+", "").strip()
           continue
 
-        # 경기 데이터 행 파싱
+        # 2. 경기 데이터 행 파싱
         try:
-          # 시간 추출
-          time_el = row.select_one("td:nth-child(2), .match_time, .time")
-          match_time = time_el.get_text(strip=True) if time_el else "진행중"
-
-          # 홈팀, 원정팀 추출 (스코어맨 테이블 구조 기준)
           tds = row.select("td")
           if len(tds) >= 5:
-            # 보통 홈팀과 원정팀이 특정 셀에 위치
-            home_text = ""
-            away_text = ""
+            # 시간 추출 (두 번째 컬럼)
+            time_el = tds[1].get_text(strip=True)
+            match_time = time_el if time_el else "진행중"
 
-            # 텍스트 구조 분석을 통한 팀명 추출
-            for td in tds:
-              text = td.get_text(strip=True)
-              if " - " in text and not home_text:
-                parts = text.split(" - ")
-                if len(parts) == 2:
-                  home_text = parts[0].strip()
-                  away_text = parts[1].strip()
+            # 홈팀, 원정팀 추출 (실제 스코어맨 테이블 구조 기준)
+            home_raw = tds[2].get_text(strip=True)
+            away_raw = tds[4].get_text(strip=True)
 
-            if not home_text:
-              # 대체 셀렉터 시도
-              home_el = row.select_one(
-                  ".home_team, .team_home, td:nth-child(3)"
-              )
-              away_el = row.select_one(
-                  ".away_team, .team_away, td:nth-child(5)"
-              )
-              home_text = home_el.get_text(strip=True) if home_el else ""
-              away_text = away_el.get_text(strip=True) if away_el else ""
+            # 대괄호 내 순위/등급 정보 제거 (예: [ENG RYN-14] 윈게이트 -> 윈게이트)
+            home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
+            away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
-            # 스코어, 상태 등 정제
-            if home_text and away_text and len(home_text) > 1:
+            # 유효한 경기 행 필터링 (스코어 셀 등에 '-' 기호가 포함된 경우)
+            row_text = row.get_text()
+            if home_team and away_team and "-" in row_text:
               matches.append({
                   "id": len(matches) + 1,
                   "league": current_league,
                   "time": match_time,
-                  "home": home_text.replace("[", "").split("]")[-1].strip(),
-                  "away": away_text.replace("[", "").split("]")[-1].strip(),
-                  "status": "라이브",
+                  "home": home_team,
+                  "away": away_team,
+                  "home_team": home_team,
+                  "away_team": away_team,
+                  "tournament": current_league,
+                  "home_recent_stats": "실시간 수집 체급 적용",
+                  "away_recent_stats": "실시간 수집 체급 적용",
               })
         except Exception:
           continue
   except Exception as e:
-    print(f"크롤링 오류 발생: {e}")
+    print(f"스코어맨 크롤링 중 오류 발생: {e}")
 
-  # 데이터가 없을 경우 방어 코드
+  return matches
+
+
+def main():
+  matches = fetch_scoreman_data()
+
+  # 데이터가 수집되지 않았을 경우를 대비한 기본 폴백 데이터
   if not matches:
     matches = [{
         "id": 1,
-        "league": "연동 대기중",
-        "time": datetime.now().strftime("%H:%M"),
+        "league": "기본 대기",
+        "time": "오늘",
         "home": "데이터 수집 대기",
-        "away": "스코어맨 연결 확인",
-        "status": "대기",
+        "away": "스코어맨 확인",
+        "home_team": "데이터 수집 대기",
+        "away_team": "스코어맨 확인",
+        "tournament": "기본 대기",
+        "home_recent_stats": "4전/3승1무/0패",
+        "away_recent_stats": "4전/2승1무/1패",
     }]
 
-  data = {
+  output_data = {
       "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
       "source": TARGET_URL,
       "matches": matches,
   }
 
   with open("data.json", "w", encoding="utf-8") as f:
-    json.dump(data, f, ensure_ascii=False, indent=4)
+    json.dump(output_data, f, ensure_ascii=False, indent=4)
 
-  print(f"data.json 업데이트 완료 (총 {len(matches)}개 경기)")
+  print(
+      f"데이터 갱신 완료: 총 {len(matches)}개 경기 저장됨 (data.json 갱신 완료)"
+  )
 
 
 if __name__ == "__main__":
-  fetch_scoreman_data()
+  main()
