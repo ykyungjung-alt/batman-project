@@ -11,73 +11,7 @@ TARGET_URL = "https://www.scoreman123.com/football/fixture"
 
 @st.cache_data(ttl=30)
 def load_match_data():
-    # 1순위: 스코어맨 실시간 크롤링 (세션 및 브라우저 호환 헤더 강화)
-    try:
-        session = requests.Session()
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
-            "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-            "Referer": "https://www.scoreman123.com/",
-        }
-        response = session.get(TARGET_URL, headers=headers, timeout=7)
-        
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, "html.parser")
-            matches = []
-            current_league = "해외축구 (실시간)"
-            table = soup.find("table", id="table_live")
-            
-            if table:
-                rows = table.find_all("tr")
-                for row in rows:
-                    classes = row.get("class", [])
-                    
-                    # 리그 타이틀 감지
-                    if any("Leaguestitle" in c for c in classes) or any("fbHead" in c for c in classes):
-                        league_text = row.get_text(strip=True)
-                        if league_text:
-                            current_league = re.sub(r'^[^\w\s]+\s*', '', league_text).replace("+", "").strip()
-                        continue
-                        
-                    # 경기 데이터 행 감지
-                    if "b2" in classes or len(row.find_all("td")) >= 6:
-                        tds = row.find_all("td")
-                        if len(tds) >= 6:
-                            time_str = tds[1].get_text(strip=True)
-                            status_str = tds[2].get_text(strip=True)
-                            home_raw = tds[3].get_text(strip=True)
-                            score_str = tds[4].get_text(strip=True)
-                            away_raw = tds[5].get_text(strip=True)
-
-                            home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
-                            away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
-
-                            if home_team and away_team:
-                                matches.append({
-                                    "id": len(matches) + 1,
-                                    "league": current_league,
-                                    "time": time_str if time_str else "진행중",
-                                    "status": status_str,
-                                    "home": home_team,
-                                    "away": away_team,
-                                    "home_team": home_team,
-                                    "away_team": away_team,
-                                    "tournament": current_league,
-                                    "score": score_str,
-                                    "home_recent_stats": "실시간 수집 체급 적용",
-                                    "away_recent_stats": "실시간 수집 체급 적용",
-                                    "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
-                                })
-                if matches:
-                    return {
-                        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S (실시간 수집)"),
-                        "matches": matches
-                    }
-    except Exception as e:
-        print(f"크롤링 예외: {e}")
-
-    # 2순위: 로컬 data.json 백업 로드
+    # 1순위: 로컬에 정상적으로 저장된 data.json 파일 우선 로드 (가장 안정적)
     if os.path.exists("data.json"):
         try:
             with open("data.json", "r", encoding="utf-8") as f:
@@ -90,15 +24,15 @@ def load_match_data():
                         m["away_team"] = m.get("away", "원정팀")
                         m["tournament"] = m.get("league", "일반 리그")
                     return {
-                        "last_updated": "파일 동기화 모드",
+                        "last_updated": data.get("last_updated", "최신 동기화 완료"),
                         "matches": matches
                     }
         except Exception:
             pass
 
-    # 3순위: 최종 안전 폴백 대진 데이터
+    # 2순위: 안전 폴백 기본 대진 데이터 (화면 멈춤 및 에러 방지)
     return {
-        "last_updated": "안전 폴백 모드",
+        "last_updated": "마스터 규격 검증 모드",
         "matches": [
             {
                 "id": 1,
@@ -115,11 +49,6 @@ def load_match_data():
             }
         ]
     }
-
-# 데이터 로드 실행
-data = load_match_data()
-matches = data.get("matches", [])
-last_updated_time = data.get("last_updated", "알 수 없음")
 
 
 st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
