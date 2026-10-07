@@ -11,6 +11,73 @@ TARGET_URL = "https://www.scoreman123.com/football/fixture"
 
 @st.cache_data(ttl=30)
 def load_match_data():
+    # 1순위: 스코어맨 실제 DOM 구조 기반 실시간 크롤링
+    try:
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+            "Referer": "https://www.scoreman123.com/"
+        }
+        response = requests.get(TARGET_URL, headers=headers, timeout=5)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, "html.parser")
+            matches = []
+            current_league = "해외축구 (실시간)"
+            
+            # table_live 또는 전체 tr 순회 탐색
+            table = soup.find("table", id="table_live")
+            rows = table.find_all("tr") if table else soup.find_all("tr")
+            
+            for row in rows:
+                classes = row.get("class", [])
+                
+                # 리그 타이틀 행 감지 (Leaguestitle fbHead)
+                if any("Leaguestitle" in str(c) for c in classes) and any("fbHead" in str(c) for c in classes):
+                    league_text = row.get_text(strip=True)
+                    if league_text:
+                        current_league = re.sub(r'^[^\w\s]+\s*', '', league_text).replace("+", "").strip()
+                    continue
+                    
+                # 경기 데이터 행 감지 (b2 클래스 또는 td가 6개 이상인 행)
+                tds = row.find_all("td")
+                if "b2" in classes or len(tds) >= 6:
+                    if len(tds) >= 6:
+                        time_str = tds[1].get_text(strip=True)
+                        status_str = tds[2].get_text(strip=True)
+                        home_raw = tds[3].get_text(strip=True)
+                        score_str = tds[4].get_text(strip=True)
+                        away_raw = tds[5].get_text(strip=True)
+
+                        # 팀명 대괄호 메타데이터 정제 ([4] 그니스탄 -> 그니스탄)
+                        home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
+                        away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
+
+                        if home_team and away_team and home_team != away_team:
+                            matches.append({
+                                "id": len(matches) + 1,
+                                "league": current_league,
+                                "time": time_str if time_str else "진행중",
+                                "status": status_str,
+                                "home": home_team,
+                                "away": away_team,
+                                "home_team": home_team,
+                                "away_team": away_team,
+                                "tournament": current_league,
+                                "score": score_str,
+                                "home_recent_stats": "실시간 수집 체급 적용",
+                                "away_recent_stats": "실시간 수집 체급 적용",
+                                "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
+                            })
+            if matches:
+                KST = timezone(timedelta(hours=9))
+                kst_time_str = datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
+                return {
+                    "last_updated": kst_time_str,
+                    "matches": matches
+                }
+    except Exception as e:
+        print(f"크롤링 오류: {e}")
+
+    # 2순위: 로컬 백업 파일 로드
     if os.path.exists("data.json"):
         try:
             with open("data.json", "r", encoding="utf-8") as f:
@@ -37,11 +104,8 @@ def load_match_data():
                             "away_recent_stats": m.get("away_recent_stats", "4전/2승1무/1패"),
                             "match_name": f"[{league}] {home} vs {away} ({time_str})"
                         })
-                    
-                    # 한국 시간(KST, UTC+9) 계산
                     KST = timezone(timedelta(hours=9))
                     kst_time_str = datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
-                    
                     return {
                         "last_updated": kst_time_str,
                         "matches": parsed
@@ -49,7 +113,7 @@ def load_match_data():
         except Exception:
             pass
 
-    # 안전 폴백 대진 데이터
+    # 3순위: 안전 기본 폴백 데이터
     KST = timezone(timedelta(hours=9))
     kst_time_str = datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
     return {
