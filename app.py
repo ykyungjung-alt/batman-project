@@ -12,20 +12,16 @@ def load_match_data():
         try:
             with open("data.json", "r", encoding="utf-8") as f:
                 data = json.load(f)
-                
-                # [추가] 데이터 안의 모든 경기 정보를 돌면서 '경기수(...)' 문구를 강제로 깔끔하게 제거
-                for match in data.get("matches", []):
-                    if "league" in match:
-                        match["league"] = re.sub(r'경기수\s*\(.*?\)', '', match["league"]).strip()
-                    if "tournament" in match:
-                        match["tournament"] = re.sub(r'경기수\s*\(.*?\)', '', match["tournament"]).strip()
-                    if "match_name" in match:
-                        match["match_name"] = re.sub(r'경기수\s*\(.*?\)', '', match["match_name"]).strip()
-                        
-                return data
+            for match in data.get("matches", []):
+                if "league" in match:
+                    match["league"] = re.sub(r'경기수\s*\(.*?\)', '', match["league"]).strip()
+                if "tournament" in match:
+                    match["tournament"] = re.sub(r'경기수\s*\(.*?\)', '', match["tournament"]).strip()
+                if "match_name" in match:
+                    match["match_name"] = re.sub(r'경기수\s*\(.*?\)', '', match["match_name"]).strip()
+            return data
         except Exception:
             pass
-            
     return {
         "last_updated": "안전 모드",
         "matches": [
@@ -50,31 +46,40 @@ data = load_match_data()
 matches = data.get("matches", [])
 last_updated_time = data.get("last_updated", "알 수 없음")
 
-
-
-data = load_match_data()
-matches = data.get("matches", [])
-last_updated_time = data.get("last_updated", "알 수 없음")
-
 st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
 st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
 
 st.sidebar.markdown("---")
-st.sidebar.markdown(f"🕒 **데이터 갱신 시각 (KST)**\n\n `{last_updated_time}`")
+st.sidebar.markdown(f"🕒 **데이터 갱신 시각 (KST)**\n\n`{last_updated_time}`")
 st.sidebar.subheader("🏆 실시간 수집 대진 선택")
+
+# [핵심 추가] 당일 + 3일 (총 4일) 날짜 요일 맞춤 셀렉박스 생성
+today = datetime.now()
+date_options = []
+weekdays = ["월", "화", "수", "목", "금", "토", "일"]
+for i in range(4):
+    target_date = today + timedelta(days=i)
+    w_str = weekdays[target_date.weekday()]
+    date_label = target_date.strftime(f"%m-%d ({w_str})")
+    if i == 0:
+        date_label += " [오늘]"
+    date_options.append(date_label)
+
+# 1. 사이드바 날짜 선택창 (리그 선택창 바로 위)
+selected_date = st.sidebar.selectbox("📅 날짜를 선택하세요:", date_options)
+
 if matches:
-    # 1. 존재하는 모든 리그 목록 추출
+    # 2. 존재하는 모든 리그 목록 추출
     leagues = sorted(list(set(m.get("league", "기타 리그") for m in matches)))
     
-    # 2. 사이드바에 리그 선택 셀렉트박스 생성
+    # 3. 사이드바에 리그 선택 셀렉트박스 생성
     selected_league = st.sidebar.selectbox("리그를 선택하세요:", leagues)
     
-    # 3. 선택한 리그에 속한 경기들만 필터링
+    # 4. 선택한 리그에 속한 경기들만 필터링
     league_matches = [m for m in matches if m.get("league", "기타 리그") == selected_league]
     
-    # 4. 해당 리그의 경기 옵션 생성
+    # 5. 해당 리그의 경기 옵션 생성
     match_options = [m["match_name"] for m in league_matches]
-    
     if match_options:
         selected_match_name = st.sidebar.radio("분석할 경기를 선택하세요:", match_options, key="match_radio_selection")
         selected_match = next((m for m in league_matches if m["match_name"] == selected_match_name), league_matches[0])
@@ -87,21 +92,14 @@ else:
         "tournament": "베이카우스리가",
         "time": "01:00"
     }
-    selected_match = {
-        "home_team": "그니스탄",
-        "away_team": "인터 투르쿠",
-        "tournament": "베이카우스리가",
-        "time": "01:00"
-    }
 
 home_team = selected_match.get("home_team", "홈팀")
 away_team = selected_match.get("away_team", "원정팀")
 tournament_name = selected_match.get("league", selected_match.get("tournament", "리그"))
 match_date = selected_match.get("time", "오늘")
-# 최근 전적 데이터도 동적으로 가져오기 (없으면 기본값)
+
 home_stats = selected_match.get("home_recent_stats", "4전/3승1무/0패")
 away_stats = selected_match.get("away_recent_stats", "4전/2승1무/1패")
-
 
 tab_titles = [
     "0단계 (메타)", 
