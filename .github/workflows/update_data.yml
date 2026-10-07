@@ -20,11 +20,15 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Install Google Chrome
+        uses: browser-actions/setup-chrome@latest
+
       - name: Install dependencies
         run: |
-          pip install pandas requests beautifulsoup4
+          python -m pip install --upgrade pip
+          pip install pandas selenium webdriver-manager beautifulsoup4
 
-      - name: Run crawler script
+      - name: Run Selenium Crawler
         run: python update_data.py
 
       - name: Commit and push changes
@@ -34,5 +38,5 @@ jobs:
           git fetch origin main
           git reset --mixed origin/main || true
           git add data.json
-          git diff --staged --quiet || git commit -m "Auto-update data.json via GitHub Actions"
+          git diff --staged --quiet || git commit -m "Auto-update data.json via Selenium"
           git push origin HEAD:main --force
