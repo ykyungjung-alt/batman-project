@@ -4,118 +4,41 @@ import os
 import re
 from bs4 import BeautifulSoup
 import pandas as pd
-import requests
 import streamlit as st
 
-TARGET_URL = "https://www.scoreman123.com/football/fixture"
-
-def update_json_file():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-        "Referer": "https://www.scoreman123.com/"
-    }
-    matches = []
-    try:
-        response = requests.get(TARGET_URL, headers=headers, timeout=10)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, "html.parser")
-            current_league = "해외축구 (실시간)"
-
-            rows = soup.find_all("tr")
-            for row in rows:
-                tds = row.find_all("td")
-                text_content = row.get_text(strip=True)
-
-                if not text_content:
-                    continue
-
-                # 1) 리그 타이틀 행 감지 (시간이 없고 셀 개수가 적거나 텍스트가 리그명인 경우)
-                if not re.search(r"\d{2}:\d{2}", text_content):
-                    cleaned = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
-                    if cleaned and len(cleaned) > 1 and len(cleaned) < 35 and "시간" not in cleaned and "상태" not in cleaned:
-                        current_league = cleaned
-                    continue
-
-                # 2) 경기 데이터 행 감지 (시간 형식 HH:MM 존재 여부 확인)
-                time_str = ""
-                for td in tds:
-                    t_text = td.get_text(strip=True)
-                    if re.match(r"^\d{2}:\d{2}$", t_text):
-                        time_str = t_text
-                        break
-                
-                if time_str and len(tds) >= 5:
-                    cell_texts = [td.get_text(strip=True) for td in tds if td.get_text(strip=True) != ""]
-                    
-                    try:
-                        time_idx = -1
-                        for idx, val in enumerate(cell_texts):
-                            if re.match(r"^\d{2}:\d{2}$", val):
-                                time_idx = idx
-                                break
-                        
-                        if time_idx != -1 and len(cell_texts) > time_idx + 2:
-                            status_str = cell_texts[time_idx + 1] if cell_texts[time_idx + 1] in ["종료", "진행중"] else ""
-                            offset = 1 if status_str else 0
-                            
-                            home_raw = cell_texts[time_idx + 1 + offset]
-                            score_str = cell_texts[time_idx + 2 + offset] if "-" in cell_texts[time_idx + 2 + offset] else "-"
-                            away_raw = cell_texts[time_idx + 3 + offset] if len(cell_texts) > time_idx + 3 + offset else ""
-
-                            home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
-                            away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
-
-                            if home_team and away_team and home_team != away_team:
-                                matches.append({
-                                    "id": len(matches) + 1,
-                                    "league": current_league,
-                                    "time": time_str,
-                                    "status": status_str if status_str else "진행예정",
-                                    "home": home_team,
-                                    "away": away_team,
-                                    "home_team": home_team,
-                                    "away_team": away_team,
-                                    "tournament": current_league,
-                                    "score": score_str,
-                                    "home_recent_stats": "4전/3승1무/0패",
-                                    "away_recent_stats": "4전/2승1무/1패",
-                                    "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
-                                })
-                    except Exception:
-                        continue
-
-    except Exception as e:
-        print(f"업데이트 중 크롤링 오류 발생: {e}")
-
-    # 데이터가 없을 때만 폴백 적용
-    if not matches:
-        matches = [{
-            "id": 1,
-            "league": "베이카우스리가",
-            "match_name": "[베이카우스리가] 그니스탄 vs 인터 투르쿠 (01:00)",
-            "home": "그니스탄",
-            "away": "인터 투르쿠",
-            "home_team": "그니스탄",
-            "away_team": "인터 투르쿠",
-            "tournament": "베이카우스리가",
-            "time": "01:00",
-            "home_recent_stats": "4전/3승1무/0패",
-            "away_recent_stats": "4전/2승1무/1패",
-            "score": "0 - 0"
-        }]
-
-    KST = timezone(timedelta(hours=9))
-    kst_time_str = datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
-
-    output_data = {
-        "last_updated": kst_time_str,
-        "matches": matches
+@st.cache_data(ttl=10)
+def load_match_data():
+    if os.path.exists("data.json"):
+        try:
+            with open("data.json", "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+            
+    # data.json이 없을 때의 안전 모드 기본 데이터
+    return {
+        "last_updated": "안전 모드 (데이터 파일 없음)",
+        "matches": [
+            {
+                "id": 1,
+                "league": "베이카우스리가",
+                "match_name": "[베이카우스리가] 그니스탄 vs 인터 투르쿠 (01:00)",
+                "home": "그니스탄",
+                "away": "인터 투르쿠",
+                "home_team": "그니스탄",
+                "away_team": "인터 투르쿠",
+                "tournament": "베이카우스리가",
+                "time": "01:00",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "score": "0 - 0"
+            }
+        ]
     }
 
-    with open("data.json", "w", encoding="utf-8") as f:
-        json.dump(output_data, f, ensure_ascii=False, indent=4)
-
-update_json_file()
+data = load_match_data()
+matches = data.get("matches", [])
+last_updated_time = data.get("last_updated", "알 수 없음")
 
 @st.cache_data(ttl=10)
 def load_match_data():
