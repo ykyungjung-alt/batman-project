@@ -26,7 +26,7 @@ def update_json_file():
         soup = BeautifulSoup(driver.page_source, "html.parser")
         current_league = "해외축구 (실시간)"
 
-        rows = soup.find_all("tr")
+       rows = soup.find_all("tr")
         for row in rows:
             tds = row.find_all("td")
             text_content = row.get_text(strip=True)
@@ -37,7 +37,6 @@ def update_json_file():
             # 1) 리그 타이틀 행 감지 (시간 형식이 없는 행)
             if not re.search(r"\d{2}:\d{2}", text_content):
                 cleaned = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
-                # '경기수(...)' 형태 완벽 제거
                 cleaned = re.sub(r'경기수\s*\(.*?\)', '', cleaned).strip()
                 
                 if cleaned and len(cleaned) > 1 and len(cleaned) < 35 and "시간" not in cleaned and "상태" not in cleaned:
@@ -52,7 +51,7 @@ def update_json_file():
                     time_str = t_text
                     break
             
-            if time_str and len(tds) >= 5:
+            if time_str and len(tds) >= 4:
                 cell_texts = [td.get_text(strip=True) for td in tds if td.get_text(strip=True) != ""]
                 
                 try:
@@ -62,28 +61,39 @@ def update_json_file():
                             time_idx = idx
                             break
                     
-                    if time_idx != -1 and len(cell_texts) > time_idx + 2:
-                        status_str = cell_texts[time_idx + 1] if cell_texts[time_idx + 1] in ["종료", "진행중"] else ""
-                        offset = 1 if status_str else 0
+                    if time_idx != -1 and len(cell_texts) > time_idx:
+                        # 상태 칸 확인 (종료, 진행중, 대기, 연기 등 체크)
+                        next_val = cell_texts[time_idx + 1] if len(cell_texts) > time_idx + 1 else ""
                         
-                        if len(cell_texts) > time_idx + 1 + offset:
-                            home_raw = cell_texts[time_idx + 1 + offset]
-                            score_str = cell_texts[time_idx + 2 + offset] if "-" in cell_texts[time_idx + 2 + offset] else "-"
-                            away_raw = cell_texts[time_idx + 3 + offset] if len(cell_texts) > time_idx + 3 + offset else ""
+                        # [핵심] 종료되었거나 진행 중인 경기는 수집 대상에서 제외
+                        if next_val in ["종료", "진행중", "하프타임", "전반전", "후반전"]:
+                            continue
+                        
+                        # 연기/취소 경기 제외
+                        if "연기" in text_content or "취소" in text_content or "연기" in next_val or "취소" in next_val:
+                            continue
+
+                        # 상태 텍스트가 있으면 offset을 1로, 없으면 0으로 처리하여 팀명 위치 고정
+                        has_status = 1 if next_val in ["대기"] else 0
+                        
+                        home_idx = time_idx + 1 + has_status
+                        score_idx = home_idx + 1
+                        away_idx = score_idx + 1
+                        
+                        if len(cell_texts) > away_idx:
+                            home_raw = cell_texts[home_idx]
+                            score_str = cell_texts[score_idx] if "-" in cell_texts[score_idx] else "-"
+                            away_raw = cell_texts[away_idx]
 
                             home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
                             away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
-
-                            # [핵심] '연기' 또는 '취소'된 경기는 인덱스 밀림 방지를 위해 수집 대상에서 완전히 제외
-                            if "연기" in status_str or "취소" in status_str or "연기" in home_team or "취소" in home_team:
-                                continue
 
                             if home_team and away_team and home_team != away_team:
                                 matches.append({
                                     "id": len(matches) + 1,
                                     "league": current_league,
                                     "time": time_str,
-                                    "status": status_str if status_str else "진행예정",
+                                    "status": "진행예정",
                                     "home": home_team,
                                     "away": away_team,
                                     "home_team": home_team,
