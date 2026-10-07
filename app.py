@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import json
 import os
 import re
@@ -11,7 +11,6 @@ TARGET_URL = "https://www.scoreman123.com/football/fixture"
 
 @st.cache_data(ttl=30)
 def load_match_data():
-    # 1순위: 로컬에 저장된 data.json 파일 로드
     if os.path.exists("data.json"):
         try:
             with open("data.json", "r", encoding="utf-8") as f:
@@ -38,16 +37,23 @@ def load_match_data():
                             "away_recent_stats": m.get("away_recent_stats", "4전/2승1무/1패"),
                             "match_name": f"[{league}] {home} vs {away} ({time_str})"
                         })
+                    
+                    # 한국 시간(KST, UTC+9) 계산
+                    KST = timezone(timedelta(hours=9))
+                    kst_time_str = datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
+                    
                     return {
-                        "last_updated": data.get("last_updated", "최신 동기화 완료"),
+                        "last_updated": kst_time_str,
                         "matches": parsed
                     }
         except Exception:
             pass
 
-    # 2순위: 안전 폴백 기본 대진 데이터
+    # 안전 폴백 대진 데이터
+    KST = timezone(timedelta(hours=9))
+    kst_time_str = datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
     return {
-        "last_updated": "기본 안전 모드",
+        "last_updated": kst_time_str,
         "matches": [
             {
                 "id": 1,
@@ -64,6 +70,11 @@ def load_match_data():
             }
         ]
     }
+
+# 데이터 및 한국 시간 갱신 시각 초기화
+data = load_match_data()
+matches = data.get("matches", [])
+last_updated_time = data.get("last_updated", "알 수 없음")
 
 # 데이터 로드 및 변수 초기화 (중복 선언 방지)
 data = load_match_data()
