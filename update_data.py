@@ -41,7 +41,7 @@ def update_json_file():
             # 1) 리그 타이틀 행 감지 (시간이 없고, 셀 개수가 적거나 텍스트가 리그명 형태인 경우)
             if not re.search(r"\d{2}:\d{2}", text_content):
                 # 불필요한 기호 제거 후 리그 후보로 지정
-                cleaned = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
+                cleaned = text_content.replace("+", "").strip()
                 if cleaned and len(cleaned) > 1 and len(cleaned) < 35 and "시간" not in cleaned and "상태" not in cleaned:
                     current_league = cleaned
                 continue
