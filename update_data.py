@@ -81,6 +81,10 @@ if not re.search(r"\d{2}:\d{2}", text_content):
                         home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
                         away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
+                        # [추가] '연기' 또는 '취소'된 경기는 수집 대상에서 제외
+                        if "연기" in status_str or "취소" in status_str or "연기" in home_team or "취소" in home_team:
+                        continue
+                            
                         if home_team and away_team and home_team != away_team:
                             matches.append({
                                 "id": len(matches) + 1,
