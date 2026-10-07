@@ -11,13 +11,17 @@ TARGET_URL = "https://www.scoreman123.com/football/fixture"
 
 @st.cache_data(ttl=30)
 def load_match_data():
-    # 1순위: 스코어맨 실시간 크롤링 (실제 DOM 구조 완벽 호환)
+    # 1순위: 스코어맨 실시간 크롤링 (세션 및 브라우저 호환 헤더 강화)
     try:
+        session = requests.Session()
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+            "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
             "Referer": "https://www.scoreman123.com/",
         }
-        response = requests.get(TARGET_URL, headers=headers, timeout=5)
+        response = session.get(TARGET_URL, headers=headers, timeout=7)
+        
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, "html.parser")
             matches = []
@@ -29,15 +33,14 @@ def load_match_data():
                 for row in rows:
                     classes = row.get("class", [])
                     
-                    # 스코어맨 리그 타이틀 행 감지 (Leaguestitle fbHead)
-                    if any("Leaguestitle" in c for c in classes) and any("fbHead" in c for c in classes):
+                    # 리그 타이틀 감지
+                    if any("Leaguestitle" in c for c in classes) or any("fbHead" in c for c in classes):
                         league_text = row.get_text(strip=True)
                         if league_text:
-                            # 아이콘 및 특수문자 정제 후 리그명 추출
                             current_league = re.sub(r'^[^\w\s]+\s*', '', league_text).replace("+", "").strip()
                         continue
                         
-                    # 스코어맨 경기 데이터 행 감지 (b2 클래스 또는 td가 6개 이상인 행)
+                    # 경기 데이터 행 감지
                     if "b2" in classes or len(row.find_all("td")) >= 6:
                         tds = row.find_all("td")
                         if len(tds) >= 6:
@@ -47,7 +50,6 @@ def load_match_data():
                             score_str = tds[4].get_text(strip=True)
                             away_raw = tds[5].get_text(strip=True)
 
-                            # 팀명 앞뒤 대괄호 메타데이터 정제 ([4] 그니스탄 -> 그니스탄)
                             home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
                             away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
@@ -69,11 +71,11 @@ def load_match_data():
                                 })
                 if matches:
                     return {
-                        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S (실시간 수집)"),
                         "matches": matches
                     }
     except Exception as e:
-        print(f"크롤링 중 예외 발생: {e}")
+        print(f"크롤링 예외: {e}")
 
     # 2순위: 로컬 data.json 백업 로드
     if os.path.exists("data.json"):
