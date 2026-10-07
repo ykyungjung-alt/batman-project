@@ -26,25 +26,30 @@ def update_json_file():
         soup = BeautifulSoup(driver.page_source, "html.parser")
         current_league = "해외축구 (실시간)"
 
-        # 페이지 내 모든 테이블 행 순회
         rows = soup.find_all("tr")
         for row in rows:
             tds = row.find_all("td")
             text_content = row.get_text(strip=True)
 
-            # 1) 리그 타이틀 행 감지 (스코어맨 구조: 셀이 2개 이하이면서 이미지가 포함되거나 시간이 없는 행)
+            # 1) 리그 타이틀 행 감지 (셀이 2개 이하이면서 시간이 포함되지 않고, 유효한 텍스트가 있는 경우)
             if len(tds) <= 2:
-                # 텍스트에 시간이 포함되어 있지 않고 무언가 이름이 있다면 리그명으로 간주
                 if text_content and not re.search(r"\d{2}:\d{2}", text_content):
+                    # 특수기호나 아이콘 문자 정제
                     cleaned_league = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
-                    if cleaned_league and len(cleaned_league) < 30:
+                    if cleaned_league and len(cleaned_league) > 1 and len(cleaned_league) < 40:
                         current_league = cleaned_league
                 continue
 
-            # 2) 경기 데이터 행 감지 (시간, 상태, 홈, 스코어, 원정 등이 포함된 6개 이상의 셀 구조)
+            # 2) 경기 데이터 행 감지 (6개 이상의 셀과 시간 형식 HH:MM 존재 여부 확인)
             if len(tds) >= 6:
-                time_str = tds[1].get_text(strip=True)
-                if not re.match(r"^\d{2}:\d{2}$", time_str):
+                time_str = ""
+                for td in tds:
+                    t_text = td.get_text(strip=True)
+                    if re.match(r"^\d{2}:\d{2}$", t_text):
+                        time_str = t_text
+                        break
+                
+                if not time_str:
                     continue
 
                 status_str = tds[2].get_text(strip=True)
@@ -52,7 +57,7 @@ def update_json_file():
                 score_str = tds[4].get_text(strip=True)
                 away_raw = tds[5].get_text(strip=True)
 
-                # 팀명과 순위 정제 ([4] 그니스탄 -> 그니스탄)
+                # 대괄호 순위 메타데이터 정제 (예: "[4] 그니스탄" -> "그니스탄")
                 home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
                 away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
@@ -74,7 +79,7 @@ def update_json_file():
                     })
 
     except Exception as e:
-        print(f"크롤링 및 파싱 중 오류 발생: {e}")
+        print(f"파싱 중 오류 발생: {e}")
     finally:
         driver.quit()
 
@@ -105,7 +110,7 @@ def update_json_file():
 
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
-    print(f"data.json 갱신 완료! 총 {len(matches)}개 경기 분류 및 저장됨")
+    print(f"data.json 최종 갱신 완료! 총 {len(matches)}경기 적재됨")
 
 if __name__ == "__main__":
     update_json_file()
