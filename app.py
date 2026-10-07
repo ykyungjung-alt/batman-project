@@ -228,93 +228,6 @@ with tabs[1]:
       f"#### 예시표 1-1: 홈 팀 ({home_team}) 최근 공식 7경기 전수 LIFO 표"
   )
   h_lifi_df = pd.DataFrame({
-      "LIFO 순서":
-
-# 탭 구성 정의 (0단계부터 7단계 요약까지)
-tab_titles = [
-    "0단계 (메타)",
-    "규칙 1 (LIFO 7경기)",
-    "규칙 2 (구장 Shift)",
-    "규칙 3 (누수·피로)",
-    "규칙 4 (H2H 상성)",
-    "규칙 5 (최종 람다)",
-    "규칙 6 (푸아송 예측)",
-    "요약 리포트",
-]
-tabs = st.tabs(tab_titles)
-
-# 0단계 메타 화면 출력
-with tabs[0]:
-  st.markdown(
-    "## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]"
-)
-  st.markdown(
-    "친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를"
-    " 고정합니다. (SSOT 원칙 적용)"
-)
-  st.table({
-    "메타 항목": [
-        "대회 성격",
-        "기준 경기 일시",
-        "구장 정보",
-        "대결 정보",
-        "필터 검증 결과",
-    ],
-    "내용": [
-        selected_match.get("tournament", "리그"),
-        f"{selected_match.get('time', '시간')} (공식 지정 경기)",
-        f"{selected_match.get('home_team', '홈')} 홈구장",
-        (
-            f"{selected_match.get('home_team', '홈')} (홈) vs"
-            f" {selected_match.get('away_team', '원정')} (원정)"
-        ),
-        "PASS (공식 경기 유효성 검증 완료)",
-    ],
-})
-
-# --- [1단계] ---
-with tabs[1]:
-  st.markdown(
-      f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] -"
-      f" {home_team} vs {away_team}"
-  )
-  st.markdown(
-      """
-        <div class="step-box">
-            <b>📌 규격 원칙 및 요약 설명:</b><br>
-            • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 7개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여하고 각 경기 상대팀에 '상대 공·방 티어'를 배치합니다.<br>
-            • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 FIFA/대륙연맹 주관 공식 A매치 및 공식 예선·토너먼트 경기만을 채택합니다.<br>
-            • <b>특수 룰 (경고등 프로토콜 및 50% 할인):</b> E티어 상대 득점 50% 할인, A티어 상대 실점 50% 할인 및 경고등 발동 프로토콜을 적용합니다.
-        </div>
-    """,
-      unsafe_allow_html=True,
-  )
-
-  st.markdown("#### 공수 티어 가중치 부호 비대칭 규격 기준표")
-  tier_weight_df = pd.DataFrame({
-      "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
-      "공격력 기준 (평균 득점)": [
-          "2.3골 이상",
-          "1.7 ~ 2.2골 미만",
-          "1.1 ~ 1.6골 미만",
-          "0.5 ~ 1.1골 미만",
-          "0.5골 미만 (< 0.5)",
-      ],
-      "공격 가중치": ["+8.0%", "+6.0%", "+4.0%", "+2.0%", "0.0% (최하위)"],
-      "방어력 기준 (평균 실점)": [
-          "0.5골 미만 (< 0.5)",
-          "0.5 ~ 0.9골 미만",
-          "0.9 ~ 1.3골 미만",
-          "1.3 ~ 1.7골 미만",
-          "1.7골 이상",
-      ],
-      "방어 가중치": ["-8.0% (최상위)", "-6.0%", "-4.0%", "-2.0%", "0.0%"],
-  })
-  st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
-
-  st.markdown("---")
-  st.markdown(f"#### 예시표 1-1: 홈 팀 ({home_team}) 최근 공식 7경기 전수 LIFO 표")
-  h_lifi_df = pd.DataFrame({
       "LIFO 순서": ["최신 (1)", "2", "3", "4", "5", "6", "과거 (7)"],
       "경기 일시": [
           "2026-06-06",
@@ -348,23 +261,14 @@ with tabs[1]:
       ],
   })
   st.dataframe(h_lifi_df, use_container_width=True, hide_index=True)
-
   st.markdown(
-      f"""
-        <div class="calc-box">
-            <b>{home_team} 규칙 1번 상세 산출 내역:</b><br>
-            • 최근 7경기 득실: 득점 19, 실점 8<br>
-            • 기본기대값: 평균 득점 2.71 / 평균 실점 1.14<br>
-            • 경고등 발동 조건 충족 E티어에 해당하는 싱가포르전의 득점 7점을 50% 할인 적용하여 3.5점으로 계산한 총득점 15.5 (평균 득점 2.21)로 <b>공격력 Tier A에서 공격력 Tier B로 변동</b><br>
-            • 정량 공식 대조 체급: <b>공격력 Tier B, 방어력 Tier C</b><br>
-            • 기초 가중치: <b>공격 +6%, 방어 -4%</b>
-        </div>
-    """,
+      f""" <div class="calc-box"> <b>{home_team} 규칙 1번 상세 산출 내역:</b><br> • 최근 7경기 득실: 득점 19, 실점 8<br> • 기본기대값: 평균 득점 2.71 / 평균 실점 1.14<br> • 경고등 발동 조건 충족 E티어에 해당하는 싱가포르전의 득점 7점을 50% 할인 적용하여 3.5점으로 계산한 총득점 15.5 (평균 득점 2.21)로 <b>공격력 Tier A에서 공격력 Tier B로 변동</b><br> • 정량 공식 대조 체급: <b>공격력 Tier B, 방어력 Tier C</b><br> • 기초 가중치: <b>공격 +6%, 방어 -4%</b> </div> """,
       unsafe_allow_html=True,
   )
-
   st.markdown("---")
-  st.markdown(f"#### 예시표 1-2: 원정 팀 ({away_team}) 최근 공식 7경기 전수 LIFO 표")
+  st.markdown(
+      f"#### 예시표 1-2: 원정 팀 ({away_team}) 최근 공식 7경기 전수 LIFO 표"
+  )
   a_lifi_df = pd.DataFrame({
       "LIFO 순서": ["최신 (1)", "2", "3", "4", "5", "6", "과거 (7)"],
       "경기 일시": [
@@ -399,18 +303,8 @@ with tabs[1]:
       ],
   })
   st.dataframe(a_lifi_df, use_container_width=True, hide_index=True)
-
   st.markdown(
-      f"""
-        <div class="calc-box">
-            <b>{away_team} 규칙 1번 상세 산출 내역:</b><br>
-            • 최근 7경기 득실: 득점 19, 실점 2<br>
-            • 기본 기대값: 평균 득점 2.71 / 평균 실점 0.28<br>
-            • 경고등 발동 조건 충족 E티어에 해당하는 시리아(5점), 미얀마(5점)전의 E티어 득점 10점을 50% 할인 적용하여 5점으로 계산한 총득점 14 (평균 득점 2.00)로 <b>공격력 Tier A에서 공격력 Tier B로 변동</b><br>
-            • 정량 공식 대조 체급: <b>공격력 Tier B, 방어력 Tier A</b><br>
-            • 기초 가중치: <b>공격 +6%, 방어 -8%</b>
-        </div>
-    """,
+      f""" <div class="calc-box"> <b>{away_team} 규칙 1번 상세 산출 내역:</b><br> • 최근 7경기 득실: 득점 19, 실점 2<br> • 기본 기대값: 평균 득점 2.71 / 평균 실점 0.28<br> • 경고등 발동 조건 충족 E티어에 해당하는 시리아(5점), 미얀마(5점)전의 E티어 득점 10점을 50% 할인 적용하여 5점으로 계산한 총득점 14 (평균 득점 2.00)로 <b>공격력 Tier A에서 공격력 Tier B로 변동</b><br> • 정량 공식 대조 체급: <b>공격력 Tier B, 방어력 Tier A</b><br> • 기초 가중치: <b>공격 +6%, 방어 -8%</b> </div> """,
       unsafe_allow_html=True,
   )
 
@@ -421,18 +315,9 @@ with tabs[2]:
       f" {home_team} vs {away_team}"
   )
   st.markdown(
-      """
-        <div class="step-box">
-            <b>📌 규격 원칙 및 요약 설명:</b><br>
-            • <b>구장별 LIFO 대조:</b> 홈 구장 또는 원정 구장별 순수 최근 7경기 역순 전수 대조를 통한 Shift 변동성 검증을 수행합니다.<br>
-            • <b>티어변동 보정치:</b> 각 팀의 티어 변동이 있는지 확인하고 변동이 있을 시 보정치 공격 ±15%, 방어 ±15%를 적용합니다.<br>
-            • <b>상대 공수 티어 필수 태깅:</b> 각 구장별 7경기에 출전한 상대 팀의 공수 티어(Tier A~E)를 개별적으로 태깅합니다.<br>
-            • <b>중립구장 경기 룰:</b> 양팀이 중립구장에서 경기를 진행할 경우 양쪽 다 원정 최근 7경기를 적용하여 검증합니다.
-        </div>
-    """,
+      """ <div class="step-box"> <b>📌 규격 원칙 및 요약 설명:</b><br> • <b>구장별 LIFO 대조:</b> 홈 구장 또는 원정 구장별 순수 최근 7경기 역순 전수 대조를 통한 Shift 변동성 검증을 수행합니다.<br> • <b>티어변동 보정치:</b> 각 팀의 티어 변동이 있는지 확인하고 변동이 있을 시 보정치 공격 ±15%, 방어 ±15%를 적용합니다.<br> • <b>상대 공수 티어 필수 태깅:</b> 각 구장별 7경기에 출전한 상대 팀의 공수 티어(Tier A~E)를 개별적으로 태깅합니다.<br> • <b>중립구장 경기 룰:</b> 양팀이 중립구장에서 경기를 진행할 경우 양쪽 다 원정 최근 7경기를 적용하여 검증합니다. </div> """,
       unsafe_allow_html=True,
   )
-
   st.markdown(
       f"#### 예시표 2-1: 홈 팀 ({home_team}) - 홈 구장 기준 최근 공식 7경기 전수"
       " LIFO 대조 표"
@@ -471,22 +356,10 @@ with tabs[2]:
       ],
   })
   st.dataframe(kor_g2_df, use_container_width=True, hide_index=True)
-
   st.markdown(
-      f"""
-        <div class="calc-box">
-            <b>{home_team} 규칙 2번 상세 산출 내역:</b><br>
-            • 최근 7경기 득실: 득점 24, 실점 6 (평균 득점 3.42 / 평균 실점 0.86)<br>
-            • 경고등 발동 조건 충족 E티어에 해당하는 싱가포르(7점), 싱가포르(5점), 베트남(6점) 전의 득점 18점을 50% 할인 적용하여 9점으로 계산한 총득점 15 (평균 득점 2.14) 공격력 Tier B<br>
-            • 정량 공식 대조 체급: <b>공격력 Tier B, 방어력 Tier B</b><br>
-            • 홈 구장 Shift 검증 결과: 규칙 1과 규칙 2에서의 변동성(Shift)<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;- 공격력 B ➔ 공격력 B (변동없음) 0%<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;- 방어력 C ➔ 방어력 B (상향보정) 방어 -15%
-        </div>
-    """,
+      f""" <div class="calc-box"> <b>{home_team} 규칙 2번 상세 산출 내역:</b><br> • 최근 7경기 득실: 득점 24, 실점 6 (평균 득점 3.42 / 평균 실점 0.86)<br> • 경고등 발동 조건 충족 E티어에 해당하는 싱가포르(7점), 싱가포르(5점), 베트남(6점) 전의 득점 18점을 50% 할인 적용하여 9점으로 계산한 총득점 15 (평균 득점 2.14) 공격력 Tier B<br> • 정량 공식 대조 체급: <b>공격력 Tier B, 방어력 Tier B</b><br> • 홈 구장 Shift 검증 결과: 규칙 1과 규칙 2에서의 변동성(Shift)<br> &nbsp;&nbsp;&nbsp;&nbsp;- 공격력 B ➔ 공격력 B (변동없음) 0%<br> &nbsp;&nbsp;&nbsp;&nbsp;- 방어력 C ➔ 방어력 B (상향보정) 방어 -15% </div> """,
       unsafe_allow_html=True,
   )
-
   st.markdown("---")
   st.markdown(
       f"#### 예시표 2-2: 원정 팀 ({away_team}) - 원정 구장 기준 최근 공식 7경기"
@@ -526,19 +399,8 @@ with tabs[2]:
       ],
   })
   st.dataframe(jpn_g2_df, use_container_width=True, hide_index=True)
-
   st.markdown(
-      f"""
-        <div class="calc-box">
-            <b>{away_team} 규칙 2번 상세 산출 내역:</b><br>
-            • 최근 7경기 득실: 득점 24, 실점 5 (평균 득점 3.42 / 평균 실점 0.71)<br>
-            • 경고등 발동 조건 충족 E티어에 해당하는 미얀마(5점), 시리아(5점) 전의 득점 10점을 50% 할인 적용하여 5점으로 계산한 총득점 24에서 19로 변경 (평균 득점 2.71) 공격력 Tier A<br>
-            • 정량 공식 대조 체급: <b>공격력 Tier A, 방어력 Tier B</b><br>
-            • 원정 구장 Shift 검증 결과: 규칙 1과 규칙 2에서의 변동성(Shift)<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;- 공격력 B ➔ 공격력 A (상향조정) 공격 +15%<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;- 방어력 A ➔ 방어력 B (하향조정) 방어 +15%
-        </div>
-    """,
+      f""" <div class="calc-box"> <b>{away_team} 규칙 2번 상세 산출 내역:</b><br> • 최근 7경기 득실: 득점 24, 실점 5 (평균 득점 3.42 / 평균 실점 0.71)<br> • 경고등 발동 조건 충족 E티어에 해당하는 미얀마(5점), 시리아(5점) 전의 득점 10점을 50% 할인 적용하여 5점으로 계산한 총득점 24에서 19로 변경 (평균 득점 2.71) 공격력 Tier A<br> • 정량 공식 대조 체급: <b>공격력 Tier A, 방어력 Tier B</b><br> • 원정 구장 Shift 검증 결과: 규칙 1과 규칙 2에서의 변동성(Shift)<br> &nbsp;&nbsp;&nbsp;&nbsp;- 공격력 B ➔ 공격력 A (상향조정) 공격 +15%<br> &nbsp;&nbsp;&nbsp;&nbsp;- 방어력 A ➔ 방어력 B (하향조정) 방어 +15% </div> """,
       unsafe_allow_html=True,
   )
 
@@ -549,35 +411,26 @@ with tabs[3]:
       f" {home_team} vs {away_team}"
   )
   st.markdown(
-      """
-        <div class="step-box">
-            <b>📌 규칙 3-1 (선수 전력 변동: 누수 및 가산) 규격 요약:</b><br>
-            • <b>정량 수치 모델 적용:</b> 매체 보도 등 기초 사실(Fact)을 바탕으로 하되, 분석 및 스코어 도출은 엄격한 정량 수치 모델을 적용합니다.<br>
-            • <b>부호 대칭 규격:</b> 누수(부상·징계·이적 이탈)는 공격력 음수(-), 방어력 양수(+) / 가산(복귀·신규 입단)은 공격력 양수(+), 방어력 음수(-)를 적용합니다.<br>
-            • <b>포지션별 반감(Halved) 규칙:</b> 공격 자원(FW/AMF)의 방어 보정과 수비 자원(DF/DMF/GK)의 공격 보정은 1/2로 반감 적용합니다 (상: 7%, 중: 3.5%, 하: 0%).
-        </div>
-    """,
+      """ <div class="step-box"> <b>📌 규칙 3-1 (선수 전력 변동: 누수 및 가산) 규격 요약:</b><br> • <b>정량 수치 모델 적용:</b> 매체 보도 등 기초 사실(Fact)을 바탕으로 하되, 분석 및 스코어 도출은 엄격한 정량 수치 모델을 적용합니다.<br> • <b>부호 대칭 규격:</b> 누수(부상·징계·이적 이탈)는 공격력 음수(-), 방어력 양수(+) / 가산(복귀·신규 입단)은 공격력 양수(+), 방어력 음수(-)를 적용합니다.<br> • <b>포지션별 반감(Halved) 규칙:</b> 공격 자원(FW/AMF)의 방어 보정과 수비 자원(DF/DMF/GK)의 공격 보정은 1/2로 반감 적용합니다 (상: 7%, 중: 3.5%, 하: 0%). </div> """,
       unsafe_allow_html=True,
   )
-
   st.markdown("#### 선수 등급(상/중/하) 정량 판정 기준표")
   html_table = """
     <style>
-        .custom-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 14px; }
-        .custom-table th, .custom-table td { border: 1px solid #e0e0e0; padding: 10px 12px; text-align: left; }
-        .custom-table th { background-color: #f5f5f5; font-weight: bold; }
+    .custom-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 14px; }
+    .custom-table th, .custom-table td { border: 1px solid #e0e0e0; padding: 10px 12px; text-align: left; }
+    .custom-table th { background-color: #f5f5f5; font-weight: bold; }
     </style>
     <table class="custom-table">
-        <thead><tr><th>전력 등급</th><th>포지션</th><th>정량적 스펙 및 평가 기준</th><th>보정 비율</th></tr></thead>
-        <tbody>
-            <tr><td>상 (High)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 팀 내 득점/도움 1~2위 또는 선발 출전율 80% 이상<br>• [DF/GK] 클린시트 기여 1위 / 경기당 평균 실점 1.0 이하</td><td>14%<br>(공격: -14% / 방어: +14%)</td></tr>
-            <tr><td>중 (Medium)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 선발 출전율 50% ~ 79% / 핵심 주전 로테이션<br>• [DF/GK] 주전 수비수·골키퍼 / 태클·인터셉트 상위권</td><td>7%<br>(공격: -7% / 방어: +7%)</td></tr>
-            <tr><td>하 (Low)</td><td>공용</td><td>• 선발 출전율 50% 미만 / 백업 및 후보 자원 (결장 시 수비/공격 수치 변화 미비)</td><td>0%</td></tr>
-        </tbody>
+    <thead><tr><th>전력 등급</th><th>포지션</th><th>정량적 스펙 및 평가 기준</th><th>보정 비율</th></tr></thead>
+    <tbody>
+    <tr><td>상 (High)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 팀 내 득점/도움 1~2위 또는 선발 출전율 80% 이상<br>• [DF/GK] 클린시트 기여 1위 / 경기당 평균 실점 1.0 이하</td><td>14%<br>(공격: -14% / 방어: +14%)</td></tr>
+    <tr><td>중 (Medium)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 선발 출전율 50% ~ 79% / 핵심 주전 로테이션<br>• [DF/GK] 주전 수비수·골키퍼 / 태클·인터셉트 상위권</td><td>7%<br>(공격: -7% / 방어: +7%)</td></tr>
+    <tr><td>하 (Low)</td><td>공용</td><td>• 선발 출전율 50% 미만 / 백업 및 후보 자원 (결장 시 수비/공격 수치 변화 미비)</td><td>0%</td></tr>
+    </tbody>
     </table>
     """
   st.markdown(html_table, unsafe_allow_html=True)
-
   st.markdown(f"#### 예시표 3-1: 구단명 - {home_team} 선수 전력 변동 매트릭스")
   table_3_1_kor = pd.DataFrame({
       "선수 실명": ["손흥민", "김민재", "[총합]"],
@@ -599,13 +452,16 @@ with tabs[3]:
       ],
   })
   st.dataframe(table_3_1_kor, use_container_width=True, hide_index=True)
-
   st.markdown(f"#### 예시표 3-1: 구단명 - {away_team} 선수 전력 변동 매트릭스")
   table_3_1_jpn = pd.DataFrame({
       "선수 실명": ["엔도 와타루", "쿠보 타케후사", "[총합]"],
       "포지션": ["MF", "FW", "-"],
       "변동 유형": ["누수", "가산", "-"],
-      "핵심 영향력": ["주전 수비형 MF", "주전 윙어", f"{away_team} 최종 가중치"],
+      "핵심 영향력": [
+          "주전 수비형 MF",
+          "주전 윙어",
+          f"{away_team} 최종 가중치",
+      ],
       "시즌 누적 스탯 (수비/공격)": [
           "5골 3도움 / 28경기 / 인터셉트 2.1회",
           "12골 8도움 (출전율 89%)",
@@ -614,13 +470,14 @@ with tabs[3]:
       "등급": ["중 (Medium)", "상 (High)", "-"],
       "공격 보정": ["-3.5%", "+14%", "+10.5%"],
       "방어 보정": ["+7%", "-7%", "0%"],
-      "비고": ["경고 누적 결장", "대표팀 차출 복귀", "최종 누적 보정치"],
+      "비고": [
+          "경고 누적 결장",
+          "대표팀 차출 복귀",
+          "최종 누적 보정치",
+      ],
   })
   st.dataframe(table_3_1_jpn, use_container_width=True, hide_index=True)
-
-  st.markdown(
-      "#### 예시표 3-2: 5포인트 시계열 타임라인 및 이동 피로도 매트릭스 표"
-  )
+  st.markdown("#### 예시표 3-2: 5포인트 시계열 타임라인 및 이동 피로도 매트릭스 표")
   matrix_3_2_df = pd.DataFrame({
       "팀명": [f"홈 팀 ({home_team})", f"원정 팀 ({away_team})"],
       "경기 일시": [str(match_date), str(match_date)],
@@ -641,15 +498,8 @@ with tabs[3]:
       ],
   })
   st.dataframe(matrix_3_2_df, use_container_width=True, hide_index=True)
-
   st.markdown(
-      f"""
-        <div class="calc-box">
-            <b>규칙 3번 상세 산출 내역:</b><br>
-            • <b>{home_team}:</b> 규칙 3-1 (공격 -7%, 방어 -7%)<br>
-            • <b>{away_team}:</b> 규칙 3-1 (공격 +10.5%, 방어 0%) / 규칙 3-2 (공격 -5%, 방어 +5%)
-        </div>
-    """,
+      f""" <div class="calc-box"> <b>규칙 3번 상세 산출 내역:</b><br> • <b>{home_team}:</b> 규칙 3-1 (공격 -7%, 방어 -7%)<br> • <b>{away_team}:</b> 규칙 3-1 (공격 +10.5%, 방어 0%) / 규칙 3-2 (공격 -5%, 방어 +5%) </div> """,
       unsafe_allow_html=True,
   )
 
@@ -660,19 +510,12 @@ with tabs[4]:
       f" {home_team} vs {away_team}"
   )
   st.markdown(
-      """
-        <div class="step-box">
-            <b>📌 규칙 4번 규격 원칙 및 요약 설명:</b><br>
-            • <b>전수 조사 대상:</b> 역대 공식 맞대결 최근 10경기 전수 조사 (5경기 미만일 시 동등 팀으로 간주)<br>
-            • <b>친선전 전면 배제:</b> 친선 경기는 전면 배제하고 오직 공식 A매치 및 대회 맞대결 기록만을 표본으로 채택합니다.<br>
-            • <b>단방향 10% 룰 (Single-Direction Rule):</b> 통산 승률 50% 이상인 상성 우세 팀에게 공격력 +10% 및 방어력 -10% 단방향 상성 보정을 동시 부여합니다 (열세 또는 동등 팀은 0% 고정).<br>
-            • <b>'단방향'인 이유:</b> 상대 팀 수치를 깎아내리는 방식이 아니라, 승률 50% 이상으로 상성 우위를 입증한 우세 팀에게만 보정(+10% / -10%)을 더해주고 열세 팀은 0%로 고정하기 때문입니다.
-        </div>
-    """,
+      """ <div class="step-box"> <b>📌 규칙 4번 규격 원칙 및 요약 설명:</b><br> • <b>전수 조사 대상:</b> 역대 공식 맞대결 최근 10경기 전수 조사 (5경기 미만일 시 동등 팀으로 간주)<br> • <b>친선전 전면 배제:</b> 친선 경기는 전면 배제하고 오직 공식 A매치 및 대회 맞대결 기록만을 표본으로 채택합니다.<br> • <b>단방향 10% 룰 (Single-Direction Rule):</b> 통산 승률 50% 이상인 상성 우세 팀에게 공격력 +10% 및 방어력 -10% 단방향 상성 보정을 동시 부여합니다 (열세 또는 동등 팀은 0% 고정).<br> • <b>'단방향'인 이유:</b> 상대 팀 수치를 깎아내리는 방식이 아니라, 승률 50% 이상으로 상성 우위를 입증한 우세 팀에게만 보정(+10% / -10%)을 더해주고 열세 팀은 0%로 고정하기 때문입니다. </div> """,
       unsafe_allow_html=True,
   )
-
-  st.markdown(f"#### 예시표 4: {home_team} 기준 역대 공식 맞대결 최근 10경기 전수 표")
+  st.markdown(
+      f"#### 예시표 4: {home_team} 기준 역대 공식 맞대결 최근 10경기 전수 표"
+  )
   h2h_df = pd.DataFrame({
       "H2H 순서": [
           "1 (최신)",
@@ -737,16 +580,8 @@ with tabs[4]:
       "경기 결과 판정": ["패", "승", "승", "무", "패", "패", "무", "승", "승", "무"],
   })
   st.dataframe(h2h_df, use_container_width=True, hide_index=True)
-
   st.markdown(
-      f"""
-        <div class="calc-box">
-            <b>규칙 4번 상세 산출 내역:</b><br>
-            • {home_team}: 10전 4승 3무 3패 (승률 40%)<br>
-            • {away_team}: 10전 3승 3무 4패 (승률 30%)<br>
-            • 판정 결과: <b>양팀 우세 없이 동등 0% 고정</b>
-        </div>
-    """,
+      f""" <div class="calc-box"> <b>규칙 4번 상세 산출 내역:</b><br> • {home_team}: 10전 4승 3무 3패 (승률 40%)<br> • {away_team}: 10전 3승 3무 4패 (승률 30%)<br> • 판정 결과: <b>양팀 우세 없이 동등 0% 고정</b> </div> """,
       unsafe_allow_html=True,
   )
 
@@ -757,16 +592,9 @@ with tabs[5]:
       f" - {home_team} vs {away_team}"
   )
   st.markdown(
-      f"""
-        <div class="step-box">
-            <b>📌 규칙 5-1 (2단계 공수 이원화 모델 및 기하평균 결합):</b><br>
-            • <b>설계 철학:</b> 단순 비율 곱연산의 수치 부풀림을 차단하고, 공격 화력과 상대 수비벽의 저항력을 격리하여 '최대 득점 상한선(λ_max)'과 '최소 실점 하한선(λ_min)'을 독립 산출한 뒤 기하평균으로 결합합니다.<br>
-            • <b>산출 결과:</b> {home_team}(홈) 기대 득점 0.94골 / 예상 실점 1.70골, {away_team}(원정) 기대 득점 1.70골 / 예상 실점 0.94골.
-        </div>
-    """,
+      f""" <div class="step-box"> <b>📌 규칙 5-1 (2단계 공수 이원화 모델 및 기하평균 결합):</b><br> • <b>설계 철학:</b> 단순 비율 곱연산의 수치 부풀림을 차단하고, 공격 화력과 상대 수비벽의 저항력을 격리하여 '최대 득점 상한선(λ_max)'과 '최소 실점 하한선(λ_min)'을 독립 산출한 뒤 기하평균으로 결합합니다.<br> • <b>산출 결과:</b> {home_team}(홈) 기대 득점 0.94골 / 예상 실점 1.70골, {away_team}(원정) 기대 득점 1.70골 / 예상 실점 0.94골. </div> """,
       unsafe_allow_html=True,
   )
-
   st.markdown("#### 예시표 5-1: 최종 보정치 및 1차 기본 기대 득실점 산출 표")
   ex5_1_df = pd.DataFrame({
       "구분 항목": [
@@ -815,20 +643,14 @@ with tabs[5]:
       ],
   })
   st.dataframe(ex5_1_df, use_container_width=True, hide_index=True)
-
   st.markdown("---")
   st.markdown(
-      """
-        <div class="step-box">
-            <b>📌 규칙 5-2 (티어 매칭 실전 득실 평균 교차 검증):</b><br>
-            • 상대방 공격력·방어력 동급 티어 최근 상대 전적 7경기를 산출해 실전 평균 득실로 비교 검증합니다.<br>
-            • 티어 차이가 2단계 이상 벌어질 경우 A나 E티어에 가까운 티어에 비중을 더 두고 유사 팀을 탐색합니다.
-        </div>
-    """,
+      """ <div class="step-box"> <b>📌 규칙 5-2 (티어 매칭 실전 득실 평균 교차 검증):</b><br> • 상대방 공격력·방어력 동급 티어 최근 상대 전적 7경기를 산출해 실전 평균 득실로 비교 검증합니다.<br> • 티어 차이가 2단계 이상 벌어질 경우 A나 E티어에 가까운 티어에 비중을 더 두고 유사 팀을 탐색합니다. </div> """,
       unsafe_allow_html=True,
   )
-
-  st.markdown(f"#### 예시표 5-2: {home_team} - 상대방 동급(A/B티어) 상대 최근 5경기 전수 표")
+  st.markdown(
+      f"#### 예시표 5-2: {home_team} - 상대방 동급(A/B티어) 상대 최근 5경기 전수 표"
+  )
   kor_5_2_df = pd.DataFrame({
       "순서": ["1 (최신)", "2", "3", "4", "5 (과거)"],
       "경기 일시": [
@@ -875,7 +697,6 @@ with tabs[5]:
       f"• **{home_team} 5경기 총합:** 7득점 / 6실점 &nbsp;|&nbsp; **실전"
       " 평균:** 평균 득점 1.40골 / 평균 실점 1.20골"
   )
-
   st.markdown(
       f"#### 예시표 5-2: {away_team} - 상대방 동급(B/B티어) 상대 최근 5경기"
       " 전수 표"
@@ -926,29 +747,13 @@ with tabs[5]:
       f"• **{away_team} 5경기 총합:** 12득점 / 7실점 &nbsp;|&nbsp; **실전"
       " 평균:** 평균 득점 2.40골 / 평균 실점 1.40골"
   )
-
   st.markdown("---")
   st.markdown(
-      """
-        <div class="step-box">
-            <b>📌 규칙 5-3 (다득점/체급차 변동성 보정 - Over Factor):</b><br>
-            • 체급 격차형 (티어 차이 2단계 이상): 하위 팀 수비 조직력 붕괴를 반영하여 상위 팀 공격력에 추가 득점 가산 (2단계 +10%, 3단계 +20%, 4단계 +30%).<br>
-            • 동급 난타전형 (total > 3.2 또는 양 팀 실점 하한선 ≥ 1.50): 양 팀 화력 보존 및 수비 불안을 반영해 양 팀 득점력에 +15% 추가 득점 가산.<br>
-            • 표준/저득점형 (동급 비등한 경기): Over Factor = 0% (λ_final = λ_base 유효).
-        </div>
-    """,
+      """ <div class="step-box"> <b>📌 규칙 5-3 (다득점/체급차 변동성 보정 - Over Factor):</b><br> • 체급 격차형 (티어 차이 2단계 이상): 하위 팀 수비 조직력 붕괴를 반영하여 상위 팀 공격력에 추가 득점 가산 (2단계 +10%, 3단계 +20%, 4단계 +30%).<br> • 동급 난타전형 (total > 3.2 또는 양 팀 실점 하한선 ≥ 1.50): 양 팀 화력 보존 및 수비 불안을 반영해 양 팀 득점력에 +15% 추가 득점 가산.<br> • 표준/저득점형 (동급 비등한 경기): Over Factor = 0% (λ_final = λ_base 유효). </div> """,
       unsafe_allow_html=True,
   )
-
   st.markdown(
-      """
-        <div class="step-box">
-            <b>📌 규칙 5-4 (이원화 동적 골 범위 행렬 확정 - Dynamic Goal Range):</b><br>
-            • <b>저득점 통제 구역 (total < 2.2골):</b> 0 ~ 3골 범위 (4×4 행렬)<br>
-            • <b>표준 득점 구역 (2.2 ≤ total ≤ 3.2골):</b> 0 ~ 4골 범위 (5×5 행렬 - 기본)<br>
-            • <b>다득점 변동 구역 (total > 3.2골 또는 티어 격차 2단계 이상):</b> 0 ~ 6골 / 0 ~ 7골 동적 확장 행렬
-        </div>
-    """,
+      """ <div class="step-box"> <b>📌 규칙 5-4 (이원화 동적 골 범위 행렬 확정 - Dynamic Goal Range):</b><br> • <b>저득점 통제 구역 (total < 2.2골):</b> 0 ~ 3골 범위 (4×4 행렬)<br> • <b>표준 득점 구역 (2.2 ≤ total ≤ 3.2골):</b> 0 ~ 4골 범위 (5×5 행렬 - 기본)<br> • <b>다득점 변동 구역 (total > 3.2골 또는 티어 격차 2단계 이상):</b> 0 ~ 6골 / 0 ~ 7골 동적 확장 행렬 </div> """,
       unsafe_allow_html=True,
   )
 
@@ -959,17 +764,9 @@ with tabs[6]:
       f" {home_team} vs {away_team}"
   )
   st.markdown(
-      """
-        <div class="step-box">
-            <b>📌 예상스코어 순위 산출 방법 규격:</b><br>
-            • <b>1순위 (최적합):</b> 규칙 5-2의 실전 교차 검증 결과에 가장 적합한 결과값을 최우선으로 선정합니다.<br>
-            • <b>2순위 (차선책):</b> 1순위를 제외한 푸아송 확률이 가장 높은 결과값을 선정합니다.<br>
-            • <b>3순위 (대안책):</b> 푸아송 결과값에 의거하여 가장 큰 확률 비중을 차지하는 점수 차이 합산.
-        </div>
-    """,
+      """ <div class="step-box"> <b>📌 예상스코어 순위 산출 방법 규격:</b><br> • <b>1순위 (최적합):</b> 규칙 5-2의 실전 교차 검증 결과에 가장 적합한 결과값을 최우선으로 선정합니다.<br> • <b>2순위 (차선책):</b> 1순위를 제외한 푸아송 확률이 가장 높은 결과값을 선정합니다.<br> • <b>3순위 (대안책):</b> 푸아송 결과값에 의거하여 가장 큰 확률 비중을 차지하는 점수 차이 합산. </div> """,
       unsafe_allow_html=True,
   )
-
   st.markdown("#### 예시표 6: 최종 통합 흐름 매트릭스 및 예상 스코어 산출 표")
   ex6_df = pd.DataFrame({
       "규칙 단계": [
@@ -1036,7 +833,6 @@ with tabs[7]:
       " 정량 연산 지표를 통합 요약한 마스터 표입니다.</div>",
       unsafe_allow_html=True,
   )
-
   summary_report_df = pd.DataFrame({
       "분석 단계": [
           "0단계 (메타)",
