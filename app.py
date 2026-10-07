@@ -115,11 +115,11 @@ matches = data.get("matches", [])
 last_updated_time = data.get("last_updated", "알 수 없음")
 
 st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
-   st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
+st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
 
-   st.sidebar.markdown("---")
-   st.sidebar.markdown(f"🕒 **데이터 갱신 시각 (KST)**\n\n `{last_updated_time}`")
-   st.sidebar.subheader("🏆 실시간 수집 대진 선택")
+st.sidebar.markdown("---")
+st.sidebar.markdown(f"🕒 **데이터 갱신 시각 (KST)**\n\n `{last_updated_time}`")
+st.sidebar.subheader("🏆 실시간 수집 대진 선택")
 
 if matches:
     match_options = [m["match_name"] for m in matches]
