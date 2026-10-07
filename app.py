@@ -23,21 +23,20 @@ def load_match_data():
             matches = []
             current_league = "해외축구 (실시간)"
             
-            # table_live 테이블 명시적 탐색
             table = soup.find("table", id="table_live")
             if table:
                 rows = table.find_all("tr")
                 for row in rows:
                     classes = row.get("class", [])
                     
-                    # 1) 리그 타이틀 행 감지 (Leaguestitle fbHead)
+                    # 리그 타이틀 행 감지 (Leaguestitle fbHead)
                     if any("Leaguestitle" in str(c) for c in classes) and any("fbHead" in str(c) for c in classes):
                         league_text = row.get_text(strip=True)
                         if league_text:
                             current_league = re.sub(r'^[^\w\s]+\s*', '', league_text).replace("+", "").strip()
                         continue
                         
-                    # 2) 경기 데이터 행 감지 (td 셀이 6개 이상인 일반 행)
+                    # 경기 데이터 행 감지 (td 셀이 6개 이상인 일반 행)
                     tds = row.find_all("td")
                     if len(tds) >= 6:
                         time_str = tds[1].get_text(strip=True)
@@ -135,21 +134,16 @@ def load_match_data():
         ]
     }
 
-# 데이터 및 한국 시간 갱신 시각 초기화
+# 데이터 로드 (단일 선언)
 data = load_match_data()
 matches = data.get("matches", [])
 last_updated_time = data.get("last_updated", "알 수 없음")
 
-# 데이터 로드 및 변수 초기화 (중복 선언 방지)
-data = load_match_data()
-matches = data.get("matches", [])
-last_updated_time = data.get("last_updated", "알 수 없음")
-
-# 메인 헤더 (단일 선언)
+# 메인 헤더
 st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
 st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
 
-# 사이드바 구성 (중복 없이 한 번만 선언)
+# 사이드바 구성
 st.sidebar.markdown("---")
 st.sidebar.markdown(f"🕒 **데이터 갱신 시각**\n\n `{last_updated_time}`")
 st.sidebar.subheader("🏆 실시간 수집 대진 선택")
@@ -160,7 +154,7 @@ if matches:
         "분석할 경기를 선택하세요:",
         match_options,
         index=0,
-        key="match_radio_selection" # 고유 키값을 주어 중복 충돌 방지
+        key="match_radio_selection"
     )
     selected_match = next((m for m in matches if m["match_name"] == selected_match_name), matches[0])
 else:
