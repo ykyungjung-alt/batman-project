@@ -17,13 +17,13 @@ def load_match_data():
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
             "Referer": "https://www.scoreman123.com/"
         }
-        response = requests.get(TARGET_URL, headers=headers, timeout=5)
+        response = requests.get(TARGET_URL, headers=headers, timeout=7)
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, "html.parser")
             matches = []
             current_league = "해외축구 (실시간)"
             
-            # table_live 또는 전체 tr 순회 탐색
+            # 스코어맨 실제 테이블 및 행 전수 탐색
             table = soup.find("table", id="table_live")
             rows = table.find_all("tr") if table else soup.find_all("tr")
             
@@ -77,7 +77,7 @@ def load_match_data():
     except Exception as e:
         print(f"크롤링 오류: {e}")
 
-    # 2순위: 로컬 백업 파일 로드
+    # 2순위: 로컬 백업 파일 로드 (data.json)
     if os.path.exists("data.json"):
         try:
             with open("data.json", "r", encoding="utf-8") as f:
