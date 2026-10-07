@@ -11,7 +11,7 @@ TARGET_URL = "https://www.scoreman123.com/football/fixture"
 
 @st.cache_data(ttl=30)
 def load_match_data():
-    # 1순위: 실시간 크롤링 시도 (스코어맨 실제 DOM 구조 완벽 반영)
+    # 1순위: 스코어맨 실시간 크롤링 (실제 DOM 구조 완벽 호환)
     try:
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
@@ -29,41 +29,44 @@ def load_match_data():
                 for row in rows:
                     classes = row.get("class", [])
                     
-                    # 스코어맨 실제 리그 타이틀 구조 탐색
-                    if any("Leaguestitle" in c for c in classes) or any("fbHead" in c for c in classes):
+                    # 스코어맨 리그 타이틀 행 감지 (Leaguestitle fbHead)
+                    if any("Leaguestitle" in c for c in classes) and any("fbHead" in c for c in classes):
                         league_text = row.get_text(strip=True)
                         if league_text:
-                            # 아이콘이나 불필요한 기호 제거 후 리그명 추출
+                            # 아이콘 및 특수문자 정제 후 리그명 추출
                             current_league = re.sub(r'^[^\w\s]+\s*', '', league_text).replace("+", "").strip()
                         continue
                         
-                    # 경기 데이터 행 탐색 (b2 클래스 또는 td가 충분히 있는 행)
-                    tds = row.find_all("td")
-                    if len(tds) >= 5:
-                        time_str = tds[1].get_text(strip=True) if len(tds) > 1 else "진행중"
-                        home_raw = tds[3].get_text(strip=True) if len(tds) > 3 else (tds[2].get_text(strip=True) if len(tds) > 2 else "")
-                        score_str = tds[4].get_text(strip=True) if len(tds) > 4 else "-"
-                        away_raw = tds[5].get_text(strip=True) if len(tds) > 5 else (tds[4].get_text(strip=True) if len(tds) > 4 else "")
+                    # 스코어맨 경기 데이터 행 감지 (b2 클래스 또는 td가 6개 이상인 행)
+                    if "b2" in classes or len(row.find_all("td")) >= 6:
+                        tds = row.find_all("td")
+                        if len(tds) >= 6:
+                            time_str = tds[1].get_text(strip=True)
+                            status_str = tds[2].get_text(strip=True)
+                            home_raw = tds[3].get_text(strip=True)
+                            score_str = tds[4].get_text(strip=True)
+                            away_raw = tds[5].get_text(strip=True)
 
-                        # 팀명 앞뒤 대괄호 메타데이터 정제 ([4] 그니스탄 -> 그니스탄)
-                        home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
-                        away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
+                            # 팀명 앞뒤 대괄호 메타데이터 정제 ([4] 그니스탄 -> 그니스탄)
+                            home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
+                            away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
-                        if home_team and away_team and home_team != away_team:
-                            matches.append({
-                                "id": len(matches) + 1,
-                                "league": current_league,
-                                "time": time_str if time_str else "진행중",
-                                "home": home_team,
-                                "away": away_team,
-                                "home_team": home_team,
-                                "away_team": away_team,
-                                "tournament": current_league,
-                                "score": score_str,
-                                "home_recent_stats": "실시간 수집 체급 적용",
-                                "away_recent_stats": "실시간 수집 체급 적용",
-                                "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
-                            })
+                            if home_team and away_team:
+                                matches.append({
+                                    "id": len(matches) + 1,
+                                    "league": current_league,
+                                    "time": time_str if time_str else "진행중",
+                                    "status": status_str,
+                                    "home": home_team,
+                                    "away": away_team,
+                                    "home_team": home_team,
+                                    "away_team": away_team,
+                                    "tournament": current_league,
+                                    "score": score_str,
+                                    "home_recent_stats": "실시간 수집 체급 적용",
+                                    "away_recent_stats": "실시간 수집 체급 적용",
+                                    "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
+                                })
                 if matches:
                     return {
                         "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -72,7 +75,7 @@ def load_match_data():
     except Exception as e:
         print(f"크롤링 중 예외 발생: {e}")
 
-    # 2순위: 로컬 data.json 파일 백업 로드
+    # 2순위: 로컬 data.json 백업 로드
     if os.path.exists("data.json"):
         try:
             with open("data.json", "r", encoding="utf-8") as f:
@@ -115,6 +118,7 @@ def load_match_data():
 data = load_match_data()
 matches = data.get("matches", [])
 last_updated_time = data.get("last_updated", "알 수 없음")
+
 
 st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
 st.markdown(
