@@ -134,8 +134,15 @@ st.markdown(
 )
 
 # 실시간 수집 대진 선택 (드롭다운 대신 길게 나열하는 라디오 버튼 적용)
+
 st.subheader("🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
 match_options = [m["match_name"] for m in matches]
+
+# 데이터 파일(data.json)의 수정 시간 또는 내부 저장된 last_updated 값 활용
+last_updated_time = data.get("last_updated", "알 수 없음")
+
+st.sidebar.markdown("---")
+st.sidebar.markdown(f"🕒 **데이터 갱신 시각**\n\n `{last_updated_time}`")
 
 st.sidebar.subheader("🏆 실시간 수집 대진 선택")
 selected_match_name = st.sidebar.radio(
