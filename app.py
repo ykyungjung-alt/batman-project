@@ -114,7 +114,7 @@ data = load_match_data()
 matches = data.get("matches", [])
 last_updated_time = data.get("last_updated", "알 수 없음")
 
-   st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
+st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
    st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
 
    st.sidebar.markdown("---")
