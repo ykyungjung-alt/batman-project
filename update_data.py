@@ -38,11 +38,10 @@ def update_json_file():
             if not text_content:
                 continue
 
-            # 1) 리그 타이틀 행 감지 부분
+           # 1) 리그 타이틀 행 감지 부분
 if not re.search(r"\d{2}:\d{2}", text_content):
+    # 특수문자 제거 후 곧바로 '경기수' 및 뒤의 괄호 뭉치를 한 번에 깔끔하게 제거
     cleaned = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
-    
-    # [수정] 리그명 뒤에 붙는 '경기수(...)' 형태를 완벽하게 제거
     cleaned = re.sub(r'경기수\s*\(.*?\)', '', cleaned).strip()
     
     if cleaned and len(cleaned) > 1 and len(cleaned) < 35 and "시간" not in cleaned and "상태" not in cleaned:
