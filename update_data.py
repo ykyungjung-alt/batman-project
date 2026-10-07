@@ -38,13 +38,16 @@ def update_json_file():
             if not text_content:
                 continue
 
-            # 1) 리그 타이틀 행 감지 (시간이 없고, 셀 개수가 적거나 텍스트가 리그명 형태인 경우)
-            if not re.search(r"\d{2}:\d{2}", text_content):
-                # 불필요한 기호 제거 후 리그 후보로 지정
-                cleaned = text_content.replace("+", "").strip()
-                if cleaned and len(cleaned) > 1 and len(cleaned) < 35 and "시간" not in cleaned and "상태" not in cleaned:
-                    current_league = cleaned
-                continue
+            # 1) 리그 타이틀 행 감지 부분
+if not re.search(r"\d{2}:\d{2}", text_content):
+    cleaned = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
+    
+    # [수정] 리그명 뒤에 붙는 '경기수(...)' 형태를 완벽하게 제거
+    cleaned = re.sub(r'경기수\s*\(.*?\)', '', cleaned).strip()
+    
+    if cleaned and len(cleaned) > 1 and len(cleaned) < 35 and "시간" not in cleaned and "상태" not in cleaned:
+        current_league = cleaned
+    continue
 
             # 2) 경기 데이터 행 감지 (시간 형식 HH:MM이 포함된 셀이 존재하는 행)
             time_str = ""
