@@ -1,6 +1,6 @@
 {
-    "last_updated": "2026-10-07 17:22:19",
-    "source": "https://www.scoreman123.com/",
+    "last_updated": "2026-10-07 17:35:58",
+    "source": "https://www.scoreman123.com/football/fixture",
     "matches": [
         {
             "id": 1,
@@ -8,7 +8,11 @@
             "time": "03:45",
             "home": "레알 마드리드",
             "away": "FC 바르셀로나",
-            "status": "기본대기"
+            "home_team": "레알 마드리드",
+            "away_team": "FC 바르셀로나",
+            "tournament": "테스트 리그",
+            "score": "-",
+            "match_name": "[테스트 리그] 레알 마드리드 vs FC 바르셀로나 (03:45)"
         }
     ]
 }
