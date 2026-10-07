@@ -23,6 +23,10 @@ def update_json_file():
         driver.get(TARGET_URL)
         driver.implicitly_wait(5)
         
+        # 디버깅용 화면 캡처 저장
+        driver.save_screenshot("screenshot.png")
+        print("브라우저 화면 캡처 완료 (screenshot.png)")
+
         soup = BeautifulSoup(driver.page_source, "html.parser")
         current_league = "해외축구 (실시간)"
 
@@ -31,16 +35,15 @@ def update_json_file():
             tds = row.find_all("td")
             text_content = row.get_text(strip=True)
 
-            # 1) 리그 타이틀 행 감지 (셀이 2개 이하이면서 시간이 포함되지 않고, 유효한 텍스트가 있는 경우)
+            # 1) 리그 타이틀 행 감지 (셀 개수가 적고 시간이 포함되지 않은 행)
             if len(tds) <= 2:
                 if text_content and not re.search(r"\d{2}:\d{2}", text_content):
-                    # 특수기호나 아이콘 문자 정제
                     cleaned_league = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
                     if cleaned_league and len(cleaned_league) > 1 and len(cleaned_league) < 40:
                         current_league = cleaned_league
                 continue
 
-            # 2) 경기 데이터 행 감지 (6개 이상의 셀과 시간 형식 HH:MM 존재 여부 확인)
+            # 2) 경기 데이터 행 감지 (셀이 6개 이상이며 시간 형식이 존재하는 경우)
             if len(tds) >= 6:
                 time_str = ""
                 for td in tds:
@@ -57,7 +60,7 @@ def update_json_file():
                 score_str = tds[4].get_text(strip=True)
                 away_raw = tds[5].get_text(strip=True)
 
-                # 대괄호 순위 메타데이터 정제 (예: "[4] 그니스탄" -> "그니스탄")
+                # 순위 대괄호 정제 ([4] 그니스탄 -> 그니스탄)
                 home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
                 away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
@@ -83,7 +86,7 @@ def update_json_file():
     finally:
         driver.quit()
 
-    # 데이터가 없을 때만 폴백 적용
+    # 파싱된 데이터가 없을 경우에만 폴백 적용
     if not matches:
         matches = [{
             "id": 1,
