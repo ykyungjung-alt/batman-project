@@ -17,7 +17,7 @@ def update_json_file():
     
     driver = webdriver.Chrome(options=options)
     
-    # 당일 + 3일 (총 4일) 파라미터 sc1 ~ sc4 순회
+    # [수정] 스코어맨 날짜 탭 코드 (sc1: 오늘, sc2: 내일, sc3: 모레, sc4: 글피)
     day_codes = [("sc1", 0), ("sc2", 1), ("sc3", 2), ("sc4", 3)]
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     today = datetime.now()
@@ -32,6 +32,7 @@ def update_json_file():
             if offset == 0:
                 date_key += " [오늘]"
                 
+            # [수정] ?f= 파라미터가 정확히 붙도록 수정
             target_url = f"{BASE_URL}?f={code}"
             print(f"스코어맨 접속 중 ({date_key} / {code}): {target_url}")
             driver.get(target_url)
