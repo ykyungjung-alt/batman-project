@@ -2,7 +2,7 @@ name: Auto Update Match Data
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # 예: 6시간마다 자동 실행
+    - cron: '0 */2 * * *' # 예: 6시간마다 자동 실행
   workflow_dispatch: # 수동 실행 버튼을 활성화하는 핵심 설정
 
 jobs:
