@@ -1,19 +1,35 @@
 {
-    "last_updated": "2026-10-08 05:20:31",
+    "last_updated": "2026-10-08 05:23:43",
     "matches": [
         {
             "id": 1,
-            "league": "베이카우스리가",
-            "match_name": "[베이카우스리가] 그니스탄 vs 인터 투르쿠 (01:00)",
-            "home": "그니스탄",
-            "away": "인터 투르쿠",
-            "home_team": "그니스탄",
-            "away_team": "인터 투르쿠",
-            "tournament": "베이카우스리가",
-            "time": "01:00",
+            "league": "보톨라경기수()",
+            "time": "15:00",
+            "status": "15:00",
+            "home": "연기",
+            "away": "-",
+            "home_team": "연기",
+            "away_team": "-",
+            "tournament": "보톨라경기수()",
+            "score": "[12]베르카네",
             "home_recent_stats": "4전/3승1무/0패",
             "away_recent_stats": "4전/2승1무/1패",
-            "score": "0 - 0"
+            "match_name": "[보톨라경기수()] 연기 vs - (15:00)"
+        },
+        {
+            "id": 2,
+            "league": "퍼스트리그경기수()",
+            "time": "13:00",
+            "status": "13:00",
+            "home": "취소",
+            "away": "-",
+            "home_team": "취소",
+            "away_team": "-",
+            "tournament": "퍼스트리그경기수()",
+            "score": "[15]Hayq",
+            "home_recent_stats": "4전/3승1무/0패",
+            "away_recent_stats": "4전/2승1무/1패",
+            "match_name": "[퍼스트리그경기수()] 취소 vs - (13:00)"
         }
     ]
 }
