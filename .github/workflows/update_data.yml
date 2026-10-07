@@ -1,5 +1,8 @@
 name: Auto Update Match Data
-
+- name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 pandas selenium webdriver-manager
 on:
   schedule:
     - cron: '0 */3 * * *'  # 3시간마다 자동 실행
@@ -20,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests beautifulsoup4 pandas
+          pip install requests beautifulsoup4 pandas selenium webdriver-manager
 
       - name: Run update script
         run: python update_data.py
