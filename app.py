@@ -11,13 +11,23 @@ def load_match_data():
     if os.path.exists("data.json"):
         try:
             with open("data.json", "r", encoding="utf-8") as f:
-                return json.load(f)
+                data = json.load(f)
+                
+                # [추가] 데이터 안의 모든 경기 정보를 돌면서 '경기수(...)' 문구를 강제로 깔끔하게 제거
+                for match in data.get("matches", []):
+                    if "league" in match:
+                        match["league"] = re.sub(r'경기수\s*\(.*?\)', '', match["league"]).strip()
+                    if "tournament" in match:
+                        match["tournament"] = re.sub(r'경기수\s*\(.*?\)', '', match["tournament"]).strip()
+                    if "match_name" in match:
+                        match["match_name"] = re.sub(r'경기수\s*\(.*?\)', '', match["match_name"]).strip()
+                        
+                return data
         except Exception:
             pass
             
-    # data.json이 없을 때의 안전 모드 기본 데이터
     return {
-        "last_updated": "안전 모드 (데이터 파일 없음)",
+        "last_updated": "안전 모드",
         "matches": [
             {
                 "id": 1,
