@@ -26,7 +26,7 @@ def update_json_file():
         soup = BeautifulSoup(driver.page_source, "html.parser")
         current_league = "해외축구 (실시간)"
 
-       rows = soup.find_all("tr")
+        rows = soup.find_all("tr")
         for row in rows:
             tds = row.find_all("td")
             text_content = row.get_text(strip=True)
@@ -62,10 +62,9 @@ def update_json_file():
                             break
                     
                     if time_idx != -1 and len(cell_texts) > time_idx:
-                        # 상태 칸 확인 (종료, 진행중, 대기, 연기 등 체크)
                         next_val = cell_texts[time_idx + 1] if len(cell_texts) > time_idx + 1 else ""
                         
-                        # [핵심] 종료되었거나 진행 중인 경기는 수집 대상에서 제외
+                        # [필터링] 이미 종료되었거나 진행 중인 경기는 수집 대상에서 제외
                         if next_val in ["종료", "진행중", "하프타임", "전반전", "후반전"]:
                             continue
                         
@@ -73,7 +72,6 @@ def update_json_file():
                         if "연기" in text_content or "취소" in text_content or "연기" in next_val or "취소" in next_val:
                             continue
 
-                        # 상태 텍스트가 있으면 offset을 1로, 없으면 0으로 처리하여 팀명 위치 고정
                         has_status = 1 if next_val in ["대기"] else 0
                         
                         home_idx = time_idx + 1 + has_status
@@ -113,7 +111,6 @@ def update_json_file():
     finally:
         driver.quit()
 
-    # 데이터가 수집되지 않았을 때의 폴백
     if not matches:
         matches = [{
             "id": 1,
