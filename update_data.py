@@ -1,7 +1,6 @@
 from datetime import datetime, timezone, timedelta
 import json
 import re
-import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -22,29 +21,27 @@ def update_json_file():
     try:
         print("스코어맨 페이지 접속 및 렌더링 시작...")
         driver.get(TARGET_URL)
-        time.sleep(4)  # 자바스크립트 및 동적 요소 로딩 대기
-
-        # 디버깅 및 시각적 확인을 위한 화면 캡처 저장
-        driver.save_screenshot("screenshot.png")
-        print("브라우저 화면 캡처 완료 (screenshot.png 저장됨)")
-
-        # 렌더링된 페이지 소스 파싱
+        driver.implicitly_wait(5)
+        
         soup = BeautifulSoup(driver.page_source, "html.parser")
         current_league = "해외축구 (실시간)"
 
+        # 페이지 내 모든 테이블 행 순회
         rows = soup.find_all("tr")
         for row in rows:
-            text_content = row.get_text(strip=True)
             tds = row.find_all("td")
+            text_content = row.get_text(strip=True)
 
-            # 1) 리그 타이틀 행 감지 (셀이 적고 리그명 형태인 경우)
-            if len(tds) == 2 and not re.search(r"\d{2}:\d{2}", text_content):
-                potential_league = tds[1].get_text(strip=True) if len(tds) > 1 else text_content
-                if potential_league:
-                    current_league = re.sub(r'^[^\w\s]+\s*', '', potential_league).replace("+", "").strip()
+            # 1) 리그 타이틀 행 감지 (스코어맨 구조: 셀이 2개 이하이면서 이미지가 포함되거나 시간이 없는 행)
+            if len(tds) <= 2:
+                # 텍스트에 시간이 포함되어 있지 않고 무언가 이름이 있다면 리그명으로 간주
+                if text_content and not re.search(r"\d{2}:\d{2}", text_content):
+                    cleaned_league = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
+                    if cleaned_league and len(cleaned_league) < 30:
+                        current_league = cleaned_league
                 continue
 
-            # 2) 경기 데이터 행 감지 (시간 형식이 포함된 6개 이상의 셀 구조)
+            # 2) 경기 데이터 행 감지 (시간, 상태, 홈, 스코어, 원정 등이 포함된 6개 이상의 셀 구조)
             if len(tds) >= 6:
                 time_str = tds[1].get_text(strip=True)
                 if not re.match(r"^\d{2}:\d{2}$", time_str):
@@ -55,7 +52,7 @@ def update_json_file():
                 score_str = tds[4].get_text(strip=True)
                 away_raw = tds[5].get_text(strip=True)
 
-                # 팀명 앞뒤 순위 대괄호 정제 ([4] 그니스탄 -> 그니스탄)
+                # 팀명과 순위 정제 ([4] 그니스탄 -> 그니스탄)
                 home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
                 away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
@@ -64,7 +61,7 @@ def update_json_file():
                         "id": len(matches) + 1,
                         "league": current_league,
                         "time": time_str,
-                        "status": status_str,
+                        "status": status_str if status_str else "진행예정",
                         "home": home_team,
                         "away": away_team,
                         "home_team": home_team,
@@ -77,11 +74,11 @@ def update_json_file():
                     })
 
     except Exception as e:
-        print(f"브라우저 자동화 및 크롤링 중 오류 발생: {e}")
+        print(f"크롤링 및 파싱 중 오류 발생: {e}")
     finally:
         driver.quit()
 
-    # 파싱된 데이터가 없을 경우 안전 모드 기본 데이터 투입
+    # 데이터가 없을 때만 폴백 적용
     if not matches:
         matches = [{
             "id": 1,
@@ -108,7 +105,7 @@ def update_json_file():
 
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
-    print(f"data.json 갱신 완료! (총 {len(matches)}경기 수집됨)")
+    print(f"data.json 갱신 완료! 총 {len(matches)}개 경기 분류 및 저장됨")
 
 if __name__ == "__main__":
     update_json_file()
