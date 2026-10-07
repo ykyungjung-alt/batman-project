@@ -137,10 +137,11 @@ st.markdown(
 st.subheader("🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
 match_options = [m["match_name"] for m in matches]
 
-selected_match_name = st.radio(
-    "실시간 수집 대진 선택 (리그 | 홈 vs 원정 | 시간)",
+st.sidebar.subheader("🏆 실시간 수집 대진 선택")
+selected_match_name = st.sidebar.radio(
+    "분석할 경기를 선택하세요:",
     match_options,
-    index=0,
+    index=0
 )
 
 # 선택된 경기 매칭 및 필수 변수 정의
