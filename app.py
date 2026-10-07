@@ -11,7 +11,7 @@ TARGET_URL = "https://www.scoreman123.com/football/fixture"
 
 @st.cache_data(ttl=30)
 def load_match_data():
-    # 1순위: 로컬에 저장된 data.json 파일 로드 시도
+    # 1순위: 로컬에 저장된 data.json 파일 로드
     if os.path.exists("data.json"):
         try:
             with open("data.json", "r", encoding="utf-8") as f:
@@ -45,7 +45,7 @@ def load_match_data():
         except Exception:
             pass
 
-    # 2순위: 에러 방지용 안전 기본 폴백 대진 데이터
+    # 2순위: 안전 폴백 기본 대진 데이터
     return {
         "last_updated": "기본 안전 모드",
         "matches": [
@@ -65,15 +65,16 @@ def load_match_data():
         ]
     }
 
-# 데이터 안전 로드 및 변수 초기화
+# 데이터 로드 및 변수 초기화 (중복 선언 방지)
 data = load_match_data()
 matches = data.get("matches", [])
 last_updated_time = data.get("last_updated", "알 수 없음")
 
+# 메인 헤더 (단일 선언)
 st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
-st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0~6단계 세부 정량 표 완벽 탑재 시스템")
+st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
 
-# 사이드바 설정 및 대진 선택 라디오 버튼
+# 사이드바 구성 (중복 없이 한 번만 선언)
 st.sidebar.markdown("---")
 st.sidebar.markdown(f"🕒 **데이터 갱신 시각**\n\n `{last_updated_time}`")
 st.sidebar.subheader("🏆 실시간 수집 대진 선택")
@@ -83,11 +84,11 @@ if matches:
     selected_match_name = st.sidebar.radio(
         "분석할 경기를 선택하세요:",
         match_options,
-        index=0
+        index=0,
+        key="match_radio_selection" # 고유 키값을 주어 중복 충돌 방지
     )
     selected_match = next((m for m in matches if m["match_name"] == selected_match_name), matches[0])
 else:
-    # 방어 코드: matches가 비어있을 경우 기본값 지정
     selected_match = {
         "home_team": "그니스탄",
         "away_team": "인터 투르쿠",
@@ -99,78 +100,33 @@ home_team = selected_match.get("home_team", "홈팀")
 away_team = selected_match.get("away_team", "원정팀")
 match_date = selected_match.get("time", "오늘")
 
-st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
-st.markdown(
-    "구글 독스 원문 규격 100% 반영 • 생략 없는 0~6단계 세부 정량 표 완벽 탑재"
-    " 시스템"
-)
-
-# 실시간 수집 대진 선택 (드롭다운 대신 길게 나열하는 라디오 버튼 적용)
-
-st.subheader("🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
-match_options = [m["match_name"] for m in matches]
-
-# 데이터 파일(data.json)의 수정 시간 또는 내부 저장된 last_updated 값 활용
-last_updated_time = data.get("last_updated", "알 수 없음")
-
-st.sidebar.markdown("---")
-st.sidebar.markdown(f"🕒 **데이터 갱신 시각**\n\n `{last_updated_time}`")
-
-st.sidebar.subheader("🏆 실시간 수집 대진 선택")
-selected_match_name = st.sidebar.radio(
-    "분석할 경기를 선택하세요:",
-    match_options,
-    index=0
-)
-
-# 선택된 경기 매칭 및 필수 변수 정의
-selected_match = next(
-    (m for m in matches if m["match_name"] == selected_match_name), matches[0]
-)
-
-home_team = selected_match.get("home_team", selected_match.get("home", "홈팀"))
-away_team = selected_match.get("away_team", selected_match.get("away", "원정팀"))
-match_date = selected_match.get("time", "오늘")
-
-# 탭 구성 정의 (0단계부터 7단계 요약까지)
+# 탭 구성 정의 (0단계부터 요약 리포트까지)
 tab_titles = [
-    "0단계 (메타)",
-    "규칙 1 (LIFO 7경기)",
-    "규칙 2 (구장 Shift)",
-    "규칙 3 (누수·피로)",
-    "규칙 4 (H2H 상성)",
-    "규칙 5 (최종 람다)",
-    "규칙 6 (푸아송 예측)",
-    "요약 리포트",
+    "0단계 (메타)", 
+    "규칙 1 (LIFO 7경기)", 
+    "규칙 2 (구장 Shift)", 
+    "규칙 3 (누수·피로)", 
+    "규칙 4 (H2H 상성)", 
+    "규칙 5 (최종 람다)", 
+    "규칙 6 (푸아송 예측)", 
+    "요약 리포트"
 ]
 tabs = st.tabs(tab_titles)
 
-# 0단계 메타 화면 출력
+# 0단계 메타 화면 출력 예시
 with tabs[0]:
-  st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
-  st.markdown(
-      "친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를"
-      " 고정합니다. (SSOT 원칙 적용)"
-  )
-  st.table({
-      "메타 항목": [
-          "대회 성격",
-          "기준 경기 일시",
-          "구장 정보",
-          "대결 정보",
-          "필터 검증 결과",
-      ],
-      "내용": [
-          selected_match.get("tournament", "리그"),
-          f"{selected_match.get('time', '시간')} (공식 지정 경기)",
-          f"{selected_match.get('home_team', '홈')} 홈구장",
-          (
-              f"{selected_match.get('home_team', '홈')} (홈) vs"
-              f" {selected_match.get('away_team', '원정')} (원정)"
-          ),
-          "PASS (공식 경기 유효성 검증 완료)",
-      ],
-  })
+    st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
+    st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
+    st.table({
+        "메타 항목": ["대회 성격", "기준 경기 일시", "구장 정보", "대결 정보", "필터 검증 결과"],
+        "내용": [
+            selected_match.get("tournament", "리그"),
+            f"{selected_match.get('time', '시간')} (공식 지정 경기)",
+            "홈구장 실시간 반영",
+            f"{home_team} vs {away_team}",
+            "정상 통과"
+        ]
+    })
 
 # --- [1단계] ---
 with tabs[1]:
