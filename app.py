@@ -20,46 +20,74 @@ def update_json_file():
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, "html.parser")
             current_league = "해외축구 (실시간)"
-            table = soup.find("table", id="table_live")
-            if table:
-                rows = table.find_all("tr")
-                for row in rows:
-                    classes = row.get("class", [])
-                    if any("Leaguestitle" in str(c) for c in classes) and any("fbHead" in str(c) for c in classes):
-                        league_text = row.get_text(strip=True)
-                        if league_text:
-                            current_league = re.sub(r'^[^\w\s]+\s*', '', league_text).replace("+", "").strip()
+
+            rows = soup.find_all("tr")
+            for row in rows:
+                tds = row.find_all("td")
+                text_content = row.get_text(strip=True)
+
+                if not text_content:
+                    continue
+
+                # 1) 리그 타이틀 행 감지 (시간이 없고 셀 개수가 적거나 텍스트가 리그명인 경우)
+                if not re.search(r"\d{2}:\d{2}", text_content):
+                    cleaned = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
+                    if cleaned and len(cleaned) > 1 and len(cleaned) < 35 and "시간" not in cleaned and "상태" not in cleaned:
+                        current_league = cleaned
+                    continue
+
+                # 2) 경기 데이터 행 감지 (시간 형식 HH:MM 존재 여부 확인)
+                time_str = ""
+                for td in tds:
+                    t_text = td.get_text(strip=True)
+                    if re.match(r"^\d{2}:\d{2}$", t_text):
+                        time_str = t_text
+                        break
+                
+                if time_str and len(tds) >= 5:
+                    cell_texts = [td.get_text(strip=True) for td in tds if td.get_text(strip=True) != ""]
+                    
+                    try:
+                        time_idx = -1
+                        for idx, val in enumerate(cell_texts):
+                            if re.match(r"^\d{2}:\d{2}$", val):
+                                time_idx = idx
+                                break
+                        
+                        if time_idx != -1 and len(cell_texts) > time_idx + 2:
+                            status_str = cell_texts[time_idx + 1] if cell_texts[time_idx + 1] in ["종료", "진행중"] else ""
+                            offset = 1 if status_str else 0
+                            
+                            home_raw = cell_texts[time_idx + 1 + offset]
+                            score_str = cell_texts[time_idx + 2 + offset] if "-" in cell_texts[time_idx + 2 + offset] else "-"
+                            away_raw = cell_texts[time_idx + 3 + offset] if len(cell_texts) > time_idx + 3 + offset else ""
+
+                            home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
+                            away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
+
+                            if home_team and away_team and home_team != away_team:
+                                matches.append({
+                                    "id": len(matches) + 1,
+                                    "league": current_league,
+                                    "time": time_str,
+                                    "status": status_str if status_str else "진행예정",
+                                    "home": home_team,
+                                    "away": away_team,
+                                    "home_team": home_team,
+                                    "away_team": away_team,
+                                    "tournament": current_league,
+                                    "score": score_str,
+                                    "home_recent_stats": "4전/3승1무/0패",
+                                    "away_recent_stats": "4전/2승1무/1패",
+                                    "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
+                                })
+                    except Exception:
                         continue
-                    tds = row.find_all("td")
-                    if len(tds) >= 6:
-                        time_str = tds[1].get_text(strip=True)
-                        status_str = tds[2].get_text(strip=True)
-                        home_raw = tds[3].get_text(strip=True)
-                        score_str = tds[4].get_text(strip=True)
-                        away_raw = tds[5].get_text(strip=True)
-                        
-                        home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
-                        away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
-                        
-                        if home_team and away_team and home_team != away_team and time_str:
-                            matches.append({
-                                "id": len(matches) + 1,
-                                "league": current_league,
-                                "time": time_str,
-                                "status": status_str,
-                                "home": home_team,
-                                "away": away_team,
-                                "home_team": home_team,
-                                "away_team": away_team,
-                                "tournament": current_league,
-                                "score": score_str if score_str else "-",
-                                "home_recent_stats": "4전/3승1무/0패",
-                                "away_recent_stats": "4전/2승1무/1패",
-                                "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
-                            })
+
     except Exception as e:
         print(f"업데이트 중 크롤링 오류 발생: {e}")
 
+    # 데이터가 없을 때만 폴백 적용
     if not matches:
         matches = [{
             "id": 1,
