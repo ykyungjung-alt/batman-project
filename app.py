@@ -251,15 +251,14 @@ tabs = st.tabs(tab_titles)
 
 # 0단계 메타 화면 출력
 with tabs[0]:
-st.markdown(
+  st.markdown(
     "## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]"
 )
-st.markdown(
+  st.markdown(
     "친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를"
     " 고정합니다. (SSOT 원칙 적용)"
 )
-
-st.table({
+  st.table({
     "메타 항목": [
         "대회 성격",
         "기준 경기 일시",
