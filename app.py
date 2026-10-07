@@ -65,34 +65,45 @@ for i in range(4):
         date_label += " [오늘]"
     date_options.append(date_label)
 
-# 1. 사이드바 날짜 선택창 (리그 선택창 바로 위)
+st.sidebar.subheader("🏆 실시간 수집 대진 선택")
+
+# 1. 날짜 선택창
 selected_date = st.sidebar.selectbox("📅 날짜를 선택하세요:", date_options)
 
-if matches:
-    # 2. 존재하는 모든 리그 목록 추출
-    leagues = sorted(list(set(m.get("league", "기타 리그") for m in matches)))
-    
-    # 3. 사이드바에 리그 선택 셀렉트박스 생성
-    selected_league = st.sidebar.selectbox("리그를 선택하세요:", leagues)
-    
-    # 4. 선택한 리그에 속한 경기들만 필터링
-    league_matches = [m for m in matches if m.get("league", "기타 리그") == selected_league]
-    
-    # 5. 해당 리그의 경기 옵션 생성
-    match_options = [m["match_name"] for m in league_matches]
-    if match_options:
-        selected_match_name = st.sidebar.radio("분석할 경기를 선택하세요:", match_options, key="match_radio_selection")
-        selected_match = next((m for m in league_matches if m["match_name"] == selected_match_name), league_matches[0])
-    else:
-        selected_match = matches[0]
-else:
-    selected_match = {
-        "home_team": "그니스탄",
-        "away_team": "인터 투르쿠",
-        "tournament": "베이카우스리가",
-        "time": "01:00"
-    }
+# 2. 데이터 필터링 연동 준비
+# (추후 크롤러에서 날짜별로 데이터를 쪼개 저장할 경우를 대비한 구조 및 안전 필터 적용)
+filtered_matches = matches
 
+# 만약 선택한 날짜에 해당하는 데이터가 분리되어 있지 않다면 전체에서 검색하되,
+# 매칭되는 데이터가 없을 경우를 대비한 방어 코드 작동
+if filtered_matches:
+    # 존재하는 모든 리그 목록 추출
+    leagues = sorted(list(set(m.get("league", "기타 리그") for m in filtered_matches)))
+    
+    if leagues:
+        selected_league = st.sidebar.selectbox("리그를 선택하세요:", leagues)
+        
+        # 선택한 리그에 속한 경기들만 필터링
+        league_matches = [m for m in filtered_matches if m.get("league", "기타 리그") == selected_league]
+        
+        match_options = [m["match_name"] for m in league_matches]
+        
+        if match_options:
+            selected_match_name = st.sidebar.radio("분석할 경기를 선택하세요:", match_options, key="match_radio_selection")
+            selected_match = next((m for m in league_matches if m["match_name"] == selected_match_name), league_matches[0])
+        else:
+            selected_match = None
+    else:
+        selected_match = None
+else:
+    selected_match = None
+
+# [핵심] 매칭되는 경기가 없을 때 빈 화면 처리 및 안내 문구 출력
+if not selected_match:
+    st.warning("⚠️ 선택하신 조건에 해당하는 경기 데이터가 존재하지 않습니다. 다른 날짜나 리그를 선택해 주세요.")
+    st.stop() # 이후 분석 탭 연산이 꼬이지 않도록 실행을 안전하게 멈춤
+
+# 정상 매칭 시 변수 지정
 home_team = selected_match.get("home_team", "홈팀")
 away_team = selected_match.get("away_team", "원정팀")
 tournament_name = selected_match.get("league", selected_match.get("tournament", "리그"))
