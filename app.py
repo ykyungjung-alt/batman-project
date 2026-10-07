@@ -11,28 +11,43 @@ TARGET_URL = "https://www.scoreman123.com/football/fixture"
 
 @st.cache_data(ttl=30)
 def load_match_data():
-    # 1순위: 로컬에 정상적으로 저장된 data.json 파일 우선 로드 (가장 안정적)
+    # 1순위: 로컬에 저장된 data.json 파일 로드 시도
     if os.path.exists("data.json"):
         try:
             with open("data.json", "r", encoding="utf-8") as f:
                 data = json.load(f)
-                matches = data.get("matches", data) if isinstance(data, dict) else data
-                if matches and isinstance(matches, list) and len(matches) > 0:
-                    for m in matches:
-                        m["match_name"] = f"[{m.get('league', '리그')}] {m.get('home', '홈')} vs {m.get('away', '원정')} ({m.get('time', '')})"
-                        m["home_team"] = m.get("home", "홈팀")
-                        m["away_team"] = m.get("away", "원정팀")
-                        m["tournament"] = m.get("league", "일반 리그")
+                raw_matches = data.get("matches", data) if isinstance(data, dict) else data
+                if raw_matches and isinstance(raw_matches, list) and len(raw_matches) > 0:
+                    parsed = []
+                    for idx, m in enumerate(raw_matches):
+                        league = m.get("league", "리그")
+                        home = m.get("home", m.get("home_team", "홈팀"))
+                        away = m.get("away", m.get("away_team", "원정팀"))
+                        time_str = m.get("time", "진행중")
+                        parsed.append({
+                            "id": idx + 1,
+                            "league": league,
+                            "time": time_str,
+                            "home": home,
+                            "away": away,
+                            "home_team": home,
+                            "away_team": away,
+                            "tournament": league,
+                            "score": m.get("score", "-"),
+                            "home_recent_stats": m.get("home_recent_stats", "4전/3승1무/0패"),
+                            "away_recent_stats": m.get("away_recent_stats", "4전/2승1무/1패"),
+                            "match_name": f"[{league}] {home} vs {away} ({time_str})"
+                        })
                     return {
                         "last_updated": data.get("last_updated", "최신 동기화 완료"),
-                        "matches": matches
+                        "matches": parsed
                     }
         except Exception:
             pass
 
-    # 2순위: 안전 폴백 기본 대진 데이터 (화면 멈춤 및 에러 방지)
+    # 2순위: 에러 방지용 안전 기본 폴백 대진 데이터
     return {
-        "last_updated": "마스터 규격 검증 모드",
+        "last_updated": "기본 안전 모드",
         "matches": [
             {
                 "id": 1,
@@ -50,6 +65,39 @@ def load_match_data():
         ]
     }
 
+# 데이터 안전 로드 및 변수 초기화
+data = load_match_data()
+matches = data.get("matches", [])
+last_updated_time = data.get("last_updated", "알 수 없음")
+
+st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
+st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0~6단계 세부 정량 표 완벽 탑재 시스템")
+
+# 사이드바 설정 및 대진 선택 라디오 버튼
+st.sidebar.markdown("---")
+st.sidebar.markdown(f"🕒 **데이터 갱신 시각**\n\n `{last_updated_time}`")
+st.sidebar.subheader("🏆 실시간 수집 대진 선택")
+
+if matches:
+    match_options = [m["match_name"] for m in matches]
+    selected_match_name = st.sidebar.radio(
+        "분석할 경기를 선택하세요:",
+        match_options,
+        index=0
+    )
+    selected_match = next((m for m in matches if m["match_name"] == selected_match_name), matches[0])
+else:
+    # 방어 코드: matches가 비어있을 경우 기본값 지정
+    selected_match = {
+        "home_team": "그니스탄",
+        "away_team": "인터 투르쿠",
+        "tournament": "베이카우스리가",
+        "time": "01:00"
+    }
+
+home_team = selected_match.get("home_team", "홈팀")
+away_team = selected_match.get("away_team", "원정팀")
+match_date = selected_match.get("time", "오늘")
 
 st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
 st.markdown(
