@@ -179,7 +179,7 @@ with tabs[1]:
     </div>
     """, unsafe_allow_html=True)
     
-    tier_weight_df = pd.DataFrame({
+  tier_weight_df = pd.DataFrame({
         "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
         "공격력 기준 (평균 득점)": ["2.3골 이상", "1.7 ~ 2.2골 미만", "1.1 ~ 1.6골 미만", "0.5 ~ 1.1골 미만", "0.5골 미만 (< 0.5)"],
         "공격 가중치": ["+8.0%", "+6.0%", "+4.0%", "+2.0%", "0.0% (최하위)"],
