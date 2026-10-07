@@ -250,6 +250,7 @@ tab_titles = [
 tabs = st.tabs(tab_titles)
 
 # 0단계 메타 화면 출력
+with tabs[0]:
 st.markdown(
     "## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]"
 )
