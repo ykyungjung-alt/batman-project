@@ -18,23 +18,30 @@ def update_json_file():
             soup = BeautifulSoup(response.text, "html.parser")
             current_league = "해외축구 (실시간)"
             
-            # 특정 id에 의존하지 않고 페이지 내 모든 tr 요소를 순회하며 유연하게 수집
+            # 페이지 내 모든 행을 순회하며 리그명과 경기 정보 파싱
             rows = soup.find_all("tr")
             for row in rows:
-                classes = row.get("class", [])
                 text_content = row.get_text(strip=True)
                 
-                # 1) 리그 타이틀 행 감지 (Leaguestitle 또는 fbHead 클래스 포함)
-                if any("Leaguestitle" in str(c) for c in classes) or any("fbHead" in str(c) for c in classes):
-                    league_text = row.get_text(strip=True)
-                    if league_text:
-                        current_league = re.sub(r'^[^\w\s]+\s*', '', league_text).replace("+", "").strip()
+                # 1) 리그 타이틀 영역 감지 (이미지나 특정 클래스, 또는 텍스트 패턴 분석)
+                # 스코어맨 구조상 팀 아이콘이나 국가별 리그 타이틀 행 처리
+                imgs = row.find_all("img")
+                tds = row.find_all("td")
+                
+                # 셀이 1~2개이면서 리그명인 경우 감지
+                if len(tds) == 2 and not text_content.startswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-")):
+                    potential_league = tds[1].get_text(strip=True) if len(tds) > 1 else text_content
+                    if potential_league:
+                        current_league = re.sub(r'^[^\w\s]+\s*', '', potential_league).replace("+", "").strip()
                     continue
                 
-                # 2) 경기 데이터 행 감지 (td 셀이 6개 이상인 행)
-                tds = row.find_all("td")
+                # 2) 경기 데이터 행 감지 (시간, 홈팀, 스코어, 원정팀 등이 포함된 6개 이상의 셀 구조)
                 if len(tds) >= 6:
                     time_str = tds[1].get_text(strip=True)
+                    # 시간이 HH:MM 형식인지 간단히 검증
+                    if not re.match(r"^\d{2}:\d{2}$", time_str):
+                        continue
+                        
                     status_str = tds[2].get_text(strip=True)
                     home_raw = tds[3].get_text(strip=True)
                     score_str = tds[4].get_text(strip=True)
@@ -44,7 +51,7 @@ def update_json_file():
                     home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
                     away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
-                    if home_team and away_team and home_team != away_team and time_str:
+                    if home_team and away_team and home_team != away_team:
                         matches.append({
                             "id": len(matches) + 1,
                             "league": current_league,
@@ -61,9 +68,9 @@ def update_json_file():
                             "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
                         })
     except Exception as e:
-        print(f"업데이트 중 크롤링 오류 발생: {e}")
+        print(f"크롤링 중 오류 발생: {e}")
 
-    # 수집된 데이터가 없을 경우에만 최소한의 폴백 적용
+    # 파싱된 데이터가 없을 경우에만 비상용 기본 데이터 투입
     if not matches:
         matches = [{
             "id": 1,
@@ -90,7 +97,7 @@ def update_json_file():
 
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
-    print(f"data.json 파일 저장 완료! (총 {len(matches)}개 경기)")
+    print(f"data.json 갱신 완료 (총 {len(matches)}경기)")
 
 if __name__ == "__main__":
     update_json_file()
