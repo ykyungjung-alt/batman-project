@@ -189,12 +189,6 @@ with tabs[1]:
     })
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
-# --- [이후 탭들 및 요약 리포트까지 동일하게 연결] ---
-with tabs[7]:
-    st.markdown(f"### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 최종 요약 리포트 - {home_team} vs {away_team}")
-    st.markdown('<div class="step-box"><b>[별도 요약 섹션]</b> 규칙 0번부터 6번까지의 전체 정량 연산 지표를 통합 요약한 마스터 표입니다.</div>', unsafe_allow_html=True)
-  st.markdown("---")
-  st.markdown(
       f"#### 예시표 1-1: 홈 팀 ({home_team}) 최근 공식 7경기 전수 LIFO 표"
   )
   h_lifi_df = pd.DataFrame({
