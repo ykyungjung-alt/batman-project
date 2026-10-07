@@ -120,17 +120,31 @@ st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6
 st.sidebar.markdown("---")
 st.sidebar.markdown(f"🕒 **데이터 갱신 시각 (KST)**\n\n `{last_updated_time}`")
 st.sidebar.subheader("🏆 실시간 수집 대진 선택")
-
 if matches:
-    match_options = [m["match_name"] for m in matches]
-    selected_match_name = st.sidebar.radio(
-        "분석할 경기를 선택하세요:",
-        match_options,
-        index=0,
-        key="match_radio_selection"
-    )
-    selected_match = next((m for m in matches if m["match_name"] == selected_match_name), matches[0])
+    # 1. 존재하는 모든 리그 목록 추출
+    leagues = sorted(list(set(m.get("league", "기타 리그") for m in matches)))
+    
+    # 2. 사이드바에 리그 선택 셀렉트박스 생성
+    selected_league = st.sidebar.selectbox("리그를 선택하세요:", leagues)
+    
+    # 3. 선택한 리그에 속한 경기들만 필터링
+    league_matches = [m for m in matches if m.get("league", "기타 리그") == selected_league]
+    
+    # 4. 해당 리그의 경기 옵션 생성
+    match_options = [m["match_name"] for m in league_matches]
+    
+    if match_options:
+        selected_match_name = st.sidebar.radio("분석할 경기를 선택하세요:", match_options, key="match_radio_selection")
+        selected_match = next((m for m in league_matches if m["match_name"] == selected_match_name), league_matches[0])
+    else:
+        selected_match = matches[0]
 else:
+    selected_match = {
+        "home_team": "그니스탄",
+        "away_team": "인터 투르쿠",
+        "tournament": "베이카우스리가",
+        "time": "01:00"
+    }
     selected_match = {
         "home_team": "그니스탄",
         "away_team": "인터 투르쿠",
