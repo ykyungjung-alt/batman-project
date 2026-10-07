@@ -40,26 +40,7 @@ data = load_match_data()
 matches = data.get("matches", [])
 last_updated_time = data.get("last_updated", "알 수 없음")
 
-@st.cache_data(ttl=10)
-def load_match_data():
-    if os.path.exists("data.json"):
-        try:
-            with open("data.json", "r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception:
-            pass
-    return {
-        "last_updated": "안전 모드",
-        "matches": [{
-            "id": 1,
-            "league": "베이카우스리가",
-            "match_name": "[베이카우스리가] 그니스탄 vs 인터 투르쿠 (01:00)",
-            "home_team": "그니스탄",
-            "away_team": "인터 투르쿠",
-            "tournament": "베이카우스리가",
-            "time": "01:00"
-        }]
-    }
+
 
 data = load_match_data()
 matches = data.get("matches", [])
