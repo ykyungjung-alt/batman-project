@@ -25,13 +25,11 @@ def update_json_file():
                 rows = table.find_all("tr")
                 for row in rows:
                     classes = row.get("class", [])
-                    # 리그 타이틀 감지
                     if any("Leaguestitle" in str(c) for c in classes) and any("fbHead" in str(c) for c in classes):
                         league_text = row.get_text(strip=True)
                         if league_text:
                             current_league = re.sub(r'^[^\w\s]+\s*', '', league_text).replace("+", "").strip()
                         continue
-                    # 경기 행 데이터 추출 (td 6개 이상)
                     tds = row.find_all("td")
                     if len(tds) >= 6:
                         time_str = tds[1].get_text(strip=True)
@@ -62,7 +60,6 @@ def update_json_file():
     except Exception as e:
         print(f"업데이트 중 크롤링 오류 발생: {e}")
 
-    # 데이터가 수집되지 않았을 경우 방어용 기본 데이터
     if not matches:
         matches = [{
             "id": 1,
@@ -90,10 +87,8 @@ def update_json_file():
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
 
-# 앱 실행 시점 자동 데이터 갱신 실행
 update_json_file()
 
-# 갱신된 data.json 로드
 @st.cache_data(ttl=10)
 def load_match_data():
     if os.path.exists("data.json"):
@@ -122,7 +117,6 @@ last_updated_time = data.get("last_updated", "알 수 없음")
 st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
 st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
 
-# 사이드바 구성 및 대진 선택 (탭보다 상단에 위치해야 에러가 안 납니다)
 st.sidebar.markdown("---")
 st.sidebar.markdown(f"🕒 **데이터 갱신 시각 (KST)**\n\n `{last_updated_time}`")
 st.sidebar.subheader("🏆 실시간 수집 대진 선택")
@@ -148,7 +142,6 @@ home_team = selected_match.get("home_team", "홈팀")
 away_team = selected_match.get("away_team", "원정팀")
 match_date = selected_match.get("time", "오늘")
 
-# 탭 구성 정의
 tab_titles = [
     "0단계 (메타)", 
     "규칙 1 (LIFO 7경기)", 
@@ -161,7 +154,6 @@ tab_titles = [
 ]
 tabs = st.tabs(tab_titles)
 
-# 0단계 메타 화면
 with tabs[0]:
     st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
     st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
@@ -176,11 +168,18 @@ with tabs[0]:
         ]
     })
 
-# --- [1단계] ---
 with tabs[1]:
     st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
-    st.markdown(""" <div class="step-box"> <b>📌 규격 원칙 및 요약 설명:</b><br> • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 7개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여하고 각 경기 상대팀에 '상대 공·방 티어'를 배치합니다.<br> • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 FIFA/대륙연맹 주관 공식 A매치 및 공식 예선·토너먼트 경기만을 채택합니다.<br> • <b>특수 룰 (경고등 프로토콜 및 50% 할인):</b> E티어 상대 득점 50% 할인, A티어 상대 실점 50% 할인 및 경고등 발동 프로토콜을 적용합니다. </div> """, unsafe_allow_html=True)
-   tier_weight_df = pd.DataFrame({
+    st.markdown("""
+    <div class="step-box">
+        <b>📌 규격 원칙 및 요약 설명:</b><br>
+        • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 7개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여합니다.<br>
+        • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 공식 경기만을 채택합니다.<br>
+        • <b>특수 룰:</b> E티어 상대 득점 50% 할인 및 경고등 발동 프로토콜을 적용합니다.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    tier_weight_df = pd.DataFrame({
         "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
         "공격력 기준 (평균 득점)": ["2.3골 이상", "1.7 ~ 2.2골 미만", "1.1 ~ 1.6골 미만", "0.5 ~ 1.1골 미만", "0.5골 미만 (< 0.5)"],
         "공격 가중치": ["+8.0%", "+6.0%", "+4.0%", "+2.0%", "0.0% (최하위)"],
