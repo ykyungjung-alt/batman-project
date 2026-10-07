@@ -154,7 +154,12 @@ else:
 
 home_team = selected_match.get("home_team", "홈팀")
 away_team = selected_match.get("away_team", "원정팀")
+tournament_name = selected_match.get("league", selected_match.get("tournament", "리그"))
 match_date = selected_match.get("time", "오늘")
+# 최근 전적 데이터도 동적으로 가져오기 (없으면 기본값)
+home_stats = selected_match.get("home_recent_stats", "4전/3승1무/0패")
+away_stats = selected_match.get("away_recent_stats", "4전/2승1무/1패")
+
 
 tab_titles = [
     "0단계 (메타)", 
@@ -172,15 +177,15 @@ with tabs[0]:
    st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
    st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
    st.table({
-        "메타 항목": ["대회 성격", "기준 경기 일시", "구장 정보", "대결 정보", "필터 검증 결과"],
-        "내용": [
-            selected_match.get("tournament", "리그"),
-            f"{selected_match.get('time', '시간')} (공식 지정 경기)",
-            "홈구장 실시간 반영",
-            f"{home_team} vs {away_team}",
-            "정상 통과"
-        ]
-    })
+    "메타 항목": ["대회 성격", "기준 경기 일시", "구장 정보", "대결 정보", "필터 검증 결과"],
+    "내용": [
+        tournament_name,
+        f"{match_date} (공식 지정 경기)",
+        "홈구장 실시간 반영",
+        f"{home_team} vs {away_team}",
+        "정상 통과"
+    ]
+})
 
 with tabs[1]:
   st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
