@@ -188,9 +188,10 @@ with tabs[1]:
         "방어 가중치": ["-8.0% (최상위)", "-6.0%", "-4.0%", "-2.0%", "0.0%"]
     })
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
-
+st.markdown("---")
+  st.markdown(
       f"#### 예시표 1-1: 홈 팀 ({home_team}) 최근 공식 7경기 전수 LIFO 표"
-  )
+)
   h_lifi_df = pd.DataFrame({
       "LIFO 순서": ["최신 (1)", "2", "3", "4", "5", "6", "과거 (7)"],
       "경기 일시": [
