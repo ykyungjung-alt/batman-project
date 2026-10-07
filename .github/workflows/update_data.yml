@@ -2,41 +2,32 @@ name: Auto Update Match Data
 
 on:
   schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
-
-permissions:
-  contents: write
+    - cron: '0 */6 * * *' # 예: 6시간마다 자동 실행
+  workflow_dispatch: # 수동 실행 버튼을 활성화하는 핵심 설정
 
 jobs:
-  update-data:
+  update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
-
+        uses: actions/checkout@v3
+        
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-
-      - name: Install Google Chrome
-        uses: browser-actions/setup-chrome@latest
-
+          
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install pandas selenium webdriver-manager beautifulsoup4
-
-      - name: Run Selenium Crawler
+          pip install requests beautifulsoup4 pandas
+          
+      - name: Run update script
         run: python update_data.py
-
+        
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git reset --mixed origin/main || true
           git add data.json
-          git diff --staged --quiet || git commit -m "Auto-update data.json via Selenium"
-          git push origin HEAD:main --force
+          git commit -m "Auto-update match data.json" || exit 0
+          git push
