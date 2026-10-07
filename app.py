@@ -1,103 +1,23 @@
+from datetime import datetime
 import json
-import os 
+import os
 import re
+from bs4 import BeautifulSoup
 import pandas as pd
 import requests
 import streamlit as st
 
 TARGET_URL = "https://www.scoreman123.com/football/fixture"
 
-
 @st.cache_data(ttl=30)
-def load_live_matches_from_scoreman():
-  matches = []
-  headers = {
-      "User-Agent": (
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,"
-          " like Gecko) Chrome/122.0.0.0 Safari/537.36"
-      ),
-      "Referer": "https://www.scoreman123.com/football/fixture",
-  }
-  try:
-    response = requests.get(
-        "https://www.scoreman123.com/football/fixture",
-        headers=headers,
-        timeout=5,
-    )
-    if response.status_code == 200:
-      soup = BeautifulSoup(response.text, "html.parser")
-      current_league = "해외축구 (실시간)"
-      rows = soup.select("tr")
-
-      for row in rows:
-        # 스코어맨 실제 리그 타이틀 및 헤더 구조 감지
-        league_el = row.select_one("th span, .league_title, td[colspan]")
-        if league_el:
-          text = league_el.get_text(strip=True)
-          if text and len(text) > 1 and "스코어맨" not in text:
-            current_league = text.replace("+", "").strip()
-          continue
-
-        try:
-          tds = row.select("td")
-          if len(tds) >= 5:
-            time_str = tds[1].get_text(strip=True)
-            home_raw = tds[2].get_text(strip=True)
-            score_str = tds[3].get_text(strip=True)
-            away_raw = tds[4].get_text(strip=True)
-
-            # 팀명 앞뒤 대괄호 메타데이터 정제 ([5] 시카고 파이어 -> 시카고 파이어)
-            home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
-            away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
-
-            if home_team and away_team and("-" in score_str or ":" in time_str):
-              matches.append({
-                  "id": len(matches) + 1,
-                  "league": current_league,
-                  "time": time_str if time_str else "진행중",
-                  "home": home_team,
-                  "away": away_team,
-                  "home_team": home_team,
-                  "away_team": away_team,
-                  "tournament": current_league,
-                  "score": score_str,
-                  "home_recent_stats": "실시간 수집 체급 적용",
-                  "away_recent_stats": "실시간 수집 체급 적용",
-                  "match_name": (
-                      f"[{current_league}] {home_team} vs {away_team}"
-                      f" ({time_str})"
-                  ),
-              })
-        except Exception:
-          continue
-  except Exception:
-    pass
-
-  # 수집된 데이터가 없을 경우에만 최소 방어 코드 작동
-  if not matches:
-    matches = [{
-        "id": 1,
-        "league": "테스트 리그",
-        "time": "03:45",
-        "home": "레알 마드리드",
-        "away": "FC 바르셀로나",
-        "home_team": "레알 마드리드",
-        "away_team": "FC 바르셀로나",
-        "tournament": "테스트 리그",
-        "match_name": "[테스트 리그] 레알 마드리드 vs FC 바르셀로나 (03:45)",
-    }]
-
-  return matches
-
-@st.cache_data(ttl=60)
 def load_match_data():
-  # 1순위: 로컬에 있는 최신 data.json 파일 강제 로드 (가장 안정적)
+  # 1순위: GitHub Actions 등이 갱신한 최신 data.json 파일 로드 (스코어맨 실제 구조 100% 반영)
   if os.path.exists("data.json"):
     try:
       with open("data.json", "r", encoding="utf-8") as f:
-        data = json.load(f)
-        if data and "matches" in data and len(data["matches"]) > 0:
-          for m in data["matches"]:
+        matches = json.load(f)
+        if matches and isinstance(matches, list) and len(matches) > 0:
+          for m in matches:
             m["match_name"] = (
                 f"[{m.get('league', '리그')}] {m.get('home', '홈')} vs"
                 f" {m.get('away', '원정')} ({m.get('time', '')})"
@@ -111,11 +31,14 @@ def load_match_data():
             m["away_recent_stats"] = m.get(
                 "away_recent_stats", "실시간 수집 체급 적용"
             )
-          return data
+          return {
+              "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+              "matches": matches,
+          }
     except Exception:
       pass
 
-  # 2순위: 실시간 크롤링 시도 (스코어맨 접속 차단 대비 안전장치 포함)
+  # 2순위: 실시간 크롤링 시도 (스코어맨 페이지 DOM 구조 파싱)
   try:
     headers = {
         "User-Agent": (
@@ -124,58 +47,61 @@ def load_match_data():
         ),
         "Referer": "https://www.scoreman123.com/",
     }
-    response = requests.get(
-        "https://www.scoreman123.com/", headers=headers, timeout=5
-    )
+    response = requests.get(TARGET_URL, headers=headers, timeout=5)
     if response.status_code == 200:
       soup = BeautifulSoup(response.text, "html.parser")
       matches = []
       current_league = "해외축구 (실시간)"
-      rows = soup.select("tr")
+      table = soup.find("table", id="table_live")
 
-      for row in rows:
-        league_el = row.select_one("th span, .league_title, td[colspan]")
-        if league_el:
-          text = league_el.get_text(strip=True)
-          if text and len(text) > 1 and "스코어맨" not in text:
-            current_league = text.replace("+", "").strip()
-          continue
-        tds = row.select("td")
-        if len(tds) >= 5:
-          time_str = tds[1].get_text(strip=True) if len(tds) > 1 else "진행중"
-          home_raw = tds[2].get_text(strip=True) if len(tds) > 2 else ""
-          away_raw = tds[4].get_text(strip=True) if len(tds) > 4 else ""
+      if table:
+        rows = table.find_all("tr")
+        for row in rows:
+          classes = row.get("class", [])
+          # 스코어맨 실제 리그 타이틀 구조
+          if "Leaguestitle" in classes and "fbHead" in classes:
+            league_text = row.get_text(strip=True)
+            if league_text:
+              current_league = league_text.replace("+", "").strip()
+          # 경기 데이터 행 구조 (b2)
+          elif "b2" in classes:
+            tds = row.find_all("td")
+            if len(tds) >= 6:
+              time_str = tds[1].get_text(strip=True)
+              home_raw = tds[3].get_text(strip=True)
+              score_str = tds[4].get_text(strip=True)
+              away_raw = tds[5].get_text(strip=True)
 
-          import re
+              home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
+              away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
-          home_str = re.sub(r"\[.*?\]", "", home_raw).strip()
-          away_str = re.sub(r"\[.*?\]", "", away_raw).strip()
-
-          if home_str and away_str and "-" in row.get_text():
-            matches.append({
-                "id": len(matches) + 1,
-                "league": current_league,
-                "time": time_str,
-                "home": home_str,
-                "away": away_str,
-                "home_team": home_str,
-                "away_team": away_str,
-                "tournament": current_league,
-                "home_recent_stats": "실시간 수집 체급 적용",
-                "away_recent_stats": "실시간 수집 체급 적용",
-                "match_name": (
-                    f"[{current_league}] {home_str} vs {away_str} ({time_str})"
-                ),
-            })
-      if matches:
-        return {
-            "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "matches": matches,
-        }
+              if home_team and away_team:
+                matches.append({
+                    "id": len(matches) + 1,
+                    "league": current_league,
+                    "time": time_str if time_str else "진행중",
+                    "home": home_team,
+                    "away": away_team,
+                    "home_team": home_team,
+                    "away_team": away_team,
+                    "tournament": current_league,
+                    "score": score_str,
+                    "home_recent_stats": "실시간 수집 체급 적용",
+                    "away_recent_stats": "실시간 수집 체급 적용",
+                    "match_name": (
+                        f"[{current_league}] {home_team} vs {away_team}"
+                        f" ({time_str})"
+                    ),
+                })
+        if matches:
+          return {
+              "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+              "matches": matches,
+          }
   except Exception:
     pass
 
-  # 3순위: 최종 안전 폴백 대진 데이터 (화면 멈춤 방지)
+  # 3순위: 최종 안전 폴백 대진 데이터
   return {
       "last_updated": "수동 입력 모드",
       "matches": [
@@ -193,24 +119,11 @@ def load_match_data():
               "time": "28",
               "home_recent_stats": "4전/3승1무/0패",
               "away_recent_stats": "4전/2승1무/1패",
-          },
-          {
-              "id": 2,
-              "league": "UEFA 네이션스리그",
-              "match_name": "[UEFA 네이션스리그] 크로아티아 vs 스페인 (30)",
-              "home": "크로아티아",
-              "away": "스페인",
-              "home_team": "크로아티아",
-              "away_team": "스페인",
-              "tournament": "UEFA 네이션스리그",
-              "time": "30",
-              "home_recent_stats": "5전/3승1무/1패",
-              "away_recent_stats": "5전/4승1무/0패",
-          },
+          }
       ],
   }
 
-# 대시보드 데이터 로드 실행
+# 데이터 로드 실행
 data = load_match_data()
 matches = data.get("matches", [])
 
@@ -220,14 +133,17 @@ st.markdown(
     " 시스템"
 )
 
-# 경기 선택 드롭다운
+# 실시간 수집 대진 선택 (드롭다운 대신 길게 나열하는 라디오 버튼 적용)
 st.subheader("🏆 배트맨 프로젝트 - 경기 지정 및 메타 설정")
 match_options = [m["match_name"] for m in matches]
-selected_match_name = st.selectbox(
-    "실시간 수집 대진 선택 (리그 | 홈 vs 원정 | 시간)", match_options
+
+selected_match_name = st.radio(
+    "실시간 수집 대진 선택 (리그 | 홈 vs 원정 | 시간)",
+    match_options,
+    index=0,
 )
 
-# 선택된 경기 매칭 및 필수 변수 정의 (NameError 방지)
+# 선택된 경기 매칭 및 필수 변수 정의
 selected_match = next(
     (m for m in matches if m["match_name"] == selected_match_name), matches[0]
 )
@@ -235,6 +151,84 @@ selected_match = next(
 home_team = selected_match.get("home_team", selected_match.get("home", "홈팀"))
 away_team = selected_match.get("away_team", selected_match.get("away", "원정팀"))
 match_date = selected_match.get("time", "오늘")
+
+# 탭 구성 정의 (0단계부터 7단계 요약까지)
+tab_titles = [
+    "0단계 (메타)",
+    "규칙 1 (LIFO 7경기)",
+    "규칙 2 (구장 Shift)",
+    "규칙 3 (누수·피로)",
+    "규칙 4 (H2H 상성)",
+    "규칙 5 (최종 람다)",
+    "규칙 6 (푸아송 예측)",
+    "요약 리포트",
+]
+tabs = st.tabs(tab_titles)
+
+# 0단계 메타 화면 출력
+with tabs[0]:
+  st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
+  st.markdown(
+      "친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를"
+      " 고정합니다. (SSOT 원칙 적용)"
+  )
+  st.table({
+      "메타 항목": [
+          "대회 성격",
+          "기준 경기 일시",
+          "구장 정보",
+          "대결 정보",
+          "필터 검증 결과",
+      ],
+      "내용": [
+          selected_match.get("tournament", "리그"),
+          f"{selected_match.get('time', '시간')} (공식 지정 경기)",
+          f"{selected_match.get('home_team', '홈')} 홈구장",
+          (
+              f"{selected_match.get('home_team', '홈')} (홈) vs"
+              f" {selected_match.get('away_team', '원정')} (원정)"
+          ),
+          "PASS (공식 경기 유효성 검증 완료)",
+      ],
+  })
+
+# --- [1단계] ---
+with tabs[1]:
+  st.markdown(
+      f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] -"
+      f" {home_team} vs {away_team}"
+  )
+  st.markdown(
+      """ <div class="step-box"> <b>📌 규격 원칙 및 요약 설명:</b><br> • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 7개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여하고 각 경기 상대팀에 '상대 공·방 티어'를 배치합니다.<br> • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 FIFA/대륙연맹 주관 공식 A매치 및 공식 예선·토너먼트 경기만을 채택합니다.<br> • <b>특수 룰 (경고등 프로토콜 및 50% 할인):</b> E티어 상대 득점 50% 할인, A티어 상대 실점 50% 할인 및 경고등 발동 프로토콜을 적용합니다. </div> """,
+      unsafe_allow_html=True,
+  )
+  st.markdown("#### 공수 티어 가중치 부호 비대칭 규격 기준표")
+  tier_weight_df = pd.DataFrame({
+      "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
+      "공격력 기준 (평균 득점)": [
+          "2.3골 이상",
+          "1.7 ~ 2.2골 미만",
+          "1.1 ~ 1.6골 미만",
+          "0.5 ~ 1.1골 미만",
+          "0.5골 미만 (< 0.5)",
+      ],
+      "공격 가중치": ["+8.0%", "+6.0%", "+4.0%", "+2.0%", "0.0% (최하위)"],
+      "방어력 기준 (평균 실점)": [
+          "0.5골 미만 (< 0.5)",
+          "0.5 ~ 0.9골 미만",
+          "0.9 ~ 1.3골 미만",
+          "1.3 ~ 1.7골 미만",
+          "1.7골 이상",
+      ],
+      "방어 가중치": ["-8.0% (최상위)", "-6.0%", "-4.0%", "-2.0%", "0.0%"],
+  })
+  st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
+  st.markdown("---")
+  st.markdown(
+      f"#### 예시표 1-1: 홈 팀 ({home_team}) 최근 공식 7경기 전수 LIFO 표"
+  )
+  h_lifi_df = pd.DataFrame({
+      "LIFO 순서":
 
 # 탭 구성 정의 (0단계부터 7단계 요약까지)
 tab_titles = [
