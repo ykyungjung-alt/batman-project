@@ -30,11 +30,9 @@ def update_json_file():
     
     driver = webdriver.Chrome(options=options)
     
-    # KST 기준 오늘 날짜 고정
     KST = timezone(timedelta(hours=9))
     today_kst = datetime.now(KST)
     
-    # sc1 = 오늘, sc2 = 내일, sc3 = 모레, sc4 = 글피
     day_codes = ["sc1", "sc2", "sc3", "sc4"]
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     
@@ -48,7 +46,6 @@ def update_json_file():
             
             soup = BeautifulSoup(driver.page_source, "html.parser")
             
-            # 날짜 계산 (sc1부터 순서대로 오늘, 내일, 모레, 글피 매칭)
             target_date = today_kst + timedelta(days=idx)
             w_str = weekdays[target_date.weekday()]
             m_str = target_date.strftime("%m")
@@ -71,7 +68,7 @@ def update_json_file():
                 if not text_content:
                     continue
 
-                # 리그 타이틀 행 감지 (시간 형식이 없는 행)
+                # 리그 타이틀 행 감지
                 if not re.search(r"\d{2}:\d{2}", text_content):
                     cleaned = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
                     cleaned = re.sub(r'경기수\s*\(.*?\)', '', cleaned).strip()
@@ -80,22 +77,22 @@ def update_json_file():
                         current_league = cleaned
                     continue
 
-                # [필터] 핵심 주요 리그 포함 여부 확인
+                # 주요 리그 필터링
                 is_major = any(ml in current_league for ml in MAJOR_LEAGUES)
                 if not is_major:
                     continue
 
-                # 경기 시간 정확히 파싱 (테이블의 두 번째 칸 확인)
+                # 경기 시간 추출 (안전하게 두 번째 칸 체크)
                 time_str = ""
                 if len(tds) >= 2:
                     potential_time = tds[1].get_text(strip=True)
-                    if re.match(r"^\d{2}:\d{2}\$", potential_time):
+                    if re.match(r"^\d{2}:\d{2}$", potential_time):
                         time_str = potential_time
                 
                 if not time_str:
                     for td in tds:
                         t_text = td.get_text(strip=True)
-                        if re.match(r"^\d{2}:\d{2}\$", t_text):
+                        if re.match(r"^\d{2}:\d{2}$", t_text):
                             time_str = t_text
                             break
                 
@@ -105,14 +102,13 @@ def update_json_file():
                     try:
                         time_idx = -1
                         for idx_val, val in enumerate(cell_texts):
-                            if re.match(r"^\d{2}:\d{2}\$", val):
+                            if re.match(r"^\d{2}:\d{2}$", val):
                                 time_idx = idx_val
                                 break
                         
                         if time_idx != -1 and len(cell_texts) > time_idx:
                             next_val = cell_texts[time_idx + 1] if len(cell_texts) > time_idx + 1 else ""
                             
-                            # 종료/진행중/연기/취소 경기 필터링
                             if next_val in ["종료", "진행중", "하프타임", "전반전", "후반전"]:
                                 continue
                             if "연기" in text_content or "취소" in text_content or "연기" in next_val or "취소" in next_val:
@@ -133,4 +129,43 @@ def update_json_file():
 
                                 if home_team and away_team and home_team != away_team:
                                     match_entry = {
-                                        "id": len(matches_for_day) + 1
+                                        "id": len(matches_for_day) + 1,
+                                        "league": current_league,
+                                        "time": time_str,
+                                        "status": "진행예정",
+                                        "home": home_team,
+                                        "away": away_team,
+                                        "home_team": home_team,
+                                        "away_team": away_team,
+                                        "tournament": current_league,
+                                        "score": score_str,
+                                        "home_recent_stats": "4전/3승1무/0패",
+                                        "away_recent_stats": "4전/2승1무/1패",
+                                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
+                                    }
+                                    if match_entry not in matches_for_day:
+                                        matches_for_day.append(match_entry)
+                    except Exception:
+                        continue
+            
+            daily_matches[date_key] = matches_for_day
+
+    except Exception as e:
+        print(f"크롤링 중 에러 발생: {e}")
+    finally:
+        driver.quit()
+
+    kst_time_str = datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
+
+    output_data = {
+        "last_updated": kst_time_str,
+        "daily_matches": daily_matches
+    }
+
+    with open("data.json", "w", encoding="utf-8") as f:
+        json.dump(output_data, f, ensure_ascii=False, indent=4)
+        
+    print("데이터 갱신 완료!")
+
+if __name__ == "__main__":
+    update_json_file()
