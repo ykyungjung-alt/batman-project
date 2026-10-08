@@ -32,7 +32,7 @@ def update_json_file():
     KST = timezone(timedelta(hours=9))
     today_kst = datetime.now(KST)
     
-    # [수정] sc3까지 포함하여 오늘, 내일(sc1), 모레(sc2), 글피(sc3) 순서로 명확히 매핑
+    # 오늘(기본), 내일(sc1), 모레(sc2), 글피(sc3) 총 4일 치 순회
     day_steps = [
         (0, ""),         # 오늘 (기본 URL)
         (1, "sc1"),      # 내일
@@ -140,7 +140,7 @@ def update_json_file():
                                         "away": away_team,
                                         "home_team": home_team,
                                         "away_team": away_team,
-                               : current_league,
+                                        "tournament": current_league,
                                         "score": score_str,
                                         "home_recent_stats": "4전/3승1무/0패",
                                         "away_recent_stats": "4전/2승1무/1패",
@@ -168,7 +168,7 @@ def update_json_file():
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
         
-    print("sc3까지 데이터 갱신 완료!")
+    print("데이터 갱신 완료!")
 
 if __name__ == "__main__":
     update_json_file()
