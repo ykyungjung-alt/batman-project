@@ -34,13 +34,13 @@ def update_json_file():
     KST = timezone(timedelta(hours=9))
     today_kst = datetime.now(KST)
     
-    # sc1=오늘(0일뒤), sc2=내일(1일뒤), sc3=모레(2일뒤), sc4=글피(3일뒤)
+    # sc1 = 오늘, sc2 = 내일, sc3 = 모레, sc4 = 글피
     day_codes = ["sc1", "sc2", "sc3", "sc4"]
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     
     daily_matches = {}
     
-try:
+    try:
         for idx, code in enumerate(day_codes):
             target_url = f"{BASE_URL}?f={code}"
             driver.get(target_url)
@@ -48,36 +48,14 @@ try:
             
             soup = BeautifulSoup(driver.page_source, "html.parser")
             
-            # [수정] 페이지 상단 날짜 바에서 실제 표시되는 일자(숫자)와 요일을 직접 추출
-            date_key = ""
-            try:
-                # 상단 날짜 선택 영역의 버튼/링크들에서 숫자와 요일 패턴 탐색
-                # 예: "목 08", "금 09" 등의 텍스트를 가진 요소들을 찾음
-                date_elements = soup.find_all(text=re.compile(r'\d{1,2}'))
-                # 현재 페이지에서 활성화되었거나 상단 바에 노출된 날짜 중 일치하는 것 탐색
-                # 가장 안전하게는 탭 파라미터별로 페이지 내 날짜 영역을 특정
-                active_tab_elem = soup.select_one(".active, [style*='orange'], [style*='background']")
-                if active_tab_elem:
-                    tab_text = active_tab_elem.get_text(strip=True)
-                    match_w = re.search(r'[월화수목금토일]', tab_text)
-                    match_d = re.search(r'\d{1,2}', tab_text)
-                    if match_w and match_d:
-                        w_str = match_w.group()
-                        d_str = match_d.group().zfill(2)
-                        m_str = today_kst.strftime("%m")
-                        date_key = f"{m_str}-{d_str} ({w_str})"
-            except Exception:
-                pass
+            # 날짜 계산 (sc1부터 순서대로 오늘, 내일, 모레, 글피 매칭)
+            target_date = today_kst + timedelta(days=idx)
+            w_str = weekdays[target_date.weekday()]
+            m_str = target_date.strftime("%m")
+            d_str = target_date.strftime("%d")
             
-            # 만약 직접 인식이 안 될 경우, 현재 KST 기준 오늘 날짜를 기준으로 안전하게 고정
-            if not date_key:
-                target_date = today_kst + timedelta(days=idx)
-                w_str = weekdays[target_date.weekday()]
-                m_str = target_date.strftime("%m")
-                d_str = target_date.strftime("%d")
-                date_key = f"{m_str}-{d_str} ({w_str})"
-            
-            if idx == 0 and "[오늘]" not in date_key:
+            date_key = f"{m_str}-{d_str} ({w_str})"
+            if idx == 0:
                 date_key += " [오늘]"
 
             print(f"수집 중 ({code} -> {date_key}): {target_url}")
@@ -107,13 +85,19 @@ try:
                 if not is_major:
                     continue
 
-                # 경기 데이터 행 감지
+                # 경기 시간 정확히 파싱 (테이블의 두 번째 칸 확인)
                 time_str = ""
-                for td in tds:
-                    t_text = td.get_text(strip=True)
-                    if re.match(r"^\d{2}:\d{2}$", t_text):
-                        time_str = t_text
-                        break
+                if len(tds) >= 2:
+                    potential_time = tds[1].get_text(strip=True)
+                    if re.match(r"^\d{2}:\d{2}\$", potential_time):
+                        time_str = potential_time
+                
+                if not time_str:
+                    for td in tds:
+                        t_text = td.get_text(strip=True)
+                        if re.match(r"^\d{2}:\d{2}\$", t_text):
+                            time_str = t_text
+                            break
                 
                 if time_str and len(tds) >= 4:
                     cell_texts = [td.get_text(strip=True) for td in tds if td.get_text(strip=True) != ""]
@@ -121,7 +105,7 @@ try:
                     try:
                         time_idx = -1
                         for idx_val, val in enumerate(cell_texts):
-                            if re.match(r"^\d{2}:\d{2}$", val):
+                            if re.match(r"^\d{2}:\d{2}\$", val):
                                 time_idx = idx_val
                                 break
                         
@@ -149,43 +133,4 @@ try:
 
                                 if home_team and away_team and home_team != away_team:
                                     match_entry = {
-                                        "id": len(matches_for_day) + 1,
-                                        "league": current_league,
-                                        "time": time_str,
-                                        "status": "진행예정",
-                                        "home": home_team,
-                                        "away": away_team,
-                                        "home_team": home_team,
-                                        "away_team": away_team,
-                                        "tournament": current_league,
-                                        "score": score_str,
-                                        "home_recent_stats": "4전/3승1무/0패",
-                                        "away_recent_stats": "4전/2승1무/1패",
-                                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
-                                    }
-                                    if match_entry not in matches_for_day:
-                                        matches_for_day.append(match_entry)
-                    except Exception:
-                        continue
-            
-            daily_matches[date_key] = matches_for_day
-
-    except Exception as e:
-        print(f"크롤링 중 오류 발생: {e}")
-    finally:
-        driver.quit()
-
-    kst_time_str = datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
-
-    output_data = {
-        "last_updated": kst_time_str,
-        "daily_matches": daily_matches
-    }
-
-    with open("data.json", "w", encoding="utf-8") as f:
-        json.dump(output_data, f, ensure_ascii=False, indent=4)
-        
-    print("날짜 매칭 완료 및 data.json 갱신 완료!")
-
-if __name__ == "__main__":
-    update_json_file()
+                                        "id": len(matches_for_day) + 1
