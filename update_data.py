@@ -1,4 +1,4 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 import json
 import re
 from bs4 import BeautifulSoup
@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from zoneinfo import ZoneInfo
 
 BASE_URL = "https://www.scoreman123.com/football/fixture"
 
@@ -22,15 +23,13 @@ MAJOR_LEAGUES = [
     "잉글랜드 FA 컵", "EFL 트로피"
 ]
 
-# 시차 및 날짜 밀림을 유발하는 남미 리그 등 제외
 EXCLUDE_LEAGUES = [
     "세리에 A 베타노", "브라질", "세리에 B", "파라과이", "콜롬비아", "아르헨티나", "우루과이", "에콰도르", "페루", "볼리비아", "멕시코"
 ]
 
 def convert_to_kst(time_str, base_date, source_offset_hours=0):
     """
-    각 경기 페이지의 날짜(base_date)를 기준으로 사이트 시각을 KST로 변환
-    - 유럽/기타 표준 리그: source_offset_hours = 0 (UTC 기준 + 9시간)
+    사이트 시각을 날짜 변동 없이 순수 시간 수치만 KST(+9시간)로 변환
     """
     try:
         h, m = map(int, time_str.split(":"))
@@ -50,12 +49,11 @@ def update_json_file():
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     
     driver = webdriver.Chrome(options=options)
-    
-    KST = timezone(timedelta(hours=9))
-    today_kst = datetime.now(KST)
+    kst = ZoneInfo("Asia/Seoul")
+    today_kst = datetime.now(kst)
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     
-    # 4일간의 고정 파라미터 매핑 (오늘, 내일, 모레, 글피)
+    # [핵심] 탭 링크 매칭 에러 원천 차단: 스코어맨 공식 파라미터 고정 순회
     day_steps = [
         (0, ""),         # 오늘 (BASE_URL)
         (1, "sc1"),      # 내일 (BASE_URL?f=sc1)
@@ -71,7 +69,7 @@ def update_json_file():
         for offset, param in day_steps:
             target_url = f"{BASE_URL}?f={param}" if param else BASE_URL
             
-            # 해당 페이지가 담당하는 고정 날짜 객체 설정
+            # 해당 페이지가 담당하는 고정 날짜 바구니 생성
             target_dt = today_kst + timedelta(days=offset)
             m_str = target_dt.strftime("%m")
             d_str = target_dt.strftime("%d")
@@ -149,7 +147,7 @@ def update_json_file():
                 score_str = cell_texts[score_idx] if "-" in cell_texts[score_idx] else "-"
                 
                 if home_team and away_team and home_team != away_team:
-                    # [단계별 분류 적용] 페이지의 고정 날짜(target_dt) 바구니에 담고, 시간만 KST로 변환
+                    # 해당 페이지의 고정 날짜 바구니에 담고 시간만 수치 변환
                     kst_time = convert_to_kst(time_str, target_dt, source_offset_hours=0)
                     
                     entry = {
@@ -182,7 +180,7 @@ def update_json_file():
         driver.quit()
         
     output_data = {
-        "last_updated": datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S"),
+        "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
         "daily_matches": daily_matches
     }
 
