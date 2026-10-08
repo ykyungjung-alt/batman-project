@@ -29,8 +29,7 @@ def update_json_file():
     
     driver = webdriver.Chrome(options=options)
     
-    KST = timezone(timedelta(hours=9))
-    today_kst = datetime.now(KST)
+
     
     day_steps = [
         (0, ""),         # 오늘
