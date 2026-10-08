@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from zoneinfo import ZoneInfo
 
 BASE_URL = "https://www.scoreman123.com/football/fixture"
 
@@ -47,11 +48,13 @@ def update_json_file():
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     
     driver = webdriver.Chrome(options=options)
-    KST = timezone(timedelta(hours=9))
-    today_kst = datetime.now(KST)
+    kst = ZoneInfo("Asia/Seoul")
+    today_kst = datetime.now(kst)
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     
     daily_matches = {}
+    
+    # 브라질 리그 식별 키워드 (정확한 오프셋 -3 적용 대상)
     brazil_leagues = ["세리에 A 베타노", "브라질", "세리에 B"]
     
     try:
@@ -59,29 +62,26 @@ def update_json_file():
         driver.get(BASE_URL)
         WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
         
-        # 1단계: 사이트 상단의 날짜 탭 링크(예: 금 09, 토 10 등) 동적 수집
+        # 날짜 탭 링크 동적 수집
         date_tab_map = {}
         all_links = driver.find_elements(By.TAG_NAME, "a")
-        for a in all_links:
-            text = a.text.strip()
-            href = a.get_attribute("href") or ""
-            # 요일+숫자 패턴 (예: "금 09" 또는 "금9") 및 f= 파라미터가 포함된 링크 매칭
-            match = re.search(r"(월|화|수|목|금|토|일)\s*(\d{1,2})", text)
-            if match and ("f=" in href or "fixture" in href):
-                w_char, d_num = match.groups()
-                key = f"{w_char}{d_num}"
-                date_tab_map[key] = href
-                print(f"발견된 날짜 탭 매핑: {key} -> {href}")
+        tabs = [a for a in all_links if re.match(r"^(월|화|수|목|금|토|일)\d{1,2}$", a.text.strip()) or "f=" in (a.get_attribute("href") or "")]
+        for tab in tabs:
+            label = tab.text.strip()
+            href = tab.get_attribute("href") or ""
+            if re.match(r"^(월|화|수|목|금|토|일)\d{1,2}$", label):
+                date_tab_map[label] = href
+                print(f"탭 발견: {label} → {href}")
 
-        # 오늘부터 4일간(오늘, 내일, 모레, 글피) 대상 날짜 생성
+        # 오늘부터 4일간 데이터 수집 준비
         target_dates = []
         for offset in range(4):
             dt = today_kst + timedelta(days=offset)
             day_short = weekdays[dt.weekday()]
-            day_num = str(dt.day)
-            target_dates.append((offset, dt, f"{day_short}{day_num}"))
+            day_num = dt.strftime("%d").lstrip("0")
+            label_pattern = f"{day_short}{day_num}"
+            target_dates.append((offset, dt, label_pattern))
 
-        # 2단계: 날짜별로 정확히 페이지 이동하며 수집
         for offset, target_dt, label_pattern in target_dates:
             m_str = target_dt.strftime("%m")
             d_str = target_dt.strftime("%d")
@@ -96,10 +96,10 @@ def update_json_file():
                 if matched_url:
                     target_url = matched_url
                 else:
-                    # 매핑을 못 찾은 경우 기본 파라미터(sc1, sc2, sc3) 조합으로 폴백 시도
+                    # 매핑을 못 찾은 경우 기본 파라미터 폴백
                     fallback_param = f"sc{offset}"
                     target_url = f"{BASE_URL}?f={fallback_param}"
-                    print(f"⚠️ 탭 맵에서 '{label_pattern}'을 못 찾아 폴백 URL 사용: {target_url}")
+                    print(f"⚠️ {label_pattern} 탭을 찾지 못해 폴백 URL 사용: {target_url}")
             
             print(f"\n수집 중: {date_key} | URL: {target_url}")
             driver.get(target_url)
@@ -107,7 +107,7 @@ def update_json_file():
             try:
                 WebDriverWait(driver, 15).until(lambda d: re.search(r"\d{2}:\d{2}", d.page_source))
             except Exception:
-                print(f"  ⏳ 해당 날짜 데이터 로드 지연 또는 경기 없음")
+                print(f"  ⏳ 데이터 로드 지연 또는 경기 없음")
                 
             soup = BeautifulSoup(driver.page_source, "html.parser")
             current_league = ""
@@ -141,62 +141,64 @@ def update_json_file():
                         time_str = match_t.group(1)
                         break
                         
-                if time_str and len(tds) >= 4:
-                    cell_texts = [td.get_text(strip=True) for td in tds if td.get_text(strip=True) != ""]
-                    try:
-                        time_idx = -1
-                        for idx_val, val in enumerate(cell_texts):
-                            if time_str in val:
-                                time_idx = idx_val
-                                break
-                                
-                        if time_idx != -1 and len(cell_texts) > time_idx:
-                            next_val = cell_texts[time_idx + 1] if len(cell_texts) > time_idx + 1 else ""
-                            if next_val in ["종료", "진행중", "하프타임", "전반전", "후반전"]:
-                                continue
-                            if "연기" in text_content or "취소" in text_content or "연기" in next_val or "취소" in next_val:
-                                continue
-                                
-                            has_status = 1 if next_val in ["대기"] else 0
-                            home_idx = time_idx + 1 + has_status
-                            score_idx = home_idx + 1
-                            away_idx = score_idx + 1
+                if not time_str:
+                    continue
+                
+                cell_texts = [td.get_text(strip=True) for td in tds if td.get_text(strip=True) != ""]
+                try:
+                    time_idx = -1
+                    for idx_val, val in enumerate(cell_texts):
+                        if time_str in val:
+                            time_idx = idx_val
+                            break
                             
-                            if len(cell_texts) > away_idx:
-                                home_raw = cell_texts[home_idx]
-                                score_str = cell_texts[score_idx] if "-" in cell_texts[score_idx] else "-"
-                                away_raw = cell_texts[away_idx]
-                                
-                                home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
-                                away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
-                                
-                                if home_team and away_team and home_team != away_team:
-                                    # 시차 적용: 브라질 리그는 -3, 유럽/한국 및 기타 리그는 0
-                                    is_brazil = any(bl in current_league for bl in brazil_leagues)
-                                    src_offset = -3 if is_brazil else 0
-                                    kst_time = convert_to_kst(time_str, target_dt, src_offset)
-                                    
-                                    match_entry = {
-                                        "id": len(matches_for_day) + 1,
-                                        "league": current_league,
-                                        "time": kst_time,
-                                        "original_time": time_str,
-                                        "status": "진행예정",
-                                        "home": home_team,
-                                        "away": away_team,
-                                        "home_team": home_team,
-                                        "away_team": away_team,
-                                        "tournament": current_league,
-                                        "score": score_str,
-                                        "home_recent_stats": "4전/3승1무/0패",
-                                        "away_recent_stats": "4전/2승1무/1패",
-                                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({kst_time})"
-                                    }
-                                    if match_entry not in matches_for_day:
-                                        matches_for_day.append(match_entry)
-                    except Exception:
-                        continue
+                    if time_idx != -1 and len(cell_texts) > time_idx:
+                        next_val = cell_texts[time_idx + 1] if len(cell_texts) > time_idx + 1 else ""
+                        if next_val in ["종료", "진행중", "하프타임", "전반전", "후반전"]:
+                            continue
+                        if "연기" in text_content or "취소" in text_content or "연기" in next_val or "취소" in next_val:
+                            continue
+                            
+                        has_status = 1 if next_val in ["대기"] else 0
+                        home_idx = time_idx + 1 + has_status
+                        score_idx = home_idx + 1
+                        away_idx = score_idx + 1
                         
+                        if len(cell_texts) > away_idx:
+                            home_raw = cell_texts[home_idx]
+                            score_str = cell_texts[score_idx] if "-" in cell_texts[score_idx] else "-"
+                            away_raw = cell_texts[away_idx]
+                            
+                            home_team = re.sub(r"\[.*?\]", "", home_raw).strip()
+                            away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
+                            
+                            if home_team and away_team and home_team != away_team:
+                                # [핵심] 브라질 리그는 -3시간 오프셋 적용, 그 외(유럽/한국 등)는 0 적용 후 KST(+9) 변환
+                                is_brazil = any(bl in current_league for bl in brazil_leagues)
+                                src_offset = -3 if is_brazil else 0
+                                kst_time = convert_to_kst(time_str, target_dt, src_offset)
+                                
+                                match_entry = {
+                                    "id": len(matches_for_day) + 1,
+                                    "league": current_league,
+                                    "time": kst_time,
+                                    "original_time": time_str,
+                                    "status": "진행예정",
+                                    "home": home_team,
+                                    "away": away_team,
+                                    "home_team": home_team,
+                                    "away_team": away_team,
+                                    "tournament": current_league,
+                                    "score": score_str,
+                                    "home_recent_stats": "4전/3승1무/0패",
+                                    "away_recent_stats": "4전/2승1무/1패",
+                                    "match_name": f"[{current_league}] {home_team} vs {away_team} ({kst_time})"
+                                }
+                                if match_entry not in matches_for_day:
+                                    matches_for_day.append(match_entry)
+                except Exception:
+                    continue
+                    
             daily_matches[date_key] = matches_for_day
             print(f"  ✅ {date_key} | {len(matches_for_day)}개 경기 수집 완료")
             
@@ -207,9 +209,8 @@ def update_json_file():
     finally:
         driver.quit()
         
-    kst_time_str = datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S")
     output_data = {
-        "last_updated": kst_time_str,
+        "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
         "daily_matches": daily_matches
     }
     
