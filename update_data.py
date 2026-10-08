@@ -27,10 +27,6 @@ def update_json_file():
     options.add_argument("--window-size=1920,1080")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     
-    # [핵심 수정] GitHub Actions 서버 시차(UTC)로 인해 시간이 9시간 당겨지는 현상 원천 방지
-    options.add_argument("--lang=ko_KR")
-    options.add_argument("--time-zone-for-testing=Asia/Seoul")
-    
     driver = webdriver.Chrome(options=options)
     
     KST = timezone(timedelta(hours=9))
@@ -88,20 +84,20 @@ def update_json_file():
                 if not is_major:
                     continue
 
-                # 시간 문자열을 가공 없이 순수 텍스트로 고정 추출
+                # [수정] 어떤 객체 변환도 거치지 않고 오직 텍스트 그대로 시간 추출
                 time_str = ""
                 if len(tds) >= 2:
-                    potential_time = tds[1].get_text(strip=True)
-                    time_match = re.search(r"(\d{2}:\d{2})", potential_time)
-                    if time_match:
-                        time_str = time_match.group(1)
+                    raw_time = tds[1].get_text(strip=True)
+                    match_t = re.search(r"(\d{2}:\d{2})", raw_time)
+                    if match_t:
+                        time_str = match_t.group(1)
                 
                 if not time_str:
                     for td in tds:
                         t_text = td.get_text(strip=True)
-                        time_match = re.search(r"(\d{2}:\d{2})", t_text)
-                        if time_match:
-                            time_str = time_match.group(1)
+                        match_t = re.search(r"(\d{2}:\d{2})", t_text)
+                        if match_t:
+                            time_str = match_t.group(1)
                             break
                 
                 if time_str and len(tds) >= 4:
@@ -110,7 +106,7 @@ def update_json_file():
                     try:
                         time_idx = -1
                         for idx_val, val in enumerate(cell_texts):
-                            if re.match(r"^\d{2}:\d{2}$", val) or re.search(r"\d{2}:\d{2}", val):
+                            if time_str in val:
                                 time_idx = idx_val
                                 break
                         
