@@ -5,27 +5,18 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-BASE_URL = "https://www.scoreman123.com/football/fixture"
+BASE_URL = "https://www.scoreman3.com/football/fixture"
 
 # 핵심 주요 리그 화이트리스트
 MAJOR_LEAGUES = [
-    # 1. 국내 리그 및 주요 빅리그
     "K리그1", "K리그 2", 
     "프리미어리그", "잉글랜드 프리미어리그", "세리에 A", "라리가", "분데스리가", "리그 1", "프랑스 리그 1",
     "에레디비시", "메이저 리그 사커", "라리가2", "챔피언쉽", "잉글랜드 챔피언쉽",
-    
-    # 2. 대륙별 클럽 대항전
     "챔피언스리그", "유로파리그", "유로파 컨퍼런스리그", 
     "AFC챔피언스리그", "AFC 챔피언스리그2", "ASEAN 클럽선수권",
-    
-    # 3. 국가대표 및 국제 종합 대회
     "FIFA", "월드컵", "아시안컵", "네이션스리그", 
     "아시안게임", "올림픽", "국제 친선경기", 
-    
-    # 4. 연령별 대표팀 대회
     "U-23", "U-21", "U-20", "U-17",
-    
-    # 5. 주요 컵대회
     "잉글랜드 FA 컵", "EFL 트로피"
 ]
 
@@ -39,53 +30,33 @@ def update_json_file():
     
     driver = webdriver.Chrome(options=options)
     
-    # 4일 치 탭 파라미터 순회
-    day_codes = [("sc1", 0), ("sc2", 1), ("sc3", 2), ("sc4", 3)]
-    daily_matches = {}
-    
-    # KST 기준 오늘 날짜 확인용 (실제 오늘 판별에 사용)
+    # [핵심] KST(한국 표준시) 기준 오늘 날짜 고정 (UTC+9)
     KST = timezone(timedelta(hours=9))
     today_kst = datetime.now(KST)
-    current_month_str = today_kst.strftime("%m") # 현재 월 기준
+    
+    # sc1 = 오늘(0일 뒤), sc2 = 내일(1일 뒤), sc3 = 모레(2일 뒤), sc4 = 글피(3일 뒤)
+    day_codes = [("sc1", 0), ("sc2", 1), ("sc3", 2), ("sc4", 3)]
+    weekdays = ["월", "화", "수", "목", "금", "토", "일"]
+    
+    daily_matches = {}
     
     try:
-        for idx, (code, offset) in enumerate(day_codes):
+        for code, offset in day_codes:
             target_url = f"{BASE_URL}?f={code}"
             driver.get(target_url)
             driver.implicitly_wait(4)
             
             soup = BeautifulSoup(driver.page_source, "html.parser")
             
-            # [핵심] 상단 주황색 박스(현재 선택된 날짜 탭) 영역 파싱
-            # 스코어맨 페이지에서 주황색으로 활성화된 날짜 요소 탐색
-            date_key = ""
-            active_date_elem = soup.find(style=re.compile("background.*orange", re.IGNORECASE))
-            if not active_date_elem:
-                # 클래스나 다른 구조로 주황색 박스가 잡히는 경우 대비 (보조 탐색)
-                active_date_elem = soup.select_one("span.active, td.active, div.active, [style*='background']")
+            # KST 기준으로 탭 순서에 맞는 정확한 날짜 계산 (오차 원천 차단)
+            target_date = today_kst + timedelta(days=offset)
+            w_str = weekdays[target_date.weekday()]
+            m_str = target_date.strftime("%m")
+            d_str = target_date.strftime("%d")
             
-            # 상단 바에서 요일과 숫자가 포함된 텍스트 조합 추출 시도
-            # 보통 상단 바 구조: [요일 텍스트] [숫자 텍스트] 형태로 나열됨
-            try:
-                # 상단 날짜 선택 영역 전체 텍스트에서 현재 활성화된 요일/일자 패턴 찾기
-                # 예: "목 08" 형태를 정규식으로 매칭
-                header_area = soup.get_text()
-                # 탭 순서(0번째=오늘, 1번째=내일 등)에 맞춰 날짜를 직접 계산해서 부여하는 것이 가장 안전함
-                target_date = today_kst + timedelta(days=offset)
-                w_list = ["월", "화", "수", "목", "금", "토", "일"]
-                w_str = w_list[target_date.weekday()]
-                m_str = target_date.strftime("%m")
-                d_str = target_date.strftime("%d")
-                
-                date_key = f"{m_str}-{d_str} ({w_str})"
-                if offset == 0:
-                    date_key += " [오늘]"
-            except Exception:
-                # 예외 시 기본 딜레이 계산 방식 적용
-                fallback_date = today_kst + timedelta(days=offset)
-                date_key = fallback_date.strftime(f"%m-%d (%a)")
-                if offset == 0:
-                    date_key += " [오늘]"
+            date_key = f"{m_str}-{d_str} ({w_str})"
+            if offset == 0:
+                date_key += " [오늘]"
 
             print(f"수집 중 ({code} -> {date_key}): {target_url}")
             
@@ -192,7 +163,7 @@ def update_json_file():
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
         
-    print("홈페이지 날짜 연동 및 4일 치 data.json 갱신 완료!")
+    print("KST 날짜 기준 4일 치 data.json 갱신 완료!")
 
 if __name__ == "__main__":
     update_json_file()
