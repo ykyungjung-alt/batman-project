@@ -26,20 +26,18 @@ def update_json_file():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--window-size=1920,1080")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
-# [추가] 크롬 브라우저의 타임존을 한국 시간(KST)으로 강제 고정하여 9시간 밀림 현상 원천 차단
+    
+    # [핵심 수정] GitHub Actions 서버 시차(UTC)로 인해 시간이 9시간 당겨지는 현상 원천 방지
     options.add_argument("--lang=ko_KR")
     options.add_argument("--time-zone-for-testing=Asia/Seoul")
-    
-    driver = webdriver.Chrome(options=options)
     
     driver = webdriver.Chrome(options=options)
     
     KST = timezone(timedelta(hours=9))
     today_kst = datetime.now(KST)
     
-    # 오늘(기본), 내일(sc1), 모레(sc2), 글피(sc3) 총 4일 치 순회
     day_steps = [
-        (0, ""),         # 오늘 (기본 URL)
+        (0, ""),         # 오늘
         (1, "sc1"),      # 내일
         (2, "sc2"),      # 모레
         (3, "sc3"),      # 글피
@@ -90,18 +88,20 @@ def update_json_file():
                 if not is_major:
                     continue
 
-                # 테이블 두 번째 칸(tds[1])의 경기 시간 정확히 추출
+                # 시간 문자열을 가공 없이 순수 텍스트로 고정 추출
                 time_str = ""
                 if len(tds) >= 2:
                     potential_time = tds[1].get_text(strip=True)
-                    if re.match(r"^\d{2}:\d{2}$", potential_time):
-                        time_str = potential_time
+                    time_match = re.search(r"(\d{2}:\d{2})", potential_time)
+                    if time_match:
+                        time_str = time_match.group(1)
                 
                 if not time_str:
                     for td in tds:
                         t_text = td.get_text(strip=True)
-                        if re.match(r"^\d{2}:\d{2}$", t_text):
-                            time_str = t_text
+                        time_match = re.search(r"(\d{2}:\d{2})", t_text)
+                        if time_match:
+                            time_str = time_match.group(1)
                             break
                 
                 if time_str and len(tds) >= 4:
@@ -110,7 +110,7 @@ def update_json_file():
                     try:
                         time_idx = -1
                         for idx_val, val in enumerate(cell_texts):
-                            if re.match(r"^\d{2}:\d{2}$", val):
+                            if re.match(r"^\d{2}:\d{2}$", val) or re.search(r"\d{2}:\d{2}", val):
                                 time_idx = idx_val
                                 break
                         
