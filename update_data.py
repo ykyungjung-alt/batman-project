@@ -26,6 +26,11 @@ def update_json_file():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--window-size=1920,1080")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
+# [추가] 크롬 브라우저의 타임존을 한국 시간(KST)으로 강제 고정하여 9시간 밀림 현상 원천 차단
+    options.add_argument("--lang=ko_KR")
+    options.add_argument("--time-zone-for-testing=Asia/Seoul")
+    
+    driver = webdriver.Chrome(options=options)
     
     driver = webdriver.Chrome(options=options)
     
