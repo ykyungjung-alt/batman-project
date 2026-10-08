@@ -30,35 +30,55 @@ def update_json_file():
     
     driver = webdriver.Chrome(options=options)
     
-    # [핵심] KST(한국 표준시) 기준 오늘 날짜 고정 (UTC+9)
     KST = timezone(timedelta(hours=9))
     today_kst = datetime.now(KST)
+    current_month = today_kst.strftime("%m")
     
-    # sc1 = 오늘(0일 뒤), sc2 = 내일(1일 뒤), sc3 = 모레(2일 뒤), sc4 = 글피(3일 뒤)
-    day_codes = [("sc1", 0), ("sc2", 1), ("sc3", 2), ("sc4", 3)]
+    # 4일 치 탭 파라미터 순회
+    day_codes = ["sc1", "sc2", "sc3", "sc4"]
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     
     daily_matches = {}
     
     try:
-        for code, offset in day_codes:
+        for idx, code in enumerate(day_codes):
             target_url = f"{BASE_URL}?f={code}"
             driver.get(target_url)
             driver.implicitly_wait(4)
             
             soup = BeautifulSoup(driver.page_source, "html.parser")
             
-            # KST 기준으로 탭 순서에 맞는 정확한 날짜 계산 (오차 원천 차단)
-            target_date = today_kst + timedelta(days=offset)
-            w_str = weekdays[target_date.weekday()]
-            m_str = target_date.strftime("%m")
-            d_str = target_date.strftime("%d")
+            # [핵심] 상단 주황색 박스(현재 선택된 날짜 탭) 영역에서 실제 날짜와 요일 텍스트를 직접 파싱
+            date_key = ""
+            try:
+                # 스코어맨 페이지 상단 날짜 바에서 주황색 배경이 적용되었거나 강조된 요소를 탐색
+                active_elem = soup.find(style=re.compile("background.*(orange|ff|rgb\\(255)", re.IGNORECASE))
+                if not active_elem:
+                    active_elem = soup.select_one(".active, [class*='active']")
+                
+                if active_elem:
+                    text_val = active_elem.get_text(strip=True) # 예: "목08" 또는 "목 08"
+                    match_w = re.search(r'[월화수목금토일]', text_val)
+                    match_d = re.search(r'\d{1,2}', text_val)
+                    
+                    if match_w and match_d:
+                        w_str = match_w.group()
+                        d_str = match_d.group().zfill(2)
+                        date_key = f"{current_month}-{d_str} ({w_str})"
+            except Exception as e:
+                print(f"상단 날짜 박스 파싱 중 예외: {e}")
             
-            date_key = f"{m_str}-{d_str} ({w_str})"
-            if offset == 0:
+            # 주황색 박스 감지 실패 시 탭 순서(idx)에 따른 안전한 KST 보정 날짜 적용
+            if not date_key:
+                fallback_date = today_kst + timedelta(days=idx)
+                w_str = weekdays[fallback_date.weekday()]
+                date_key = fallback_date.strftime(f"%m-%d ({w_str})")
+            
+            # 가장 첫 번째 페이지(오늘)에만 [오늘] 마크 부착
+            if idx == 0 and "[오늘]" not in date_key:
                 date_key += " [오늘]"
 
-            print(f"수집 중 ({code} -> {date_key}): {target_url}")
+            print(f"수집 중 ({code} -> 날짜 인식: {date_key}): {target_url}")
             
             current_league = ""
             matches_for_day = []
@@ -71,7 +91,7 @@ def update_json_file():
                 if not text_content:
                     continue
 
-                # 리그 타이틀 행 감지
+                # 리그 타이틀 행 감지 (시간 형식이 없는 행)
                 if not re.search(r"\d{2}:\d{2}", text_content):
                     cleaned = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
                     cleaned = re.sub(r'경기수\s*\(.*?\)', '', cleaned).strip()
@@ -163,7 +183,7 @@ def update_json_file():
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
         
-    print("KST 날짜 기준 4일 치 data.json 갱신 완료!")
+    print("주황색 박스 날짜 인식 및 data.json 갱신 완료!")
 
 if __name__ == "__main__":
     update_json_file()
