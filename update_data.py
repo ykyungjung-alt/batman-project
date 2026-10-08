@@ -22,8 +22,9 @@ MAJOR_LEAGUES = [
 def convert_to_kst(time_str, base_date, source_offset_hours=0):
     """
     사이트 시각을 KST로 변환
-    - 유럽/기타(UTC+0): source_offset_hours = 0 (KST = UTC + 9)
-    - 브라질(UTC-3): source_offset_hours = -3 (UTC 변환 후 + 9)
+    - 브라질(UTC-3): source_offset_hours = -3
+    - 유럽/기타(UTC+0): source_offset_hours = 0
+    - KST = UTC + 9
     """
     try:
         h, m = map(int, time_str.split(":"))
@@ -150,7 +151,7 @@ def update_json_file():
                                 away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
                                 if home_team and away_team and home_team != away_team:
-                                    # 리그별 시차 적용 (브라질: -3, 유럽/기타: 0 -> UTC+9 가산)
+                                    # 브라질 리그: -3, 유럽 및 기타 리그: 0 (각각 UTC 거쳐 KST +9 적용)
                                     is_brazil = any(bl in current_league for bl in brazil_leagues)
                                     src_offset = -3 if is_brazil else 0
                                     kst_time = convert_to_kst(time_str, target_date, src_offset)
