@@ -1,70 +1,1238 @@
 {
-    "last_updated": "2026-10-09 04:04:09",
+    "last_updated": "2026-10-09 04:09:12",
     "daily_matches": {
         "10-09 (금) [오늘]": [
             {
                 "id": 1,
-                "league": "세리에 A 베타노",
-                "time": "10:30",
-                "original_time": "22:30",
+                "league": "분데스리가",
+                "time": "03:30",
+                "original_time": "18:30",
                 "status": "진행예정",
-                "home": "산투스",
-                "away": "플라멩고 RJ",
-                "home_team": "산투스",
-                "away_team": "플라멩고 RJ",
-                "tournament": "세리에 A 베타노",
+                "home": "도르트문트",
+                "away": "베르더 브레멘",
+                "home_team": "도르트문트",
+                "away_team": "베르더 브레멘",
+                "tournament": "분데스리가",
                 "score": "-",
                 "home_recent_stats": "4전/3승1무/0패",
                 "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[세리에 A 베타노] 산투스 vs 플라멩고 RJ (10:30)"
+                "match_name": "[분데스리가] 도르트문트 vs 베르더 브레멘 (03:30)"
             },
             {
                 "id": 2,
-                "league": "세리에 A 베타노",
-                "time": "11:00",
-                "original_time": "23:00",
+                "league": "라리가",
+                "time": "04:00",
+                "original_time": "19:00",
                 "status": "진행예정",
-                "home": "아틀레티코-PR",
-                "away": "아틀레티코-MG",
-                "home_team": "아틀레티코-PR",
-                "away_team": "아틀레티코-MG",
-                "tournament": "세리에 A 베타노",
+                "home": "말라가",
+                "away": "에스파뇰",
+                "home_team": "말라가",
+                "away_team": "에스파뇰",
+                "tournament": "라리가",
                 "score": "-",
                 "home_recent_stats": "4전/3승1무/0패",
                 "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[세리에 A 베타노] 아틀레티코-PR vs 아틀레티코-MG (11:00)"
+                "match_name": "[라리가] 말라가 vs 에스파뇰 (04:00)"
             },
             {
                 "id": 3,
-                "league": "프리미어리그",
-                "time": "05:30",
-                "original_time": "20:30",
+                "league": "K리그 1",
+                "time": "14:00",
+                "original_time": "05:00",
                 "status": "진행예정",
-                "home": "포트모어",
-                "away": "워터하우스",
-                "home_team": "포트모어",
-                "away_team": "워터하우스",
+                "home": "대전",
+                "away": "전북",
+                "home_team": "대전",
+                "away_team": "전북",
+                "tournament": "K리그 1",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[K리그 1] 대전 vs 전북 (14:00)"
+            },
+            {
+                "id": 4,
+                "league": "K리그 1",
+                "time": "16:30",
+                "original_time": "07:30",
+                "status": "진행예정",
+                "home": "강원",
+                "away": "부천",
+                "home_team": "강원",
+                "away_team": "부천",
+                "tournament": "K리그 1",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[K리그 1] 강원 vs 부천 (16:30)"
+            },
+            {
+                "id": 5,
+                "league": "K리그 1",
+                "time": "16:30",
+                "original_time": "07:30",
+                "status": "진행예정",
+                "home": "인천",
+                "away": "포항",
+                "home_team": "인천",
+                "away_team": "포항",
+                "tournament": "K리그 1",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[K리그 1] 인천 vs 포항 (16:30)"
+            },
+            {
+                "id": 6,
+                "league": "K리그 2",
+                "time": "14:00",
+                "original_time": "05:00",
+                "status": "진행예정",
+                "home": "수원FC",
+                "away": "화성FC",
+                "home_team": "수원FC",
+                "away_team": "화성FC",
+                "tournament": "K리그 2",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[K리그 2] 수원FC vs 화성FC (14:00)"
+            },
+            {
+                "id": 7,
+                "league": "K리그 2",
+                "time": "16:30",
+                "original_time": "07:30",
+                "status": "진행예정",
+                "home": "충북청주",
+                "away": "성남",
+                "home_team": "충북청주",
+                "away_team": "성남",
+                "tournament": "K리그 2",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[K리그 2] 충북청주 vs 성남 (16:30)"
+            },
+            {
+                "id": 8,
+                "league": "K리그 2",
+                "time": "16:30",
+                "original_time": "07:30",
+                "status": "진행예정",
+                "home": "김포",
+                "away": "서울E",
+                "home_team": "김포",
+                "away_team": "서울E",
+                "tournament": "K리그 2",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[K리그 2] 김포 vs 서울E (16:30)"
+            },
+            {
+                "id": 9,
+                "league": "프랑스 리그 1",
+                "time": "03:45",
+                "original_time": "18:45",
+                "status": "진행예정",
+                "home": "랑스",
+                "away": "리옹",
+                "home_team": "랑스",
+                "away_team": "리옹",
+                "tournament": "프랑스 리그 1",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프랑스 리그 1] 랑스 vs 리옹 (03:45)"
+            },
+            {
+                "id": 10,
+                "league": "잉글랜드 챔피언쉽",
+                "time": "04:00",
+                "original_time": "19:00",
+                "status": "진행예정",
+                "home": "웨스트햄",
+                "away": "QPR",
+                "home_team": "웨스트햄",
+                "away_team": "QPR",
+                "tournament": "잉글랜드 챔피언쉽",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[잉글랜드 챔피언쉽] 웨스트햄 vs QPR (04:00)"
+            },
+            {
+                "id": 11,
+                "league": "분데스리가 2부리그",
+                "time": "01:30",
+                "original_time": "16:30",
+                "status": "진행예정",
+                "home": "브라운슈바이크",
+                "away": "홀슈타인 킬",
+                "home_team": "브라운슈바이크",
+                "away_team": "홀슈타인 킬",
+                "tournament": "분데스리가 2부리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[분데스리가 2부리그] 브라운슈바이크 vs 홀슈타인 킬 (01:30)"
+            },
+            {
+                "id": 12,
+                "league": "분데스리가 2부리그",
+                "time": "01:30",
+                "original_time": "16:30",
+                "status": "진행예정",
+                "home": "하이덴하임",
+                "away": "카이저슬라우테른",
+                "home_team": "하이덴하임",
+                "away_team": "카이저슬라우테른",
+                "tournament": "분데스리가 2부리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[분데스리가 2부리그] 하이덴하임 vs 카이저슬라우테른 (01:30)"
+            },
+            {
+                "id": 13,
+                "league": "에레디비시",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "PSV 아인트호벤",
+                "away": "헤이렌베인",
+                "home_team": "PSV 아인트호벤",
+                "away_team": "헤이렌베인",
+                "tournament": "에레디비시",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[에레디비시] PSV 아인트호벤 vs 헤이렌베인 (03:00)"
+            },
+            {
+                "id": 14,
+                "league": "프리미어리그",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "모스타",
+                "away": "버즈버가",
+                "home_team": "모스타",
+                "away_team": "버즈버가",
                 "tournament": "프리미어리그",
                 "score": "-",
                 "home_recent_stats": "4전/3승1무/0패",
                 "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[프리미어리그] 포트모어 vs 워터하우스 (05:30)"
+                "match_name": "[프리미어리그] 모스타 vs 버즈버가 (03:00)"
             },
             {
-                "id": 4,
-                "league": "리가 프레미어 세리에 A",
-                "time": "07:00",
-                "original_time": "22:00",
+                "id": 15,
+                "league": "타이리그 1",
+                "time": "20:00",
+                "original_time": "11:00",
                 "status": "진행예정",
-                "home": "Guardianes de Oriente FC",
-                "away": "Lonsdaleita FC",
-                "home_team": "Guardianes de Oriente FC",
-                "away_team": "Lonsdaleita FC",
-                "tournament": "리가 프레미어 세리에 A",
+                "home": "라차부리",
+                "away": "수코타이",
+                "home_team": "라차부리",
+                "away_team": "수코타이",
+                "tournament": "타이리그 1",
                 "score": "-",
                 "home_recent_stats": "4전/3승1무/0패",
                 "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[리가 프레미어 세리에 A] Guardianes de Oriente FC vs Lonsdaleita FC (07:00)"
+                "match_name": "[타이리그 1] 라차부리 vs 수코타이 (20:00)"
+            },
+            {
+                "id": 16,
+                "league": "프리미어리그",
+                "time": "23:00",
+                "original_time": "14:00",
+                "status": "진행예정",
+                "home": "알 후세인",
+                "away": "알 아라비 어비드",
+                "home_team": "알 후세인",
+                "away_team": "알 아라비 어비드",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] 알 후세인 vs 알 아라비 어비드 (23:00)"
+            },
+            {
+                "id": 17,
+                "league": "프리미어리그",
+                "time": "01:30",
+                "original_time": "16:30",
+                "status": "진행예정",
+                "home": "알 자지라 암만",
+                "away": "알 웨다트",
+                "home_team": "알 자지라 암만",
+                "away_team": "알 웨다트",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] 알 자지라 암만 vs 알 웨다트 (01:30)"
+            },
+            {
+                "id": 18,
+                "league": "프리미어리그",
+                "time": "01:00",
+                "original_time": "16:00",
+                "status": "진행예정",
+                "home": "알 칼리디야",
+                "away": "알 무하라크",
+                "home_team": "알 칼리디야",
+                "away_team": "알 무하라크",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] 알 칼리디야 vs 알 무하라크 (01:00)"
+            },
+            {
+                "id": 19,
+                "league": "프리미어리그",
+                "time": "01:00",
+                "original_time": "16:00",
+                "status": "진행예정",
+                "home": "말키아",
+                "away": "알 리파",
+                "home_team": "말키아",
+                "away_team": "알 리파",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] 말키아 vs 알 리파 (01:00)"
+            },
+            {
+                "id": 20,
+                "league": "프리미어리그",
+                "time": "21:00",
+                "original_time": "12:00",
+                "status": "진행예정",
+                "home": "아라즈",
+                "away": "카파즈",
+                "home_team": "아라즈",
+                "away_team": "카파즈",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] 아라즈 vs 카파즈 (21:00)"
+            },
+            {
+                "id": 21,
+                "league": "프리미어리그",
+                "time": "00:30",
+                "original_time": "15:30",
+                "status": "진행예정",
+                "home": "네프트치 바쿠",
+                "away": "사바 바쿠",
+                "home_team": "네프트치 바쿠",
+                "away_team": "사바 바쿠",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] 네프트치 바쿠 vs 사바 바쿠 (00:30)"
+            },
+            {
+                "id": 22,
+                "league": "홍콩 프리미어리그",
+                "time": "21:00",
+                "original_time": "12:00",
+                "status": "진행예정",
+                "home": "이스턴 AA",
+                "away": "노스 디스트릭트",
+                "home_team": "이스턴 AA",
+                "away_team": "노스 디스트릭트",
+                "tournament": "홍콩 프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[홍콩 프리미어리그] 이스턴 AA vs 노스 디스트릭트 (21:00)"
+            },
+            {
+                "id": 23,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "20:00",
+                "original_time": "11:00",
+                "status": "진행예정",
+                "home": "카자흐스탄 (여)",
+                "away": "아일랜드 (여)",
+                "home_team": "카자흐스탄 (여)",
+                "away_team": "아일랜드 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 카자흐스탄 (여) vs 아일랜드 (여) (20:00)"
+            },
+            {
+                "id": 24,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "22:30",
+                "original_time": "13:30",
+                "status": "진행예정",
+                "home": "이스라엘 (여)",
+                "away": "스위스 (여)",
+                "home_team": "이스라엘 (여)",
+                "away_team": "스위스 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 이스라엘 (여) vs 스위스 (여) (22:30)"
+            },
+            {
+                "id": 25,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "00:30",
+                "original_time": "15:30",
+                "status": "진행예정",
+                "home": "핀란드 (여)",
+                "away": "세르비아 (여)",
+                "home_team": "핀란드 (여)",
+                "away_team": "세르비아 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 핀란드 (여) vs 세르비아 (여) (00:30)"
+            },
+            {
+                "id": 26,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "01:00",
+                "original_time": "16:00",
+                "status": "진행예정",
+                "home": "알바니아 (여)",
+                "away": "웨일스 (여)",
+                "home_team": "알바니아 (여)",
+                "away_team": "웨일스 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 알바니아 (여) vs 웨일스 (여) (01:00)"
+            },
+            {
+                "id": 27,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "01:00",
+                "original_time": "16:00",
+                "status": "진행예정",
+                "home": "코소보 (여)",
+                "away": "오스트리아 (여)",
+                "home_team": "코소보 (여)",
+                "away_team": "오스트리아 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 코소보 (여) vs 오스트리아 (여) (01:00)"
+            },
+            {
+                "id": 28,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "01:00",
+                "original_time": "16:00",
+                "status": "진행예정",
+                "home": "슬로바키아 (여)",
+                "away": "우크라이나 (여)",
+                "home_team": "슬로바키아 (여)",
+                "away_team": "우크라이나 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 슬로바키아 (여) vs 우크라이나 (여) (01:00)"
+            },
+            {
+                "id": 29,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "01:00",
+                "original_time": "16:00",
+                "status": "진행예정",
+                "home": "터키 (여)",
+                "away": "슬로베니아 (여)",
+                "home_team": "터키 (여)",
+                "away_team": "슬로베니아 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 터키 (여) vs 슬로베니아 (여) (01:00)"
+            },
+            {
+                "id": 30,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "01:05",
+                "original_time": "16:05",
+                "status": "진행예정",
+                "home": "리투아니아 (여)",
+                "away": "스웨덴 (여)",
+                "home_team": "리투아니아 (여)",
+                "away_team": "스웨덴 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 리투아니아 (여) vs 스웨덴 (여) (01:05)"
+            },
+            {
+                "id": 31,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "01:15",
+                "original_time": "16:15",
+                "status": "진행예정",
+                "home": "벨라루스 (여)",
+                "away": "이탈리아 (여)",
+                "home_team": "벨라루스 (여)",
+                "away_team": "이탈리아 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 벨라루스 (여) vs 이탈리아 (여) (01:15)"
+            },
+            {
+                "id": 32,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "01:30",
+                "original_time": "16:30",
+                "status": "진행예정",
+                "home": "그리스 (여)",
+                "away": "잉글랜드 (여)",
+                "home_team": "그리스 (여)",
+                "away_team": "잉글랜드 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 그리스 (여) vs 잉글랜드 (여) (01:30)"
+            },
+            {
+                "id": 33,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "01:45",
+                "original_time": "16:45",
+                "status": "진행예정",
+                "home": "크로아티아 (여)",
+                "away": "아이슬란드 (여)",
+                "home_team": "크로아티아 (여)",
+                "away_team": "아이슬란드 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 크로아티아 (여) vs 아이슬란드 (여) (01:45)"
+            },
+            {
+                "id": 34,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "02:00",
+                "original_time": "17:00",
+                "status": "진행예정",
+                "home": "체코 (여)",
+                "away": "스코틀랜드 (여)",
+                "home_team": "체코 (여)",
+                "away_team": "스코틀랜드 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 체코 (여) vs 스코틀랜드 (여) (02:00)"
+            },
+            {
+                "id": 35,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "02:00",
+                "original_time": "17:00",
+                "status": "진행예정",
+                "home": "루마니아 (여)",
+                "away": "노르웨이 (여)",
+                "home_team": "루마니아 (여)",
+                "away_team": "노르웨이 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 루마니아 (여) vs 노르웨이 (여) (02:00)"
+            },
+            {
+                "id": 36,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "헝가리 (여)",
+                "away": "네덜란드 (여)",
+                "home_team": "헝가리 (여)",
+                "away_team": "네덜란드 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 헝가리 (여) vs 네덜란드 (여) (03:00)"
+            },
+            {
+                "id": 37,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "북아일랜드 (여)",
+                "away": "포르투갈 (여)",
+                "home_team": "북아일랜드 (여)",
+                "away_team": "포르투갈 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 북아일랜드 (여) vs 포르투갈 (여) (03:00)"
+            },
+            {
+                "id": 38,
+                "league": "여자 월드컵 유럽 예선",
+                "time": "03:15",
+                "original_time": "18:15",
+                "status": "진행예정",
+                "home": "벨기에 (여)",
+                "away": "폴란드 (여)",
+                "home_team": "벨기에 (여)",
+                "away_team": "폴란드 (여)",
+                "tournament": "여자 월드컵 유럽 예선",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[여자 월드컵 유럽 예선] 벨기에 (여) vs 폴란드 (여) (03:15)"
+            },
+            {
+                "id": 39,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "사우샘프턴 U21",
+                "away": "QPR U21",
+                "home_team": "사우샘프턴 U21",
+                "away_team": "QPR U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 사우샘프턴 U21 vs QPR U21 (03:00)"
+            },
+            {
+                "id": 40,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "카디프 U21",
+                "away": "레스터 U21",
+                "home_team": "카디프 U21",
+                "away_team": "레스터 U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 카디프 U21 vs 레스터 U21 (03:00)"
+            },
+            {
+                "id": 41,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "버밍햄 U21",
+                "away": "허더스필드 U21",
+                "home_team": "버밍햄 U21",
+                "away_team": "허더스필드 U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 버밍햄 U21 vs 허더스필드 U21 (03:00)"
+            },
+            {
+                "id": 42,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "뉴캐슬 Utd U21",
+                "away": "루턴 U21",
+                "home_team": "뉴캐슬 Utd U21",
+                "away_team": "루턴 U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 뉴캐슬 Utd U21 vs 루턴 U21 (03:00)"
+            },
+            {
+                "id": 43,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "피터버러 U21",
+                "away": "노팅엄 U21",
+                "home_team": "피터버러 U21",
+                "away_team": "노팅엄 U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 피터버러 U21 vs 노팅엄 U21 (03:00)"
+            },
+            {
+                "id": 44,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "번리 U21",
+                "away": "프레스턴 U21",
+                "home_team": "번리 U21",
+                "away_team": "프레스턴 U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 번리 U21 vs 프레스턴 U21 (03:00)"
+            },
+            {
+                "id": 45,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "울버햄튼 U21",
+                "away": "플릿우드 U21",
+                "home_team": "울버햄튼 U21",
+                "away_team": "플릿우드 U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 울버햄튼 U21 vs 플릿우드 U21 (03:00)"
+            },
+            {
+                "id": 46,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "브라이튼 U21",
+                "away": "셰필드U U21",
+                "home_team": "브라이튼 U21",
+                "away_team": "셰필드U U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 브라이튼 U21 vs 셰필드U U21 (03:00)"
+            },
+            {
+                "id": 47,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "밀월 U21",
+                "away": "웨스트햄 U21",
+                "home_team": "밀월 U21",
+                "away_team": "웨스트햄 U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 밀월 U21 vs 웨스트햄 U21 (03:00)"
+            },
+            {
+                "id": 48,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "레딩 U21",
+                "away": "노르위치 U21",
+                "home_team": "레딩 U21",
+                "away_team": "노르위치 U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 레딩 U21 vs 노르위치 U21 (03:00)"
+            },
+            {
+                "id": 49,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "입스위치 U21",
+                "away": "웨스트브롬 U21",
+                "home_team": "입스위치 U21",
+                "away_team": "웨스트브롬 U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 입스위치 U21 vs 웨스트브롬 U21 (03:00)"
+            },
+            {
+                "id": 50,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "스토크시티 U21",
+                "away": "찰튼 U21",
+                "home_team": "스토크시티 U21",
+                "away_team": "찰튼 U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 스토크시티 U21 vs 찰튼 U21 (03:00)"
+            },
+            {
+                "id": 51,
+                "league": "프리미어리그 컵",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "리즈 U21",
+                "away": "스톡포트 U21",
+                "home_team": "리즈 U21",
+                "away_team": "스톡포트 U21",
+                "tournament": "프리미어리그 컵",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그 컵] 리즈 U21 vs 스톡포트 U21 (03:00)"
+            },
+            {
+                "id": 52,
+                "league": "프리미어리그",
+                "time": "23:00",
+                "original_time": "14:00",
+                "status": "진행예정",
+                "home": "AS 키갈리",
+                "away": "기쿰비",
+                "home_team": "AS 키갈리",
+                "away_team": "기쿰비",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] AS 키갈리 vs 기쿰비 (23:00)"
+            },
+            {
+                "id": 53,
+                "league": "프리미어리그",
+                "time": "02:00",
+                "original_time": "17:00",
+                "status": "진행예정",
+                "home": "고릴라",
+                "away": "라용 스뽀흐",
+                "home_team": "고릴라",
+                "away_team": "라용 스뽀흐",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] 고릴라 vs 라용 스뽀흐 (02:00)"
+            },
+            {
+                "id": 54,
+                "league": "프리미어리그",
+                "time": "02:00",
+                "original_time": "17:00",
+                "status": "진행예정",
+                "home": "Tonota FC",
+                "away": "Sua Flamingoes",
+                "home_team": "Tonota FC",
+                "away_team": "Sua Flamingoes",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] Tonota FC vs Sua Flamingoes (02:00)"
+            },
+            {
+                "id": 55,
+                "league": "프리미어리그",
+                "time": "02:00",
+                "original_time": "17:00",
+                "status": "진행예정",
+                "home": "가보론 Utd",
+                "away": "Morupule",
+                "home_team": "가보론 Utd",
+                "away_team": "Morupule",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] 가보론 Utd vs Morupule (02:00)"
+            },
+            {
+                "id": 56,
+                "league": "프리미어리그",
+                "time": "00:30",
+                "original_time": "15:30",
+                "status": "진행예정",
+                "home": "CFFEB",
+                "away": "살리타스",
+                "home_team": "CFFEB",
+                "away_team": "살리타스",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] CFFEB vs 살리타스 (00:30)"
+            },
+            {
+                "id": 57,
+                "league": "프리미어리그",
+                "time": "00:30",
+                "original_time": "15:30",
+                "status": "진행예정",
+                "home": "ASF 디울라소",
+                "away": "마제스틱",
+                "home_team": "ASF 디울라소",
+                "away_team": "마제스틱",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] ASF 디울라소 vs 마제스틱 (00:30)"
+            },
+            {
+                "id": 58,
+                "league": "국제 친선경기",
+                "time": "19:00",
+                "original_time": "10:00",
+                "status": "진행예정",
+                "home": "오스트리아 U19 (여)",
+                "away": "네덜란드 U19 (여)",
+                "home_team": "오스트리아 U19 (여)",
+                "away_team": "네덜란드 U19 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 오스트리아 U19 (여) vs 네덜란드 U19 (여) (19:00)"
+            },
+            {
+                "id": 59,
+                "league": "국제 친선경기",
+                "time": "19:30",
+                "original_time": "10:30",
+                "status": "진행예정",
+                "home": "안도라 (여)",
+                "away": "페로제도 (여)",
+                "home_team": "안도라 (여)",
+                "away_team": "페로제도 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 안도라 (여) vs 페로제도 (여) (19:30)"
+            },
+            {
+                "id": 60,
+                "league": "국제 친선경기",
+                "time": "20:00",
+                "original_time": "11:00",
+                "status": "진행예정",
+                "home": "페루 (여)",
+                "away": "필리핀 (여)",
+                "home_team": "페루 (여)",
+                "away_team": "필리핀 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 페루 (여) vs 필리핀 (여) (20:00)"
+            },
+            {
+                "id": 61,
+                "league": "국제 친선경기",
+                "time": "20:00",
+                "original_time": "11:00",
+                "status": "진행예정",
+                "home": "헝가리 U19 (여)",
+                "away": "독일 U19 (여)",
+                "home_team": "헝가리 U19 (여)",
+                "away_team": "독일 U19 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 헝가리 U19 (여) vs 독일 U19 (여) (20:00)"
+            },
+            {
+                "id": 62,
+                "league": "국제 친선경기",
+                "time": "20:00",
+                "original_time": "11:00",
+                "status": "진행예정",
+                "home": "벨라루스 U19 여",
+                "away": "러시아 U19 여",
+                "home_team": "벨라루스 U19 여",
+                "away_team": "러시아 U19 여",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 벨라루스 U19 여 vs 러시아 U19 여 (20:00)"
+            },
+            {
+                "id": 63,
+                "league": "국제 친선경기",
+                "time": "20:00",
+                "original_time": "11:00",
+                "status": "진행예정",
+                "home": "몬테네그로 (여)",
+                "away": "보스니아 헤르체고비나 (여)",
+                "home_team": "몬테네그로 (여)",
+                "away_team": "보스니아 헤르체고비나 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 몬테네그로 (여) vs 보스니아 헤르체고비나 (여) (20:00)"
+            },
+            {
+                "id": 64,
+                "league": "국제 친선경기",
+                "time": "22:00",
+                "original_time": "13:00",
+                "status": "진행예정",
+                "home": "슬로바키아 U19 (여)",
+                "away": "터키 U19 (여)",
+                "home_team": "슬로바키아 U19 (여)",
+                "away_team": "터키 U19 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 슬로바키아 U19 (여) vs 터키 U19 (여) (22:00)"
+            },
+            {
+                "id": 65,
+                "league": "국제 친선경기",
+                "time": "23:00",
+                "original_time": "14:00",
+                "status": "진행예정",
+                "home": "몰도바 (여)",
+                "away": "조지아 (여)",
+                "home_team": "몰도바 (여)",
+                "away_team": "조지아 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 몰도바 (여) vs 조지아 (여) (23:00)"
+            },
+            {
+                "id": 66,
+                "league": "국제 친선경기",
+                "time": "23:00",
+                "original_time": "14:00",
+                "status": "진행예정",
+                "home": "웨일스 U19 (여)",
+                "away": "그리스 U19 (여)",
+                "home_team": "웨일스 U19 (여)",
+                "away_team": "그리스 U19 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 웨일스 U19 (여) vs 그리스 U19 (여) (23:00)"
+            },
+            {
+                "id": 67,
+                "league": "국제 친선경기",
+                "time": "00:15",
+                "original_time": "15:15",
+                "status": "진행예정",
+                "home": "Nicaragua U16",
+                "away": "Costa Rica U16",
+                "home_team": "Nicaragua U16",
+                "away_team": "Costa Rica U16",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] Nicaragua U16 vs Costa Rica U16 (00:15)"
+            },
+            {
+                "id": 68,
+                "league": "국제 친선경기",
+                "time": "01:00",
+                "original_time": "16:00",
+                "status": "진행예정",
+                "home": "에스토니아 (여)",
+                "away": "Czech Republic (W) U23",
+                "home_team": "에스토니아 (여)",
+                "away_team": "Czech Republic (W) U23",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 에스토니아 (여) vs Czech Republic (W) U23 (01:00)"
+            },
+            {
+                "id": 69,
+                "league": "국제 친선경기",
+                "time": "02:00",
+                "original_time": "17:00",
+                "status": "진행예정",
+                "home": "몰타 (여)",
+                "away": "룩셈부르크 (여)",
+                "home_team": "몰타 (여)",
+                "away_team": "룩셈부르크 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 몰타 (여) vs 룩셈부르크 (여) (02:00)"
+            },
+            {
+                "id": 70,
+                "league": "국제 친선경기",
+                "time": "03:00",
+                "original_time": "18:00",
+                "status": "진행예정",
+                "home": "일본 (여)",
+                "away": "아이티 (여)",
+                "home_team": "일본 (여)",
+                "away_team": "아이티 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 일본 (여) vs 아이티 (여) (03:00)"
+            },
+            {
+                "id": 71,
+                "league": "국제 친선경기",
+                "time": "03:30",
+                "original_time": "18:30",
+                "status": "진행예정",
+                "home": "독일 (여)",
+                "away": "호주 (여)",
+                "home_team": "독일 (여)",
+                "away_team": "호주 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 독일 (여) vs 호주 (여) (03:30)"
+            },
+            {
+                "id": 72,
+                "league": "국제 친선경기",
+                "time": "06:00",
+                "original_time": "21:00",
+                "status": "진행예정",
+                "home": "Belize U16",
+                "away": "Honduras U16",
+                "home_team": "Belize U16",
+                "away_team": "Honduras U16",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] Belize U16 vs Honduras U16 (06:00)"
+            },
+            {
+                "id": 73,
+                "league": "국제 친선경기",
+                "time": "06:30",
+                "original_time": "21:30",
+                "status": "진행예정",
+                "home": "미국 (WU-23)",
+                "away": "Dominican Republic (W) U23",
+                "home_team": "미국 (WU-23)",
+                "away_team": "Dominican Republic (W) U23",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 미국 (WU-23) vs Dominican Republic (W) U23 (06:30)"
+            },
+            {
+                "id": 74,
+                "league": "국제 친선경기",
+                "time": "08:00",
+                "original_time": "23:00",
+                "status": "진행예정",
+                "home": "캐나다 (여)",
+                "away": "덴마크 (여)",
+                "home_team": "캐나다 (여)",
+                "away_team": "덴마크 (여)",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] 캐나다 (여) vs 덴마크 (여) (08:00)"
+            },
+            {
+                "id": 75,
+                "league": "국제 친선경기",
+                "time": "08:30",
+                "original_time": "23:30",
+                "status": "진행예정",
+                "home": "Puerto RicoU16",
+                "away": "Panama U16",
+                "home_team": "Puerto RicoU16",
+                "away_team": "Panama U16",
+                "tournament": "국제 친선경기",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[국제 친선경기] Puerto RicoU16 vs Panama U16 (08:30)"
+            },
+            {
+                "id": 76,
+                "league": "프리미어리그",
+                "time": "23:00",
+                "original_time": "14:00",
+                "status": "진행예정",
+                "home": "Entebbe UPPC",
+                "away": "폴리스",
+                "home_team": "Entebbe UPPC",
+                "away_team": "폴리스",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] Entebbe UPPC vs 폴리스 (23:00)"
+            },
+            {
+                "id": 77,
+                "league": "프리미어리그",
+                "time": "02:00",
+                "original_time": "17:00",
+                "status": "진행예정",
+                "home": "URA SC",
+                "away": "캄팔라 시티",
+                "home_team": "URA SC",
+                "away_team": "캄팔라 시티",
+                "tournament": "프리미어리그",
+                "score": "-",
+                "home_recent_stats": "4전/3승1무/0패",
+                "away_recent_stats": "4전/2승1무/1패",
+                "match_name": "[프리미어리그] URA SC vs 캄팔라 시티 (02:00)"
             }
         ],
         "10-10 (토)": [
@@ -278,38 +1446,6 @@
             },
             {
                 "id": 14,
-                "league": "세리에 A 베타노",
-                "time": "12:30",
-                "original_time": "00:30",
-                "status": "진행예정",
-                "home": "플루미넨시",
-                "away": "코리티바",
-                "home_team": "플루미넨시",
-                "away_team": "코리티바",
-                "tournament": "세리에 A 베타노",
-                "score": "-",
-                "home_recent_stats": "4전/3승1무/0패",
-                "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[세리에 A 베타노] 플루미넨시 vs 코리티바 (12:30)"
-            },
-            {
-                "id": 15,
-                "league": "세리에 A 베타노",
-                "time": "12:30",
-                "original_time": "00:30",
-                "status": "진행예정",
-                "home": "팔메이라스",
-                "away": "바이아",
-                "home_team": "팔메이라스",
-                "away_team": "바이아",
-                "tournament": "세리에 A 베타노",
-                "score": "-",
-                "home_recent_stats": "4전/3승1무/0패",
-                "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[세리에 A 베타노] 팔메이라스 vs 바이아 (12:30)"
-            },
-            {
-                "id": 16,
                 "league": "프리미어리그",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -325,7 +1461,7 @@
                 "match_name": "[프리미어리그] 모스타 vs 버즈버가 (03:00)"
             },
             {
-                "id": 17,
+                "id": 15,
                 "league": "타이리그 1",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -341,7 +1477,7 @@
                 "match_name": "[타이리그 1] 라차부리 vs 수코타이 (20:00)"
             },
             {
-                "id": 18,
+                "id": 16,
                 "league": "프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -357,7 +1493,7 @@
                 "match_name": "[프리미어리그] 알 후세인 vs 알 아라비 어비드 (23:00)"
             },
             {
-                "id": 19,
+                "id": 17,
                 "league": "프리미어리그",
                 "time": "01:30",
                 "original_time": "16:30",
@@ -373,7 +1509,7 @@
                 "match_name": "[프리미어리그] 알 자지라 암만 vs 알 웨다트 (01:30)"
             },
             {
-                "id": 20,
+                "id": 18,
                 "league": "프리미어리그",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -389,7 +1525,7 @@
                 "match_name": "[프리미어리그] 알 칼리디야 vs 알 무하라크 (01:00)"
             },
             {
-                "id": 21,
+                "id": 19,
                 "league": "프리미어리그",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -405,7 +1541,7 @@
                 "match_name": "[프리미어리그] 말키아 vs 알 리파 (01:00)"
             },
             {
-                "id": 22,
+                "id": 20,
                 "league": "프리미어리그",
                 "time": "21:00",
                 "original_time": "12:00",
@@ -421,7 +1557,7 @@
                 "match_name": "[프리미어리그] 아라즈 vs 카파즈 (21:00)"
             },
             {
-                "id": 23,
+                "id": 21,
                 "league": "프리미어리그",
                 "time": "00:30",
                 "original_time": "15:30",
@@ -437,7 +1573,7 @@
                 "match_name": "[프리미어리그] 네프트치 바쿠 vs 사바 바쿠 (00:30)"
             },
             {
-                "id": 24,
+                "id": 22,
                 "league": "홍콩 프리미어리그",
                 "time": "21:00",
                 "original_time": "12:00",
@@ -453,7 +1589,7 @@
                 "match_name": "[홍콩 프리미어리그] 이스턴 AA vs 노스 디스트릭트 (21:00)"
             },
             {
-                "id": 25,
+                "id": 23,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -469,7 +1605,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 카자흐스탄 (여) vs 아일랜드 (여) (20:00)"
             },
             {
-                "id": 26,
+                "id": 24,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "22:30",
                 "original_time": "13:30",
@@ -485,7 +1621,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 이스라엘 (여) vs 스위스 (여) (22:30)"
             },
             {
-                "id": 27,
+                "id": 25,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "00:30",
                 "original_time": "15:30",
@@ -501,7 +1637,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 핀란드 (여) vs 세르비아 (여) (00:30)"
             },
             {
-                "id": 28,
+                "id": 26,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -517,7 +1653,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 알바니아 (여) vs 웨일스 (여) (01:00)"
             },
             {
-                "id": 29,
+                "id": 27,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -533,7 +1669,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 코소보 (여) vs 오스트리아 (여) (01:00)"
             },
             {
-                "id": 30,
+                "id": 28,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -549,7 +1685,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 슬로바키아 (여) vs 우크라이나 (여) (01:00)"
             },
             {
-                "id": 31,
+                "id": 29,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -565,7 +1701,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 터키 (여) vs 슬로베니아 (여) (01:00)"
             },
             {
-                "id": 32,
+                "id": 30,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "01:05",
                 "original_time": "16:05",
@@ -581,7 +1717,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 리투아니아 (여) vs 스웨덴 (여) (01:05)"
             },
             {
-                "id": 33,
+                "id": 31,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "01:15",
                 "original_time": "16:15",
@@ -597,7 +1733,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 벨라루스 (여) vs 이탈리아 (여) (01:15)"
             },
             {
-                "id": 34,
+                "id": 32,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "01:30",
                 "original_time": "16:30",
@@ -613,7 +1749,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 그리스 (여) vs 잉글랜드 (여) (01:30)"
             },
             {
-                "id": 35,
+                "id": 33,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "01:45",
                 "original_time": "16:45",
@@ -629,7 +1765,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 크로아티아 (여) vs 아이슬란드 (여) (01:45)"
             },
             {
-                "id": 36,
+                "id": 34,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "02:00",
                 "original_time": "17:00",
@@ -645,7 +1781,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 체코 (여) vs 스코틀랜드 (여) (02:00)"
             },
             {
-                "id": 37,
+                "id": 35,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "02:00",
                 "original_time": "17:00",
@@ -661,7 +1797,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 루마니아 (여) vs 노르웨이 (여) (02:00)"
             },
             {
-                "id": 38,
+                "id": 36,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -677,7 +1813,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 헝가리 (여) vs 네덜란드 (여) (03:00)"
             },
             {
-                "id": 39,
+                "id": 37,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -693,7 +1829,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 북아일랜드 (여) vs 포르투갈 (여) (03:00)"
             },
             {
-                "id": 40,
+                "id": 38,
                 "league": "여자 월드컵 유럽 예선",
                 "time": "03:15",
                 "original_time": "18:15",
@@ -709,7 +1845,7 @@
                 "match_name": "[여자 월드컵 유럽 예선] 벨기에 (여) vs 폴란드 (여) (03:15)"
             },
             {
-                "id": 41,
+                "id": 39,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -725,7 +1861,7 @@
                 "match_name": "[프리미어리그 컵] 사우샘프턴 U21 vs QPR U21 (03:00)"
             },
             {
-                "id": 42,
+                "id": 40,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -741,7 +1877,7 @@
                 "match_name": "[프리미어리그 컵] 카디프 U21 vs 레스터 U21 (03:00)"
             },
             {
-                "id": 43,
+                "id": 41,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -757,7 +1893,7 @@
                 "match_name": "[프리미어리그 컵] 버밍햄 U21 vs 허더스필드 U21 (03:00)"
             },
             {
-                "id": 44,
+                "id": 42,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -773,7 +1909,7 @@
                 "match_name": "[프리미어리그 컵] 뉴캐슬 Utd U21 vs 루턴 U21 (03:00)"
             },
             {
-                "id": 45,
+                "id": 43,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -789,7 +1925,7 @@
                 "match_name": "[프리미어리그 컵] 피터버러 U21 vs 노팅엄 U21 (03:00)"
             },
             {
-                "id": 46,
+                "id": 44,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -805,7 +1941,7 @@
                 "match_name": "[프리미어리그 컵] 번리 U21 vs 프레스턴 U21 (03:00)"
             },
             {
-                "id": 47,
+                "id": 45,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -821,7 +1957,7 @@
                 "match_name": "[프리미어리그 컵] 울버햄튼 U21 vs 플릿우드 U21 (03:00)"
             },
             {
-                "id": 48,
+                "id": 46,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -837,7 +1973,7 @@
                 "match_name": "[프리미어리그 컵] 브라이튼 U21 vs 셰필드U U21 (03:00)"
             },
             {
-                "id": 49,
+                "id": 47,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -853,7 +1989,7 @@
                 "match_name": "[프리미어리그 컵] 밀월 U21 vs 웨스트햄 U21 (03:00)"
             },
             {
-                "id": 50,
+                "id": 48,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -869,7 +2005,7 @@
                 "match_name": "[프리미어리그 컵] 레딩 U21 vs 노르위치 U21 (03:00)"
             },
             {
-                "id": 51,
+                "id": 49,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -885,7 +2021,7 @@
                 "match_name": "[프리미어리그 컵] 입스위치 U21 vs 웨스트브롬 U21 (03:00)"
             },
             {
-                "id": 52,
+                "id": 50,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -901,7 +2037,7 @@
                 "match_name": "[프리미어리그 컵] 스토크시티 U21 vs 찰튼 U21 (03:00)"
             },
             {
-                "id": 53,
+                "id": 51,
                 "league": "프리미어리그 컵",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -917,7 +2053,7 @@
                 "match_name": "[프리미어리그 컵] 리즈 U21 vs 스톡포트 U21 (03:00)"
             },
             {
-                "id": 54,
+                "id": 52,
                 "league": "프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -933,7 +2069,7 @@
                 "match_name": "[프리미어리그] AS 키갈리 vs 기쿰비 (23:00)"
             },
             {
-                "id": 55,
+                "id": 53,
                 "league": "프리미어리그",
                 "time": "02:00",
                 "original_time": "17:00",
@@ -949,7 +2085,7 @@
                 "match_name": "[프리미어리그] 고릴라 vs 라용 스뽀흐 (02:00)"
             },
             {
-                "id": 56,
+                "id": 54,
                 "league": "프리미어리그",
                 "time": "02:00",
                 "original_time": "17:00",
@@ -965,7 +2101,7 @@
                 "match_name": "[프리미어리그] Tonota FC vs Sua Flamingoes (02:00)"
             },
             {
-                "id": 57,
+                "id": 55,
                 "league": "프리미어리그",
                 "time": "02:00",
                 "original_time": "17:00",
@@ -981,7 +2117,7 @@
                 "match_name": "[프리미어리그] 가보론 Utd vs Morupule (02:00)"
             },
             {
-                "id": 58,
+                "id": 56,
                 "league": "프리미어리그",
                 "time": "00:30",
                 "original_time": "15:30",
@@ -997,7 +2133,7 @@
                 "match_name": "[프리미어리그] CFFEB vs 살리타스 (00:30)"
             },
             {
-                "id": 59,
+                "id": 57,
                 "league": "프리미어리그",
                 "time": "00:30",
                 "original_time": "15:30",
@@ -1013,7 +2149,7 @@
                 "match_name": "[프리미어리그] ASF 디울라소 vs 마제스틱 (00:30)"
             },
             {
-                "id": 60,
+                "id": 58,
                 "league": "국제 친선경기",
                 "time": "19:00",
                 "original_time": "10:00",
@@ -1029,7 +2165,7 @@
                 "match_name": "[국제 친선경기] 오스트리아 U19 (여) vs 네덜란드 U19 (여) (19:00)"
             },
             {
-                "id": 61,
+                "id": 59,
                 "league": "국제 친선경기",
                 "time": "19:30",
                 "original_time": "10:30",
@@ -1045,7 +2181,7 @@
                 "match_name": "[국제 친선경기] 안도라 (여) vs 페로제도 (여) (19:30)"
             },
             {
-                "id": 62,
+                "id": 60,
                 "league": "국제 친선경기",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -1061,7 +2197,7 @@
                 "match_name": "[국제 친선경기] 페루 (여) vs 필리핀 (여) (20:00)"
             },
             {
-                "id": 63,
+                "id": 61,
                 "league": "국제 친선경기",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -1077,7 +2213,7 @@
                 "match_name": "[국제 친선경기] 헝가리 U19 (여) vs 독일 U19 (여) (20:00)"
             },
             {
-                "id": 64,
+                "id": 62,
                 "league": "국제 친선경기",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -1093,7 +2229,7 @@
                 "match_name": "[국제 친선경기] 벨라루스 U19 여 vs 러시아 U19 여 (20:00)"
             },
             {
-                "id": 65,
+                "id": 63,
                 "league": "국제 친선경기",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -1109,7 +2245,7 @@
                 "match_name": "[국제 친선경기] 몬테네그로 (여) vs 보스니아 헤르체고비나 (여) (20:00)"
             },
             {
-                "id": 66,
+                "id": 64,
                 "league": "국제 친선경기",
                 "time": "22:00",
                 "original_time": "13:00",
@@ -1125,7 +2261,7 @@
                 "match_name": "[국제 친선경기] 슬로바키아 U19 (여) vs 터키 U19 (여) (22:00)"
             },
             {
-                "id": 67,
+                "id": 65,
                 "league": "국제 친선경기",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -1141,7 +2277,7 @@
                 "match_name": "[국제 친선경기] 몰도바 (여) vs 조지아 (여) (23:00)"
             },
             {
-                "id": 68,
+                "id": 66,
                 "league": "국제 친선경기",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -1157,7 +2293,7 @@
                 "match_name": "[국제 친선경기] 웨일스 U19 (여) vs 그리스 U19 (여) (23:00)"
             },
             {
-                "id": 69,
+                "id": 67,
                 "league": "국제 친선경기",
                 "time": "00:15",
                 "original_time": "15:15",
@@ -1173,7 +2309,7 @@
                 "match_name": "[국제 친선경기] Nicaragua U16 vs Costa Rica U16 (00:15)"
             },
             {
-                "id": 70,
+                "id": 68,
                 "league": "국제 친선경기",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -1189,7 +2325,7 @@
                 "match_name": "[국제 친선경기] 에스토니아 (여) vs Czech Republic (W) U23 (01:00)"
             },
             {
-                "id": 71,
+                "id": 69,
                 "league": "국제 친선경기",
                 "time": "02:00",
                 "original_time": "17:00",
@@ -1205,7 +2341,7 @@
                 "match_name": "[국제 친선경기] 몰타 (여) vs 룩셈부르크 (여) (02:00)"
             },
             {
-                "id": 72,
+                "id": 70,
                 "league": "국제 친선경기",
                 "time": "03:00",
                 "original_time": "18:00",
@@ -1221,7 +2357,7 @@
                 "match_name": "[국제 친선경기] 일본 (여) vs 아이티 (여) (03:00)"
             },
             {
-                "id": 73,
+                "id": 71,
                 "league": "국제 친선경기",
                 "time": "03:30",
                 "original_time": "18:30",
@@ -1237,7 +2373,7 @@
                 "match_name": "[국제 친선경기] 독일 (여) vs 호주 (여) (03:30)"
             },
             {
-                "id": 74,
+                "id": 72,
                 "league": "국제 친선경기",
                 "time": "06:00",
                 "original_time": "21:00",
@@ -1253,7 +2389,7 @@
                 "match_name": "[국제 친선경기] Belize U16 vs Honduras U16 (06:00)"
             },
             {
-                "id": 75,
+                "id": 73,
                 "league": "국제 친선경기",
                 "time": "06:30",
                 "original_time": "21:30",
@@ -1269,7 +2405,7 @@
                 "match_name": "[국제 친선경기] 미국 (WU-23) vs Dominican Republic (W) U23 (06:30)"
             },
             {
-                "id": 76,
+                "id": 74,
                 "league": "국제 친선경기",
                 "time": "08:00",
                 "original_time": "23:00",
@@ -1285,7 +2421,7 @@
                 "match_name": "[국제 친선경기] 캐나다 (여) vs 덴마크 (여) (08:00)"
             },
             {
-                "id": 77,
+                "id": 75,
                 "league": "국제 친선경기",
                 "time": "08:30",
                 "original_time": "23:30",
@@ -1301,7 +2437,7 @@
                 "match_name": "[국제 친선경기] Puerto RicoU16 vs Panama U16 (08:30)"
             },
             {
-                "id": 78,
+                "id": 76,
                 "league": "프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -1317,7 +2453,7 @@
                 "match_name": "[프리미어리그] Entebbe UPPC vs 폴리스 (23:00)"
             },
             {
-                "id": 79,
+                "id": 77,
                 "league": "프리미어리그",
                 "time": "02:00",
                 "original_time": "17:00",
@@ -2200,22 +3336,6 @@
             },
             {
                 "id": 55,
-                "league": "세리에 A 베타노",
-                "time": "09:00",
-                "original_time": "21:00",
-                "status": "진행예정",
-                "home": "바스코",
-                "away": "헤모",
-                "home_team": "바스코",
-                "away_team": "헤모",
-                "tournament": "세리에 A 베타노",
-                "score": "-",
-                "home_recent_stats": "4전/3승1무/0패",
-                "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[세리에 A 베타노] 바스코 vs 헤모 (09:00)"
-            },
-            {
-                "id": 56,
                 "league": "잉글랜드 리그 1",
                 "time": "20:30",
                 "original_time": "11:30",
@@ -2231,7 +3351,7 @@
                 "match_name": "[잉글랜드 리그 1] 노츠카운티 vs 옥스포드U (20:30)"
             },
             {
-                "id": 57,
+                "id": 56,
                 "league": "잉글랜드 리그 1",
                 "time": "20:30",
                 "original_time": "11:30",
@@ -2247,7 +3367,7 @@
                 "match_name": "[잉글랜드 리그 1] 플리머스 vs 윔블던 (20:30)"
             },
             {
-                "id": 58,
+                "id": 57,
                 "league": "잉글랜드 리그 1",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2263,7 +3383,7 @@
                 "match_name": "[잉글랜드 리그 1] 브래드포드 시티 vs 레이턴 (23:00)"
             },
             {
-                "id": 59,
+                "id": 58,
                 "league": "잉글랜드 리그 1",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2279,7 +3399,7 @@
                 "match_name": "[잉글랜드 리그 1] 케임브리지U vs 블랙풀 (23:00)"
             },
             {
-                "id": 60,
+                "id": 59,
                 "league": "잉글랜드 리그 1",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2295,7 +3415,7 @@
                 "match_name": "[잉글랜드 리그 1] 돈캐스터 vs 버튼 (23:00)"
             },
             {
-                "id": 61,
+                "id": 60,
                 "league": "잉글랜드 리그 1",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2311,7 +3431,7 @@
                 "match_name": "[잉글랜드 리그 1] 허더스필드 vs 셰필드W (23:00)"
             },
             {
-                "id": 62,
+                "id": 61,
                 "league": "잉글랜드 리그 1",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2327,7 +3447,7 @@
                 "match_name": "[잉글랜드 리그 1] 레스터 vs 피터버러 (23:00)"
             },
             {
-                "id": 63,
+                "id": 62,
                 "league": "잉글랜드 리그 1",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2343,7 +3463,7 @@
                 "match_name": "[잉글랜드 리그 1] 맨스필드 vs 브롬리 (23:00)"
             },
             {
-                "id": 64,
+                "id": 63,
                 "league": "잉글랜드 리그 1",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2359,7 +3479,7 @@
                 "match_name": "[잉글랜드 리그 1] 밀턴 vs 레딩 (23:00)"
             },
             {
-                "id": 65,
+                "id": 64,
                 "league": "잉글랜드 리그 1",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2375,7 +3495,7 @@
                 "match_name": "[잉글랜드 리그 1] 스티버니지 vs 위건 (23:00)"
             },
             {
-                "id": 66,
+                "id": 65,
                 "league": "잉글랜드 리그 1",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2391,7 +3511,7 @@
                 "match_name": "[잉글랜드 리그 1] 스톡포트 vs 반슬리 (23:00)"
             },
             {
-                "id": 67,
+                "id": 66,
                 "league": "잉글랜드 리그 1",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2407,7 +3527,7 @@
                 "match_name": "[잉글랜드 리그 1] 위컴 vs 루턴 (23:00)"
             },
             {
-                "id": 68,
+                "id": 67,
                 "league": "챔피언쉽",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2423,7 +3543,7 @@
                 "match_name": "[챔피언쉽] 아브로스 vs 모튼 (23:00)"
             },
             {
-                "id": 69,
+                "id": 68,
                 "league": "챔피언쉽",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2439,7 +3559,7 @@
                 "match_name": "[챔피언쉽] 에어 vs 던펌린 (23:00)"
             },
             {
-                "id": 70,
+                "id": 69,
                 "league": "챔피언쉽",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2455,7 +3575,7 @@
                 "match_name": "[챔피언쉽] 인버네스 vs 스텐하우스뮤어 (23:00)"
             },
             {
-                "id": 71,
+                "id": 70,
                 "league": "챔피언쉽",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2471,7 +3591,7 @@
                 "match_name": "[챔피언쉽] 리빙스턴 vs 파틱 티슬 (23:00)"
             },
             {
-                "id": 72,
+                "id": 71,
                 "league": "챔피언쉽",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2487,7 +3607,7 @@
                 "match_name": "[챔피언쉽] 레이스 vs 퀸스파크 (23:00)"
             },
             {
-                "id": 73,
+                "id": 72,
                 "league": "프로리그 1",
                 "time": "22:30",
                 "original_time": "13:30",
@@ -2503,7 +3623,7 @@
                 "match_name": "[프로리그 1] 벤 구에르다네 vs 아프리카인 (22:30)"
             },
             {
-                "id": 74,
+                "id": 73,
                 "league": "프로리그 1",
                 "time": "22:30",
                 "original_time": "13:30",
@@ -2519,7 +3639,7 @@
                 "match_name": "[프로리그 1] CA 비제르틴 vs 모나스티르 (22:30)"
             },
             {
-                "id": 75,
+                "id": 74,
                 "league": "프로리그 1",
                 "time": "22:30",
                 "original_time": "13:30",
@@ -2535,7 +3655,7 @@
                 "match_name": "[프로리그 1] 에스페란스 튀니스 vs 올림피크 베자 (22:30)"
             },
             {
-                "id": 76,
+                "id": 75,
                 "league": "프로리그 1",
                 "time": "22:30",
                 "original_time": "13:30",
@@ -2551,7 +3671,7 @@
                 "match_name": "[프로리그 1] Progres Sakiet vs 스팍시엔 (22:30)"
             },
             {
-                "id": 77,
+                "id": 76,
                 "league": "프리미어리그",
                 "time": "22:30",
                 "original_time": "13:30",
@@ -2567,7 +3687,7 @@
                 "match_name": "[프리미어리그] 버커카라 vs 볼레타 (22:30)"
             },
             {
-                "id": 78,
+                "id": 77,
                 "league": "프리미어리그",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -2583,7 +3703,7 @@
                 "match_name": "[프리미어리그] 마르삭슬로크 vs 자바르 (01:00)"
             },
             {
-                "id": 79,
+                "id": 78,
                 "league": "타이리그 1",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -2599,7 +3719,7 @@
                 "match_name": "[타이리그 1] 빠툼 유나이티드 vs 아유타야 Utd (20:00)"
             },
             {
-                "id": 80,
+                "id": 79,
                 "league": "타이리그 1",
                 "time": "20:30",
                 "original_time": "11:30",
@@ -2615,7 +3735,7 @@
                 "match_name": "[타이리그 1] 부리람 vs 라용 FC (20:30)"
             },
             {
-                "id": 81,
+                "id": 80,
                 "league": "타이리그 1",
                 "time": "21:00",
                 "original_time": "12:00",
@@ -2631,7 +3751,7 @@
                 "match_name": "[타이리그 1] 우타이타니 vs 라시살라이 Utd (21:00)"
             },
             {
-                "id": 82,
+                "id": 81,
                 "league": "프리미어리그",
                 "time": "00:00",
                 "original_time": "15:00",
@@ -2647,7 +3767,7 @@
                 "match_name": "[프리미어리그] 스웨드루 올 블랙스 vs 아산테 코토코 (00:00)"
             },
             {
-                "id": 83,
+                "id": 82,
                 "league": "남부 프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2663,7 +3783,7 @@
                 "match_name": "[남부 프리미어리그] 베이싱스토크 vs 멜버른 타운 (23:00)"
             },
             {
-                "id": 84,
+                "id": 83,
                 "league": "남부 프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2679,7 +3799,7 @@
                 "match_name": "[남부 프리미어리그] 바스시티 vs 고스포트 (23:00)"
             },
             {
-                "id": 85,
+                "id": 84,
                 "league": "남부 프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2695,7 +3815,7 @@
                 "match_name": "[남부 프리미어리그] 처트세이 vs 치픈햄 (23:00)"
             },
             {
-                "id": 86,
+                "id": 85,
                 "league": "남부 프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2711,7 +3831,7 @@
                 "match_name": "[남부 프리미어리그] 치체스터 vs 플리머스 파크웨이 (23:00)"
             },
             {
-                "id": 87,
+                "id": 86,
                 "league": "남부 프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2727,7 +3847,7 @@
                 "match_name": "[남부 프리미어리그] 프롬 vs 숄링 (23:00)"
             },
             {
-                "id": 88,
+                "id": 87,
                 "league": "남부 프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2743,7 +3863,7 @@
                 "match_name": "[남부 프리미어리그] 핸워스 vs 글로스터시티 (23:00)"
             },
             {
-                "id": 89,
+                "id": 88,
                 "league": "남부 프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2759,7 +3879,7 @@
                 "match_name": "[남부 프리미어리그] 풀 vs 블랙넬 (23:00)"
             },
             {
-                "id": 90,
+                "id": 89,
                 "league": "남부 프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2775,7 +3895,7 @@
                 "match_name": "[남부 프리미어리그] 톤턴 vs 한웰 타운 (23:00)"
             },
             {
-                "id": 91,
+                "id": 90,
                 "league": "남부 프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2791,7 +3911,7 @@
                 "match_name": "[남부 프리미어리그] 억스브리지 vs 이브샴 (23:00)"
             },
             {
-                "id": 92,
+                "id": 91,
                 "league": "남부 프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2807,7 +3927,7 @@
                 "match_name": "[남부 프리미어리그] 윔본 vs 하번트앤W (23:00)"
             },
             {
-                "id": 93,
+                "id": 92,
                 "league": "남부 프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2823,7 +3943,7 @@
                 "match_name": "[남부 프리미어리그] 예이트 vs 베르켐스티드 (23:00)"
             },
             {
-                "id": 94,
+                "id": 93,
                 "league": "프리미어리그",
                 "time": "20:30",
                 "original_time": "11:30",
@@ -2839,7 +3959,7 @@
                 "match_name": "[프리미어리그] 게일랑 vs 알비렉스 니가타 (20:30)"
             },
             {
-                "id": 95,
+                "id": 94,
                 "league": "프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2855,7 +3975,7 @@
                 "match_name": "[프리미어리그] 알 람타 vs Doqarah (23:00)"
             },
             {
-                "id": 96,
+                "id": 95,
                 "league": "프리미어리그",
                 "time": "01:30",
                 "original_time": "16:30",
@@ -2871,7 +3991,7 @@
                 "match_name": "[프리미어리그] 알살트 vs 알 파이살리 암만 (01:30)"
             },
             {
-                "id": 97,
+                "id": 96,
                 "league": "프리미어리그",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -2887,7 +4007,7 @@
                 "match_name": "[프리미어리그] 알 하드 vs 알-이티파크 (01:00)"
             },
             {
-                "id": 98,
+                "id": 97,
                 "league": "프리미어리그",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -2903,7 +4023,7 @@
                 "match_name": "[프리미어리그] 마나마 클럽 vs 알-아흘리 마나마 (01:00)"
             },
             {
-                "id": 99,
+                "id": 98,
                 "league": "프리미어리그",
                 "time": "19:00",
                 "original_time": "10:00",
@@ -2919,7 +4039,7 @@
                 "match_name": "[프리미어리그] 에르티스 파블로다르 vs 키질자르 (19:00)"
             },
             {
-                "id": 100,
+                "id": 99,
                 "league": "프리미어리그",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -2935,7 +4055,7 @@
                 "match_name": "[프리미어리그] 토볼 vs FC 아스타나 (20:00)"
             },
             {
-                "id": 101,
+                "id": 100,
                 "league": "프리미어리그",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -2951,7 +4071,7 @@
                 "match_name": "[프리미어리그] 옐리마이 세메이 vs 악퇴베 (20:00)"
             },
             {
-                "id": 102,
+                "id": 101,
                 "league": "프리미어리그",
                 "time": "21:00",
                 "original_time": "12:00",
@@ -2967,7 +4087,7 @@
                 "match_name": "[프리미어리그] 카이랏 알마티 vs 제티슈 탈디코르간 (21:00)"
             },
             {
-                "id": 103,
+                "id": 102,
                 "league": "프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -2983,7 +4103,7 @@
                 "match_name": "[프리미어리그] 제니스 vs 아티라우 (23:00)"
             },
             {
-                "id": 104,
+                "id": 103,
                 "league": "프리미어리그",
                 "time": "21:00",
                 "original_time": "12:00",
@@ -2999,7 +4119,7 @@
                 "match_name": "[프리미어리그] 반 vs FC 간자사르 (21:00)"
             },
             {
-                "id": 105,
+                "id": 104,
                 "league": "프리미어리그",
                 "time": "00:00",
                 "original_time": "15:00",
@@ -3015,7 +4135,7 @@
                 "match_name": "[프리미어리그] 아라라트-아르메니아 vs 알라쉬커트 (00:00)"
             },
             {
-                "id": 106,
+                "id": 105,
                 "league": "프리미어리그",
                 "time": "02:30",
                 "original_time": "17:30",
@@ -3031,7 +4151,7 @@
                 "match_name": "[프리미어리그] 07 베스터 vs 스트레이머 (02:30)"
             },
             {
-                "id": 107,
+                "id": 106,
                 "league": "프리미어리그",
                 "time": "22:00",
                 "original_time": "13:00",
@@ -3047,7 +4167,7 @@
                 "match_name": "[프리미어리그] 지라 vs 샤마흐 (22:00)"
             },
             {
-                "id": 108,
+                "id": 107,
                 "league": "프리미어리그",
                 "time": "00:30",
                 "original_time": "15:30",
@@ -3063,7 +4183,7 @@
                 "match_name": "[프리미어리그] 숨가이트 vs 가발라 (00:30)"
             },
             {
-                "id": 109,
+                "id": 108,
                 "league": "홍콩 프리미어리그",
                 "time": "17:00",
                 "original_time": "08:00",
@@ -3079,7 +4199,7 @@
                 "match_name": "[홍콩 프리미어리그] 킷지 vs 홍콩 FC (17:00)"
             },
             {
-                "id": 110,
+                "id": 109,
                 "league": "홍콩 프리미어리그",
                 "time": "17:00",
                 "original_time": "08:00",
@@ -3095,7 +4215,7 @@
                 "match_name": "[홍콩 프리미어리그] 다푸 vs 주룽 시티 (17:00)"
             },
             {
-                "id": 111,
+                "id": 110,
                 "league": "프리미어리그 컵",
                 "time": "21:00",
                 "original_time": "12:00",
@@ -3111,7 +4231,7 @@
                 "match_name": "[프리미어리그 컵] 브렌트포드 U21 vs 더비 U21 (21:00)"
             },
             {
-                "id": 112,
+                "id": 111,
                 "league": "프리미어리그",
                 "time": "22:00",
                 "original_time": "13:00",
@@ -3127,7 +4247,7 @@
                 "match_name": "[프리미어리그] 부게세라 FC vs 에팅셀레 (22:00)"
             },
             {
-                "id": 113,
+                "id": 112,
                 "league": "프리미어리그",
                 "time": "22:00",
                 "original_time": "13:00",
@@ -3143,7 +4263,7 @@
                 "match_name": "[프리미어리그] 마리네 vs 키요부 (22:00)"
             },
             {
-                "id": 114,
+                "id": 113,
                 "league": "리가 프레미어 세리에 A",
                 "time": "10:45",
                 "original_time": "01:45",
@@ -3159,7 +4279,7 @@
                 "match_name": "[리가 프레미어 세리에 A] Real San Cosme vs Fut Car (10:45)"
             },
             {
-                "id": 115,
+                "id": 114,
                 "league": "프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -3175,7 +4295,7 @@
                 "match_name": "[프리미어리그] 타픽 FC vs Matebele (23:00)"
             },
             {
-                "id": 116,
+                "id": 115,
                 "league": "프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -3191,7 +4311,7 @@
                 "match_name": "[프리미어리그] BDF XI vs 오파라 유나이티드 (23:00)"
             },
             {
-                "id": 117,
+                "id": 116,
                 "league": "프리미어리그",
                 "time": "14:00",
                 "original_time": "05:00",
@@ -3207,7 +4327,7 @@
                 "match_name": "[프리미어리그] 허브드 vs Amtat FC (14:00)"
             },
             {
-                "id": 118,
+                "id": 117,
                 "league": "프리미어리그",
                 "time": "17:00",
                 "original_time": "08:00",
@@ -3223,7 +4343,7 @@
                 "match_name": "[프리미어리그] Khovd Western vs 헌터스 (17:00)"
             },
             {
-                "id": 119,
+                "id": 118,
                 "league": "캐나다 프리미어리그",
                 "time": "05:00",
                 "original_time": "20:00",
@@ -3239,7 +4359,7 @@
                 "match_name": "[캐나다 프리미어리그] Supra Du Quebec vs 밴쿠버 FC (05:00)"
             },
             {
-                "id": 120,
+                "id": 119,
                 "league": "프리미어리그",
                 "time": "00:30",
                 "original_time": "15:30",
@@ -3255,7 +4375,7 @@
                 "match_name": "[프리미어리그] 스포르팅 캐스케이즈 vs 소나벨 와가두구 (00:30)"
             },
             {
-                "id": 121,
+                "id": 120,
                 "league": "프리미어리그",
                 "time": "00:30",
                 "original_time": "15:30",
@@ -3271,7 +4391,7 @@
                 "match_name": "[프리미어리그] FocuSport FC vs 라히모 (00:30)"
             },
             {
-                "id": 122,
+                "id": 121,
                 "league": "국제 친선경기",
                 "time": "10:00",
                 "original_time": "01:00",
@@ -3287,7 +4407,7 @@
                 "match_name": "[국제 친선경기] 멕시코 (여) vs 자메이카 (여) (10:00)"
             },
             {
-                "id": 123,
+                "id": 122,
                 "league": "국제 친선경기",
                 "time": "10:30",
                 "original_time": "01:30",
@@ -3303,7 +4423,7 @@
                 "match_name": "[국제 친선경기] 엘 살바도르 (여) vs 파라과이 (여) (10:30)"
             },
             {
-                "id": 124,
+                "id": 123,
                 "league": "국제 친선경기",
                 "time": "11:00",
                 "original_time": "02:00",
@@ -3319,7 +4439,7 @@
                 "match_name": "[국제 친선경기] El Salvador U16 vs Guatemala U16 (11:00)"
             },
             {
-                "id": 125,
+                "id": 124,
                 "league": "국제 친선경기",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -3335,7 +4455,7 @@
                 "match_name": "[국제 친선경기] 에스토니아 U19 (여) vs 라트비아 U19 (여) (20:00)"
             },
             {
-                "id": 126,
+                "id": 125,
                 "league": "국제 친선경기",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -3351,7 +4471,7 @@
                 "match_name": "[국제 친선경기] 벨라루스 U17 (여) vs 러시아 U17 (여) (20:00)"
             },
             {
-                "id": 127,
+                "id": 126,
                 "league": "국제 친선경기",
                 "time": "21:30",
                 "original_time": "12:30",
@@ -3367,7 +4487,7 @@
                 "match_name": "[국제 친선경기] 이탈리아 U19 (여) vs 노르웨이 U19 (여) (21:30)"
             },
             {
-                "id": 128,
+                "id": 127,
                 "league": "국제 친선경기",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -3383,7 +4503,7 @@
                 "match_name": "[국제 친선경기] 리히텐슈타인 (여) vs 지브롤터 (여) (23:00)"
             },
             {
-                "id": 129,
+                "id": 128,
                 "league": "국제 친선경기",
                 "time": "00:00",
                 "original_time": "15:00",
@@ -3399,7 +4519,7 @@
                 "match_name": "[국제 친선경기] 인도네시아 (여) vs 아르메니아 (여) (00:00)"
             },
             {
-                "id": 130,
+                "id": 129,
                 "league": "국제 친선경기",
                 "time": "03:30",
                 "original_time": "18:30",
@@ -3415,7 +4535,7 @@
                 "match_name": "[국제 친선경기] 미국 (여) vs 스페인 (여) (03:30)"
             },
             {
-                "id": 131,
+                "id": 130,
                 "league": "국제 친선경기",
                 "time": "04:00",
                 "original_time": "19:00",
@@ -3431,7 +4551,7 @@
                 "match_name": "[국제 친선경기] 프랑스 (여) vs 라트비아 (여) (04:00)"
             },
             {
-                "id": 132,
+                "id": 131,
                 "league": "국제 친선경기",
                 "time": "04:30",
                 "original_time": "19:30",
@@ -3447,7 +4567,7 @@
                 "match_name": "[국제 친선경기] 브라질 (여) vs 아르헨티나 (여) (04:30)"
             },
             {
-                "id": 133,
+                "id": 132,
                 "league": "국제 친선경기",
                 "time": "06:00",
                 "original_time": "21:00",
@@ -3463,7 +4583,7 @@
                 "match_name": "[국제 친선경기] 파나마 (여) vs 뉴질랜드 (여) (06:00)"
             },
             {
-                "id": 134,
+                "id": 133,
                 "league": "국제 친선경기",
                 "time": "06:00",
                 "original_time": "21:00",
@@ -3479,7 +4599,7 @@
                 "match_name": "[국제 친선경기] 베네수엘라 (여) vs 콜롬비아 (여) (06:00)"
             },
             {
-                "id": 135,
+                "id": 134,
                 "league": "프리미어리그",
                 "time": "22:00",
                 "original_time": "13:00",
@@ -4042,102 +5162,6 @@
             },
             {
                 "id": 35,
-                "league": "세리에 A 베타노",
-                "time": "12:00",
-                "original_time": "00:00",
-                "status": "진행예정",
-                "home": "상파울루",
-                "away": "비토리아",
-                "home_team": "상파울루",
-                "away_team": "비토리아",
-                "tournament": "세리에 A 베타노",
-                "score": "-",
-                "home_recent_stats": "4전/3승1무/0패",
-                "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[세리에 A 베타노] 상파울루 vs 비토리아 (12:00)"
-            },
-            {
-                "id": 36,
-                "league": "세리에 A 베타노",
-                "time": "07:00",
-                "original_time": "19:00",
-                "status": "진행예정",
-                "home": "아틀레티코-MG",
-                "away": "산투스",
-                "home_team": "아틀레티코-MG",
-                "away_team": "산투스",
-                "tournament": "세리에 A 베타노",
-                "score": "-",
-                "home_recent_stats": "4전/3승1무/0패",
-                "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[세리에 A 베타노] 아틀레티코-MG vs 산투스 (07:00)"
-            },
-            {
-                "id": 37,
-                "league": "세리에 A 베타노",
-                "time": "08:30",
-                "original_time": "20:30",
-                "status": "진행예정",
-                "home": "플라멩고 RJ",
-                "away": "플루미넨시",
-                "home_team": "플라멩고 RJ",
-                "away_team": "플루미넨시",
-                "tournament": "세리에 A 베타노",
-                "score": "-",
-                "home_recent_stats": "4전/3승1무/0패",
-                "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[세리에 A 베타노] 플라멩고 RJ vs 플루미넨시 (08:30)"
-            },
-            {
-                "id": 38,
-                "league": "세리에 A 베타노",
-                "time": "08:30",
-                "original_time": "20:30",
-                "status": "진행예정",
-                "home": "그레미우",
-                "away": "인테르나시오나우",
-                "home_team": "그레미우",
-                "away_team": "인테르나시오나우",
-                "tournament": "세리에 A 베타노",
-                "score": "-",
-                "home_recent_stats": "4전/3승1무/0패",
-                "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[세리에 A 베타노] 그레미우 vs 인테르나시오나우 (08:30)"
-            },
-            {
-                "id": 39,
-                "league": "세리에 A 베타노",
-                "time": "08:30",
-                "original_time": "20:30",
-                "status": "진행예정",
-                "home": "팔메이라스",
-                "away": "코린티안스",
-                "home_team": "팔메이라스",
-                "away_team": "코린티안스",
-                "tournament": "세리에 A 베타노",
-                "score": "-",
-                "home_recent_stats": "4전/3승1무/0패",
-                "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[세리에 A 베타노] 팔메이라스 vs 코린티안스 (08:30)"
-            },
-            {
-                "id": 40,
-                "league": "세리에 A 베타노",
-                "time": "10:30",
-                "original_time": "22:30",
-                "status": "진행예정",
-                "home": "바이아",
-                "away": "미라솔",
-                "home_team": "바이아",
-                "away_team": "미라솔",
-                "tournament": "세리에 A 베타노",
-                "score": "-",
-                "home_recent_stats": "4전/3승1무/0패",
-                "away_recent_stats": "4전/2승1무/1패",
-                "match_name": "[세리에 A 베타노] 바이아 vs 미라솔 (10:30)"
-            },
-            {
-                "id": 41,
                 "league": "프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -4153,7 +5177,7 @@
                 "match_name": "[프리미어리그] 알 카나 vs 알 마스리 (23:00)"
             },
             {
-                "id": 42,
+                "id": 36,
                 "league": "프리미어리그",
                 "time": "02:00",
                 "original_time": "17:00",
@@ -4169,7 +5193,7 @@
                 "match_name": "[프리미어리그] 자말렉 vs 알 아흘리 (02:00)"
             },
             {
-                "id": 43,
+                "id": 37,
                 "league": "프로리그 1",
                 "time": "22:30",
                 "original_time": "13:30",
@@ -4185,7 +5209,7 @@
                 "match_name": "[프로리그 1] 에뚜왈 사헬 vs 함만-리프 (22:30)"
             },
             {
-                "id": 44,
+                "id": 38,
                 "league": "프로리그 1",
                 "time": "22:30",
                 "original_time": "13:30",
@@ -4201,7 +5225,7 @@
                 "match_name": "[프로리그 1] JS 옴라네 vs AS 마르사 (22:30)"
             },
             {
-                "id": 45,
+                "id": 39,
                 "league": "프로리그 1",
                 "time": "22:30",
                 "original_time": "13:30",
@@ -4217,7 +5241,7 @@
                 "match_name": "[프로리그 1] 메틀라위 vs 스타드 튀니시엔 (22:30)"
             },
             {
-                "id": 46,
+                "id": 40,
                 "league": "프로리그 1",
                 "time": "22:30",
                 "original_time": "13:30",
@@ -4233,7 +5257,7 @@
                 "match_name": "[프로리그 1] 자르지스 vs 하만-수스 (22:30)"
             },
             {
-                "id": 47,
+                "id": 41,
                 "league": "프리미어리그",
                 "time": "18:00",
                 "original_time": "09:00",
@@ -4249,7 +5273,7 @@
                 "match_name": "[프리미어리그] 플로리아나 vs 발잔 (18:00)"
             },
             {
-                "id": 48,
+                "id": 42,
                 "league": "프리미어리그",
                 "time": "22:30",
                 "original_time": "13:30",
@@ -4265,7 +5289,7 @@
                 "match_name": "[프리미어리그] 함룬 vs 하이버니언스 (22:30)"
             },
             {
-                "id": 49,
+                "id": 43,
                 "league": "프리미어리그",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -4281,7 +5305,7 @@
                 "match_name": "[프리미어리그] 슬리에마 vs 그지라 (01:00)"
             },
             {
-                "id": 50,
+                "id": 44,
                 "league": "타이리그 1",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -4297,7 +5321,7 @@
                 "match_name": "[타이리그 1] 람푼 워리어 vs 방콕 Utd (20:00)"
             },
             {
-                "id": 51,
+                "id": 45,
                 "league": "타이리그 1",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -4313,7 +5337,7 @@
                 "match_name": "[타이리그 1] 쁘라쭈압 vs 치앙그라이 Utd (20:00)"
             },
             {
-                "id": 52,
+                "id": 46,
                 "league": "타이리그 1",
                 "time": "20:30",
                 "original_time": "11:30",
@@ -4329,7 +5353,7 @@
                 "match_name": "[타이리그 1] 시사켓 유나이티드 vs 촌부리 (20:30)"
             },
             {
-                "id": 53,
+                "id": 47,
                 "league": "타이리그 1",
                 "time": "21:00",
                 "original_time": "12:00",
@@ -4345,7 +5369,7 @@
                 "match_name": "[타이리그 1] 포트 MTI FC vs 빠타니 (21:00)"
             },
             {
-                "id": 54,
+                "id": 48,
                 "league": "프리미어리그",
                 "time": "00:00",
                 "original_time": "15:00",
@@ -4361,7 +5385,7 @@
                 "match_name": "[프리미어리그] 아샨티 vs 사마르텍스 (00:00)"
             },
             {
-                "id": 55,
+                "id": 49,
                 "league": "프리미어리그",
                 "time": "00:00",
                 "original_time": "15:00",
@@ -4377,7 +5401,7 @@
                 "match_name": "[프리미어리그] 베켐 유나이티드 vs 비전 (00:00)"
             },
             {
-                "id": 56,
+                "id": 50,
                 "league": "프리미어리그",
                 "time": "00:00",
                 "original_time": "15:00",
@@ -4393,7 +5417,7 @@
                 "match_name": "[프리미어리그] 베레컴 첼시 vs 데비비 (00:00)"
             },
             {
-                "id": 57,
+                "id": 51,
                 "league": "프리미어리그",
                 "time": "00:00",
                 "original_time": "15:00",
@@ -4409,7 +5433,7 @@
                 "match_name": "[프리미어리그] 비비아니 골드스타즈 vs 홀리 스타즈 (00:00)"
             },
             {
-                "id": 58,
+                "id": 52,
                 "league": "프리미어리그",
                 "time": "00:00",
                 "original_time": "15:00",
@@ -4425,7 +5449,7 @@
                 "match_name": "[프리미어리그] 하트 오브 오크 vs Port City (00:00)"
             },
             {
-                "id": 59,
+                "id": 53,
                 "league": "프리미어리그",
                 "time": "00:00",
                 "original_time": "15:00",
@@ -4441,7 +5465,7 @@
                 "match_name": "[프리미어리그] 카렐라 vs 드림스 (00:00)"
             },
             {
-                "id": 60,
+                "id": 54,
                 "league": "프리미어리그",
                 "time": "00:00",
                 "original_time": "15:00",
@@ -4457,7 +5481,7 @@
                 "match_name": "[프리미어리그] 메디마 vs 하트 오브 라이온스 (00:00)"
             },
             {
-                "id": 61,
+                "id": 55,
                 "league": "프리미어리그",
                 "time": "00:00",
                 "original_time": "15:00",
@@ -4473,7 +5497,7 @@
                 "match_name": "[프리미어리그] 영 아포스틀스 vs 아쿠아나 스타즈 (00:00)"
             },
             {
-                "id": 62,
+                "id": 56,
                 "league": "프리미어리그",
                 "time": "05:30",
                 "original_time": "20:30",
@@ -4489,7 +5513,7 @@
                 "match_name": "[프리미어리그] 포트모어 vs 트레저 비치 (05:30)"
             },
             {
-                "id": 63,
+                "id": 57,
                 "league": "프리미어리그",
                 "time": "05:30",
                 "original_time": "20:30",
@@ -4505,7 +5529,7 @@
                 "match_name": "[프리미어리그] 험블 라이온즈 vs 채플턴 (05:30)"
             },
             {
-                "id": 64,
+                "id": 58,
                 "league": "프리미어리그",
                 "time": "05:30",
                 "original_time": "20:30",
@@ -4521,7 +5545,7 @@
                 "match_name": "[프리미어리그] 카발리어 vs 몬테고 바이 (05:30)"
             },
             {
-                "id": 65,
+                "id": 59,
                 "league": "프리미어리그",
                 "time": "05:30",
                 "original_time": "20:30",
@@ -4537,7 +5561,7 @@
                 "match_name": "[프리미어리그] 던베홀덴 vs 몰린스 (05:30)"
             },
             {
-                "id": 66,
+                "id": 60,
                 "league": "프리미어리그",
                 "time": "20:30",
                 "original_time": "11:30",
@@ -4553,7 +5577,7 @@
                 "match_name": "[프리미어리그] 라이언 시티 vs 영 라이온스 (20:30)"
             },
             {
-                "id": 67,
+                "id": 61,
                 "league": "프리미어리그",
                 "time": "20:30",
                 "original_time": "11:30",
@@ -4569,7 +5593,7 @@
                 "match_name": "[프리미어리그] 탄종 파가르 vs 탐파인스 (20:30)"
             },
             {
-                "id": 68,
+                "id": 62,
                 "league": "프리미어리그",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -4585,7 +5609,7 @@
                 "match_name": "[프리미어리그] 이스트 리파 vs 아알리 클럽 (01:00)"
             },
             {
-                "id": 69,
+                "id": 63,
                 "league": "프리미어리그",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -4601,7 +5625,7 @@
                 "match_name": "[프리미어리그] 시트라 vs 알-나즈마 (01:00)"
             },
             {
-                "id": 70,
+                "id": 64,
                 "league": "프리미어리그",
                 "time": "19:00",
                 "original_time": "10:00",
@@ -4617,7 +5641,7 @@
                 "match_name": "[프리미어리그] 울리타우 vs 오크제트페스 (19:00)"
             },
             {
-                "id": 71,
+                "id": 65,
                 "league": "프리미어리그",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -4633,7 +5657,7 @@
                 "match_name": "[프리미어리그] 카스피 아크타우 vs 알타이 (20:00)"
             },
             {
-                "id": 72,
+                "id": 66,
                 "league": "프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -4649,7 +5673,7 @@
                 "match_name": "[프리미어리그] 카이사르 키질로르다 vs 오르다바시 (23:00)"
             },
             {
-                "id": 73,
+                "id": 67,
                 "league": "프리미어리그",
                 "time": "21:00",
                 "original_time": "12:00",
@@ -4665,7 +5689,7 @@
                 "match_name": "[프리미어리그] Sardarapat vs 노아 (21:00)"
             },
             {
-                "id": 74,
+                "id": 68,
                 "league": "프리미어리그",
                 "time": "01:00",
                 "original_time": "16:00",
@@ -4681,7 +5705,7 @@
                 "match_name": "[프리미어리그] 우라르투 vs 아라라트 예레반 (01:00)"
             },
             {
-                "id": 75,
+                "id": 69,
                 "league": "프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -4697,7 +5721,7 @@
                 "match_name": "[프리미어리그] HB 토르스하운 vs 클라크스비크 (23:00)"
             },
             {
-                "id": 76,
+                "id": 70,
                 "league": "프리미어리그",
                 "time": "23:00",
                 "original_time": "14:00",
@@ -4713,7 +5737,7 @@
                 "match_name": "[프리미어리그] 스칼라 이트로타르펠라그 vs NSI 루나비크 (23:00)"
             },
             {
-                "id": 77,
+                "id": 71,
                 "league": "프리미어리그",
                 "time": "01:15",
                 "original_time": "16:15",
@@ -4729,7 +5753,7 @@
                 "match_name": "[프리미어리그] AB 아르기르 vs B36 토르스하운 (01:15)"
             },
             {
-                "id": 78,
+                "id": 72,
                 "league": "프리미어리그",
                 "time": "01:15",
                 "original_time": "16:15",
@@ -4745,7 +5769,7 @@
                 "match_name": "[프리미어리그] 토프티르 vs 바이킹어 (01:15)"
             },
             {
-                "id": 79,
+                "id": 73,
                 "league": "프리미어리그",
                 "time": "21:00",
                 "original_time": "12:00",
@@ -4761,7 +5785,7 @@
                 "match_name": "[프리미어리그] 이미슐리 FK vs 카라바흐 (21:00)"
             },
             {
-                "id": 80,
+                "id": 74,
                 "league": "프리미어리그",
                 "time": "23:30",
                 "original_time": "14:30",
@@ -4777,7 +5801,7 @@
                 "match_name": "[프리미어리그] 사파 바쿠 vs 투란 (23:30)"
             },
             {
-                "id": 81,
+                "id": 75,
                 "league": "홍콩 프리미어리그",
                 "time": "17:00",
                 "original_time": "08:00",
@@ -4793,7 +5817,7 @@
                 "match_name": "[홍콩 프리미어리그] 홍콩 레인저스 vs 리만 워리어즈 (17:00)"
             },
             {
-                "id": 82,
+                "id": 76,
                 "league": "홍콩 프리미어리그",
                 "time": "17:00",
                 "original_time": "08:00",
@@ -4809,7 +5833,7 @@
                 "match_name": "[홍콩 프리미어리그] 서던 디스트릭트 vs 이스턴 디스트릭트 (17:00)"
             },
             {
-                "id": 83,
+                "id": 77,
                 "league": "프리미어리그",
                 "time": "16:30",
                 "original_time": "07:30",
@@ -4825,7 +5849,7 @@
                 "match_name": "[프리미어리그] 대만전력 vs 타이중 (16:30)"
             },
             {
-                "id": 84,
+                "id": 78,
                 "league": "프리미어리그",
                 "time": "17:00",
                 "original_time": "08:00",
@@ -4841,7 +5865,7 @@
                 "match_name": "[프리미어리그] AC 타이베이 vs 타이중 락 (17:00)"
             },
             {
-                "id": 85,
+                "id": 79,
                 "league": "프리미어리그",
                 "time": "17:00",
                 "original_time": "08:00",
@@ -4857,7 +5881,7 @@
                 "match_name": "[프리미어리그] 타이완 시후 vs 대만철강 (17:00)"
             },
             {
-                "id": 86,
+                "id": 80,
                 "league": "프리미어리그",
                 "time": "20:00",
                 "original_time": "11:00",
@@ -4873,7 +5897,7 @@
                 "match_name": "[프리미어리그] Kaohsiung Attackers FC vs 항유엔 (20:00)"
             },
             {
-                "id": 87,
+                "id": 81,
                 "league": "프리미어리그",
                 "time": "14:00",
                 "original_time": "05:00",
@@ -4889,7 +5913,7 @@
                 "match_name": "[프리미어리그] 칸쿤스-에르침 vs FC 울란바토르 (14:00)"
             },
             {
-                "id": 88,
+                "id": 82,
                 "league": "프리미어리그",
                 "time": "17:00",
                 "original_time": "08:00",
@@ -4905,7 +5929,7 @@
                 "match_name": "[프리미어리그] Central Stallions vs 데렌 (17:00)"
             },
             {
-                "id": 89,
+                "id": 83,
                 "league": "캐나다 프리미어리그",
                 "time": "08:00",
                 "original_time": "23:00",
@@ -4921,7 +5945,7 @@
                 "match_name": "[캐나다 프리미어리그] 퍼시픽 FC vs Atl. 오타와 (08:00)"
             },
             {
-                "id": 90,
+                "id": 84,
                 "league": "프리미어리그",
                 "time": "00:30",
                 "original_time": "15:30",
@@ -4937,7 +5961,7 @@
                 "match_name": "[프리미어리그] 비테세 vs US 코모에 (00:30)"
             },
             {
-                "id": 91,
+                "id": 85,
                 "league": "국제 친선경기",
                 "time": "00:15",
                 "original_time": "15:15",
@@ -4953,7 +5977,7 @@
                 "match_name": "[국제 친선경기] Nicaragua U16 vs Puerto RicoU16 (00:15)"
             },
             {
-                "id": 92,
+                "id": 86,
                 "league": "국제 친선경기",
                 "time": "06:00",
                 "original_time": "21:00",
@@ -4969,7 +5993,7 @@
                 "match_name": "[국제 친선경기] Guatemala U16 vs Belize U16 (06:00)"
             },
             {
-                "id": 93,
+                "id": 87,
                 "league": "국제 친선경기",
                 "time": "06:00",
                 "original_time": "21:00",
@@ -4985,7 +6009,7 @@
                 "match_name": "[국제 친선경기] 칠레 (여) vs 볼리비아 (여) (06:00)"
             },
             {
-                "id": 94,
+                "id": 88,
                 "league": "국제 친선경기",
                 "time": "08:30",
                 "original_time": "23:30",
@@ -5001,7 +6025,7 @@
                 "match_name": "[국제 친선경기] Costa Rica U16 vs Panama U16 (08:30)"
             },
             {
-                "id": 95,
+                "id": 89,
                 "league": "프리미어리그",
                 "time": "22:00",
                 "original_time": "13:00",
@@ -5017,7 +6041,7 @@
                 "match_name": "[프리미어리그] 음바라라 시티 vs 블랙스 파워 (22:00)"
             },
             {
-                "id": 96,
+                "id": 90,
                 "league": "프리미어리그",
                 "time": "02:00",
                 "original_time": "17:00",
