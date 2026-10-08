@@ -19,6 +19,21 @@ MAJOR_LEAGUES = [
     "잉글랜드 FA 컵", "EFL 트로피"
 ]
 
+def convert_to_kst(time_str, base_date, source_offset_hours=0):
+    """
+    사이트 시각을 KST로 변환
+    - 유럽/기타(UTC+0): source_offset_hours = 0 (KST = UTC + 9)
+    - 브라질(UTC-3): source_offset_hours = -3 (UTC 변환 후 + 9)
+    """
+    try:
+        h, m = map(int, time_str.split(":"))
+        source_dt = base_date.replace(hour=h, minute=m, second=0, microsecond=0)
+        utc_dt = source_dt - timedelta(hours=source_offset_hours)
+        kst_dt = utc_dt + timedelta(hours=9)
+        return kst_dt.strftime("%H:%M")
+    except Exception:
+        return time_str
+
 def update_json_file():
     options = Options()
     options.add_argument("--headless")
@@ -32,9 +47,9 @@ def update_json_file():
     KST = timezone(timedelta(hours=9))
     today_kst = datetime.now(KST)
     
-    # 오늘(기본), 내일(sc1), 모레(sc2), 글피(sc3) 총 4일 치 순회
+    # 날짜별 탭 파라미터 구조 (오늘, 내일, 모레, 글피)
     day_steps = [
-        (0, ""),         # 오늘 (기본 URL)
+        (0, ""),         # 오늘
         (1, "sc1"),      # 내일
         (2, "sc2"),      # 모레
         (3, "sc3"),      # 글피
@@ -42,6 +57,9 @@ def update_json_file():
     
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     daily_matches = {}
+    
+    # 브라질 리그 인식 키워드
+    brazil_leagues = ["세리에 A 베타노", "브라질", "세리에 B"]
     
     try:
         for offset, param in day_steps:
@@ -85,18 +103,19 @@ def update_json_file():
                 if not is_major:
                     continue
 
-                # 테이블 두 번째 칸(tds[1])의 경기 시간 정확히 추출
                 time_str = ""
                 if len(tds) >= 2:
-                    potential_time = tds[1].get_text(strip=True)
-                    if re.match(r"^\d{2}:\d{2}$", potential_time):
-                        time_str = potential_time
+                    raw_time = tds[1].get_text(strip=True)
+                    match_t = re.search(r"(\d{2}:\d{2})", raw_time)
+                    if match_t:
+                        time_str = match_t.group(1)
                 
                 if not time_str:
                     for td in tds:
                         t_text = td.get_text(strip=True)
-                        if re.match(r"^\d{2}:\d{2}$", t_text):
-                            time_str = t_text
+                        match_t = re.search(r"(\d{2}:\d{2})", t_text)
+                        if match_t:
+                            time_str = match_t.group(1)
                             break
                 
                 if time_str and len(tds) >= 4:
@@ -105,7 +124,7 @@ def update_json_file():
                     try:
                         time_idx = -1
                         for idx_val, val in enumerate(cell_texts):
-                            if re.match(r"^\d{2}:\d{2}$", val):
+                            if time_str in val:
                                 time_idx = idx_val
                                 break
                         
@@ -131,10 +150,16 @@ def update_json_file():
                                 away_team = re.sub(r"\[.*?\]", "", away_raw).strip()
 
                                 if home_team and away_team and home_team != away_team:
+                                    # 리그별 시차 적용 (브라질: -3, 유럽/기타: 0 -> UTC+9 가산)
+                                    is_brazil = any(bl in current_league for bl in brazil_leagues)
+                                    src_offset = -3 if is_brazil else 0
+                                    kst_time = convert_to_kst(time_str, target_date, src_offset)
+
                                     match_entry = {
                                         "id": len(matches_for_day) + 1,
                                         "league": current_league,
-                                        "time": time_str,
+                                        "time": kst_time,
+                                        "original_time": time_str,
                                         "status": "진행예정",
                                         "home": home_team,
                                         "away": away_team,
@@ -144,7 +169,7 @@ def update_json_file():
                                         "score": score_str,
                                         "home_recent_stats": "4전/3승1무/0패",
                                         "away_recent_stats": "4전/2승1무/1패",
-                                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
+                                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({kst_time})"
                                     }
                                     if match_entry not in matches_for_day:
                                         matches_for_day.append(match_entry)
