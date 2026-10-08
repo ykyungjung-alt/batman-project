@@ -40,7 +40,7 @@ def update_json_file():
     
     daily_matches = {}
     
-    try:
+try:
         for idx, code in enumerate(day_codes):
             target_url = f"{BASE_URL}?f={code}"
             driver.get(target_url)
@@ -48,14 +48,36 @@ def update_json_file():
             
             soup = BeautifulSoup(driver.page_source, "html.parser")
             
-            # [수정] 색상 감지 방식 대신, 탭 순서(idx)에 맞춰 KST 날짜와 요일을 정확히 기계적 매칭
-            target_date = today_kst + timedelta(days=idx)
-            w_str = weekdays[target_date.weekday()]
-            m_str = target_date.strftime("%m")
-            d_str = target_date.strftime("%d")
+            # [수정] 페이지 상단 날짜 바에서 실제 표시되는 일자(숫자)와 요일을 직접 추출
+            date_key = ""
+            try:
+                # 상단 날짜 선택 영역의 버튼/링크들에서 숫자와 요일 패턴 탐색
+                # 예: "목 08", "금 09" 등의 텍스트를 가진 요소들을 찾음
+                date_elements = soup.find_all(text=re.compile(r'\d{1,2}'))
+                # 현재 페이지에서 활성화되었거나 상단 바에 노출된 날짜 중 일치하는 것 탐색
+                # 가장 안전하게는 탭 파라미터별로 페이지 내 날짜 영역을 특정
+                active_tab_elem = soup.select_one(".active, [style*='orange'], [style*='background']")
+                if active_tab_elem:
+                    tab_text = active_tab_elem.get_text(strip=True)
+                    match_w = re.search(r'[월화수목금토일]', tab_text)
+                    match_d = re.search(r'\d{1,2}', tab_text)
+                    if match_w and match_d:
+                        w_str = match_w.group()
+                        d_str = match_d.group().zfill(2)
+                        m_str = today_kst.strftime("%m")
+                        date_key = f"{m_str}-{d_str} ({w_str})"
+            except Exception:
+                pass
             
-            date_key = f"{m_str}-{d_str} ({w_str})"
-            if idx == 0:
+            # 만약 직접 인식이 안 될 경우, 현재 KST 기준 오늘 날짜를 기준으로 안전하게 고정
+            if not date_key:
+                target_date = today_kst + timedelta(days=idx)
+                w_str = weekdays[target_date.weekday()]
+                m_str = target_date.strftime("%m")
+                d_str = target_date.strftime("%d")
+                date_key = f"{m_str}-{d_str} ({w_str})"
+            
+            if idx == 0 and "[오늘]" not in date_key:
                 date_key += " [오늘]"
 
             print(f"수집 중 ({code} -> {date_key}): {target_url}")
