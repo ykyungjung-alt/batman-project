@@ -24,6 +24,7 @@ def convert_to_kst(time_str, base_date, source_offset_hours=0):
     """
     사이트 시각을 KST로 변환
     - 유럽/기타(UTC+0): source_offset_hours = 0 (KST = UTC + 9)
+    - 브라질(UTC-3): source_offset_hours = -3 (UTC 변환 후 + 9)
     """
     try:
         h, m = map(int, time_str.split(":"))
