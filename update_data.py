@@ -7,7 +7,6 @@ from selenium.webdriver.chrome.options import Options
 
 BASE_URL = "https://www.scoreman3.com/football/fixture"
 
-# 핵심 주요 리그 화이트리스트
 MAJOR_LEAGUES = [
     "K리그1", "K리그 2", 
     "프리미어리그", "잉글랜드 프리미어리그", "세리에 A", "라리가", "분데스리가", "리그 1", "프랑스 리그 1",
@@ -33,29 +32,35 @@ def update_json_file():
     KST = timezone(timedelta(hours=9))
     today_kst = datetime.now(KST)
     
-    day_codes = ["sc1", "sc2", "sc3", "sc4"]
-    weekdays = ["월", "화", "수", "목", "금", "토", "일"]
+    # [수정] sc3까지 포함하여 오늘, 내일(sc1), 모레(sc2), 글피(sc3) 순서로 명확히 매핑
+    day_steps = [
+        (0, ""),         # 오늘 (기본 URL)
+        (1, "sc1"),      # 내일
+        (2, "sc2"),      # 모레
+        (3, "sc3"),      # 글피
+    ]
     
+    weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     daily_matches = {}
     
     try:
-        for idx, code in enumerate(day_codes):
-            target_url = f"{BASE_URL}?f={code}"
+        for offset, param in day_steps:
+            target_url = f"{BASE_URL}?f={param}" if param else BASE_URL
             driver.get(target_url)
             driver.implicitly_wait(4)
             
             soup = BeautifulSoup(driver.page_source, "html.parser")
             
-            target_date = today_kst + timedelta(days=idx)
+            target_date = today_kst + timedelta(days=offset)
             w_str = weekdays[target_date.weekday()]
             m_str = target_date.strftime("%m")
             d_str = target_date.strftime("%d")
             
             date_key = f"{m_str}-{d_str} ({w_str})"
-            if idx == 0:
+            if offset == 0:
                 date_key += " [오늘]"
 
-            print(f"수집 중 ({code} -> {date_key}): {target_url}")
+            print(f"수집 중 (파라미터: {param or '기본(오늘)'} -> {date_key}): {target_url}")
             
             current_league = ""
             matches_for_day = []
@@ -68,7 +73,6 @@ def update_json_file():
                 if not text_content:
                     continue
 
-                # 리그 타이틀 행 감지
                 if not re.search(r"\d{2}:\d{2}", text_content):
                     cleaned = re.sub(r'^[^\w\s]+\s*', '', text_content).replace("+", "").strip()
                     cleaned = re.sub(r'경기수\s*\(.*?\)', '', cleaned).strip()
@@ -77,12 +81,11 @@ def update_json_file():
                         current_league = cleaned
                     continue
 
-                # 주요 리그 필터링
                 is_major = any(ml in current_league for ml in MAJOR_LEAGUES)
                 if not is_major:
                     continue
 
-                # 경기 시간 추출 (안전하게 두 번째 칸 체크)
+                # 테이블 두 번째 칸(tds[1])의 경기 시간 정확히 추출
                 time_str = ""
                 if len(tds) >= 2:
                     potential_time = tds[1].get_text(strip=True)
@@ -137,7 +140,7 @@ def update_json_file():
                                         "away": away_team,
                                         "home_team": home_team,
                                         "away_team": away_team,
-                                        "tournament": current_league,
+                               : current_league,
                                         "score": score_str,
                                         "home_recent_stats": "4전/3승1무/0패",
                                         "away_recent_stats": "4전/2승1무/1패",
@@ -165,7 +168,7 @@ def update_json_file():
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
         
-    print("데이터 갱신 완료!")
+    print("sc3까지 데이터 갱신 완료!")
 
 if __name__ == "__main__":
     update_json_file()
