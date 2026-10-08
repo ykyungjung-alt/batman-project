@@ -32,8 +32,9 @@ def update_json_file():
     KST = timezone(timedelta(hours=9))
     today_kst = datetime.now(KST)
     
+    # 오늘(기본), 내일(sc1), 모레(sc2), 글피(sc3) 총 4일 치 순회
     day_steps = [
-        (0, ""),         # 오늘
+        (0, ""),         # 오늘 (기본 URL)
         (1, "sc1"),      # 내일
         (2, "sc2"),      # 모레
         (3, "sc3"),      # 글피
@@ -84,20 +85,18 @@ def update_json_file():
                 if not is_major:
                     continue
 
-                # [수정] 어떤 객체 변환도 거치지 않고 오직 텍스트 그대로 시간 추출
+                # 테이블 두 번째 칸(tds[1])의 경기 시간 정확히 추출
                 time_str = ""
                 if len(tds) >= 2:
-                    raw_time = tds[1].get_text(strip=True)
-                    match_t = re.search(r"(\d{2}:\d{2})", raw_time)
-                    if match_t:
-                        time_str = match_t.group(1)
+                    potential_time = tds[1].get_text(strip=True)
+                    if re.match(r"^\d{2}:\d{2}$", potential_time):
+                        time_str = potential_time
                 
                 if not time_str:
                     for td in tds:
                         t_text = td.get_text(strip=True)
-                        match_t = re.search(r"(\d{2}:\d{2})", t_text)
-                        if match_t:
-                            time_str = match_t.group(1)
+                        if re.match(r"^\d{2}:\d{2}$", t_text):
+                            time_str = t_text
                             break
                 
                 if time_str and len(tds) >= 4:
@@ -106,7 +105,7 @@ def update_json_file():
                     try:
                         time_idx = -1
                         for idx_val, val in enumerate(cell_texts):
-                            if time_str in val:
+                            if re.match(r"^\d{2}:\d{2}$", val):
                                 time_idx = idx_val
                                 break
                         
