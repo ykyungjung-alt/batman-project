@@ -6,6 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from zoneinfo import ZoneInfo
 
 BASE_URL = "https://www.scoreman123.com/football/fixture"
@@ -35,24 +36,36 @@ def update_json_file():
     today_kst = datetime.now(kst)
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     
-    # 시간 왜곡 방지를 위해 날짜별 고정 파라미터(오늘, 내일, 모레, 글피)만 명확히 순회
-    day_steps = [
-        (0, ""),         # 오늘 (BASE_URL)
-        (1, "sc1"),      # 내일 (?f=sc1)
-        (2, "sc2"),      # 모레 (?f=sc2)
-        (3, "sc3"),      # 글피 (?f=sc3)
-    ]
-    
     daily_matches = {}
 
     try:
         print(f"[시작] 현재 KST 기준일: {today_kst.strftime('%Y-%m-%d %H:%M:%S')}")
+        driver.get(BASE_URL)
+        WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
         
-        for offset, param in day_steps:
-            target_url = f"{BASE_URL}?f={param}" if param else BASE_URL
-            
-            # 해당 순회 순서의 날짜 바구니 생성 (시간 변환으로 인한 밀림 원천 차단)
-            target_dt = today_kst + timedelta(days=offset)
+        # 1단계: 사이트 상단 날짜 탭 동적 스캔 (예: 금09, 토10 등)
+        date_tab_map = {}
+        all_links = driver.find_elements(By.TAG_NAME, "a")
+        for a in all_links:
+            text = a.text.strip()
+            if re.match(r"^(월|화|수|목|금|토|일)\s*\d{1,2}$", text):
+                clean_label = re.sub(r"\s+", "", text)
+                href = a.get_attribute("href")
+                if href:
+                    date_tab_map[clean_label] = href
+                    print(f"탭 발견: {clean_label} → {href}")
+
+        # 오늘, 내일, 모레, 글피 날짜 패턴 생성
+        target_dates = []
+        for offset in range(4):
+            dt = today_kst + timedelta(days=offset)
+            day_short = weekdays[dt.weekday()]
+            day_num = dt.strftime("%d").lstrip("0")
+            label_pattern = f"{day_short}{day_num}"
+            target_dates.append((offset, dt, label_pattern))
+
+        # 2단계: 각 날짜 페이지별로 명확히 접속하여 원본 내용 그대로 수집
+        for offset, target_dt, label_pattern in target_dates:
             m_str = target_dt.strftime("%m")
             d_str = target_dt.strftime("%d")
             w_str = weekdays[target_dt.weekday()]
@@ -60,6 +73,16 @@ def update_json_file():
             if offset == 0:
                 date_key += " [오늘]"
                 
+            # URL 결정 (오늘은 BASE_URL, 이후는 매핑된 탭 URL 또는 폴백 파라미터)
+            target_url = BASE_URL
+            if offset > 0:
+                matched_url = date_tab_map.get(label_pattern)
+                if matched_url:
+                    target_url = matched_url
+                else:
+                    target_url = f"{BASE_URL}?f=sc{offset}"
+                    print(f"⚠️ '{label_pattern}' 탭 매핑 실패로 폴백 URL 사용: {target_url}")
+            
             print(f"\n수집 중: {date_key} | URL: {target_url}")
             driver.get(target_url)
             
@@ -128,7 +151,7 @@ def update_json_file():
                 score_str = cell_texts[score_idx] if "-" in cell_texts[score_idx] else "-"
                 
                 if home_team and away_team and home_team != away_team:
-                    # 시간 변환 없이 사이트 원본 시간 그대로 수집 및 매칭
+                    # 원본 시간 그대로 저장 (시간 변환 없음)
                     entry = {
                         "id": len(matches_for_day) + 1,
                         "league": current_league,
