@@ -18,23 +18,7 @@ MAJOR_LEAGUES = [
     "U-23", "U-21", "U-20", "U-17",
     "잉글랜드 FA 컵", "EFL 트로피"
 ]
-def convert_to_kst(time_str, base_date, source_offset_hours=-3):
-    """
-    사이트 시각을 KST로 변환
-    - 브라질(UTC-3): source_offset_hours=-3
-    - 유럽(UTC+0): source_offset_hours=0
-    - KST = UTC+9
-    """
-    try:
-        h, m = map(int, time_str.split(":"))
-        # 사이트 시각 → UTC → KST
-        source_dt = base_date.replace(hour=h, minute=m, second=0, microsecond=0)
-        utc_dt = source_dt - timedelta(hours=source_offset_hours)
-        kst_dt = utc_dt + timedelta(hours=9)
-        return kst_dt.strftime("%H:%M")
-    except Exception:
-        return time_str
-        
+
 def update_json_file():
     options = Options()
     options.add_argument("--headless")
