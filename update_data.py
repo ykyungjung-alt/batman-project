@@ -22,23 +22,6 @@ MAJOR_LEAGUES = [
     "잉글랜드 FA 컵", "EFL 트로피"
 ]
 
-EXCLUDE_LEAGUES = [
-    "세리에 A 베타노", "브라질", "세리에 B", "파라과이", "콜롬비아", "아르헨티나", "우루과이", "에콰도르", "페루", "볼리비아", "멕시코"
-]
-
-def convert_to_kst(time_str, base_date, source_offset_hours=0):
-    """
-    날짜 밀림 방지: 날짜 바구니는 고정한 채 순수 시간 수치만 변환
-    """
-    try:
-        h, m = map(int, time_str.split(":"))
-        source_dt = base_date.replace(hour=h, minute=m, second=0, microsecond=0)
-        utc_dt = source_dt - timedelta(hours=source_offset_hours)
-        kst_dt = utc_dt + timedelta(hours=9)
-        return kst_dt.strftime("%H:%M")
-    except Exception:
-        return time_str
-
 def update_json_file():
     options = Options()
     options.add_argument("--headless")
@@ -52,12 +35,12 @@ def update_json_file():
     today_kst = datetime.now(kst)
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     
-    # 4일간의 고정 파라미터 구조 (오늘, 내일, 모레, 글피) -> 중복 수집 및 섞임 원천 차단
+    # 시간 왜곡 방지를 위해 날짜별 고정 파라미터(오늘, 내일, 모레, 글피)만 명확히 순회
     day_steps = [
-        (0, ""),         # 오늘
-        (1, "sc1"),      # 내일
-        (2, "sc2"),      # 모레
-        (3, "sc3"),      # 글피
+        (0, ""),         # 오늘 (BASE_URL)
+        (1, "sc1"),      # 내일 (?f=sc1)
+        (2, "sc2"),      # 모레 (?f=sc2)
+        (3, "sc3"),      # 글피 (?f=sc3)
     ]
     
     daily_matches = {}
@@ -68,7 +51,7 @@ def update_json_file():
         for offset, param in day_steps:
             target_url = f"{BASE_URL}?f={param}" if param else BASE_URL
             
-            # 각 페이지가 담당하는 고정 날짜 바구니 생성 (이 날짜는 절대 밀리지 않음)
+            # 해당 순회 순서의 날짜 바구니 생성 (시간 변환으로 인한 밀림 원천 차단)
             target_dt = today_kst + timedelta(days=offset)
             m_str = target_dt.strftime("%m")
             d_str = target_dt.strftime("%d")
@@ -104,10 +87,9 @@ def update_json_file():
                         current_league = cleaned
                     continue
                 
-                # 주요 리그 필터링 및 제외 리그 차단
+                # 주요 리그 필터링
                 is_major = any(ml in current_league for ml in MAJOR_LEAGUES)
-                is_excluded = any(el in current_league for el in EXCLUDE_LEAGUES)
-                if not is_major or is_excluded:
+                if not is_major:
                     continue
                 
                 # 시간 추출
@@ -146,13 +128,11 @@ def update_json_file():
                 score_str = cell_texts[score_idx] if "-" in cell_texts[score_idx] else "-"
                 
                 if home_team and away_team and home_team != away_team:
-                    # 해당 페이지의 고정 날짜 바구니에 담고, 시간 수치만 변환 적용 (오프셋 0)
-                    kst_time = convert_to_kst(time_str, target_dt, source_offset_hours=0)
-                    
+                    # 시간 변환 없이 사이트 원본 시간 그대로 수집 및 매칭
                     entry = {
                         "id": len(matches_for_day) + 1,
                         "league": current_league,
-                        "time": kst_time,
+                        "time": time_str,
                         "original_time": time_str,
                         "status": "진행예정",
                         "home": home_team,
@@ -163,7 +143,7 @@ def update_json_file():
                         "score": score_str,
                         "home_recent_stats": "4전/3승1무/0패",
                         "away_recent_stats": "4전/2승1무/1패",
-                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({kst_time})"
+                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
                     }
                     if entry not in matches_for_day:
                         matches_for_day.append(entry)
@@ -182,7 +162,7 @@ def update_json_file():
         "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
         "daily_matches": daily_matches
     }
-
+    
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
     print("\n🎉 data.json 갱신 완료!")
