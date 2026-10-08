@@ -43,7 +43,7 @@ def update_json_file():
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     daily_matches = {}
     
-    try:
+try:
         for offset, param in day_steps:
             target_url = f"{BASE_URL}?f={param}" if param else BASE_URL
             driver.get(target_url)
@@ -51,11 +51,13 @@ def update_json_file():
             
             soup = BeautifulSoup(driver.page_source, "html.parser")
             
+            # KST 기준 정확한 날짜 및 요일 산출
             target_date = today_kst + timedelta(days=offset)
             w_str = weekdays[target_date.weekday()]
             m_str = target_date.strftime("%m")
             d_str = target_date.strftime("%d")
             
+            # 대시보드와 완벽히 호환되는 날짜 키 포맷팅
             date_key = f"{m_str}-{d_str} ({w_str})"
             if offset == 0:
                 date_key += " [오늘]"
