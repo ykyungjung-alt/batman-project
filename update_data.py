@@ -23,10 +23,9 @@ MAJOR_LEAGUES = [
     "잉글랜드 FA 컵", "EFL 트로피"
 ]
 
-# 제외할 리그 (브라질 등 불필요한 리그)
+# 제외할 리그 (브라질 등 시차 문제 및 불필요한 리그)
 EXCLUDE_LEAGUES = [
-    "세리에 A 베타노", "브라질", "세리에 B", "파라과이", "콜롬비아", "아르헨티나", "우루과이", "에콰도르", "페루", "볼리비아", "멕시코"
-]
+    "세리에 A 베타노", "세리에 B"
 
 def convert_to_kst(time_str, base_date, source_offset_hours=0):
     """
@@ -55,12 +54,12 @@ def update_json_file():
     today_kst = datetime.now(kst)
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     
-    # 4일간의 고정 파라미터 구조 (오늘, 내일, 모레, 글피)
+    # 명확하게 고정된 날짜별 파라미터 구조 (오늘, 내일, 모레, 글피)
     day_steps = [
-        (0, ""),         # 오늘
-        (1, "sc1"),      # 내일
-        (2, "sc2"),      # 모레
-        (3, "sc3"),      # 글피
+        (0, ""),         # 오늘 (BASE_URL)
+        (1, "sc1"),      # 내일 (BASE_URL?f=sc1)
+        (2, "sc2"),      # 모레 (BASE_URL?f=sc2)
+        (3, "sc3"),      # 글피 (BASE_URL?f=sc3)
     ]
     
     daily_matches = {}
@@ -184,7 +183,7 @@ def update_json_file():
         "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
         "daily_matches": daily_matches
     }
-    
+
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
     print("\n🎉 data.json 갱신 완료!")
