@@ -6,7 +6,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 from zoneinfo import ZoneInfo
 
 BASE_URL = "https://www.scoreman123.com/football/fixture"
@@ -29,7 +28,7 @@ EXCLUDE_LEAGUES = [
 
 def convert_to_kst(time_str, base_date, source_offset_hours=0):
     """
-    사이트 시각을 날짜 변동 없이 순수 시간 수치만 KST(+9시간)로 변환
+    날짜 밀림 방지: 날짜 바구니는 고정한 채 순수 시간 수치만 변환
     """
     try:
         h, m = map(int, time_str.split(":"))
@@ -53,12 +52,12 @@ def update_json_file():
     today_kst = datetime.now(kst)
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     
-    # [핵심] 탭 링크 매칭 에러 원천 차단: 스코어맨 공식 파라미터 고정 순회
+    # 4일간의 고정 파라미터 구조 (오늘, 내일, 모레, 글피) -> 중복 수집 및 섞임 원천 차단
     day_steps = [
-        (0, ""),         # 오늘 (BASE_URL)
-        (1, "sc1"),      # 내일 (BASE_URL?f=sc1)
-        (2, "sc2"),      # 모레 (BASE_URL?f=sc2)
-        (3, "sc3"),      # 글피 (BASE_URL?f=sc3)
+        (0, ""),         # 오늘
+        (1, "sc1"),      # 내일
+        (2, "sc2"),      # 모레
+        (3, "sc3"),      # 글피
     ]
     
     daily_matches = {}
@@ -69,7 +68,7 @@ def update_json_file():
         for offset, param in day_steps:
             target_url = f"{BASE_URL}?f={param}" if param else BASE_URL
             
-            # 해당 페이지가 담당하는 고정 날짜 바구니 생성
+            # 각 페이지가 담당하는 고정 날짜 바구니 생성 (이 날짜는 절대 밀리지 않음)
             target_dt = today_kst + timedelta(days=offset)
             m_str = target_dt.strftime("%m")
             d_str = target_dt.strftime("%d")
@@ -147,7 +146,7 @@ def update_json_file():
                 score_str = cell_texts[score_idx] if "-" in cell_texts[score_idx] else "-"
                 
                 if home_team and away_team and home_team != away_team:
-                    # 해당 페이지의 고정 날짜 바구니에 담고 시간만 수치 변환
+                    # 해당 페이지의 고정 날짜 바구니에 담고, 시간 수치만 변환 적용 (오프셋 0)
                     kst_time = convert_to_kst(time_str, target_dt, source_offset_hours=0)
                     
                     entry = {
