@@ -47,60 +47,38 @@ def update_json_file():
     today_kst = datetime.now(kst)
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     
+    # 4일간 순회 (오늘, 내일, 모레, 글피)
+    day_steps = [
+        (0, ""),         # 오늘
+        (1, "sc1"),      # 내일
+        (2, "sc2"),      # 모레
+        (3, "sc3"),      # 글피
+    ]
+    
     daily_matches = {}
+    brazil_leagues = ["세리에 A 베타노", "브라질", "세리에 B"]
 
     try:
         print(f"[시작] 현재 KST 기준일: {today_kst.strftime('%Y-%m-%d %H:%M:%S')}")
-        driver.get(BASE_URL)
-        WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
         
-        # 날짜 탭 동적 수집
-        date_tab_map = {}
-        all_links = driver.find_elements(By.TAG_NAME, "a")
-        tabs = [a for a in all_links if re.match(r"^(월|화|수|목|금|토|일)\d{1,2}$", a.text.strip()) or "f=" in (a.get_attribute("href") or "")]
-        for tab in tabs:
-            label = tab.text.strip()
-            href = tab.get_attribute("href") or ""
-            if re.match(r"^(월|화|수|목|금|토|일)\d{1,2}$", label):
-                date_tab_map[label] = href
-                print(f"탭 발견: {label} → {href}")
-
-        target_dates = []
-        for offset in range(4):
-            dt = today_kst + timedelta(days=offset)
-            day_short = weekdays[dt.weekday()]
-            day_num = dt.strftime("%d").lstrip("0")
-            label_pattern = f"{day_short}{day_num}"
-            target_dates.append((offset, dt, label_pattern))
-
-        # 브라질 리그 식별 키워드
-        brazil_leagues = ["세리에 A 베타노", "브라질", "세리에 B"]
-
-        for offset, target_dt, label_pattern in target_dates:
-            m_str = target_dt.strftime("%m")
-            d_str = target_dt.strftime("%d")
-            w_str = weekdays[target_dt.weekday()]
+        for offset, param in day_steps:
+            target_url = f"{BASE_URL}?f={param}" if param else BASE_URL
+            
+            target_date = today_kst + timedelta(days=offset)
+            m_str = target_date.strftime("%m")
+            d_str = target_date.strftime("%d")
+            w_str = weekdays[target_date.weekday()]
             date_key = f"{m_str}-{d_str} ({w_str})"
             if offset == 0:
                 date_key += " [오늘]"
                 
-            target_url = BASE_URL
-            if offset > 0:
-                matched_url = date_tab_map.get(label_pattern)
-                if matched_url:
-                    target_url = matched_url
-                else:
-                    print(f"⚠️ {label_pattern} 탭 찾지 못함 — 스킵")
-                    daily_matches[date_key] = []
-                    continue
-            
-            print(f"\n수집 중: {date_key} | {target_url}")
+            print(f"\n수집 중 (파라미터: {param or '기본(오늘)'} -> {date_key}): {target_url}")
             driver.get(target_url)
             
             try:
                 WebDriverWait(driver, 15).until(lambda d: re.search(r"\d{2}:\d{2}", d.page_source))
             except Exception:
-                print(f"  ⏳ 데이터 로드 지연")
+                print(f"  ⏳ 해당 날짜에 경기 데이터가 로드되지 않았습니다.")
                 
             soup = BeautifulSoup(driver.page_source, "html.parser")
             current_league = ""
@@ -113,6 +91,7 @@ def update_json_file():
                 if not text_content:
                     continue
                 
+                # 리그명 행 추출
                 if not re.search(r"\d{2}:\d{2}", text_content):
                     cleaned = re.sub(r"^[^\w\s]+", "", text_content).replace("+", "").strip()
                     cleaned = re.sub(r"경기수\s*\(.*?\)", "", cleaned).strip()
@@ -120,9 +99,11 @@ def update_json_file():
                         current_league = cleaned
                     continue
                 
+                # 주요 리그 필터링
                 if not any(ml in current_league for ml in MAJOR_LEAGUES):
                     continue
                 
+                # 시간 추출
                 time_str = None
                 for td in tds:
                     m = re.search(r"(\d{2}:\d{2})", td.get_text(strip=True))
@@ -161,7 +142,7 @@ def update_json_file():
                     # 리그별 시차 적용 (브라질: -3, 유럽/기타: 0)
                     is_brazil_league = any(bl in current_league for bl in brazil_leagues)
                     src_offset = -3 if is_brazil_league else 0
-                    kst_time = convert_to_kst(time_str, target_dt, src_offset)
+                    kst_time = convert_to_kst(time_str, target_date, src_offset)
                     
                     entry = {
                         "id": len(matches_for_day) + 1,
