@@ -60,7 +60,7 @@ def run_table_based_crawler():
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
-                # 1. 팀 순위표 (표 형식으로 안전하게 추출, 상단 탭 텍스트 필터링)
+                # 1. 팀 순위표 정밀 추출
                 rankings_data = []
                 try:
                     ranking_heading = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "팀순위" in tag.get_text())
@@ -71,8 +71,7 @@ def run_table_based_crawler():
                         for r_row in rows_list:
                             cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"])]
                             if len(cols) >= 9:
-                                # 탭 이름 등 불필요한 헤더 행 제외
-                                if "전체" in cols[0] or "H/A" in cols[0] or "팀" in cols[1]:
+                                if any(tab_text in cols[0] for tab_text in ["전체", "H/A", "최근", "전반"]) or "팀" in cols[1]:
                                     continue
                                 rankings_data.append({
                                     "rank": cols[0],
@@ -89,7 +88,7 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 순위 파싱 예외 (ID: {m_id}): {e}")
 
-                # 2. 상대전적 (표 형식 행렬 기준으로 안전하게 수집)
+                # 2. 상대전적 표 형식 추출
                 h2h_data = {"matches": []}
                 try:
                     h2h_section = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "상대전적" in tag.get_text())
@@ -98,42 +97,51 @@ def run_table_based_crawler():
                         if h_table:
                             for h_row in h_table.find_all("tr"):
                                 cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"]) if c.get_text(strip=True)]
-                                if len(cols) >= 4:
-                                    h2h_data["matches"].append({
-                                        "row_data": cols
-                                    })
+                                if len(cols) >= 3:
+                                    h2h_data["matches"].append({"row_data": cols})
                 except Exception as e:
                     print(f"  - 상대전적 파싱 예외 (ID: {m_id}): {e}")
 
-                # 3. 최근전적 (표 형식 행렬 기준으로 안전하게 수집)
+                # 3. 최근전적 표 형식 추출
                 recent_form = {"matches": []}
                 try:
                     recent_section = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "최근전적" in tag.get_text())
                     if recent_section:
-                        r_table = recent_section.find_next("table")
-                        if r_table:
-                            for r_row in r_table.find_all("tr"):
-                                cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"]) if c.get_text(strip=True)]
-                                if len(cols) >= 4:
-                                    recent_form["matches"].append({
-                                        "row_data": cols
-                                    })
+                        # 최근전적 영역 내에 li 또는 표 행태그가 섞여있을 수 있으므로 유연하게 탐색
+                        r_container = recent_section.find_parent("div") or recent_section
+                        r_items = r_container.find_all(["tr", "li"])
+                        for r_item in r_items:
+                            item_text = r_item.get_text(strip=True)
+                            if item_text and ("GER" in item_text or "UEFA" in item_text or "INT" in item_text or "-" in item_text):
+                                cols = [c.get_text(strip=True) for c in r_item.find_all(["th", "td", "span"]) if c.get_text(strip=True)]
+                                if len(cols) >= 3:
+                                    recent_form["matches"].append({"row_data": cols})
                 except Exception as e:
                     print(f"  - 최근전적 파싱 예외 (ID: {m_id}): {e}")
 
-                # 4. 라인업 결장자 정보 (표 형식 행 기준 수집)
+                # 4. 라인업 결장자 정보 추출 (스탯 수치 필터링 추가)
                 absent_players = {"home": [], "away": []}
                 try:
                     lineup_section = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "라인업" in tag.get_text())
                     if lineup_section:
-                        l_table = lineup_section.find_next("table") or lineup_section.find_parent("div")
-                        if l_table:
-                            for li_row in l_table.find_all("tr"):
-                                player_texts = [p.get_text(strip=True) for p in li_row.find_all("td") if p.get_text(strip=True)]
-                                if len(player_texts) >= 2:
-                                    # 스탯 수치 데이터가 아닌 실제 선수명 행만 선별
-                                    absent_players["home"].append(player_texts[0])
-                                    absent_players["away"].append(player_texts[-1])
+                        l_container = lineup_section.find_parent("div") or lineup_section
+                        for li_row in l_container.find_all("tr"):
+                            player_texts = [p.get_text(strip=True) for p in li_row.find_all("td") if p.get_text(strip=True)]
+                            if len(player_texts) >= 2:
+                                # 실수형 점수나 스탯 데이터(예: "2.4", "11.8")가 선수명으로 들어가지 않도록 필터링
+                                left_val = player_texts[0]
+                                right_val = player_texts[-1]
+                                try:
+                                    float(left_val)
+                                    float(right_val)
+                                    continue # 둘 다 숫자면 팀정보 스탯이므로 스킵
+                                except ValueError:
+                                    pass
+                                
+                                if left_val and left_val not in ["홈", "원정"]:
+                                    absent_players["home"].append(left_val)
+                                if right_val and right_val not in ["홈", "원정"]:
+                                    absent_players["away"].append(right_val)
                 except Exception as e:
                     print(f"  - 라인업 파싱 예외 (ID: {m_id}): {e}")
 
