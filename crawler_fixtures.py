@@ -11,7 +11,7 @@ from zoneinfo import ZoneInfo
 import os
 import re
 
-def run_id_based_crawler():
+def run_table_based_crawler():
     if not os.path.exists("data.json"):
         print("❌ data.json 파일이 존재하지 않습니다. 먼저 update_data.py를 실행해 주세요.")
         return
@@ -34,7 +34,7 @@ def run_id_based_crawler():
                         "away": m.get("away", "")
                     })
 
-    print(f"🎯 정밀 수집 대상 경기 수: {len(target_matches)}개")
+    print(f"🎯 표 형식 정밀 수집 대상 경기 수: {len(target_matches)}개")
 
     options = Options()
     options.add_argument("--headless")
@@ -60,27 +60,20 @@ def run_id_based_crawler():
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
-                # 1. 팀 순위표 정밀 수집 (중복 제거 및 전체/홈/원정 구조화)
+                # 1. 팀 순위표 (표 형식으로 안전하게 추출, 상단 탭 텍스트 필터링)
                 rankings_data = []
                 try:
-                    # '팀순위' 타이틀 주변의 테이블만 정확히 타겟팅
                     ranking_heading = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "팀순위" in tag.get_text())
-                    target_table = None
-                    if ranking_heading:
-                        target_table = ranking_heading.find_next("table")
-                    else:
-                        # 차선책으로 헤더에 '승점'이 포함된 첫 번째 테이블 선택
-                        tables = detail_soup.find_all("table")
-                        for t in tables:
-                            if "승점" in t.get_text():
-                                target_table = t
-                                break
+                    target_table = ranking_heading.find_next("table") if ranking_heading else None
                     
                     if target_table:
                         rows_list = target_table.find_all("tr")
-                        for r_row in rows_list[1:]:
+                        for r_row in rows_list:
                             cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"])]
                             if len(cols) >= 9:
+                                # 탭 이름 등 불필요한 헤더 행 제외
+                                if "전체" in cols[0] or "H/A" in cols[0] or "팀" in cols[1]:
+                                    continue
                                 rankings_data.append({
                                     "rank": cols[0],
                                     "team": cols[1],
@@ -96,38 +89,7 @@ def run_id_based_crawler():
                 except Exception as e:
                     print(f"  - 순위 파싱 예외 (ID: {m_id}): {e}")
 
-                # 2. 팀정보 스탯 정밀 수집 (득점, 실점, 유효슈팅, 점유율 등)
-                team_stats = {}
-                try:
-                    stats_heading = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "팀정보" in tag.get_text())
-                    stats_table = stats_heading.find_next("table") if stats_heading else None
-                    if stats_table:
-                        for s_row in stats_table.find_all("tr"):
-                            cols = [c.get_text(strip=True) for c in s_row.find_all(["th", "td"])]
-                            if len(cols) == 3:
-                                stat_name = cols[1]
-                                team_stats[stat_name] = {
-                                    "home": cols[0],
-                                    "away": cols[2]
-                                }
-                except Exception as e:
-                    print(f"  - 팀정보 스탯 파싱 예외 (ID: {m_id}): {e}")
-
-                # 3. 최근전적 수집
-                recent_form = {"matches": []}
-                try:
-                    recent_section = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "최근전적" in tag.get_text())
-                    if recent_section:
-                        r_table = recent_section.find_next("table")
-                        if r_table:
-                            for r_row in r_table.find_all("tr"):
-                                cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"])]
-                                if len(cols) >= 4:
-                                    recent_form["matches"].append({"info": " | ".join(cols)})
-                except Exception:
-                    pass
-
-                # 4. 상대전적 수집
+                # 2. 상대전적 (표 형식 행렬 기준으로 안전하게 수집)
                 h2h_data = {"matches": []}
                 try:
                     h2h_section = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "상대전적" in tag.get_text())
@@ -135,27 +97,45 @@ def run_id_based_crawler():
                         h_table = h2h_section.find_next("table")
                         if h_table:
                             for h_row in h_table.find_all("tr"):
-                                cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"])]
+                                cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"]) if c.get_text(strip=True)]
                                 if len(cols) >= 4:
-                                    h2h_data["matches"].append({"info": " | ".join(cols)})
-                except Exception:
-                    pass
+                                    h2h_data["matches"].append({
+                                        "row_data": cols
+                                    })
+                except Exception as e:
+                    print(f"  - 상대전적 파싱 예외 (ID: {m_id}): {e}")
 
-                # 5. 라인업 결장자 정보 수집
+                # 3. 최근전적 (표 형식 행렬 기준으로 안전하게 수집)
+                recent_form = {"matches": []}
+                try:
+                    recent_section = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "최근전적" in tag.get_text())
+                    if recent_section:
+                        r_table = recent_section.find_next("table")
+                        if r_table:
+                            for r_row in r_table.find_all("tr"):
+                                cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"]) if c.get_text(strip=True)]
+                                if len(cols) >= 4:
+                                    recent_form["matches"].append({
+                                        "row_data": cols
+                                    })
+                except Exception as e:
+                    print(f"  - 최근전적 파싱 예외 (ID: {m_id}): {e}")
+
+                # 4. 라인업 결장자 정보 (표 형식 행 기준 수집)
                 absent_players = {"home": [], "away": []}
                 try:
                     lineup_section = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "라인업" in tag.get_text())
                     if lineup_section:
-                        l_table = lineup_section.find_next("table")
+                        l_table = lineup_section.find_next("table") or lineup_section.find_parent("div")
                         if l_table:
                             for li_row in l_table.find_all("tr"):
                                 player_texts = [p.get_text(strip=True) for p in li_row.find_all("td") if p.get_text(strip=True)]
-                                if len(player_texts) >= 1:
-                                    absent_players["home"].append(player_texts[0])
                                 if len(player_texts) >= 2:
+                                    # 스탯 수치 데이터가 아닌 실제 선수명 행만 선별
+                                    absent_players["home"].append(player_texts[0])
                                     absent_players["away"].append(player_texts[-1])
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(f"  - 라인업 파싱 예외 (ID: {m_id}): {e}")
 
                 match_details[m_id] = {
                     "id": counter,
@@ -165,7 +145,6 @@ def run_id_based_crawler():
                     "away": target["away"],
                     "meta_details": {
                         "rankings": rankings_data,
-                        "team_stats": team_stats,
                         "recent_form": recent_form,
                         "h2h": h2h_data,
                         "absent_players": absent_players
@@ -185,10 +164,10 @@ def run_id_based_crawler():
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 정밀 분석 데이터가 match_details.json에 동기화되었습니다!")
+        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 표 형식 정밀 데이터가 match_details.json에 동기화 완료되었습니다!")
 
     finally:
         driver.quit()
 
 if __name__ == "__main__":
-    run_id_based_crawler()
+    run_table_based_crawler()
