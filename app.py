@@ -129,31 +129,29 @@ st.markdown("---")
         rankings_raw = meta_details.get("rankings", [])
         
         if rankings_raw:
-            # 💡 rankings 안에 담긴 여러 조건별 전적표 데이터를 리스트로 변환
             rankings_list = []
             for idx, r in enumerate(rankings_raw):
+                # 💡 값이 비어있거나 누락된 경우 안전하게 기본값("-") 처리
                 rankings_list.append({
                     "No": idx + 1,
-                    "#": r.get("rank", "-"),
-                    "팀": r.get("team", ""),
-                    "경기": r.get("played", ""),
-                    "승": r.get("win", ""),
-                    "무승부": r.get("draw", ""),
-                    "패": r.get("loss", ""),
-                    "득점": r.get("goals_for", ""),
-                    "실점": r.get("goals_against", ""),
-                    "득실": r.get("goal_diff", ""),
-                    "승점": r.get("points", "")
+                    "#": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
+                    "팀": str(r.get("team", "-")),
+                    "경기": str(r.get("played", "0")),
+                    "승": str(r.get("win", "0")),
+                    "무승부": str(r.get("draw", "0")),
+                    "패": str(r.get("loss", "0")),
+                    "득점": str(r.get("goals_for", "0")),
+                    "실점": str(r.get("goals_against", "0")),
+                    "득실": str(r.get("goal_diff", "0")),
+                    "승점": str(r.get("points", "0"))
                 })
             
             df_rankings = pd.DataFrame(rankings_list)
             
-            # 스코어맨처럼 보기 편하게 서브 탭(전체 / 조건별 전적표)으로 분기하여 렌더링
             r_tabs = st.tabs(["전체 순위 및 조건별 전적표 통합본", "원문 데이터 규격 그대로 보기"])
             
             with r_tabs[0]:
                 st.markdown("🔍 수집된 팀별 전체 및 조건별 세부 전적표입니다.")
-                # 보기 깔끔하게 주요 컬럼 위주 또는 전체 테이블 표출
                 st.dataframe(df_rankings[["#", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
                 
             with r_tabs[1]:
