@@ -125,38 +125,22 @@ with tabs[0]:
     st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
     st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
     
-    # 💡 정밀 데이터 유무에 따른 구장 정보 및 전적 데이터 연동
     if detailed_info:
         meta_status = "정상 통과 (정밀 데이터 연동 완료)"
-        
-        # 1. 구장 정보 연동 (상세 데이터에 저장된 구장명 활용, 없으면 기본값)
         stadium_info = detailed_info.get("stadium", "홈구장 실시간 반영")
         if not stadium_info:
             stadium_info = "홈구장 실시간 반영"
-            
-        # 2. 전적 데이터 연동 (meta_details 안의 recent_form 또는 h2h 데이터 활용)
-        meta_details = detailed_info.get("meta_details", {})
-        recent_form = meta_details.get("recent_form", {})
-        recent_matches = recent_form.get("matches", [])
-        
-        if recent_matches:
-            h_recent_text = f"최근 전적 데이터 확보 (총 {len(recent_matches)}경기 기록 연동 완료)"
-        else:
-            h_recent_text = "전적 데이터 수집 완료 (상세 항목 참고)"
-            
     else:
         meta_status = "⚠️ 해당 경기의 상세 정밀 데이터 없음 (기본 대진 정보만 표시)"
         stadium_info = "데이터 없음"
-        h_recent_text = "데이터 없음 (정밀 수집 대기 중)"
 
-    # 3. 메타 테이블 렌더링
+    # 1. 기본 메타 테이블 표시
     st.table({
         "메타 항목": [
             "대회 성격", 
             "기준 경기 일시", 
             "구장 정보", 
             "대결 정보", 
-            "양팀 최근 전적 요약", 
             "필터 검증 결과"
         ],
         "내용": [
@@ -164,13 +148,41 @@ with tabs[0]:
             f"{match_date} (공식 지정 경기)",
             stadium_info,
             f"{home_team} vs {away_team}",
-            f"홈/원정 전적: {h_recent_text}",
             meta_status
         ]
     })
     
-    if not detailed_info:
-        st.info("💡 안내: 선택하신 경기는 아직 상세 크롤링 데이터가 생성되지 않았습니다. 기본 대진 정보로 분석을 진행하거나 크롤러 실행 후 확인해 주세요.")
+    st.markdown("---")
+    st.markdown("### 📊 수집된 공식 팀 순위 현황 (JSON rankings 파싱 연동)")
+    
+    if detailed_info:
+        meta_details = detailed_info.get("meta_details", {})
+        rankings_raw = meta_details.get("rankings", [])
+        
+        if rankings_raw:
+            # 수집된 딕셔너리 리스트를 Pandas DataFrame으로 변환 후 컬럼명 매칭
+            rankings_list = []
+            for r in rankings_raw:
+                rankings_list.append({
+                    "#": r.get("rank", ""),
+                    "팀": r.get("team", ""),
+                    "경기": r.get("played", ""),
+                    "승": r.get("win", ""),
+                    "무승부": r.get("draw", ""),
+                    "패": r.get("loss", ""),
+                    "득점": r.get("goals_for", ""),
+                    "실점": r.get("goals_against", ""),
+                    "득실": r.get("goal_diff", ""),
+                    "승점": r.get("points", "")
+                })
+            
+            df_rankings = pd.DataFrame(rankings_list)
+            # 대시보드에 보기 좋게 테이블 출력
+            st.dataframe(df_rankings, use_container_width=True, hide_index=True)
+        else:
+            st.info("💡 해당 경기에 수집된 순위 데이터(rankings)가 존재하지 않습니다.")
+    else:
+        st.warning("⚠️ 상세 정밀 데이터가 없어 순위표를 표시할 수 없습니다.")
 
 with tabs[1]:
   st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
