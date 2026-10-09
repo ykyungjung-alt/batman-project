@@ -96,7 +96,7 @@ def run_table_based_crawler():
                                 cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"]) if c.get_text(strip=True)]
                                 # 팀정보 스탯("득점", "실점", "유효슈팅" 등)이 섞여 들어오는 현상 원천 차단
                                 row_text_join = "".join(cols)
-                                if any(bad_word in row_text_join for bad_word in ["유효슈팅", "코너", "파울", "점유율"]):
+                                if any(bad_word in row_text_join for bad_word in ["유효슈팅", "코너", "옐로카드", "파울", "점유율"]):
                                     continue
                                 if len(cols) >= 3:
                                     h2h_data["matches"].append({"row_data": cols})
