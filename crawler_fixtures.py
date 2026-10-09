@@ -33,7 +33,7 @@ def run_table_based_crawler():
         if len(target_matches) >= 10:
             break
 
-    print(f"🎯 [경기일정 및 전체 영역 완벽 정밀 타격] 10개 경기 수집 시작")
+    print(f"🎯 [전적 찌꺼기 제거 및 정밀 타격] 10개 경기 수집 시작")
 
     options = Options()
     options.add_argument("--headless")
@@ -113,7 +113,7 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 순위 파싱 예외 ({m_id}): {e}")
 
-                # 2. 상대전적 표 형식 정밀 추출
+                # 2. 상대전적 정밀 추출 (옐로카드 등 팀스탯 찌꺼기 행 완전 차단)
                 h2h_data = {"matches": []}
                 try:
                     h2h_heading = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "상대전적" in tag.get_text())
@@ -123,7 +123,8 @@ def run_table_based_crawler():
                             for h_row in h_table.find_all("tr"):
                                 cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"]) if c.get_text(strip=True)]
                                 joined = "".join(cols)
-                                if any(w in joined for w in ["득점", "실점", "유효슈팅", "코너", "파울", "점유율", "최근 10경기", "날짜"]):
+                                # 옐로카드, 득점, 실점 등 불필요한 팀 스탯 행은 무조건 제외
+                                if any(w in joined for w in ["득점", "실점", "유효슈팅", "코너", "파울", "점유율", "옐로카드", "최근 10경기", "날짜"]):
                                     continue
                                 if len(cols) >= 3:
                                     h2h_data["matches"].append({"row_data": cols})
@@ -132,7 +133,7 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 상대전적 파싱 예외 ({m_id}): {e}")
 
-                # 3. 최근전적 표 형식 정밀 추출
+                # 3. 최근전적 정밀 추출 (옐로카드 등 팀스탯 찌꺼기 행 완전 차단)
                 recent_form = {"matches": []}
                 try:
                     recent_heading = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "최근전적" in tag.get_text())
@@ -142,25 +143,16 @@ def run_table_based_crawler():
                             for r_row in r_table.find_all("tr"):
                                 cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"]) if c.get_text(strip=True)]
                                 joined = "".join(cols)
-                                if any(w in joined for w in ["득점", "실점", "유효슈팅", "코너", "파울", "점유율", "최근 10경기", "날짜"]):
+                                if any(w in joined for w in ["득점", "실점", "유효슈팅", "코너", "파울", "점유율", "옐로카드", "최근 10경기", "날짜"]):
                                     continue
                                 if len(cols) >= 3:
                                     recent_form["matches"].append({"row_data": cols})
-                        
-                        if not recent_form["matches"]:
-                            container = recent_heading.find_parent("div") or recent_heading
-                            for li in container.find_all(["li", "div"]):
-                                li_text = li.get_text(strip=True)
-                                if li_text and any(w in li_text for w in ["GER", "UEFA", "INT", "분데스리가", "프리미어", "승", "패", "무", "2026"]) and "경기당" not in li_text:
-                                    cols = [span.get_text(strip=True) for span in li.find_all(["span", "div", "a"]) if span.get_text(strip=True)]
-                                    if len(cols) >= 3:
-                                        recent_form["matches"].append({"row_data": cols})
                     if len(recent_form["matches"]) > 5:
                         recent_form["matches"] = recent_form["matches"][:5]
                 except Exception as e:
                     print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
 
-                # 4. 경기일정 정밀 추출 (dv_futer.plates 및 courselis 구조 기반 타겟팅)
+                # 4. 경기일정 추출
                 fixtures_data = []
                 try:
                     futer_div = detail_soup.find("div", id="dv_futer")
@@ -173,7 +165,7 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 경기일정 파싱 예외 ({m_id}): {e}")
 
-                # 5. 결장자 정보 정밀 추출
+                # 5. 결장자 정보 추출
                 absent_players = {"home": [], "away": []}
                 try:
                     lineup_box = detail_soup.find("ul", class_="lineupbox")
@@ -229,7 +221,7 @@ def run_table_based_crawler():
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 경기일정(`dv_futer`)까지 완벽 반영된 총 {counter - 1}개 경기 데이터가 동기화되었습니다!")
+        print(f"\n🎉 성공: 옐로카드 찌꺼기가 제거된 총 {counter - 1}개 경기 데이터가 동기화되었습니다!")
 
     finally:
         driver.quit()
