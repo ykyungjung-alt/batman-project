@@ -1,0 +1,36 @@
+name: Match Details Crawler V2 (Tomorrow)
+
+on:
+  workflow_dispatch:  # 수동 실행 지원
+  schedule:
+    - cron: '30 22 * * *'  # 매일 밤 10시 30분(KST 기준 아침 7시 30분) 자동 실행 설정
+
+jobs:
+  run-crawler-v2:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Crawler V2 (Tomorrow Matches)
+      run: |
+        python crawler_fixtures2.py
+
+    - name: Commit and push generated match details v2
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add match_details_v2.json
+        git commit -m "Auto-update tomorrow match details v2 [skip ci]" || exit 0
+        git push
