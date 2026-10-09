@@ -121,50 +121,20 @@ tab_titles = [
 ]
 tabs = st.tabs(tab_titles)
 
-with tabs[0]:
-    st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
-    st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
-    
-    if detailed_info:
-        meta_status = "정상 통과 (정밀 데이터 연동 완료)"
-        stadium_info = detailed_info.get("stadium", "홈구장 실시간 반영")
-        if not stadium_info:
-            stadium_info = "홈구장 실시간 반영"
-    else:
-        meta_status = "⚠️ 해당 경기의 상세 정밀 데이터 없음 (기본 대진 정보만 표시)"
-        stadium_info = "데이터 없음"
-
-    # 1. 기본 메타 테이블 표시
-    st.table({
-        "메타 항목": [
-            "대회 성격", 
-            "기준 경기 일시", 
-            "구장 정보", 
-            "대결 정보", 
-            "필터 검증 결과"
-        ],
-        "내용": [
-            tournament_name,
-            f"{match_date} (공식 지정 경기)",
-            stadium_info,
-            f"{home_team} vs {away_team}",
-            meta_status
-        ]
-    })
-    
-    st.markdown("---")
-    st.markdown("### 📊 수집된 공식 팀 순위 현황 (JSON rankings 파싱 연동)")
+st.markdown("---")
+    st.markdown("### 📊 공식 팀 순위 및 조건별 전적표 현황")
     
     if detailed_info:
         meta_details = detailed_info.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
         
         if rankings_raw:
-            # 수집된 딕셔너리 리스트를 Pandas DataFrame으로 변환 후 컬럼명 매칭
+            # 💡 rankings 안에 담긴 여러 조건별 전적표 데이터를 리스트로 변환
             rankings_list = []
-            for r in rankings_raw:
+            for idx, r in enumerate(rankings_raw):
                 rankings_list.append({
-                    "#": r.get("rank", ""),
+                    "No": idx + 1,
+                    "#": r.get("rank", "-"),
                     "팀": r.get("team", ""),
                     "경기": r.get("played", ""),
                     "승": r.get("win", ""),
@@ -177,12 +147,21 @@ with tabs[0]:
                 })
             
             df_rankings = pd.DataFrame(rankings_list)
-            # 대시보드에 보기 좋게 테이블 출력
-            st.dataframe(df_rankings, use_container_width=True, hide_index=True)
+            
+            # 스코어맨처럼 보기 편하게 서브 탭(전체 / 조건별 전적표)으로 분기하여 렌더링
+            r_tabs = st.tabs(["전체 순위 및 조건별 전적표 통합본", "원문 데이터 규격 그대로 보기"])
+            
+            with r_tabs[0]:
+                st.markdown("🔍 수집된 팀별 전체 및 조건별 세부 전적표입니다.")
+                # 보기 깔끔하게 주요 컬럼 위주 또는 전체 테이블 표출
+                st.dataframe(df_rankings[["#", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
+                
+            with r_tabs[1]:
+                st.json(rankings_raw)
         else:
-            st.info("💡 해당 경기에 수집된 순위 데이터(rankings)가 존재하지 않습니다.")
+            st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
     else:
-        st.warning("⚠️ 상세 정밀 데이터가 없어 순위표를 표시할 수 없습니다.")
+        st.warning("⚠️ 상세 정밀 데이터가 없어 팀 순위 및 전적표를 표시할 수 없습니다.")
 
 with tabs[1]:
   st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
