@@ -56,18 +56,22 @@ selected_date = st.sidebar.selectbox("📅 날짜를 선택하세요:", date_opt
 
 # 2. 선택한 날짜의 경기 리스트 가져오기
 matches = daily_matches.get(selected_date, [])
-
 selected_match = None
+
 if matches:
     leagues = sorted(list(set(m.get("league", "기타 리그") for m in matches)))
     if leagues:
         selected_league = st.sidebar.selectbox("리그를 선택하세요:", leagues)
         league_matches = [m for m in matches if m.get("league", "기타 리그") == selected_league]
         
-       match_options = [f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" for m in league_matches]
+        # 💡 match_name 대신 홈/원정/시간 조합으로 안전하게 생성
+        match_options = [f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" for m in league_matches]
+        
         if match_options:
             selected_match_name = st.sidebar.radio("분석할 경기를 선택하세요:", match_options, key="match_radio_selection")
-            selected_match = next((m for m in league_matches if m["match_name"] == selected_match_name), None)
+            
+            # 선택된 경기 매칭
+            selected_match = next((m for m in league_matches if f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" == selected_match_name), None)
 
 # [핵심] 조건에 맞는 경기가 없을 때 경고 문구 출력 및 안전 정지
 if not selected_match:
@@ -75,13 +79,11 @@ if not selected_match:
     st.stop()
 
 # 정상 매칭 시 변수 지정
-home_team = selected_match.get("home_team", "홈팀")
-away_team = selected_match.get("away_team", "원정팀")
-tournament_name = selected_match.get("league", selected_match.get("tournament", "리그"))
+home_team = selected_match.get("home", "홈팀")
+away_team = selected_match.get("away", "원정팀")
+tournament_name = selected_match.get("league", "리그")
 match_date = selected_match.get("time", "오늘")
-
-home_stats = selected_match.get("home_recent_stats", "4전/3승1무/0패")
-away_stats = selected_match.get("away_recent_stats", "4전/2승1무/1패")
+match_code = selected_match.get("match_code", "")
 
 tab_titles = [
     "0단계 (메타)", 
