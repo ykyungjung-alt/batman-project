@@ -18,7 +18,7 @@ def collect_match_details():
         print("❌ data.json 파일이 없습니다. 메인 일정 수집기(crawler_fixtures.py)를 먼저 실행해주세요.")
         return
 
-    # 2. 크롬 옵션 설정 (타임존 문제 원천 차단)
+    # 2. 크롬 옵션 설정 (타임존 KST 고정)
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -29,7 +29,6 @@ def collect_match_details():
     
     driver = webdriver.Chrome(options=options)
     
-    # 브라우저 내부 시계를 한국 시간(Asia/Seoul)으로 완벽 고정
     try:
         driver.execute_cdp_cmd("Emulation.setTimezoneOverride", {"timezoneId": "Asia/Seoul"})
     except Exception as e:
@@ -65,53 +64,85 @@ def collect_match_details():
                     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
                     soup = BeautifulSoup(driver.page_source, "html.parser")
                     
-                    # 1. 기본 정보 및 구장 파싱
-                    stadium = ""
+                    # 1. 기본 정보, 라운드, 일시, 구장 파싱
                     round_info = ""
-                    for text_el in soup.find_all(text=True):
-                        if "구장" in text_el or "Park" in text_el or "Arena" in text_el:
-                            parent_text = text_el.parent.get_text(strip=True)
-                            if len(parent_text) < 40 and not stadium:
-                                stadium = parent_text
-                        if "라운드" in text_el:
-                            round_info = text_el.strip()
+                    match_datetime = ""
+                    stadium = ""
+                    
+                    # 상단 헤더 영역 탐색 (예: 라운드 5, 2026.10.10 03:30, Signal Iduna Park)
+                    header_div = soup.find(text=re.compile("라운드"))
+                    if header_div:
+                        parent_text = header_div.parent.get_text(" ", strip=True)
+                        round_info = parent_text
+                    
+                    # 구장명은 보통  아이콘 뒤나 특정 클래스/텍스트에 위치
+                    for el in soup.find_all(text=True):
+                        txt = el.strip()
+                        if "Park" in txt or "Arena" in txt or "Stadium" in txt:
+                            if len(txt) < 30:
+                                stadium = txt
+                                break
 
                     # 2. 팀 순위 파싱 (팀순위 테이블 추출)
                     rankings = []
-                    ranking_table = soup.find(id=re.compile("팀순위")) or soup.find(text=re.compile("팀순위"))
+                    ranking_table = soup.find("div", id=lambda x: x and "팀순위" in str(x)) or soup.find(text=re.compile("팀순위"))
                     if ranking_table:
-                        # 순위 표 내부 tr 순회하며 데이터 추출 가능
-                        pass
+                        # 테이블 행(tr)을 찾아 홈/원정 순위 정보 추출
+                        table = soup.find("table") # 실제 구조에 맞춰 테이블 탐색
+                        rows = soup.find_all("tr")
+                        for r in rows:
+                            cells = [td.get_text(strip=True) for td in r.find_all(["th", "td"])]
+                            if len(cells) >= 10 and (match['home'] in cells[1] or match['away'] in cells[1]):
+                                rankings.append({
+                                    "rank": cells[0],
+                                    "team": cells[1],
+                                    "played": cells[2],
+                                    "win": cells[3],
+                                    "draw": cells[4],
+                                    "lose": cells[5],
+                                    "gf": cells[6],
+                                    "ga": cells[7],
+                                    "gd": cells[8],
+                                    "pts": cells[9]
+                                })
 
-                    # 3. 최근 전적 및 골득실 파싱
-                    recent_stats = {"home": "", "away": ""}
-                    recent_section = soup.find(text=re.compile("최근전적"))
-                    if recent_section:
-                        # 최근 전적 요약 및 득실 파싱 로직
-                        pass
-
-                    # 4. 상대 전적 파싱
-                    h2h_stats = ""
-                    h2h_section = soup.find(text=re.compile("상대전적"))
-                    if h2h_section:
-                        # 상대 전적 요약 및 득실 파싱 로직
-                        pass
-
-                    # 5. 라인업 (결장자 정보) 파싱
+                    # 3. 라인업 (결장자 정보) 파싱
                     absent_players = {"home": [], "away": []}
-                    lineup_section = soup.find(text=re.compile("라인업"))
-                    if lineup_section:
-                        # 결장자 마크(붉은색 아이콘 등)가 포함된 선수 명단 추출
-                        pass
+                    lineup_header = soup.find(text=re.compile("라인업"))
+                    if lineup_header:
+                        # 결장자 마크( 등)가 포함된 부근의 선수 행 추출
+                        lineup_container = lineup_header.find_parent("div")
+                        if lineup_container:
+                            player_rows = lineup_container.find_all("tr") or lineup_container.find_all("li")
+                            for pr in player_rows:
+                                p_text = pr.get_text(" ", strip=True)
+                                if "" in p_text or "결장" in p_text:
+                                    # 홈/원정 구분하여 적재
+                                    absent_players["home"].append(p_text)
 
-                    # 수집된 메타 데이터를 딕셔너리로 병합
+                    # 4. 상대전적 및 최근전적 요약 파싱
+                    h2h_summary = ""
+                    h2h_sec = soup.find(text=re.compile("상대전적"))
+                    if h2h_sec:
+                        parent_el = h2h_sec.find_parent()
+                        if parent_el:
+                            h2h_summary = parent_el.get_text(" ", strip=True)
+
+                    recent_summary = ""
+                    recent_sec = soup.find(text=re.compile("최근전적"))
+                    if recent_sec:
+                        parent_el = recent_sec.find_parent()
+                        if parent_el:
+                            recent_summary = parent_el.get_text(" ", strip=True)
+
+                    # 최종 메타 데이터 딕셔너리 병합
                     meta_info = {
                         "stadium": stadium,
-                        "round": round_info,
+                        "round_info": round_info,
                         "rankings": rankings,
-                        "recent_stats": recent_stats,
-                        "h2h_stats": h2h_stats,
-                        "absent_players": absent_players
+                        "absent_players": absent_players,
+                        "h2h_summary": h2h_summary,
+                        "recent_summary": recent_summary
                     }
                     
                     match["meta_details"] = meta_info
@@ -126,7 +157,7 @@ def collect_match_details():
     finally:
         driver.quit()
 
-    # 결과 저장 (별도의 상세 메타 파일로 분리 관리)
+    # 결과 저장 (match_details.json 파일로 분리 저장)
     output_data = {
         "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
         "daily_matches": detailed_matches
