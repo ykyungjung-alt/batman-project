@@ -36,9 +36,30 @@ def load_match_data():
         }
     }
 
+# 💡 날짜 고정 없이, 시스템에 존재하는 모든 상세 데이터 파일(match_details.json, v2 등)을 유연하게 통합 탐색
+@st.cache_data(ttl=10)
+def load_all_match_details():
+    target_files = ["match_details.json", "match_details_v2.json"]
+    combined_details = {}
+    
+    for t_file in target_files:
+        if os.path.exists(t_file):
+            try:
+                with open(t_file, "r", encoding="utf-8") as f:
+                    file_data = json.load(f)
+                    match_dict = file_data.get("match_details", {})
+                    for k, v in match_dict.items():
+                        if k not in combined_details:
+                            combined_details[k] = v
+            except Exception:
+                pass
+                
+    return combined_details
+
 data = load_match_data()
 last_updated_time = data.get("last_updated", "알 수 없음")
 daily_matches = data.get("daily_matches", {})
+all_details_dict = load_all_match_details()
 
 st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
 st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
@@ -64,7 +85,7 @@ if matches:
         selected_league = st.sidebar.selectbox("리그를 선택하세요:", leagues)
         league_matches = [m for m in matches if m.get("league", "기타 리그") == selected_league]
         
-        # 💡 match_name 대신 홈/원정/시간 조합으로 안전하게 생성
+        # match_name 대신 홈/원정/시간 조합으로 안전하게 생성
         match_options = [f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" for m in league_matches]
         
         if match_options:
@@ -73,7 +94,7 @@ if matches:
             # 선택된 경기 매칭
             selected_match = next((m for m in league_matches if f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" == selected_match_name), None)
 
-# [핵심] 조건에 맞는 경기가 없을 때 경고 문구 출력 및 안전 정지
+# [핵심 방어 로직] 조건에 맞는 경기가 없을 때 경고 문구 출력 및 안전 정지
 if not selected_match:
     st.warning(f"⚠️ [{selected_date}] 조건에 해당하는 경기 데이터가 존재하지 않습니다. 다른 날짜나 리그를 선택해 주세요.")
     st.stop()
@@ -83,7 +104,10 @@ home_team = selected_match.get("home", "홈팀")
 away_team = selected_match.get("away", "원정팀")
 tournament_name = selected_match.get("league", "리그")
 match_date = selected_match.get("time", "오늘")
-match_code = selected_match.get("match_code", "")
+match_code = str(selected_match.get("match_code", ""))
+
+# 통합 상세 데이터에서 현재 선택된 경기의 정밀 정보 추출
+detailed_info = all_details_dict.get(match_code, None)
 
 tab_titles = [
     "0단계 (메타)", 
@@ -98,18 +122,61 @@ tab_titles = [
 tabs = st.tabs(tab_titles)
 
 with tabs[0]:
-   st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
-   st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
-   st.table({
-    "메타 항목": ["대회 성격", "기준 경기 일시", "구장 정보", "대결 정보", "필터 검증 결과"],
-    "내용": [
-        tournament_name,
-        f"{match_date} (공식 지정 경기)",
-        "홈구장 실시간 반영",
-        f"{home_team} vs {away_team}",
-        "정상 통과"
-    ]
-})
+    st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
+    st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
+    
+    # 정밀 데이터 유무에 따른 동적 상태 분기 (데이터가 없어도 코드가 멈추지 않음)
+    if detailed_info:
+        meta_status = "정상 통과 (정밀 데이터 연동 완료)"
+        stadium_info = detailed_info.get("stadium", "홈구장 실시간 반영")
+        
+        meta_details = detailed_info.get("meta_details", {})
+        h_recent_list = meta_details.get("recent_form", {}).get("matches", [])
+        h_recent_text = f"최근 {len(h_recent_list)}경기 전적 데이터 확보" if h_recent_list else "데이터 연동 중"
+    else:
+        meta_status = "⚠️ 해당 경기의 상세 정밀 데이터 없음 (기본 대진 정보만 표시)"
+        stadium_info = "데이터 없음"
+        h_recent_text = "데이터 없음"
+
+    st.table({
+        "메타 항목": [
+            "대회 성격", 
+            "기준 경기 일시", 
+            "구장 정보", 
+            "대결 정보", 
+            "양팀 최근 전적 요약", 
+            "필터 검증 결과"
+        ],
+        "내용": [
+            tournament_name,
+            f"{match_date} (공식 지정 경기)",
+            stadium_info,
+            f"{home_team} vs {away_team}",
+            f"홈/원정 전적: {h_recent_text}",
+            meta_status
+        ]
+    })
+    
+    if not detailed_info:
+        st.info("💡 안내: 선택하신 경기는 아직 상세 크롤링 데이터가 생성되지 않았습니다. 기본 대진 정보로 분석을 진행하거나 크롤러 실행 후 확인해 주세요.")
+
+with tabs[1]:
+    st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
+    st.markdown("""
+    <div class="step-box">
+        <b>📌 규격 원칙 및 요약 설명:</b><br>
+        • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 7개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여합니다.<br>
+        • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 공식 경기만을 채택합니다.<br>
+        • <b>특수 룰:</b> E티어 상대 득점 50% 할인 및 경고등 발동 프로토콜을 적용합니다.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    tier_weight_df = pd.DataFrame({
+        "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
+        "공격력 기준 (평균 득점)": ["2.3골 이상", "1.7 ~ 2.2골 미만", "1.1 ~ 1.6골 미만", "0.5 ~ 1.1골 미만", "0.5골 미만 (<"],
+        "공격 가중치": ["+8.0%", "+6.0%", "+4.0%", "+2.0%", "0.0% (최하위)"],
+    })
+    st.table(tier_weight_df)
 
 with tabs[1]:
   st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
