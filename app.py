@@ -15,25 +15,8 @@ def load_match_data():
         except Exception:
             pass
     return {
-        "last_updated": "안전 모드",
-        "daily_matches": {
-            "오늘 [임시]": [
-                {
-                    "id": 1,
-                    "league": "베이카우스리가",
-                    "match_name": "[베이카우스리가] 그니스탄 vs 인터 투르쿠 (01:00)",
-                    "home": "그니스탄",
-                    "away": "인터 투르쿠",
-                    "home_team": "그니스탄",
-                    "away_team": "인터 투르쿠",
-                    "tournament": "베이카우스리가",
-                    "time": "01:00",
-                    "home_recent_stats": "4전/3승1무/0패",
-                    "away_recent_stats": "4전/2승1무/1패",
-                    "score": "0 - 0"
-                }
-            ]
-        }
+        "last_updated": "안전 모드 (데이터 없음)",
+        "daily_matches": {}
     }
 
 # 💡 날짜 고정 없이, 시스템에 존재하는 모든 상세 데이터 파일(match_details.json, v2 등)을 유연하게 통합 탐색
@@ -71,7 +54,7 @@ st.sidebar.subheader("🏆 실시간 수집 대진 선택")
 # 1. 사이드바 날짜 선택창 구성 (daily_matches에 있는 키값 활용)
 date_options = list(daily_matches.keys())
 if not date_options:
-    date_options = ["오늘"]
+    date_options = ["오늘 (데이터 없음)"]
 
 selected_date = st.sidebar.selectbox("📅 날짜를 선택하세요:", date_options)
 
@@ -96,7 +79,8 @@ if matches:
 
 # [핵심 방어 로직] 조건에 맞는 경기가 없을 때 경고 문구 출력 및 안전 정지
 if not selected_match:
-    st.warning(f"⚠️ [{selected_date}] 조건에 해당하는 경기 데이터가 존재하지 않습니다. 다른 날짜나 리그를 선택해 주세요.")
+    st.warning(f"⚠️ [{selected_date}] 조건에 해당하는 경기 데이터가 존재하지 않습니다. (데이터 없음)")
+    st.info("💡 안내: 아직 해당 날짜에 수집된 경기 일정이나 정밀 데이터가 없습니다. 다른 날짜를 선택하시거나 데이터 갱신 후 이용해 주세요.")
     st.stop()
 
 # 정상 매칭 시 변수 지정
@@ -121,17 +105,47 @@ tab_titles = [
 ]
 tabs = st.tabs(tab_titles)
 
-  st.markdown("---")
-  st.markdown("### 📊 공식 팀 순위 및 조건별 전적표 현황")
+with tabs[0]:
+    st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
+    st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
     
-        if detailed_info:
+    if detailed_info:
+        meta_status = "정상 통과 (정밀 데이터 연동 완료)"
+        stadium_info = detailed_info.get("stadium", "홈구장 실시간 반영")
+        if not stadium_info:
+            stadium_info = "홈구장 실시간 반영"
+    else:
+        meta_status = "⚠️ 해당 경기의 상세 정밀 데이터 없음 (데이터 없음)"
+        stadium_info = "데이터 없음"
+
+    # 1. 기본 메타 테이블 표시
+    st.table({
+        "메타 항목": [
+            "대회 성격", 
+            "기준 경기 일시", 
+            "구장 정보", 
+            "대결 정보", 
+            "필터 검증 결과"
+        ],
+        "내용": [
+            tournament_name,
+            f"{match_date} (공식 지정 경기)",
+            stadium_info,
+            f"{home_team} vs {away_team}",
+            meta_status
+        ]
+    })
+    
+    st.markdown("---")
+    st.markdown("### 📊 공식 팀 순위 및 조건별 전적표 현황")
+    
+    if detailed_info:
         meta_details = detailed_info.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
         
         if rankings_raw:
             rankings_list = []
             for idx, r in enumerate(rankings_raw):
-                # 💡 값이 비어있거나 누락된 경우 안전하게 기본값("-") 처리
                 rankings_list.append({
                     "No": idx + 1,
                     "#": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
@@ -157,9 +171,10 @@ tabs = st.tabs(tab_titles)
             with r_tabs[1]:
                 st.json(rankings_raw)
         else:
-            st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
+            st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다. (데이터 없음)")
     else:
-        st.warning("⚠️ 상세 정밀 데이터가 없어 팀 순위 및 전적표를 표시할 수 없습니다.")
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (데이터 없음)")
+        st.info("💡 크롤러를 통해 해당 경기의 상세 정밀 데이터를 먼저 수집해 주세요.")
 
 with tabs[1]:
   st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
