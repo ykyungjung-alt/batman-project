@@ -38,7 +38,7 @@ def run_table_based_crawler():
         if len(target_matches) >= 10:
             break
 
-    print(f"🎯 [테스트] 딱 10개 경기만 정밀 수집을 시작합니다.")
+    print(f"🎯 [정밀 필터링 테스트] 10개 경기 수집 시작")
 
     options = Options()
     options.add_argument("--headless")
@@ -60,7 +60,7 @@ def run_table_based_crawler():
             
             try:
                 driver.get(detail_url)
-                time.sleep(1.0)
+                time.sleep(0.8)
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
@@ -74,7 +74,6 @@ def run_table_based_crawler():
                             for r_row in target_table.find_all("tr"):
                                 cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"])]
                                 if len(cols) >= 9:
-                                    # 탭 이름이나 헤더 행 제외
                                     if any(w in cols[0] for w in ["전체", "H/A", "최근", "전반"]) or "팀" in cols[1]:
                                         continue
                                     rankings_data.append({
@@ -86,7 +85,7 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 순위 파싱 예외 ({m_id}): {e}")
 
-                # 2. 상대전적 표 형식 추출 (최근 5개만 안전하게)
+                # 2. 상대전적 표 형식 추출 (스탯 찌꺼기 행 완벽 필터링)
                 h2h_data = {"matches": []}
                 try:
                     h2h_heading = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "상대전적" in tag.get_text())
@@ -95,6 +94,10 @@ def run_table_based_crawler():
                         if h_table:
                             for h_row in h_table.find_all("tr"):
                                 cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"]) if c.get_text(strip=True)]
+                                # 팀정보 스탯("득점", "실점", "유효슈팅" 등)이 섞여 들어오는 현상 원천 차단
+                                row_text_join = "".join(cols)
+                                if any(bad_word in row_text_join for bad_word in ["유효슈팅", "코너", "파울", "점유율"]):
+                                    continue
                                 if len(cols) >= 3:
                                     h2h_data["matches"].append({"row_data": cols})
                     if len(h2h_data["matches"]) > 5:
@@ -102,7 +105,7 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 상대전적 파싱 예외 ({m_id}): {e}")
 
-                # 3. 최근전적 표 형식 추출 (최근 5개만 안전하게)
+                # 3. 최근전적 표 형식 추출 (스탯 찌꺼기 행 완벽 필터링)
                 recent_form = {"matches": []}
                 try:
                     recent_heading = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "최근전적" in tag.get_text())
@@ -111,6 +114,9 @@ def run_table_based_crawler():
                         if r_table:
                             for r_row in r_table.find_all("tr"):
                                 cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"]) if c.get_text(strip=True)]
+                                row_text_join = "".join(cols)
+                                if any(bad_word in row_text_join for bad_word in ["득점", "실점", "유효슈팅", "코너", "파울", "점유율", "최근 10경기"]):
+                                    continue
                                 if len(cols) >= 3:
                                     recent_form["matches"].append({"row_data": cols})
                     if len(recent_form["matches"]) > 5:
@@ -118,7 +124,7 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
 
-                # 4. 결장자 정보 추출 (라인업 섹션 내부의 테이블 행만 엄선)
+                # 4. 결장자 정보 추출 (퍼센트나 숫자 수치 찌꺼기 완벽 차단)
                 absent_players = {"home": [], "away": []}
                 try:
                     lineup_heading = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "라인업" in tag.get_text())
@@ -127,10 +133,13 @@ def run_table_based_crawler():
                         if l_table:
                             for li_row in l_table.find_all("tr"):
                                 player_texts = [p.get_text(strip=True) for p in li_row.find_all("td") if p.get_text(strip=True)]
-                                # 선수 이름 칸에 스탯 수치(예: 소수점 점수)가 들어오지 않도록 검증
                                 if len(player_texts) >= 2:
                                     left_val = player_texts[0]
                                     right_val = player_texts[-1]
+                                    
+                                    # 퍼센트 기호나 숫자가 포함된 찌꺼기 데이터는 결장자에 안 들어가게 필터링
+                                    if "%" in left_val or "%" in right_val:
+                                        continue
                                     try:
                                         float(left_val)
                                         float(right_val)
@@ -138,9 +147,9 @@ def run_table_based_crawler():
                                     except ValueError:
                                         pass
                                     
-                                    if left_val and left_val not in ["홈", "원정", "결장", "지난 경기"]:
+                                    if left_val and left_val not in ["홈", "원정", "결장", "지난 경기", "1", "2", "3"]:
                                         absent_players["home"].append(left_val)
-                                    if right_val and right_val not in ["홈", "원정", "결장", "지난 경기"]:
+                                    if right_val and right_val not in ["홈", "원정", "결장", "지난 경기", "1", "2", "3"]:
                                         absent_players["away"].append(right_val)
                 except Exception as e:
                     print(f"  - 라인업 파싱 예외 ({m_id}): {e}")
@@ -172,7 +181,7 @@ def run_table_based_crawler():
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 테스트 완료: 총 {counter - 1}개 경기 데이터가 match_details.json에 저장되었습니다.")
+        print(f"\n🎉 테스트 완료: 총 {counter - 1}개 경기의 깨끗한 데이터가 match_details.json에 저장되었습니다.")
 
     finally:
         driver.quit()
