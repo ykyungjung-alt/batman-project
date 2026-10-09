@@ -10,78 +10,116 @@ from selenium.webdriver.common.by import By
 from zoneinfo import ZoneInfo
 import re
 
-def run_comprehensive_crawler():
+BASE_URL = "https://www.scoreman123.com/football/fixture"
+
+MAJOR_LEAGUES = [
+    "K리그1", "K리그 2", 
+    "프리미어리그", "잉글랜드 프리미어리그", "세리에 A", "라리가", "분데스리가", "리그 1", "프랑스 리그 1",
+    "에레디비시", "메이저 리그 사커", "라리가2", "챔피언쉽", "잉글랜드 챔피언쉽",
+    "챔피언스리그", "유로파리그", "유로파 컨퍼런스리그", 
+    "AFC챔피언스리그", "AFC 챔피언스리그2", "ASEAN 클럽선수권",
+    "FIFA", "월드컵", "아시안컵", "네이션스리그", 
+    "아시안게임", "올림픽", "국제 친선경기", 
+    "U-23", "U-21", "U-20", "U-17",
+    "잉글랜드 FA 컵", "EFL 트로피"
+]
+
+def run_optimized_crawler():
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
+    options.add_argument("--lang=ko_KR")
     
     kst = ZoneInfo("Asia/Seoul")
-    today = datetime.now(kst)
-    tomorrow = today + timedelta(days=1)
+    today_kst = datetime.now(kst)
+    tomorrow_kst = today_kst + timedelta(days=1)
     
-    target_dates = [
-        today.strftime("%m-%d"),
-        tomorrow.strftime("%m-%d")
+    target_dates_str = [
+        today_kst.strftime("%m-%d"),
+        tomorrow_kst.strftime("%m-%d")
     ]
     
     driver = webdriver.Chrome(options=options)
+    try:
+        driver.execute_cdp_cmd("Emulation.setTimezoneOverride", {"timezoneId": "Asia/Seoul"})
+    except Exception:
+        pass
+
+    daily_matches = {d: [] for d in target_dates_str}
     
     try:
-        main_url = "https://www.scoreman123.com/football/fixture?f=sc1"
-        print(f"🌐 메인 일정 페이지 접속 중: {main_url}")
-        driver.get(main_url)
-        
+        print(f"🌐 메인 일정 페이지 접속 중: {BASE_URL}")
+        driver.get(BASE_URL)
         WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
         time.sleep(3)
         
         soup = BeautifulSoup(driver.page_source, "html.parser")
-        match_ids = []
         
-        # 메인 페이지에서 경기 ID 수집
+        # 메인 대진표에서 주요 리그 경기의 Match ID 및 기본 정보 수집
+        current_league = ""
         rows = soup.find_all("tr")
+        match_targets = []
+        
         for row in rows:
+            text_content = row.get_text(strip=True)
+            if not text_content:
+                continue
+            
+            # 리그명 감지
+            if not re.search(r"\d{2}:\d{2}", text_content):
+                cleaned = re.sub(r"^[^\w\s]+", "", text_content).replace("+", "").strip()
+                cleaned = re.sub(r"경기수\s*\(.*?\)", "", cleaned).strip()
+                if 1 < len(cleaned) < 35 and "시간" not in cleaned and "상태" not in cleaned:
+                    current_league = cleaned
+                continue
+            
+            # 주요 리그 필터링 (MAJOR_LEAGUES 적용으로 용량 및 부하 원천 차단)
+            is_major = any(ml in current_league for ml in MAJOR_LEAGUES)
+            if not is_major:
+                continue
+            
+            # Match ID 추출 (tr 태그 id 또는 onclick 분석 함수)
             row_id = row.get("id", "")
-            match_id_match = re.search(r'tr1_(\d+)', row_id)
-            if match_id_match:
-                m_id = match_id_match.group(1)
-                if m_id not in match_ids:
-                    match_ids.append(m_id)
+            m_match = re.search(r'tr1_(\d+)', row_id)
+            m_id = None
+            if m_match:
+                m_id = m_match.group(1)
             else:
                 onclick_attr = row.get("onclick", "")
                 if not onclick_attr:
                     td = row.find("td", onclick=True)
                     if td:
                         onclick_attr = td.get("onclick", "")
-                m_match = re.search(r'analysis\((\d+)', onclick_attr)
-                if m_match:
-                    m_id = m_match.group(1)
-                    if m_id not in match_ids:
-                        match_ids.append(m_id)
+                sub_match = re.search(r'analysis\((\d+)', onclick_attr)
+                if sub_match:
+                    m_id = sub_match.group(1)
+            
+            if m_id:
+                match_targets.append({
+                    "id": m_id,
+                    "league": current_league
+                })
 
-        print(f"⚽ 추출된 총 경기 Match ID 목록: {len(match_ids)}개")
+        print(f"⚽ 주요 리그 대상 수집된 경기 후보: {len(match_targets)}개")
         
-        daily_matches = {d: [] for d in target_dates}
         match_counter = 1
-        
-        for m_id in match_ids:
+        for target in match_targets:
+            m_id = target["id"]
+            league_name = target["league"]
             detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
+            
             try:
                 driver.get(detail_url)
-                time.sleep(1.0)
+                time.sleep(0.8) # 부하 방지 딜레이
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
-                date_str = today.strftime("%m-%d")
-                time_str = "00:00"
-                
-                header_el = detail_soup.find("h4")
-                header_text = header_el.get_text(strip=True) if header_el else ""
-                
                 # 날짜 및 시간 추출
+                date_str = today_kst.strftime("%m-%d")
+                time_str = "00:00"
                 date_time_match = re.search(r'(\d{4}\.\d{2}\.\d{2})\s+(\d{2}:\d{2})', detail_soup.get_text())
                 if date_time_match:
                     full_date_str = date_time_match.group(1)
@@ -92,29 +130,22 @@ def run_comprehensive_crawler():
                     except Exception:
                         pass
                 
-                # 오늘/내일 경기만 필터링
-                if date_str not in target_dates:
+                # 오늘/내일 경기만 엄선
+                if date_str not in target_dates_str:
                     continue
                 
-                league_el = detail_soup.find("a", href=lambda x: x and "/football/" in x)
-                league_name = league_el.get_text(strip=True) if league_el else "기타 리그"
-                
+                # 홈/원정 팀명 추출
+                header_el = detail_soup.find("h4")
+                header_text = header_el.get_text(strip=True) if header_el else ""
                 home_team = "홈팀"
                 away_team = "원정팀"
-                if header_text:
-                    if "vs" in header_text.lower() or "VS" in header_text:
-                        parts = re.split(r'vs|VS', header_text)
-                        if len(parts) >= 2:
-                            home_team = parts[0].strip()
-                            away_team = re.split(r'라이브스코어|경기분석', parts[1])[0].strip()
+                if header_text and ("vs" in header_text.lower() or "VS" in header_text):
+                    parts = re.split(r'vs|VS', header_text)
+                    if len(parts) >= 2:
+                        home_team = parts[0].strip()
+                        away_team = re.split(r'라이브스코어|경기분석', parts[1])[0].strip()
 
-                # 구장 정보 안전 추출
-                stadium_name = ""
-                stadium_el = detail_soup.find("a", href=lambda x: x and any(k in x for k in ["Arena", "Stadium", "Park"]))
-                if stadium_el:
-                    stadium_name = stadium_el.get_text(strip=True)
-
-                # 1. 팀 순위 정보 수집
+                # 1. 팀 순위 정보 수집 (순위, 경기수, 승, 무, 패, 득점, 실점, 득실, 승점)
                 rankings_data = []
                 try:
                     tables = detail_soup.find_all("table")
@@ -142,8 +173,8 @@ def run_comprehensive_crawler():
                 except Exception:
                     pass
 
-                # 2. 최근전적 수집 (표 및 스코어 안전 정제)
-                recent_form = {"summary": {}, "matches": []}
+                # 2. 최근전적 수집
+                recent_form = {"matches": []}
                 try:
                     recent_section = detail_soup.find(text=re.compile("최근전적"))
                     if recent_section:
@@ -159,7 +190,7 @@ def run_comprehensive_crawler():
                     pass
 
                 # 3. 상대전적 수집
-                h2h_data = {"summary": {}, "matches": []}
+                h2h_data = {"matches": []}
                 try:
                     h2h_section = detail_soup.find(text=re.compile("상대전적"))
                     if h2h_section:
@@ -174,7 +205,7 @@ def run_comprehensive_crawler():
                 except Exception:
                     pass
 
-                # 4. 라인업 결장자 정보 수집
+                # 4. 결장자 정보 수집
                 absent_players = {"home": [], "away": []}
                 try:
                     lineup_section = detail_soup.find(text=re.compile("라인업"))
@@ -197,8 +228,8 @@ def run_comprehensive_crawler():
                     "time": time_str,
                     "home": home_team,
                     "away": away_team,
+                    "score": "-",
                     "meta_details": {
-                        "stadium": stadium_name,
                         "rankings": rankings_data,
                         "recent_form": recent_form,
                         "h2h": h2h_data,
@@ -221,7 +252,7 @@ def run_comprehensive_crawler():
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 오늘/내일 총 {match_counter - 1}개 경기의 상세 정보 수집 완료!")
+        print(f"\n🎉 성공: 주요 리그 오늘/내일 총 {match_counter - 1}개 경기 상세 데이터가 match_details.json에 빌드되었습니다!")
 
     except Exception as e:
         print(f"❌ 크롤링 에러 발생: {e}")
@@ -231,4 +262,4 @@ def run_comprehensive_crawler():
         driver.quit()
 
 if __name__ == "__main__":
-    run_comprehensive_crawler()
+    run_optimized_crawler()
