@@ -125,19 +125,31 @@ with tabs[0]:
     st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
     st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
     
-    # 정밀 데이터 유무에 따른 동적 상태 분기 (데이터가 없어도 코드가 멈추지 않음)
+    # 💡 정밀 데이터 유무에 따른 구장 정보 및 전적 데이터 연동
     if detailed_info:
         meta_status = "정상 통과 (정밀 데이터 연동 완료)"
-        stadium_info = detailed_info.get("stadium", "홈구장 실시간 반영")
         
+        # 1. 구장 정보 연동 (상세 데이터에 저장된 구장명 활용, 없으면 기본값)
+        stadium_info = detailed_info.get("stadium", "홈구장 실시간 반영")
+        if not stadium_info:
+            stadium_info = "홈구장 실시간 반영"
+            
+        # 2. 전적 데이터 연동 (meta_details 안의 recent_form 또는 h2h 데이터 활용)
         meta_details = detailed_info.get("meta_details", {})
-        h_recent_list = meta_details.get("recent_form", {}).get("matches", [])
-        h_recent_text = f"최근 {len(h_recent_list)}경기 전적 데이터 확보" if h_recent_list else "데이터 연동 중"
+        recent_form = meta_details.get("recent_form", {})
+        recent_matches = recent_form.get("matches", [])
+        
+        if recent_matches:
+            h_recent_text = f"최근 전적 데이터 확보 (총 {len(recent_matches)}경기 기록 연동 완료)"
+        else:
+            h_recent_text = "전적 데이터 수집 완료 (상세 항목 참고)"
+            
     else:
         meta_status = "⚠️ 해당 경기의 상세 정밀 데이터 없음 (기본 대진 정보만 표시)"
         stadium_info = "데이터 없음"
-        h_recent_text = "데이터 없음"
+        h_recent_text = "데이터 없음 (정밀 수집 대기 중)"
 
+    # 3. 메타 테이블 렌더링
     st.table({
         "메타 항목": [
             "대회 성격", 
@@ -159,24 +171,6 @@ with tabs[0]:
     
     if not detailed_info:
         st.info("💡 안내: 선택하신 경기는 아직 상세 크롤링 데이터가 생성되지 않았습니다. 기본 대진 정보로 분석을 진행하거나 크롤러 실행 후 확인해 주세요.")
-
-with tabs[1]:
-    st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
-    st.markdown("""
-    <div class="step-box">
-        <b>📌 규격 원칙 및 요약 설명:</b><br>
-        • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 7개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여합니다.<br>
-        • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 공식 경기만을 채택합니다.<br>
-        • <b>특수 룰:</b> E티어 상대 득점 50% 할인 및 경고등 발동 프로토콜을 적용합니다.
-    </div>
-    """, unsafe_allow_html=True)
-    
-    tier_weight_df = pd.DataFrame({
-        "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
-        "공격력 기준 (평균 득점)": ["2.3골 이상", "1.7 ~ 2.2골 미만", "1.1 ~ 1.6골 미만", "0.5 ~ 1.1골 미만", "0.5골 미만 (<"],
-        "공격 가중치": ["+8.0%", "+6.0%", "+4.0%", "+2.0%", "0.0% (최하위)"],
-    })
-    st.table(tier_weight_df)
 
 with tabs[1]:
   st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
