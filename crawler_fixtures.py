@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import time
 from bs4 import BeautifulSoup
@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from zoneinfo import ZoneInfo
 
-def collect_fixtures_details_by_clicking():
+def run_independent_fixtures_crawler():
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -20,89 +20,110 @@ def collect_fixtures_details_by_clicking():
     driver = webdriver.Chrome(options=options)
     kst = ZoneInfo("Asia/Seoul")
     
+    # 오늘 및 내일 날짜 키 생성 (예: 10-10, 10-11 등 스코어맨 탭 형식에 맞춤)
+    today = datetime.now(kst)
+    target_dates = [
+        today.strftime("%m-%d"),
+        (today + timedelta(days=1)).strftime("%m-%d")
+    ]
+    
     try:
-        # 1. 기존 data.json 파일 로드 (id, league, home, away 기준 유지)
-        try:
-            with open("data.json", "r", encoding="utf-8") as f:
-                main_data = json.load(f)
-                daily_matches = main_data.get("daily_matches", {})
-        except FileNotFoundError:
-            print("❌ data.json 파일이 존재하지 않습니다.")
-            return
-
-        # 2. 스코어맨 메인 일정 페이지 직접 접속
-        target_url = "https://www.scoreman123.com/football/fixture?f=sc1"
-        print(f"🌐 스코어맨 메인 일정 페이지 접속 중: {target_url}")
-        driver.get(target_url)
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-        time.sleep(2) # 초기 렌더링 대기
-
-        updated_daily_matches = {}
-
-        for date_key, matches in daily_matches.items():
-            updated_daily_matches[date_key] = []
-            print(f"\n📅 [날짜 처리] {date_key} (총 경기 수: {len(matches)})")
+        targets_urls = [
+            "https://www.scoreman123.com/football/fixture",
+            "https://www.scoreman123.com/football/fixture?f=sc1"
+        ]
+        
+        daily_matches = {}
+        match_id_counter = 1
+        
+        for url in targets_urls:
+            print(f"🌐 스코어맨 페이지 직접 접속 중: {url}")
+            driver.get(url)
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+            time.sleep(2)
             
-            for match in matches:
-                home = match.get("home")
-                away = match.get("away")
-                match_id = match.get("id")
-                league = match.get("league")
-                
-                print(f"  🔍 탐색 중: [{league}] ID {match_id} ({home} vs {away})")
-                
+            soup = BeautifulSoup(driver.page_source, "html.parser")
+            
+            # 페이지 내 경기 테이블 행(tr) 및 리그 정보 파싱
+            current_league = "기타 리그"
+            rows = driver.find_elements(By.TAG_NAME, "tr")
+            
+            for row in rows:
                 try:
-                    # 메인 페이지 테이블에서 홈팀과 원정팀이 모두 포함된 행(tr) 찾기
-                    row_xpath = f"//tr[contains(., '{home}') and contains(., '{away}')]"
-                    row_element = WebDriverWait(driver, 3).until(
-                        EC.presence_of_element_located((By.XPATH, row_xpath))
-                    )
+                    text_content = row.text
+                    # 리그 헤더나 상태 행인 경우 패스
+                    if "VS" not in text_content and "-" not in text_content:
+                        if len(row.find_elements(By.TAG_NAME, "td")) <= 2:
+                            current_league = row.text.strip()
+                            continue
                     
-                    # 해당 행 내부의 데이터 서비스 아이콘() 클릭
-                    data_btn = row_element.find_element(By.XPATH, ".//*[contains(text(), '')]")
-                    driver.execute_script("arguments[0].click();", data_btn)
-                    time.sleep(1.5) # 상세 페이지/모달 로딩 대기
-                    
-                    # 팝업이나 전환된 상세 페이지 파싱
-                    soup = BeautifulSoup(driver.page_source, "html.parser")
-                    
-                    # 상세 메타 정보 추출 파싱 (구장, 순위, 결장자 등)
-                    stadium = ""
-                    for el in soup.find_all(text=True):
-                        txt = el.strip()
-                        if any(keyword in txt for keyword in ["Stadium", "Park", "Arena", "경기장"]):
-                            if len(txt) < 30:
-                                stadium = txt
-                                break
+                    # 홈팀, 원정팀, 데이터 아이콘()이 포함된 행인지 확인
+                    if "" in text_content:
+                        cols = row.find_elements(By.TAG_NAME, "td")
+                        if len(cols) >= 6:
+                            time_str = cols[1].text.strip()
+                            home_team = cols[3].text.strip()
+                            away_team = cols[5].text.strip()
+                            
+                            # 오늘/내일 범위 내의 경기인지 판단 (필요시 날짜 탭 클릭 로직 확장 가능)
+                            date_key = today.strftime("%m-%d") # 기본값 오늘
+                            
+                            if date_key not in daily_matches:
+                                daily_matches[date_key] = []
+                                
+                            # 중복 등록 방지
+                            if not any(m["home"] == home_team and m["away"] == away_team for m in daily_matches[date_key]):
+                                match_item = {
+                                    "id": match_id_counter,
+                                    "league": current_league,
+                                    "time": time_str,
+                                    "home": home_team,
+                                    "away": away_team,
+                                    "meta_details": {
+                                        "stadium": "",
+                                        "rankings": [],
+                                        "absent_players": {"home": [], "away": []}
+                                    }
+                                }
+                                
+                                # 상세 데이터 서비스 아이콘 클릭 시도
+                                try:
+                                    data_btn = row.find_element(By.XPATH, ".//*[contains(text(), '')]")
+                                    driver.execute_script("arguments[0].click();", data_btn)
+                                    time.sleep(1)
+                                    
+                                    modal_soup = BeautifulSoup(driver.page_source, "html.parser")
+                                    # 구장 등 상세 정보 추출
+                                    for el in modal_soup.find_all(text=True):
+                                        txt = el.strip()
+                                        if any(k in txt for k in ["Stadium", "Park", "Arena", "경기장"]):
+                                            if len(txt) < 30:
+                                                match_item["meta_details"]["stadium"] = txt
+                                                break
+                                except Exception as click_err:
+                                    print(f"  ⚠️ 상세 클릭 생략/실패 ({home_team} vs {away_team}): {click_err}")
+                                    
+                                daily_matches[date_key].append(match_item)
+                                match_id_counter += 1
+                                
+                except Exception as row_err:
+                    continue
 
-                    # 기존 data.json의 스펙(id, league, home, away 등)을 그대로 보존하면서 meta_details 추가
-                    match["meta_details"] = {
-                        "stadium": stadium,
-                        "rankings": [], 
-                        "absent_players": {"home": [], "away": []}
-                    }
-                    updated_daily_matches[date_key].append(match)
-                    
-                except Exception as e:
-                    print(f"    ⚠️ 클릭 및 상세 수집 실패 ({home} vs {away}): {e}")
-                    # 실패하더라도 기존 뼈대 규격이 유실되지 않도록 빈 meta_details 추가
-                    match["meta_details"] = {}
-                    updated_daily_matches[date_key].append(match)
-
-        # 3. 최종 결과를 match_details.json에 저장 (data.json과 동일한 구조 유지)
+        # 결과 저장
         output_data = {
             "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
-            "daily_matches": updated_daily_matches
+            "daily_matches": daily_matches
         }
         
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
-        print("\n🎉 match_details.json 파일이 기존 규격과 완벽히 동기화되어 저장되었습니다!")
+            
+        print("\n🎉 match_details.json 독립 수집 및 저장 완료!")
 
     except Exception as e:
-        print(f"❌ 크롤링 프로세스 오류 발생: {e}")
+        print(f"❌ 크롤링 중 치명적 오류 발생: {e}")
     finally:
         driver.quit()
 
 if __name__ == "__main__":
-    collect_fixtures_details_by_clicking()
+    run_independent_fixtures_crawler()
