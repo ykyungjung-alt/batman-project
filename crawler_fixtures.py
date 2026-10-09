@@ -83,15 +83,33 @@ def run_table_based_crawler():
                 # 💡 순위표 및 조건별 전적표 데이터를 항목별로 안전하게 분류 수집
                 rankings_data = []
                 try:
+                    # 스코어맨 페이지 내의 모든 순위 관련 테이블 행을 탐색
                     standing_rows = detail_soup.find_all("tr", class_=["tr_h_standing", "tr_a_standing"])
+                    
                     for s_row in standing_rows:
+                        row_class = " ".join(s_row.get("class", []))
+                        team_type = "홈팀" if "tr_h_standing" in row_class else "원정팀"
+                        
+                        # 💡 상위 테이블의 헤더나 제목을 읽어 어떤 조건의 순위표인지 정확히 판별
+                        sub_type = "전체"
+                        table_box = s_row.find_parent("table")
+                        if table_box:
+                            # 테이블 바로 앞의 제목이나 상위 구역의 텍스트 탐색
+                            prev_elem = table_box.find_previous(["div", "h3", "h4", "th", "span"])
+                            if prev_elem:
+                                header_text = prev_elem.get_text(strip=True)
+                                if "홈" in header_text or "원정" in header_text:
+                                    sub_type = "홈/원정 조건"
+                                elif "최근" in header_text:
+                                    sub_type = "최근 성적"
+                                elif "전반" in header_text or "후반" in header_text:
+                                    sub_type = "전반/후반"
+
                         cols = [c.get_text(strip=True) for c in s_row.find_all(["th", "td"])]
                         if len(cols) >= 10:
-                            row_class = " ".join(s_row.get("class", []))
-                            team_category = "홈팀 관련" if "tr_h_standing" in row_class else "원정팀 관련"
-                            
                             rankings_data.append({
-                                "category": team_category,
+                                "team_type": team_type,       # 홈팀 / 원정팀 구분
+                                "sub_type": sub_type,         # 전체 / 홈·원정 조건 / 최근 성적 등 세부 구분
                                 "rank": cols[0], 
                                 "team": cols[1], 
                                 "played": cols[2],
