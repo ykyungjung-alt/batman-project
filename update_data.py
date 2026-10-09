@@ -30,13 +30,9 @@ def update_json_file():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--window-size=1920,1080")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
-    
-    # 🔥 핵심: 백그라운드 브라우저의 언어, 로케일, 타임존을 한국(KST)으로 완전히 동기화
     options.add_argument("--lang=ko_KR")
     
     driver = webdriver.Chrome(options=options)
-    
-    # 브라우저 내부 타임존을 크롬 DevTools Protocol(CDP)을 통해 'Asia/Seoul'로 강제 에뮬레이션
     try:
         driver.execute_cdp_cmd("Emulation.setTimezoneOverride", {"timezoneId": "Asia/Seoul"})
     except Exception as e:
@@ -53,7 +49,6 @@ def update_json_file():
         driver.get(BASE_URL)
         WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
         
-        # 1단계: 사이트 상단 날짜 탭 동적 스캔
         date_tab_map = {}
         all_links = driver.find_elements(By.TAG_NAME, "a")
         for a in all_links:
@@ -72,7 +67,6 @@ def update_json_file():
             label_pattern = f"{day_short}{day_num}"
             target_dates.append((offset, dt, label_pattern))
 
-        # 2단계: 순수 원본 데이터 수집 (시간 보정 로직 전면 배제)
         for offset, target_dt, label_pattern in target_dates:
             m_str = target_dt.strftime("%m")
             d_str = target_dt.strftime("%d")
@@ -106,7 +100,6 @@ def update_json_file():
                 if not text_content:
                     continue
                 
-                # 리그명 행 추출
                 if not re.search(r"\d{2}:\d{2}", text_content):
                     cleaned = re.sub(r"^[^\w\s]+", "", text_content).replace("+", "").strip()
                     cleaned = re.sub(r"경기수\s*\(.*?\)", "", cleaned).strip()
@@ -114,12 +107,34 @@ def update_json_file():
                         current_league = cleaned
                     continue
                 
-                # 주요 리그 필터링
                 is_major = any(ml in current_league for ml in MAJOR_LEAGUES)
                 if not is_major:
                     continue
                 
-                # 시간 추출
+                # Match ID (match_code) 추출 로직
+                m_id = None
+                row_id = row.get("id", "")
+                m_match = re.search(r'tr1_(\d+)', row_id)
+                if m_match:
+                    m_id = m_match.group(1)
+                else:
+                    onclick_attr = row.get("onclick", "")
+                    if not onclick_attr:
+                        td_click = row.find("td", onclick=True)
+                        if td_click:
+                            onclick_attr = td_click.get("onclick", "")
+                    sub_match = re.search(r'analysis\((\d+)', onclick_attr)
+                    if sub_match:
+                        m_id = sub_match.group(1)
+                
+                if not m_id:
+                    a_tag = row.find("a", href=True)
+                    if a_tag:
+                        href_val = a_tag.get("href", "")
+                        href_match = re.search(r'data-(\d+)', href_val)
+                        if href_match:
+                            m_id = href_match.group(1)
+
                 time_str = None
                 for td in tds:
                     m = re.search(r"(\d{2}:\d{2})", td.get_text(strip=True))
@@ -157,19 +172,12 @@ def update_json_file():
                 if home_team and away_team and home_team != away_team:
                     entry = {
                         "id": len(matches_for_day) + 1,
+                        "match_code": m_id if m_id else "",  # 👈 매칭 기준이 될 고유 ID 탑재
                         "league": current_league,
                         "time": time_str,
-                        "original_time": time_str,
-                        "status": "진행예정",
                         "home": home_team,
                         "away": away_team,
-                        "home_team": home_team,
-                        "away_team": away_team,
-                        "tournament": current_league,
-                        "score": score_str,
-                        "home_recent_stats": "4전/3승1무/0패",
-                        "away_recent_stats": "4전/2승1무/1패",
-                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
+                        "score": score_str
                     }
                     if entry not in matches_for_day:
                         matches_for_day.append(entry)
@@ -179,8 +187,6 @@ def update_json_file():
             
     except Exception as e:
         print(f"❌ 크롤링 중 오류: {e}")
-        import traceback
-        traceback.print_exc()
     finally:
         driver.quit()
         
