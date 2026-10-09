@@ -10,7 +10,7 @@ from selenium.webdriver.common.by import By
 from zoneinfo import ZoneInfo
 import re
 
-def run_js_click_fixtures_crawler():
+def run_precision_crawler():
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -21,13 +21,13 @@ def run_js_click_fixtures_crawler():
     
     kst = ZoneInfo("Asia/Seoul")
     today = datetime.now(kst)
-    date_key = today.strftime("%m-%d") # 예: '10-10'
+    date_key = today.strftime("%m-%d")
     
     driver = webdriver.Chrome(options=options)
     
     try:
-        target_url = "https://github.com/ykyungjung-alt7football/fixture?f=sc1"
-        print(f"🌐 스코어맨 페이지 접속 중: {target_url}")
+        target_url = "https://www.scoreman123.com/football/fixture?f=sc1"
+        print(f"🌐 [스코어맨] 일정 페이지 접속 중: {target_url}")
         driver.get(target_url)
         
         WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
@@ -36,24 +36,19 @@ def run_js_click_fixtures_crawler():
         daily_matches = {date_key: []}
         match_id_counter = 1
         
-        # 1. 전체 행 스캔하여 경기 정보 추출 준비
         rows = driver.find_elements(By.TAG_NAME, "tr")
-        print(f"🔍 총 탐색 대상 행(tr) 수: {len(rows)}개")
-        
         current_league = "기타 리그"
         matches_to_process = []
         
         for row in rows:
             try:
                 text_content = row.text
-                # 리그 헤더 행 판별
                 if "VS" not in text_content and "-" not in text_content:
                     tds = row.find_elements(By.TAG_NAME, "td")
                     if len(tds) <= 2 and len(row.text.strip()) > 2:
                         current_league = row.text.strip()
                         continue
                 
-                # 데이터 아이콘이 포함된 경기 행 판별
                 if "" in text_content:
                     cols = row.find_elements(By.TAG_NAME, "td")
                     if len(cols) >= 6:
@@ -77,7 +72,7 @@ def run_js_click_fixtures_crawler():
 
         print(f"⚽ 수집 대상 경기 발견: 총 {len(matches_to_process)}개")
 
-        # 2. 각 경기 행 내부의 데이터 아이콘 셀을 찾아 JavaScript로 강제 클릭 수행
+        # 각 경기의 데이터 아이콘 영역(링크) 정밀 진입
         for match_info in matches_to_process:
             home = match_info["home"]
             away = match_info["away"]
@@ -97,20 +92,17 @@ def run_js_click_fixtures_crawler():
             
             try:
                 row_el = match_info["row_element"]
-                # 마지막 열(데이터 아이콘 셀) 찾기
+                # 마지막 열에 위치한 데이터 아이콘 내부의 a 태그 혹은 상호작용 요소 탐색
                 data_cell = row_el.find_elements(By.TAG_NAME, "td")[-1]
                 
-                # JavaScript를 이용해 마우스 이벤트 및 클릭을 강제로 발생시킴
-                driver.execute_script("""
-                    arguments[0].scrollIntoView(true);
-                    var evt = document.createEvent('MouseEvents');
-                    evt.initEvent('click', true, true);
-                    arguments[0].dispatchEvent(evt);
-                """, data_cell)
+                # 셀 안의 하이퍼링크(a)나 클릭 가능 컴포넌트가 있다면 우선 타겟팅
+                interactive_els = data_cell.find_elements(By.TAG_NAME, "a")
+                target_click_el = interactive_els[0] if interactive_els else data_cell
                 
-                time.sleep(1.0) # 팝업 로딩 대기
+                driver.execute_script("arguments[0].scrollIntoView(true);", target_click_el)
+                driver.execute_script("arguments[0].click();", target_click_el)
+                time.sleep(1.2)
                 
-                # 상세 팝업/모달 페이지 파싱
                 modal_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
                 stadium_found = ""
@@ -123,14 +115,12 @@ def run_js_click_fixtures_crawler():
                 if stadium_found:
                     match_item["meta_details"]["stadium"] = stadium_found
                 
-            except Exception as e:
-                # 클릭 미스가 나더라도 프로세스가 멈추지 않고 기본 데이터로 채워짐
+            except Exception:
                 pass
                 
             daily_matches[date_key].append(match_item)
             match_id_counter += 1
 
-        # 3. 결과 저장
         output_data = {
             "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
             "daily_matches": daily_matches
@@ -139,14 +129,14 @@ def run_js_click_fixtures_crawler():
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 총 {match_id_counter - 1}개 경기의 상세 정보가 성공적으로 정제되었습니다!")
+        print(f"\n🎉 성공: 총 {match_id_counter - 1}개 경기 정보 저장 완료!")
 
     except Exception as e:
-        print(f"❌ 크롤링 치명적 오류: {e}")
+        print(f"❌ 에러 발생: {e}")
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump({"last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"), "daily_matches": {}}, f, ensure_ascii=False, indent=4)
     finally:
         driver.quit()
 
 if __name__ == "__main__":
-    run_js_click_fixtures_crawler()
+    run_precision_crawler()
