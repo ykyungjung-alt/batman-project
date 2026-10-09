@@ -1,34 +1,24 @@
-name: Auto Update Match Data
+name: Update Match Fixtures
 
 on:
   schedule:
-    - cron: '0 */3 * * *'  # 3시간마다 자동 실행
-  workflow_dispatch:      # 수동 실행 지원
+    - cron: '0 */3 * * *' # UTC 기준 3시간마다 정각 (KST 기준 아침 9시, 낮 12시...)
+  workflow_dispatch:
 
 jobs:
-  update:
+  run-fixtures:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests beautifulsoup4 pandas selenium webdriver-manager
-
-      - name: Run update script
-        run: python update_data.py
-
-      - name: Commit and push if changed
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - run: python update_fixtures.py # 메인 일정 스크립트명
+      - name: Commit and Push
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "github-actions[bot]@users.noreply.github.io"
           git add data.json
-          git commit -m "Auto-update match data.json" || exit 0
-          git push
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update fixtures [skip ci]" && git push)
