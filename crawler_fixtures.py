@@ -23,7 +23,7 @@ def run_table_based_crawler():
     daily_matches_input = data.get("daily_matches", {})
     
     for date_key, matches in daily_matches_input.items():
-        if "[오늘]" in date_key or "오늘" in date_key or len(target_matches) < 60:
+        if "[오늘]" in date_key or "오늘" in date_key or len(target_matches) < 15:
             for m in matches:
                 m_code = m.get("match_code")
                 if m_code and m_code not in [t["match_code"] for t in target_matches]:
