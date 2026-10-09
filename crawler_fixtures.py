@@ -18,22 +18,20 @@ def run_table_based_crawler():
     target_matches = []
     daily_matches_input = data.get("daily_matches", {})
     
+    # 💡 오늘/내일 열리는 전체 경기 대상 수집 (개수 제한 해제)
     for date_key, matches in daily_matches_input.items():
-        for m in matches:
-            m_code = m.get("match_code")
-            if m_code and m_code not in [t["match_code"] for t in target_matches]:
-                target_matches.append({
-                    "match_code": m_code,
-                    "league": m.get("league", ""),
-                    "home": m.get("home", ""),
-                    "away": m.get("away", "")
-                })
-            if len(target_matches) >= 10:
-                break
-        if len(target_matches) >= 10:
-            break
+        if "[오늘]" in date_key or "오늘" in date_key:
+            for m in matches:
+                m_code = m.get("match_code")
+                if m_code and m_code not in [t["match_code"] for t in target_matches]:
+                    target_matches.append({
+                        "match_code": m_code,
+                        "league": m.get("league", ""),
+                        "home": m.get("home", ""),
+                        "away": m.get("away", "")
+                    })
 
-    print(f"🎯 [전적 찌꺼기 제거 및 정밀 타격] 10개 경기 수집 시작")
+    print(f"🎯 [전체 경기 정밀 수집] 총 {len(target_matches)}개 경기 수집 시작")
 
     options = Options()
     options.add_argument("--headless")
@@ -55,7 +53,7 @@ def run_table_based_crawler():
             
             try:
                 driver.get(detail_url)
-                time.sleep(1.0)
+                time.sleep(0.8)
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
@@ -123,7 +121,6 @@ def run_table_based_crawler():
                             for h_row in h_table.find_all("tr"):
                                 cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"]) if c.get_text(strip=True)]
                                 joined = "".join(cols)
-                                # 옐로카드, 득점, 실점 등 불필요한 팀 스탯 행은 무조건 제외
                                 if any(w in joined for w in ["득점", "실점", "유효슈팅", "코너", "파울", "점유율", "옐로카드", "최근 10경기", "날짜"]):
                                     continue
                                 if len(cols) >= 3:
@@ -216,15 +213,3 @@ def run_table_based_crawler():
         output_data = {
             "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
             "match_details": match_details
-        }
-        
-        with open("match_details.json", "w", encoding="utf-8") as f:
-            json.dump(output_data, f, ensure_ascii=False, indent=4)
-            
-        print(f"\n🎉 성공: 옐로카드 찌꺼기가 제거된 총 {counter - 1}개 경기 데이터가 동기화되었습니다!")
-
-    finally:
-        driver.quit()
-
-if __name__ == "__main__":
-    run_table_based_crawler()
