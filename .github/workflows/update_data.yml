@@ -15,7 +15,7 @@ jobs:
           python-version: '3.10'
           cache: 'pip'
       - run: pip install -r requirements.txt
-      - run: python update_fixtures.py # 메인 일정 스크립트명
+      - run: update_data.py # 메인 일정 스크립트명
       - name: Commit and Push
         run: |
           git config --global user.name "github-actions[bot]"
