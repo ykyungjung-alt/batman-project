@@ -64,7 +64,7 @@ if matches:
         selected_league = st.sidebar.selectbox("리그를 선택하세요:", leagues)
         league_matches = [m for m in matches if m.get("league", "기타 리그") == selected_league]
         
-        match_options = [m["match_name"] for m in league_matches]
+       match_options = [f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" for m in league_matches]
         if match_options:
             selected_match_name = st.sidebar.radio("분석할 경기를 선택하세요:", match_options, key="match_radio_selection")
             selected_match = next((m for m in league_matches if m["match_name"] == selected_match_name), None)
