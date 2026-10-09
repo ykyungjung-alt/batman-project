@@ -122,7 +122,7 @@ tab_titles = [
 tabs = st.tabs(tab_titles)
 
 st.markdown("---")
-    st.markdown("### 📊 공식 팀 순위 및 조건별 전적표 현황")
+st.markdown("### 📊 공식 팀 순위 및 조건별 전적표 현황")
     
     if detailed_info:
         meta_details = detailed_info.get("meta_details", {})
