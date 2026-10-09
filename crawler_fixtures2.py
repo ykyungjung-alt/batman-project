@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import time
 from bs4 import BeautifulSoup
@@ -18,9 +18,25 @@ def run_table_based_crawler_v2():
     target_matches = []
     daily_matches_input = data.get("daily_matches", {})
     
-    # 💡 내일 열리는 경기 대상 수집 조건 설정
+    # 💡 update_data.py와 동일한 방식으로 오늘 및 내일 날짜 키를 동적으로 계산
+    kst = ZoneInfo("Asia/Seoul")
+    today_kst = datetime.now(kst)
+    weekdays = ["월", "화", "수", "목", "금", "토", "일"]
+    
+    # offset=1 이 곧 '내일'입니다.
+    tomorrow_dt = today_kst + timedelta(days=1)
+    m_str = tomorrow_dt.strftime("%m")
+    d_str = tomorrow_dt.strftime("%d")
+    w_str = weekdays[tomorrow_dt.weekday()]
+    
+    # data.json에 기록되는 날짜 키 포맷과 일치시킴 (예: "10-11 (일)")
+    tomorrow_date_key_prefix = f"{m_str}-{d_str} ({w_str})"
+    print(f"📅 동적 계산된 내일 날짜 키 패턴: {tomorrow_date_key_prefix}")
+
     for date_key, matches in daily_matches_input.items():
-        if "[내일]" in date_key or "내일" in date_key:
+        # 내일 날짜 키로 시작하는 블록을 정확히 타겟팅
+        if date_key.startswith(tomorrow_date_key_prefix):
+            print(f"🎯 발견한 내일 경기 블록: {date_key} (총 {len(matches)}개 경기)")
             for m in matches:
                 m_code = m.get("match_code")
                 if m_code and m_code not in [t["match_code"] for t in target_matches]:
@@ -40,7 +56,6 @@ def run_table_based_crawler_v2():
     options.add_argument("--window-size=1920,1080")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     
-    kst = ZoneInfo("Asia/Seoul")
     driver = webdriver.Chrome(options=options)
     
     match_details = {}
@@ -199,7 +214,7 @@ def run_table_based_crawler_v2():
         with open("match_details_v2.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 내일 경기 총 {counter - 1}개의 데이터가 match_details_v2.json에 저장되었습니다!")
+        print(f"\n🎉 성공: 내일({tomorrow_date_key_prefix}) 경기 총 {counter - 1}개의 데이터가 match_details_v2.json에 저장되었습니다!")
 
     finally:
         driver.quit()
