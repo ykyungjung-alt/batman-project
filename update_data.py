@@ -23,19 +23,6 @@ MAJOR_LEAGUES = [
     "잉글랜드 FA 컵", "EFL 트로피"
 ]
 
-def convert_to_kst(time_str, base_date, source_offset_hours=0):
-    """
-    날짜 바구니는 유지한 채, 순수 시간 수치만 +9시간(KST)으로 변환
-    """
-    try:
-        h, m = map(int, time_str.split(":"))
-        source_dt = base_date.replace(hour=h, minute=m, second=0, microsecond=0)
-        utc_dt = source_dt - timedelta(hours=source_offset_hours)
-        kst_dt = utc_dt + timedelta(hours=9)
-        return kst_dt.strftime("%H:%M")
-    except Exception:
-        return time_str
-
 def update_json_file():
     options = Options()
     options.add_argument("--headless")
@@ -44,7 +31,17 @@ def update_json_file():
     options.add_argument("--window-size=1920,1080")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     
+    # 🔥 핵심: 백그라운드 브라우저의 언어, 로케일, 타임존을 한국(KST)으로 완전히 동기화
+    options.add_argument("--lang=ko_KR")
+    
     driver = webdriver.Chrome(options=options)
+    
+    # 브라우저 내부 타임존을 크롬 DevTools Protocol(CDP)을 통해 'Asia/Seoul'로 강제 에뮬레이션
+    try:
+        driver.execute_cdp_cmd("Emulation.setTimezoneOverride", {"timezoneId": "Asia/Seoul"})
+    except Exception as e:
+        print(f"⚠️ 타임존 에뮬레이션 설정 경고: {e}")
+
     kst = ZoneInfo("Asia/Seoul")
     today_kst = datetime.now(kst)
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
@@ -52,7 +49,7 @@ def update_json_file():
     daily_matches = {}
 
     try:
-        print(f"[시작] 현재 KST 기준일: {today_kst.strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"[시작] 브라우저 타임존 KST 동기화 완료 후 크롤링 시작")
         driver.get(BASE_URL)
         WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
         
@@ -66,7 +63,6 @@ def update_json_file():
                 href = a.get_attribute("href")
                 if href:
                     date_tab_map[clean_label] = href
-                    print(f"탭 발견: {clean_label} → {href}")
 
         target_dates = []
         for offset in range(4):
@@ -76,7 +72,7 @@ def update_json_file():
             label_pattern = f"{day_short}{day_num}"
             target_dates.append((offset, dt, label_pattern))
 
-        # 2단계: 각 날짜 페이지별 접속 및 수집 + 순수 시간 수치 변환 적용
+        # 2단계: 순수 원본 데이터 수집 (시간 보정 로직 전면 배제)
         for offset, target_dt, label_pattern in target_dates:
             m_str = target_dt.strftime("%m")
             d_str = target_dt.strftime("%d")
@@ -92,15 +88,12 @@ def update_json_file():
                     target_url = matched_url
                 else:
                     target_url = f"{BASE_URL}?f=sc{offset}"
-                    print(f"⚠️ '{label_pattern}' 탭 매핑 실패로 폴백 URL 사용: {target_url}")
             
-            print(f"\n수집 중: {date_key} | URL: {target_url}")
             driver.get(target_url)
-            
             try:
                 WebDriverWait(driver, 15).until(lambda d: re.search(r"\d{2}:\d{2}", d.page_source))
             except Exception:
-                print(f"  ⏳ 데이터 로드 지연 또는 경기 없음")
+                pass
                 
             soup = BeautifulSoup(driver.page_source, "html.parser")
             current_league = ""
@@ -162,13 +155,10 @@ def update_json_file():
                 score_str = cell_texts[score_idx] if "-" in cell_texts[score_idx] else "-"
                 
                 if home_team and away_team and home_team != away_team:
-                    # 날짜 바구니(target_dt)는 고정하고 시간 수치만 KST(+9시간)로 변환
-                    kst_time = convert_to_kst(time_str, target_dt, source_offset_hours=0)
-                    
                     entry = {
                         "id": len(matches_for_day) + 1,
                         "league": current_league,
-                        "time": kst_time,
+                        "time": time_str,
                         "original_time": time_str,
                         "status": "진행예정",
                         "home": home_team,
@@ -179,7 +169,7 @@ def update_json_file():
                         "score": score_str,
                         "home_recent_stats": "4전/3승1무/0패",
                         "away_recent_stats": "4전/2승1무/1패",
-                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({kst_time})"
+                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
                     }
                     if entry not in matches_for_day:
                         matches_for_day.append(entry)
