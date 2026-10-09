@@ -80,17 +80,28 @@ def run_table_based_crawler():
                 except Exception:
                     pass
 
+                # 💡 순위표 및 조건별 전적표 데이터를 항목별로 안전하게 분류 수집
                 rankings_data = []
                 try:
                     standing_rows = detail_soup.find_all("tr", class_=["tr_h_standing", "tr_a_standing"])
                     for s_row in standing_rows:
                         cols = [c.get_text(strip=True) for c in s_row.find_all(["th", "td"])]
                         if len(cols) >= 10:
+                            row_class = " ".join(s_row.get("class", []))
+                            team_category = "홈팀 관련" if "tr_h_standing" in row_class else "원정팀 관련"
+                            
                             rankings_data.append({
-                                "rank": cols[0], "team": cols[1], "played": cols[2],
-                                "win": cols[3], "draw": cols[4], "loss": cols[5],
-                                "goals_for": cols[6], "goals_against": cols[7],
-                                "goal_diff": cols[8], "points": cols[9]
+                                "category": team_category,
+                                "rank": cols[0], 
+                                "team": cols[1], 
+                                "played": cols[2],
+                                "win": cols[3], 
+                                "draw": cols[4], 
+                                "loss": cols[5],
+                                "goals_for": cols[6], 
+                                "goals_against": cols[7],
+                                "goal_diff": cols[8], 
+                                "points": cols[9]
                             })
                 except Exception as e:
                     print(f"  - 순위 파싱 예외 ({m_id}): {e}")
