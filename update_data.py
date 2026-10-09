@@ -23,6 +23,19 @@ MAJOR_LEAGUES = [
     "잉글랜드 FA 컵", "EFL 트로피"
 ]
 
+def convert_to_kst(time_str, base_date, source_offset_hours=0):
+    """
+    날짜 바구니는 유지한 채, 순수 시간 수치만 +9시간(KST)으로 변환
+    """
+    try:
+        h, m = map(int, time_str.split(":"))
+        source_dt = base_date.replace(hour=h, minute=m, second=0, microsecond=0)
+        utc_dt = source_dt - timedelta(hours=source_offset_hours)
+        kst_dt = utc_dt + timedelta(hours=9)
+        return kst_dt.strftime("%H:%M")
+    except Exception:
+        return time_str
+
 def update_json_file():
     options = Options()
     options.add_argument("--headless")
@@ -43,7 +56,7 @@ def update_json_file():
         driver.get(BASE_URL)
         WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
         
-        # 1단계: 사이트 상단 날짜 탭 동적 스캔 (예: 금09, 토10 등)
+        # 1단계: 사이트 상단 날짜 탭 동적 스캔
         date_tab_map = {}
         all_links = driver.find_elements(By.TAG_NAME, "a")
         for a in all_links:
@@ -55,7 +68,6 @@ def update_json_file():
                     date_tab_map[clean_label] = href
                     print(f"탭 발견: {clean_label} → {href}")
 
-        # 오늘, 내일, 모레, 글피 날짜 패턴 생성
         target_dates = []
         for offset in range(4):
             dt = today_kst + timedelta(days=offset)
@@ -64,7 +76,7 @@ def update_json_file():
             label_pattern = f"{day_short}{day_num}"
             target_dates.append((offset, dt, label_pattern))
 
-        # 2단계: 각 날짜 페이지별로 명확히 접속하여 원본 내용 그대로 수집
+        # 2단계: 각 날짜 페이지별 접속 및 수집 + 순수 시간 수치 변환 적용
         for offset, target_dt, label_pattern in target_dates:
             m_str = target_dt.strftime("%m")
             d_str = target_dt.strftime("%d")
@@ -73,7 +85,6 @@ def update_json_file():
             if offset == 0:
                 date_key += " [오늘]"
                 
-            # URL 결정 (오늘은 BASE_URL, 이후는 매핑된 탭 URL 또는 폴백 파라미터)
             target_url = BASE_URL
             if offset > 0:
                 matched_url = date_tab_map.get(label_pattern)
@@ -151,11 +162,13 @@ def update_json_file():
                 score_str = cell_texts[score_idx] if "-" in cell_texts[score_idx] else "-"
                 
                 if home_team and away_team and home_team != away_team:
-                    # 원본 시간 그대로 저장 (시간 변환 없음)
+                    # 날짜 바구니(target_dt)는 고정하고 시간 수치만 KST(+9시간)로 변환
+                    kst_time = convert_to_kst(time_str, target_dt, source_offset_hours=0)
+                    
                     entry = {
                         "id": len(matches_for_day) + 1,
                         "league": current_league,
-                        "time": time_str,
+                        "time": kst_time,
                         "original_time": time_str,
                         "status": "진행예정",
                         "home": home_team,
@@ -166,7 +179,7 @@ def update_json_file():
                         "score": score_str,
                         "home_recent_stats": "4전/3승1무/0패",
                         "away_recent_stats": "4전/2승1무/1패",
-                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({time_str})"
+                        "match_name": f"[{current_league}] {home_team} vs {away_team} ({kst_time})"
                     }
                     if entry not in matches_for_day:
                         matches_for_day.append(entry)
