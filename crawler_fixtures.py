@@ -18,7 +18,6 @@ def run_table_based_crawler():
     target_matches = []
     daily_matches_input = data.get("daily_matches", {})
     
-    # 💡 오늘/내일 열리는 전체 경기 대상 수집 (개수 제한 해제)
     for date_key, matches in daily_matches_input.items():
         if "[오늘]" in date_key or "오늘" in date_key:
             for m in matches:
@@ -57,7 +56,6 @@ def run_table_based_crawler():
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
-                # 0. 상단 메타 정보 정밀 추출
                 match_time = ""
                 league_name = target["league"]
                 round_info = ""
@@ -82,7 +80,6 @@ def run_table_based_crawler():
                 except Exception:
                     pass
 
-                # 1. 팀 순위표 정밀 추출
                 rankings_data = []
                 try:
                     standing_rows = detail_soup.find_all("tr", class_=["tr_h_standing", "tr_a_standing"])
@@ -95,23 +92,9 @@ def run_table_based_crawler():
                                 "goals_for": cols[6], "goals_against": cols[7],
                                 "goal_diff": cols[8], "points": cols[9]
                             })
-                    if not rankings_data:
-                        r_heading = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "팀순위" in tag.get_text())
-                        r_table = r_heading.find_next("table") if r_heading else None
-                        if r_table:
-                            for r_row in r_table.find_all("tr"):
-                                cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"])]
-                                if len(cols) >= 9 and not any(w in cols[0] for w in ["전체", "H/A", "팀"]):
-                                    rankings_data.append({
-                                        "rank": cols[0], "team": cols[1], "played": cols[2],
-                                        "win": cols[3], "draw": cols[4], "loss": cols[5],
-                                        "goals_for": cols[6], "goals_against": cols[7],
-                                        "goal_diff": cols[8], "points": cols[9] if len(cols) > 9 else ""
-                                    })
                 except Exception as e:
                     print(f"  - 순위 파싱 예외 ({m_id}): {e}")
 
-                # 2. 상대전적 정밀 추출 (옐로카드 등 팀스탯 찌꺼기 행 완전 차단)
                 h2h_data = {"matches": []}
                 try:
                     h2h_heading = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "상대전적" in tag.get_text())
@@ -130,7 +113,6 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 상대전적 파싱 예외 ({m_id}): {e}")
 
-                # 3. 최근전적 정밀 추출 (옐로카드 등 팀스탯 찌꺼기 행 완전 차단)
                 recent_form = {"matches": []}
                 try:
                     recent_heading = detail_soup.find(lambda tag: tag.name in ["h2", "h3", "h4", "div"] and "최근전적" in tag.get_text())
@@ -149,7 +131,6 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
 
-                # 4. 경기일정 추출
                 fixtures_data = []
                 try:
                     futer_div = detail_soup.find("div", id="dv_futer")
@@ -162,7 +143,6 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 경기일정 파싱 예외 ({m_id}): {e}")
 
-                # 5. 결장자 정보 추출
                 absent_players = {"home": [], "away": []}
                 try:
                     lineup_box = detail_soup.find("ul", class_="lineupbox")
@@ -213,3 +193,15 @@ def run_table_based_crawler():
         output_data = {
             "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
             "match_details": match_details
+        }
+        
+        with open("match_details.json", "w", encoding="utf-8") as f:
+            json.dump(output_data, f, ensure_ascii=False, indent=4)
+            
+        print(f"\n🎉 성공: 오늘 전체 {counter - 1}개 경기의 정밀 데이터가 성공적으로 동기화되었습니다!")
+
+    finally:
+        driver.quit()
+
+if __name__ == "__main__":
+    run_table_based_crawler()
