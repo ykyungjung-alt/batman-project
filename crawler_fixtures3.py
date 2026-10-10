@@ -54,7 +54,7 @@ def run_table_based_crawler_v3():
 
     for date_key, matches in daily_matches_input.items():
         if date_key.startswith(target_date_key_prefix):
-            print(f"🎯 발견한 경기 블록: {date_key} (총 {len(matches)}개 경기)")
+            print(f"🎯 발견한 경기 블록: {date_key} (총 {len(matches)}개 경기 중 일부 탐색)")
             for m in matches:
                 m_code = m.get("match_code")
                 if m_code and m_code not in [t["match_code"] for t in target_matches]:
@@ -64,8 +64,13 @@ def run_table_based_crawler_v3():
                         "home": m.get("home", ""),
                         "away": m.get("away", "")
                     })
+                # 💡 테스트를 위해 전체 중 딱 3개 페어만 수집되도록 제한
+                if len(target_matches) >= 3:
+                    break
+        if len(target_matches) >= 3:
+            break
 
-    print(f"🎯 [V3 최근전적 ftScore 정밀 수집] 총 {len(target_matches)}개 경기 시작")
+    print(f"🎯 [V3 테스트 모드] 총 {len(target_matches)}개 경기만 추출하여 수집 시작")
 
     options = Options()
     options.add_argument("--headless")
@@ -82,6 +87,8 @@ def run_table_based_crawler_v3():
     try:
         for target in target_matches:
             m_id = target["match_code"]
+            main_home = target["home"]
+            main_away = target["away"]
             detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
             
             try:
@@ -112,51 +119,7 @@ def run_table_based_crawler_v3():
                 team_tiers_data = {"home": {}, "away": {}}
                 
                 try:
-                    # 💡 홈팀/원정팀 최근전적 리스트 영역 분리 탐색 (최대 20경기 반복 수집)
-                    futer_div = detail_soup.find("div", id="dv_futer")
-                    if not futer_div:
-                        futer_div = detail_soup # 예외 시 전체 파싱
-                    
-                    # 홈팀 최근전적 수집 루프
-                    home_coursebox = detail_soup.find("ul", id="tb_home_recent")
-                    if home_coursebox:
-                        for c_item in home_coursebox.find_all("li", class_="courselis", limit=20):
-                            league_div = c_item.find("div", class_="team")
-                            time_span = c_item.find("span", {"name": "timeData"})
-                            teams_div = c_item.find("div", class_="corteam")
-                            
-                            # 풀타임 스코어(ftScore)들만 정밀 타격 추출 (전반 htScore 및 핸디/오언더 등은 완전히 배제)
-                            ft_scores = [span.get_text(strip=True) for span in c_item.find_all("span", class_="ftScore")]
-                            
-                            match_info = {
-                                "league": league_div.get_text(strip=True) if league_div else "",
-                                "match_time": time_span.get_text(strip=True) if time_span else "",
-                                "teams": teams_div.get(separator=" vs ", strip=True) if teams_div else "",
-                                "ft_scores": ft_scores # 오직 풀타임 스코어 배열만 저장
-                            }
-                            if match_info["teams"] and match_info not in recent_form_data["home_matches"]:
-                                recent_form_data["home_matches"].append(match_info)
-
-                    # 원정팀 최근전적 수집 루프
-                    away_coursebox = detail_soup.find("ul", id="tb_guest_recent")
-                    if away_coursebox:
-                        for c_item in away_coursebox.find_all("li", class_="courselis", limit=20):
-                            league_div = c_item.find("div", class_="team")
-                            time_span = c_item.find("span", {"name": "timeData"})
-                            teams_div = c_item.find("div", class_="corteam")
-                            
-                            ft_scores = [span.get_text(strip=True) for span in c_item.find_all("span", class_="ftScore")]
-                            
-                            match_info = {
-                                "league": league_div.get_text(strip=True) if league_div else "",
-                                "match_time": time_span.get_text(strip=True) if time_span else "",
-                                "teams": teams_div.get(separator=" vs ", strip=True) if teams_div else "",
-                                "ft_scores": ft_scores
-                            }
-                            if match_info["teams"] and match_info not in recent_form_data["away_matches"]:
-                                recent_form_data["away_matches"].append(match_info)
-
-                    # 기존 공수 티어 산정용 요약 스탯 처리
+                    # 1. 메인 팀 전체 공수 티어 산정
                     recent_div = detail_soup.find("div", id="dv_recent")
                     if recent_div:
                         stats_div = recent_div.find("div", id="dv_recent_stats")
@@ -187,14 +150,64 @@ def run_table_based_crawler_v3():
                                 "defense_tier": calculate_defense_tier(away_conceded)
                             }
 
+                    # 2. 홈팀 최근전적 (최대 20경기, ftScore까지)
+                    home_coursebox = detail_soup.find("ul", id="tb_home_recent")
+                    if home_coursebox:
+                        for c_item in home_coursebox.find_all("li", class_="courselis", limit=20):
+                            league_div = c_item.find("div", class_="team")
+                            time_span = c_item.find("span", {"name": "timeData"})
+                            teams_div = c_item.find("div", class_="corteam")
+                            
+                            ft_scores = [span.get_text(strip=True) for span in c_item.find_all("span", class_="ftScore")]
+                            teams_text = teams_div.get(separator=" vs ", strip=True) if teams_div else ""
+                            
+                            opponent_tier_tag = ""
+                            if " vs " in teams_text:
+                                t_parts = teams_text.split(" vs ")
+                                p_home = t_parts[0].strip()
+                                p_away = t_parts[1].strip()
+                                opponent_name = p_away if p_home == main_home else p_home
+                                opponent_tier_tag = f"상대({opponent_name}): 대기중"
+
+                            match_info = {
+                                "league": league_div.get_text(strip=True) if league_div else "",
+                                "match_time": time_span.get_text(strip=True) if time_span else "",
+                                "teams": teams_text,
+                                "ft_scores": ft_scores,
+                                "opponent_tier_info": opponent_tier_tag
+                            }
+                            if match_info["teams"] and match_info not in recent_form_data["home_matches"]:
+                                recent_form_data["home_matches"].append(match_info)
+
+                    # 3. 원정팀 최근전적 (최대 20경기, ftScore까지)
+                    away_coursebox = detail_soup.find("ul", id="tb_guest_recent")
+                    if away_coursebox:
+                        for c_item in away_coursebox.find_all("li", class_="courselis", limit=20):
+                            league_div = c_item.find("div", class_="team")
+                            time_span = c_item.find("span", {"name": "timeData"})
+                            teams_div = c_item.find("div", class_="corteam")
+                            
+                            ft_scores = [span.get_text(strip=True) for span in c_item.find_all("span", class_="ftScore")]
+                            teams_text = teams_div.get(separator=" vs ", strip=True) if teams_div else ""
+                            
+                            match_info = {
+                                "league": league_div.get_text(strip=True) if league_div else "",
+                                "match_time": time_span.get_text(strip=True) if time_span else "",
+                                "teams": teams_text,
+                                "ft_scores": ft_scores,
+                                "opponent_tier_info": ""
+                            }
+                            if match_info["teams"] and match_info not in recent_form_data["away_matches"]:
+                                recent_form_data["away_matches"].append(match_info)
+
                 except Exception as e:
-                    print(f"  - 최근전적 ftScore 파싱 예외 ({m_id}): {e}")
+                    print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
 
                 match_details[m_id] = {
                     "match_code": m_id,
                     "head_info": head_info,
-                    "home": target["home"],
-                    "away": target["away"],
+                    "home": main_home,
+                    "away": main_away,
                     "meta_details": {
                         "team_tiers": team_tiers_data,
                         "recent_form": recent_form_data
@@ -214,7 +227,7 @@ def run_table_based_crawler_v3():
         with open("match_details_v3.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 최대 20경기 ftScore 연동 완료 (총 {counter - 1}개) -> match_details_v3.json 저장 완료")
+        print(f"\n🎉 테스트 성공: 딱 3개 경기만 추출하여 match_details_v3.json 저장 완료")
 
     finally:
         driver.quit()
