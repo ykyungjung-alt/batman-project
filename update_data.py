@@ -23,6 +23,18 @@ MAJOR_LEAGUES = [
     "잉글랜드 FA 컵", "EFL 트로피"
 ]
 
+# 💡 제외할 리그 목록 추가
+EXCLUDED_LEAGUES = [
+    "리그프레미어",
+    "세리에A",
+    "세리에A베타",
+    "타이리그 1",
+    "프로리그 1",
+    "홍콩 프리미어리그",
+    "ABFA 프리미어리그",
+    "캐나다 프리미어리그"
+]
+
 def update_json_file():
     options = Options()
     options.add_argument("--headless")
@@ -107,8 +119,14 @@ def update_json_file():
                         current_league = cleaned
                     continue
                 
+                # 💡 1. 메이저 리그 포함 여부 확인
                 is_major = any(ml in current_league for ml in MAJOR_LEAGUES)
                 if not is_major:
+                    continue
+                
+                # 💡 2. 제외 리그 목록에 포함되는지 확인하여 제외
+                is_excluded = any(ex in current_league for ex in EXCLUDED_LEAGUES)
+                if is_excluded:
                     continue
                 
                 # Match ID (match_code) 추출 로직
@@ -172,7 +190,7 @@ def update_json_file():
                 if home_team and away_team and home_team != away_team:
                     entry = {
                         "id": len(matches_for_day) + 1,
-                        "match_code": m_id if m_id else "",  # 👈 매칭 기준이 될 고유 ID 탑재
+                        "match_code": m_id if m_id else "",
                         "league": current_league,
                         "time": time_str,
                         "home": home_team,
