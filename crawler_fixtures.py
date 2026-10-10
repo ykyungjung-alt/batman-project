@@ -48,7 +48,6 @@ def run_table_based_crawler():
     try:
         for target in target_matches:
             m_id = target["match_code"]
-            # 💡 상세 페이지 요청 URL 정상 설정
             detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
             
             try:
@@ -113,7 +112,7 @@ def run_table_based_crawler():
                     print(f"  - 헤드 정보 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 2. 팀전적 (오직 '전체' 탭의 종합 전적 행만 1개씩 정밀 타격 수집)
+                # 2. 팀전적
                 # ==========================================
                 rankings_data = []
                 collected_teams = set()
@@ -125,7 +124,6 @@ def run_table_based_crawler():
                         standing_rows = t_box.find_all("tr", class_=["tr_h_standing", "tr_a_standing"]) if t_box else []
                         for s_row in standing_rows:
                             row_id = s_row.get("id", "")
-                            
                             if "_ht_" in row_id:
                                 continue
                                 
@@ -138,18 +136,12 @@ def run_table_based_crawler():
                                     continue
                                 
                                 collected_teams.add(team_name)
-                                
                                 row_class = " ".join(s_row.get("class", []))
-                                if "tr_h_standing" in row_class or "home" in row_id:
-                                    team_type = "홈팀 리그전적"
-                                else:
-                                    team_type = "원정팀 리그전적"
-                                
-                                sub_category = "최근전적"
+                                team_type = "홈팀 리그전적" if "tr_h_standing" in row_class or "home" in row_id else "원정팀 리그전적"
                                 
                                 rankings_data.append({
                                     "team_type": team_type,
-                                    "sub_category": sub_category,
+                                    "sub_category": "최근전적",
                                     "rank": rank_val, 
                                     "team": team_name, 
                                     "played": cols[2],
@@ -165,7 +157,7 @@ def run_table_based_crawler():
                     print(f"  - 리그전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 3. 맞대결 전적 (dv_hth_count 내부의 승무패 통계 정밀 추출)
+                # 3. 맞대결 전적
                 # ==========================================
                 h2h_data = {"home_summary": {}, "away_summary": {}, "matches": []}
                 try:
@@ -193,7 +185,7 @@ def run_table_based_crawler():
                     print(f"  - 맞대결 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 4. 최근전적 (dv_recent_stats 내부 순수 통계만 타격)
+                # 4. 최근전적
                 # ==========================================
                 recent_form = {"home_summary": {}, "away_summary": {}, "matches": []}
                 try:
@@ -239,7 +231,7 @@ def run_table_based_crawler():
                     print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 5. 라인업 및 성향 지표 (좌우 분리 및 6개 규격 제한)
+                # 5. 라인업 및 성향 지표
                 # ==========================================
                 lineup_data = {"home": [], "away": []}
                 try:
@@ -269,7 +261,7 @@ def run_table_based_crawler():
                     print(f"  - 라인업 성향 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 6. 경기 일정 (홈/원정 영역 완벽 분리 수집)
+                # 6. 경기 일정
                 # ==========================================
                 fixtures_data = {"home": [], "away": []}
                 try:
@@ -311,7 +303,6 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 경기일정 파싱 예외 ({m_id}): {e}")
 
-                # 최종 구조 결합 (결장자 필드 제거 완료)
                 match_details[m_id] = {
                     "match_code": m_id,
                     "head_info": head_info,
@@ -336,10 +327,15 @@ def run_table_based_crawler():
             "match_details": match_details
         }
         
-        with open("match_details.json", "w", encoding="utf-8") as f:
+        # 💡 원자적 쓰기(Atomic Write) 적용: 임시 파일(`.tmp`)에 먼저 쓰고 원본 파일로 안전하게 교체
+        target_file = "match_details.json"
+        temp_file = target_file + ".tmp"
+        
+        with open(temp_file, "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 수집이 정상 완료되었습니다!")
+        os.replace(temp_file, target_file)
+        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 수집이 정상 완료되어 match_details.json에 안전하게 저장되었습니다!")
 
     finally:
         driver.quit()
