@@ -69,7 +69,7 @@ def run_table_based_crawler_v3():
         if len(target_matches) >= 3:
             break
 
-    print(f"🎯 [V3 테스트 모드] 총 {len(target_matches)}개 경기 추출 및 최근전적 정밀 수집 시작")
+    print(f"🎯 [V3 테스트 모드] 총 {len(target_matches)}개 경기 추출 및 크롤링 시작")
 
     options = Options()
     options.add_argument("--headless")
@@ -88,11 +88,14 @@ def run_table_based_crawler_v3():
             m_id = target["match_code"]
             main_home = target["home"]
             main_away = target["away"]
+            
+            # 💡 올바른 스코어맨 상세 페이지 URL 조합
             detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
+            print(f"🔗 접속 중인 URL: {detail_url}")
             
             try:
                 driver.get(detail_url)
-                time.sleep(1.5)
+                time.sleep(2.0)
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
@@ -118,7 +121,7 @@ def run_table_based_crawler_v3():
                 team_tiers_data = {"home": {}, "away": {}}
                 
                 try:
-                    # 1. 팀정보 테이블에서 홈/원정 평균 득실점 추출 및 티어 산정
+                    # 팀정보 테이블에서 평균 득실점 추출 및 공수 티어 산정
                     recent_div = detail_soup.find("div", id="dv_recent")
                     if recent_div:
                         stats_div = recent_div.find("div", id="dv_recent_stats")
@@ -149,17 +152,13 @@ def run_table_based_crawler_v3():
                                 "defense_tier": calculate_defense_tier(away_conceded)
                             }
 
-                    # 2. 최근전적 목록 파싱 (dv_recent 영역 내의 모든 'courselis' 아이템들을 유연하게 탐색)
+                    # 최근전적 항목 파싱
                     if recent_div:
-                        # 홈팀 최근전적 아이템 탐색 (li.courselis 또는 하위 리스트)
                         for li in recent_div.find_all("li"):
-                            text_content = li.get_text()
-                            # 대진 텍스트 및 ftScore가 포함된 유효한 최근전적 행인지 확인
                             if "ftScore" in str(li) or li.find("span", class_="ftScore"):
                                 league_div = li.find("div", class_="team")
                                 time_span = li.find("span", {"name": "timeData"})
                                 
-                                # 팀명 정보 추출 (텍스트 조합)
                                 team_spans = li.find_all("span")
                                 teams_text = ""
                                 span_texts = [s.get_text(strip=True) for s in team_spans if s.get_text(strip=True) and not s.has_attr("name")]
@@ -176,7 +175,6 @@ def run_table_based_crawler_v3():
                                     "opponent_tier_info": "대기중"
                                 }
                                 
-                                # 중복 방지 및 홈/원정 분류 저장
                                 if match_info["ft_scores"] and match_info not in recent_form_data["home_matches"]:
                                     recent_form_data["home_matches"].append(match_info)
 
@@ -207,7 +205,7 @@ def run_table_based_crawler_v3():
         with open("match_details_v3.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 최근전적 정밀 수집 완료 -> match_details_v3.json 저장 완료")
+        print(f"\n🎉 성공: URL 정합성 수정 및 수집 완료 -> match_details_v3.json 저장 완료")
 
     finally:
         driver.quit()
