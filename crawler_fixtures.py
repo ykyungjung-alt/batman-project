@@ -157,7 +157,7 @@ def run_table_based_crawler():
                     print(f"  - 리그전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 3. 맞대결 전적 (상단 승무패 요약 반영 및 불필요한 열 제외)
+                # 3. 맞대결 전적 (상단 승무패 요약 및 핵심 컬럼 추출)
                 # ==========================================
                 h2h_data = {"summary": [], "matches": []}
                 try:
@@ -166,7 +166,6 @@ def run_table_based_crawler():
                         hth_count_div = h2h_div.find("div", id="dv_hth_count")
                         target_h2h_vote_area = hth_count_div if hth_count_div else h2h_div
                         
-                        # 💡 스크린샷에 나온 상단 승/무/패 요약 정보(승 4 (40%), 무승부 3 (30%) 등)를 최상단에 수집
                         vote_divs = target_h2h_vote_area.find_all("div", class_="vote")
                         for v in vote_divs:
                             ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "lose-f"])
@@ -180,8 +179,6 @@ def run_table_based_crawler():
                             for h_row in h_table.find_all("tr"):
                                 cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"]) if c.get_text(strip=True)]
                                 if len(cols) >= 3 and not any("득점" in c for c in cols) and not any("날짜" in c for c in cols):
-                                    # 💡 필요 없는 열(전반, 승/패, 핸디캡, 오버/언더 등 뒷부분)을 제외하고 앞의 핵심 데이터(날짜, 홈, 스코어, 원정)만 추출
-                                    # 보통 스코어맨 맞대결 테이블 구조상 앞의 4개 컬럼(대회/날짜, 홈팀, 스코어, 원정팀)이 핵심입니다.
                                     core_cols = cols[:4] if len(cols) >= 4 else cols
                                     h2h_data["matches"].append({"row_data": core_cols})
                     if len(h2h_data["matches"]) > 10:
@@ -236,37 +233,7 @@ def run_table_based_crawler():
                     print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 5. 라인업 및 성향 지표
-                # ==========================================
-                lineup_data = {"home": [], "away": []}
-                try:
-                    lineup_boxes = detail_soup.find_all("div", class_=["lineupbox", "lineupis", "tacticsbox"])
-                    for l_box in lineup_boxes:
-                        home_side = l_box.find("div", class_=["home", "left-side"])
-                        if home_side:
-                            items = home_side.find_all(["div", "li", "span"], class_=["player", "item", "val"])
-                            for item in items:
-                                text = item.get_text(strip=True)
-                                if text and text not in lineup_data["home"]:
-                                    lineup_data["home"].append(text)
-                        
-                        guest_side = l_box.find("div", class_=["guest", "right-side"])
-                        if guest_side:
-                            items = guest_side.find_all(["div", "li", "span"], class_=["player", "item", "val"])
-                            for item in items:
-                                text = item.get_text(strip=True)
-                                if text and text not in lineup_data["away"]:
-                                    lineup_data["away"].append(text)
-
-                    if len(lineup_data["home"]) > 6:
-                        lineup_data["home"] = lineup_data["home"][:6]
-                    if len(lineup_data["away"]) > 6:
-                        lineup_data["away"] = lineup_data["away"][:6]
-                except Exception as e:
-                    print(f"  - 라인업 성향 파싱 예외 ({m_id}): {e}")
-
-                # ==========================================
-                # 6. 경기 일정
+                # 5. 경기 일정 (라인업 파싱 로직은 완전히 제거됨)
                 # ==========================================
                 fixtures_data = {"home": [], "away": []}
                 try:
@@ -317,7 +284,6 @@ def run_table_based_crawler():
                         "rankings": rankings_data,
                         "recent_form": recent_form,
                         "h2h": h2h_data,
-                        "lineup_summary": lineup_data,
                         "fixtures": fixtures_data
                     }
                 }
