@@ -29,14 +29,11 @@ def calculate_defense_tier(avg_conceded):
     except:
         return "Tier C"
 
-def fetch_opponent_stats_and_tiers(driver, sub_m_id, target_team_name):
-    """
-    서브 경기 페이지로 이동하여 target_team_name이 아닌 '상대 팀'의 득실점을 판별하고 티어를 산출합니다.
-    """
+def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
     sub_url = f"https://www.scoreman123.com/match/data-{sub_m_id}"
     try:
         driver.get(sub_url)
-        time.sleep(0.8)
+        time.sleep(0.3)
         soup = BeautifulSoup(driver.page_source, "html.parser")
         
         sub_home, sub_away = "", ""
@@ -44,13 +41,6 @@ def fetch_opponent_stats_and_tiers(driver, sub_m_id, target_team_name):
         if len(teams_spans) >= 2:
             sub_home = teams_spans[0].get_text(strip=True)
             sub_away = teams_spans[1].get_text(strip=True)
-        else:
-            header_div = soup.find("div", id="dv_header") or soup.find("div", class_="vs")
-            if header_div:
-                t_texts = header_div.get_text(separator="|", strip=True).split("|")
-                if len(t_texts) >= 2:
-                    sub_home = t_texts[0].strip()
-                    sub_away = t_texts[-1].strip()
 
         recent_div = soup.find("div", id="dv_recent")
         if recent_div:
@@ -74,20 +64,15 @@ def fetch_opponent_stats_and_tiers(driver, sub_m_id, target_team_name):
                             away_conceded = right_val
                 
                 is_target_home = target_team_name in sub_home or not (target_team_name in sub_away)
-                
-                if is_target_home:
-                    opp_goals = away_goals
-                    opp_conceded = away_conceded
-                else:
-                    opp_goals = home_goals
-                    opp_conceded = home_conceded
+                opp_goals = away_goals if is_target_home else home_goals
+                opp_conceded = away_conceded if is_target_home else home_conceded
                 
                 atk_tier = calculate_attack_tier(opp_goals)
                 def_tier = calculate_defense_tier(opp_conceded)
                 
                 return f"{opp_goals}/{opp_conceded} 공격력{atk_tier.replace('Tier ', '')}/방어력{def_tier.replace('Tier ', '')}"
-    except Exception as e:
-        print(f"    - 서브 경기({sub_m_id}) 상대 티어 산출 예외: {e}")
+    except Exception:
+        pass
     
     return "0.00/0.00 공격력C/방어력C"
 
@@ -153,7 +138,7 @@ def run_table_based_crawler_v3():
             
             try:
                 driver.get(detail_url)
-                time.sleep(1.5)
+                time.sleep(1.0)
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
@@ -177,14 +162,16 @@ def run_table_based_crawler_v3():
 
                 team_tiers_data = {"home": {}, "away": {}}
                 
-                # 1️⃣ [보존] 기존 최근전적(전체) 데이터 수집용 컨테이너
+                # 💡 타이틀 필드(form_title) 추가된 최근전적 데이터 구조
                 recent_form_data = {
+                    "form_title": "최근 전적",
                     "home_team_name": main_home, "home_matches": [], 
                     "away_team_name": main_away, "away_matches": []
                 }
                 
-                # 2️⃣ [신규] 구장별 전적(홈/원정 맞춤) 데이터 수집용 컨테이너
+                # 💡 타이틀 필드(form_title) 추가된 구장별 전적 데이터 구조
                 stadium_form_data = {
+                    "form_title": "구장별 전적",
                     "home_team_name": main_home, "home_matches": [], 
                     "away_team_name": main_away, "away_matches": []
                 }
@@ -220,8 +207,7 @@ def run_table_based_crawler_v3():
                                 "defense_tier": calculate_defense_tier(away_conceded)
                             }
 
-                    # 공통 수집 헬퍼 함수 (상대 티어 산출 포함)
-                    def parse_matches_from_ul(container_ul, target_team, target_list, max_count=10):
+                    def parse_matches(container_ul, target_team, target_list, max_count=10):
                         if not container_ul: return
                         count = 0
                         for li in container_ul.find_all("li", class_="courselis"):
@@ -249,9 +235,9 @@ def run_table_based_crawler_v3():
                                 
                                 opponent_tier_info = "정보 없음"
                                 if sub_m_id:
-                                    opponent_tier_info = fetch_opponent_stats_and_tiers(driver, sub_m_id, target_team)
+                                    opponent_tier_info = fetch_opponent_stats_fast(driver, sub_m_id, target_team)
                                     driver.get(detail_url)
-                                    time.sleep(0.4)
+                                    time.sleep(0.2)
 
                                 match_info = {
                                     "league": league_div.get_text(strip=True) if league_div else "",
@@ -264,31 +250,30 @@ def run_table_based_crawler_v3():
                                     target_list.append(match_info)
                                     count += 1
 
-                    # A. [단계 1] 최근전적 (기본 전체 상태) 수집
+                    # 1. 최근전적 수집
                     home_ul = detail_soup.find("ul", id="tb_home_recent")
                     away_ul = detail_soup.find("ul", id="tb_guest_recent")
-                    
-                    if home_ul: parse_matches_from_ul(home_ul, main_home, recent_form_data["home_matches"], 10)
-                    if away_ul: parse_matches_from_ul(away_ul, main_away, recent_form_data["away_matches"], 10)
+                    if home_ul: parse_matches(home_ul, main_home, recent_form_data["home_matches"], 10)
+                    if away_ul: parse_matches(away_ul, main_away, recent_form_data["away_matches"], 10)
 
-                    # B. [단계 2] 구장별 전적 ('같은 H/A' 체크박스 클릭 후 상태) 수집
+                    # 2. 구장별 전적 수집
                     try:
                         checkbox = driver.find_element("id", "cbRecentFull")
                         if checkbox and not checkbox.is_selected():
                             driver.execute_script("arguments[0].click();", checkbox)
-                            time.sleep(1.0)
+                            time.sleep(0.5)
                             
                         stadium_soup = BeautifulSoup(driver.page_source, "html.parser")
                         s_home_ul = stadium_soup.find("ul", id="tb_home_recent")
                         s_away_ul = stadium_soup.find("ul", id="tb_guest_recent")
                         
-                        if s_home_ul: parse_matches_from_ul(s_home_ul, main_home, stadium_form_data["home_matches"], 10)
-                        if s_away_ul: parse_matches_from_ul(s_away_ul, main_away, stadium_form_data["away_matches"], 10)
+                        if s_home_ul: parse_matches(s_home_ul, main_home, stadium_form_data["home_matches"], 10)
+                        if s_away_ul: parse_matches(s_away_ul, main_away, stadium_form_data["away_matches"], 10)
                     except Exception as s_err:
-                        print(f"  - 구장별 전적(after) 토글 수집 예외: {s_err}")
+                        print(f"  - 구장별 전적 토글 수집 예외: {s_err}")
 
                 except Exception as e:
-                    print(f"  - 전적 수집 통합 예외 ({m_id}): {e}")
+                    print(f"  - 전적 수집 예외 ({m_id}): {e}")
 
                 match_details[m_id] = {
                     "match_code": m_id,
@@ -297,8 +282,8 @@ def run_table_based_crawler_v3():
                     "away": main_away,
                     "meta_details": {
                         "team_tiers": team_tiers_data,
-                        "recent_form": recent_form_data,     # 💡 기존 최근전적 보존
-                        "stadium_form": stadium_form_data   # 💡 신규 구장별 전적 분리 수집
+                        "recent_form": recent_form_data,
+                        "stadium_form": stadium_form_data
                     }
                 }
                 counter += 1
@@ -315,7 +300,7 @@ def run_table_based_crawler_v3():
         with open("match_details_v3.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 최근전적과 구장별 전적 양쪽 모두 10경기 및 상대 티어 태깅 완료 -> match_details_v3.json 저장 완료")
+        print(f"\n🎉 성공: 타이틀 필드 추가 및 데이터 수집 완료 -> match_details_v3.json 저장 완료")
 
     finally:
         driver.quit()
