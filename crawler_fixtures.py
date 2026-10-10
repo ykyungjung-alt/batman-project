@@ -291,27 +291,33 @@ def run_table_based_crawler():
                     print(f"  - 경기일정 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 7. 결장자 수집 (정밀 타격)
+                # 7. 결장자 수집 (hurtLineup 탭 내부의 lineupbox 정밀 타격)[cite: 6]
                 # ==========================================
                 absent_players = {"home": [], "away": []}
                 try:
-                    absent_section = detail_soup.find("div", class_="absent-box") or detail_soup.find("ul", class_="lineupbox")
-                    if absent_section:
-                        home_absents = absent_section.find_all("div", class_="home")
-                        for ha in home_absents:
-                            players = ha.find_all("div", class_="player")
-                            for p in players:
-                                name = p.get_text(strip=True)
-                                if name and name not in absent_players["home"]:
-                                    absent_players["home"].append(name)
-                        
-                        away_absents = absent_section.find_all("div", class_="guest")
-                        for aa in away_absents:
-                            players = aa.find_all("div", class_="player")
-                            for p in players:
-                                name = p.get_text(strip=True)
-                                if name and name not in absent_players["away"]:
-                                    absent_players["away"].append(name)
+                    hurt_div = detail_soup.find("div", id="hurtLineup")
+                    if hurt_div:
+                        lineupbox = hurt_div.find("ul", class_="lineupbox")
+                        if lineupbox:
+                            rows = lineupbox.find_all("li", class_="lineupis")
+                            for row in rows:
+                                # 홈팀 결장자 추출 (div class="home")[cite: 6]
+                                home_div = row.find("div", class_="home")
+                                if home_div:
+                                    player_div = home_div.find("div", class_="player")
+                                    if player_div:
+                                        p_name = player_div.get_text(strip=True)
+                                        if p_name and p_name not in absent_players["home"]:
+                                            absent_players["home"].append(p_name)
+                                
+                                # 원정팀 결장자 추출 (div class="guest")[cite: 6]
+                                guest_div = row.find("div", class_="guest")
+                                if guest_div:
+                                    player_div = guest_div.find("div", class_="player")
+                                    if player_div:
+                                        p_name = player_div.get_text(strip=True)
+                                        if p_name and p_name not in absent_players["away"]:
+                                            absent_players["away"].append(p_name)
                 except Exception as e:
                     print(f"  - 결장자 파싱 예외 ({m_id}): {e}")
 
@@ -344,7 +350,7 @@ def run_table_based_crawler():
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 모든 정밀 데이터가 깔끔하게 동기화되었습니다!")
+        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 결장자 및 모든 정밀 데이터가 완벽하게 동기화되었습니다!")
 
     finally:
         driver.quit()
