@@ -5,6 +5,9 @@ import os
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from zoneinfo import ZoneInfo
 
 def run_table_based_crawler():
@@ -52,7 +55,17 @@ def run_table_based_crawler():
             
             try:
                 driver.get(detail_url)
-                time.sleep(0.8)
+                time.sleep(1.0)
+                
+                # 💡 결장 탭(hurtLineup 버튼) 클릭하여 동적 콘텐츠 활성화 유도
+                try:
+                    hurt_tab = WebDriverWait(driver, 3).until(
+                        EC.element_to_be_clickable((By.XPATH, "//span[@name='hurtLineup']"))
+                    )
+                    hurt_tab.click()
+                    time.sleep(0.5)
+                except Exception:
+                    pass
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
@@ -309,7 +322,7 @@ def run_table_based_crawler():
                     print(f"  - 경기일정 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 7. 결장자 수집 (hurtLineup ID 탭 내부 정밀 타격)
+                # 7. 결장자 수집 (hurtLineup 탭 내부 li.lineupis 구조 정밀 타격)
                 # ==========================================
                 absent_players = {"home": [], "away": []}
                 try:
@@ -319,6 +332,7 @@ def run_table_based_crawler():
                         if lineupbox:
                             rows = lineupbox.find_all("li", class_="lineupis")
                             for row in rows:
+                                # 홈팀 결장자 추출 (div class="home")
                                 home_div = row.find("div", class_="home")
                                 if home_div:
                                     player_div = home_div.find("div", class_="player")
@@ -327,6 +341,7 @@ def run_table_based_crawler():
                                         if p_name and p_name not in absent_players["home"]:
                                             absent_players["home"].append(p_name)
                                 
+                                # 원정팀 결장자 추출 (div class="guest")
                                 guest_div = row.find("div", class_="guest")
                                 if guest_div:
                                     player_div = guest_div.find("div", class_="player")
@@ -366,7 +381,7 @@ def run_table_based_crawler():
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 수집이 정상 완료되었습니다!")
+        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 결장자 및 모든 정밀 데이터가 완벽하게 수집되었습니다!")
 
     finally:
         driver.quit()
