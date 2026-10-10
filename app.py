@@ -148,7 +148,7 @@ with tabs[0]:
             for idx, r in enumerate(rankings_raw):
                 rankings_list.append({
                     "No": idx + 1,
-                    "#": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
+                    "#리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
                     "팀": str(r.get("team", "-")),
                     "경기": str(r.get("played", "0")),
                     "승": str(r.get("win", "0")),
