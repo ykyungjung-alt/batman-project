@@ -57,7 +57,7 @@ def run_table_based_crawler():
                 driver.get(detail_url)
                 time.sleep(1.0)
                 
-                # 💡 결장 탭(hurtLineup 버튼) 클릭하여 동적 콘텐츠 활성화 유도
+                # 결장 탭 활성화
                 try:
                     hurt_tab = WebDriverWait(driver, 3).until(
                         EC.element_to_be_clickable((By.XPATH, "//span[@name='hurtLineup']"))
@@ -125,7 +125,7 @@ def run_table_based_crawler():
                     print(f"  - 헤드 정보 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 2. 리그전적 ('전체' 전적 관련 행만 수집, 세부 분류 "최근전적")
+                # 2. 리그전적 (오직 '전체' 종합 전적 행 1개만 정밀 타격 수집)
                 # ==========================================
                 rankings_data = []
                 seen_rankings = set()
@@ -138,11 +138,16 @@ def run_table_based_crawler():
                         for s_row in standing_rows:
                             row_id = s_row.get("id", "")
                             
+                            # 💡 조건별 세부 전적(_ht_) 및 순위가 빈 행(중복 집계 행)은 완벽히 차단
                             if "_ht_" in row_id:
                                 continue
                                 
                             cols = [c.get_text(strip=True) for c in s_row.find_all(["th", "td"])]
                             if len(cols) >= 10:
+                                rank_val = cols[0]
+                                if not rank_val:  # 순위 값이 비어있는 행은 전체 전적 행이 아니므로 제외
+                                    continue
+                                
                                 row_class = " ".join(s_row.get("class", []))
                                 
                                 if "tr_h_standing" in row_class or "home" in row_id:
@@ -332,7 +337,6 @@ def run_table_based_crawler():
                         if lineupbox:
                             rows = lineupbox.find_all("li", class_="lineupis")
                             for row in rows:
-                                # 홈팀 결장자 추출 (div class="home")
                                 home_div = row.find("div", class_="home")
                                 if home_div:
                                     player_div = home_div.find("div", class_="player")
@@ -341,7 +345,6 @@ def run_table_based_crawler():
                                         if p_name and p_name not in absent_players["home"]:
                                             absent_players["home"].append(p_name)
                                 
-                                # 원정팀 결장자 추출 (div class="guest")
                                 guest_div = row.find("div", class_="guest")
                                 if guest_div:
                                     player_div = guest_div.find("div", class_="player")
@@ -381,7 +384,7 @@ def run_table_based_crawler():
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 결장자 및 모든 정밀 데이터가 완벽하게 수집되었습니다!")
+        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 '전체' 종합 전적 행 1개씩과 모든 정밀 데이터가 완벽하게 수집되었습니다!")
 
     finally:
         driver.quit()
