@@ -157,7 +157,7 @@ def run_table_based_crawler():
                     print(f"  - 리그전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 3. 맞대결 전적 (상단 승무패 요약 및 핵심 컬럼 추출)
+                # 3. 맞대결 전적 (승무패 요약 및 경기당 득점만 수집, 핸디캡/언오버 제외)
                 # ==========================================
                 h2h_data = {"summary": [], "matches": []}
                 try:
@@ -168,11 +168,12 @@ def run_table_based_crawler():
                         
                         vote_divs = target_h2h_vote_area.find_all("div", class_="vote")
                         for v in vote_divs:
-                            ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "lose-f"])
+                            ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "lose-f", "p2"])
                             for el in ext_els:
                                 summary_text = el.get_text(strip=True)
-                                if summary_text and summary_text not in h2h_data["summary"]:
-                                    h2h_data["summary"].append(summary_text)
+                                if summary_text and not any(k in summary_text for k in ["핸디캡", "언오버"]):
+                                    if summary_text not in h2h_data["summary"]:
+                                        h2h_data["summary"].append(summary_text)
 
                         h_table = h2h_div.find_next("table")
                         if h_table:
@@ -233,7 +234,7 @@ def run_table_based_crawler():
                     print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 5. 경기 일정 (라인업 파싱 로직은 완전히 제거됨)
+                # 5. 경기 일정 (라인업 파싱 로직 제외)
                 # ==========================================
                 fixtures_data = {"home": [], "away": []}
                 try:
@@ -292,23 +293,3 @@ def run_table_based_crawler():
             except Exception as e:
                 print(f"  ⚠️ 상세 페이지 수집 실패 (Match ID: {m_id}): {e}")
                 continue
-
-        output_data = {
-            "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
-            "match_details": match_details
-        }
-        
-        target_file = "match_details.json"
-        temp_file = target_file + ".tmp"
-        
-        with open(temp_file, "w", encoding="utf-8") as f:
-            json.dump(output_data, f, ensure_ascii=False, indent=4)
-            
-        os.replace(temp_file, target_file)
-        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 수집이 정상 완료되어 match_details.json에 안전하게 저장되었습니다!")
-
-    finally:
-        driver.quit()
-
-if __name__ == "__main__":
-    run_table_based_crawler()
