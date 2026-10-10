@@ -88,35 +88,49 @@ def run_table_based_crawler_v3():
     daily_matches_input = data.get("daily_matches", {})
     
     kst = ZoneInfo("Asia/Seoul")
-    today_kst = datetime.now(kst)
-    weekdays = ["월", "화", "수", "목", "금", "토", "일"]
+    now_kst = datetime.now(kst)
+    # 💡 36시간 대신 정확히 24시간 이내로 제한 시간 설정
+    limit_kst = now_kst + timedelta(hours=24)
     
-    target_dt = today_kst + timedelta(days=1)
-    m_str = target_dt.strftime("%m")
-    d_str = target_dt.strftime("%d")
-    w_str = weekdays[target_dt.weekday()]
-    
-    target_date_key_prefix = f"{m_str}-{d_str} ({w_str})"
-    print(f"📅 [V3] 타겟 날짜 키 패턴: {target_date_key_prefix}")
+    print(f"🕒 [V3] 실행 시간(KST): {now_kst.strftime('%Y-%m-%d %H:%M')}")
+    print(f"🎯 [V3] 수집 대상 타임라인 (~24시간 후): {limit_kst.strftime('%Y-%m-%d %H:%M')}")
+
+    current_year = now_kst.year
 
     for date_key, matches in daily_matches_input.items():
-        if date_key.startswith(target_date_key_prefix):
-            print(f"🎯 발견한 경기 블록: {date_key}")
-            for m in matches:
-                m_code = m.get("match_code")
-                if m_code and m_code not in [t["match_code"] for t in target_matches]:
-                    target_matches.append({
-                        "match_code": m_code,
-                        "league": m.get("league", ""),
-                        "home": m.get("home", ""),
-                        "away": m.get("away", "")
-                    })
-                if len(target_matches) >= 3:
-                    break
-        if len(target_matches) >= 3:
-            break
+        try:
+            date_part = date_key.split()[0] # "10-11" 형태 추출
+            m_part, d_part = map(int, date_part.split("-"))
+        except Exception:
+            continue
 
-    print(f"🎯 [V3] 총 {len(target_matches)}개 메인 경기 크롤링 시작")
+        for m in matches:
+            time_str = m.get("time", "") # "22:30" 등
+            if not time_str or ":" not in time_str:
+                continue
+            
+            try:
+                hour_val, min_val = map(int, time_str.split(":"))
+                match_dt = datetime(current_year, m_part, d_part, hour_val, min_val, tzinfo=kst)
+                
+                # 연도 넘어가는 시점 보정
+                if match_dt < now_kst - timedelta(days=15) and m_part == 1:
+                    match_dt = datetime(current_year + 1, m_part, d_part, hour_val, min_val, tzinfo=kst)
+
+                # 💡 실행 시점 ~ 정확히 24시간 이내 경기 필터링
+                if now_kst <= match_dt <= limit_kst:
+                    m_code = m.get("match_code")
+                    if m_code and m_code not in [t["match_code"] for t in target_matches]:
+                        target_matches.append({
+                            "match_code": m_code,
+                            "league": m.get("league", ""),
+                            "home": m.get("home", ""),
+                            "away": m.get("away", "")
+                        })
+            except Exception as parse_err:
+                continue
+
+    print(f"🎯 [V3] 24시간 이내 조건에 일치하는 총 {len(target_matches)}개 메인 경기 크롤링 시작")
 
     options = Options()
     options.add_argument("--headless")
@@ -162,14 +176,12 @@ def run_table_based_crawler_v3():
 
                 team_tiers_data = {"home": {}, "away": {}}
                 
-                # 💡 타이틀 필드(form_title) 추가된 최근전적 데이터 구조
                 recent_form_data = {
                     "form_title": "최근 전적",
                     "home_team_name": main_home, "home_matches": [], 
                     "away_team_name": main_away, "away_matches": []
                 }
                 
-                # 💡 타이틀 필드(form_title) 추가된 구장별 전적 데이터 구조
                 stadium_form_data = {
                     "form_title": "구장별 전적",
                     "home_team_name": main_home, "home_matches": [], 
@@ -300,7 +312,7 @@ def run_table_based_crawler_v3():
         with open("match_details_v3.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 타이틀 필드 추가 및 데이터 수집 완료 -> match_details_v3.json 저장 완료")
+        print(f"\n🎉 성공: 실행 시간 기준 24시간 이내 경기 필터링 및 수집 완료 -> match_details_v3.json 저장 완료")
 
     finally:
         driver.quit()
