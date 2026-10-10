@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from zoneinfo import ZoneInfo
+os
 import os
 
 def run_table_based_crawler():
@@ -48,7 +49,8 @@ def run_table_based_crawler():
     try:
         for target in target_matches:
             m_id = target["match_code"]
-            detail_url = f"url?id=5match/data-{m_id}"
+            # 💡 상세 페이지 요청 URL 경로 정상 복원 (31match/data-{m_id})
+            detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
             
             try:
                 driver.get(detail_url)
@@ -57,7 +59,7 @@ def run_table_based_crawler():
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
                 # ==========================================
-                # 1. 헤드 정보 독립 분류 (리그, 라운드, 시간, 구장, 날씨) - 누락 방지 보완
+                # 1. 헤드 정보 독립 분류 (리그, 라운드, 시간, 구장, 날씨)
                 # ==========================================
                 head_info = {
                     "league": target["league"],
@@ -112,7 +114,7 @@ def run_table_based_crawler():
                     print(f"  - 헤드 정보 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 2. 리그전적 ('전체' 전적 관련 행만 정밀 타격 수집)
+                # 2. 리그전적 ('전체' 전적 관련 행만 수집, 세부 분류 "최근전적")
                 # ==========================================
                 rankings_data = []
                 seen_rankings = set()
@@ -162,26 +164,21 @@ def run_table_based_crawler():
                     print(f"  - 리그전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 3. 맞대결 전적 (dv_hth_count 내부의 승무패 통계 및 상세 경기 목록 정밀 타격)
+                # 3. 맞대결 전적 (dv_hth_count 내부의 승무패 통계 정밀 추출)
                 # ==========================================
                 h2h_data = {"home_summary": {}, "away_summary": {}, "matches": []}
                 try:
                     h2h_div = detail_soup.find("div", id="dv_head_to_head")
                     if h2h_div:
-                        # 💡 상단 체크박스 필터 탭들을 완전히 무시하고 오직 dv_hth_count 영역 내부만 타격
                         hth_count_div = h2h_div.find("div", id="dv_hth_count")
                         target_h2h_vote_area = hth_count_div if hth_count_div else h2h_div
                         
                         vote_divs = target_h2h_vote_area.find_all("div", class_="vote")
                         for v in vote_divs:
-                            # ext 클래스를 가진 요소를 직접 타격하여 홈승, 무승부, 원정승 수치만 정확히 추출
                             ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "lose-f"])
                             if len(ext_els) >= 3:
-                                h2h_data["home_summary"]["record_summary"] = ext_els[0].get_text(strip=True) # 홈 승리 및 퍼센트
-                                h2h_data["away_summary"]["record_summary"] = ext_els[2].get_text(strip=True) # 원정 승리 및 퍼센트
-                            elif len(ext_els) == 1:
-                                # 만약 단일 구조일 경우 대비용 방어 코드
-                                pass
+                                h2h_data["home_summary"]["record_summary"] = ext_els[0].get_text(strip=True)
+                                h2h_data["away_summary"]["record_summary"] = ext_els[2].get_text(strip=True)
 
                         h_table = h2h_div.find_next("table")
                         if h_table:
@@ -195,7 +192,7 @@ def run_table_based_crawler():
                     print(f"  - 맞대결 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 4. 최근전적 (dv_recent_stats 내부의 순수 통계 3개 블록만 엄격 타격)
+                # 4. 최근전적 (dv_recent_stats 내부의 순수 통계 3개 블록만 타격)
                 # ==========================================
                 recent_form = {"home_summary": {}, "away_summary": {}, "matches": []}
                 try:
@@ -371,7 +368,7 @@ def run_table_based_crawler():
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 맞대결 요약 및 모든 데이터가 완벽하게 정제되었습니다!")
+        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 수집이 정상 완료되었습니다!")
 
     finally:
         driver.quit()
