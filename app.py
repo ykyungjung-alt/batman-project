@@ -148,7 +148,7 @@ with tabs[0]:
             for idx, r in enumerate(rankings_raw):
                 rankings_list.append({
                     "No": idx + 1,
-                    "#": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
+                    "순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
                     "팀": str(r.get("team", "-")),
                     "경기": str(r.get("played", "0")),
                     "승": str(r.get("win", "0")),
@@ -166,7 +166,7 @@ with tabs[0]:
             
             with r_tabs[0]:
                 st.markdown("🔍 수집된 팀별 전체 및 조건별 세부 전적표입니다.")
-                st.dataframe(df_rankings[["#", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
+                st.dataframe(df_rankings[["순위", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
                 
             with r_tabs[1]:
                 st.json(rankings_raw)
