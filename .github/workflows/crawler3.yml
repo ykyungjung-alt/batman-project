@@ -1,1 +1,325 @@
+from datetime import datetime, timedelta
+import json
+import time
+import os
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from zoneinfo import ZoneInfo
 
+def run_table_based_crawler_v3():
+    if not os.path.exists("data.json"):
+        print("❌ data.json 파일이 존재하지 않습니다. 먼저 update_data.py를 실행해 주세요.")
+        return
+
+    with open("data.json", "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    target_matches = []
+    daily_matches_input = data.get("daily_matches", {})
+    
+    # update_data.py와 동일한 방식으로 날짜 키를 동적으로 계산 (필요에 따라 날짜 오프셋 조정 가능)
+    kst = ZoneInfo("Asia/Seoul")
+    today_kst = datetime.now(kst)
+    weekdays = ["월", "화", "수", "목", "금", "토", "일"]
+    
+    # 기본적으로 v3도 내일 기준 또는 필요에 맞게 설정 (여기서는 v2와 동일하게 내일 기준 적용)
+    target_dt = today_kst + timedelta(days=1)
+    m_str = target_dt.strftime("%m")
+    d_str = target_dt.strftime("%d")
+    w_str = weekdays[target_dt.weekday()]
+    
+    target_date_key_prefix = f"{m_str}-{d_str} ({w_str})"
+    print(f"📅 동적 계산된 타겟 날짜 키 패턴: {target_date_key_prefix}")
+
+    for date_key, matches in daily_matches_input.items():
+        if date_key.startswith(target_date_key_prefix):
+            print(f"🎯 발견한 경기 블록: {date_key} (총 {len(matches)}개 경기)")
+            for m in matches:
+                m_code = m.get("match_code")
+                if m_code and m_code not in [t["match_code"] for t in target_matches]:
+                    target_matches.append({
+                        "match_code": m_code,
+                        "league": m.get("league", ""),
+                        "home": m.get("home", ""),
+                        "away": m.get("away", "")
+                    })
+
+    print(f"🎯 [정밀 수집] 총 {len(target_matches)}개 경기 수집 시작")
+
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--window-size=1920,1080")
+    options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
+    
+    driver = webdriver.Chrome(options=options)
+    
+    match_details = {}
+    counter = 1
+
+    try:
+        for target in target_matches:
+            m_id = target["match_code"]
+            detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
+            
+            try:
+                driver.get(detail_url)
+                time.sleep(1.0)
+                
+                detail_soup = BeautifulSoup(driver.page_source, "html.parser")
+                
+                # ==========================================
+                # 1. 헤드 정보 독립 분류 (리그, 라운드, 시간, 구장, 날씨)
+                # ==========================================
+                head_info = {
+                    "league": target["league"],
+                    "round": "",
+                    "match_time_raw": "",
+                    "match_time_display": "",
+                    "stadium": "",
+                    "weather": ""
+                }
+                
+                try:
+                    sclass_span = detail_soup.find("span", {"class": "sclassListLink"})
+                    if sclass_span:
+                        full_text = sclass_span.get_text(separator=" ", strip=True)
+                        if "라운드" in full_text:
+                            parts = full_text.split("라운드")
+                            head_info["league"] = parts[0].replace("·", "").strip()
+                            head_info["round"] = "라운드 " + parts[1].strip()
+                        else:
+                            head_info["league"] = full_text.replace("·", "").strip()
+                    
+                    if not head_info["round"]:
+                        for span_tag in detail_soup.find_all("span"):
+                            txt = span_tag.get_text(strip=True)
+                            if "라운드" in txt:
+                                head_info["round"] = txt
+                                break
+                    
+                    time_span = detail_soup.find("span", {"name": "timeData"})
+                    if time_span:
+                        if time_span.has_attr("data-t"):
+                            head_info["match_time_raw"] = time_span["data-t"]
+                        disp_text = time_span.get_text(strip=True)
+                        if disp_text:
+                            head_info["match_time_display"] = disp_text
+                        
+                    other_info_div = detail_soup.find("div", {"id": "otherInfo"})
+                    if other_info_div:
+                        spans = other_info_div.find_all("span")
+                        stadium_candidates = []
+                        for s in spans:
+                            s_text = s.get_text(strip=True)
+                            if not s_text or "생중계" in s_text:
+                                continue
+                            if any(w in s_text for w in ["°C", "비", "맑음", "구름", "이슬비", "눈", "흐림"]):
+                                head_info["weather"] = s_text
+                            else:
+                                stadium_candidates.append(s_text)
+                        if stadium_candidates:
+                            head_info["stadium"] = stadium_candidates[0]
+                except Exception as e:
+                    print(f"  - 헤드 정보 파싱 예외 ({m_id}): {e}")
+
+                # ==========================================
+                # 2. 팀전적 (오직 '전체' 탭의 종합 전적 행만 팀당 1개씩 엄격 타격 수집)
+                # ==========================================
+                rankings_data = []
+                collected_teams = set()
+                try:
+                    standings_div = detail_soup.find("div", id="dv_league_standings")
+                    target_tables = [standings_div] if standings_div else detail_soup.find_all("table", class_=["team-table-home", "team-table-guest"])
+                    
+                    for t_box in target_tables:
+                        standing_rows = t_box.find_all("tr", class_=["tr_h_standing", "tr_a_standing"]) if t_box else []
+                        for s_row in standing_rows:
+                            row_id = s_row.get("id", "")
+                            
+                            if "_ht_" in row_id:
+                                continue
+                                
+                            cols = [c.get_text(strip=True) for c in s_row.find_all(["th", "td"])]
+                            if len(cols) >= 10:
+                                rank_val = cols[0]
+                                team_name = cols[1]
+                                
+                                if not rank_val or team_name in collected_teams or "홈" in team_name or "원정" in team_name:
+                                    continue
+                                
+                                collected_teams.add(team_name)
+                                
+                                row_class = " ".join(s_row.get("class", []))
+                                if "tr_h_standing" in row_class or "home" in row_id:
+                                    team_type = "홈팀 리그전적"
+                                else:
+                                    team_type = "원정팀 리그전적"
+                                
+                                sub_category = "최근전적"
+                                
+                                rankings_data.append({
+                                    "team_type": team_type,
+                                    "sub_category": sub_category,
+                                    "rank": rank_val, 
+                                    "team": team_name, 
+                                    "played": cols[2],
+                                    "win": cols[3], 
+                                    "draw": cols[4], 
+                                    "loss": cols[5],
+                                    "goals_for": cols[6], 
+                                    "goals_against": cols[7],
+                                    "goal_diff": cols[8], 
+                                    "points": cols[9]
+                                })
+                except Exception as e:
+                    print(f"  - 리그전적 파싱 예외 ({m_id}): {e}")
+
+                # ==========================================
+                # 3. 맞대결 전적 (dv_hth_count 내부의 승무패 통계 정밀 추출)
+                # ==========================================
+                h2h_data = {"home_summary": {}, "away_summary": {}, "matches": []}
+                try:
+                    h2h_div = detail_soup.find("div", id="dv_head_to_head")
+                    if h2h_div:
+                        hth_count_div = h2h_div.find("div", id="dv_hth_count")
+                        target_h2h_vote_area = hth_count_div if hth_count_div else h2h_div
+                        
+                        vote_divs = target_h2h_vote_area.find_all("div", class_="vote")
+                        for v in vote_divs:
+                            ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "lose-f"])
+                            if len(ext_els) >= 3:
+                                h2h_data["home_summary"]["record_summary"] = ext_els[0].get_text(strip=True)
+                                h2h_data["away_summary"]["record_summary"] = ext_els[2].get_text(strip=True)
+
+                        h_table = h2h_div.find_next("table")
+                        if h_table:
+                            for h_row in h_table.find_all("tr"):
+                                cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"]) if c.get_text(strip=True)]
+                                if len(cols) >= 3 and not any("득점" in c for c in cols):
+                                    h2h_data["matches"].append({"row_data": cols})
+                    if len(h2h_data["matches"]) > 10:
+                        h2h_data["matches"] = h2h_data["matches"][:10]
+                except Exception as e:
+                    print(f"  - 맞대결 파싱 예외 ({m_id}): {e}")
+
+                # ==========================================
+                # 4. 최근전적 (dv_recent_stats 내부 순수 통계만 타격)
+                # ==========================================
+                recent_form = {"home_summary": {}, "away_summary": {}, "matches": []}
+                try:
+                    recent_div = detail_soup.find("div", id="dv_recent")
+                    if recent_div:
+                        stats_div = recent_div.find("div", id="dv_recent_stats")
+                        if stats_div:
+                            valid_votes = []
+                            for v in stats_div.find_all("div", class_="vote"):
+                                c_list = v.get("class", [])
+                                if "text" in c_list:
+                                    continue
+                                text_content = v.get_text()
+                                if any(k in text_content for k in ["최근전적", "경기당 득점", "경기당 실점"]):
+                                    valid_votes.append(v)
+                            
+                            for v in valid_votes:
+                                ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "p2"])
+                                if len(ext_els) >= 3:
+                                    left_val = ext_els[0].get_text(strip=True)
+                                    label = ext_els[1].get_text(strip=True)
+                                    right_val = ext_els[2].get_text(strip=True)
+                                    
+                                    if "최근전적" in label:
+                                        recent_form["home_summary"]["recent_record"] = left_val
+                                        recent_form["away_summary"]["recent_record"] = right_val
+                                    elif "경기당 득점" in label:
+                                        recent_form["home_summary"]["goals_per_game"] = left_val
+                                        recent_form["away_summary"]["goals_per_game"] = right_val
+                                    elif "경기당 실점" in label:
+                                        recent_form["home_summary"]["conceded_per_game"] = left_val
+                                        recent_form["away_summary"]["conceded_per_game"] = right_val
+
+                        r_table = recent_div.find_next("table")
+                        if r_table:
+                            for r_row in r_table.find_all("tr"):
+                                cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"]) if c.get_text(strip=True)]
+                                if len(cols) >= 3 and not any("득점" in c for c in cols):
+                                    recent_form["matches"].append({"row_data": cols})
+                    if len(recent_form["matches"]) > 10:
+                        recent_form["matches"] = recent_form["matches"][:10]
+                except Exception as e:
+                    print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
+
+                # ==========================================
+                # 5. 라인업 및 성향 지표 (좌우 분리 및 6개 규격 제한)
+                # ==========================================
+                lineup_data = {"home": [], "away": []}
+                try:
+                    lineup_boxes = detail_soup.find_all("div", class_=["lineupbox", "lineupis", "tacticsbox"])
+                    for l_box in lineup_boxes:
+                        home_side = l_box.find("div", class_=["home", "left-side"])
+                        if home_side:
+                            items = home_side.find_all(["div", "li", "span"], class_=["player", "item", "val"])
+                            for item in items:
+                                text = item.get_text(strip=True)
+                                if text and text not in lineup_data["home"]:
+                                    lineup_data["home"].append(text)
+                        
+                        guest_side = l_box.find("div", class_=["guest", "right-side"])
+                        if guest_side:
+                            items = guest_side.find_all(["div", "li", "span"], class_=["player", "item", "val"])
+                            for item in items:
+                                text = item.get_text(strip=True)
+                                if text and text not in lineup_data["away"]:
+                                    lineup_data["away"].append(text)
+
+                    if len(lineup_data["home"]) > 6:
+                        lineup_data["home"] = lineup_data["home"][:6]
+                    if len(lineup_data["away"]) > 6:
+                        lineup_data["away"] = lineup_data["away"][:6]
+                except Exception as e:
+                    print(f"  - 라인업 성향 파싱 예외 ({m_id}): {e}")
+
+                # ==========================================
+                # 6. 경기 일정 (홈/원정 영역 완벽 분리 수집)
+                # ==========================================
+                fixtures_data = {"home": [], "away": []}
+                try:
+                    futer_div = detail_soup.find("div", id="dv_futer")
+                    if futer_div:
+                        home_div = futer_div.find("div", class_="home-div")
+                        if home_div:
+                            for c_item in home_div.find_all("li", class_="courselis"):
+                                league = c_item.find("div", class_="team")
+                                time_span = c_item.find("span", {"name": "timeData"})
+                                teams = c_item.find("div", class_="corteam")
+                                interval = c_item.find("div", class_="interval")
+                                
+                                match_info = {
+                                    "league": league.get_text(strip=True) if league else "",
+                                    "match_time": time_span["data-t"] if time_span and time_span.has_attr("data-t") else (time_span.get_text(strip=True) if time_span else ""),
+                                    "teams": teams.get_text(separator=" vs ", strip=True) if teams else "",
+                                    "interval": interval.get_text(strip=True) if interval else ""
+                                }
+                                if match_info["teams"] and match_info not in fixtures_data["home"]:
+                                    fixtures_data["home"].append(match_info)
+
+                        guest_div = futer_div.find("div", class_="guest-div")
+                        if guest_div:
+                            for c_item in guest_div.find_all("li", class_="courselis"):
+                                league = c_item.find("div", class_="team")
+                                time_span = c_item.find("span", {"name": "timeData"})
+                                teams = c_item.find("div", class_="corteam")
+                                interval = c_item.find("div", class_="interval")
+                                
+                                match_info = {
+                                    "league": league.get_text(strip=True) if league else "",
+                                    "match_time": time_span["data-t"] if time_span and time_span.has_attr("data-t") else (time_span.get_text(strip=True) if time_span else ""),
+                                    "teams": teams.get_text(separator=" vs ", strip=True) if teams else "",
+                                    "interval": interval.get_text(strip=True) if interval else ""
+                                }
+                                if match_info["teams"] and match_info not in fixtures_data["away"]:
+                                    fixtures_data["away"].append(match_info)
+                except Exception as e:
+                    print(f"  - 경기일정 파싱 예외 ({m_id}):
