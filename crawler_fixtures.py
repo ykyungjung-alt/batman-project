@@ -234,7 +234,7 @@ def run_table_based_crawler():
                     print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 5. 경기 일정 (라인업 파싱 로직 제외)
+                # 5. 경기 일정
                 # ==========================================
                 fixtures_data = {"home": [], "away": []}
                 try:
@@ -293,3 +293,24 @@ def run_table_based_crawler():
             except Exception as e:
                 print(f"  ⚠️ 상세 페이지 수집 실패 (Match ID: {m_id}): {e}")
                 continue
+
+        output_data = {
+            "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
+            "match_details": match_details
+        }
+        
+        # 💡 원자적 쓰기(Atomic Write) 적용
+        target_file = "match_details.json"
+        temp_file = target_file + ".tmp"
+        
+        with open(temp_file, "w", encoding="utf-8") as f:
+            json.dump(output_data, f, ensure_ascii=False, indent=4)
+            
+        os.replace(temp_file, target_file)
+        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 수집이 정상 완료되어 match_details.json에 안전하게 저장되었습니다!")
+
+    finally:
+        driver.quit()
+
+if __name__ == "__main__":
+    run_table_based_crawler()
