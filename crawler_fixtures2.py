@@ -18,7 +18,6 @@ def run_table_based_crawler_v2():
     target_matches = []
     daily_matches_input = data.get("daily_matches", {})
     
-    # update_data.py와 동일한 방식으로 내일 날짜 키를 동적으로 계산
     kst = ZoneInfo("Asia/Seoul")
     today_kst = datetime.now(kst)
     weekdays = ["월", "화", "수", "목", "금", "토", "일"]
@@ -70,7 +69,7 @@ def run_table_based_crawler_v2():
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
                 # ==========================================
-                # 1. 헤드 정보 독립 분류 (리그, 라운드, 시간, 구장, 날씨) - crawler_fixtures.py와 동일 포맷
+                # 1. 헤드 정보 독립 분류
                 # ==========================================
                 head_info = {
                     "league": target["league"],
@@ -125,7 +124,7 @@ def run_table_based_crawler_v2():
                     print(f"  - 헤드 정보 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 2. 팀전적 (오직 '전체' 탭의 종합 전적 행만 팀당 1개씩 엄격 타격 수집)
+                # 2. 팀전적
                 # ==========================================
                 rankings_data = []
                 collected_teams = set()
@@ -137,7 +136,6 @@ def run_table_based_crawler_v2():
                         standing_rows = t_box.find_all("tr", class_=["tr_h_standing", "tr_a_standing"]) if t_box else []
                         for s_row in standing_rows:
                             row_id = s_row.get("id", "")
-                            
                             if "_ht_" in row_id:
                                 continue
                                 
@@ -150,18 +148,12 @@ def run_table_based_crawler_v2():
                                     continue
                                 
                                 collected_teams.add(team_name)
-                                
                                 row_class = " ".join(s_row.get("class", []))
-                                if "tr_h_standing" in row_class or "home" in row_id:
-                                    team_type = "홈팀 리그전적"
-                                else:
-                                    team_type = "원정팀 리그전적"
-                                
-                                sub_category = "최근전적"
+                                team_type = "홈팀 리그전적" if "tr_h_standing" in row_class or "home" in row_id else "원정팀 리그전적"
                                 
                                 rankings_data.append({
                                     "team_type": team_type,
-                                    "sub_category": sub_category,
+                                    "sub_category": "최근전적",
                                     "rank": rank_val, 
                                     "team": team_name, 
                                     "played": cols[2],
@@ -177,9 +169,9 @@ def run_table_based_crawler_v2():
                     print(f"  - 리그전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 3. 맞대결 전적 (dv_hth_count 내부의 승무패 통계 정밀 추출)
+                # 3. 맞대결 전적 (상단 승무패 요약 반영 및 핵심 컬럼 추출)
                 # ==========================================
-                h2h_data = {"home_summary": {}, "away_summary": {}, "matches": []}
+                h2h_data = {"summary": [], "matches": []}
                 try:
                     h2h_div = detail_soup.find("div", id="dv_head_to_head")
                     if h2h_div:
@@ -189,23 +181,25 @@ def run_table_based_crawler_v2():
                         vote_divs = target_h2h_vote_area.find_all("div", class_="vote")
                         for v in vote_divs:
                             ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "lose-f"])
-                            if len(ext_els) >= 3:
-                                h2h_data["home_summary"]["record_summary"] = ext_els[0].get_text(strip=True)
-                                h2h_data["away_summary"]["record_summary"] = ext_els[2].get_text(strip=True)
+                            for el in ext_els:
+                                summary_text = el.get_text(strip=True)
+                                if summary_text and summary_text not in h2h_data["summary"]:
+                                    h2h_data["summary"].append(summary_text)
 
                         h_table = h2h_div.find_next("table")
                         if h_table:
                             for h_row in h_table.find_all("tr"):
                                 cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"]) if c.get_text(strip=True)]
-                                if len(cols) >= 3 and not any("득점" in c for c in cols):
-                                    h2h_data["matches"].append({"row_data": cols})
+                                if len(cols) >= 3 and not any("득점" in c for c in cols) and not any("날짜" in c for c in cols):
+                                    core_cols = cols[:4] if len(cols) >= 4 else cols
+                                    h2h_data["matches"].append({"row_data": core_cols})
                     if len(h2h_data["matches"]) > 10:
                         h2h_data["matches"] = h2h_data["matches"][:10]
                 except Exception as e:
                     print(f"  - 맞대결 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 4. 최근전적 (dv_recent_stats 내부 순수 통계만 타격)
+                # 4. 최근전적
                 # ==========================================
                 recent_form = {"home_summary": {}, "away_summary": {}, "matches": []}
                 try:
@@ -251,37 +245,7 @@ def run_table_based_crawler_v2():
                     print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 5. 라인업 및 성향 지표 (좌우 분리 및 6개 규격 제한)
-                # ==========================================
-                lineup_data = {"home": [], "away": []}
-                try:
-                    lineup_boxes = detail_soup.find_all("div", class_=["lineupbox", "lineupis", "tacticsbox"])
-                    for l_box in lineup_boxes:
-                        home_side = l_box.find("div", class_=["home", "left-side"])
-                        if home_side:
-                            items = home_side.find_all(["div", "li", "span"], class_=["player", "item", "val"])
-                            for item in items:
-                                text = item.get_text(strip=True)
-                                if text and text not in lineup_data["home"]:
-                                    lineup_data["home"].append(text)
-                        
-                        guest_side = l_box.find("div", class_=["guest", "right-side"])
-                        if guest_side:
-                            items = guest_side.find_all(["div", "li", "span"], class_=["player", "item", "val"])
-                            for item in items:
-                                text = item.get_text(strip=True)
-                                if text and text not in lineup_data["away"]:
-                                    lineup_data["away"].append(text)
-
-                    if len(lineup_data["home"]) > 6:
-                        lineup_data["home"] = lineup_data["home"][:6]
-                    if len(lineup_data["away"]) > 6:
-                        lineup_data["away"] = lineup_data["away"][:6]
-                except Exception as e:
-                    print(f"  - 라인업 성향 파싱 예외 ({m_id}): {e}")
-
-                # ==========================================
-                # 6. 경기 일정 (홈/원정 영역 완벽 분리 수집)
+                # 5. 경기 일정 (라인업 파싱 로직 완전 제외됨)
                 # ==========================================
                 fixtures_data = {"home": [], "away": []}
                 try:
@@ -301,4 +265,62 @@ def run_table_based_crawler_v2():
                                     "teams": teams.get_text(separator=" vs ", strip=True) if teams else "",
                                     "interval": interval.get_text(strip=True) if interval else ""
                                 }
-                                if match_info["teams"] and match_info not in
+                                if match_info["teams"] and match_info not in fixtures_data["home"]:
+                                    fixtures_data["home"].append(match_info)
+
+                        guest_div = futer_div.find("div", class_="guest-div")
+                        if guest_div:
+                            for c_item in guest_div.find_all("li", class_="courselis"):
+                                league = c_item.find("div", class_="team")
+                                time_span = c_item.find("span", {"name": "timeData"})
+                                teams = c_item.find("div", class_="corteam")
+                                interval = c_item.find("div", class_="interval")
+                                
+                                match_info = {
+                                    "league": league.get_text(strip=True) if league else "",
+                                    "match_time": time_span["data-t"] if time_span and time_span.has_attr("data-t") else (time_span.get_text(strip=True) if time_span else ""),
+                                    "teams": teams.get_text(separator=" vs ", strip=True) if teams else "",
+                                    "interval": interval.get_text(strip=True) if interval else ""
+                                }
+                                if match_info["teams"] and match_info not in fixtures_data["away"]:
+                                    fixtures_data["away"].append(match_info)
+                except Exception as e:
+                    print(f"  - 경기일정 파싱 예외 ({m_id}): {e}")
+
+                match_details[m_id] = {
+                    "match_code": m_id,
+                    "head_info": head_info,
+                    "home": target["home"],
+                    "away": target["away"],
+                    "meta_details": {
+                        "rankings": rankings_data,
+                        "recent_form": recent_form,
+                        "h2h": h2h_data,
+                        "fixtures": fixtures_data
+                    }
+                }
+                counter += 1
+
+            except Exception as e:
+                print(f"  ⚠️ 상세 페이지 수집 실패 (Match ID: {m_id}): {e}")
+                continue
+
+        output_data = {
+            "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
+            "match_details": match_details
+        }
+        
+        target_file = "match_details_v2.json"
+        temp_file = target_file + ".tmp"
+        
+        with open(temp_file, "w", encoding="utf-8") as f:
+            json.dump(output_data, f, ensure_ascii=False, indent=4)
+            
+        os.replace(temp_file, target_file)
+        print(f"\n🎉 성공: 내일({tomorrow_date_key_prefix}) 경기 총 {counter - 1}개의 데이터가 match_details_v2.json에 안전하게 저장되었습니다!")
+
+    finally:
+        driver.quit()
+
+if __name__ == "__main__":
+    run_table_based_crawler_v2()
