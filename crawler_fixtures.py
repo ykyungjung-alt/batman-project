@@ -51,7 +51,7 @@ def run_table_based_crawler():
     try:
         for target in target_matches:
             m_id = target["match_code"]
-            detail_url = f"url?id=31match/data-{m_id}"
+            detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
             
             try:
                 driver.get(detail_url)
@@ -125,10 +125,10 @@ def run_table_based_crawler():
                     print(f"  - 헤드 정보 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 2. 팀전적 (오직 각 팀당 '전체' 탭의 첫 번째 종합 전적 행 1개만 엄격 타격 수집)
+                # 2. 팀전적 (오직 '전체' 탭의 종합 전적 행만 1개씩 엄격 타격 수집)
                 # ==========================================
                 rankings_data = []
-                collected_teams = set() # 이미 '전체' 전적이 수집된 팀은 이후 세부 탭 행들이 들어오지 못하도록 원천 차단
+                collected_teams = set()
                 try:
                     standings_div = detail_soup.find("div", id="dv_league_standings")
                     target_tables = [standings_div] if standings_div else detail_soup.find_all("table", class_=["team-table-home", "team-table-guest"])
@@ -147,11 +147,11 @@ def run_table_based_crawler():
                                 rank_val = cols[0]
                                 team_name = cols[1]
                                 
-                                # 💡 순위가 없거나, 이미 '전체' 전적을 수집한 팀이거나, 홈/원정 텍스트가 포함된 경우 무시
+                                # 순위가 없거나, 이미 '전체' 전적을 수집한 팀이거나, 타탭/헤더 텍스트인 경우 무시
                                 if not rank_val or team_name in collected_teams or "홈" in team_name or "원정" in team_name:
                                     continue
                                 
-                                # 해당 팀의 첫 번째 발견된 행이 곧 '전체' 탭의 종합 전적이므로 세트에 추가하여 타탭 행 차단
+                                # 해당 팀의 첫 번째 행('전체' 탭 성적)만 허용하고 세트에 추가
                                 collected_teams.add(team_name)
                                 
                                 row_class = " ".join(s_row.get("class", []))
@@ -384,7 +384,7 @@ def run_table_based_crawler():
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 팀전적 타탭 차단 및 모든 데이터가 완벽하게 수집되었습니다!")
+        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 팀순위 타탭 차단 및 모든 데이터가 완벽하게 수집되었습니다!")
 
     finally:
         driver.quit()
