@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import json
 import re
+import os
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -23,7 +24,6 @@ MAJOR_LEAGUES = [
     "잉글랜드 FA 컵", "EFL 트로피"
 ]
 
-# 💡 제외할 리그 목록 추가
 EXCLUDED_LEAGUES = [
     "리그프레미어",
     "세리에A",
@@ -119,17 +119,14 @@ def update_json_file():
                         current_league = cleaned
                     continue
                 
-                # 💡 1. 메이저 리그 포함 여부 확인
                 is_major = any(ml in current_league for ml in MAJOR_LEAGUES)
                 if not is_major:
                     continue
                 
-                # 💡 2. 제외 리그 목록에 포함되는지 확인하여 제외
                 is_excluded = any(ex in current_league for ex in EXCLUDED_LEAGUES)
                 if is_excluded:
                     continue
                 
-                # Match ID (match_code) 추출 로직
                 m_id = None
                 row_id = row.get("id", "")
                 m_match = re.search(r'tr1_(\d+)', row_id)
@@ -213,9 +210,15 @@ def update_json_file():
         "daily_matches": daily_matches
     }
     
-    with open("data.json", "w", encoding="utf-8") as f:
+    # 💡 원자적 쓰기(Atomic Write) 적용: 임시 파일에 먼저 쓰고 교체
+    target_file = "data.json"
+    temp_file = target_file + ".tmp"
+    
+    with open(temp_file, "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
-    print("\n🎉 data.json 갱신 완료!")
+        
+    os.replace(temp_file, target_file)
+    print("\n🎉 data.json 안전하게 갱신 완료!")
 
 if __name__ == "__main__":
     update_json_file()
