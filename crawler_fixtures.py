@@ -57,7 +57,7 @@ def run_table_based_crawler():
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
                 # ==========================================
-                # 1. 헤드 정보 독립 분류 (리그, 라운드, 시간, 구장, 날씨)
+                # 1. 헤드 정보 독립 분류
                 # ==========================================
                 head_info = {
                     "league": target["league"],
@@ -157,28 +157,33 @@ def run_table_based_crawler():
                     print(f"  - 리그전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 3. 맞대결 전적
+                # 3. 맞대결 전적 (상단 승무패 요약 반영 및 불필요한 열 제외)
                 # ==========================================
-                h2h_data = {"home_summary": {}, "away_summary": {}, "matches": []}
+                h2h_data = {"summary": [], "matches": []}
                 try:
                     h2h_div = detail_soup.find("div", id="dv_head_to_head")
                     if h2h_div:
                         hth_count_div = h2h_div.find("div", id="dv_hth_count")
                         target_h2h_vote_area = hth_count_div if hth_count_div else h2h_div
                         
+                        # 💡 스크린샷에 나온 상단 승/무/패 요약 정보(승 4 (40%), 무승부 3 (30%) 등)를 최상단에 수집
                         vote_divs = target_h2h_vote_area.find_all("div", class_="vote")
                         for v in vote_divs:
                             ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "lose-f"])
-                            if len(ext_els) >= 3:
-                                h2h_data["home_summary"]["record_summary"] = ext_els[0].get_text(strip=True)
-                                h2h_data["away_summary"]["record_summary"] = ext_els[2].get_text(strip=True)
+                            for el in ext_els:
+                                summary_text = el.get_text(strip=True)
+                                if summary_text and summary_text not in h2h_data["summary"]:
+                                    h2h_data["summary"].append(summary_text)
 
                         h_table = h2h_div.find_next("table")
                         if h_table:
                             for h_row in h_table.find_all("tr"):
                                 cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"]) if c.get_text(strip=True)]
-                                if len(cols) >= 3 and not any("득점" in c for c in cols):
-                                    h2h_data["matches"].append({"row_data": cols})
+                                if len(cols) >= 3 and not any("득점" in c for c in cols) and not any("날짜" in c for c in cols):
+                                    # 💡 필요 없는 열(전반, 승/패, 핸디캡, 오버/언더 등 뒷부분)을 제외하고 앞의 핵심 데이터(날짜, 홈, 스코어, 원정)만 추출
+                                    # 보통 스코어맨 맞대결 테이블 구조상 앞의 4개 컬럼(대회/날짜, 홈팀, 스코어, 원정팀)이 핵심입니다.
+                                    core_cols = cols[:4] if len(cols) >= 4 else cols
+                                    h2h_data["matches"].append({"row_data": core_cols})
                     if len(h2h_data["matches"]) > 10:
                         h2h_data["matches"] = h2h_data["matches"][:10]
                 except Exception as e:
@@ -327,7 +332,6 @@ def run_table_based_crawler():
             "match_details": match_details
         }
         
-        # 💡 원자적 쓰기(Atomic Write) 적용: 임시 파일(`.tmp`)에 먼저 쓰고 원본 파일로 안전하게 교체
         target_file = "match_details.json"
         temp_file = target_file + ".tmp"
         
