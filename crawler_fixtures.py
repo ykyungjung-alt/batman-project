@@ -5,9 +5,6 @@ import os
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from zoneinfo import ZoneInfo
 
 def run_table_based_crawler():
@@ -51,21 +48,12 @@ def run_table_based_crawler():
     try:
         for target in target_matches:
             m_id = target["match_code"]
+            # 💡 상세 페이지 요청 URL 정상 설정
             detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
             
             try:
                 driver.get(detail_url)
                 time.sleep(1.0)
-                
-                # 결장 탭 활성화 클릭
-                try:
-                    hurt_tab = WebDriverWait(driver, 3).until(
-                        EC.element_to_be_clickable((By.XPATH, "//span[@name='hurtLineup']"))
-                    )
-                    hurt_tab.click()
-                    time.sleep(0.5)
-                except Exception:
-                    pass
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
@@ -125,7 +113,7 @@ def run_table_based_crawler():
                     print(f"  - 헤드 정보 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 2. 팀전적 (오직 '전체' 탭의 종합 전적 행만 1개씩 엄격 타격 수집)
+                # 2. 팀전적 (오직 '전체' 탭의 종합 전적 행만 1개씩 정밀 타격 수집)
                 # ==========================================
                 rankings_data = []
                 collected_teams = set()
@@ -138,7 +126,6 @@ def run_table_based_crawler():
                         for s_row in standing_rows:
                             row_id = s_row.get("id", "")
                             
-                            # 조건별 세부 전적(_ht_) 행은 무조건 차단
                             if "_ht_" in row_id:
                                 continue
                                 
@@ -147,11 +134,9 @@ def run_table_based_crawler():
                                 rank_val = cols[0]
                                 team_name = cols[1]
                                 
-                                # 순위가 없거나, 이미 '전체' 전적을 수집한 팀이거나, 타탭/헤더 텍스트인 경우 무시
                                 if not rank_val or team_name in collected_teams or "홈" in team_name or "원정" in team_name:
                                     continue
                                 
-                                # 해당 팀의 첫 번째 행('전체' 탭 성적)만 허용하고 세트에 추가
                                 collected_teams.add(team_name)
                                 
                                 row_class = " ".join(s_row.get("class", []))
@@ -326,36 +311,7 @@ def run_table_based_crawler():
                 except Exception as e:
                     print(f"  - 경기일정 파싱 예외 ({m_id}): {e}")
 
-                # ==========================================
-                # 7. 결장자 수집 (hurtLineup 탭 내부 li.lineupis 구조 정밀 타격)
-                # ==========================================
-                absent_players = {"home": [], "away": []}
-                try:
-                    hurt_div = detail_soup.find("div", id="hurtLineup")
-                    if hurt_div:
-                        lineupbox = hurt_div.find("ul", class_="lineupbox")
-                        if lineupbox:
-                            rows = lineupbox.find_all("li", class_="lineupis")
-                            for row in rows:
-                                home_div = row.find("div", class_="home")
-                                if home_div:
-                                    player_div = home_div.find("div", class_="player")
-                                    if player_div:
-                                        p_name = player_div.get_text(strip=True)
-                                        if p_name and p_name not in absent_players["home"]:
-                                            absent_players["home"].append(p_name)
-                                
-                                guest_div = row.find("div", class_="guest")
-                                if guest_div:
-                                    player_div = guest_div.find("div", class_="player")
-                                    if player_div:
-                                        p_name = player_div.get_text(strip=True)
-                                        if p_name and p_name not in absent_players["away"]:
-                                            absent_players["away"].append(p_name)
-                except Exception as e:
-                    print(f"  - 결장자 파싱 예외 ({m_id}): {e}")
-
-                # 최종 구조 결합
+                # 최종 구조 결합 (결장자 필드 제거 완료)
                 match_details[m_id] = {
                     "match_code": m_id,
                     "head_info": head_info,
@@ -366,8 +322,7 @@ def run_table_based_crawler():
                         "recent_form": recent_form,
                         "h2h": h2h_data,
                         "lineup_summary": lineup_data,
-                        "fixtures": fixtures_data,
-                        "absent_players": absent_players
+                        "fixtures": fixtures_data
                     }
                 }
                 counter += 1
@@ -384,7 +339,7 @@ def run_table_based_crawler():
         with open("match_details.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 팀순위 타탭 차단 및 모든 데이터가 완벽하게 수집되었습니다!")
+        print(f"\n🎉 성공: 총 {counter - 1}개 경기의 수집이 정상 완료되었습니다!")
 
     finally:
         driver.quit()
