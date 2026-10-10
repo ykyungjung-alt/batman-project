@@ -21,4 +21,4 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.io"
           git add match_details.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update match_details.json (3h interval + 5m offset) [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update fixtures [skip ci]" && git pull --rebase origin main && git push)
