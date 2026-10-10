@@ -31,16 +31,36 @@ def calculate_defense_tier(avg_conceded):
 
 def fetch_opponent_stats_and_tiers(driver, sub_m_id, target_team_name):
     """
-    과거 개별 경기 상세 페이지로 이동하여, 해당 경기 내 '팀정보'를 바탕으로
-    주 대상 팀의 상대방(또는 대상 팀 자체)의 공수 득실점 및 티어를 산출합니다.
-    형식 예시: "2.21/0.92 공격력B/방어력C"
+    서브 경기 페이지로 이동하여, 대진상 'target_team_name'(예: 프라이부르크)이 아닌 
+    '상대 팀'이 홈이었는지 원정이었는지 판별하고, 그에 맞는 득실점 평균을 가져와 티어를 산출합니다.
+    - 팀정보 테이블 구조: 득점/실점 행에서 [위쪽 숫자 = 홈팀], [아래쪽 숫자 = 원정팀]
     """
     sub_url = f"https://www.scoreman123.com/match/data-{sub_m_id}"
     try:
         driver.get(sub_url)
-        time.sleep(0.8) # 서브 페이지 로딩 대기
+        time.sleep(0.8)
         soup = BeautifulSoup(driver.page_source, "html.parser")
         
+        # 1. 서브 페이지의 대진 팀명 확인 (예: "프라이부르크 vs 루체른")
+        # 보통 sclass_span 근처나 헤더에 대진 정보가 있으므로 파싱
+        match_title_div = soup.find("div", class_="match-title") or soup.find("div", class_="teams")
+        sub_home, sub_away = "", ""
+        
+        # 상세 페이지 상단 대진 정보 탐색
+        teams_spans = soup.find_all("span", class_=["home", "away"])
+        if len(teams_spans) >= 2:
+            sub_home = teams_spans[0].get_text(strip=True)
+            sub_away = teams_spans[1].get_text(strip=True)
+        else:
+            # 다른 구조 대비 타이틀에서 추출 시도
+            header_div = soup.find("div", id="dv_header") or soup.find("div", class_="vs")
+            if header_div:
+                t_texts = header_div.get_text(separator="|", strip=True).split("|")
+                if len(t_texts) >= 2:
+                    sub_home = t_texts[0].strip()
+                    sub_away = t_texts[-1].strip()
+
+        # 만약 명확히 안 잡히면 최근전적 통계 테이블 순서(위=홈, 아래=원정)를 활용
         recent_div = soup.find("div", id="dv_recent")
         if recent_div:
             stats_div = recent_div.find("div", id="dv_recent_stats")
@@ -51,9 +71,9 @@ def fetch_opponent_stats_and_tiers(driver, sub_m_id, target_team_name):
                 for v in stats_div.find_all("div", class_="vote"):
                     ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "p2"])
                     if len(ext_els) >= 3:
-                        left_val = ext_els[0].get_text(strip=True)
+                        left_val = ext_els[0].get_text(strip=True) # 홈팀 스탯 (위쪽)
                         label = ext_els[1].get_text(strip=True)
-                        right_val = ext_els[2].get_text(strip=True)
+                        right_val = ext_els[2].get_text(strip=True) # 원정팀 스탯 (아래쪽)
                         
                         if "경기당 득점" in label:
                             home_goals = left_val
@@ -62,19 +82,28 @@ def fetch_opponent_stats_and_tiers(driver, sub_m_id, target_team_name):
                             home_conceded = left_val
                             away_conceded = right_val
                 
-                # 대진표 팀명 순서에 따른 판별 (원클릭 소스 구조 기준 홈/원정 매칭)
-                # 여기서는 상대방의 평균 득점/실점을 가져와 티어 산출
-                opp_goals = away_goals
-                opp_conceded = away_conceded
+                # 판별 로직: target_team_name이 홈인지 원정인지에 따라 상대방 스탯 매핑
+                # 만약 sub_home에 target_team_name이 포함되어 있다면, target_team은 홈이고 상대방은 원정(아래쪽 스탯)
+                # 반대로 sub_away에 포함되어 있다면, target_team은 원정이고 상대방은 홈(위쪽 스탯)
+                is_target_home = target_team_name in sub_home or not (target_team_name in sub_away)
+                
+                if is_target_home:
+                    # target_team이 홈 -> 상대방은 원정 (아래쪽 값: away_goals, away_conceded)
+                    opp_goals = away_goals
+                    opp_conceded = away_conceded
+                else:
+                    # target_team이 원정 -> 상대방은 홈 (위쪽 값: home_goals, home_conceded)
+                    opp_goals = home_goals
+                    opp_conceded = home_conceded
                 
                 atk_tier = calculate_attack_tier(opp_goals)
                 def_tier = calculate_defense_tier(opp_conceded)
                 
                 return f"{opp_goals}/{opp_conceded} 공격력{atk_tier.replace('Tier ', '')}/방어력{def_tier.replace('Tier ', '')}"
     except Exception as e:
-        print(f"    - 서브 경기({sub_m_id}) 파싱 중 예외: {e}")
+        print(f"    - 서브 경기({sub_m_id}) 상대 티어 산출 예외: {e}")
     
-    return "정보 없음"
+    return "0.00/0.00 공격력C/방어력C"
 
 def run_table_based_crawler_v3():
     if not os.path.exists("data.json"):
@@ -199,14 +228,13 @@ def run_table_based_crawler_v3():
                                 "defense_tier": calculate_defense_tier(away_conceded)
                             }
 
-                    # 내부 파싱 함수: 각 경기별 고유 ID를 추출하여 서브 페이지 진입 후 상대 티어 산출 (최대 10경기 제한)
                     def parse_and_enrich_recent(container_ul, target_team, target_list):
                         if not container_ul:
                             return
                         
                         count = 0
                         for li in container_ul.find_all("li", class_="courselis"):
-                            if count >= 10: # 딱 10경기까지만 수집
+                            if count >= 10:
                                 break
                                 
                             if "ftScore" in str(li) or li.find("span", class_="ftScore"):
@@ -221,23 +249,20 @@ def run_table_based_crawler_v3():
                                 
                                 ft_scores = [span.get_text(strip=True) for span in li.find_all("span", class_="ftScore")]
                                 
-                                # 💡 녹색으로 표시된 onclick 속성에서 서브 경기 ID 추출 (예: soccerInPage.analysis('3096890', ...))
                                 sub_m_id = None
                                 for el in li.find_all(attrs={"onclick": True}):
                                     onclick_attr = el["onclick"]
                                     if "soccerInPage.analysis" in onclick_attr:
                                         try:
-                                            # 작은따옴표 안의 첫 번째 인자(경기 ID) 추출
                                             sub_m_id = onclick_attr.split("'")[1]
                                             break
                                         except:
                                             pass
                                 
-                                # 서브 페이지로 이동해 실제 상대방 공수 티어 산출
                                 opponent_tier_info = "정보 없음"
                                 if sub_m_id:
+                                    # 💡 target_team(프라이부르크 또는 샬케)이 아닌 상대방 팀의 티어를 정밀 산출
                                     opponent_tier_info = fetch_opponent_stats_and_tiers(driver, sub_m_id, target_team)
-                                    # 메인 페이지로 복귀하기 위해 다시 메인 URL 로드
                                     driver.get(detail_url)
                                     time.sleep(0.5)
 
@@ -253,12 +278,12 @@ def run_table_based_crawler_v3():
                                     target_list.append(match_info)
                                     count += 1
 
-                    # 1. 홈팀 최근전적 10경기 및 개별 상대 티어 수집
+                    # 1. 홈팀 최근전적 10경기 및 상대방 티어 산출
                     home_ul = detail_soup.find("ul", id="tb_home_recent")
                     if home_ul:
                         parse_and_enrich_recent(home_ul, main_home, recent_form_data["home_matches"])
 
-                    # 2. 원정팀 최근전적 10경기 및 개별 상대 티어 수집
+                    # 2. 원정팀 최근전적 10경기 및 상대방 티어 산출
                     away_ul = detail_soup.find("ul", id="tb_guest_recent")
                     if away_ul:
                         parse_and_enrich_recent(away_ul, main_away, recent_form_data["away_matches"])
@@ -290,7 +315,7 @@ def run_table_based_crawler_v3():
         with open("match_details_v3.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 10경기 수집 및 개별 상대방 공수 티어 실시간 산출 완료 -> match_details_v3.json 저장 완료")
+        print(f"\n🎉 성공: 대상 팀 제외 상대방 전용 공수 티어 실시간 산출 완료 -> match_details_v3.json 저장 완료")
 
     finally:
         driver.quit()
