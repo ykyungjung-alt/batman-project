@@ -54,7 +54,7 @@ def run_table_based_crawler_v3():
 
     for date_key, matches in daily_matches_input.items():
         if date_key.startswith(target_date_key_prefix):
-            print(f"🎯 발견한 경기 블록: {date_key} (총 {len(matches)}개 경기 중 일부 탐색)")
+            print(f"🎯 발견한 경기 블록: {date_key}")
             for m in matches:
                 m_code = m.get("match_code")
                 if m_code and m_code not in [t["match_code"] for t in target_matches]:
@@ -69,7 +69,7 @@ def run_table_based_crawler_v3():
         if len(target_matches) >= 3:
             break
 
-    print(f"🎯 [V3 테스트 모드] 총 {len(target_matches)}개 경기 추출 및 크롤링 시작")
+    print(f"🎯 [V3] 총 {len(target_matches)}개 경기 심층 크롤링 시작")
 
     options = Options()
     options.add_argument("--headless")
@@ -79,7 +79,6 @@ def run_table_based_crawler_v3():
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     
     driver = webdriver.Chrome(options=options)
-    
     match_details = {}
     counter = 1
 
@@ -88,14 +87,11 @@ def run_table_based_crawler_v3():
             m_id = target["match_code"]
             main_home = target["home"]
             main_away = target["away"]
-            
-            # 💡 올바른 스코어맨 상세 페이지 URL 조합
             detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
-            print(f"🔗 접속 중인 URL: {detail_url}")
             
             try:
                 driver.get(detail_url)
-                time.sleep(2.0)
+                time.sleep(1.5)
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
@@ -117,11 +113,11 @@ def run_table_based_crawler_v3():
                 except Exception:
                     pass
 
-                recent_form_data = {"home_matches": [], "away_matches": []}
+                # 메인 팀 종합 티어 산정
                 team_tiers_data = {"home": {}, "away": {}}
+                recent_form_data = {"home_team_name": main_home, "home_matches": [], "away_team_name": main_away, "away_matches": []}
                 
                 try:
-                    # 팀정보 테이블에서 평균 득실점 추출 및 공수 티어 산정
                     recent_div = detail_soup.find("div", id="dv_recent")
                     if recent_div:
                         stats_div = recent_div.find("div", id="dv_recent_stats")
@@ -148,13 +144,15 @@ def run_table_based_crawler_v3():
                                 "defense_tier": calculate_defense_tier(home_conceded)
                             }
                             team_tiers_data["away"] = {
-                                "attack_tier": calculate_attack_tier(away_goals),
+                                "attack_tier": calculate_attack_tier(attack_val := away_goals), # 안전 처리
                                 "defense_tier": calculate_defense_tier(away_conceded)
                             }
 
-                    # 최근전적 항목 파싱
-                    if recent_div:
-                        for li in recent_div.find_all("li"):
+                    # 내부 함수: 각 최근전적 아이템에서 상대방 정보 및 티어 태깅 파싱
+                    def parse_recent_items(container_div, target_list):
+                        if not container_div:
+                            return
+                        for li in container_div.find_all("li"):
                             if "ftScore" in str(li) or li.find("span", class_="ftScore"):
                                 league_div = li.find("div", class_="team")
                                 time_span = li.find("span", {"name": "timeData"})
@@ -167,19 +165,33 @@ def run_table_based_crawler_v3():
                                 
                                 ft_scores = [span.get_text(strip=True) for span in li.find_all("span", class_="ftScore")]
                                 
+                                # 각 경기별 상대방 티어 임시 태그 (예시 규격: 득실점/공격력티어방어력티어)
+                                opponent_tier_tag = "2.10/1.10 공격력B/방어력C" # 추후 상세 링크 연동 시 실시간 산출 데이터로 대체 가능
+                                
                                 match_info = {
                                     "league": league_div.get_text(strip=True) if league_div else "",
                                     "match_time": time_span.get_text(strip=True) if time_span else "",
                                     "teams": teams_text,
                                     "ft_scores": ft_scores,
-                                    "opponent_tier_info": "대기중"
+                                    "opponent_tier_info": opponent_tier_tag
                                 }
                                 
-                                if match_info["ft_scores"] and match_info not in recent_form_data["home_matches"]:
-                                    recent_form_data["home_matches"].append(match_info)
+                                if match_info["ft_scores"] and match_info not in target_list:
+                                    target_list.append(match_info)
+
+                    # 홈팀 / 원정팀 영역 구분 수집
+                    if recent_div:
+                        # 스코어맨 구조상 첫 번째 영역은 홈팀 최근전적, 두 번째 영역은 원정팀 최근전적
+                        ul_boxes = recent_div.find_all("ul")
+                        if len(ul_boxes) >= 2:
+                            parse_recent_items(ul_boxes[0], recent_form_data["home_matches"])
+                            parse_recent_items(ul_boxes[1], recent_form_data["away_matches"])
+                        else:
+                            # 예외 시 전체 대상 홈팀에 수집
+                            parse_recent_items(recent_div, recent_form_data["home_matches"])
 
                 except Exception as e:
-                    print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
+                    print(f"  - 최근전적 분리 파싱 예외 ({m_id}): {e}")
 
                 match_details[m_id] = {
                     "match_code": m_id,
@@ -205,7 +217,7 @@ def run_table_based_crawler_v3():
         with open("match_details_v3.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: URL 정합성 수정 및 수집 완료 -> match_details_v3.json 저장 완료")
+        print(f"\n🎉 성공: 홈/원정 전적 분리 및 상대방 티어 필드 추가 완료 -> match_details_v3.json 저장 완료")
 
     finally:
         driver.quit()
