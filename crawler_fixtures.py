@@ -1,12 +1,11 @@
 from datetime import datetime
 import json
 import time
+import os
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from zoneinfo import ZoneInfo
-os
-import os
 
 def run_table_based_crawler():
     if not os.path.exists("data.json"):
@@ -49,7 +48,6 @@ def run_table_based_crawler():
     try:
         for target in target_matches:
             m_id = target["match_code"]
-            # 💡 상세 페이지 요청 URL 경로 정상 복원 (31match/data-{m_id})
             detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
             
             try:
