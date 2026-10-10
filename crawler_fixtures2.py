@@ -96,18 +96,42 @@ def run_table_based_crawler_v2():
                 except Exception:
                     pass
 
+                # ==========================================
+                # 💡 팀전적 (오직 '전체' 탭의 첫 번째 종합 성적 행 1개만 엄격 타격 수집)
+                # ==========================================
                 rankings_data = []
+                collected_teams = set()
                 try:
-                    standing_rows = detail_soup.find_all("tr", class_=["tr_h_standing", "tr_a_standing"])
-                    for s_row in standing_rows:
-                        cols = [c.get_text(strip=True) for c in s_row.find_all(["th", "td"])]
-                        if len(cols) >= 10:
-                            rankings_data.append({
-                                "rank": cols[0], "team": cols[1], "played": cols[2],
-                                "win": cols[3], "draw": cols[4], "loss": cols[5],
-                                "goals_for": cols[6], "goals_against": cols[7],
-                                "goal_diff": cols[8], "points": cols[9]
-                            })
+                    standings_div = detail_soup.find("div", id="dv_league_standings")
+                    target_tables = [standings_div] if standings_div else detail_soup.find_all("table", class_=["team-table-home", "team-table-guest"])
+                    
+                    for t_box in target_tables:
+                        standing_rows = t_box.find_all("tr", class_=["tr_h_standing", "tr_a_standing"]) if t_box else []
+                        for s_row in standing_rows:
+                            row_id = s_row.get("id", "")
+                            
+                            # 조건별 세부 전적(_ht_) 행은 무조건 차단
+                            if "_ht_" in row_id:
+                                continue
+                                
+                            cols = [c.get_text(strip=True) for c in s_row.find_all(["th", "td"])]
+                            if len(cols) >= 10:
+                                rank_val = cols[0]
+                                team_name = cols[1]
+                                
+                                # 순위가 없거나, 이미 '전체' 전적을 수집한 팀이거나, 타탭/헤더 텍스트인 경우 무시
+                                if not rank_val or team_name in collected_teams or "홈" in team_name or "원정" in team_name:
+                                    continue
+                                
+                                # 해당 팀의 첫 번째 발견된 행('전체' 탭 성적)만 허용하고 세트에 추가하여 타탭 행 차단
+                                collected_teams.add(team_name)
+                                
+                                rankings_data.append({
+                                    "rank": rank_val, "team": team_name, "played": cols[2],
+                                    "win": cols[3], "draw": cols[4], "loss": cols[5],
+                                    "goals_for": cols[6], "goals_against": cols[7],
+                                    "goal_diff": cols[8], "points": cols[9]
+                                })
                 except Exception as e:
                     print(f"  - 순위 파싱 예외 ({m_id}): {e}")
 
