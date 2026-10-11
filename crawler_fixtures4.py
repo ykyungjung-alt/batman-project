@@ -14,7 +14,8 @@ def crawl_match_details_v4(league_id=39):
         "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "league_id": league_id,
         "league_name": "",
-        "active_round": "",   # 💡 "11/46" 형태로 들어갈 항목
+        "active_round": "",   # 💡 현재 활성 라운드 (예: "11")
+        "total_rounds": "",   # 💡 총 라운드 수 (예: "46")
         "standings": [],
         "standing_legends": []
     }
@@ -34,7 +35,7 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. 💡 라운드 영역에서 current on이 붙은 요소를 정확히 찾아 텍스트 추출
+            # 2. 💡 active_round와 total_rounds를 각각 독립된 항목으로 정밀 추출
             active_text = "1"
             round_spans = soup.select("div.round span")
             for span in round_spans:
@@ -47,8 +48,8 @@ def crawl_match_details_v4(league_id=39):
             all_rounds = soup.select("div.round span[round]")
             total_cnt = len(all_rounds) if all_rounds else 46
             
-            # "현재/총합" 포맷으로 조합 (예: "11/46")
-            match_data_v4["active_round"] = f"{active_text}/{total_cnt}"
+            match_data_v4["active_round"] = active_text
+            match_data_v4["total_rounds"] = str(total_cnt)
 
             # 3. Legends (Standing colors)
             legend_items = soup.select("#standingColor span.explain, .explain")
@@ -166,7 +167,7 @@ def crawl_match_details_v4(league_id=39):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (Round: {match_data_v4['active_round']})")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (Round: {match_data_v4['active_round']} / Total: {match_data_v4['total_rounds']})")
         else:
             print(f"페이지 요청 실패: Status Code {response.status_code}")
 
