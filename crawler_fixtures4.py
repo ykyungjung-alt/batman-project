@@ -3,29 +3,38 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-def crawl_match_details_v4(league_id=75):
-    target_url = f"https://football.scoreman123.com/league/{league_id}"
-    
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    }
-    
-    # 1. 요청하신 필드 순서 배치 (league_name -> total_stages / active_stage -> total_rounds / active_round -> standings)
-    match_data_v4 = {
-        "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "league_id": league_id,
-        "league_name": "",
-        "total_stages": 0,
-        "active_stage": "",
-        "total_rounds": 0,
-        "active_round": "",
-        "standings": [],
-        "standing_legends": []
-    }
+def crawl_match_details_v4(league_ids=None):
+    # 탐색할 리그 ID 목록 (원하시는 번호들을 리스트로 지정하여 순회)
+    if league_ids is None:
+        league_ids = [39, 75, 11] # 예시로 탐색할 리그 ID 목록
+        
+    for league_id in league_ids:
+        target_url = f"url?id=42league/{league_id}"
+        
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+        
+        match_data_v4 = {
+            "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "league_id": league_id,
+            "league_name": "",
+            "total_stages": 0,
+            "active_stage": "",
+            "total_rounds": 0,
+            "active_round": "",
+            "standings": [],
+            "standing_legends": []
+        }
 
-    try:
-        response = requests.get(target_url, headers=headers, timeout=10)
-        if response.status_code == 200:
+        try:
+            response = requests.get(target_url, headers=headers, timeout=10)
+            
+            # 💡 페이지가 정상적이지 않거나(404 등) 데이터가 없으면 이 ID는 건너뛰고 다음 페이지로 이동
+            if response.status_code != 200:
+                print(f"[ID: {league_id}] 페이지 요청 실패 (Status: {response.status_code}) -> 다음 리그로 넘어갑니다.")
+                continue
+                
             soup = BeautifulSoup(response.text, 'html.parser')
             
             # 리그명 추출
@@ -35,23 +44,26 @@ def crawl_match_details_v4(league_id=75):
                 if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
                     match_data_v4["league_name"] = txt.replace("라이브스코어", "").strip()
 
-            # 2. 💡 지정된 리그 페이지의 스테이지 탐색 목록 분석 및 활성 상태(.current.on) 추출
+            # 리그명이 없거나 빈 페이지 형태라면 데이터가 없는 것이므로 건너뜀
+            if not match_data_v4["league_name"]:
+                print(f"[ID: {league_id}] 유효한 리그 정보를 찾을 수 없음 -> 다음 리그로 넘어갑니다.")
+                continue
+
+            # 스테이지 탐색 목록 및 활성 상태 추출
             stage_buttons = soup.select("div.stage span, .stage span")
             if stage_buttons:
                 match_data_v4["total_stages"] = len(stage_buttons)
                 active_stage_elem = soup.select_one("div.stage span.current.on, .stage span.current.on")
                 if active_stage_elem:
                     match_data_v4["active_stage"] = active_stage_elem.text.strip()
-                elif len(stage_buttons) == 1:
-                    match_data_v4["active_stage"] = stage_buttons[0].text.strip()
                 else:
                     match_data_v4["active_stage"] = stage_buttons[0].text.strip()
             else:
-                match_data_v4["total_stages"] = 0
-                match_data_v4["active_stage"] = ""
+                match_data_v4["total_stages"] = 1
+                match_data_v4["active_stage"] = match_data_v4["league_name"]
 
-            # 3. 💡 지정된 리그 페이지의 라운드 탐색 목록 분석 및 활성 상태(.current.on) 추출
-            all_rounds = soup.select("div.round span[round], .round span[round]")
+            # 라운드 탐색 목록 및 활성 상태 추출
+            all_rounds = soup.select("div.round span[round], .round span[round], .round span")
             if all_rounds:
                 match_data_v4["total_rounds"] = len(all_rounds)
                 active_round_elem = soup.select_one("div.round span.current.on, .round span.current.on")
@@ -97,7 +109,7 @@ def crawl_match_details_v4(league_id=75):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 4. 팀 순위 동적 파싱 (참여 팀 수 고정 없이 웹페이지 구조에 맞춰 유연하게 수집)
+            # 팀 순위 동적 파싱
             standings_items = soup.select("#standingList li.standis, .standings_list li, tbody tr")
             parsed_standings = []
             
@@ -137,61 +149,20 @@ def crawl_match_details_v4(league_id=75):
                         "승점": stat_slice[5] if len(stat_slice) > 5 else ""
                     })
 
-            # 파싱 결과가 비어있을 경우에만 백업 데이터 적용 (리그 1 전용)
-            if not parsed_standings and league_id == 39:
-                raw_fallback_data = [
-                    ("1", "플리머스", "#CCCCFF", "승격팀", "10", "6", "1", "3", "6", "19"),
-                    ("2", "브래드포드 시티", "#CCCCFF", "승격팀", "9", "5", "2", "2", "3", "17"),
-                    ("3", "스톡포트", "#00CCCC", "승격 플레이오프", "9", "5", "1", "3", "9", "16"),
-                    ("4", "허더스필드", "#00CCCC", "승격 플레이오프", "9", "4", "4", "1", "7", "16"),
-                    ("5", "케임브리지U", "#00CCCC", "승격 플레이오프", "9", "4", "4", "1", "3", "16"),
-                    ("6", "레딩", "#00CCCC", "승격 플레이오프", "9", "4", "3", "2", "11", "15"),
-                    ("7", "셰필드W", "", "일반", "8", "4", "3", "1", "7", "15"),
-                    ("8", "옥스포드U", "", "일반", "7", "4", "2", "1", "7", "14"),
-                    ("9", "스티버니지", "", "일반", "8", "3", "3", "2", "4", "12"),
-                    ("10", "버튼", "", "일반", "10", "3", "3", "4", "-2", "12"),
-                    ("11", "윔블던", "", "일반", "9", "3", "3", "3", "-3", "12"),
-                    ("12", "레이턴", "", "일반", "9", "3", "2", "4", "2", "11"),
-                    ("13", "루턴", "", "일반", "8", "3", "2", "3", "1", "11"),
-                    ("14", "맨스필드", "", "일반", "8", "3", "2", "3", "-2", "11"),
-                    ("15", "위컴", "", "일반", "9", "2", "4", "3", "-6", "10"),
-                    ("16", "돈캐스터", "", "일반", "8", "2", "3", "3", "0", "9"),
-                    ("17", "레스터", "", "일반", "8", "2", "3", "3", "-4", "9"),
-                    ("18", "블랙풀", "", "일반", "8", "2", "2", "4", "-1", "8"),
-                    ("19", "반슬리", "", "일반", "8", "2", "2", "4", "-7", "8"),
-                    ("20", "피터버러", "", "일반", "9", "2", "2", "5", "-7", "8"),
-                    ("21", "브롬리", "#B1A7A7", "강등팀", "8", "2", "2", "4", "-11", "8"),
-                    ("22", "노츠카운티", "#B1A7A7", "강등팀", "8", "1", "4", "3", "-3", "7"),
-                    ("23", "밀턴", "#B1A7A7", "강등팀", "8", "0", "6", "2", "-6", "6"),
-                    ("24", "위건", "#B1A7A7", "강등팀", "8", "1", "1", "6", "-8", "4")
-                ]
-                for row in raw_fallback_data:
-                    parsed_standings.append({
-                        "rank": row[0],
-                        "team": row[1],
-                        "tag_color": row[2],
-                        "tag_label": row[3],
-                        "경기수": row[4],
-                        "승": row[5],
-                        "무": row[6],
-                        "패": row[7],
-                        "득실": row[8],
-                        "승점": row[9]
-                    })
-
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (총 스테이지: {match_data_v4['total_stages']}, 활성 스테이지: {match_data_v4['active_stage']}, 총 라운드: {match_data_v4['total_rounds']}, 활성 라운드: {match_data_v4['active_round']}, 총 {len(parsed_standings)}개 팀)")
-        else:
-            print(f"페이지 요청 실패: Status Code {response.status_code}")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (총 {len(parsed_standings)}개 팀)")
 
-    except Exception as e:
-        print(f"크롤링 중 오류 발생: {e}")
+            # 유효한 데이터가 성공적으로 수집되었을 때만 파일로 저장 후 종료 (또는 계속 순회)
+            output_filename = "match_details_v4.json"
+            with open(output_filename, "w", encoding="utf-8") as f:
+                json.dump(match_data_v4, f, ensure_ascii=False, indent=4)
+            print(f"[{output_filename}] 저장 완료.")
+            break # 성공적으로 수집했으므로 순회 종료 (계속 탐색하려면 break 제거)
 
-    output_filename = "match_details_v4.json"
-    with open(output_filename, "w", encoding="utf-8") as f:
-        json.dump(match_data_v4, f, ensure_ascii=False, indent=4)
-        
-    print(f"[{output_filename}] 저장 완료.")
+        except Exception as e:
+            print(f"[ID: {league_id}] 크롤링 중 오류 발생: {e} -> 다음 리그로 넘어갑니다.")
+            continue
 
 if __name__ == "__main__":
-    crawl_match_details_v4(league_id=75)
+    # 탐색할 리그 ID 목록을 순서대로 지정 (예: 75가 없거나 실패하면 다음 ID 탐색)
+    crawl_match_details_v4(league_ids=[75, 39, 11])
