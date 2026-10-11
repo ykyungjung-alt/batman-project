@@ -174,25 +174,26 @@ def update_json_file():
                     
                 has_status = 1 if next_val == "대기" else 0
                 home_idx = time_idx + 1 + has_status
-                score_idx = home_idx + 1
-                away_idx = score_idx + 1
+                away_idx = home_idx + 2  # score_idx 자리를 건너뛰고 away_idx 지정
                 
                 if len(cell_texts) <= away_idx:
                     continue
                     
                 home_team = re.sub(r"\[.*?\]", "", cell_texts[home_idx]).strip()
                 away_team = re.sub(r"\[.*?\]", "", cell_texts[away_idx]).strip()
-                score_str = cell_texts[score_idx] if "-" in cell_texts[score_idx] else "-"
+                
+                # 💡 날짜(target_dt)와 시간(time_str)을 결합하여 'YYYY-MM-DD HH:MM' 형식 생성
+                full_datetime_str = f"{target_dt.strftime('%Y-%m-%d')} {time_str}"
                 
                 if home_team and away_team and home_team != away_team:
                     entry = {
                         "id": len(matches_for_day) + 1,
                         "match_code": m_id if m_id else "",
                         "league": current_league,
-                        "time": time_str,
+                        "time": full_datetime_str,  # '2026-10-11 22:30' 형태로 저장
                         "home": home_team,
-                        "away": away_team,
-                        "score": score_str
+                        "away": away_team
+                        # ❌ score 필드 완전히 제거됨
                     }
                     if entry not in matches_for_day:
                         matches_for_day.append(entry)
@@ -210,7 +211,6 @@ def update_json_file():
         "daily_matches": daily_matches
     }
     
-    # 💡 원자적 쓰기(Atomic Write) 적용: 임시 파일에 먼저 쓰고 교체
     target_file = "data.json"
     temp_file = target_file + ".tmp"
     
