@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-11 08:32:29",
+    "last_updated": "2026-10-11 09:35:27",
     "match_details": {
         "3018824": {
             "match_code": "3018824",
@@ -4280,198 +4280,6 @@
                 }
             }
         },
-        "2910925": {
-            "match_code": "2910925",
-            "head_info": {
-                "league": "세리에 A 베타노",
-                "round": "세리에 A 베타노·  라운드 30",
-                "match_time_raw": "10/11/2026 12:00:00 AM",
-                "match_time_display": "2026.10.11 00:00 일요일",
-                "stadium": "Estadio do Morumbi",
-                "weather": "맑음,  27℃～28℃"
-            },
-            "home": "상파울루",
-            "away": "비토리아",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "11",
-                        "team": "상파울루",
-                        "played": "29",
-                        "win": "10",
-                        "draw": "6",
-                        "loss": "13",
-                        "goals_for": "33",
-                        "goals_against": "34",
-                        "goal_diff": "-1",
-                        "points": "36"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "12",
-                        "team": "비토리아",
-                        "played": "29",
-                        "win": "10",
-                        "draw": "6",
-                        "loss": "13",
-                        "goals_for": "32",
-                        "goals_against": "42",
-                        "goal_diff": "-10",
-                        "points": "36"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "4승 1무 5패",
-                        "goals_per_game": "1.00",
-                        "conceded_per_game": "1.10"
-                    },
-                    "away_summary": {
-                        "recent_record": "3승 1무 6패",
-                        "goals_per_game": "1.00",
-                        "conceded_per_game": "1.40"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 7 (70%)",
-                        "무승부 0 (0%)",
-                        "승 3 (30%)",
-                        "1.50",
-                        "경기당 득점",
-                        "0.80"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "BRA D12026.04.11",
-                                "비토리아",
-                                "2-0",
-                                "상파울루"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "BRA D12025.12.07",
-                                "비토리아",
-                                "1-0",
-                                "상파울루"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "BRA D12025.08.09",
-                                "상파울루",
-                                "2-0",
-                                "비토리아"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "BRA D12024.08.25",
-                                "상파울루",
-                                "2-1",
-                                "비토리아"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "BRA D12024.05.05",
-                                "비토리아",
-                                "1-3",
-                                "상파울루"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "BRA D12018.10.26",
-                                "비토리아",
-                                "0-1",
-                                "상파울루"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "BRA D12018.06.13",
-                                "상파울루",
-                                "3-0",
-                                "비토리아"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "BRA D12017.09.17",
-                                "비토리아",
-                                "1-2",
-                                "상파울루"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "BRA D12017.06.08",
-                                "상파울루",
-                                "2-0",
-                                "비토리아"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "BRA D12016.09.25",
-                                "비토리아",
-                                "2-0",
-                                "상파울루"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "세리에 A 베타노",
-                            "match_time": "2026-10-18 00:00:00",
-                            "teams": "10.18 2026 vs 상파울루 vs 바스코 vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "세리에 A 베타노",
-                            "match_time": "2026-10-24 19:30:00",
-                            "teams": "10.24 2026 vs 미라솔 vs 상파울루 vs 14 일",
-                            "interval": "14 일"
-                        },
-                        {
-                            "league": "세리에 A 베타노",
-                            "match_time": "2026-10-29 00:30:00",
-                            "teams": "10.29 2026 vs 바이아 vs 상파울루 vs 18 일",
-                            "interval": "18 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "세리에 A 베타노",
-                            "match_time": "2026-10-19 23:00:00",
-                            "teams": "10.19 2026 vs 코린티안스 vs 비토리아 vs 9 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "세리에 A 베타노",
-                            "match_time": "2026-10-24 19:30:00",
-                            "teams": "10.24 2026 vs 비토리아 vs 아틀레티코-PR vs 14 일",
-                            "interval": "14 일"
-                        },
-                        {
-                            "league": "세리에 A 베타노",
-                            "match_time": "2026-10-29 22:30:00",
-                            "teams": "10.29 2026 vs 코리티바 vs 비토리아 vs 19 일",
-                            "interval": "19 일"
-                        }
-                    ]
-                }
-            }
-        },
         "3059462": {
             "match_code": "3059462",
             "head_info": {
@@ -5806,6 +5614,198 @@
                 }
             }
         },
+        "3021632": {
+            "match_code": "3021632",
+            "head_info": {
+                "league": "프리미어리그",
+                "round": "프리미어리그·  라운드 7",
+                "match_time_raw": "10/11/2026 1:30:00 PM",
+                "match_time_display": "2026.10.11 13:30 일요일",
+                "stadium": "Victor Tedesco Stadium",
+                "weather": ""
+            },
+            "home": "함룬",
+            "away": "하이버니언스",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "5",
+                        "team": "함룬",
+                        "played": "6",
+                        "win": "3",
+                        "draw": "1",
+                        "loss": "2",
+                        "goals_for": "9",
+                        "goals_against": "6",
+                        "goal_diff": "3",
+                        "points": "10"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "10",
+                        "team": "하이버니언스",
+                        "played": "6",
+                        "win": "1",
+                        "draw": "2",
+                        "loss": "3",
+                        "goals_for": "4",
+                        "goals_against": "9",
+                        "goal_diff": "-5",
+                        "points": "5"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 3무 5패",
+                        "goals_per_game": "0.80",
+                        "conceded_per_game": "1.50"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 6 (60%)",
+                        "무승부 2 (20%)",
+                        "승 2 (20%)",
+                        "1.40",
+                        "경기당 득점",
+                        "0.80"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "MAL D12026.02.18",
+                                "하이버니언스",
+                                "0-1",
+                                "함룬"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAL SC2026.02.10",
+                                "함룬",
+                                "1-1",
+                                "하이버니언스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAL D12025.09.27",
+                                "함룬",
+                                "2-0",
+                                "하이버니언스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAL Cup2025.05.14",
+                                "함룬",
+                                "1-2",
+                                "하이버니언스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAL D12025.01.19",
+                                "하이버니언스",
+                                "1-2",
+                                "함룬"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAL D12024.12.21",
+                                "하이버니언스",
+                                "0-3",
+                                "함룬"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAL D12024.10.02",
+                                "함룬",
+                                "0-2",
+                                "하이버니언스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAL D12024.05.04",
+                                "함룬",
+                                "1-1",
+                                "하이버니언스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAL D12024.01.20",
+                                "하이버니언스",
+                                "1-2",
+                                "함룬"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAL D12023.01.08",
+                                "함룬",
+                                "1-0",
+                                "하이버니언스"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-17 16:00:00",
+                            "teams": "10.17 2026 vs 그지라 vs 함룬 vs 6 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-20 16:00:00",
+                            "teams": "10.20 2026 vs 함룬 vs 발잔 vs 9 일",
+                            "interval": "9 일"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-24 16:00:00",
+                            "teams": "10.24 2026 vs 볼레타 vs 함룬 vs 13 일",
+                            "interval": "13 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-17 16:00:00",
+                            "teams": "10.17 2026 vs 하이버니언스 vs 버즈버가 vs 6 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-20 16:00:00",
+                            "teams": "10.20 2026 vs 하이버니언스 vs 그지라 vs 9 일",
+                            "interval": "9 일"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-24 16:00:00",
+                            "teams": "10.24 2026 vs 모스타 vs 하이버니언스 vs 13 일",
+                            "interval": "13 일"
+                        }
+                    ]
+                }
+            }
+        },
         "3041565": {
             "match_code": "3041565",
             "head_info": {
@@ -6398,73 +6398,121 @@
                 }
             }
         },
-        "3101146": {
-            "match_code": "3101146",
+        "3101054": {
+            "match_code": "3101054",
             "head_info": {
-                "league": "리가 프레미어 세리에 A",
+                "league": "프리미어리그",
                 "round": "",
-                "match_time_raw": "10/10/2026 10:00:00 PM",
-                "match_time_display": "2026.10.10 22:00 토요일",
+                "match_time_raw": "10/11/2026 1:00:00 PM",
+                "match_time_display": "2026.10.11 13:00 일요일",
                 "stadium": "",
                 "weather": ""
             },
-            "home": "Ecatepec FC",
-            "away": "CH Futbol Club",
+            "home": "아마가주",
+            "away": "무쿠라 비크토리 스뽀흐",
             "meta_details": {
                 "rankings": [],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "5승 2무 3패",
-                        "goals_per_game": "1.90",
-                        "conceded_per_game": "1.30"
+                        "recent_record": "3승 3무 4패",
+                        "goals_per_game": "0.50",
+                        "conceded_per_game": "0.70"
                     },
                     "away_summary": {
-                        "recent_record": "1승 2무 7패",
-                        "goals_per_game": "1.50",
-                        "conceded_per_game": "4.30"
+                        "recent_record": "2승 3무 5패",
+                        "goals_per_game": "0.90",
+                        "conceded_per_game": "1.30"
                     },
                     "matches": []
                 },
                 "h2h": {
                     "summary": [
-                        "승 1 (25%)",
-                        "무승부 0 (0%)",
-                        "승 3 (75%)",
-                        "0.75",
+                        "승 1 (10%)",
+                        "무승부 3 (30%)",
+                        "승 6 (60%)",
+                        "0.60",
                         "경기당 득점",
-                        "1.75"
+                        "1.00"
                     ],
                     "matches": [
                         {
                             "row_data": [
-                                "MEX LT2024.04.06",
-                                "Ecatepec FC",
-                                "1-2",
-                                "CH Futbol Club"
+                                "RWA D12026.05.30",
+                                "무쿠라 비크토리 스뽀흐",
+                                "0-0",
+                                "아마가주"
                             ]
                         },
                         {
                             "row_data": [
-                                "MEX LT2023.11.24",
-                                "CH Futbol Club",
+                                "RWA D12025.12.20",
+                                "아마가주",
+                                "0-1",
+                                "무쿠라 비크토리 스뽀흐"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA CP2025.02.26",
+                                "아마가주",
                                 "2-0",
-                                "Ecatepec FC"
+                                "무쿠라 비크토리 스뽀흐"
                             ]
                         },
                         {
                             "row_data": [
-                                "MEX LT2023.04.15",
-                                "CH Futbol Club",
-                                "2-0",
-                                "Ecatepec FC"
+                                "RWA D12024.12.07",
+                                "무쿠라 비크토리 스뽀흐",
+                                "1-0",
+                                "아마가주"
                             ]
                         },
                         {
                             "row_data": [
-                                "MEX LT2022.11.19",
-                                "Ecatepec FC",
+                                "RWA D12024.01.13",
+                                "무쿠라 비크토리 스뽀흐",
+                                "3-2",
+                                "아마가주"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12019.05.01",
+                                "아마가주",
+                                "1-1",
+                                "무쿠라 비크토리 스뽀흐"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12019.01.27",
+                                "무쿠라 비크토리 스뽀흐",
                                 "2-1",
-                                "CH Futbol Club"
+                                "아마가주"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA CP2018.07.23",
+                                "아마가주",
+                                "0-0",
+                                "무쿠라 비크토리 스뽀흐"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA CP2018.07.20",
+                                "무쿠라 비크토리 스뽀흐",
+                                "1-0",
+                                "아마가주"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12017.10.28",
+                                "아마가주",
+                                "0-1",
+                                "무쿠라 비크토리 스뽀흐"
                             ]
                         }
                     ]
@@ -6475,73 +6523,97 @@
                 }
             }
         },
-        "3101152": {
-            "match_code": "3101152",
+        "3101055": {
+            "match_code": "3101055",
             "head_info": {
-                "league": "리가 프레미어 세리에 A",
+                "league": "프리미어리그",
                 "round": "",
-                "match_time_raw": "10/10/2026 11:00:00 PM",
-                "match_time_display": "2026.10.10 23:00 토요일",
+                "match_time_raw": "10/11/2026 1:00:00 PM",
+                "match_time_display": "2026.10.11 13:00 일요일",
                 "stadium": "",
                 "weather": ""
             },
-            "home": "CD Muxes",
-            "away": "CD Halcones de Rayon",
+            "home": "순리세",
+            "away": "폴리스",
             "meta_details": {
                 "rankings": [],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "7승 1무 2패",
-                        "goals_per_game": "2.40",
-                        "conceded_per_game": "0.80"
+                        "recent_record": "1승 4무 5패",
+                        "goals_per_game": "0.40",
+                        "conceded_per_game": "1.20"
                     },
                     "away_summary": {
-                        "recent_record": "2승 1무 7패",
-                        "goals_per_game": "1.00",
-                        "conceded_per_game": "3.00"
+                        "recent_record": "2승 6무 2패",
+                        "goals_per_game": "0.60",
+                        "conceded_per_game": "0.50"
                     },
                     "matches": []
                 },
                 "h2h": {
                     "summary": [
-                        "승 4 (100%)",
-                        "무승부 0 (0%)",
-                        "승 0 (0%)",
-                        "3.25",
+                        "승 2 (28.6%)",
+                        "무승부 1 (14.3%)",
+                        "승 4 (57.1%)",
+                        "1.43",
                         "경기당 득점",
-                        "0.75"
+                        "2.14"
                     ],
                     "matches": [
                         {
                             "row_data": [
-                                "MEX LT2024.03.08",
-                                "CD Halcones de Rayon",
-                                "0-3",
-                                "CD Muxes"
+                                "RWA D12022.08.19",
+                                "순리세",
+                                "1-0",
+                                "폴리스"
                             ]
                         },
                         {
                             "row_data": [
-                                "MEX LT2023.10.31",
-                                "CD Muxes",
-                                "3-1",
-                                "CD Halcones de Rayon"
+                                "RWA D12020.01.05",
+                                "순리세",
+                                "2-2",
+                                "폴리스"
                             ]
                         },
                         {
                             "row_data": [
-                                "MEX LT2023.02.18",
-                                "CD Muxes",
-                                "3-1",
-                                "CD Halcones de Rayon"
+                                "RWA D12019.10.06",
+                                "폴리스",
+                                "3-2",
+                                "순리세"
                             ]
                         },
                         {
                             "row_data": [
-                                "MEX LT2022.09.23",
-                                "CD Halcones de Rayon",
-                                "1-4",
-                                "CD Muxes"
+                                "RWA D12019.05.01",
+                                "폴리스",
+                                "4-0",
+                                "순리세"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12017.12.22",
+                                "폴리스",
+                                "1-2",
+                                "순리세"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12017.05.19",
+                                "순리세",
+                                "2-3",
+                                "폴리스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12017.01.07",
+                                "폴리스",
+                                "2-1",
+                                "순리세"
                             ]
                         }
                     ]
