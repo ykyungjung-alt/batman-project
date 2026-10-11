@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 def crawl_match_details_v4(league_id=39):
-    target_url = f"https://football.scoreman123.com/league/{league_id}"
+    target_url = f"url?id=42league/{league_id}"
     
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -35,25 +35,28 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. 💡 활성화된 버튼(스테이지 또는 라운드) 정밀 탐색
-            # 먼저 라운드 영역(.round) 안에서 on 클래스가 붙은 순수 숫자 라운드를 찾고, 없으면 전체 on 요소를 탐색
-            active_round_elem = soup.select_one("#schedule div.round span.current.on, .schedule div.round span.current.on, span[round].current.on")
+            # 2. 💡 두 군데 활성화 영역(stage와 round)을 각각 모두 정밀 타겟팅하여 결합 수집
+            stage_elem = soup.select_one("#schedule div.stage span.current.on, .schedule div.stage span.current.on")
+            round_elem = soup.select_one("#schedule div.round span.current.on, .schedule div.round span.current.on")
             
-            if not active_round_elem:
-                active_round_elem = soup.select_one("#schedule span.current.on, span.current.on")
-
-            active_text = active_round_elem.text.strip() if active_round_elem else "League"
+            stage_text = stage_elem.text.strip() if stage_elem else ""
+            round_text = round_elem.text.strip() if round_elem else ""
             
             # 총 라운드 수 산출
             all_rounds = soup.select("#schedule div.round span[round], .schedule div.round span[round], #schedule span[round]")
             total_cnt = len(all_rounds) if all_rounds else 46
             match_data_v4["total_rounds"] = total_cnt
             
-            # 숫자 형태인 경우 '현재/총합' 포맷 적용, 'League' 등 텍스트인 경우 그대로 반영
-            if active_text.isdigit():
-                match_data_v4["active_round"] = f"{active_text}/{total_cnt}"
+            # 두 활성 선택지 조합 형태 구성 (예: "League / 11" 또는 라운드가 숫일 경우 "League (11/46)")
+            if stage_text and round_text:
+                if round_text.isdigit():
+                    match_data_v4["active_round"] = f"{stage_text} - {round_text}/{total_cnt}"
+                else:
+                    match_data_v4["active_round"] = f"{stage_text} - {round_text}"
+            elif round_text:
+                match_data_v4["active_round"] = f"{round_text}/{total_cnt}" if round_text.isdigit() else round_text
             else:
-                match_data_v4["active_round"] = active_text
+                match_data_v4["active_round"] = stage_text if stage_text else "1/46"
 
             # 3. 하단 범례 색상 및 의미 동적 추출
             legend_items = soup.select("#standingColor span.explain, .explain")
@@ -89,7 +92,7 @@ def crawl_match_details_v4(league_id=39):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 4. 팀 순위 파싱 (백업 매핑 포함하여 데이터 누락 방지)
+            # 4. 팀 순위 파싱 (백업 매핑 포함)
             standings_items = soup.select("#standingList li.standis")
             parsed_standings = []
             
@@ -171,7 +174,7 @@ def crawl_match_details_v4(league_id=39):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (활성 라운드/단계: {match_data_v4['active_round']})")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (활성 상태: {match_data_v4['active_round']})")
         else:
             print(f"페이지 요청 실패: Status Code {response.status_code}")
 
