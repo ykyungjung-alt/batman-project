@@ -13,7 +13,7 @@ def crawl_match_details_v4(league_id=39):
     match_data_v4 = {
         "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "league_id": league_id,
-        "league_name": "잉글랜드 리그 1",
+        "league_name": "",
         "total_rounds": 46,
         "active_stage": "",
         "active_round": "",
@@ -33,9 +33,12 @@ def crawl_match_details_v4(league_id=39):
                 if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
                     match_data_v4["league_name"] = txt.replace("라이브스코어", "").strip()
 
-            # 2. 스테이지(상단)와 라운드(하단)를 각각 독립된 항목으로 분리하여 활성 상태 타격
-            stage_elem = soup.select_one("div.stage span.current.on, .stage span.current.on")
-            round_elem = soup.select_one("div.round span.current.on, .round span.current.on")
+            # 2. 💡 상단 스테이지 영역과 하단 라운드 영역을 완전히 독립적으로 나누어 각각 활성화된 값 탐지
+            stage_box = soup.select_one("div.stage, .stage")
+            round_box = soup.select_one("div.round, .round")
+            
+            stage_elem = stage_box.select_one("span.current.on") if stage_box else None
+            round_elem = round_box.select_one("span.current.on") if round_box else None
             
             match_data_v4["active_stage"] = stage_elem.text.strip() if stage_elem else "League"
             match_data_v4["active_round"] = round_elem.text.strip() if round_elem else "1"
@@ -44,64 +47,124 @@ def crawl_match_details_v4(league_id=39):
             all_rounds = soup.select("div.round span[round], .round span[round]")
             match_data_v4["total_rounds"] = len(all_rounds) if all_rounds else 46
 
-            # 3. 하단 범례 색상별 의미 매핑 정의
-            match_data_v4["standing_legends"] = [
-                {"color": "#CCCCFF", "description": "승격팀"},
-                {"color": "#00CCCC", "description": "승격 플레이오프"},
-                {"color": "#B1A7A7", "description": "강등팀"}
-            ]
+            # 3. 하단 범례 색상 및 의미 동적 추출
+            legend_items = soup.select("#standingColor span.explain, .explain")
+            color_to_label = {}
+            parsed_legends = []
             
-            color_to_label = {
-                "#CCCCFF": "승격팀",
-                "#00CCCC": "승격 플레이오프",
-                "#B1A7A7": "강등팀"
-            }
+            for lg in legend_items:
+                color_i = lg.select_one("i")
+                desc_span = lg.select_one("span")
+                if color_i:
+                    bg_style = color_i.get("style", "")
+                    bg_color = ""
+                    if "background-color:" in bg_style:
+                        try:
+                            bg_color = bg_style.split("background-color:")[1].split(";")[0].strip().upper()
+                        except Exception:
+                            bg_color = ""
+                    desc_text = desc_span.text.strip() if desc_span else lg.text.strip()
+                    if bg_color:
+                        color_to_label[bg_color] = desc_text
+                    parsed_legends.append({
+                        "color": bg_color,
+                        "description": desc_text
+                    })
+            
+            if not parsed_legends:
+                color_to_label = {"#CCCCFF": "승격팀", "#00CCCC": "승격 플레이오프", "#B1A7A7": "강등팀"}
+                parsed_legends = [
+                    {"color": "#CCCCFF", "description": "승격팀"},
+                    {"color": "#00CCCC", "description": "승격 플레이오프"},
+                    {"color": "#B1A7A7", "description": "강등팀"}
+                ]
+            
+            match_data_v4["standing_legends"] = parsed_legends
 
-            # 4. 24개 팀 전체 순위 및 통계 정밀 주입
-            raw_standings_data = [
-                ("1", "플리머스", "#CCCCFF", "승격팀", "10", "6", "1", "3", "6", "19"),
-                ("2", "브래드포드 시티", "#CCCCFF", "승격팀", "9", "5", "2", "2", "3", "17"),
-                ("3", "스톡포트", "#00CCCC", "승격 플레이오프", "9", "5", "1", "3", "9", "16"),
-                ("4", "허더스필드", "#00CCCC", "승격 플레이오프", "9", "4", "4", "1", "7", "16"),
-                ("5", "케임브리지U", "#00CCCC", "승격 플레이오프", "9", "4", "4", "1", "3", "16"),
-                ("6", "레딩", "#00CCCC", "승격 플레이오프", "9", "4", "3", "2", "11", "15"),
-                ("7", "셰필드W", "", "일반", "8", "4", "3", "1", "7", "15"),
-                ("8", "옥스포드U", "", "일반", "7", "4", "2", "1", "7", "14"),
-                ("9", "스티버니지", "", "일반", "8", "3", "3", "2", "4", "12"),
-                ("10", "버튼", "", "일반", "10", "3", "3", "4", "-2", "12"),
-                ("11", "윔블던", "", "일반", "9", "3", "3", "3", "-3", "12"),
-                ("12", "레이턴", "", "일반", "9", "3", "2", "4", "2", "11"),
-                ("13", "루턴", "", "일반", "8", "3", "2", "3", "1", "11"),
-                ("14", "맨스필드", "", "일반", "8", "3", "2", "3", "-2", "11"),
-                ("15", "위컴", "", "일반", "9", "2", "4", "3", "-6", "10"),
-                ("16", "돈캐스터", "", "일반", "8", "2", "3", "3", "0", "9"),
-                ("17", "레스터", "", "일반", "8", "2", "3", "3", "-4", "9"),
-                ("18", "블랙풀", "", "일반", "8", "2", "2", "4", "-1", "8"),
-                ("19", "반슬리", "", "일반", "8", "2", "2", "4", "-7", "8"),
-                ("20", "피터버러", "", "일반", "9", "2", "2", "5", "-7", "8"),
-                ("21", "브롬리", "#B1A7A7", "강등팀", "8", "2", "2", "4", "-11", "8"),
-                ("22", "노츠카운티", "#B1A7A7", "강등팀", "8", "1", "4", "3", "-3", "7"),
-                ("23", "밀턴", "#B1A7A7", "강등팀", "8", "0", "6", "2", "-6", "6"),
-                ("24", "위건", "#B1A7A7", "강등팀", "8", "1", "1", "6", "-8", "4")
-            ]
-            
+            # 4. 💡 팀 순위 동적 파싱 (참여 팀 수를 하드코딩하지 않고 웹페이지 구조에 맞춰 유연하게 수집)
+            standings_items = soup.select("#standingList li.standis, .standings_list li, tbody tr")
             parsed_standings = []
-            for row in raw_standings_data:
-                parsed_standings.append({
-                    "rank": row[0],
-                    "team": row[1],
-                    "tag_color": row[2],
-                    "tag_label": row[3],
-                    "경기수": row[4],
-                    "승": row[5],
-                    "무": row[6],
-                    "패": row[7],
-                    "득실": row[8],
-                    "승점": row[9]
-                })
+            
+            for item in standings_items:
+                style_attr = item.get("style", "")
+                tag_color = ""
+                if "--tagcolor:" in style_attr:
+                    try:
+                        tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
+                    except Exception:
+                        tag_color = ""
+
+                tag_label = color_to_label.get(tag_color, "일반")
+
+                rank_elem = item.select_one(".rank em, .rank")
+                name_elem = item.select_one(".team .name, span.name")
+                all_spans = [s.text.strip() for s in item.select("span") if s.text.strip()]
+                
+                rank_val = rank_elem.text.strip() if rank_elem else ""
+                team_val = name_elem.text.strip() if name_elem else ""
+                
+                if not team_val and len(all_spans) > 1:
+                    team_val = all_spans[1]
+
+                if rank_val and team_val:
+                    stat_slice = all_spans[-6:] if len(all_spans) >= 6 else []
+                    parsed_standings.append({
+                        "rank": rank_val.replace("\n", "").strip(),
+                        "team": team_val,
+                        "tag_color": tag_color,
+                        "tag_label": tag_label,
+                        "경기수": stat_slice[0] if len(stat_slice) > 0 else "",
+                        "승": stat_slice[1] if len(stat_slice) > 1 else "",
+                        "무": stat_slice[2] if len(stat_slice) > 2 else "",
+                        "패": stat_slice[3] if len(stat_slice) > 3 else "",
+                        "득실": stat_slice[4] if len(stat_slice) > 4 else "",
+                        "승점": stat_slice[5] if len(stat_slice) > 5 else ""
+                    })
+
+            # 만약 파싱 결과가 비어있을 경우에만 백업 데이터 적용 (리그 1 전용)
+            if not parsed_standings and league_id == 39:
+                raw_fallback_data = [
+                    ("1", "플리머스", "#CCCCFF", "승격팀", "10", "6", "1", "3", "6", "19"),
+                    ("2", "브래드포드 시티", "#CCCCFF", "승격팀", "9", "5", "2", "2", "3", "17"),
+                    ("3", "스톡포트", "#00CCCC", "승격 플레이오프", "9", "5", "1", "3", "9", "16"),
+                    ("4", "허더스필드", "#00CCCC", "승격 플레이오프", "9", "4", "4", "1", "7", "16"),
+                    ("5", "케임브리지U", "#00CCCC", "승격 플레이오프", "9", "4", "4", "1", "3", "16"),
+                    ("6", "레딩", "#00CCCC", "승격 플레이오프", "9", "4", "3", "2", "11", "15"),
+                    ("7", "셰필드W", "", "일반", "8", "4", "3", "1", "7", "15"),
+                    ("8", "옥스포드U", "", "일반", "7", "4", "2", "1", "7", "14"),
+                    ("9", "스티버니지", "", "일반", "8", "3", "3", "2", "4", "12"),
+                    ("10", "버튼", "", "일반", "10", "3", "3", "4", "-2", "12"),
+                    ("11", "윔블던", "", "일반", "9", "3", "3", "3", "-3", "12"),
+                    ("12", "레이턴", "", "일반", "9", "3", "2", "4", "2", "11"),
+                    ("13", "루턴", "", "일반", "8", "3", "2", "3", "1", "11"),
+                    ("14", "맨스필드", "", "일반", "8", "3", "2", "3", "-2", "11"),
+                    ("15", "위컴", "", "일반", "9", "2", "4", "3", "-6", "10"),
+                    ("16", "돈캐스터", "", "일반", "8", "2", "3", "3", "0", "9"),
+                    ("17", "레스터", "", "일반", "8", "2", "3", "3", "-4", "9"),
+                    ("18", "블랙풀", "", "일반", "8", "2", "2", "4", "-1", "8"),
+                    ("19", "반슬리", "", "일반", "8", "2", "2", "4", "-7", "8"),
+                    ("20", "피터버러", "", "일반", "9", "2", "2", "5", "-7", "8"),
+                    ("21", "브롬리", "#B1A7A7", "강등팀", "8", "2", "2", "4", "-11", "8"),
+                    ("22", "노츠카운티", "#B1A7A7", "강등팀", "8", "1", "4", "3", "-3", "7"),
+                    ("23", "밀턴", "#B1A7A7", "강등팀", "8", "0", "6", "2", "-6", "6"),
+                    ("24", "위건", "#B1A7A7", "강등팀", "8", "1", "1", "6", "-8", "4")
+                ]
+                for row in raw_fallback_data:
+                    parsed_standings.append({
+                        "rank": row[0],
+                        "team": row[1],
+                        "tag_color": row[2],
+                        "tag_label": row[3],
+                        "경기수": row[4],
+                        "승": row[5],
+                        "무": row[6],
+                        "패": row[7],
+                        "득실": row[8],
+                        "승점": row[9]
+                    })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (Stage: {match_data_v4['active_stage']}, Round: {match_data_v4['active_round']})")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (Stage: {match_data_v4['active_stage']}, Round: {match_data_v4['active_round']}, 총 {len(parsed_standings)}개 팀)")
         else:
             print(f"페이지 요청 실패: Status Code {response.status_code}")
 
