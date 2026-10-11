@@ -9,17 +9,19 @@ def crawl_match_details_v4(league_ids=None):
         league_ids = [39, 11]  # 지정된 리그 ID 순차 탐색
         
     for league_id in league_ids:
+        # 올바른 스코어맨 리그 상세 페이지 URL 구조
         target_url = f"https://football.scoreman123.com/league/{league_id}"
         
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Referer": "https://football.scoreman123.com/"
         }
         
         match_data_v4 = {
             "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "league_id": league_id,
             "league_name": "",
-            "total_stages": 0,
+            "total_stages": 1,
             "active_stage": "",
             "total_rounds": 0,
             "active_round": "",
@@ -37,7 +39,7 @@ def crawl_match_details_v4(league_ids=None):
                 
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 1. [상단 탐색] script 내 const _className = escapeChar("...") 구조 타격
+            # 1. [상단 스크립트] const _className = escapeChar("잉글랜드 리그 1") 정밀 추출
             for script in soup.find_all("script"):
                 if script.string and "_className = escapeChar" in script.string:
                     match = re.search(r'_className\s*=\s*escapeChar\("([^"]+)"\)', script.string)
@@ -45,8 +47,9 @@ def crawl_match_details_v4(league_ids=None):
                         match_data_v4["league_name"] = match.group(1).strip()
                         break
             
+            # 스크립트에서 못 찾을 경우 div#title에서 추출
             if not match_data_v4["league_name"]:
-                title_elem = soup.select_one("div#title.title, .league_title, h4, h2")
+                title_elem = soup.select_one("div#title.title, div.header div.title, .league_title")
                 if title_elem:
                     match_data_v4["league_name"] = title_elem.text.strip().replace("라이브스코어", "").strip()
 
@@ -54,20 +57,9 @@ def crawl_match_details_v4(league_ids=None):
                 print(f"[ID: {league_id}] 유효한 리그 이름을 찾을 수 없음 -> 다음 리그로 넘어갑니다.")
                 continue
 
-            # 2. [상단 schedule 구조] div.stage 내부 span 탐색
-            stage_buttons = soup.select("div#schedule div.stage span, div.stage span")
-            if stage_buttons:
-                match_data_v4["total_stages"] = len(stage_buttons)
-                active_stage_elem = soup.select_one("div#schedule div.stage span.current.on, div.stage span.current.on, span.current.on")
-                if active_stage_elem and active_stage_elem.text.strip():
-                    match_data_v4["active_stage"] = active_stage_elem.text.strip()
-                else:
-                    match_data_v4["active_stage"] = stage_buttons[0].text.strip()
-            else:
-                match_data_v4["total_stages"] = 1
-                match_data_v4["active_stage"] = match_data_v4["league_name"]
+            match_data_v4["active_stage"] = match_data_v4["league_name"]
 
-            # 3. [상단 schedule 구조] div.round 내부 span[round] 탐색
+            # 2. [상단 일정/라운드 구조] div#schedule 내부 및 div.round 탐색
             all_rounds = soup.select("div#schedule div.round span[round], div.round span[round]")
             if all_rounds:
                 match_data_v4["total_rounds"] = len(all_rounds)
@@ -80,8 +72,8 @@ def crawl_match_details_v4(league_ids=None):
                 match_data_v4["total_rounds"] = 0
                 match_data_v4["active_round"] = ""
 
-            # 4. [하단 info 구조] div#standingColor 내부 범례 수집
-            legend_items = soup.select("div#standingColor span.explain, #standingColor span.explain")
+            # 3. [하단 정보(#standingColor) 구조] 범례 색상 및 설명 동적 수집
+            legend_items = soup.select("div#standingColor span.explain, #standingColor span.explain, div#standingColor span")
             color_to_label = {}
             parsed_legends = []
             
@@ -106,14 +98,14 @@ def crawl_match_details_v4(league_ids=None):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 5. [우측 right-side 구조] div#standingPlates ➔ ul#standingList ➔ li.standis 파싱
+            # 4. [팀순위(#standingList) 구조] 상단 헤더(title)를 건너뛰고 li.standis 행들만 정밀 타격
             standings_items = soup.select("ul#standingList > li")
             parsed_standings = []
             
             for item in standings_items:
                 classes = item.get("class", [])
                 
-                # 'title' 클래스 행(R, 구단, P, W, D, L, GD, PTS 헤더)은 제외
+                # 'title' 클래스를 가진 헤더 행(R, 구단, P, W, D, L, GD, PTS)은 건너뜀
                 if "title" in classes:
                     continue
 
@@ -125,12 +117,13 @@ def crawl_match_details_v4(league_ids=None):
                     except Exception:
                         tag_color = ""
 
-                # 스탠딩 컬러와 하단 범례 매칭 (없으면 "일반")
+                # 스탠딩 컬러와 하단 범례 설명 매칭 (없으면 "일반")
                 tag_label = color_to_label.get(tag_color, "일반")
 
                 rank_elem = item.select_one("span.rank em, .rank em, span.rank")
                 name_elem = item.select_one("span.team span.name, .team .name, span.name")
                 
+                # 행 내부에 있는 모든 span 텍스트 추출
                 all_spans = [s.text.strip() for s in item.select("span") if s.text.strip()]
                 
                 rank_val = rank_elem.text.strip() if rank_elem else ""
@@ -140,6 +133,7 @@ def crawl_match_details_v4(league_ids=None):
                     team_val = all_spans[1]
 
                 if rank_val and team_val and rank_val.lower() != 'r':
+                    # 뒤쪽 6개 스탯 (경기수, 승, 무, 패, 득실, 승점) 추출
                     stat_slice = all_spans[-6:] if len(all_spans) >= 6 else []
                     parsed_standings.append({
                         "순위": rank_val.replace("\n", "").strip(),
@@ -155,7 +149,7 @@ def crawl_match_details_v4(league_ids=None):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (Stage: {match_data_v4['active_stage']}, Round: {match_data_v4['active_round']}, 총 {len(parsed_standings)}개 팀 파싱 완료)")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (Round: {match_data_v4['active_round']}, 총 {len(parsed_standings)}개 팀 파싱 완료)")
 
             # 파일 저장 후 정상 종료
             output_filename = "match_details_v4.json"
