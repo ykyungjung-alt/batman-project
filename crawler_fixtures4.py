@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 def crawl_match_details_v4(league_id=39):
-    # 💡 전달받은 league_id에 따라 동적으로 URL 생성
+    # 전달받은 league_id에 따라 동적으로 URL 생성
     target_url = f"https://football.scoreman123.com/league/{league_id}"
     
     headers = {
@@ -34,17 +34,27 @@ def crawl_match_details_v4(league_id=39):
             else:
                 match_data_v4["league_name"] = f"리그 ID {league_id}"
 
-            # 2. 활성화된 라운드 및 총 라운드 수 동적 감지
+            # 2. 💡 활성화된 라운드 동적 감지 (숫자 또는 예선/본선/8강 등의 텍스트 스테이지 모두 대응)
             active_round_elem = soup.select_one("#schedule span.current.on, .schedule span.current.on, span.current.on")
-            active_num = active_round_elem.text.strip() if active_round_elem else "1"
             
-            all_rounds = soup.select("#schedule div.round span[round], #schedule span[round], .schedule span[round]")
-            total_cnt = len(all_rounds) if all_rounds else len(soup.select("#schedule span"))
-            if total_cnt == 0:
-                total_cnt = 38 # 기본값 (리그별 상황에 맞게 유동적)
-                
+            if active_round_elem:
+                active_text = active_round_elem.text.strip()
+            else:
+                # 만약 클래스로 못 찾을 경우 stage 영역의 활성화 항목 탐색
+                active_stage_elem = soup.select_one("#schedule div.stage span.current.on, div.stage span.current")
+                active_text = active_stage_elem.text.strip() if active_stage_elem else "1"
+
+            # 총 라운드 또는 단계 수 산출 (숫자 라운드와 텍스트 스테이지 목록 모두 포괄)
+            all_rounds = soup.select("#schedule div.round span[round], #schedule div.round span, #schedule span[round], .schedule span")
+            total_cnt = len(all_rounds) if all_rounds else 38
+            
             match_data_v4["total_rounds"] = total_cnt
-            match_data_v4["active_round"] = f"{active_num}/{total_cnt}"
+            
+            # 활성화된 값이 숫자 형태면 '현재/총합' 형태로, 텍스트 형태(예선, 8강 등)면 해당 텍스트 자체를 직관적으로 반영
+            if active_text.isdigit():
+                match_data_v4["active_round"] = f"{active_text}/{total_cnt}"
+            else:
+                match_data_v4["active_round"] = active_text
 
             # 3. 하단 범례 색상 및 의미 동적 추출 (#standingColor span.explain)
             legend_items = soup.select("#standingColor span.explain, .explain")
@@ -114,7 +124,7 @@ def crawl_match_details_v4(league_id=39):
                     })
             
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 완료 (총 {len(parsed_standings)}개 팀, 활성 라운드: {match_data_v4['active_round']})")
+            print(f"[{match_data_v4['league_name']}] 수집 완료 (총 {len(parsed_standings)}개 팀, 활성 라운드/단계: {match_data_v4['active_round']})")
         else:
             print(f"페이지 요청 실패: Status Code {response.status_code}")
 
@@ -128,5 +138,4 @@ def crawl_match_details_v4(league_id=39):
     print(f"[{output_filename}] 저장 완료.")
 
 if __name__ == "__main__":
-    # 필요한 리그 ID를 변경하여 호출 가능
     crawl_match_details_v4(league_id=39)
