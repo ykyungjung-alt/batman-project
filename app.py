@@ -162,7 +162,7 @@ with tabs[0]:
     st.markdown("---")
     st.markdown("### 📊 공식 팀 순위 및 조건별 전적표 현황")
 
-    # 2. 공식 팀 순위 및 전적표 출력 (누락되었던 부분 원복)
+    # 2. 공식 팀 순위 및 전적표 출력 (데이터 유무에 따른 분기 처리)
     if detailed_info:
         meta_details = detailed_info.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
@@ -189,10 +189,12 @@ with tabs[0]:
             st.dataframe(df_rankings[["리그순위", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
             
         else:
-            st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다. (데이터 없음)")
+            # 💡 detailed_info는 있지만 rankings 데이터가 비어있을 때
+            st.warning("⚠️ 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
     else:
-        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (데이터 없음)")
-        st.info("💡 크롤러를 통해 해당 경기의 상세 정밀 데이터를 먼저 수집해 주세요.")
+        # 💡 3~4일 뒤 경기 등 detailed_info 자체가 아예 없을 때 명확한 안내 출력
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (3~4일 이후 경기 등)")
+        st.info("💡 크롤러를 통해 해당 경기의 상세 정밀 데이터를 먼저 수집하거나, 경기 당일에 다시 확인해 주세요.")
 with tabs[1]:
     st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
     st.markdown("""
