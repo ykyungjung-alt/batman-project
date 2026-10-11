@@ -9,6 +9,7 @@ def crawl_match_details_v4(league_ids=None):
         league_ids = [39, 11]  # 지정된 리그 ID 순차 탐색
         
     for league_id in league_ids:
+        # 실제 스코어맨 도메인 주소 구조 반영
         target_url = f"https://football.scoreman123.com/league/{league_id}"
         
         headers = {
@@ -19,7 +20,7 @@ def crawl_match_details_v4(league_ids=None):
             "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "league_id": league_id,
             "league_name": "",
-            "total_stages": 0,
+            "total_stages": 1,
             "active_stage": "",
             "total_rounds": 0,
             "active_round": "",
@@ -37,7 +38,7 @@ def crawl_match_details_v4(league_ids=None):
                 
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 1. 리그명 추출
+            # 1. 상단 소스 스크립트 내 _className 정밀 추출 (예: 잉글랜드 리그 1)
             script_tags = soup.find_all("script")
             for script in script_tags:
                 if script.string and "_className = escapeChar" in script.string:
@@ -55,20 +56,9 @@ def crawl_match_details_v4(league_ids=None):
                 print(f"[ID: {league_id}] 유효한 리그 이름을 찾을 수 없음 -> 다음 리그로 넘어갑니다.")
                 continue
 
-            # 2. 스테이지(Stage) 정보 추출
-            stage_buttons = soup.select("div.stage span, .stage span")
-            if stage_buttons:
-                match_data_v4["total_stages"] = len(stage_buttons)
-                active_stage_elem = soup.select_one("div.stage span.current.on, .stage span.current.on, span.current.on")
-                if active_stage_elem and active_stage_elem.text.strip():
-                    match_data_v4["active_stage"] = active_stage_elem.text.strip()
-                else:
-                    match_data_v4["active_stage"] = stage_buttons[0].text.strip()
-            else:
-                match_data_v4["total_stages"] = 1
-                match_data_v4["active_stage"] = match_data_v4["league_name"]
+            match_data_v4["active_stage"] = match_data_v4["league_name"]
 
-            # 3. 라운드(Round) 정보 추출
+            # 2. 라운드(Round) 정보 추출
             all_rounds = soup.select("div.round span[round], .round span[round]")
             if all_rounds:
                 match_data_v4["total_rounds"] = len(all_rounds)
@@ -81,8 +71,8 @@ def crawl_match_details_v4(league_ids=None):
                 match_data_v4["total_rounds"] = 0
                 match_data_v4["active_round"] = ""
 
-            # 4. 하단 범례(Legends) 동적 수집 (페이지별 동적 스탠딩 컬러 매칭 준비)
-            legend_items = soup.select("#standingColor span.explain, .explain, .legend span")
+            # 3. 하단 범례(#standingColor) 색상 및 설명 동적 수집
+            legend_items = soup.select("#standingColor span.explain, div#standingColor span, .explain, .legend span")
             color_to_label = {}
             parsed_legends = []
             
@@ -107,8 +97,8 @@ def crawl_match_details_v4(league_ids=None):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 5. 순위표(Standings) 파싱 및 꼬리표(분류) 자동 매칭
-            standings_items = soup.select("#standingList li.standis, .standings_list li, tbody tr")
+            # 4. 순위표(#standingList li.standis) 정밀 파싱 및 꼬리표 매칭
+            standings_items = soup.select("ul#standingList li.standis, #standingList li.standis, .standings_list li, tbody tr")
             parsed_standings = []
             
             for item in standings_items:
@@ -120,7 +110,7 @@ def crawl_match_details_v4(league_ids=None):
                     except Exception:
                         tag_color = ""
 
-                # 💡 스탠딩 컬러와 실시간 매칭하여 해당 팀에 맞는 꼬리표(분류) 부여 (색상이 없으면 "일반")
+                # 스탠딩 컬러와 실시간 매칭하여 해당 팀에 맞는 꼬리표 부여 (없으면 "일반")
                 tag_label = color_to_label.get(tag_color, "일반")
 
                 rank_elem = item.select_one(".rank em, .rank, span.rank")
@@ -134,6 +124,7 @@ def crawl_match_details_v4(league_ids=None):
                     team_val = all_spans[1]
 
                 if rank_val and team_val and rank_val.lower() != 'r':
+                    # 뒤쪽 6개 스탯 (경기수, 승, 무, 패, 득실, 승점) 추출
                     stat_slice = all_spans[-6:] if len(all_spans) >= 6 else []
                     parsed_standings.append({
                         "순위": rank_val.replace("\n", "").strip(),
@@ -149,7 +140,7 @@ def crawl_match_details_v4(league_ids=None):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (Stage: {match_data_v4['active_stage']}, Round: {match_data_v4['active_round']}, 팀 수: {len(parsed_standings)})")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (총 {len(parsed_standings)}개 팀 파싱 완료)")
 
             # 파일 저장 후 정상 종료
             output_filename = "match_details_v4.json"
