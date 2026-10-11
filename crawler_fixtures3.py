@@ -89,7 +89,6 @@ def run_table_based_crawler_v3():
     
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst)
-    # 💡 36시간 대신 정확히 24시간 이내로 제한 시간 설정
     limit_kst = now_kst + timedelta(hours=24)
     
     print(f"🕒 [V3] 실행 시간(KST): {now_kst.strftime('%Y-%m-%d %H:%M')}")
@@ -99,13 +98,13 @@ def run_table_based_crawler_v3():
 
     for date_key, matches in daily_matches_input.items():
         try:
-            date_part = date_key.split()[0] # "10-11" 형태 추출
+            date_part = date_key.split()[0]
             m_part, d_part = map(int, date_part.split("-"))
         except Exception:
             continue
 
         for m in matches:
-            time_str = m.get("time", "") # "22:30" 등
+            time_str = m.get("time", "")
             if not time_str or ":" not in time_str:
                 continue
             
@@ -113,11 +112,9 @@ def run_table_based_crawler_v3():
                 hour_val, min_val = map(int, time_str.split(":"))
                 match_dt = datetime(current_year, m_part, d_part, hour_val, min_val, tzinfo=kst)
                 
-                # 연도 넘어가는 시점 보정
                 if match_dt < now_kst - timedelta(days=15) and m_part == 1:
                     match_dt = datetime(current_year + 1, m_part, d_part, hour_val, min_val, tzinfo=kst)
 
-                # 💡 실행 시점 ~ 정확히 24시간 이내 경기 필터링
                 if now_kst <= match_dt <= limit_kst:
                     m_code = m.get("match_code")
                     if m_code and m_code not in [t["match_code"] for t in target_matches]:
@@ -127,7 +124,7 @@ def run_table_based_crawler_v3():
                             "home": m.get("home", ""),
                             "away": m.get("away", "")
                         })
-            except Exception as parse_err:
+            except Exception:
                 continue
 
     print(f"🎯 [V3] 24시간 이내 조건에 일치하는 총 {len(target_matches)}개 메인 경기 크롤링 시작")
@@ -158,8 +155,7 @@ def run_table_based_crawler_v3():
                 
                 head_info = {
                     "league": target["league"],
-                    "round": "",
-                    "match_time_display": ""
+                    "round": ""
                 }
                 
                 try:
@@ -167,15 +163,9 @@ def run_table_based_crawler_v3():
                     if sclass_span:
                         full_text = sclass_span.get_text(separator=" ", strip=True)
                         head_info["league"] = full_text.replace("·", "").strip()
-                    
-                    time_span = detail_soup.find("span", {"name": "timeData"})
-                    if time_span:
-                        head_info["match_time_display"] = time_span.get_text(strip=True)
                 except Exception:
                     pass
 
-                team_tiers_data = {"home": {}, "away": {}}
-                
                 recent_form_data = {
                     "form_title": "최근 전적",
                     "home_team_name": main_home, "home_matches": [], 
@@ -189,36 +179,6 @@ def run_table_based_crawler_v3():
                 }
                 
                 try:
-                    recent_div = detail_soup.find("div", id="dv_recent")
-                    if recent_div:
-                        stats_div = recent_div.find("div", id="dv_recent_stats")
-                        if stats_div:
-                            home_goals, home_conceded = 0.0, 0.0
-                            away_goals, away_conceded = 0.0, 0.0
-                            
-                            for v in stats_div.find_all("div", class_="vote"):
-                                ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "p2"])
-                                if len(ext_els) >= 3:
-                                    left_val = ext_els[0].get_text(strip=True)
-                                    label = ext_els[1].get_text(strip=True)
-                                    right_val = ext_els[2].get_text(strip=True)
-                                    
-                                    if "경기당 득점" in label:
-                                        home_goals = left_val
-                                        away_goals = right_val
-                                    elif "경기당 실점" in label:
-                                        home_conceded = left_val
-                                        away_conceded = right_val
-
-                            team_tiers_data["home"] = {
-                                "attack_tier": calculate_attack_tier(home_goals),
-                                "defense_tier": calculate_defense_tier(home_conceded)
-                            }
-                            team_tiers_data["away"] = {
-                                "attack_tier": calculate_attack_tier(away_goals),
-                                "defense_tier": calculate_defense_tier(away_conceded)
-                            }
-
                     def parse_matches(container_ul, target_team, target_list, max_count=10):
                         if not container_ul: return
                         count = 0
@@ -287,13 +247,13 @@ def run_table_based_crawler_v3():
                 except Exception as e:
                     print(f"  - 전적 수집 예외 ({m_id}): {e}")
 
+                # 💡 team_tiers 및 match_time_display 항목 제거 완료
                 match_details[m_id] = {
                     "match_code": m_id,
                     "head_info": head_info,
                     "home": main_home,
                     "away": main_away,
                     "meta_details": {
-                        "team_tiers": team_tiers_data,
                         "recent_form": recent_form_data,
                         "stadium_form": stadium_form_data
                     }
