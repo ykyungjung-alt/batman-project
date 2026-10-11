@@ -35,25 +35,23 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. 💡 스테이지(Stage)는 있는 텍스트 그대로 추출, 라운드(Round)는 div.round 내부의 활성 요소를 정확히 탐색
-            stage_elem = soup.select_one("div.stage, #schedule div.stage")
+            # 2. 💡 스테이지는 텍스트 그대로, 라운드는 current on이 붙은 요소에서 직접 추출
+            stage_elem = soup.select_one("div.stage")
             match_data_v4["active_stage"] = stage_elem.text.strip() if stage_elem else "League"
 
-            # div.round 내부에서 current on 클래스가 붙은 현재 라운드 정확히 타격
-            active_round_elem = soup.select_one("div.round span.current.on, #schedule div.round span.current.on")
-            active_text = ""
-            if active_round_elem:
-                active_text = active_round_elem.get("round", "").strip()
-                if not active_text:
-                    active_text = active_round_elem.get_text(strip=True)
+            # current on이 붙은 라운드 요소를 직접 타격하여 텍스트 추출
+            active_round_elem = soup.select_one("span.current.on")
+            active_text = active_round_elem.text.strip() if active_round_elem else "1"
             
-            if not active_text:
-                active_text = "1"
-
-            all_rounds = soup.select("div.round span[round], #schedule div.round span[round]")
+            # 총 라운드 수 산출
+            all_rounds = soup.select("div.round span[round]")
             total_cnt = len(all_rounds) if all_rounds else 46
             
-            match_data_v4["active_round"] = f"{active_text}/{total_cnt}"
+            # "현재/총합" 포맷으로 조합
+            if active_text.isdigit():
+                match_data_v4["active_round"] = f"{active_text}/{total_cnt}"
+            else:
+                match_data_v4["active_round"] = f"1/{total_cnt}"
 
             # 3. Legends (Standing colors)
             legend_items = soup.select("#standingColor span.explain, .explain")
