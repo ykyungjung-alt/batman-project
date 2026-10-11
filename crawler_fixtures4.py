@@ -10,12 +10,14 @@ def crawl_match_details_v4(league_id=39):
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
     
+    # 1. 요청하신 필드 순서 배치 (league_name -> total_stages / active_stage -> total_rounds / active_round -> standings)
     match_data_v4 = {
         "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "league_id": league_id,
         "league_name": "",
-        "total_rounds": 46,
+        "total_stages": 1,
         "active_stage": "",
+        "total_rounds": 46,
         "active_round": "",
         "standings": [],
         "standing_legends": []
@@ -26,28 +28,28 @@ def crawl_match_details_v4(league_id=39):
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 1. 리그명 정밀 추출
+            # 리그명 추출
             league_title_elem = soup.select_one("div.box h4, .league_title, h4, h2")
             if league_title_elem:
                 txt = league_title_elem.text.strip()
                 if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
                     match_data_v4["league_name"] = txt.replace("라이브스코어", "").strip()
 
-            # 2. 💡 상단 스테이지 영역과 하단 라운드 영역을 완전히 독립적으로 나누어 각각 활성화된 값 탐지
-            stage_box = soup.select_one("div.stage, .stage")
-            round_box = soup.select_one("div.round, .round")
+            # 2. 💡 전체 스테이지 목록 수 및 활성화된 스테이지 추출
+            stage_buttons = soup.select("div.stage span, .stage span")
+            match_data_v4["total_stages"] = len(stage_buttons) if stage_buttons else 1
             
-            stage_elem = stage_box.select_one("span.current.on") if stage_box else None
-            round_elem = round_box.select_one("span.current.on") if round_box else None
-            
-            match_data_v4["active_stage"] = stage_elem.text.strip() if stage_elem else "League"
-            match_data_v4["active_round"] = round_elem.text.strip() if round_elem else "1"
-            
-            # 총 라운드 수 산출
+            active_stage_elem = soup.select_one("div.stage span.current.on, .stage span.current.on")
+            match_data_v4["active_stage"] = active_stage_elem.text.strip() if active_stage_elem else "League"
+
+            # 3. 💡 전체 라운드 수 및 활성화된 라운드 추출
             all_rounds = soup.select("div.round span[round], .round span[round]")
             match_data_v4["total_rounds"] = len(all_rounds) if all_rounds else 46
 
-            # 3. 하단 범례 색상 및 의미 동적 추출
+            active_round_elem = soup.select_one("div.round span.current.on, .round span.current.on")
+            match_data_v4["active_round"] = active_round_elem.text.strip() if active_round_elem else "1"
+
+            # 하단 범례 색상 및 의미 동적 추출
             legend_items = soup.select("#standingColor span.explain, .explain")
             color_to_label = {}
             parsed_legends = []
@@ -81,7 +83,7 @@ def crawl_match_details_v4(league_id=39):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 4. 💡 팀 순위 동적 파싱 (참여 팀 수를 하드코딩하지 않고 웹페이지 구조에 맞춰 유연하게 수집)
+            # 4. 💡 팀 순위 동적 파싱 (하드코딩 없이 웹페이지에 존재하는 팀 만큼 유연하게 수집)
             standings_items = soup.select("#standingList li.standis, .standings_list li, tbody tr")
             parsed_standings = []
             
@@ -121,7 +123,7 @@ def crawl_match_details_v4(league_id=39):
                         "승점": stat_slice[5] if len(stat_slice) > 5 else ""
                     })
 
-            # 만약 파싱 결과가 비어있을 경우에만 백업 데이터 적용 (리그 1 전용)
+            # 파싱 결과가 비어있을 경우에만 백업 데이터 적용 (리그 1 전용)
             if not parsed_standings and league_id == 39:
                 raw_fallback_data = [
                     ("1", "플리머스", "#CCCCFF", "승격팀", "10", "6", "1", "3", "6", "19"),
@@ -164,7 +166,7 @@ def crawl_match_details_v4(league_id=39):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (Stage: {match_data_v4['active_stage']}, Round: {match_data_v4['active_round']}, 총 {len(parsed_standings)}개 팀)")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (총 스테이지: {match_data_v4['total_stages']}, 활성 스테이지: {match_data_v4['active_stage']}, 총 라운드: {match_data_v4['total_rounds']}, 활성 라운드: {match_data_v4['active_round']}, 총 {len(parsed_standings)}개 팀)")
         else:
             print(f"페이지 요청 실패: Status Code {response.status_code}")
 
