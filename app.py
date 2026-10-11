@@ -109,21 +109,19 @@ with tabs[0]:
     st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
     st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
     
-    if detailed_info:
+    # 💡 detailed_info 존재 여부에 따른 안전한 메타 변수 설정
+    if detailed_info and isinstance(detailed_info, dict):
         meta_status = "정상 통과 (정밀 데이터 연동 완료)"
         
-        # 💡 head_info에서 데이터 안전하게 가져오기
         head_info = detailed_info.get("head_info", {})
-        
-        # 1. 대회 성격 조합 (리그명 + 라운드 정보)
         league_name = head_info.get("league", tournament_name)
         round_info = head_info.get("round", "")
+        
         if round_info:
             tournament_display = f"{league_name} ({round_info})"
         else:
             tournament_display = league_name
 
-        # 2. 구장 정보와 날씨 정보 통합 조합
         stadium_name = head_info.get("stadium", "")
         weather_info = head_info.get("weather", "")
         
@@ -135,7 +133,6 @@ with tabs[0]:
             stadium_info = f"구장 정보 없음 (날씨: {weather_info})"
         else:
             stadium_info = "홈구장 실시간 반영"
-            
     else:
         meta_status = "⚠️ 해당 경기의 상세 정밀 데이터 없음 (데이터 없음)"
         tournament_display = tournament_name
@@ -162,8 +159,8 @@ with tabs[0]:
     st.markdown("---")
     st.markdown("### 📊 공식 팀 순위 및 조건별 전적표 현황")
 
-    # 2. 공식 팀 순위 및 전적표 출력 (데이터 유무에 따른 분기 처리)
-    if detailed_info:
+    # 2. 공식 팀 순위 및 전적표 출력 (안전한 방어 분기 처리)
+    if detailed_info and isinstance(detailed_info, dict):
         meta_details = detailed_info.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
         
@@ -189,12 +186,13 @@ with tabs[0]:
             st.dataframe(df_rankings[["리그순위", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
             
         else:
-            # 💡 detailed_info는 있지만 rankings 데이터가 비어있을 때
-            st.warning("⚠️ 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
+            st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
     else:
-        # 💡 3~4일 뒤 경기 등 detailed_info 자체가 아예 없을 때 명확한 안내 출력
+        # 💡 3~4일 뒤 경기 등 상세 정밀 데이터가 없을 때 확실한 경고/안내 출력
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (3~4일 이후 경기 등)")
-        st.info("💡 크롤러를 통해 해당 경기의 상세 정밀 데이터를 먼저 수집하거나, 경기 당일에 다시 확인해 주세요.")
+        st.info("💡 크롤러 대상 기간(오늘/내일)에 포함되지 않은 경기이므로, 상세 전적표 및 통계 지표를 조회할 수 없습니다. 경기 당일 또는 전일에 데이터를 갱신해 주세요.")
+
+
 with tabs[1]:
     st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
     st.markdown("""
