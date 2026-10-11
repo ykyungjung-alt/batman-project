@@ -26,29 +26,28 @@ def crawl_match_details_v4():
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 1. 리그명 추출 보완
+            # 1. 리그명 정밀 추출
             league_title_elem = soup.select_one("div.box h4, .league_title, h4, h2")
             if league_title_elem:
                 title_text = league_title_elem.text.strip()
                 if "리그" in title_text or "잉글랜드" in title_text:
                     match_data_v4["league_name"] = title_text.replace("라이브스코어", "").strip()
 
-            # 2. 활성화된 라운드 추출 정밀화 (current on 클래스 탐색)
+            # 2. 활성화된 라운드 정밀 추출 (current on 클래스 기준)
             active_round_elem = soup.select_one("#schedule span.current.on, .schedule span.current, span.current")
             if active_round_elem:
                 active_num = active_round_elem.text.strip()
-                # 총 라운드 개수 계산 (라운드 스팬 요소들의 총 개수)
                 all_rounds = soup.select("#schedule span[round], .schedule span[round]")
                 total_cnt = len(all_rounds) if all_rounds else 46
                 match_data_v4["total_rounds"] = total_cnt
                 match_data_v4["active_round"] = f"{active_num}/{total_cnt}"
 
-            # 3. 💡 팀 순위(Standings) 전체 24개 팀 정밀 파싱
+            # 3. 💡 팀 순위(Standings) 전체 24개 팀 정밀 타격 파싱
             standings_items = soup.select("#standingList li.standis")
             parsed_standings = []
             
             for item in standings_items:
-                # 태그 컬러 추출 (--tagcolor)
+                # 인라인 스타일에서 태그 컬러(--tagcolor) 추출
                 style_attr = item.get("style", "")
                 tag_color = ""
                 if "--tagcolor:" in style_attr:
@@ -57,17 +56,15 @@ def crawl_match_details_v4():
                     except Exception:
                         tag_color = ""
 
-                # 순위, 팀명, 통계 수치 추출
+                # 순위 및 팀명 추출
                 rank_elem = item.select_one(".rank")
                 name_elem = item.select_one(".team .name, span.name")
                 
-                # 행 안의 모든 텍스트 스팬 수집
                 all_spans = [s.text.strip() for s in item.select("span") if s.text.strip()]
                 
                 rank_val = rank_elem.text.strip() if rank_elem else ""
                 team_val = name_elem.text.strip() if name_elem else ""
                 
-                # 만약 select_one으로 팀명을 못 찾았을 경우 span 리스트에서 추출 시도
                 if not team_val and len(all_spans) > 1:
                     team_val = all_spans[1]
 
@@ -89,7 +86,7 @@ def crawl_match_details_v4():
             
             match_data_v4["standings"] = parsed_standings
 
-            # 4. 💡 하단 색상별 범례 파싱 (#standingColor span.explain)
+            # 4. 💡 순위표 하단 색상별 범례 파싱 (#standingColor span.explain)
             legend_items = soup.select("#standingColor span.explain, .explain")
             parsed_legends = []
             for lg in legend_items:
