@@ -33,7 +33,7 @@ def crawl_match_details_v4(league_id=39):
                 if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
                     match_data_v4["league_name"] = txt.replace("라이브스코어", "").strip()
 
-            # 2. 💡 스테이지와 라운드를 각각 독립된 항목으로 정확히 분리 수집
+            # 2. 스테이지(상단)와 라운드(하단)를 각각 독립된 항목으로 분리하여 활성 상태 타격
             stage_elem = soup.select_one("div.stage span.current.on, .stage span.current.on")
             round_elem = soup.select_one("div.round span.current.on, .round span.current.on")
             
