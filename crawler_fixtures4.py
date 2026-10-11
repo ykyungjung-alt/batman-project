@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 def crawl_match_details_v4(league_id=39):
-    target_url = f"url?id=12league/{league_id}"
+    target_url =f"https://football.scoreman123.com/league/{league_id}"
     
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
