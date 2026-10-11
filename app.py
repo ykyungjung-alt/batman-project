@@ -170,90 +170,85 @@ else:
     st.info("💡 크롤러를 통해 해당 경기의 상세 정밀 데이터를 먼저 수집해 주세요.")
 
 with tabs[1]:
-  st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
-  st.markdown("""
-    <div class="step-box">
-        <b>📌 규격 원칙 및 요약 설명:</b><br>
-        • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 7개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여합니다.<br>
-        • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 공식 경기만을 채택합니다.<br>
-        • <b>특수 룰:</b> E티어 상대 득점 50% 할인 및 경고등 발동 프로토콜을 적용합니다.
-    </div>
-    """, unsafe_allow_html=True)
-    
-  tier_weight_df = pd.DataFrame({
+    st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
+    st.markdown("""
+        <div class="step-box">
+            <b>📌 규격 원칙 및 요약 설명:</b><br>
+            • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 7개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여합니다.<br>
+            • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 공식 경기만을 채택합니다.<br>
+            • <b>특수 룰:</b> E티어 상대 득점 50% 할인 및 경고등 발동 프로토콜을 적용합니다.
+        </div>
+        """, unsafe_allow_html=True)
+        
+    tier_weight_df = pd.DataFrame({
         "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
         "공격력 기준 (평균 득점)": ["2.3골 이상", "1.7 ~ 2.2골 미만", "1.1 ~ 1.6골 미만", "0.5 ~ 1.1골 미만", "0.5골 미만 (< 0.5)"],
         "공격 가중치": ["+8.0%", "+6.0%", "+4.0%", "+2.0%", "0.0% (최하위)"],
         "방어력 기준 (평균 실점)": ["0.5골 미만 (< 0.5)", "0.5 ~ 0.9골 미만", "0.9 ~ 1.3골 미만", "1.3 ~ 1.7골 미만", "1.7골 이상"],
         "방어 가중치": ["-8.0% (최상위)", "-6.0%", "-4.0%", "-2.0%", "0.0%"]
     })
-  st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
+    st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
+
+    # 💡 수집된 recent_form 데이터에서 홈/원정 지표 추출
+    meta_details = detailed_info.get("meta_details", {})
+    recent_form = meta_details.get("recent_form", {})
+    home_sum = recent_form.get("home_summary", {})
+    away_sum = recent_form.get("away_summary", {})
+
+    h_gpg = float(home_sum.get("goals_per_game", 0.0))
+    h_cpg = float(home_sum.get("conceded_per_game", 0.0))
+    h_rec = home_sum.get("recent_record", "-")
+
+    a_gpg = float(away_sum.get("goals_per_game", 0.0))
+    a_cpg = float(away_sum.get("conceded_per_game", 0.0))
+    a_rec = away_sum.get("recent_record", "-")
+
+    # 💡 티어 및 가중치 자동 판별 함수 (공격력)
+    def get_attack_tier(g):
+        if g >= 2.3: return "Tier A", "+8.0%"
+        elif g >= 1.7: return "Tier B", "+6.0%"
+        elif g >= 1.1: return "Tier C", "+4.0%"
+        elif g >= 0.5: return "Tier D", "+2.0%"
+        else: return "Tier E", "0.0%"
+
+    # 💡 티어 및 가중치 자동 판별 함수 (방어력: 실점이 적을수록 상위)
+    def get_defense_tier(c):
+        if c < 0.5: return "Tier A", "-8.0%"
+        elif c < 0.9: return "Tier B", "-6.0%"
+        elif c < 1.3: return "Tier C", "-4.0%"
+        elif c < 1.7: return "Tier D", "-2.0%"
+        else: return "Tier E", "0.0%"
+
+    h_at_tier, h_at_weight = get_attack_tier(h_gpg)
+    h_df_tier, h_df_weight = get_defense_tier(h_cpg)
+
+    a_at_tier, a_at_weight = get_attack_tier(a_gpg)
+    a_df_tier, a_df_weight = get_defense_tier(a_cpg)
+        
+    st.markdown(f"#### 예시표 1-1: 홈 팀 ({home_team}) 최근 전적 지표 연동")
+    st.markdown(
+        f"""<div class="calc-box">
+            <b>{home_team} 규칙 1번 상세 산출 내역:</b><br>
+            • 최근 전적 성향: <b>{h_rec}</b><br>
+            • 수집된 지표: 평균 득점 <b>{h_gpg:.2f}</b> / 평균 실점 <b>{h_cpg:.2f}</b><br>
+            • 정량 공식 대조 체급: <b>공격력 {h_at_tier}, 방어력 {h_df_tier}</b><br>
+            • 기초 가중치: <b>공격 {h_at_weight}, 방어 {h_df_weight}</b>
+        </div>""",
+        unsafe_allow_html=True,
+    )
     
-  st.markdown(f"#### 예시표 1-1: 홈 팀 ({home_team}) 최근 공식 7경기 전수 LIFO 표")
-  h_lifi_df = pd.DataFrame({
-        "LIFO 순서": ["최신 (1)", "2", "3", "4", "5", "6", "과거 (7)"],
-        "경기 일시": ["2026-06-06", "2026-03-26", "2026-03-21", "2024-02-06", "2024-02-02", "2024-01-30", "2024-01-25"],
-        "상대 팀 (대회명)": ["싱가포르 (월드컵예선)", "태국 (월드컵예선)", "태국 (월드컵예선)", "요르단 (아시안컵)", "호주 (아시안컵)", "사우디 (아시안컵)", "말레이시아 (아시안컵)"],
-        "홈/중립/원정": ["홈", "원정", "홈", "중립", "중립", "중립", "중립"],
-        "결과": ["7 : 0", "3 : 0", "1 : 1", "0 : 2", "2 : 1", "1 : 1", "5 : 3"],
-        "승패": ["승", "승", "무", "패", "승(연)", "승(PK)", "승"],
-        "상대 공·방 티어 태깅": [
-            "평균득점/실점 [공격 D티어, 방어 E티어] (50% 할인)",
-            "평균득점/실점 [공격 C티어, 방어 D티어]",
-            "평균득점/실점 [공격 D티어, 방어 C티어]",
-            "평균득점/실점 [공격 C티어, 방어 D티어]",
-            "평균득점/실점 [공격 B티어, 방어 B티어]",
-            "평균득점/실점 [공격 B티어, 방어 C티어]",
-            "평균득점/실점 [공격 C티어, 방어 D티어]"
-        ]
-    })
-  st.dataframe(h_lifi_df, use_container_width=True, hide_index=True)
-  st.markdown(
-      f""" <div class="calc-box"> <b>{home_team} 규칙 1번 상세 산출 내역:</b><br> • 최근 7경기 득실: 득점 19, 실점 8<br> • 기본기대값: 평균 득점 2.71 / 평균 실점 1.14<br> • 경고등 발동 조건 충족 E티어에 해당하는 싱가포르전의 득점 7점을 50% 할인 적용하여 3.5점으로 계산한 총득점 15.5 (평균 득점 2.21)로 <b>공격력 Tier A에서 공격력 Tier B로 변동</b><br> • 정량 공식 대조 체급: <b>공격력 Tier B, 방어력 Tier C</b><br> • 기초 가중치: <b>공격 +6%, 방어 -4%</b> </div> """,
-      unsafe_allow_html=True,
-  )
-  st.markdown("---")
-  st.markdown(
-      f"#### 예시표 1-2: 원정 팀 ({away_team}) 최근 공식 7경기 전수 LIFO 표"
-  )
-  a_lifi_df = pd.DataFrame({
-      "LIFO 순서": ["최신 (1)", "2", "3", "4", "5", "6", "과거 (7)"],
-      "경기 일시": [
-          "2026-06-11",
-          "2026-06-06",
-          "2026-03-26",
-          "2026-03-21",
-          "2024-02-02",
-          "2024-01-31",
-          "2024-01-24",
-      ],
-      "상대 팀 (대회명)": [
-          "시리아 (월드컵예선)",
-          "미얀마 (월드컵예선)",
-          "북한 (월드컵예선)",
-          "북한 (월드컵예선)",
-          "이란 (아시안컵)",
-          "바레인 (아시안컵)",
-          "인도네시아 (아시안컵)",
-      ],
-      "홈/중립/원정": ["홈", "원정", "원정", "홈", "중립", "중립", "중립"],
-      "결과": ["5 : 0", "5 : 0", "3 : 0", "1 : 0", "1 : 2", "1 : 0", "3 : 0"],
-      "승패": ["승", "승", "승(몰수)", "승", "패", "승", "승"],
-      "상대 공·방 티어 태깅": [
-          "평균득점/실점 [공격 E티어, 방어 D티어] (50% 할인)",
-          "평균득점/실점 [공격 D티어, 방어 E티어] (50% 할인)",
-          "평균득점/실점 [공격 D티어, 방어 C티어]",
-          "평균득점/실점 [공격 C티어, 방어 D티어]",
-          "평균득점/실점 [공격 C티어, 방어 B티어]",
-          "평균득점/실점 [공격 C티어, 방어 C티어]",
-          "평균득점/실점 [공격 C티어, 방어 D티어]",
-      ],
-  })
-  st.dataframe(a_lifi_df, use_container_width=True, hide_index=True)
-  st.markdown(
-      f""" <div class="calc-box"> <b>{away_team} 규칙 1번 상세 산출 내역:</b><br> • 최근 7경기 득실: 득점 19, 실점 2<br> • 기본 기대값: 평균 득점 2.71 / 평균 실점 0.28<br> • 경고등 발동 조건 충족 E티어에 해당하는 시리아(5점), 미얀마(5점)전의 E티어 득점 10점을 50% 할인 적용하여 5점으로 계산한 총득점 14 (평균 득점 2.00)로 <b>공격력 Tier A에서 공격력 Tier B로 변동</b><br> • 정량 공식 대조 체급: <b>공격력 Tier B, 방어력 Tier A</b><br> • 기초 가중치: <b>공격 +6%, 방어 -8%</b> </div> """,
-      unsafe_allow_html=True,
-  )
+    st.markdown("---")
+    st.markdown(f"#### 예시표 1-2: 원정 팀 ({away_team}) 최근 전적 지표 연동")
+    st.markdown(
+        f"""<div class="calc-box">
+            <b>{away_team} 규칙 1번 상세 산출 내역:</b><br>
+            • 최근 전적 성향: <b>{a_rec}</b><br>
+            • 수집된 지표: 평균 득점 <b>{a_gpg:.2f}</b> / 평균 실점 <b>{a_cpg:.2f}</b><br>
+            • 정량 공식 대조 체급: <b>공격력 {a_at_tier}, 방어력 {a_df_tier}</b><br>
+            • 기초 가중치: <b>공격 {a_at_weight}, 방어 {a_df_weight}</b>
+        </div>""",
+        unsafe_allow_html=True,
+    )
 
 # --- [2단계] ---
 with tabs[2]:
