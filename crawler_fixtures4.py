@@ -15,7 +15,7 @@ def crawl_match_details_v4(league_id=39):
         "league_id": league_id,
         "league_name": "",
         "active_stage": "",
-        "active_round": "",   # 💡 현재 선택된 활성 라운드 / 총 라운드 형식 (예: "11/46")
+        "active_round": "",   # 💡 "현재라운드/총라운드" 형식 (예: "11/46")
         "standings": [],
         "standing_legends": []
     }
@@ -35,16 +35,14 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. Stage 및 Round 영역 정밀 추출
-            stage_elem = soup.select_one("#schedule div.stage span.current.on, .schedule div.stage span.current.on, span.current.on")
+            # 2. 💡 스테이지(Stage)는 있는 텍스트 그대로 추출, 라운드(Round)는 div.round 내부의 활성 요소를 정확히 탐색
+            stage_elem = soup.select_one("div.stage, #schedule div.stage")
             match_data_v4["active_stage"] = stage_elem.text.strip() if stage_elem else "League"
 
-            # 💡 [핵심 수정] div.round 내부에 current on이 붙은 요소를 정확히 타격 (round 속성 또는 텍스트)
-            active_round_elem = soup.select_one("div.round span[round].current.on, #schedule div.round span.current.on, .round span.current.on")
-            
+            # div.round 내부에서 current on 클래스가 붙은 현재 라운드 정확히 타격
+            active_round_elem = soup.select_one("div.round span.current.on, #schedule div.round span.current.on")
             active_text = ""
             if active_round_elem:
-                # round 속성이 있으면 우선 가져오고, 없으면 텍스트 가져오기
                 active_text = active_round_elem.get("round", "").strip()
                 if not active_text:
                     active_text = active_round_elem.get_text(strip=True)
@@ -52,11 +50,9 @@ def crawl_match_details_v4(league_id=39):
             if not active_text:
                 active_text = "1"
 
-            # 총 라운드 수 산출
-            all_rounds = soup.select("div.round span[round], #schedule div.round span[round], .round span[round]")
+            all_rounds = soup.select("div.round span[round], #schedule div.round span[round]")
             total_cnt = len(all_rounds) if all_rounds else 46
             
-            # "현재라운드/총라운드" 포맷으로 조합
             match_data_v4["active_round"] = f"{active_text}/{total_cnt}"
 
             # 3. Legends (Standing colors)
