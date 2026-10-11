@@ -8,7 +8,8 @@ def crawl_match_details_v4(league_ids=None):
         league_ids = [75, 39, 11]  # 탐색할 리그 ID 목록
         
     for league_id in league_ids:
-        target_url = f"url?id=12league/{league_id}"
+        # 올바른 URL 경로 구조 적용
+        target_url = f"https://football.scoreman123.com/league/{league_id}"
         
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -34,8 +35,8 @@ def crawl_match_details_v4(league_ids=None):
                 
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 1. 리그명 정밀 추출 (A OR B 선택자 병합)
-            league_title_elem = soup.select_one("div.box h4, .league_title, h4, h2, div#title, .title")
+            # 1. 리그명 정밀 추출 (A OR B 병합 선택자)
+            league_title_elem = soup.select_one("div.box h4, .league_title, h4, h2, div#title, .title, div.header div.title")
             if league_title_elem:
                 txt = league_title_elem.text.strip()
                 if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
@@ -45,8 +46,8 @@ def crawl_match_details_v4(league_ids=None):
                 print(f"[ID: {league_id}] 유효한 리그 정보를 찾을 수 없음 -> 다음 리그로 넘어갑니다.")
                 continue
 
-            # 2. 💡 스테이지 탐색 목록 및 활성 상태 추출 (A OR B 선택자 병합)
-            stage_buttons = soup.select("div.stage span, .stage span, div#schedule .stage span")
+            # 2. 💡 스테이지 탐색 목록 및 활성 상태 추출 (A OR B 병합 선택자)
+            stage_buttons = soup.select("div.stage span, .stage span, div#schedule.plates.schedule div.stage span, div.plates.schedule > div.stage > span")
             if stage_buttons:
                 match_data_v4["total_stages"] = len(stage_buttons)
                 active_stage_elem = soup.select_one("div.stage span.current.on, .stage span.current.on, span.current.on")
@@ -58,8 +59,8 @@ def crawl_match_details_v4(league_ids=None):
                 match_data_v4["total_stages"] = 1
                 match_data_v4["active_stage"] = match_data_v4["league_name"]
 
-            # 3. 💡 라운드 탐색 목록 및 활성 상태 추출 (A OR B 선택자 병합)
-            all_rounds = soup.select("div.round span[round], .round span[round], .round span, div#schedule .round span")
+            # 3. 💡 라운드 탐색 목록 및 활성 상태 추출 (A OR B 병합 선택자)
+            all_rounds = soup.select("div.round span[round], .round span[round], div.round span, div#schedule.plates.schedule div.round span")
             if all_rounds:
                 match_data_v4["total_rounds"] = len(all_rounds)
                 active_round_elem = soup.select_one("div.round span.current.on, .round span.current.on")
@@ -71,8 +72,8 @@ def crawl_match_details_v4(league_ids=None):
                 match_data_v4["total_rounds"] = 0
                 match_data_v4["active_round"] = ""
 
-            # 4. 💡 하단 범례 색상 및 설명 완전 동적 추출 (미리 지정하지 않고 웹페이지에 나오는 대로 수집)
-            legend_items = soup.select("#standingColor span.explain, .explain, .legend span, div.box span.explain")
+            # 4. 💡 하단 범례 색상 및 설명 완전 동적 추출 (색상을 미리 정하지 않고 웹페이지에서 나오는 대로 수집)
+            legend_items = soup.select("#standingColor span.explain, .explain, .legend span, div.box span.explain, div#info span")
             color_to_label = {}
             parsed_legends = []
             
@@ -97,8 +98,8 @@ def crawl_match_details_v4(league_ids=None):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 5. 💡 팀 순위 동적 파싱 (A OR B 선택자 병합)
-            standings_items = soup.select("#standingList li.standis, .standings_list li, tbody tr, div.standis")
+            # 5. 💡 팀 순위 동적 파싱 (A OR B 병합 선택자)
+            standings_items = soup.select("#standingList li.standis, .standings_list li, tbody tr, div.standis, div#teamRanking li")
             parsed_standings = []
             
             for item in standings_items:
@@ -112,8 +113,8 @@ def crawl_match_details_v4(league_ids=None):
 
                 tag_label = color_to_label.get(tag_color, "일반")
 
-                rank_elem = item.select_one(".rank em, .rank")
-                name_elem = item.select_one(".team .name, span.name")
+                rank_elem = item.select_one(".rank em, .rank, span.rank")
+                name_elem = item.select_one(".team .name, span.name, .name")
                 all_spans = [s.text.strip() for s in item.select("span") if s.text.strip()]
                 
                 rank_val = rank_elem.text.strip() if rank_elem else ""
