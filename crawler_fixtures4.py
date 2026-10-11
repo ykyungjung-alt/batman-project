@@ -15,6 +15,7 @@ def crawl_match_details_v4(league_id=39):
         "league_id": league_id,
         "league_name": "잉글랜드 리그 1",
         "total_rounds": 46,
+        "active_stage": "",
         "active_round": "",
         "standings": [],
         "standing_legends": []
@@ -32,32 +33,18 @@ def crawl_match_details_v4(league_id=39):
                 if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
                     match_data_v4["league_name"] = txt.replace("라이브스코어", "").strip()
 
-            # 2. 💡 상단 스테이지 영역과 하단 라운드 영역의 활성 버튼을 각각 독립적으로 정확히 탐색
+            # 2. 💡 스테이지와 라운드를 각각 독립된 항목으로 정확히 분리 수집
             stage_elem = soup.select_one("div.stage span.current.on, .stage span.current.on")
             round_elem = soup.select_one("div.round span.current.on, .round span.current.on")
             
-            stage_text = stage_elem.text.strip() if stage_elem else "League"
-            round_text = round_elem.text.strip() if round_elem else ""
+            match_data_v4["active_stage"] = stage_elem.text.strip() if stage_elem else "League"
+            match_data_v4["active_round"] = round_elem.text.strip() if round_elem else "1"
             
             # 총 라운드 수 산출
             all_rounds = soup.select("div.round span[round], .round span[round]")
-            total_cnt = len(all_rounds) if all_rounds else 46
-            match_data_v4["total_rounds"] = total_cnt
-            
-            # 3. 💡 스테이지와 라운드 정보를 누락 없이 결합 (예: "League 11" 또는 "League - 11/46")
-            if stage_text and round_text:
-                if round_text.isdigit():
-                    match_data_v4["active_round"] = f"{stage_text} {round_text}"
-                else:
-                    match_data_v4["active_round"] = f"{stage_text} - {round_text}"
-            elif round_text:
-                match_data_v4["active_round"] = f"{round_text}/{total_cnt}" if round_text.isdigit() else round_text
-            elif stage_text:
-                match_data_v4["active_round"] = stage_text
-            else:
-                match_data_v4["active_round"] = f"League 1"
+            match_data_v4["total_rounds"] = len(all_rounds) if all_rounds else 46
 
-            # 4. 하단 범례 색상별 의미 매핑 정의
+            # 3. 하단 범례 색상별 의미 매핑 정의
             match_data_v4["standing_legends"] = [
                 {"color": "#CCCCFF", "description": "승격팀"},
                 {"color": "#00CCCC", "description": "승격 플레이오프"},
@@ -70,7 +57,7 @@ def crawl_match_details_v4(league_id=39):
                 "#B1A7A7": "강등팀"
             }
 
-            # 5. 24개 팀 전체 순위 및 통계 정밀 주입
+            # 4. 24개 팀 전체 순위 및 통계 정밀 주입
             raw_standings_data = [
                 ("1", "플리머스", "#CCCCFF", "승격팀", "10", "6", "1", "3", "6", "19"),
                 ("2", "브래드포드 시티", "#CCCCFF", "승격팀", "9", "5", "2", "2", "3", "17"),
@@ -114,7 +101,7 @@ def crawl_match_details_v4(league_id=39):
                 })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (활성 상태: {match_data_v4['active_round']})")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (Stage: {match_data_v4['active_stage']}, Round: {match_data_v4['active_round']})")
         else:
             print(f"페이지 요청 실패: Status Code {response.status_code}")
 
