@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 def crawl_match_details_v4(league_id=39):
-    # 전달받은 league_id에 따라 동적으로 URL 생성
     target_url = f"https://football.scoreman123.com/league/{league_id}"
     
     headers = {
@@ -34,23 +33,22 @@ def crawl_match_details_v4(league_id=39):
             else:
                 match_data_v4["league_name"] = f"리그 ID {league_id}"
 
-            # 2. 💡 활성화된 라운드 동적 감지 (숫자 또는 예선/본선/8강 등의 텍스트 스테이지 모두 대응)
-            active_round_elem = soup.select_one("#schedule span.current.on, .schedule span.current.on, span.current.on")
+            # 2. 💡 일정 영역(#schedule) 내 활성화된 스테이지 및 라운드/버튼 정밀 타격 감지
+            # (예: 'League' 버튼이 활성화된 경우나 '8강', '예선' 등의 텍스트 혹은 숫자 라운드 대응)
+            active_elem = soup.select_one("#schedule .stage span.current.on, #schedule .round span.current.on, #schedule span.current.on, .schedule span.current.on")
             
-            if active_round_elem:
-                active_text = active_round_elem.text.strip()
+            if active_elem:
+                active_text = active_elem.text.strip()
             else:
-                # 만약 클래스로 못 찾을 경우 stage 영역의 활성화 항목 탐색
-                active_stage_elem = soup.select_one("#schedule div.stage span.current.on, div.stage span.current")
-                active_text = active_stage_elem.text.strip() if active_stage_elem else "1"
+                active_text = "League" # 기본값 대안
 
-            # 총 라운드 또는 단계 수 산출 (숫자 라운드와 텍스트 스테이지 목록 모두 포괄)
-            all_rounds = soup.select("#schedule div.round span[round], #schedule div.round span, #schedule span[round], .schedule span")
+            # 총 라운드 또는 단계 수 산출 (#schedule 내부의 전체 라운드 span 개수 파악)
+            all_rounds = soup.select("#schedule .round span[round], #schedule .round span, #schedule span[round]")
             total_cnt = len(all_rounds) if all_rounds else 38
-            
             match_data_v4["total_rounds"] = total_cnt
-            
-            # 활성화된 값이 숫자 형태면 '현재/총합' 형태로, 텍스트 형태(예선, 8강 등)면 해당 텍스트 자체를 직관적으로 반영
+
+            # 활성화된 값이 순수 숫자 형태일 경우 '현재라운드/총라운드'로, 
+     # 텍스트 형태(League, 예선, 8강 등)일 경우 해당 텍스트 그대로 직관적으로 반영
             if active_text.isdigit():
                 match_data_v4["active_round"] = f"{active_text}/{total_cnt}"
             else:
@@ -95,7 +93,6 @@ def crawl_match_details_v4(league_id=39):
                     except Exception:
                         tag_color = ""
 
-                # 해당 리그 범례에 정의된 색상에 맞춰 꼬리표 자동 매칭 (없으면 일반)
                 tag_label = color_to_label.get(tag_color, "일반")
 
                 rank_elem = item.select_one(".rank em, .rank")
@@ -124,7 +121,7 @@ def crawl_match_details_v4(league_id=39):
                     })
             
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 완료 (총 {len(parsed_standings)}개 팀, 활성 라운드/단계: {match_data_v4['active_round']})")
+            print(f"[{match_data_v4['league_name']}] 수집 완료 (총 {len(parsed_standings)}개 팀, 활성 일정/단계: {match_data_v4['active_round']})")
         else:
             print(f"페이지 요청 실패: Status Code {response.status_code}")
 
