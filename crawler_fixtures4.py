@@ -25,44 +25,30 @@ def crawl_match_details_v4(league_id=39):
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 1. 💡 진짜 리그명 정밀 타격 (대진표, 일정, 팀순위 등의 메뉴명 제외하고 실제 리그 타이틀 추출)
-            league_name = ""
-            # 스코어맨 페이지의 실제 리그 타이틀 위치 구조 (.box h4 또는 파란색 상단 타이틀 부근)
+            # 1. League name
             title_elem = soup.select_one("div.box h4, .league_title, h4")
             if title_elem:
                 txt = title_elem.text.strip()
-                if txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
-                    league_name = txt
+                if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
+                    match_data_v4["league_name"] = txt.replace("라이브스코어", "").strip()
             
-            # 만약 못 찾았을 경우 페이지 내 굵은 타이틀이나 브레드크럼에서 탐색
-            if not league_name:
-                for h in soup.select("h4, h2, b"):
-                    t = h.text.strip()
-                    if "리그" in t or "클래식" in t or "챔피언십" in t or "프리미어" in t:
-                        league_name = t
-                        break
-            
-            match_data_v4["league_name"] = league_name.replace("라이브스코어", "").strip() if league_name else "잉글랜드 리그 1"
+            if not match_data_v4["league_name"]:
+                match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. 💡 활성화된 라운드 정밀 타격 (League 버튼이 아니라 실제 선택된 라운드 숫자 또는 스테이지 탐색)
-            # 일정 영역 안에서 on 클래스가 붙은 순수 숫자 라운드 또는 현재 진행 단계를 우선 탐색
-            active_round_elem = soup.select_one("#schedule div.round span.current.on, .schedule div.round span.current.on")
-            if not active_round_elem:
-                active_round_elem = soup.select_one("#schedule span.current.on, span.current.on")
+            # 2. Active round / stage (e.g. League, 11, etc.)
+            active_elem = soup.select_one("#schedule .stage span.current.on, #schedule div.round span.current.on, #schedule span.current.on, span.current.on")
+            active_text = active_elem.text.strip() if active_elem else "1"
             
-            active_num = active_round_elem.text.strip() if active_round_elem else "1"
-            
-            # 총 라운드 수 산출
-            all_rounds = soup.select("#schedule div.round span[round], .schedule span[round], #schedule span[round]")
+            all_rounds = soup.select("#schedule div.round span[round], .schedule div.round span[round], #schedule span[round]")
             total_cnt = len(all_rounds) if all_rounds else 46
             match_data_v4["total_rounds"] = total_cnt
             
-            if active_num.isdigit():
-                match_data_v4["active_round"] = f"{active_num}/{total_cnt}"
+            if active_text.isdigit():
+                match_data_v4["active_round"] = f"{active_text}/{total_cnt}"
             else:
-                match_data_v4["active_round"] = active_num
+                match_data_v4["active_round"] = active_text
 
-            # 3. 하단 범례 색상 및 의미 동적 추출
+            # 3. Legends (Standing colors)
             legend_items = soup.select("#standingColor span.explain, .explain")
             color_to_label = {}
             parsed_legends = []
@@ -96,7 +82,7 @@ def crawl_match_details_v4(league_id=39):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 4. 💡 팀 순위(Standings) 정밀 파싱 (DOM 파싱 실패 시 실데이터 기반 백업 매핑으로 누락 원천 차단)
+            # 4. Standings
             standings_items = soup.select("#standingList li.standis")
             parsed_standings = []
             
@@ -136,7 +122,6 @@ def crawl_match_details_v4(league_id=39):
                         "승점": stat_slice[5] if len(stat_slice) > 5 else ""
                     })
 
-            # 실데이터 기반 백업 매핑 (데이터 누락 방지)
             if not parsed_standings and league_id == 39:
                 raw_fallback_data = [
                     ("1", "플리머스", "#CCCCFF", "승격팀", "10", "6", "1", "3", "6", "19"),
@@ -179,18 +164,18 @@ def crawl_match_details_v4(league_id=39):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (활성 라운드: {match_data_v4['active_round']})")
+            print(f"[{match_data_v4['league_name']}] Oñemono'ã porãite.")
         else:
-            print(f"페이지 요청 실패: Status Code {response.status_code}")
+            print(f"Peteĩ javy oiko: {response.status_code}")
 
     except Exception as e:
-        print(f"크롤링 중 오류 발생: {e}")
+        print(f"Javy oiko jeheka jave: {e}")
 
     output_filename = "match_details_v4.json"
     with open(output_filename, "w", encoding="utf-8") as f:
         json.dump(match_data_v4, f, ensure_ascii=False, indent=4)
         
-    print(f"[{output_filename}] 저장 완료.")
+    print(f"[{output_filename}] Ñongatu porãite.")
 
 if __name__ == "__main__":
     crawl_match_details_v4(league_id=39)
