@@ -488,86 +488,117 @@ with tabs[3]:
 
 # --- [4단계] ---
 with tabs[4]:
-  st.markdown(
-      f"### [규칙 4번: 역대 공식 맞대결 상성 전수 로그 및 단방향 10% 룰] -"
-      f" {home_team} vs {away_team}"
-  )
-  st.markdown(
-      """ <div class="step-box"> <b>📌 규칙 4번 규격 원칙 및 요약 설명:</b><br> • <b>전수 조사 대상:</b> 역대 공식 맞대결 최근 10경기 전수 조사 (5경기 미만일 시 동등 팀으로 간주)<br> • <b>친선전 전면 배제:</b> 친선 경기는 전면 배제하고 오직 공식 A매치 및 대회 맞대결 기록만을 표본으로 채택합니다.<br> • <b>단방향 10% 룰 (Single-Direction Rule):</b> 통산 승률 50% 이상인 상성 우세 팀에게 공격력 +10% 및 방어력 -10% 단방향 상성 보정을 동시 부여합니다 (열세 또는 동등 팀은 0% 고정).<br> • <b>'단방향'인 이유:</b> 상대 팀 수치를 깎아내리는 방식이 아니라, 승률 50% 이상으로 상성 우위를 입증한 우세 팀에게만 보정(+10% / -10%)을 더해주고 열세 팀은 0%로 고정하기 때문입니다. </div> """,
-      unsafe_allow_html=True,
-  )
-  st.markdown(
-      f"#### 예시표 4: {home_team} 기준 역대 공식 맞대결 최근 10경기 전수 표"
-  )
-  h2h_df = pd.DataFrame({
-      "H2H 순서": [
-          "1 (최신)",
-          "2",
-          "3",
-          "4",
-          "5",
-          "6",
-          "7",
-          "8",
-          "9",
-          "10 (과거)",
-      ],
-      "경기 일자": [
-          "2022-07-27",
-          "2019-12-18",
-          "2017-12-16",
-          "2015-08-05",
-          "2013-07-28",
-          "2011-08-10",
-          "2010-10-12",
-          "2010-05-24",
-          "2010-02-14",
-          "2009-02-22",
-      ],
-      "대회 명칭": [
-          "EAFF E-1 챔피언십",
-          "EAFF E-1 챔피언십",
-          "EAFF E-1 챔피언십",
-          "EAFF 동아시안컵",
-          "EAFF 동아시안컵",
-          "친선경기 (공식 A매치)",
-          "친선경기 (공식 A매치)",
-          "친선경기 (공식 A매치)",
-          "EAFF 동아시안컵",
-          "국가대표 친선경기",
-      ],
-      "경기 장소": [
-          f"{away_team} (원정)",
-          f"{home_team} (홈)",
-          f"{away_team} (원정)",
-          "중국 (중립)",
-          f"{home_team} (홈)",
-          f"{away_team} (원정)",
-          f"{home_team} (홈)",
-          f"{away_team} (원정)",
-          f"{away_team} (원정)",
-          f"{home_team} (홈)",
-      ],
-      "최종 스코어": [
-          "0 : 3",
-          "1 : 0",
-          "4 : 1",
-          "1 : 1",
-          "1 : 2",
-          "0 : 3",
-          "0 : 0",
-          "2 : 0",
-          "3 : 1",
-          "0 : 0",
-      ],
-      "경기 결과 판정": ["패", "승", "승", "무", "패", "패", "무", "승", "승", "무"],
-  })
-  st.dataframe(h2h_df, use_container_width=True, hide_index=True)
-  st.markdown(
-      f""" <div class="calc-box"> <b>규칙 4번 상세 산출 내역:</b><br> • {home_team}: 10전 4승 3무 3패 (승률 40%)<br> • {away_team}: 10전 3승 3무 4패 (승률 30%)<br> • 판정 결과: <b>양팀 우세 없이 동등 0% 고정</b> </div> """,
-      unsafe_allow_html=True,
-  )
+    st.markdown(f"### [규칙 4번: 역대 공식 맞대결 상성 전수 로그 및 단방향 10% 룰] - {home_team} vs {away_team}")
+    st.markdown("""
+    <div class="step-box">
+        <b>📌 규칙 4번 규격 원칙 및 요약 설명:</b><br>
+        • <b>전수 조사 대상:</b> 역대 공식 맞대결 최근 10경기 전수 조사 (5경기 미만일 시 동등 팀으로 간주)<br>
+        • <b>친선전 전면 배제:</b> 친선 경기는 전면 배제하고 오직 공식 A매치 및 대회 맞대결 기록만을 표본으로 채택합니다.<br>
+        • <b>단방향 10% 룰 (Single-Direction Rule):</b> 통산 승률 50% 이상인 상성 우세 팀에게 공격력 +10% 및 방어력 -10% 단방향 상성 보정을 동시 부여합니다 (열세 또는 동등 팀은 0% 고정).<br>
+        • <b>'단방향'인 이유:</b> 상대 팀 수치를 깎아내리는 방식이 아니라, 승률 50% 이상으로 상성 우위를 입증한 우세 팀에게만 보정(+10% / -10%)을 더해주고 열세 팀은 0%로 고정하기 때문입니다.
+    </div>
+    """, unsafe_allow_html=True)
 
+    # 💡 상세 데이터가 존재할 때만 크롤링된 H2H 표 및 산출 내역 동적 렌더링
+    if has_detailed_data:
+        meta_details = detailed_info.get("meta_details", {})
+        h2h_info = meta_details.get("h2h", {})
+        h2h_matches = h2h_info.get("matches", [])
+        
+        st.markdown(f"#### 예시표 4: {home_team} 기준 역대 공식 맞대결 최근 경기 전수 표")
+        
+        if h2h_matches:
+            h2h_table_data = []
+            home_wins = 0
+            draws = 0
+            away_wins = 0
+            total_games = len(h2h_matches)
+            
+            for idx, m in enumerate(h2h_matches):
+                row_cols = m.get("row_data", [])
+                if len(row_cols) >= 4:
+                    match_date_str = row_cols[0]  # 예: "GER D12026.03.21" 또는 대회명+날짜
+                    h_team_name = row_cols[1]     # 홈팀
+                    score_str = row_cols[2]       # 스코어 ("3-3")
+                    a_team_name = row_cols[3]     # 원정팀
+                    
+                    # 경기 결과 판정 (선택된 홈팀 기준)
+                    res_label = "-"
+                    try:
+                        scores = score_str.replace("：", "-").split("-")
+                        h_score = int(scores[0].strip())
+                        a_score = int(scores[1].strip())
+                        
+                        # 현재 대시보드의 'home_team'이 경기 기록의 홈/원정 어디에 위치했느냐에 따른 판정
+                        if h_team_name == home_team:
+                            if h_score > a_score:
+                                res_label = "승"
+                                home_wins += 1
+                            elif h_score < a_score:
+                                res_label = "패"
+                                away_wins += 1
+                            else:
+                                res_label = "무"
+                                draws += 1
+                        else:
+                            # 반대 포지션인 경우
+                            if h_score > a_score:
+                                res_label = "패"
+                                away_wins += 1
+                            elif h_score < a_score:
+                                res_label = "승"
+                                home_wins += 1
+                            else:
+                                res_label = "무"
+                                draws += 1
+                    except Exception:
+                        pass
+                    
+                    # 대회명/날짜 분리 정제 시도
+                    match_seq_label = f"{idx + 1} (최신)" if idx == 0 else (f"{idx + 1} (과거)" if idx == total_games - 1 else str(idx + 1))
+                    
+                    h2h_table_data.append({
+                        "H2H 순서": match_seq_label,
+                        "경기 기록": match_date_str,
+                        "대진 기록": f"{h_team_name} vs {a_team_name}",
+                        "최종 스코어": score_str.replace("-", " : "),
+                        "경기 결과 판정": res_label
+                    })
+            
+            if h2h_table_data:
+                df_h2h = pd.DataFrame(h2h_table_data)
+                st.dataframe(df_h2h, use_container_width=True, hide_index=True)
+            
+            # 💡 규칙 4번 상세 산출 내역 및 단방향 10% 룰 자동 판정
+            home_win_rate = (home_wins / total_games * 100) if total_games > 0 else 0
+            away_win_rate = (away_wins / total_games * 100) if total_games > 0 else 0
+            
+            # 판정 결과 로직
+            if total_games >= 5:
+                if home_win_rate >= 50.0:
+                    r4_desc = f"🔥 <b>[상성 우세 보정 적용]</b> {home_team} 승률 50% 이상 (공격력 +10% / 방어력 -10% 보정 부여)"
+                elif away_win_rate >= 50.0:
+                    r4_desc = f"🔥 <b>[상성 우세 보정 적용]</b> {away_team} 승률 50% 이상 (공격력 +10% / 방어력 -10% 보정 부여)"
+                else:
+                    r4_desc = "⚖️ <b>판정 결과: 양팀 우세 없이 동등 0% 고정</b>"
+            else:
+                r4_desc = "⚖️ <b>판정 결과: 맞대결 표본 5경기 미만으로 동등 팀 간주 (0% 고정)</b>"
+
+            st.markdown(f"""
+            <div class="calc-box">
+                <b>규칙 4번 상세 산출 내역:</b><br>
+                • {home_team}: {total_games}전 {home_wins}승 {draws}무 {away_wins}패 (승률 {home_win_rate:.1f}%)<br>
+                • {away_team}: {total_games}전 {away_wins}승 {draws}무 {home_wins}패 (승률 {away_win_rate:.1f}%)<br>
+                • {r4_desc}
+            </div>
+            """, unsafe_allow_html=True)
+            
+        else:
+            st.info("💡 해당 경기에 수집된 역대 맞대결(h2h) 상세 기록이 존재하지 않습니다.")
+    else:
+        # 💡 3~4일 뒤 경기 등 상세 데이터가 없을 때 경고 출력
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (3~4일 이후 경기 등)")
+        st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, H2H 상대전적 상성 산출 내역을 표시할 수 없습니다.")
 # --- [5단계] ---
 with tabs[5]:
   st.markdown(
