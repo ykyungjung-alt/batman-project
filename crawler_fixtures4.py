@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 def crawl_match_details_v4(league_id=39):
-    target_url = f"https://football.scoreman123.com/league/{league_id}"
+    target_url = f"url?id=12league/{league_id}"
     
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -35,18 +35,26 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. 💡 active_round와 total_rounds를 각각 독립된 항목으로 정밀 추출
+            # 2. 💡 [핵심 수정] round 속성과 current on 클래스를 가진 span을 정확히 탐색
             active_text = "1"
-            round_spans = soup.select("div.round span")
+            # round 속성이 있는 모든 span을 순회하며 class에 current와 on이 모두 포함된 요소를 탐색
+            round_spans = soup.select("div.round span[round]")
             for span in round_spans:
-                classes = span.get("class", [])
+                class_attr = span.get("class", [])
+                # class_attr이 리스트이거나 문자열일 경우 모두 안전하게 대응
+                if isinstance(class_attr, list):
+                    classes = class_attr
+                else:
+                    classes = class_attr.split()
+                
                 if "current" in classes and "on" in classes:
-                    active_text = span.text.strip()
+                    active_text = span.get("round", "").strip()
+                    if not active_text:
+                        active_text = span.text.strip()
                     break
             
             # 총 라운드 수 산출
-            all_rounds = soup.select("div.round span[round]")
-            total_cnt = len(all_rounds) if all_rounds else 46
+            total_cnt = len(round_spans) if round_spans else 46
             
             match_data_v4["active_round"] = active_text
             match_data_v4["total_rounds"] = str(total_cnt)
