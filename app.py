@@ -123,6 +123,66 @@ tab_titles = [
 tabs = st.tabs(tab_titles)
 
 # ==========================================
+# 💡 [공통 유틸리티] 대회 압축어 정식 한글 명칭 자동 변환 함수
+# ==========================================
+def translate_tournament_code(code_str):
+    if not code_str:
+        return "기타 공식 경기"
+    
+    mapping = {
+        # 요청하신 추가 항목
+        "KFAC": "대한민국 코리아컵 (FA컵)",
+        "ENG LC": "잉글랜드 리그컵 (카라바오컵)",
+        "ACLE": "AFC 챔피언스리그 엘리트 (ACLE)",
+        "ITA Cup": "이탈리아 컵 (코파 이탈리아)",
+        "FRA D1": "프랑스 리그 1",
+        "UEFA ECL": "UEFA 유로파 컨퍼런스리그",
+        
+        # FIFA 및 월드컵 관련 용어
+        "WC": "FIFA 월드컵 본선",
+        "FIFA WC": "FIFA 월드컵 본선",
+        "WCC": "FIFA 클럽 월드컵",
+        "FIFA CWC": "FIFA 클럽 월드컵",
+        "U20 WC": "FIFA U-20 월드컵",
+        "U17 WC": "FIFA U-17 월드컵",
+        "W-WC": "FIFA 여자 월드컵",
+        
+        # 주요 리그 및 컵대회 압축어
+        "GER D1": "독일 분데스리가",
+        "GERC": "독일 DFB 포칼",
+        "INT CF": "국가대표 친선경기",
+        "ENG PR": "잉글랜드 프리미어리그",
+        "ENG FAC": "잉글랜드 FA컵",
+        "ESP D1": "스페인 라리가",
+        "ESP C": "스페인 코파 델 레이",
+        "ITA D1": "이탈리아 세리에 A",
+        "FRA C": "프랑스 쿠프 드 프랑스",
+        "UEFA CL": "UEFA 챔피언스리그",
+        "UEFA EL": "UEFA 유로파리그",
+        "AFC CL": "AFC 챔피언스리그",
+        "ACQ": "AFC 아시안컵 예선",
+        "AC": "AFC 아시안컵 본선"
+    }
+    
+    for k, v in mapping.items():
+        if k in code_str:
+            return code_str.replace(k, v)
+            
+    return code_str
+
+tab_titles = [
+    "0단계 (메타)", 
+    "규칙 1 (LIFO 7경기)", 
+    "규칙 2 (구장 Shift)", 
+    "규칙 3 (누수·피로)", 
+    "규칙 4 (H2H 상성)", 
+    "규칙 5 (최종 람다)", 
+    "규칙 6 (푸아송 예측)", 
+    "요약 리포트"
+]
+tabs = st.tabs(tab_titles)
+
+# ==========================================
 # 0단계 탭 (메타 및 순위표 출력)
 # ==========================================
 with tabs[0]:
