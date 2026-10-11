@@ -2,42 +2,30 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-import re
 
-def crawl_match_details_v4(league_ids=None):
-    # 💡 지정된 리그 ID 목록을 순차적으로 탐색하도록 기본값 설정 (예: 잉글랜드 리그 1, 프랑스 리그 1 등)
-    if league_ids is None:
-        league_ids = [39, 11]  
-        
-    for league_id in league_ids:
-        # 스코어맨 리그 상세 페이지 URL 구조
-        target_url = f"https://football.scoreman123.com/league/{league_id}"
-        
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        }
-        
-        match_data_v4 = {
-            "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "league_id": league_id,
-            "league_name": "",
-            "total_rounds": 46,
-            "active_round": "",
-            "standings": [],
-            "standing_legends": []
-        }
+def crawl_match_details_v4(league_id=39):
+    target_url = f"https://football.scoreman123.com/league/{league_id}"
+    
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+    
+    match_data_v4 = {
+        "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "league_id": league_id,
+        "league_name": "",
+        "total_rounds": 46,
+        "active_round": "",
+        "standings": [],
+        "standing_legends": []
+    }
 
-        try:
-            print(f"[ID: {league_id}] 페이지 요청 중: {target_url}")
-            response = requests.get(target_url, headers=headers, timeout=10)
-            
-            if response.status_code != 200:
-                print(f"[ID: {league_id}] 페이지 요청 실패 (Status: {response.status_code}) -> 다음 리그로 넘어갑니다.")
-                continue
-                
+    try:
+        response = requests.get(target_url, headers=headers, timeout=10)
+        if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 1. 리그명 정밀 추출
+            # 1. League name
             title_elem = soup.select_one("div.box h4, .league_title, h4")
             if title_elem:
                 txt = title_elem.text.strip()
@@ -45,28 +33,22 @@ def crawl_match_details_v4(league_ids=None):
                     match_data_v4["league_name"] = txt.replace("라이브스코어", "").strip()
             
             if not match_data_v4["league_name"]:
-                match_data_v4["league_name"] = f"League_{league_id}"
+                match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. 💡 액티브 라운드/단계 텍스트 추출 에러 방어 및 정밀 탐색
-            active_round_elem = soup.select_one("#schedule div.round span.current.on, .schedule div.round span.current.on, span[round].current.on, span.current.on")
+            # 2. Active round / stage (e.g. League, 11, etc.)
+            active_elem = soup.select_one("#schedule .stage span.current.on, #schedule div.round span.current.on, #schedule span.current.on, span.current.on")
+            active_text = active_elem.text.strip() if active_elem else "1"
             
-            if active_round_elem:
-                active_text = active_round_elem.get_text(strip=True)
-            else:
-                active_text = "1"
-            
-            # 총 라운드 수 산출
             all_rounds = soup.select("#schedule div.round span[round], .schedule div.round span[round], #schedule span[round]")
             total_cnt = len(all_rounds) if all_rounds else 46
             match_data_v4["total_rounds"] = total_cnt
             
-            # 숫자 형태인 경우 '현재/총합' 포맷 적용, 텍스트인 경우 그대로 반영
             if active_text.isdigit():
                 match_data_v4["active_round"] = f"{active_text}/{total_cnt}"
             else:
                 match_data_v4["active_round"] = active_text
 
-            # 3. 하단 범례 색상 및 의미 동적 추출
+            # 3. Legends (Standing colors)
             legend_items = soup.select("#standingColor span.explain, .explain")
             color_to_label = {}
             parsed_legends = []
@@ -100,7 +82,7 @@ def crawl_match_details_v4(league_ids=None):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 4. 팀 순위 파싱
+            # 4. Standings
             standings_items = soup.select("#standingList li.standis")
             parsed_standings = []
             
@@ -140,7 +122,6 @@ def crawl_match_details_v4(league_ids=None):
                         "승점": stat_slice[5] if len(stat_slice) > 5 else ""
                     })
 
-            # 실시간 파싱 실패 시 리그 ID 39번에 대한 안전 폴백 데이터 매핑
             if not parsed_standings and league_id == 39:
                 raw_fallback_data = [
                     ("1", "플리머스", "#CCCCFF", "승격팀", "10", "6", "1", "3", "6", "19"),
@@ -183,18 +164,18 @@ def crawl_match_details_v4(league_ids=None):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (활성 라운드/단계: {match_data_v4['active_round']}, 팀 수: {len(parsed_standings)})")
+            print(f"[{match_data_v4['league_name']}] Oñemono'ã porãite.")
+        else:
+            print(f"Peteĩ javy oiko: {response.status_code}")
 
-            # 파일 저장 (리그별로 구분하거나 단일 파일로 덮어쓰기)
-            output_filename = "match_details_v4.json"
-            with open(output_filename, "w", encoding="utf-8") as f:
-                json.dump(match_data_v4, f, ensure_ascii=False, indent=4)
-            print(f"[{output_filename}] 저장 완료.")
+    except Exception as e:
+        print(f"Javy oiko jeheka jave: {e}")
 
-        except Exception as e:
-            print(f"[ID: {league_id}] 크롤링 중 오류 발생: {e} -> 다음 리그로 넘어갑니다.")
-            continue
+    output_filename = "match_details_v4.json"
+    with open(output_filename, "w", encoding="utf-8") as f:
+        json.dump(match_data_v4, f, ensure_ascii=False, indent=4)
+        
+    print(f"[{output_filename}] Ñongatu porãite.")
 
 if __name__ == "__main__":
-    # 💡 탐색할 리그 ID 목록을 지정하여 순차 수집 수행
-    crawl_match_details_v4(league_ids=[39, 11])
+    crawl_match_details_v4(league_id=39)
