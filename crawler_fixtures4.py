@@ -37,7 +37,7 @@ def crawl_match_details_v4(league_ids=None):
                 
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 1. 리그명 추출 (스크린샷 속 _className 스크립트 또는 타이틀 요소 우선 타격)
+            # 1. 리그명 추출
             script_tags = soup.find_all("script")
             for script in script_tags:
                 if script.string and "_className = escapeChar" in script.string:
@@ -55,7 +55,7 @@ def crawl_match_details_v4(league_ids=None):
                 print(f"[ID: {league_id}] 유효한 리그 이름을 찾을 수 없음 -> 다음 리그로 넘어갑니다.")
                 continue
 
-            # 2. 스테이지(Stage) 정보 정밀 추출 (스크린샷 기준 div.stage span 구조)
+            # 2. 스테이지(Stage) 정보 추출
             stage_buttons = soup.select("div.stage span, .stage span")
             if stage_buttons:
                 match_data_v4["total_stages"] = len(stage_buttons)
@@ -68,7 +68,7 @@ def crawl_match_details_v4(league_ids=None):
                 match_data_v4["total_stages"] = 1
                 match_data_v4["active_stage"] = match_data_v4["league_name"]
 
-            # 3. 라운드(Round) 정보 정밀 추출 (스크린샷 기준 div.round span[round] 구조)
+            # 3. 라운드(Round) 정보 추출
             all_rounds = soup.select("div.round span[round], .round span[round]")
             if all_rounds:
                 match_data_v4["total_rounds"] = len(all_rounds)
@@ -76,13 +76,12 @@ def crawl_match_details_v4(league_ids=None):
                 if active_round_elem and active_round_elem.text.strip():
                     match_data_v4["active_round"] = active_round_elem.text.strip()
                 else:
-                    # 기본적으로 첫 번째 라운드나 맨 처음 요소를 안전하게 지정
                     match_data_v4["active_round"] = all_rounds[0].text.strip()
             else:
                 match_data_v4["total_rounds"] = 0
                 match_data_v4["active_round"] = ""
 
-            # 4. 하단 범례(Legends) 동적 수집
+            # 4. 하단 범례(Legends) 동적 수집 (페이지별 동적 스탠딩 컬러 매칭 준비)
             legend_items = soup.select("#standingColor span.explain, .explain, .legend span")
             color_to_label = {}
             parsed_legends = []
@@ -108,7 +107,7 @@ def crawl_match_details_v4(league_ids=None):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 5. 순위표(Standings) 파싱
+            # 5. 순위표(Standings) 파싱 및 꼬리표(분류) 자동 매칭
             standings_items = soup.select("#standingList li.standis, .standings_list li, tbody tr")
             parsed_standings = []
             
@@ -121,6 +120,7 @@ def crawl_match_details_v4(league_ids=None):
                     except Exception:
                         tag_color = ""
 
+                # 💡 스탠딩 컬러와 실시간 매칭하여 해당 팀에 맞는 꼬리표(분류) 부여 (색상이 없으면 "일반")
                 tag_label = color_to_label.get(tag_color, "일반")
 
                 rank_elem = item.select_one(".rank em, .rank, span.rank")
@@ -136,8 +136,8 @@ def crawl_match_details_v4(league_ids=None):
                 if rank_val and team_val and rank_val.lower() != 'r':
                     stat_slice = all_spans[-6:] if len(all_spans) >= 6 else []
                     parsed_standings.append({
-                        "rank": rank_val.replace("\n", "").strip(),
-                        "team": team_val,
+                        "순위": rank_val.replace("\n", "").strip(),
+                        "구단": team_val,
                         "tag_color": tag_color,
                         "tag_label": tag_label,
                         "경기수": stat_slice[0] if len(stat_slice) > 0 else "",
