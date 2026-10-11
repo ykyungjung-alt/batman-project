@@ -35,19 +35,35 @@ def crawl_match_details_v4(league_id=39):
                 if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
                     match_data_v4["league_name"] = txt.replace("라이브스코어", "").strip()
 
-            # 2. 💡 전체 스테이지 목록 수 및 활성화된 스테이지 추출
+            # 2. 💡 스테이지 정보 동적 처리 (존재하는 경우에만 수집, 없거나 단일이면 유연하게 대응)
             stage_buttons = soup.select("div.stage span, .stage span")
-            match_data_v4["total_stages"] = len(stage_buttons) if stage_buttons else 1
-            
             active_stage_elem = soup.select_one("div.stage span.current.on, .stage span.current.on")
-            match_data_v4["active_stage"] = active_stage_elem.text.strip() if active_stage_elem else "League"
+            
+            if stage_buttons:
+                match_data_v4["total_stages"] = len(stage_buttons)
+                if active_stage_elem:
+                    match_data_v4["active_stage"] = active_stage_elem.text.strip()
+                elif len(stage_buttons) == 1:
+                    match_data_v4["active_stage"] = stage_buttons[0].text.strip()
+                else:
+                    match_data_v4["active_stage"] = "League"
+            else:
+                match_data_v4["total_stages"] = 0
+                match_data_v4["active_stage"] = "" # 스테이지가 아예 없는 경우 빈 값 처리
 
-            # 3. 💡 전체 라운드 수 및 활성화된 라운드 추출
+            # 3. 💡 라운드 정보 동적 처리 (존재하는 경우에만 수집, 없으면 빈 값 처리)
             all_rounds = soup.select("div.round span[round], .round span[round]")
-            match_data_v4["total_rounds"] = len(all_rounds) if all_rounds else 46
-
             active_round_elem = soup.select_one("div.round span.current.on, .round span.current.on")
-            match_data_v4["active_round"] = active_round_elem.text.strip() if active_round_elem else "1"
+            
+            if all_rounds:
+                match_data_v4["total_rounds"] = len(all_rounds)
+                if active_round_elem:
+                    match_data_v4["active_round"] = active_round_elem.text.strip()
+                else:
+                    match_data_v4["active_round"] = all_rounds[0].text.strip() if len(all_rounds) >  0 else ""
+            else:
+                match_data_v4["total_rounds"] = 0
+                match_data_v4["active_round"] = "" # 라운드가 아예 없는 토너먼트 등의 경우 빈 값 처리
 
             # 하단 범례 색상 및 의미 동적 추출
             legend_items = soup.select("#standingColor span.explain, .explain")
@@ -83,7 +99,7 @@ def crawl_match_details_v4(league_id=39):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 4. 💡 팀 순위 동적 파싱 (하드코딩 없이 웹페이지에 존재하는 팀 만큼 유연하게 수집)
+            # 4. 팀 순위 동적 파싱 (참여 팀 수 고정 없이 웹페이지 구조에 맞춰 유연하게 수집)
             standings_items = soup.select("#standingList li.standis, .standings_list li, tbody tr")
             parsed_standings = []
             
@@ -166,7 +182,7 @@ def crawl_match_details_v4(league_id=39):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (총 스테이지: {match_data_v4['total_stages']}, 활성 스테이지: {match_data_v4['active_stage']}, 총 라운드: {match_data_v4['total_rounds']}, 활성 라운드: {match_data_v4['active_round']}, 총 {len(parsed_standings)}개 팀)")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (총 {len(parsed_standings)}개 팀)")
         else:
             print(f"페이지 요청 실패: Status Code {response.status_code}")
 
