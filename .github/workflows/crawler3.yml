@@ -33,4 +33,8 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git add match_details_v3.json
         git commit -m "Auto-update match details v3 [skip ci]" || exit 0
+        
+        # 💡 원격 저장소 최신 내역을 먼저 Rebase하여 동시 푸시 충돌 방지
+        git pull --rebase origin main || echo "No remote changes to pull"
+        
         git push
