@@ -115,7 +115,7 @@ with tabs[0]:
         # 💡 head_info에서 데이터 안전하게 가져오기
         head_info = detailed_info.get("head_info", {})
         
-        # 1. 대회 성격 조합 (리그명 + 라운드 정보가 있으면 함께 표출)
+        # 1. 대회 성격 조합 (리그명 + 라운드 정보)
         league_name = head_info.get("league", tournament_name)
         round_info = head_info.get("round", "")
         if round_info:
@@ -151,9 +151,9 @@ with tabs[0]:
             "필터 검증 결과"
         ],
         "내용": [
-            tournament_display,  # 💡 수정된 대회 성격 (리그 + 라운드)
+            tournament_display,
             f"{match_date} (공식 지정 경기)",
-            stadium_info,        # 💡 수정된 구장 및 날씨 통합 정보
+            stadium_info,
             f"{home_team} vs {away_team}",
             meta_status
         ]
@@ -162,7 +162,37 @@ with tabs[0]:
     st.markdown("---")
     st.markdown("### 📊 공식 팀 순위 및 조건별 전적표 현황")
 
-# (이하 rankings 데이터프레임 출력 코드는 그대로 유지)
+    # 2. 공식 팀 순위 및 전적표 출력 (누락되었던 부분 원복)
+    if detailed_info:
+        meta_details = detailed_info.get("meta_details", {})
+        rankings_raw = meta_details.get("rankings", [])
+        
+        if rankings_raw:
+            rankings_list = []
+            for idx, r in enumerate(rankings_raw):
+                rankings_list.append({
+                    "No": idx + 1,
+                    "리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
+                    "팀": str(r.get("team", "-")),
+                    "경기": str(r.get("played", "0")),
+                    "승": str(r.get("win", "0")),
+                    "무승부": str(r.get("draw", "0")),
+                    "패": str(r.get("loss", "0")),
+                    "득점": str(r.get("goals_for", "0")),
+                    "실점": str(r.get("goals_against", "0")),
+                    "득실": str(r.get("goal_diff", "0")),
+                    "승점": str(r.get("points", "0"))
+                })
+            df_rankings = pd.DataFrame(rankings_list)
+            
+            st.markdown("🔍 수집된 팀별 전체 및 조건별 세부 전적표입니다.")
+            st.dataframe(df_rankings[["리그순위", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
+            
+        else:
+            st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다. (데이터 없음)")
+    else:
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (데이터 없음)")
+        st.info("💡 크롤러를 통해 해당 경기의 상세 정밀 데이터를 먼저 수집해 주세요.")
 with tabs[1]:
     st.markdown(f"### [규칙 1번: 종합 최근 7경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
     st.markdown("""
