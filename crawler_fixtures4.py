@@ -35,15 +35,12 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. 💡 [핵심 해결] malformed HTML(style class=...)로 인해 class가 style 안으로 말려들어간 현상 대응
+            # 2. active_round 및 total_rounds 추출 (malformed HTML의 style class 구조 완벽 대응)
             active_text = "1"
             round_spans = soup.select("div.round span[round]")
             for span in round_spans:
-                # style 속성값이나 태그 전체 문자열에 "current"가 포함된 녀석이 바로 활성화된 녀석!
-                style_attr = str(span.get("style", ""))
-                tag_str = str(span)
-                
-                if "current" in style_attr or "current" in tag_str:
+                # 태그 문자열 전체에 "current"가 포함되어 있는지 확인하여 현재 활성 라운드 정확히 타격
+                if "current" in str(span):
                     active_text = span.get("round", "").strip()
                     if not active_text:
                         active_text = span.get_text(strip=True)
