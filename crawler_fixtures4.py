@@ -9,7 +9,6 @@ def crawl_match_details_v4(league_ids=None):
         league_ids = [39, 11]  # 지정된 리그 ID 순차 탐색
         
     for league_id in league_ids:
-        # 실제 스코어맨 도메인 주소 구조 반영
         target_url = f"https://football.scoreman123.com/league/{league_id}"
         
         headers = {
@@ -38,7 +37,7 @@ def crawl_match_details_v4(league_ids=None):
                 
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 1. 상단 소스 스크립트 내 _className 정밀 추출 (예: 잉글랜드 리그 1)
+            # 1. 스크립트 상단 _className에서 리그명 정밀 추출
             script_tags = soup.find_all("script")
             for script in script_tags:
                 if script.string and "_className = escapeChar" in script.string:
@@ -58,7 +57,7 @@ def crawl_match_details_v4(league_ids=None):
 
             match_data_v4["active_stage"] = match_data_v4["league_name"]
 
-            # 2. 라운드(Round) 정보 추출
+            # 2. 라운드(Round) 정보 정밀 추출
             all_rounds = soup.select("div.round span[round], .round span[round]")
             if all_rounds:
                 match_data_v4["total_rounds"] = len(all_rounds)
@@ -72,7 +71,7 @@ def crawl_match_details_v4(league_ids=None):
                 match_data_v4["active_round"] = ""
 
             # 3. 하단 범례(#standingColor) 색상 및 설명 동적 수집
-            legend_items = soup.select("#standingColor span.explain, div#standingColor span, .explain, .legend span")
+            legend_items = soup.select("#standingColor span.explain, div#standingColor span, .explain")
             color_to_label = {}
             parsed_legends = []
             
@@ -97,11 +96,17 @@ def crawl_match_details_v4(league_ids=None):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 4. 순위표(#standingList li.standis) 정밀 파싱 및 꼬리표 매칭
-            standings_items = soup.select("ul#standingList li.standis, #standingList li.standis, .standings_list li, tbody tr")
+            # 4. 순위표(#standingList 내의 모든 li 항목들) 정밀 파싱
+            standings_items = soup.select("ul#standingList > li")
             parsed_standings = []
             
             for item in standings_items:
+                classes = item.get("class", [])
+                
+                # 'title' 클래스를 가진 헤더 행(R, 구단, P 등)은 건너뜀
+                if "title" in classes:
+                    continue
+
                 style_attr = item.get("style", "")
                 tag_color = ""
                 if "--tagcolor:" in style_attr:
@@ -110,11 +115,13 @@ def crawl_match_details_v4(league_ids=None):
                     except Exception:
                         tag_color = ""
 
-                # 스탠딩 컬러와 실시간 매칭하여 해당 팀에 맞는 꼬리표 부여 (없으면 "일반")
+                # 스탠딩 컬러와 실시간 매칭하여 꼬리표 부여 (색상이 없으면 "일반")
                 tag_label = color_to_label.get(tag_color, "일반")
 
                 rank_elem = item.select_one(".rank em, .rank, span.rank")
                 name_elem = item.select_one(".team .name, span.name, .name")
+                
+                # 해당 행 안의 모든 하위 span 텍스트 추출
                 all_spans = [s.text.strip() for s in item.select("span") if s.text.strip()]
                 
                 rank_val = rank_elem.text.strip() if rank_elem else ""
@@ -123,8 +130,8 @@ def crawl_match_details_v4(league_ids=None):
                 if not team_val and len(all_spans) > 1:
                     team_val = all_spans[1]
 
+                # 순위와 구단명이 존재하고 헤더가 아닐 때만 수집
                 if rank_val and team_val and rank_val.lower() != 'r':
-                    # 뒤쪽 6개 스탯 (경기수, 승, 무, 패, 득실, 승점) 추출
                     stat_slice = all_spans[-6:] if len(all_spans) >= 6 else []
                     parsed_standings.append({
                         "순위": rank_val.replace("\n", "").strip(),
