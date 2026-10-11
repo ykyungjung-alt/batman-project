@@ -7,29 +7,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from zoneinfo import ZoneInfo
 
-def calculate_attack_tier(avg_goals):
-    try:
-        g = float(avg_goals)
-        if g < 0.5: return "Tier E"
-        elif 0.5 <= g < 1.1: return "Tier D"
-        elif 1.1 <= g < 1.6: return "Tier C"
-        elif 1.6 <= g < 2.3: return "Tier B"
-        else: return "Tier A"
-    except:
-        return "Tier C"
-
-def calculate_defense_tier(avg_conceded):
-    try:
-        c = float(avg_conceded)
-        if c < 0.5: return "Tier A"
-        elif 0.5 <= c < 0.9: return "Tier B"
-        elif 0.9 <= c < 1.3: return "Tier C"
-        elif 1.3 <= c < 1.7: return "Tier D"
-        else: return "Tier E"
-    except:
-        return "Tier C"
-
 def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
+    """
+    💡 서브 페이지에 들어가서 순수하게 골득실(경기당 득점/실점) 수치만 가져오도록 최적화된 함수
+    """
     sub_url = f"https://www.scoreman123.com/match/data-{sub_m_id}"
     try:
         driver.get(sub_url)
@@ -46,8 +27,8 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
         if recent_div:
             stats_div = recent_div.find("div", id="dv_recent_stats")
             if stats_div:
-                home_goals, home_conceded = "0", "0"
-                away_goals, away_conceded = "0", "0"
+                home_goals, home_conceded = "0.00", "0.00"
+                away_goals, away_conceded = "0.00", "0.00"
                 
                 for v in stats_div.find_all("div", class_="vote"):
                     ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "p2"])
@@ -67,14 +48,12 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
                 opp_goals = away_goals if is_target_home else home_goals
                 opp_conceded = away_conceded if is_target_home else home_conceded
                 
-                atk_tier = calculate_attack_tier(opp_goals)
-                def_tier = calculate_defense_tier(opp_conceded)
-                
-                return f"{opp_goals}/{opp_conceded} 공격력{atk_tier.replace('Tier ', '')}/방어력{def_tier.replace('Tier ', '')}"
+                # 💡 티어 판정 로직을 완전히 제거하고 순수 골득실 수치만 반환
+                return f"{opp_goals}/{opp_conceded}"
     except Exception:
         pass
     
-    return "0.00/0.00 공격력C/방어력C"
+    return "0.00/0.00"
 
 def run_table_based_crawler_v3():
     if not os.path.exists("data.json"):
@@ -109,7 +88,12 @@ def run_table_based_crawler_v3():
                 continue
             
             try:
-                hour_val, min_val = map(int, time_str.split(":"))
+                if " " in time_str:
+                    time_part = time_str.split(" ")[1]
+                else:
+                    time_part = time_str
+                    
+                hour_val, min_val = map(int, time_part.split(":"))
                 match_dt = datetime(current_year, m_part, d_part, hour_val, min_val, tzinfo=kst)
                 
                 if match_dt < now_kst - timedelta(days=15) and m_part == 1:
@@ -205,7 +189,7 @@ def run_table_based_crawler_v3():
                                             break
                                         except: pass
                                 
-                                opponent_tier_info = "정보 없음"
+                                opponent_tier_info = "0.00/0.00"
                                 if sub_m_id:
                                     opponent_tier_info = fetch_opponent_stats_fast(driver, sub_m_id, target_team)
                                     driver.get(detail_url)
@@ -216,7 +200,7 @@ def run_table_based_crawler_v3():
                                     "match_time": time_span.get_text(strip=True) if time_span else "",
                                     "teams": teams_text,
                                     "ft_scores": ft_scores,
-                                    "opponent_tier_info": opponent_tier_info
+                                    "opponent_tier_info": opponent_tier_info  # 💡 순수 골득실 수치(예: "2.20/2.10")만 저장
                                 }
                                 if match_info["ft_scores"] and match_info not in target_list:
                                     target_list.append(match_info)
@@ -247,7 +231,6 @@ def run_table_based_crawler_v3():
                 except Exception as e:
                     print(f"  - 전적 수집 예외 ({m_id}): {e}")
 
-                # 💡 team_tiers 및 match_time_display 항목 제거 완료
                 match_details[m_id] = {
                     "match_code": m_id,
                     "head_info": head_info,
@@ -272,7 +255,7 @@ def run_table_based_crawler_v3():
         with open("match_details_v3.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 실행 시간 기준 24시간 이내 경기 필터링 및 수집 완료 -> match_details_v3.json 저장 완료")
+        print(f"\n🎉 성공: 골득실 수치 중심 크롤링 완료 -> match_details_v3.json 저장 완료")
 
     finally:
         driver.quit()
