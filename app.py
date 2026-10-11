@@ -154,7 +154,11 @@ def translate_tournament_code(code_str):
     
     for k, v in mapping.items():
         if k in code_str:
-            return code_str.replace(k, v)
+            # 1단계: 압축어를 한글 명칭으로 치환
+            converted = code_str.replace(k, v)
+            # 2단계: 한글 명칭과 붙어 있는 날짜 패턴(예: 2023.01.29) 앞에 ' - ' 자동 삽입
+            cleaned = re.sub(r'([가-힣\s\(\)A-Z]+?)(\d{4}\.\d{2}\.\d{2})', r'\1 - \2', converted)
+            return cleaned
             
     return code_str
 
