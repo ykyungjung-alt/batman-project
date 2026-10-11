@@ -57,13 +57,11 @@ def run_table_based_crawler():
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
                 # ==========================================
-                # 1. 헤드 정보 독립 분류
+                # 1. 헤드 정보 (시간 항목 제거 완료)
                 # ==========================================
                 head_info = {
                     "league": target["league"],
                     "round": "",
-                    "match_time_raw": "",
-                    "match_time_display": "",
                     "stadium": "",
                     "weather": ""
                 }
@@ -85,14 +83,6 @@ def run_table_based_crawler():
                             if "라운드" in txt:
                                 head_info["round"] = txt
                                 break
-                    
-                    time_span = detail_soup.find("span", {"name": "timeData"})
-                    if time_span:
-                        if time_span.has_attr("data-t"):
-                            head_info["match_time_raw"] = time_span["data-t"]
-                        disp_text = time_span.get_text(strip=True)
-                        if disp_text:
-                            head_info["match_time_display"] = disp_text
                         
                     other_info_div = detail_soup.find("div", {"id": "otherInfo"})
                     if other_info_div:
@@ -157,7 +147,7 @@ def run_table_based_crawler():
                     print(f"  - 리그전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 3. 맞대결 전적 (승무패 요약 및 경기당 득점만 수집, 핸디캡/언오버 제외)
+                # 3. 맞대결 전적
                 # ==========================================
                 h2h_data = {"summary": [], "matches": []}
                 try:
@@ -299,7 +289,6 @@ def run_table_based_crawler():
             "match_details": match_details
         }
         
-        # 💡 원자적 쓰기(Atomic Write) 적용
         target_file = "match_details.json"
         temp_file = target_file + ".tmp"
         
