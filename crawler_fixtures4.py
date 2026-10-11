@@ -25,7 +25,7 @@ def crawl_match_details_v4(league_id=39):
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 1. League name
+            # 1. 리그명 정밀 추출
             title_elem = soup.select_one("div.box h4, .league_title, h4")
             if title_elem:
                 txt = title_elem.text.strip()
@@ -35,20 +35,27 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. Active round / stage (e.g. League, 11, etc.)
-            active_elem = soup.select_one("#schedule .stage span.current.on, #schedule div.round span.current.on, #schedule span.current.on, span.current.on")
-            active_text = active_elem.text.strip() if active_elem else "1"
+            # 2. 💡 활성화된 버튼(스테이지 또는 라운드) 정밀 탐색
+            # 먼저 라운드 영역(.round) 안에서 on 클래스가 붙은 순수 숫자 라운드를 찾고, 없으면 전체 on 요소를 탐색
+            active_round_elem = soup.select_one("#schedule div.round span.current.on, .schedule div.round span.current.on, span[round].current.on")
             
+            if not active_round_elem:
+                active_round_elem = soup.select_one("#schedule span.current.on, span.current.on")
+
+            active_text = active_round_elem.text.strip() if active_round_elem else "League"
+            
+            # 총 라운드 수 산출
             all_rounds = soup.select("#schedule div.round span[round], .schedule div.round span[round], #schedule span[round]")
             total_cnt = len(all_rounds) if all_rounds else 46
             match_data_v4["total_rounds"] = total_cnt
             
+            # 숫자 형태인 경우 '현재/총합' 포맷 적용, 'League' 등 텍스트인 경우 그대로 반영
             if active_text.isdigit():
                 match_data_v4["active_round"] = f"{active_text}/{total_cnt}"
             else:
                 match_data_v4["active_round"] = active_text
 
-            # 3. Legends (Standing colors)
+            # 3. 하단 범례 색상 및 의미 동적 추출
             legend_items = soup.select("#standingColor span.explain, .explain")
             color_to_label = {}
             parsed_legends = []
@@ -82,7 +89,7 @@ def crawl_match_details_v4(league_id=39):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 4. Standings
+            # 4. 팀 순위 파싱 (백업 매핑 포함하여 데이터 누락 방지)
             standings_items = soup.select("#standingList li.standis")
             parsed_standings = []
             
@@ -164,18 +171,18 @@ def crawl_match_details_v4(league_id=39):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] Oñemono'ã porãite.")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (활성 라운드/단계: {match_data_v4['active_round']})")
         else:
-            print(f"Peteĩ javy oiko: {response.status_code}")
+            print(f"페이지 요청 실패: Status Code {response.status_code}")
 
     except Exception as e:
-        print(f"Javy oiko jeheka jave: {e}")
+        print(f"크롤링 중 오류 발생: {e}")
 
     output_filename = "match_details_v4.json"
     with open(output_filename, "w", encoding="utf-8") as f:
         json.dump(match_data_v4, f, ensure_ascii=False, indent=4)
         
-    print(f"[{output_filename}] Ñongatu porãite.")
+    print(f"[{output_filename}] 저장 완료.")
 
 if __name__ == "__main__":
     crawl_match_details_v4(league_id=39)
