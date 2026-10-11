@@ -15,7 +15,7 @@ def crawl_match_details_v4(league_id=39):
         "league_id": league_id,
         "league_name": "잉글랜드 리그 1",
         "total_rounds": 46,
-        "active_round": "11/46", # 공유해주신 현재 활성 라운드 기준 반영
+        "active_round": "",
         "standings": [],
         "standing_legends": []
     }
@@ -32,7 +32,28 @@ def crawl_match_details_v4(league_id=39):
                 if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
                     match_data_v4["league_name"] = txt.replace("라이브스코어", "").strip()
 
-            # 2. 하단 범례 색상별 의미 매핑 정의 (스코어맨 표준 범례)
+            # 2. 💡 상단 단계 선택지(stage)와 하단 라운드 선택지(round) 항목을 각각 명시적으로 생성하여 활성 상태 탐색
+            stage_elem = soup.select_one("#schedule div.stage span.current.on, .schedule div.stage span.current.on")
+            round_elem = soup.select_one("#schedule div.round span.current.on, .schedule div.round span.current.on")
+            
+            stage_text = stage_elem.text.strip() if stage_elem else "League"
+            round_text = round_elem.text.strip() if round_elem else ""
+            
+            # 총 라운드 수 산출
+            all_rounds = soup.select("#schedule div.round span[round], .schedule div.round span[round]")
+            total_cnt = len(all_rounds) if all_rounds else 46
+            match_data_v4["total_rounds"] = total_cnt
+            
+            # 활성화된 선택지 조합 규격 적용
+            if round_text:
+                if round_text.isdigit():
+                    match_data_v4["active_round"] = f"{round_text}/{total_cnt}"
+                else:
+                    match_data_v4["active_round"] = f"{stage_text} - {round_text}"
+            else:
+                match_data_v4["active_round"] = stage_text if stage_text else f"1/{total_cnt}"
+
+            # 3. 하단 범례 색상별 의미 매핑 정의
             match_data_v4["standing_legends"] = [
                 {"color": "#CCCCFF", "description": "승격팀"},
                 {"color": "#00CCCC", "description": "승격 플레이오프"},
@@ -45,7 +66,7 @@ def crawl_match_details_v4(league_id=39):
                 "#B1A7A7": "강등팀"
             }
 
-            # 3. 24개 팀 전체 순위 및 통계 정밀 주입 (웹페이지 원본 기반 동기화)
+            # 4. 24개 팀 전체 순위 및 통계 정밀 주입
             raw_standings_data = [
                 ("1", "플리머스", "#CCCCFF", "승격팀", "10", "6", "1", "3", "6", "19"),
                 ("2", "브래드포드 시티", "#CCCCFF", "승격팀", "9", "5", "2", "2", "3", "17"),
@@ -89,14 +110,13 @@ def crawl_match_details_v4(league_id=39):
                 })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공: 총 {len(parsed_standings)}개 팀 데이터 로드 완료.")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (활성 상태: {match_data_v4['active_round']})")
         else:
             print(f"페이지 요청 실패: Status Code {response.status_code}")
 
     except Exception as e:
         print(f"크롤링 중 오류 발생: {e}")
 
-    # match_details_v4.json에 완벽한 형태로 저장
     output_filename = "match_details_v4.json"
     with open(output_filename, "w", encoding="utf-8") as f:
         json.dump(match_data_v4, f, ensure_ascii=False, indent=4)
