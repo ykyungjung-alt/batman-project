@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 def crawl_match_details_v4(league_id=39):
-    # 💡 [핵심 수정] 더미 URL("url?id=...")을 실제 스코어맨 주소로 변경했습니다!
     target_url = f"https://football.scoreman123.com/league/{league_id}"
     
     headers = {
@@ -36,18 +35,22 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. 💡 div.round 안에서 'current'와 'on' 클래스가 모두 포함된 span을 정확히 탐색
+            # 2. 💡 [핵심 해결] malformed HTML(style class=...)로 인해 class가 style 안으로 말려들어간 현상 대응
             active_text = "1"
-            round_spans = soup.select("div.round span")
+            round_spans = soup.select("div.round span[round]")
             for span in round_spans:
-                classes = span.get("class", [])
-                if "current" in classes and "on" in classes:
-                    active_text = span.text.strip()
+                # style 속성값이나 태그 전체 문자열에 "current"가 포함된 녀석이 바로 활성화된 녀석!
+                style_attr = str(span.get("style", ""))
+                tag_str = str(span)
+                
+                if "current" in style_attr or "current" in tag_str:
+                    active_text = span.get("round", "").strip()
+                    if not active_text:
+                        active_text = span.get_text(strip=True)
                     break
             
-            # 총 라운드 수 산출 (round 속성이 있는 span 개수)
-            all_rounds = soup.select("div.round span[round]")
-            total_cnt = len(all_rounds) if all_rounds else 46
+            # 총 라운드 수 산출
+            total_cnt = len(round_spans) if round_spans else 46
             
             match_data_v4["active_round"] = active_text
             match_data_v4["total_rounds"] = str(total_cnt)
