@@ -34,8 +34,8 @@ def crawl_match_details_v4(league_ids=None):
                 
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 1. 리그명 정밀 추출
-            league_title_elem = soup.select_one("div.box h4, .league_title, h4, h2, div#title, .title, div.header div.title")
+            # 1. 리그명 정밀 추출 (A OR B 병합)
+            league_title_elem = soup.select_one("div#title.title, div.box h4, .league_title, h4, h2, div.header div.title")
             if league_title_elem:
                 txt = league_title_elem.text.strip()
                 if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
@@ -45,11 +45,10 @@ def crawl_match_details_v4(league_ids=None):
                 print(f"[ID: {league_id}] 유효한 리그 정보를 찾을 수 없음 -> 다음 리그로 넘어갑니다.")
                 continue
 
-            # 2. 💡 스테이지 탐색 목록 및 활성 상태(.current.on 또는 .on) 정밀 추출
+            # 2. 스테이지 탐색 목록 및 활성 상태 정밀 추출 (결승전, 그룹 스테이지 등 무조건 타격)
             stage_buttons = soup.select("div.stage span, .stage span, div#schedule.plates.schedule div.stage span")
             if stage_buttons:
                 match_data_v4["total_stages"] = len(stage_buttons)
-                # 스크린샷 구조인 span.current.on, span.on, 또는 부모 속성을 모두 커버하도록 A OR B 병합
                 active_stage_elem = soup.select_one("span.current.on, span.on, div.stage span.current.on, .stage span.current.on")
                 if active_stage_elem and active_stage_elem.text.strip():
                     match_data_v4["active_stage"] = active_stage_elem.text.strip()
@@ -59,7 +58,7 @@ def crawl_match_details_v4(league_ids=None):
                 match_data_v4["total_stages"] = 1
                 match_data_v4["active_stage"] = match_data_v4["league_name"]
 
-            # 3. 💡 라운드 탐색 목록 및 활성 상태 추출
+            # 3. 라운드 탐색 목록 및 활성 상태 추출
             all_rounds = soup.select("div.round span[round], .round span[round], div.round span")
             if all_rounds:
                 match_data_v4["total_rounds"] = len(all_rounds)
@@ -98,11 +97,23 @@ def crawl_match_details_v4(league_ids=None):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 5. 팀 순위 동적 파싱 (그룹 스테이지 등 구조 대응)
-            standings_items = soup.select("#standingList li.standis, .standings_list li, tbody tr, div.standis, div#teamRanking li, .team_ranking tr")
+            # 5. 💡 월드컵 등 그룹형 토너먼트 랭킹표 정밀 파싱 (ul#standingList 내의 li.group 및 li.standis 완벽 대응)
+            standings_items = soup.select("ul#standingList li, #standingList li.standis, .standings_list li, tbody tr, div.standis")
             parsed_standings = []
+            current_group = ""  # 그룹 스테이지명 (예: "그룹 스테이지 A", "그룹 스테이지 B" 등)
             
             for item in standings_items:
+                classes = item.get("class", [])
+                
+                # 그룹 타이틀 항목일 경우 그룹명 갱신
+                if "group" in classes:
+                    current_group = item.text.strip()
+                    continue
+                
+                # 타이틀 행(R, 구단, P, W 등 헤더)은 건너뜀
+                if "title" in classes:
+                    continue
+
                 style_attr = item.get("style", "")
                 tag_color = ""
                 if "--tagcolor:" in style_attr:
@@ -123,9 +134,11 @@ def crawl_match_details_v4(league_ids=None):
                 if not team_val and len(all_spans) > 1:
                     team_val = all_spans[1]
 
-                if rank_val and team_val:
+                # 순위와 구단명이 존재하고 헤더문구가 아닐 때만 수집
+                if rank_val and team_val and rank_val.lower() != 'r':
                     stat_slice = all_spans[-6:] if len(all_spans) >= 6 else []
                     parsed_standings.append({
+                        "group": current_group,
                         "rank": rank_val.replace("\n", "").strip(),
                         "team": team_val,
                         "tag_color": tag_color,
@@ -139,9 +152,9 @@ def crawl_match_details_v4(league_ids=None):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (Stage: {match_data_v4['active_stage']}, 팀 수: {len(parsed_standings)})")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (Stage: {match_data_v4['active_stage']}, 총 {len(parsed_standings)}개 팀 파싱 완료)")
 
-            # 데이터가 성공적으로 파싱되었을 경우 파일 저장 후 종료 (계속 순회하려면 break 제거)
+            # 파일 저장 후 성공 종료
             output_filename = "match_details_v4.json"
             with open(output_filename, "w", encoding="utf-8") as f:
                 json.dump(match_data_v4, f, ensure_ascii=False, indent=4)
