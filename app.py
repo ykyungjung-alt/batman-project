@@ -111,57 +111,60 @@ else:
     has_detailed_data = False
 
 # ==========================================
-# 💡 [공통 유틸리티] 대회 압축어 정식 한글 명칭 자동 변환 함수
+# 💡 [공통 유틸리티] 대회 압축어 정식 한글 명칭 및 날짜 포맷 자동 변환 함수
 # ==========================================
 def translate_tournament_code(code_str):
     if not code_str:
         return "기타 공식 경기"
     
     mapping = {
-        # 요청하신 추가 항목
-        "KFAC": "대한민국 코리아컵 (FA컵)",
-        "ENG LC": "잉글랜드 리그컵 (카라바오컵)",
-        "ACLE": "AFC 챔피언스리그 엘리트 (ACLE)",
-        "ITA Cup": "이탈리아 컵 (코파 이탈리아)",
-        "FRA D1": "프랑스 리그 1",
-        "UEFA ECL": "UEFA 유로파 컨퍼런스리그",
-        
-        # FIFA 및 월드컵 관련 용어
-        "WC": "FIFA 월드컵 본선",
-        "FIFA WC": "FIFA 월드컵 본선",
-        "WCC": "FIFA 클럽 월드컵",
-        "FIFA CWC": "FIFA 클럽 월드컵",
-        "U20 WC": "FIFA U-20 월드컵",
-        "U17 WC": "FIFA U-17 월드컵",
-        "W-WC": "FIFA 여자 월드컵",
-        
         # 주요 리그 및 컵대회 압축어
         "GER D1": "독일 분데스리가",
         "GERC": "독일 DFB 포칼",
         "INT CF": "국가대표 친선경기",
         "ENG PR": "잉글랜드 프리미어리그",
         "ENG FAC": "잉글랜드 FA컵",
+        "SPA D1": "스페인 라리가",
+        "SPA D2": "스페인 라리가 2",          # 💡 스페인 2부 리그 추가
+        "SPA CUP": "스페인 코파 델 레이",       # 💡 스페인 컵대회 추가
         "ESP D1": "스페인 라리가",
         "ESP C": "스페인 코파 델 레이",
         "ITA D1": "이탈리아 세리에 A",
+        "ITA Cup": "이탈리아 컵 (코파 이탈리아)",
         "FRA C": "프랑스 쿠프 드 프랑스",
+        "KFAC": "대한민국 코리아컵 (FA컵)",
+        "ENG LC": "잉글랜드 리그컵 (카라바오컵)",
+        "ACLE": "AFC 챔피언스리그 엘리트 (ACLE)",
+        "FRA D1": "프랑스 리그 1",
+        "UEFA ECL": "UEFA 유로파 컨퍼런스리그",
         "UEFA CL": "UEFA 챔피언스리그",
         "UEFA EL": "UEFA 유로파리그",
         "AFC CL": "AFC 챔피언스리그",
         "ACQ": "AFC 아시안컵 예선",
-        "AC": "AFC 아시안컵 본선"
+        "AC": "AFC 아시안컵 본선",
+        "WC": "FIFA 월드컵 본선",
+        "FIFA WC": "FIFA 월드컵 본선",
+        "WCC": "FIFA 클럽 월드컵",
+        "FIFA CWC": "FIFA 클럽 월드컵",
+        "U20 WC": "FIFA U-20 월드컵",
+        "U17 WC": "FIFA U-17 월드컵",
+        "W-WC": "FIFA 여자 월드컵"
     }
     
+    converted = code_str
     for k, v in mapping.items():
         if k in code_str:
-            # 1단계: 압축어를 한글 명칭으로 치환
             converted = code_str.replace(k, v)
-            # 2단계: 한글 명칭과 붙어 있는 날짜 패턴(예: 2023.01.29) 앞에 ' - ' 자동 삽입
-            cleaned = re.sub(r'([가-힣\s\(\)A-Z]+?)(\d{4}\.\d{2}\.\d{2})', r'\1 - \2', converted)
-            return cleaned
+            break
             
-    return code_str
-
+    # 💡 한글/괄호/공백 뒤에 곧바로 연도(20...)가 붙어 있는 경우 사이에 ' - ' 삽입
+    match_pattern = re.search(r'(.*?)(\d{4}\.\d{2}\.\d{2})', converted)
+    if match_pattern:
+        prefix = match_pattern.group(1).strip()
+        date_part = match_pattern.group(2)
+        return f"{prefix} - {date_part}"
+        
+    return converted
 tab_titles = [
     "0단계 (메타)", 
     "규칙 1 (LIFO 7경기)", 
