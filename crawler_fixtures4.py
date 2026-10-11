@@ -14,8 +14,7 @@ def crawl_match_details_v4(league_id=39):
         "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "league_id": league_id,
         "league_name": "",
-        "active_stage": "",
-        "active_round": "",   # 💡 "현재라운드/총라운드" 형식 (예: "11/46")
+        "active_round": "",   # 💡 "11/46" 형태로 들어갈 항목
         "standings": [],
         "standing_legends": []
     }
@@ -35,14 +34,14 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. 💡 current on 클래스가 붙은 요소의 텍스트를 직접 추출
-            # 스테이지 영역의 current on 텍스트 추출
-            stage_elem = soup.select_one("div.stage span.current.on")
-            match_data_v4["active_stage"] = stage_elem.text.strip() if stage_elem else ""
-
-            # 라운드 영역의 current on 텍스트(현재 라운드) 추출
-            round_elem = soup.select_one("div.round span.current.on")
-            active_text = round_elem.text.strip() if round_elem else "1"
+            # 2. 💡 라운드 영역에서 current on이 붙은 요소를 정확히 찾아 텍스트 추출
+            active_text = "1"
+            round_spans = soup.select("div.round span")
+            for span in round_spans:
+                classes = span.get("class", [])
+                if "current" in classes and "on" in classes:
+                    active_text = span.text.strip()
+                    break
             
             # 총 라운드 수 산출
             all_rounds = soup.select("div.round span[round]")
@@ -167,7 +166,7 @@ def crawl_match_details_v4(league_id=39):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (Stage: {match_data_v4['active_stage']}, Round: {match_data_v4['active_round']})")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (Round: {match_data_v4['active_round']})")
         else:
             print(f"페이지 요청 실패: Status Code {response.status_code}")
 
