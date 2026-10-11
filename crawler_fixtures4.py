@@ -2,12 +2,15 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+import re
 
 def crawl_match_details_v4(league_ids=None):
+    # 💡 지정된 리그 ID 목록을 순차적으로 탐색하도록 기본값 설정 (예: 잉글랜드 리그 1, 프랑스 리그 1 등)
     if league_ids is None:
-        league_ids = [39, 11]  # 💡 지정된 아이디 순차 탐색 규칙 적용
+        league_ids = [39, 11]  
         
     for league_id in league_ids:
+        # 스코어맨 리그 상세 페이지 URL 구조
         target_url = f"https://football.scoreman123.com/league/{league_id}"
         
         headers = {
@@ -44,18 +47,20 @@ def crawl_match_details_v4(league_ids=None):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = f"League_{league_id}"
 
-            # 2. 활성화된 버튼(스테이지 또는 라운드) 정밀 탐색
-            active_round_elem = soup.select_one("#schedule div.round span.current.on, .schedule div.round span.current.on, span[round].current.on")
-            if not active_round_elem:
-                active_round_elem = soup.select_one("#schedule span.current.on, span.current.on")
-
-            active_text = active_round_elem.text.strip() if active_round_elem else "League"
+            # 2. 💡 액티브 라운드/단계 텍스트 추출 에러 방어 및 정밀 탐색
+            active_round_elem = soup.select_one("#schedule div.round span.current.on, .schedule div.round span.current.on, span[round].current.on, span.current.on")
+            
+            if active_round_elem:
+                active_text = active_round_elem.get_text(strip=True)
+            else:
+                active_text = "1"
             
             # 총 라운드 수 산출
             all_rounds = soup.select("#schedule div.round span[round], .schedule div.round span[round], #schedule span[round]")
             total_cnt = len(all_rounds) if all_rounds else 46
             match_data_v4["total_rounds"] = total_cnt
             
+            # 숫자 형태인 경우 '현재/총합' 포맷 적용, 텍스트인 경우 그대로 반영
             if active_text.isdigit():
                 match_data_v4["active_round"] = f"{active_text}/{total_cnt}"
             else:
@@ -178,19 +183,18 @@ def crawl_match_details_v4(league_ids=None):
                     })
 
             match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (활성 라운드/단계: {match_data_v4['active_round']})")
+            print(f"[{match_data_v4['league_name']}] 수집 성공 (활성 라운드/단계: {match_data_v4['active_round']}, 팀 수: {len(parsed_standings)})")
 
-            # 파일 저장
+            # 파일 저장 (리그별로 구분하거나 단일 파일로 덮어쓰기)
             output_filename = "match_details_v4.json"
             with open(output_filename, "w", encoding="utf-8") as f:
                 json.dump(match_data_v4, f, ensure_ascii=False, indent=4)
             print(f"[{output_filename}] 저장 완료.")
-            break
 
         except Exception as e:
             print(f"[ID: {league_id}] 크롤링 중 오류 발생: {e} -> 다음 리그로 넘어갑니다.")
             continue
 
 if __name__ == "__main__":
-    # 지정된 리그 ID 순차 탐색 실행
-    crawl_match_details_v4(league_ids=[39])
+    # 💡 탐색할 리그 ID 목록을 지정하여 순차 수집 수행
+    crawl_match_details_v4(league_ids=[39, 11])
