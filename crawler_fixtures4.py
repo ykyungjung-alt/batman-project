@@ -35,15 +35,12 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. active_round 및 total_rounds 추출 (malformed HTML의 style class 구조 완벽 대응)
+            # 2. 💡 [단순화된 라운드 추출] 태그 문자열에 "current"가 포함된 항목을 직관적으로 탐색
             active_text = "1"
-            round_spans = soup.select("div.round span[round]")
+            round_spans = soup.select("div.round span")
             for span in round_spans:
-                # 태그 문자열 전체에 "current"가 포함되어 있는지 확인하여 현재 활성 라운드 정확히 타격
                 if "current" in str(span):
-                    active_text = span.get("round", "").strip()
-                    if not active_text:
-                        active_text = span.get_text(strip=True)
+                    active_text = span.get("round", "").strip() or span.text.strip()
                     break
             
             # 총 라운드 수 산출
