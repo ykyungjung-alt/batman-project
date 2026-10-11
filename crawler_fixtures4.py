@@ -35,9 +35,9 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. 💡 [단순화된 라운드 추출] 태그 문자열에 "current"가 포함된 항목을 직관적으로 탐색
+            # 2. 💡 1번 방식: 태그 문자열에 "current"가 포함된 항목을 단순하고 확실하게 탐색
             active_text = "1"
-            round_spans = soup.select("div.round span")
+            round_spans = soup.select("div.round span[round]")
             for span in round_spans:
                 if "current" in str(span):
                     active_text = span.get("round", "").strip() or span.text.strip()
