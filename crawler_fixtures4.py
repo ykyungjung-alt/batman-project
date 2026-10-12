@@ -1,13 +1,17 @@
 import json
 import time
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def crawl_multiple_leagues():
+def update_match_details_v4():
+    kst = ZoneInfo("Asia/Seoul")
+    now_kst = datetime.now(kst)
+    
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -17,37 +21,31 @@ def crawl_multiple_leagues():
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 10)
 
-    # 💡 수집하고자 하는 실제 리그 URL 또는 ID 리스트
+    # 💡 수집할 리그 목록 (필요에 따라 추가/수정)
     target_leagues = [
-        {"id": 34, "url": "https://football.scoreman123.com/league/34"},
-        {"id": 39, "url": "https://football.scoreman123.com/league/39"},
-        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
+        {"id": 39, "url": "https://football.scoreman123.com/league/39"}
     ]
 
     try:
         for league in target_leagues:
             league_id = league["id"]
             target_url = league["url"]
-            print(f"\n==========================================")
-            print(f"🚀 [페이지 전환 및 수집 시작] 리그 ID: {league_id} ({target_url})")
+            print(f"🔄 크롤링 진행 중: 리그 ID {league_id}")
             
-            # 1. 확실하게 새로운 페이지로 이동
             driver.get(target_url)
-            
-            # 2. 페이지가 완전히 바뀔 때까지 충분히 대기 (이전 페이지 잔상 방지)
             time.sleep(2.0)
             
             match_data = {
-                "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "updated_at": now_kst.strftime("%Y-%m-%d %H:%M:%S"),  # 💡 현재 실행 시간으로 강제 갱신
                 "league_id": league_id,
                 "league_name": "",
                 "active_round": "",
                 "total_rounds": "",
-                "standings": []
+                "standings": [],
+                "standing_legends": []
             }
 
             try:
-                # 3. 해당 페이지의 순위표(#standingList)나 타이틀이 로드될 때까지 대기
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#standingList")))
 
                 # 리그명 추출
@@ -60,7 +58,7 @@ def crawl_multiple_leagues():
                 if not match_data["league_name"]:
                     match_data["league_name"] = f"리그 ID {league_id}"
 
-                # 4. 활성 라운드 추출 (div.round 안의 span 탐색)
+                # active_round 추출
                 active_text = "1"
                 round_spans = driver.find_elements(By.CSS_SELECTOR, "div.round span")
                 for span in round_spans:
@@ -69,15 +67,23 @@ def crawl_multiple_leagues():
                         active_text = span.get_attribute("round").strip()
                         break
                 
-                total_cnt = len(round_spans) if round_spans else 38
+                total_cnt = len(round_spans) if round_spans else 46
                 match_data["active_round"] = active_text
                 match_data["total_rounds"] = str(total_cnt)
 
-                # 5. 해당 페이지의 순위표 데이터 파싱
+                # 순위표 파싱
                 standings_items = driver.find_elements(By.CSS_SELECTOR, "#standingList li.standis")
                 parsed_standings = []
                 
                 for item in standings_items:
+                    style_attr = item.get_attribute("style") or ""
+                    tag_color = ""
+                    if "--tagcolor:" in style_attr:
+                        try:
+                            tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
+                        except:
+                            tag_color = ""
+
                     try:
                         rank_val = item.find_element(By.CSS_SELECTOR, ".rank em, .rank").text.strip()
                         team_val = item.find_element(By.CSS_SELECTOR, ".team .name, span.name").text.strip()
@@ -92,6 +98,8 @@ def crawl_multiple_leagues():
                         parsed_standings.append({
                             "rank": rank_val.replace("\n", "").strip(),
                             "team": team_val,
+                            "tag_color": tag_color,
+                            "tag_label": "강등팀" if tag_color == "#B1A7A7" else ("승격팀" if tag_color == "#CCCCFF" else ("승격 플레이오프" if tag_color == "#00CCCC" else "일반")),
                             "경기수": stat_slice[0] if len(stat_slice) > 0 else "",
                             "승": stat_slice[1] if len(stat_slice) > 1 else "",
                             "무": stat_slice[2] if len(stat_slice) > 2 else "",
@@ -101,20 +109,22 @@ def crawl_multiple_leagues():
                         })
 
                 match_data["standings"] = parsed_standings
-                print(f"✅ [{match_data['league_name']}] 수집 완료 (Active Round: {match_data['active_round']} / 팀 수: {len(parsed_standings)}개)")
+                match_data["standing_legends"] = [
+                    {"color": "#CCCCFF", "description": "승격팀"},
+                    {"color": "#00CCCC", "description": "승격 플레이오프"},
+                    {"color": "#B1A7A7", "description": "강등팀"}
+                ]
+
+                # 💡 무조건 'match_details_v4.json' 파일명으로 덮어씌워 저장
+                with open("match_details_v4.json", "w", encoding="utf-8") as f:
+                    json.dump(match_data, f, ensure_ascii=False, indent=4)
+                print(f"✅ [match_details_v4.json] 최신 갱신 완료 (갱신 시간: {match_data['updated_at']})")
 
             except Exception as e:
-                print(f"⚠️ 리그 ID {league_id} 파싱 중 에러 발생: {e}")
-
-            # 6. 각 리그별로 고유 파일명으로 각각 저장되도록 분기
-            output_filename = f"match_details_league_{league_id}.json"
-            with open(output_filename, "w", encoding="utf-8") as f:
-                json.dump(match_data, f, ensure_ascii=False, indent=4)
-            print(f"📁 [{output_filename}] 저장 완료.")
+                print(f"⚠️ 파싱 중 에러 발생: {e}")
 
     finally:
         driver.quit()
-        print("\n🏁 모든 페이지 순회 작업 종료.")
 
 if __name__ == "__main__":
-    crawl_multiple_leagues()
+    update_match_details_v4()
