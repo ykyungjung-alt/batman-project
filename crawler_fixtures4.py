@@ -15,6 +15,7 @@ def run_crawler_v4():
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S")
     
+    # 헤드리스 크롬 옵션 설정
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -60,11 +61,12 @@ def run_crawler_v4():
 
             try:
                 driver.get(url)
-                time.sleep(3)
                 
-                WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "div.round"))
+                # 💡 [핵심] 랭킹표 요소(`li.standis`)가 자바스크립트로 완전히 렌더링될 때까지 최대 15초 대기
+                WebDriverWait(driver, 15).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "li.standis"))
                 )
+                time.sleep(2) # 렌더링 안정화 대기
 
                 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
@@ -75,7 +77,7 @@ def run_crawler_v4():
                     if txt:
                         league_match_data["league_name"] = txt.replace("라이브스코어", "").replace("시즌", "").strip()
 
-                # 2. 현재 라운드(Active Round) 및 총 라운드 수 추출
+                # 2. 현재 라운드 추출
                 active_elem = soup.select_one("div.round span.current.on, div.round span.on")
                 active_text = "1"
                 
@@ -90,7 +92,7 @@ def run_crawler_v4():
                 league_match_data["total_rounds"] = total_cnt
                 league_match_data["active_round"] = f"{active_text}/{total_cnt}"
 
-                # 3. 하단 컬러 범례(standing_legends) 동적 추출 및 사전 구축
+                # 3. 하단 컬러 범례 추출
                 legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain")
                 color_to_label = {}
                 parsed_legends = []
@@ -113,14 +115,13 @@ def run_crawler_v4():
                 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 [핵심] `li.standis` 구조를 직접 타격하여 순위 데이터와 `--tagcolor` 꼬리표 완벽 연동
+                # 4. 💡 [핵심] `li.standis` 구조를 직접 타격하여 팀 순위 및 --tagcolor 꼬리표 매핑
                 parsed_standings = []
                 seen_teams = set()
                 
                 standing_rows = soup.select('li.standis')
 
                 for row in standing_rows:
-                    # 행(li.standis)의 스타일 속성에서 --tagcolor 추출 (예: --tagcolor:#FF9966)
                     style_attr = row.get("style", "")
                     tag_color = ""
                     if "--tagcolor:" in style_attr:
@@ -129,7 +130,6 @@ def run_crawler_v4():
                         except:
                             pass
 
-                    # 텍스트 토큰 파싱
                     tokens = [t.strip() for t in row.text.split() if t.strip()]
                     
                     if tokens and tokens[0].isdigit():
@@ -147,8 +147,6 @@ def run_crawler_v4():
                             if stats[0].isdigit() and stats[-1].isdigit():
                                 if team_val not in seen_teams:
                                     seen_teams.add(team_val)
-                                    
-                                    # 위에서 수집한 범례 사전과 대조하여 라벨 부여 (없으면 "일반")
                                     tag_label = color_to_label.get(tag_color, "일반")
 
                                     parsed_standings.append({
