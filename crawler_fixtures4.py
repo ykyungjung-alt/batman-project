@@ -56,7 +56,7 @@ def run_crawler_v4():
                     if txt:
                         league_match_data["league_name"] = txt.replace("라이브스코어", "").strip()
 
-                # 2. Active Round & Total Rounds 정밀 추출 (div.round 내부 span 순회)
+                # 2. Active Round & Total Rounds 정밀 추출
                 round_elements = soup.select("div.round span[round]")
                 active_text = "1"
                 total_cnt = len(round_elements) if round_elements else (46 if league_id == 39 else 38)
@@ -66,7 +66,6 @@ def run_crawler_v4():
                     classes = el.get("class", [])
                     class_str = " ".join(classes) if isinstance(classes, list) else str(classes)
                     
-                    # 'current' 또는 'on' 클래스가 포함된 활성 라운드 태그 탐색
                     if "current" in class_str or "on" in class_str or "current" in span_str:
                         val = el.get("round", "").strip()
                         if not val.isdigit():
@@ -100,12 +99,18 @@ def run_crawler_v4():
                 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 [핵심 개선] 태그 구조에 구애받지 않고 문서 내 모든 행/블록에서 순위표 토큰 정밀 추출
+                # 4. 💡 [순위표 정밀 파싱 수정] 부모 컨테이너 div 혼선을 막기 위해 li 및 tr 태그 위주로 개별 행 추출
                 parsed_standings = []
                 seen_teams = set()
-                candidate_rows = soup.select('tr, li, div')
+                
+                # 전체 문서의 개별 리스트 아이템(li)과 테이블 행(tr)을 후보로 지정
+                candidate_rows = soup.select('li, tr')
 
                 for row in candidate_rows:
+                    # 내부에 하위 리스트/행이 또 포함된 대형 부모 컨테이너는 개별 행이 아니므로 스킵
+                    if len(row.find_all(['li', 'tr'])) > 0:
+                        continue
+
                     raw_tokens = [t.strip() for t in row.text.split() if t.strip()]
                     
                     # 유효성 검사: 첫 번째 토큰이 1~25 사이의 숫자(순위)이고, 전체 토큰 수가 8개 이상인 행
