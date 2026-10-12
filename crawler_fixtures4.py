@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 def crawl_match_details_v4(league_id=39):
+    # 실제 스코어맨 연결 URL
     target_url = f"https://football.scoreman123.com/league/{league_id}"
     
     headers = {
@@ -14,8 +15,8 @@ def crawl_match_details_v4(league_id=39):
         "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "league_id": league_id,
         "league_name": "",
-        "active_round": "",   # 현재 활성 라운드 (예: "11")
-        "total_rounds": "",   # 총 라운드 수 (예: "46")
+        "active_round": "",   # 현재 활성 라운드
+        "total_rounds": "",   # 총 라운드 수
         "standings": [],
         "standing_legends": []
     }
@@ -35,16 +36,21 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. 💡 1번 방식: 태그 문자열에 "current"가 포함된 항목을 단순하고 확실하게 탐색
+            # 2. active_round 및 total_rounds 추출 (처음 방식인 class 기반 탐색)
             active_text = "1"
-            round_spans = soup.select("div.round span[round]")
-            for span in round_spans:
-                if "current" in str(span):
-                    active_text = span.get("round", "").strip() or span.text.strip()
-                    break
+            active_span = soup.select_one("div.round span.current.on")
+            if active_span:
+                active_text = active_span.text.strip()
+            else:
+                round_spans = soup.select("div.round span")
+                for span in round_spans:
+                    classes = span.get("class", [])
+                    if "current" in classes and "on" in classes:
+                        active_text = span.text.strip()
+                        break
             
-            # 총 라운드 수 산출
-            total_cnt = len(round_spans) if round_spans else 46
+            all_rounds = soup.select("div.round span[round]")
+            total_cnt = len(all_rounds) if all_rounds else 46
             
             match_data_v4["active_round"] = active_text
             match_data_v4["total_rounds"] = str(total_cnt)
