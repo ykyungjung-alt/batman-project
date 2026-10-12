@@ -1,17 +1,28 @@
 import json
 from datetime import datetime
 from zoneinfo import ZoneInfo
-import requests
 from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 
 def run_crawler_v4():
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S")
     
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
-    }
+    # 💡 헤드리스 크롬 옵션 설정 (GitHub Actions 및 로컬 환경 공용)
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-gpu")
+    options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 
+    # 실제 스코어맨 리그별 URL 주소 설정
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -23,13 +34,20 @@ def run_crawler_v4():
         "leagues": {}
     }
 
-    with requests.Session() as session:
-        session.headers.update(headers)
+    # Selenium WebDriver 초기화
+    driver = None
+    try:
+        try:
+            service = Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=options)
+        except Exception:
+            # 드라이버 매니저 실패 시 기본 설정으로 시도 (GitHub Actions 환경 등)
+            driver = webdriver.Chrome(options=options)
 
         for league in target_leagues:
             league_id = league["id"]
             url = league["url"]
-            print(f"🔄 [수집 중] 리그 ID {league_id}")
+            print(f"🔄 [수집 중] 리그 ID {league_id} ({url})")
 
             league_match_data = {
                 "league_id": league_id,
@@ -41,20 +59,21 @@ def run_crawler_v4():
             }
 
             try:
-                res = session.get(url, timeout=10)
-                if res.status_code != 200:
-                    print(f"⚠️ 요청 실패 (Status Code: {res.status_code})")
-                    all_leagues_data["leagues"][str(league_id)] = league_match_data
-                    continue
+                driver.get(url)
+                
+                # 💡 페이지 내 핵심 데이터(라운드 영역)가 렌더링될 때까지 최대 10초 대기
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "div.round"))
+                )
 
-                soup = BeautifulSoup(res.text, 'html.parser')
+                soup = BeautifulSoup(driver.page_source, 'html.parser')
 
                 # 1. 리그명 정밀 추출
-                title_elem = soup.select_one("div#title, div.title, .league_title, h4")
+                title_elem = soup.select_one("div#title, div.title, .league_title, h4, strong")
                 if title_elem:
                     txt = title_elem.text.strip()
                     if txt:
-                        league_match_data["league_name"] = txt.replace("라이브스코어", "").strip()
+                        league_match_data["league_name"] = txt.replace("라이브스코어", "").replace("시즌", "").strip()
 
                 # 2. Active Round & Total Rounds 정밀 추출
                 round_elements = soup.select("div.round span[round]")
@@ -62,9 +81,9 @@ def run_crawler_v4():
                 total_cnt = len(round_elements) if round_elements else (46 if league_id == 39 else 38)
 
                 for el in round_elements:
-                    span_str = str(el)
                     classes = el.get("class", [])
                     class_str = " ".join(classes) if isinstance(classes, list) else str(classes)
+                    span_str = str(el)
                     
                     if "current" in class_str or "on" in class_str or "current" in span_str:
                         val = el.get("round", "").strip()
@@ -99,33 +118,27 @@ def run_crawler_v4():
                 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 [순위표 정밀 파싱 수정] 부모 컨테이너 div 혼선을 막기 위해 li 및 tr 태그 위주로 개별 행 추출
+                # 4. 순위표 정밀 파싱 (li, tr 등 개별 행 블록 스캔)
                 parsed_standings = []
                 seen_teams = set()
-                
-                # 전체 문서의 개별 리스트 아이템(li)과 테이블 행(tr)을 후보로 지정
                 candidate_rows = soup.select('li, tr')
 
                 for row in candidate_rows:
-                    # 내부에 하위 리스트/행이 또 포함된 대형 부모 컨테이너는 개별 행이 아니므로 스킵
                     if len(row.find_all(['li', 'tr'])) > 0:
                         continue
 
                     raw_tokens = [t.strip() for t in row.text.split() if t.strip()]
                     
-                    # 유효성 검사: 첫 번째 토큰이 1~25 사이의 숫자(순위)이고, 전체 토큰 수가 8개 이상인 행
                     if raw_tokens and raw_tokens[0].isdigit():
                         rank_num = int(raw_tokens[0])
                         if 1 <= rank_num <= 25 and len(raw_tokens) >= 8:
                             team_val = raw_tokens[1]
                             
-                            # 헤더나 불필요한 텍스트 필터링
                             if team_val in ["구단", "PTS", "순위", "승점", "R"] or any(kw in team_val for kw in ["승점", "득실", "승무패", "통계", "합계"]):
                                 continue
                                 
                             stat_slice = raw_tokens[-6:] # [경기수, 승, 무, 패, 득실, 승점]
                             
-                            # 스탯 영역이 숫자인지 검증
                             if stat_slice[0].isdigit() and stat_slice[1].isdigit() and stat_slice[-1].isdigit():
                                 if team_val not in seen_teams:
                                     seen_teams.add(team_val)
@@ -143,7 +156,7 @@ def run_crawler_v4():
                                     parsed_standings.append({
                                         "rank": str(rank_num),
                                         "team": team_val,
-                                        "tag_color": tag_color,
+                               -         "tag_color": tag_color,
                                         "tag_label": tag_label,
                                         "경기수": stat_slice[0],
                                         "승": stat_slice[1],
@@ -153,16 +166,18 @@ def run_crawler_v4():
                                         "승점": stat_slice[5]
                                     })
 
-                # 순위 오름차순 정렬 보장
                 parsed_standings.sort(key=lambda x: int(x['rank']))
-
                 league_match_data["standings"] = parsed_standings
                 print(f"✅ 수집 성공: {league_match_data['league_name']} (라운드: {league_match_data['active_round']}, 팀 수: {len(parsed_standings)}개)")
 
             except Exception as e:
-                print(f"⚠️ 예외 발생: {e}")
+                print(f"⚠️ 리그 ID {league_id} 수집 중 예외 발생: {e}")
 
             all_leagues_data["leagues"][str(league_id)] = league_match_data
+
+    finally:
+        if driver:
+            driver.quit()
 
     # 결과 파일 저장
     with open("match_details_v4.json", "w", encoding="utf-8") as f:
