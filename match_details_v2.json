@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-13 00:28:42",
+    "last_updated": "2026-10-13 03:29:44",
     "match_details": {
         "3073175": {
             "match_code": "3073175",
@@ -7584,6 +7584,70 @@
                             "interval": "57 일"
                         }
                     ]
+                }
+            }
+        },
+        "3100981": {
+            "match_code": "3100981",
+            "head_info": {
+                "league": "리그 1",
+                "round": "리그 1·  라운드 3",
+                "stadium": "",
+                "weather": ""
+            },
+            "home": "OFC Adiake",
+            "away": "조만",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "16",
+                        "team": "OFC Adiake",
+                        "played": "1",
+                        "win": "0",
+                        "draw": "0",
+                        "loss": "1",
+                        "goals_for": "0",
+                        "goals_against": "1",
+                        "goal_diff": "-1",
+                        "points": "0"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "5",
+                        "team": "조만",
+                        "played": "2",
+                        "win": "1",
+                        "draw": "1",
+                        "loss": "0",
+                        "goals_for": "2",
+                        "goals_against": "1",
+                        "goal_diff": "1",
+                        "points": "4"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "1승 0무 1패",
+                        "goals_per_game": "1.50",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "3승 3무 4패",
+                        "goals_per_game": "0.70",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         },
