@@ -26,7 +26,7 @@ def crawl_match_details(league_id):
     try:
         # 1. 페이지 요청 (타임아웃 설정)
         response = requests.get(target_url, headers=headers, timeout=10)
-        print(f"[{league_id번 리그] 접속 상태 코드: {response.status_code}")
+        print("[" + str(league_id) + "번 리그] 접속 상태 코드: " + str(response.status_code))
         
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
