@@ -3,14 +3,14 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-def crawl_match_details_v4(league_id=39):
+def crawl_match_details(league_id):
     target_url = f"https://football.scoreman123.com/league/{league_id}"
     
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
     
-    match_data_v4 = {
+    match_data = {
         "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "league_id": league_id,
         "league_name": "",
@@ -30,24 +30,32 @@ def crawl_match_details_v4(league_id=39):
             if title_elem:
                 txt = title_elem.text.strip()
                 if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
-                    match_data_v4["league_name"] = txt.replace("라이브스코어", "").strip()
+                    match_data["league_name"] = txt.replace("라이브스코어", "").strip()
             
-            if not match_data_v4["league_name"]:
-                match_data_v4["league_name"] = "잉글랜드 리그 1"
+            if not match_data["league_name"]:
+                match_data["league_name"] = f"리그 ID {league_id}"
 
-            # 2. 💡 "style class"가 포함된 태그를 단순하게 찾아 활성 라운드 추출
+            # 2. stage 속성이 존재하는 영역을 먼저 확인한 후, 그 하위의 round 및 style class="current on"을 정확히 매칭하여 추출
             active_text = "1"
-            round_spans = soup.select("div.round span[round]")
+            
+            # stage와 round 속성을 모두 가진 span 태그들을 대상으로 탐색
+            round_spans = soup.select("div.round span[stage][round]")
+            
+            if not round_spans:
+                # 일반적인 경우의 대비책
+                round_spans = soup.select("div.round span[round]")
+
             for span in round_spans:
-                if "style class" in str(span):
-                    active_text = span.get("round", "").strip() or span.text.strip()
+                # stage 값이 유효하게 존재하는지 확인하고, 동시에 태그 문자열에 "style class" 또는 "current"가 포함된 항목 타격
+                stage_val = span.get("stage", "").strip()
+                if stage_val and ("style class" in str(span) or "current" in str(span)):
+                    active_text = span.get("round", "").strip()
                     break
             
-            # 총 라운드 수 산출
             total_cnt = len(round_spans) if round_spans else 46
             
-            match_data_v4["active_round"] = active_text
-            match_data_v4["total_rounds"] = str(total_cnt)
+            match_data["active_round"] = active_text
+            match_data["total_rounds"] = str(total_cnt)
 
             # 3. Legends (Standing colors)
             legend_items = soup.select("#standingColor span.explain, .explain")
@@ -81,7 +89,7 @@ def crawl_match_details_v4(league_id=39):
                     {"color": "#B1A7A7", "description": "강등팀"}
                 ]
             
-            match_data_v4["standing_legends"] = parsed_legends
+            match_data["standing_legends"] = parsed_legends
 
             # 4. Standings
             standings_items = soup.select("#standingList li.standis")
@@ -123,60 +131,22 @@ def crawl_match_details_v4(league_id=39):
                         "승점": stat_slice[5] if len(stat_slice) > 5 else ""
                     })
 
-            if not parsed_standings and league_id == 39:
-                raw_fallback_data = [
-                    ("1", "플리머스", "#CCCCFF", "승격팀", "10", "6", "1", "3", "6", "19"),
-                    ("2", "브래드포드 시티", "#CCCCFF", "승격팀", "9", "5", "2", "2", "3", "17"),
-                    ("3", "스톡포트", "#00CCCC", "승격 플레이오프", "9", "5", "1", "3", "9", "16"),
-                    ("4", "허더스필드", "#00CCCC", "승격 플레이오프", "9", "4", "4", "1", "7", "16"),
-                    ("5", "케임브리지U", "#00CCCC", "승격 플레이오프", "9", "4", "4", "1", "3", "16"),
-                    ("6", "레딩", "#00CCCC", "승격 플레이오프", "9", "4", "3", "2", "11", "15"),
-                    ("7", "셰필드W", "", "일반", "8", "4", "3", "1", "7", "15"),
-                    ("8", "옥스포드U", "", "일반", "7", "4", "2", "1", "7", "14"),
-                    ("9", "스티버니지", "", "일반", "8", "3", "3", "2", "4", "12"),
-                    ("10", "버튼", "", "일반", "10", "3", "3", "4", "-2", "12"),
-                    ("11", "윔블던", "", "일반", "9", "3", "3", "3", "-3", "12"),
-                    ("12", "레이턴", "", "일반", "9", "3", "2", "4", "2", "11"),
-                    ("13", "루턴", "", "일반", "8", "3", "2", "3", "1", "11"),
-                    ("14", "맨스필드", "", "일반", "8", "3", "2", "3", "-2", "11"),
-                    ("15", "위컴", "", "일반", "9", "2", "4", "3", "-6", "10"),
-                    ("16", "돈캐스터", "", "일반", "8", "2", "3", "3", "0", "9"),
-                    ("17", "레스터", "", "일반", "8", "2", "3", "3", "-4", "9"),
-                    ("18", "블랙풀", "", "일반", "8", "2", "2", "4", "-1", "8"),
-                    ("19", "반슬리", "", "일반", "8", "2", "2", "4", "-7", "8"),
-                    ("20", "피터버러", "", "일반", "9", "2", "2", "5", "-7", "8"),
-                    ("21", "브롬리", "#B1A7A7", "강등팀", "8", "2", "2", "4", "-11", "8"),
-                    ("22", "노츠카운티", "#B1A7A7", "강등팀", "8", "1", "4", "3", "-3", "7"),
-                    ("23", "밀턴", "#B1A7A7", "강등팀", "8", "0", "6", "2", "-6", "6"),
-                    ("24", "위건", "#B1A7A7", "강등팀", "8", "1", "1", "6", "-8", "4")
-                ]
-                for row in raw_fallback_data:
-                    parsed_standings.append({
-                        "rank": row[0],
-                        "team": row[1],
-                        "tag_color": row[2],
-                        "tag_label": row[3],
-                        "경기수": row[4],
-                        "승": row[5],
-                        "무": row[6],
-                        "패": row[7],
-                        "득실": row[8],
-                        "승점": row[9]
-                    })
-
-            match_data_v4["standings"] = parsed_standings
-            print(f"[{match_data_v4['league_name']}] 수집 성공 (Round: {match_data_v4['active_round']} / Total: {match_data_v4['total_rounds']})")
+            match_data["standings"] = parsed_standings
+            print(f"[{match_data['league_name']}] 수집 성공 (Round: {match_data['active_round']} / Total: {match_data['total_rounds']})")
         else:
-            print(f"페이지 요청 실패: Status Code {response.status_code}")
+            print(f"페이지 요청 실패 (League ID: {league_id}): Status Code {response.status_code}")
 
     except Exception as e:
-        print(f"크롤링 중 오류 발생: {e}")
+        print(f"리그 ID {league_id} 크롤링 중 오류 발생: {e}")
 
-    output_filename = "match_details_v4.json"
+    output_filename = f"match_details_league_{league_id}.json"
     with open(output_filename, "w", encoding="utf-8") as f:
-        json.dump(match_data_v4, f, ensure_ascii=False, indent=4)
+        json.dump(match_data, f, ensure_ascii=False, indent=4)
         
     print(f"[{output_filename}] 저장 완료.")
 
 if __name__ == "__main__":
-    crawl_match_details_v4(league_id=39)
+    target_league_ids = [39, 40]
+    for lid in target_league_ids:
+        print(f"\n--- 리그 ID {lid} 크롤링 시작 ---")
+        crawl_match_details(lid)
