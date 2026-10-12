@@ -1,29 +1,11 @@
 {
-    "updated_at": "2026-10-13 02:11:36",
+    "updated_at": "2026-10-13 02:14:40",
     "leagues": {
         "34": {
             "league_id": 34,
             "league_name": "세리에 A",
-            "active_round": "6/38",
+            "active_round": "1/38",
             "total_rounds": 38,
-            "standing_legends": [
-                {
-                    "color": "#FF9966",
-                    "description": "UEFA CL qualifying"
-                },
-                {
-                    "color": "#00CCFF",
-                    "description": "UEFA EL qualifying"
-                },
-                {
-                    "color": "#009900",
-                    "description": "UEFA ECL qualifying"
-                },
-                {
-                    "color": "#B1A7A7",
-                    "description": "강등팀"
-                }
-            ],
             "standings": []
         },
         "39": {
@@ -31,7 +13,6 @@
             "league_name": "잉글랜드 리그 1",
             "active_round": "1/46",
             "total_rounds": 46,
-            "standing_legends": [],
             "standings": []
         },
         "40": {
@@ -39,7 +20,6 @@
             "league_name": "세리에 B",
             "active_round": "1/38",
             "total_rounds": 38,
-            "standing_legends": [],
             "standings": []
         }
     }
