@@ -24,9 +24,9 @@ def run_crawler_v4():
 
     # 수집 대상 리그 주소 설정
     target_leagues = [
-        {"id": 34, "url": "url?id=42league/34"},
-        {"id": 39, "url": "url?id=42league/39"},
-        {"id": 40, "url": "url?id=42league/40"}
+        {"id": 34, "url": "https://football.scoreman123.com/league/34"},
+        {"id": 39, "url": "https://football.scoreman123.com/league/39"},
+        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
     ]
 
     all_leagues_data = {
