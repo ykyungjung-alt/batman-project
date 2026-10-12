@@ -13,25 +13,30 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 # ==========================================
-# 🧩 개별 독립 파싱 모듈 (에러 유형 분류 적용)
+# 🧩 개별 독립 파싱 모듈 (에러 분류 체계 적용)
 # ==========================================
 
 def parse_league_name(soup, league_id, fallback_name):
     """리그명 추출 모듈"""
     try:
         title_elem = soup.select_one("div#title, div.title, .league_title, h4, strong")
-        if title_elem:
-            txt = title_elem.text.strip()
-            if txt:
-                cleaned = txt.replace("라이브스코어", "").replace("시즌", "").replace("스코어맨", "").strip()
-                if cleaned:
-                    return cleaned, None
-        return fallback_name, "[탐색할 수 없음] 리그명 타이틀 요소를 찾지 못했거나 텍스트가 비어있습니다."
+        if not title_elem:
+            return fallback_name, "[모듈 에러] 리그명 타이틀 DOM 요소를 찾지 못했습니다."
+        
+        txt = title_elem.text.strip()
+        if not txt:
+            return fallback_name, "[조건 불일치] 리그명 타이틀의 텍스트 내용이 비어 있습니다."
+            
+        cleaned = txt.replace("라이브스코어", "").replace("시즌", "").replace("스코어맨", "").strip()
+        if not cleaned:
+            return fallback_name, "[조건 불일치] 정제된 리그명 텍스트가 유효하지 않습니다."
+            
+        return cleaned, None
     except Exception as e:
-        return fallback_name, f"[런타임 오류] 리그명 파싱 중 예외 발생: {str(e)}"
+        return fallback_name, f"[코드 에러] 리그명 파싱 중 런타임 예외 발생: {str(e)}"
 
 def parse_active_round(soup, league_id, default_round, default_total):
-    """활성 라운드 및 총 라운드 수 추출 모듈"""
+    """💡 액티브 라운드 및 총 라운드 수 정밀 추출 모듈 (미탐색 시 에러 확정)"""
     fallback_total = 46 if league_id == 39 else 38
     try:
         active_elem = soup.select_one("div.round span.current.on, div.round span.on, span.current.on, span.on")
@@ -49,22 +54,27 @@ def parse_active_round(soup, league_id, default_round, default_total):
                     active_text = span.text.strip()
                     break
 
+        # 💡 액티브 라운드를 못 찾아내면 명백한 에러로 처리
+        if not active_text.isdigit():
+            return default_round, fallback_total, "[모듈 에러] 활성 라운드(active_round) 요소를 전혀 탐색할 수 없거나 숫자가 아닙니다."
+
         all_rounds = soup.select("div.round span[round], div.round span")
         total_cnt = len([s for s in all_rounds if s.text.strip().isdigit()]) 
         if total_cnt == 0:
             total_cnt = fallback_total
-        
-        if active_text.isdigit():
-            return f"{active_text}/{total_cnt}", total_cnt, None
             
-        return default_round, fallback_total, "[탐색할 수 없음] 활성 라운드 숫자(digit)를 감지할 수 있는 요소를 찾지 못했습니다."
+        return f"{active_text}/{total_cnt}", total_cnt, None
     except Exception as e:
-        return default_round, fallback_total, f"[런타임 오류] 라운드 파싱 중 예외 발생: {str(e)}"
+        return default_round, fallback_total, f"[코드 에러] 라운드 파싱 중 런타임 예외 발생: {str(e)}"
 
 def parse_standing_legends(soup, default_legends):
     """하단 컬러 범례 추출 모듈"""
     try:
         legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain, .explain")
+        if not legend_items:
+            fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
+            return default_legends, fallback_map, "[모듈 에러] 하단 범례(#standingColor) 요소를 탐색할 수 없습니다."
+
         parsed_legends = []
         color_to_label = {}
         
@@ -84,15 +94,14 @@ def parse_standing_legends(soup, default_legends):
                     color_to_label[bg_color] = desc_text
                 parsed_legends.append({"color": bg_color, "description": desc_text})
                 
-        if parsed_legends:
-            fallback_map = {item["color"]: item["description"] for item in parsed_legends if item.get("color")}
-            return parsed_legends, fallback_map, None
+        if not parsed_legends:
+            fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
+            return default_legends, fallback_map, "[조건 불일치] 범례 아이템은 존재하나 색상 속성(background-color) 추출에 실패했습니다."
             
-        fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
-        return default_legends, fallback_map, "[탐색할 수 없음] 하단 범례(#standingColor 또는 .explain) 요소를 찾지 못했습니다."
+        return parsed_legends, color_to_label, None
     except Exception as e:
         fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
-        return default_legends, fallback_map, f"[런타임 오류] 범례 파싱 중 예외 발생: {str(e)}"
+        return default_legends, fallback_map, f"[코드 에러] 범례 파싱 중 런타임 예외 발생: {str(e)}"
 
 def parse_standings(soup, color_to_label, default_standings):
     """랭킹표 및 컬러 꼬리표 매핑 모듈 (li.standis 정밀 파싱)"""
@@ -102,7 +111,7 @@ def parse_standings(soup, color_to_label, default_standings):
     try:
         standing_rows = soup.select('li.standis')
         if not standing_rows:
-            return default_standings, "[탐색할 수 없음] 페이지 내 'li.standis' 랭킹 리스트 요소를 찾지 못했습니다. (탭 세팅 누락 또는 DOM 구조 변경 의심)"
+            return default_standings, "[모듈 에러] 페이지 내 'li.standis' 랭킹 리스트 요소를 전혀 탐색할 수 없습니다."
 
         for row in standing_rows:
             style_attr = row.get("style", "")
@@ -170,9 +179,9 @@ def parse_standings(soup, color_to_label, default_standings):
             parsed_standings.sort(key=lambda x: int(x['rank']))
             return parsed_standings, None
             
-        return default_standings, "[탐색할 수 없음] li.standis 행은 존재하나 유효한 순위/스탯 데이터 매칭에 실패했습니다."
+        return default_standings, "[조건 불일치] li.standis 행은 존재하나 유효한 순위/스탯 데이터 매칭 조건을 충족하지 못했습니다."
     except Exception as e:
-        return default_standings, f"[런타임 오류] 랭킹표 파싱 중 예외 발생: {str(e)}"
+        return default_standings, f"[코드 에러] 랭킹표 파싱 중 런타임 예외 발생: {str(e)}"
 
 
 # ==========================================
@@ -182,7 +191,6 @@ def run_crawler_v4():
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S")
     
-    # 기존 파일 불러오기 (불러오기 실패 시 예외 처리 보완)
     existing_leagues = {}
     if os.path.exists("match_details_v4.json"):
         try:
@@ -190,7 +198,7 @@ def run_crawler_v4():
                 loaded_json = json.load(f)
                 existing_leagues = loaded_json.get("leagues", {})
         except Exception as e:
-            print(f"ℹ️ [불러오기 실패] 기존 JSON 파일 로드 실패 (새로 생성): {e}")
+            print(f"ℹ️ [불러오기 실패] 기존 JSON 파일 로드 실패: {e}")
 
     options = Options()
     options.add_argument("--headless")
@@ -200,9 +208,9 @@ def run_crawler_v4():
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 
     target_leagues = [
-        {"id": 34, "url": "url?id=45league/34"},
-        {"id": 39, "url": "url?id=45league/39"},
-        {"id": 40, "url": "url?id=45league/40"}
+        {"id": 34, "url": "https://football.scoreman123.com/league/34"},
+        {"id": 39, "url": "https://football.scoreman123.com/league/39"},
+        {"id": 40, "url": "https://www.scoreman123.com/aboutusleague/40"}
     ]
 
     all_leagues_data = {
@@ -216,7 +224,7 @@ def run_crawler_v4():
             service = Service(ChromeDriverManager().install())
             driver = webdriver.Chrome(service=service, options=options)
         except Exception as e:
-            print(f"❌ [불러오기 실패] 드라이버 초기화 실패: {e}")
+            print(f"❌ [코드 에러] 드라이버 초기화 실패: {e}")
             return
 
         for league in target_leagues:
@@ -224,87 +232,4 @@ def run_crawler_v4():
             url = league["url"]
             print(f"🔄 [수집 중] 리그 ID {league_id} ({url})")
 
-            prev_data = existing_leagues.get(str(league_id), {})
-            league_match_data = {
-                "league_id": league_id,
-                "league_name": prev_data.get("league_name", f"리그 ID {league_id}"),
-                "league_name_error": None,
-                "active_round": prev_data.get("active_round", f"1/{46 if league_id == 39 else 38}"),
-                "active_round_error": None,
-                "total_rounds": prev_data.get("total_rounds", 46 if league_id == 39 else 38),
-                "standing_legends": prev_data.get("standing_legends", []),
-                "standing_legends_error": None,
-                "standings": prev_data.get("standings", []),
-                "standings_error": None
-            }
-
-            try:
-                driver.get(url)
-                
-                # 1. 랭킹 리스트 렌더링 대기
-                WebDriverWait(driver, 15).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "li.standis"))
-                )
-                
-                # 2. 필수 탭 고정 (합계 + 결과)
-                try:
-                    total_btn = WebDriverWait(driver, 10).until(
-                        EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingType span[data-st-type='1']"))
-                    )
-                    driver.execute_script("arguments[0].click();", total_btn)
-                    time.sleep(1)
-
-                    result_btn = WebDriverWait(driver, 10).until(
-                        EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingHF span[data-st-hf='0']"))
-                    )
-                    driver.execute_script("arguments[0].click();", result_btn)
-                    time.sleep(1.5)
-                except Exception as tab_err:
-                    print(f"  ⚠️ 탭 제어 중 경고: {tab_err}")
-
-                soup = BeautifulSoup(driver.page_source, 'html.parser')
-
-                # 3. 모듈별 독립 호출 및 에러 분류 기록
-                name_res, name_err = parse_league_name(soup, league_id, league_match_data["league_name"])
-                league_match_data["league_name"] = name_res
-                league_match_data["league_name_error"] = name_err
-                
-                round_res, total_cnt, round_err = parse_active_round(
-                    soup, league_id, league_match_data["active_round"], league_match_data["total_rounds"]
-                )
-                league_match_data["active_round"] = round_res
-                league_match_data["total_rounds"] = total_cnt
-                league_match_data["active_round_error"] = round_err
-                
-                legends_res, color_map, legend_err = parse_standing_legends(
-                    soup, league_match_data["standing_legends"]
-                )
-                league_match_data["standing_legends"] = legends_res
-                league_match_data["standing_legends_error"] = legend_err
-                
-                standings_res, standings_err = parse_standings(
-                    soup, color_map, league_match_data["standings"]
-                )
-                league_match_data["standings"] = standings_res
-                league_match_data["standings_error"] = standings_err
-
-                print(f"✅ 수집 완료: {league_match_data['league_name']} (순위 팀: {len(league_match_data['standings'])}개)")
-
-            except Exception as e:
-                err_msg = f"[런타임 오류] 페이지 로드 또는 제어 중 예외 발생: {str(e)}"
-                print(f"⚠️ 리그 ID {league_id} 실패: {err_msg}")
-                league_match_data["standings_error"] = err_msg
-                driver.save_screenshot(f"error_league_{league_id}.png")
-
-            all_leagues_data["leagues"][str(league_id)] = league_match_data
-
-    finally:
-        if driver:
-            driver.quit()
-
-    with open("match_details_v4.json", "w", encoding="utf-8") as f:
-        json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
-    print("🎉 match_details_v4.json 저장 완료 (에러 분류 기록 포함)")
-
-if __name__ == "__main__":
-    run_crawler_v4()
+            prev_data = existing_leagues.get(str
