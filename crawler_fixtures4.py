@@ -209,7 +209,7 @@ def run_crawler_v4():
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
-        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
+        {"id": 40, "url": "https://sports.scoreman123.com/tennisleague/40"}
     ]
 
     all_leagues_data = {
@@ -231,7 +231,6 @@ def run_crawler_v4():
             url = league["url"]
             print(f"🔄 [수집 중] 리그 ID {league_id} ({url})")
 
-            # 💡 [구문 오류 수정 완료] 올바른 괄호와 인자로 prev_data 안전 취득
             prev_data = existing_leagues.get(str(league_id), {})
             
             league_match_data = {
@@ -265,7 +264,7 @@ def run_crawler_v4():
                 except Exception:
                     league_match_data["standings_error"] = "[모듈 에러] 페이지 내 타겟 요소(li.standis)가 시간 내에 렌더링되지 않았습니다."
 
-                # 💡 [조건 불일치 검증] 합계(data-st-type="1") 및 결과(data-st-hf="0") 탭 강제 세팅 및 활성화 검증
+                # 💡 [조건 불일치 검증] 합계 및 결과 탭 강제 세팅
                 try:
                     total_btn = WebDriverWait(driver, 10).until(
                         EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingType span[data-st-type='1']"))
@@ -317,5 +316,4 @@ def run_crawler_v4():
             except Exception as e:
                 err_msg = f"[코드 에러] 크롤링 실행 중 런타임 예외 발생: {str(e)}"
                 print(f"⚠️ 리그 ID {league_id} 실패: {err_msg}")
-                league_match_data["standings_error"] = err_msg
-                driver.save_screenshot(f"
+                league_match_data["standings_error"] =
