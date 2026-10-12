@@ -219,13 +219,13 @@ def run_crawler_v4():
 
     driver = None
     try:
-        try:
-            service = Service(ChromeDriverManager().install())
-            driver = webdriver.Chrome(service=service, options=options)
-        except Exception as e:
-            print(f"❌ [코드 에러] 드라이버 초기화 실패: {e}")
-            return
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=options)
+    except Exception as e:
+        print(f"❌ [코드 에러] 드라이버 초기화 실패: {e}")
+        return
 
+    try:
         for league in target_leagues:
             league_id = league["id"]
             url = league["url"]
@@ -247,7 +247,7 @@ def run_crawler_v4():
             }
 
             try:
-                # 💡 [주소 오류 검증] URL 접속 시도
+                # 1. URL 접속 검증
                 try:
                     driver.get(url)
                 except Exception as net_err:
@@ -256,7 +256,7 @@ def run_crawler_v4():
                     all_leagues_data["leagues"][str(league_id)] = league_match_data
                     continue
 
-                # 랭킹 리스트 로딩 대기
+                # 2. 로딩 대기
                 try:
                     WebDriverWait(driver, 15).until(
                         EC.presence_of_element_located((By.CSS_SELECTOR, "li.standis"))
@@ -264,7 +264,7 @@ def run_crawler_v4():
                 except Exception:
                     league_match_data["standings_error"] = "[모듈 에러] 페이지 내 타겟 요소(li.standis)가 시간 내에 렌더링되지 않았습니다."
 
-                # 💡 [조건 불일치 검증] 합계 및 결과 탭 강제 세팅
+                # 3. 필수 탭 고정 (합계 + 결과) 및 검증
                 try:
                     total_btn = WebDriverWait(driver, 10).until(
                         EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingType span[data-st-type='1']"))
@@ -275,3 +275,59 @@ def run_crawler_v4():
                     result_btn = WebDriverWait(driver, 10).until(
                         EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingHF span[data-st-hf='0']"))
                     )
+                    driver.execute_script("arguments[0].click();", result_btn)
+                    time.sleep(1.5)
+
+                    total_class = total_btn.get_attribute("class") or ""
+                    result_class = result_btn.get_attribute("class") or ""
+                    if "on" not in total_class or "on" not in result_class:
+                        print(f"  ⚠️ [조건 불일치] '합계' 또는 '결과' 탭에 'on' 클래스가 활성화되지 않았습니다.")
+                except Exception as tab_err:
+                    print(f"  ⚠️ [조건 불일치] 필수 탭 제어 중 예외 발생: {tab_err}")
+
+                soup = BeautifulSoup(driver.page_source, 'html.parser')
+
+                # 모듈별 독립 호출 및 에러 분류 기록
+                name_res, name_err = parse_league_name(soup, league_id, league_match_data["league_name"])
+                league_match_data["league_name"] = name_res
+                league_match_data["league_name_error"] = name_err
+                
+                round_res, total_cnt, round_err = parse_active_round(
+                    soup, league_id, league_match_data["active_round"], league_match_data["total_rounds"]
+                )
+                league_match_data["active_round"] = round_res
+                league_match_data["total_rounds"] = total_cnt
+                league_match_data["active_round_error"] = round_err
+                
+                legends_res, color_map, legend_err = parse_standing_legends(
+                    soup, league_match_data["standing_legends"]
+                )
+                league_match_data["standing_legends"] = legends_res
+                league_match_data["standing_legends_error"] = legend_err
+                
+                standings_res, standings_err = parse_standings(
+                    soup, color_map, league_match_data["standings"]
+                )
+                league_match_data["standings"] = standings_res
+                league_match_data["standings_error"] = standings_err
+
+                print(f"✅ 수집 완료: {league_match_data['league_name']} (순위 팀: {len(league_match_data['standings'])}개)")
+
+            except Exception as e:
+                err_msg = f"[코드 에러] 크롤링 실행 중 런타임 예외 발생: {str(e)}"
+                print(f"⚠️ 리그 ID {league_id} 실패: {err_msg}")
+                league_match_data["standings_error"] = err_msg
+                driver.save_screenshot(f"error_league_{league_id}.png")
+
+            all_leagues_data["leagues"][str(league_id)] = league_match_data
+
+    finally:
+        if driver:
+            driver.quit()
+
+    with open("match_details_v4.json", "w", encoding="utf-8") as f:
+        json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
+    print("🎉 match_details_v4.json 저장 완료")
+
+if __name__ == "__main__":
+    run_crawler_v4()
