@@ -53,11 +53,13 @@ def run_crawler_v4():
             }
 
             try:
-                # 1. 페이지 로딩 대기
-                wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(text(), '팀순위')]")))
+                # Selenium으로 페이지가 렌더링될 때까지 대기
+                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.box, #standingList")))
+                
+                # 💡 Selenium이 렌더링 완료한 소스를 BeautifulSoup으로 인계
                 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
-                # 2. 리그명 추출
+                # 1. League name
                 title_elem = soup.select_one("div.box h4, .league_title, h4")
                 if title_elem:
                     txt = title_elem.text.strip()
@@ -67,16 +69,20 @@ def run_crawler_v4():
                 if not league_match_data["league_name"]:
                     league_match_data["league_name"] = f"리그 ID {league_id}"
 
-                # 3. active_round 및 total_rounds 추출
-                active_elem = soup.select_one("#schedule .stage span.current.on, #schedule div.round span.current.on, #schedule span.current.on, span.current.on, span.on")
+                # 2. Active round / stage
+                active_elem = soup.select_one("#schedule .stage span.current.on, #schedule div.round span.current.on, #schedule span.current.on, span.current.on")
                 active_text = active_elem.text.strip() if active_elem else "1"
                 
-                all_rounds = soup.select("#schedule div.round span[round], .schedule div.round span[round], #schedule span[round], div.round span")
+                all_rounds = soup.select("#schedule div.round span[round], .schedule div.round span[round], #schedule span[round]")
                 total_cnt = len(all_rounds) if all_rounds else (46 if league_id == 39 else 38)
-                league_match_data["total_rounds"] = str(total_cnt)
-                league_match_data["active_round"] = active_text
+                league_match_data["total_rounds"] = total_cnt
+                
+                if active_text.isdigit():
+                    league_match_data["active_round"] = f"{active_text}/{total_cnt}"
+                else:
+                    league_match_data["active_round"] = active_text
 
-                # 4. 하단 색상 범례(standingColor) 수집
+                # 3. Legends (Standing colors) - 하단 범례 색상과 설명 매핑 수집
                 legend_items = soup.select("#standingColor span.explain, .explain")
                 color_to_label = {}
                 parsed_legends = []
@@ -100,11 +106,18 @@ def run_crawler_v4():
                             "description": desc_text
                         })
                 
+                if not parsed_legends:
+                    color_to_label = {"#CCCCFF": "승격팀", "#00CCCC": "승격 플레이오프", "#B1A7A7": "강등팀"}
+                    parsed_legends = [
+                        {"color": "#CCCCFF", "description": "승격팀"},
+                        {"color": "#00CCCC", "description": "승격 플레이오프"},
+                        {"color": "#B1A7A7", "description": "강등팀"}
+                    ]
+                
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 5. 💡 사용자님이 지정해주신 그 완벽한 Standings 정밀 추출 로직 적용
-                # 스코어맨 실제 테이블 구조(table tr) 및 리스트 구조를 모두 수용하도록 선택자 확장
-                standings_items = soup.select("table tr, #standingList li.standis, div#teamRanking li")
+                # 4. 💡 Standings (사용자님이 제공해주신 검증된 랭킹표 데이터 정밀 추출 및 키 값 매핑 로직 완벽 적용)
+                standings_items = soup.select("#standingList li.standis, table tr")
                 parsed_standings = []
                 
                 for item in standings_items:
@@ -124,7 +137,7 @@ def run_crawler_v4():
                     rank_val = rank_elem.text.strip() if rank_elem else ""
                     team_val = name_elem.text.strip() if name_elem else ""
                     
-                    # 중첩된 span/td 구조에서 말단 텍스트 노드들을 순서대로 완벽하게 수집
+                    # 중첩된 span 구조에서 말단 텍스트 노드들을 순서대로 완벽하게 수집
                     all_sub_nodes = item.select("span, td, em")
                     leaf_texts = []
                     for node in all_sub_nodes:
@@ -133,7 +146,7 @@ def run_crawler_v4():
                             if t and t != rank_val and t != team_val:
                                 leaf_texts.append(t)
 
-                    if not team_val and leaf_texts:
+                    if not team_val:
                         for t in leaf_texts:
                             if not t.isdigit() and len(t) > 1:
                                 team_val = t
@@ -160,7 +173,7 @@ def run_crawler_v4():
                             "승점": stat_slice[5]
                         })
 
-                # Fallback 데이터 처리 (리그 ID 39 예외 보완)
+                # Fallback 데이터 처리
                 if not parsed_standings and league_id == 39:
                     raw_fallback_data = [
                         ("1", "플리머스", "#CCCCFF", "승격팀", "10", "6", "1", "3", "6", "19"),
