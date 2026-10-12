@@ -52,7 +52,6 @@ def run_crawler_v4():
             }
 
             try:
-                # 순위표 컨테이너 로드 대기
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#standingList")))
 
                 # 1. 실제 리그명 추출
@@ -102,7 +101,7 @@ def run_crawler_v4():
 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 ul#standingList 하위의 모든 li.standis 내용을 정확하게 순회 및 파싱
+                # 4. 💡 순위표(Standings) 파싱 로직 정밀 구현
                 standings_items = driver.find_elements(By.CSS_SELECTOR, "#standingList li.standis")
                 parsed_standings = []
                 
@@ -115,7 +114,6 @@ def run_crawler_v4():
                         except:
                             tag_color = ""
 
-                    # 색상 매칭 (HEX 형태나 RGB 형태 모두 대응하기 위해 소문자 통일)
                     tag_label = color_to_label.get(tag_color.lower(), "일반")
 
                     # 순위(R) 추출
@@ -132,30 +130,28 @@ def run_crawler_v4():
                     except:
                         pass
 
-                    # 💡 해당 행(li)에 포함된 모든 텍스트 요소를 순서대로 수집
-                    # 스크린샷 구조상 순위, 구단명 뒤로 경기, 승, 무, 패, 득실, 승점 순서로 텍스트가 배치됨
+                    # 해당 행 내부의 모든 하위 span 태그를 순서대로 수집하여 텍스트만 추출
                     all_spans = item.find_elements(By.TAG_NAME, "span")
-                    texts = []
+                    row_texts = []
                     for s in all_spans:
-                        # 자식 span이 없는 말단 태그이거나 유효한 텍스트가 있는 경우만 수집
                         t = s.text.strip()
                         if t and not s.find_elements(By.TAG_NAME, "span"):
-                            texts.append(t)
+                            row_texts.append(t)
 
-                    # 구단명을 못 찾았을 경우 텍스트 배열에서 추정
-                    if not team_val and len(texts) > 1:
-                        for t in texts:
+                    # 구단명을 못 찾았을 경우 텍스트 목록에서 순위가 아니고 숫자가 아닌 첫 항목을 구단명으로 지정
+                    if not team_val and len(row_texts) > 1:
+                        for t in row_texts:
                             if t != rank_val and not t.isdigit() and len(t) > 1:
                                 team_val = t
                                 break
 
-                    # 뒤에서부터 정확히 6개 데이터 추출 (경기, 승, 무, 패, 득실, 승점)
-                    # 순위와 구단명을 제외한 순수 숫자/결과 값들만 필터링
-                    stat_candidates = [t for t in texts if t != rank_val and t != team_val]
-                    if len(stat_candidates) >= 6:
-                        stat_slice = stat_candidates[-6:]
+                    # 순위와 구단명을 제외한 나머지 데이터 중에서 성적에 해당하는 6개 지표 추출
+                    # 구조상 순위, 구단명 뒤에 P, W, D, L, GD, PTS 순서대로 값이 위치함
+                    filtered_vals = [t for t in row_texts if t != rank_val and t != team_val]
+                    if len(filtered_vals) >= 6:
+                        stat_slice = filtered_vals[-6:]
                     else:
-                        stat_slice = stat_candidates + [""] * (6 - len(stat_candidates))
+                        stat_slice = filtered_vals + [""] * (6 - len(filtered_vals))
 
                     if rank_val and team_val:
                         parsed_standings.append({
@@ -181,7 +177,7 @@ def run_crawler_v4():
 
         with open("match_details_v4.json", "w", encoding="utf-8") as f:
             json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
-        print(f"\n🎉 [match_details_v4.json] 순위표 데이터 정상 수집 완료")
+        print(f"\n🎉 [match_details_v4.json] 순위표 데이터 정상 수집 및 통합 저장 완료")
 
     finally:
         driver.quit()
