@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-12 12:26:42",
+    "last_updated": "2026-10-12 15:34:23",
     "match_details": {
         "3068933": {
             "match_code": "3068933",
@@ -683,7 +683,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Sanga Stadium by Kyocera",
-                "weather": ""
+                "weather": "맑음,  22°C"
             },
             "home": "교토",
             "away": "라차부리",
@@ -1060,7 +1060,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "CHA CSL-2",
+                        "rank": "CHA CSL-3",
                         "team": "베이징 궈안",
                         "played": "27",
                         "win": "12",
@@ -2383,6 +2383,108 @@
                 }
             }
         },
+        "3069030": {
+            "match_code": "3069030",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "stadium": "",
+                "weather": ""
+            },
+            "home": "이스트 벵골",
+            "away": "알 쇼르타",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "ISL-7",
+                        "team": "이스트 벵골",
+                        "played": "0",
+                        "win": "0",
+                        "draw": "0",
+                        "loss": "0",
+                        "goals_for": "0",
+                        "goals_against": "0",
+                        "goal_diff": "0",
+                        "points": "0"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "IRQ SL-5",
+                        "team": "알 쇼르타",
+                        "played": "9",
+                        "win": "4",
+                        "draw": "4",
+                        "loss": "1",
+                        "goals_for": "9",
+                        "goals_against": "4",
+                        "goal_diff": "5",
+                        "points": "16"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 4무 3패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 4무 1패",
+                        "goals_per_game": "1.00",
+                        "conceded_per_game": "0.40"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "ISL",
+                            "match_time": "2026-10-18 11:30:00",
+                            "teams": "10.18 2026 vs 처칠 브라더스 vs 이스트 벵골 vs 5 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "ISL",
+                            "match_time": "2026-10-23 11:30:00",
+                            "teams": "10.23 2026 vs 인터 카쉬 vs 이스트 벵골 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-10-27 17:00:00",
+                            "teams": "10.27 2026 vs 알 세브 vs 이스트 벵골 vs 14 일",
+                            "interval": "14 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "스타스 리그",
+                            "match_time": "2026-10-18 17:30:00",
+                            "teams": "10.18 2026 vs 알 쇼르타 vs 알 카르흐 vs 5 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "스타스 리그",
+                            "match_time": "2026-10-23 16:45:00",
+                            "teams": "10.23 2026 vs 알 자우라 vs 알 쇼르타 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-10-27 18:15:00",
+                            "teams": "10.27 2026 vs 알 쇼르타 vs 알 후세인 vs 14 일",
+                            "interval": "14 일"
+                        }
+                    ]
+                }
+            }
+        },
         "3059466": {
             "match_code": "3059466",
             "head_info": {
@@ -2579,7 +2681,7 @@
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 6",
                 "stadium": "",
-                "weather": "맑음,  23°C"
+                "weather": "맑음,  24°C"
             },
             "home": "스무하",
             "away": "가즐 엘 말라",
@@ -2949,7 +3051,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "9",
+                        "rank": "10",
                         "team": "엘 가이쉬",
                         "played": "5",
                         "win": "2",
@@ -3109,57 +3211,176 @@
                 }
             }
         },
-        "3069030": {
-            "match_code": "3069030",
+        "3100304": {
+            "match_code": "3100304",
             "head_info": {
-                "league": "AFC 챔피언스리그 2",
-                "round": "",
+                "league": "프리미어리그",
+                "round": "프리미어리그·  라운드 5",
                 "stadium": "",
-                "weather": ""
+                "weather": "구름 조금,  29°C"
             },
-            "home": "이스트 벵골",
-            "away": "알 쇼르타",
+            "home": "티볼리",
+            "away": "라싱 유나이티드",
             "meta_details": {
                 "rankings": [
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "ISL-5",
-                        "team": "이스트 벵골",
-                        "played": "0",
-                        "win": "0",
-                        "draw": "0",
+                        "rank": "4",
+                        "team": "티볼리",
+                        "played": "4",
+                        "win": "2",
+                        "draw": "2",
                         "loss": "0",
-                        "goals_for": "0",
-                        "goals_against": "0",
-                        "goal_diff": "0",
-                        "points": "0"
+                        "goals_for": "7",
+                        "goals_against": "2",
+                        "goal_diff": "5",
+                        "points": "8"
                     },
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "IRQ SL-5",
-                        "team": "알 쇼르타",
-                        "played": "9",
-                        "win": "4",
-                        "draw": "4",
+                        "rank": "3",
+                        "team": "라싱 유나이티드",
+                        "played": "4",
+                        "win": "3",
+                        "draw": "0",
                         "loss": "1",
-                        "goals_for": "9",
-                        "goals_against": "4",
-                        "goal_diff": "5",
-                        "points": "16"
+                        "goals_for": "10",
+                        "goals_against": "3",
+                        "goal_diff": "7",
+                        "points": "9"
                     }
                 ],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "3승 4무 3패",
-                        "goals_per_game": "1.40",
-                        "conceded_per_game": "1.00"
+                        "recent_record": "3승 2무 5패",
+                        "goals_per_game": "1.20",
+                        "conceded_per_game": "1.80"
                     },
                     "away_summary": {
-                        "recent_record": "5승 4무 1패",
-                        "goals_per_game": "1.00",
-                        "conceded_per_game": "0.40"
+                        "recent_record": "4승 2무 4패",
+                        "goals_per_game": "1.90",
+                        "conceded_per_game": "1.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (33.3%)",
+                        "무승부 3 (50%)",
+                        "승 1 (16.7%)",
+                        "0.33",
+                        "경기당 득점"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JAM D12026.03.22",
+                                "라싱 유나이티드",
+                                "0-0",
+                                "티볼리"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12026.01.22",
+                                "티볼리",
+                                "0-0",
+                                "라싱 유나이티드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12025.09.28",
+                                "라싱 유나이티드",
+                                "0-0",
+                                "티볼리"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12025.03.23",
+                                "티볼리",
+                                "1-0",
+                                "라싱 유나이티드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12025.01.23",
+                                "라싱 유나이티드",
+                                "2-0",
+                                "티볼리"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12024.10.21",
+                                "티볼리",
+                                "1-0",
+                                "라싱 유나이티드"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
+                }
+            }
+        },
+        "3100305": {
+            "match_code": "3100305",
+            "head_info": {
+                "league": "프리미어리그",
+                "round": "프리미어리그·  라운드 5",
+                "stadium": "",
+                "weather": "맑음,  28°C"
+            },
+            "home": "워터하우스",
+            "away": "Tru-Juice FC",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "2",
+                        "team": "워터하우스",
+                        "played": "4",
+                        "win": "3",
+                        "draw": "1",
+                        "loss": "0",
+                        "goals_for": "14",
+                        "goals_against": "1",
+                        "goal_diff": "13",
+                        "points": "10"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "5",
+                        "team": "Tru-Juice FC",
+                        "played": "4",
+                        "win": "2",
+                        "draw": "1",
+                        "loss": "1",
+                        "goals_for": "5",
+                        "goals_against": "2",
+                        "goal_diff": "3",
+                        "points": "7"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 2무 3패",
+                        "goals_per_game": "2.50",
+                        "conceded_per_game": "0.90"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 1무 1패",
+                        "goals_per_game": "1.25",
+                        "conceded_per_game": "0.50"
                     },
                     "matches": []
                 },
@@ -3168,46 +3389,8 @@
                     "matches": []
                 },
                 "fixtures": {
-                    "home": [
-                        {
-                            "league": "ISL",
-                            "match_time": "2026-10-18 11:30:00",
-                            "teams": "10.18 2026 vs 처칠 브라더스 vs 이스트 벵골 vs 5 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026-10-23 11:30:00",
-                            "teams": "10.23 2026 vs 인터 카쉬 vs 이스트 벵골 vs 10 일",
-                            "interval": "10 일"
-                        },
-                        {
-                            "league": "AFC 챔피언스리그 2",
-                            "match_time": "2026-10-27 17:00:00",
-                            "teams": "10.27 2026 vs 알 세브 vs 이스트 벵골 vs 14 일",
-                            "interval": "14 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "스타스 리그",
-                            "match_time": "2026-10-18 17:30:00",
-                            "teams": "10.18 2026 vs 알 쇼르타 vs 알 카르흐 vs 5 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "스타스 리그",
-                            "match_time": "2026-10-23 16:45:00",
-                            "teams": "10.23 2026 vs 알 자우라 vs 알 쇼르타 vs 10 일",
-                            "interval": "10 일"
-                        },
-                        {
-                            "league": "AFC 챔피언스리그 2",
-                            "match_time": "2026-10-27 18:15:00",
-                            "teams": "10.27 2026 vs 알 쇼르타 vs 알 후세인 vs 14 일",
-                            "interval": "14 일"
-                        }
-                    ]
+                    "home": [],
+                    "away": []
                 }
             }
         },
@@ -3407,7 +3590,7 @@
                 "league": "프리미어리그 컵",
                 "round": "",
                 "stadium": "",
-                "weather": "흐림,  16°C"
+                "weather": "구름 조금,  16°C"
             },
             "home": "블랙번 U21",
             "away": "볼턴 원더러스 FC (U21)",
@@ -3645,7 +3828,7 @@
                 "league": "프리미어리그 컵",
                 "round": "",
                 "stadium": "",
-                "weather": "흐림,  17°C"
+                "weather": "흐림,  16°C"
             },
             "home": "브리스톨시티 U21",
             "away": "엑세터 U21",
@@ -4475,7 +4658,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": "흐림,  19°C"
+                "weather": "구름 조금,  19°C"
             },
             "home": "안도라 (여)",
             "away": "페로제도 (여)",
@@ -4663,7 +4846,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "구름 조금,  13°C"
             },
             "home": "Germany (W) U23",
             "away": "스웨덴 (WU-23)",
@@ -4738,7 +4921,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "흐림,  16°C"
             },
             "home": "네덜란드 U23 여",
             "away": "Scotland (W) U23",
@@ -4797,7 +4980,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "구름 조금,  23°C"
             },
             "home": "모로코 (여)",
             "away": "우즈베키스탄 (여)",
@@ -4863,7 +5046,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "흐림,  15°C"
             },
             "home": "잉글랜드 (WU-23)",
             "away": "노르웨이 U23 여",
@@ -4986,7 +5169,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "흐림,  20°C"
             },
             "home": "캐나다 (여)",
             "away": "덴마크 (여)",
@@ -6296,189 +6479,6 @@
                             "interval": "21 일"
                         }
                     ]
-                }
-            }
-        },
-        "3100304": {
-            "match_code": "3100304",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 5",
-                "stadium": "",
-                "weather": "구름 조금,  29°C"
-            },
-            "home": "티볼리",
-            "away": "라싱 유나이티드",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "4",
-                        "team": "티볼리",
-                        "played": "4",
-                        "win": "2",
-                        "draw": "2",
-                        "loss": "0",
-                        "goals_for": "7",
-                        "goals_against": "2",
-                        "goal_diff": "5",
-                        "points": "8"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "3",
-                        "team": "라싱 유나이티드",
-                        "played": "4",
-                        "win": "3",
-                        "draw": "0",
-                        "loss": "1",
-                        "goals_for": "10",
-                        "goals_against": "3",
-                        "goal_diff": "7",
-                        "points": "9"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "3승 2무 5패",
-                        "goals_per_game": "1.20",
-                        "conceded_per_game": "1.80"
-                    },
-                    "away_summary": {
-                        "recent_record": "4승 2무 4패",
-                        "goals_per_game": "1.90",
-                        "conceded_per_game": "1.30"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 2 (33.3%)",
-                        "무승부 3 (50%)",
-                        "승 1 (16.7%)",
-                        "0.33",
-                        "경기당 득점"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "JAM D12026.03.22",
-                                "라싱 유나이티드",
-                                "0-0",
-                                "티볼리"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12026.01.22",
-                                "티볼리",
-                                "0-0",
-                                "라싱 유나이티드"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12025.09.28",
-                                "라싱 유나이티드",
-                                "0-0",
-                                "티볼리"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12025.03.23",
-                                "티볼리",
-                                "1-0",
-                                "라싱 유나이티드"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12025.01.23",
-                                "라싱 유나이티드",
-                                "2-0",
-                                "티볼리"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12024.10.21",
-                                "티볼리",
-                                "1-0",
-                                "라싱 유나이티드"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
-                }
-            }
-        },
-        "3100305": {
-            "match_code": "3100305",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 5",
-                "stadium": "",
-                "weather": "맑음,  28°C"
-            },
-            "home": "워터하우스",
-            "away": "Tru-Juice FC",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "2",
-                        "team": "워터하우스",
-                        "played": "4",
-                        "win": "3",
-                        "draw": "1",
-                        "loss": "0",
-                        "goals_for": "14",
-                        "goals_against": "1",
-                        "goal_diff": "13",
-                        "points": "10"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "5",
-                        "team": "Tru-Juice FC",
-                        "played": "4",
-                        "win": "2",
-                        "draw": "1",
-                        "loss": "1",
-                        "goals_for": "5",
-                        "goals_against": "2",
-                        "goal_diff": "3",
-                        "points": "7"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "5승 2무 3패",
-                        "goals_per_game": "2.50",
-                        "conceded_per_game": "0.90"
-                    },
-                    "away_summary": {
-                        "recent_record": "2승 1무 1패",
-                        "goals_per_game": "1.25",
-                        "conceded_per_game": "0.50"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [],
-                    "matches": []
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
                 }
             }
         },
