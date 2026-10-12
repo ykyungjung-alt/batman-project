@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 def crawl_match_details_v4(league_id=39):
-    # 실제 스코어맨 연결 URL
     target_url = f"https://football.scoreman123.com/league/{league_id}"
     
     headers = {
@@ -36,21 +35,16 @@ def crawl_match_details_v4(league_id=39):
             if not match_data_v4["league_name"]:
                 match_data_v4["league_name"] = "잉글랜드 리그 1"
 
-            # 2. active_round 및 total_rounds 추출 (처음 방식인 class 기반 탐색)
+            # 2. 💡 "style class"가 포함된 태그를 단순하게 찾아 활성 라운드 추출
             active_text = "1"
-            active_span = soup.select_one("div.round span.current.on")
-            if active_span:
-                active_text = active_span.text.strip()
-            else:
-                round_spans = soup.select("div.round span")
-                for span in round_spans:
-                    classes = span.get("class", [])
-                    if "current" in classes and "on" in classes:
-                        active_text = span.text.strip()
-                        break
+            round_spans = soup.select("div.round span[round]")
+            for span in round_spans:
+                if "style class" in str(span):
+                    active_text = span.get("round", "").strip() or span.text.strip()
+                    break
             
-            all_rounds = soup.select("div.round span[round]")
-            total_cnt = len(all_rounds) if all_rounds else 46
+            # 총 라운드 수 산출
+            total_cnt = len(round_spans) if round_spans else 46
             
             match_data_v4["active_round"] = active_text
             match_data_v4["total_rounds"] = str(total_cnt)
