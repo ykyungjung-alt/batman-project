@@ -47,20 +47,16 @@ def run_crawler_v4():
                 "league_name": "",
                 "active_round": "1",
                 "total_rounds": "38",
-                "standings": [],
-                "standing_legends": [
-                    {"color": "#CCCCFF", "description": "승격팀"},
-                    {"color": "#00CCCC", "description": "승격 플레이오프"},
-                    {"color": "#B1A7A7", "description": "강등팀"}
-                ]
+                "standing_legends": [],
+                "standings": []
             }
 
             try:
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#standingList")))
 
-                # 1. 리그명 추출
+                # 1. 실제 리그명 추출
                 try:
-                    title_elem = driver.find_element(By.CSS_SELECTOR, "div.box h4, .league_title, h4")
+                    title_elem = driver.find_element(By.CSS_SELECTOR, "div#title, div.box h4, .league_title, h4")
                     txt = title_elem.text.strip()
                     if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
                         league_match_data["league_name"] = txt.replace("라이브스코어", "").strip()
@@ -81,7 +77,31 @@ def run_crawler_v4():
                 if round_spans:
                     league_match_data["total_rounds"] = str(len(round_spans))
 
-                # 3. 💡 순위표(Standings) 파싱 로직 정밀 복원
+                # 3. 💡 각 리그 페이지 하단의 실제 순위표 색상 범례(standingColor) 수집
+                color_to_label = {}
+                parsed_legends = []
+                try:
+                    legend_elements = driver.find_elements(By.CSS_SELECTOR, "#standingColor span.explain")
+                    for el in legend_elements:
+                        try:
+                            i_elem = el.find_element(By.TAG_NAME, "i")
+                            bg_style = i_elem.get_attribute("style") or ""
+                            bg_color = ""
+                            if "background-color:" in bg_style:
+                                bg_color = bg_style.split("background-color:")[1].split(";")[0].strip().upper()
+                            
+                            desc_text = el.text.strip()
+                            if bg_color and desc_text:
+                                parsed_legends.append({"color": bg_color, "description": desc_text})
+                                color_to_label[bg_color] = desc_text
+                        except:
+                            continue
+                except:
+                    pass
+
+                league_match_data["standing_legends"] = parsed_legends
+
+                # 4. 순위표(Standings) 파싱 및 색상 기반 꼬리표(tag_label) 자동 매핑
                 standings_items = driver.find_elements(By.CSS_SELECTOR, "#standingList li.standis")
                 parsed_standings = []
                 
@@ -93,6 +113,9 @@ def run_crawler_v4():
                             tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
                         except:
                             tag_color = ""
+
+                    # 💡 해당 팀의 태그 색상에 맞는 범례 설명을 매칭 (없으면 "일반")
+                    tag_label = color_to_label.get(tag_color, "일반")
 
                     try:
                         rank_val = item.find_element(By.CSS_SELECTOR, ".rank em, .rank").text.strip()
@@ -113,11 +136,11 @@ def run_crawler_v4():
                     if rank_val and team_val:
                         stat_slice = all_spans[-6:] if len(all_spans) >= 6 else []
                         parsed_standings.append({
-                            "rank": rank_val.replace("\n", "").strip(),
-                            "team": team_val,
+                            "순위": rank_val.replace("\n", "").strip(),
+                            "구단": team_val,
                             "tag_color": tag_color,
-                            "tag_label": "강등팀" if tag_color == "#B1A7A7" else ("승격팀" if tag_color == "#CCCCFF" else ("승격 플레이오프" if tag_color == "#00CCCC" else "일반")),
-                            "경기수": stat_slice[0] if len(stat_slice) > 0 else "",
+                            "tag_label": tag_label,  # 👈 실시간 수집된 색상별 꼬리표 명칭 반영
+                            "경기": stat_slice[0] if len(stat_slice) > 0 else "",
                             "승": stat_slice[1] if len(stat_slice) > 1 else "",
                             "무": stat_slice[2] if len(stat_slice) > 2 else "",
                             "패": stat_slice[3] if len(stat_slice) > 3 else "",
@@ -126,7 +149,7 @@ def run_crawler_v4():
                         })
 
                 league_match_data["standings"] = parsed_standings
-                print(f"✅ [{league_match_data['league_name']}] 수집 성공 (Round: {league_match_data['active_round']} / 팀 수: {len(parsed_standings)}개)")
+                print(f"✅ [{league_match_data['league_name']}] 수집 성공 (팀 수: {len(parsed_standings)}개)")
 
             except Exception as page_err:
                 print(f"⚠️ 리그 ID {league_id} 파싱 중 예외 발생: {page_err}")
@@ -135,7 +158,7 @@ def run_crawler_v4():
 
         with open("match_details_v4.json", "w", encoding="utf-8") as f:
             json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
-        print(f"\n🎉 [match_details_v4.json] 순위표 데이터 포함 통합 저장 완료")
+        print(f"\n🎉 [match_details_v4.json] 동적 색상 범례 및 한글 순위표 저장 완료")
 
     finally:
         driver.quit()
