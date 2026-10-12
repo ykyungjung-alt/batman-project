@@ -40,7 +40,7 @@ def run_crawler_v4():
             print(f"\n🔄 [탐색 중] 리그 ID {league_id} ({target_url})")
             
             driver.get(target_url)
-            time.sleep(2.0)
+            time.sleep(3.0)
             
             league_match_data = {
                 "league_id": league_id,
@@ -52,6 +52,7 @@ def run_crawler_v4():
             }
 
             try:
+                # 순위표 컨테이너 로드 대기
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#standingList")))
 
                 # 1. 실제 리그명 추출
@@ -77,7 +78,7 @@ def run_crawler_v4():
                 if round_spans:
                     league_match_data["total_rounds"] = str(len(round_spans))
 
-                # 3. 색상 범례 수집
+                # 3. 하단 색상 범례(standingColor) 수집
                 color_to_label = {}
                 parsed_legends = []
                 try:
@@ -93,7 +94,7 @@ def run_crawler_v4():
                             desc_text = el.text.strip()
                             if bg_color and desc_text:
                                 parsed_legends.append({"color": bg_color, "description": desc_text})
-                                color_to_label[bg_color.upper()] = desc_text
+                                color_to_label[bg_color.lower()] = desc_text
                         except:
                             continue
                 except:
@@ -101,7 +102,7 @@ def run_crawler_v4():
 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 순위표(Standings) 파싱 로직 정밀 재구축 (li.standis 순회)
+                # 4. 💡 ul#standingList 하위의 모든 li.standis 내용을 정확하게 순회 및 파싱
                 standings_items = driver.find_elements(By.CSS_SELECTOR, "#standingList li.standis")
                 parsed_standings = []
                 
@@ -114,45 +115,47 @@ def run_crawler_v4():
                         except:
                             tag_color = ""
 
-                    tag_label = color_to_label.get(tag_color.upper(), "일반")
+                    # 색상 매칭 (HEX 형태나 RGB 형태 모두 대응하기 위해 소문자 통일)
+                    tag_label = color_to_label.get(tag_color.lower(), "일반")
 
-                    # 순위(R) 추출 (.rank em 또는 .rank)
+                    # 순위(R) 추출
                     rank_val = ""
                     try:
-                        rank_val = item.find_element(By.CSS_SELECTOR, ".rank em").text.strip()
+                        rank_val = item.find_element(By.CSS_SELECTOR, "span.rank em, span.rank").text.strip()
                     except:
-                        try:
-                            rank_val = item.find_element(By.CSS_SELECTOR, ".rank").text.strip()
-                        except:
-                            pass
+                        pass
 
-                    # 구단명 추출 (.team .name)
+                    # 구단명 추출
                     team_val = ""
                     try:
-                        team_val = item.find_element(By.CSS_SELECTOR, ".team .name").text.strip()
+                        team_val = item.find_element(By.CSS_SELECTOR, "span.team span.name, span.name").text.strip()
                     except:
-                        try:
-                            team_val = item.find_element(By.CSS_SELECTOR, "span.name").text.strip()
-                        except:
-                            pass
+                        pass
 
-                    # 💡 제공해주신 구조 상 .rank와 .team 바로 뒤에 이어지는 순수 span 성분들 수집
-                    # 구조: span(경기), span(승), span(무), span(패), span(득실), span.key.blue/key(승점)
-                    stat_spans = item.find_elements(By.XPATH, "./span[not(@class) or @class='key' or @class='key blue']")
-                    stat_texts = [s.text.strip() for s in stat_spans if s.text.strip()]
+                    # 💡 해당 행(li)에 포함된 모든 텍스트 요소를 순서대로 수집
+                    # 스크린샷 구조상 순위, 구단명 뒤로 경기, 승, 무, 패, 득실, 승점 순서로 텍스트가 배치됨
+                    all_spans = item.find_elements(By.TAG_NAME, "span")
+                    texts = []
+                    for s in all_spans:
+                        # 자식 span이 없는 말단 태그이거나 유효한 텍스트가 있는 경우만 수집
+                        t = s.text.strip()
+                        if t and not s.find_elements(By.TAG_NAME, "span"):
+                            texts.append(t)
 
-                    # 만약 stat_spans로 안 잡히면 일반 span 중 자식이 없는 노드들 수집
-                    if len(stat_texts) < 6:
-                        all_sub_spans = item.find_elements(By.TAG_NAME, "span")
-                        stat_texts = []
-                        for s in all_sub_spans:
-                            if not s.find_elements(By.TAG_NAME, "span"):
-                                txt = s.text.strip()
-                                if txt and txt != rank_val and txt != team_val:
-                                    stat_texts.append(txt)
+                    # 구단명을 못 찾았을 경우 텍스트 배열에서 추정
+                    if not team_val and len(texts) > 1:
+                        for t in texts:
+                            if t != rank_val and not t.isdigit() and len(t) > 1:
+                                team_val = t
+                                break
 
-                    # 정확히 뒤에서 6개를 스탯(경기, 승, 무, 패, 득실, 승점)으로 매핑
-                    stat_slice = stat_texts[-6:] if len(stat_texts) >= 6 else ["", "", "", "", "", ""]
+                    # 뒤에서부터 정확히 6개 데이터 추출 (경기, 승, 무, 패, 득실, 승점)
+                    # 순위와 구단명을 제외한 순수 숫자/결과 값들만 필터링
+                    stat_candidates = [t for t in texts if t != rank_val and t != team_val]
+                    if len(stat_candidates) >= 6:
+                        stat_slice = stat_candidates[-6:]
+                    else:
+                        stat_slice = stat_candidates + [""] * (6 - len(stat_candidates))
 
                     if rank_val and team_val:
                         parsed_standings.append({
@@ -178,7 +181,7 @@ def run_crawler_v4():
 
         with open("match_details_v4.json", "w", encoding="utf-8") as f:
             json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
-        print(f"\n🎉 [match_details_v4.json] 순위표 데이터 정상 수집 및 통합 저장 완료")
+        print(f"\n🎉 [match_details_v4.json] 순위표 데이터 정상 수집 완료")
 
     finally:
         driver.quit()
