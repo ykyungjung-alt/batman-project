@@ -82,7 +82,7 @@ def crawl_match_details_v4(league_id=39):
             
             match_data_v4["standing_legends"] = parsed_legends
 
-            # 4. Standings (순위표 및 색상 꼬리표 반영)
+            # 4. 💡 Standings (랭킹표 데이터 정밀 추출 및 키 값 매핑)
             standings_items = soup.select("#standingList li.standis")
             parsed_standings = []
             
@@ -95,7 +95,6 @@ def crawl_match_details_v4(league_id=39):
                     except Exception:
                         tag_color = ""
 
-                # 💡 페이지 하단 범례 색상과 매칭하여 동적 꼬리표 부여 (없으면 "일반")
                 tag_label = color_to_label.get(tag_color, "일반")
 
                 rank_elem = item.select_one(".rank em, .rank")
@@ -104,24 +103,40 @@ def crawl_match_details_v4(league_id=39):
                 rank_val = rank_elem.text.strip() if rank_elem else ""
                 team_val = name_elem.text.strip() if name_elem else ""
                 
-                # 순수 텍스트 성적값들 추출 (기존 코드 로직 유지)
-                all_spans = [s.text.strip() for s in item.select("span") if s.text.strip()]
-                if not team_val and len(all_spans) > 1:
-                    team_val = all_spans[1]
+                # 중첩된 span 구조에서 말단 텍스트 노드들을 순서대로 완벽하게 수집
+                all_sub_nodes = item.select("span")
+                leaf_texts = []
+                for node in all_sub_nodes:
+                    if not node.find("span"):
+                        t = node.text.strip()
+                        if t and t != rank_val and t != team_val:
+                            leaf_texts.append(t)
+
+                if not team_val:
+                    for t in leaf_texts:
+                        if not t.isdigit() and len(t) > 1:
+                            team_val = t
+                            break
+
+                # 뒤에서부터 정확히 6개 스탯 슬라이싱 (경기수, 승, 무, 패, 득실, 승점)
+                stat_candidates = [t for t in leaf_texts if t != rank_val and t != team_val]
+                if len(stat_candidates) >= 6:
+                    stat_slice = stat_candidates[-6:]
+                else:
+                    stat_slice = stat_candidates + [""] * (6 - len(stat_candidates))
 
                 if rank_val and team_val:
-                    stat_slice = all_spans[-6:] if len(all_spans) >= 6 else []
                     parsed_standings.append({
                         "rank": rank_val.replace("\n", "").strip(),
                         "team": team_val,
                         "tag_color": tag_color,
-                        "tag_label": tag_label, # 👈 동적 꼬리표 필드 정상 포함
-                        "경기수": stat_slice[0] if len(stat_slice) > 0 else "",
-                        "승": stat_slice[1] if len(stat_slice) > 1 else "",
-                        "무": stat_slice[2] if len(stat_slice) > 2 else "",
-                        "패": stat_slice[3] if len(stat_slice) > 3 else "",
-                        "득실": stat_slice[4] if len(stat_slice) > 4 else "",
-                        "승점": stat_slice[5] if len(stat_slice) > 5 else ""
+                        "tag_label": tag_label,
+                        "경기수": stat_slice[0],
+                        "승": stat_slice[1],
+                        "무": stat_slice[2],
+                        "패": stat_slice[3],
+                        "득실": stat_slice[4],
+                        "승점": stat_slice[5]
                     })
 
             # Fallback 데이터 처리 (필요시 기존 구조 유지)
