@@ -22,7 +22,6 @@ def run_crawler_v4():
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 10)
 
-    # 💡 수집할 타겟 리그 리스트 (필요에 따라 ID 추가 가능)
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -41,7 +40,7 @@ def run_crawler_v4():
             print(f"\n🔄 [탐색 중] 리그 ID {league_id} ({target_url})")
             
             driver.get(target_url)
-            time.sleep(2.0) # 페이지 이동 후 렌더링 안정화 대기
+            time.sleep(2.0)
             
             league_match_data = {
                 "league_id": league_id,
@@ -71,7 +70,7 @@ def run_crawler_v4():
                 if not league_match_data["league_name"]:
                     league_match_data["league_name"] = f"리그 ID {league_id}"
 
-                # 2. active_round 정밀 추출
+                # 2. active_round 추출
                 round_spans = driver.find_elements(By.CSS_SELECTOR, "div.round span")
                 for span in round_spans:
                     outer_html = span.get_attribute("outerHTML")
@@ -82,7 +81,7 @@ def run_crawler_v4():
                 if round_spans:
                     league_match_data["total_rounds"] = str(len(round_spans))
 
-                # 3. 순위표 파싱
+                # 3. 💡 순위표(Standings) 파싱 로직 정밀 복원
                 standings_items = driver.find_elements(By.CSS_SELECTOR, "#standingList li.standis")
                 parsed_standings = []
                 
@@ -97,12 +96,19 @@ def run_crawler_v4():
 
                     try:
                         rank_val = item.find_element(By.CSS_SELECTOR, ".rank em, .rank").text.strip()
+                    except:
+                        rank_val = ""
+
+                    try:
                         team_val = item.find_element(By.CSS_SELECTOR, ".team .name, span.name").text.strip()
                     except:
-                        continue
+                        team_val = ""
 
                     spans = item.find_elements(By.TAG_NAME, "span")
                     all_spans = [s.text.strip() for s in spans if s.text.strip()]
+
+                    if not team_val and len(all_spans) > 1:
+                        team_val = all_spans[1]
 
                     if rank_val and team_val:
                         stat_slice = all_spans[-6:] if len(all_spans) >= 6 else []
@@ -125,13 +131,11 @@ def run_crawler_v4():
             except Exception as page_err:
                 print(f"⚠️ 리그 ID {league_id} 파싱 중 예외 발생: {page_err}")
 
-            # 💡 각 리그별 데이터를 전체 딕셔너리에 담기
             all_leagues_data["leagues"][str(league_id)] = league_match_data
 
-        # 💡 최종적으로 하나의 match_details_v4.json 파일에 병합 저장
         with open("match_details_v4.json", "w", encoding="utf-8") as f:
             json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
-        print(f"\n🎉 [match_details_v4.json] 통합 저장 완료 (갱신 시간: {all_leagues_data['updated_at']})")
+        print(f"\n🎉 [match_details_v4.json] 순위표 데이터 포함 통합 저장 완료")
 
     finally:
         driver.quit()
