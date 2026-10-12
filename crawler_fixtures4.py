@@ -7,30 +7,35 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def crawl_leagues_v3_style():
-    # 3번 코드와 동일하게 옵션 설정
+def crawl_multiple_leagues():
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--window-size=1920,1080")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     
-    # 💡 3번처럼 드라이버를 루프 밖에서 딱 한 번만 실행 (세션 유지)
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 10)
 
-    target_league_ids = [34, 39, 40]
+    # 💡 수집하고자 하는 실제 리그 URL 또는 ID 리스트
+    target_leagues = [
+        {"id": 34, "url": "https://football.scoreman123.com/league/34"},
+        {"id": 39, "url": "https://football.scoreman123.com/league/39"},
+        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
+    ]
 
     try:
-        for league_id in target_league_ids:
-            target_url = f"https://football.scoreman123.com/league/{league_id}"
-            print(f"\n--- [순차 수집] 리그 ID {league_id} 시작 ---")
+        for league in target_leagues:
+            league_id = league["id"]
+            target_url = league["url"]
+            print(f"\n==========================================")
+            print(f"🚀 [페이지 전환 및 수집 시작] 리그 ID: {league_id} ({target_url})")
             
+            # 1. 확실하게 새로운 페이지로 이동
             driver.get(target_url)
             
-            # 💡 3번 코드처럼 페이지 이동 후 렌더링이 완전히 끝날 때까지 충분히 대기
-            time.sleep(1.5) 
+            # 2. 페이지가 완전히 바뀔 때까지 충분히 대기 (이전 페이지 잔상 방지)
+            time.sleep(2.0)
             
             match_data = {
                 "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -42,10 +47,10 @@ def crawl_leagues_v3_style():
             }
 
             try:
-                # 순위표와 라운드 바가 DOM에 완전히 올라올 때까지 대기
+                # 3. 해당 페이지의 순위표(#standingList)나 타이틀이 로드될 때까지 대기
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#standingList")))
 
-                # 1. 리그명 추출
+                # 리그명 추출
                 title_elem = driver.find_element(By.CSS_SELECTOR, "div.box h4, .league_title, h4")
                 if title_elem:
                     txt = title_elem.text.strip()
@@ -55,7 +60,7 @@ def crawl_leagues_v3_style():
                 if not match_data["league_name"]:
                     match_data["league_name"] = f"리그 ID {league_id}"
 
-                # 2. active_round 추출 (동적 렌더링된 span 태그 전수 검사)
+                # 4. 활성 라운드 추출 (div.round 안의 span 탐색)
                 active_text = "1"
                 round_spans = driver.find_elements(By.CSS_SELECTOR, "div.round span")
                 for span in round_spans:
@@ -68,19 +73,11 @@ def crawl_leagues_v3_style():
                 match_data["active_round"] = active_text
                 match_data["total_rounds"] = str(total_cnt)
 
-                # 3. 순위표 파싱
+                # 5. 해당 페이지의 순위표 데이터 파싱
                 standings_items = driver.find_elements(By.CSS_SELECTOR, "#standingList li.standis")
                 parsed_standings = []
                 
                 for item in standings_items:
-                    style_attr = item.get_attribute("style") or ""
-                    tag_color = ""
-                    if "--tagcolor:" in style_attr:
-                        try:
-                            tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
-                        except Exception:
-                            tag_color = ""
-
                     try:
                         rank_val = item.find_element(By.CSS_SELECTOR, ".rank em, .rank").text.strip()
                         team_val = item.find_element(By.CSS_SELECTOR, ".team .name, span.name").text.strip()
@@ -95,7 +92,6 @@ def crawl_leagues_v3_style():
                         parsed_standings.append({
                             "rank": rank_val.replace("\n", "").strip(),
                             "team": team_val,
-                            "tag_color": tag_color,
                             "경기수": stat_slice[0] if len(stat_slice) > 0 else "",
                             "승": stat_slice[1] if len(stat_slice) > 1 else "",
                             "무": stat_slice[2] if len(stat_slice) > 2 else "",
@@ -105,22 +101,20 @@ def crawl_leagues_v3_style():
                         })
 
                 match_data["standings"] = parsed_standings
-                print(f"  - [{match_data['league_name']}] 수집 성공 (Round: {match_data['active_round']})")
+                print(f"✅ [{match_data['league_name']}] 수집 완료 (Active Round: {match_data['active_round']} / 팀 수: {len(parsed_standings)}개)")
 
             except Exception as e:
-                print(f"  - 파싱 중 에러 발생: {e}")
+                print(f"⚠️ 리그 ID {league_id} 파싱 중 에러 발생: {e}")
 
-            # 파일 저장
+            # 6. 각 리그별로 고유 파일명으로 각각 저장되도록 분기
             output_filename = f"match_details_league_{league_id}.json"
             with open(output_filename, "w", encoding="utf-8") as f:
                 json.dump(match_data, f, ensure_ascii=False, indent=4)
-            
-            # 다음 리그로 넘어가기 전 3번 코드처럼 여유 대기
-            time.sleep(1.0)
+            print(f"📁 [{output_filename}] 저장 완료.")
 
     finally:
         driver.quit()
-        print("\n모든 순차 수집 완료.")
+        print("\n🏁 모든 페이지 순회 작업 종료.")
 
 if __name__ == "__main__":
-    crawl_leagues_v3_style()
+    crawl_multiple_leagues()
