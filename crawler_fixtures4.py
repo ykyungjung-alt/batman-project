@@ -22,7 +22,6 @@ def run_crawler_v4():
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 10)
 
-    # 💡 모든 타겟 리그의 URL을 올바른 전체 경로(Full URL) 형태로 명시
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -102,7 +101,7 @@ def run_crawler_v4():
 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 순위표(Standings) 파싱
+                # 4. 💡 순위표(Standings) 파싱 로직 정밀 재구축 (li.standis 순회)
                 standings_items = driver.find_elements(By.CSS_SELECTOR, "#standingList li.standis")
                 parsed_standings = []
                 
@@ -117,35 +116,43 @@ def run_crawler_v4():
 
                     tag_label = color_to_label.get(tag_color.upper(), "일반")
 
+                    # 순위(R) 추출 (.rank em 또는 .rank)
+                    rank_val = ""
                     try:
-                        rank_val = item.find_element(By.CSS_SELECTOR, "span.rank em, span.rank").text.strip()
+                        rank_val = item.find_element(By.CSS_SELECTOR, ".rank em").text.strip()
                     except:
-                        rank_val = ""
+                        try:
+                            rank_val = item.find_element(By.CSS_SELECTOR, ".rank").text.strip()
+                        except:
+                            pass
 
+                    # 구단명 추출 (.team .name)
+                    team_val = ""
                     try:
-                        team_val = item.find_element(By.CSS_SELECTOR, "span.team span.name, span.name").text.strip()
+                        team_val = item.find_element(By.CSS_SELECTOR, ".team .name").text.strip()
                     except:
-                        team_val = ""
+                        try:
+                            team_val = item.find_element(By.CSS_SELECTOR, "span.name").text.strip()
+                        except:
+                            pass
 
-                    all_spans = item.find_elements(By.TAG_NAME, "span")
-                    raw_texts = []
-                    for s in all_spans:
-                        if not s.find_elements(By.TAG_NAME, "span"):
-                            txt = s.text.strip()
-                            if txt:
-                                raw_texts.append(txt)
+                    # 💡 제공해주신 구조 상 .rank와 .team 바로 뒤에 이어지는 순수 span 성분들 수집
+                    # 구조: span(경기), span(승), span(무), span(패), span(득실), span.key.blue/key(승점)
+                    stat_spans = item.find_elements(By.XPATH, "./span[not(@class) or @class='key' or @class='key blue']")
+                    stat_texts = [s.text.strip() for s in stat_spans if s.text.strip()]
 
-                    if not team_val and len(raw_texts) > 1:
-                        for t in raw_texts:
-                            if t != rank_val and not t.isdigit() and len(t) > 1:
-                                team_val = t
-                                break
+                    # 만약 stat_spans로 안 잡히면 일반 span 중 자식이 없는 노드들 수집
+                    if len(stat_texts) < 6:
+                        all_sub_spans = item.find_elements(By.TAG_NAME, "span")
+                        stat_texts = []
+                        for s in all_sub_spans:
+                            if not s.find_elements(By.TAG_NAME, "span"):
+                                txt = s.text.strip()
+                                if txt and txt != rank_val and txt != team_val:
+                                    stat_texts.append(txt)
 
-                    digits_candidates = [t for t in raw_texts if t != rank_val and t != team_val]
-                    if len(digits_candidates) >= 6:
-                        stat_slice = digits_candidates[-6:]
-                    else:
-                        stat_slice = digits_candidates + [""] * (6 - len(digits_candidates))
+                    # 정확히 뒤에서 6개를 스탯(경기, 승, 무, 패, 득실, 승점)으로 매핑
+                    stat_slice = stat_texts[-6:] if len(stat_texts) >= 6 else ["", "", "", "", "", ""]
 
                     if rank_val and team_val:
                         parsed_standings.append({
@@ -171,7 +178,7 @@ def run_crawler_v4():
 
         with open("match_details_v4.json", "w", encoding="utf-8") as f:
             json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
-        print(f"\n🎉 [match_details_v4.json] 정상 수집 및 통합 저장 완료")
+        print(f"\n🎉 [match_details_v4.json] 순위표 데이터 정상 수집 및 통합 저장 완료")
 
     finally:
         driver.quit()
