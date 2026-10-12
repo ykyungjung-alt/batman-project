@@ -1,18 +1,28 @@
 import json
 from datetime import datetime
 from zoneinfo import ZoneInfo
-import requests
 from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 
 def run_crawler_v4():
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S")
     
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
-    }
+    # 💡 헤드리스 크롬 옵션 설정
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-gpu")
+    options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 
-    # 실제 수집 대상 리그 주소 설정
+    # 실제 스코어맨 리그별 URL 주소 설정
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -24,13 +34,18 @@ def run_crawler_v4():
         "leagues": {}
     }
 
-    with requests.Session() as session:
-        session.headers.update(headers)
+    driver = None
+    try:
+        try:
+            service = Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=options)
+        except Exception:
+            driver = webdriver.Chrome(options=options)
 
         for league in target_leagues:
             league_id = league["id"]
             url = league["url"]
-            print(f"🔄 [수집 중] 리그 ID {league_id}")
+            print(f"🔄 [수집 중] 리그 ID {league_id} ({url})")
 
             league_match_data = {
                 "league_id": league_id,
@@ -41,22 +56,23 @@ def run_crawler_v4():
             }
 
             try:
-                res = session.get(url, timeout=10)
-                if res.status_code != 200:
-                    print(f"⚠️ 요청 실패 (Status Code: {res.status_code})")
-                    all_leagues_data["leagues"][str(league_id)] = league_match_data
-                    continue
+                driver.get(url)
+                
+                # 라운드 영역이 렌더링될 때까지 대기
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "div.round"))
+                )
 
-                soup = BeautifulSoup(res.text, 'html.parser')
+                soup = BeautifulSoup(driver.page_source, 'html.parser')
 
                 # 1. 리그명 추출
-                title_elem = soup.select_one("div#title, div.title, .league_title, h4")
+                title_elem = soup.select_one("div#title, div.title, .league_title, h4, strong")
                 if title_elem:
                     txt = title_elem.text.strip()
                     if txt:
-                        league_match_data["league_name"] = txt.replace("라이브스코어", "").strip()
+                        league_match_data["league_name"] = txt.replace("라이브스코어", "").replace("시즌", "").strip()
 
-                # 2. 현재 라운드(Active Round) 추출
+                # 2. 현재 라운드(Active Round) 및 총 라운드 수 추출
                 active_elem = soup.select_one("div.round span.current.on")
                 active_text = "1"
                 
@@ -64,12 +80,6 @@ def run_crawler_v4():
                     active_text = active_elem.get("round", "").strip()
                     if not active_text.isdigit():
                         active_text = active_elem.text.strip()
-
-                if not active_text.isdigit():
-                    for span in soup.select("div.round span"):
-                        if "current" in span.get("class", []) and span.text.strip().isdigit():
-                            active_text = span.text.strip()
-                            break
 
                 all_rounds = soup.select("div.round span[round]")
                 total_cnt = len(all_rounds) if all_rounds else (46 if league_id == 39 else 38)
@@ -116,9 +126,13 @@ def run_crawler_v4():
                 print(f"✅ 수집 성공: {league_match_data['league_name']} (라운드: {league_match_data['active_round']}, 팀 수: {len(parsed_standings)}개)")
 
             except Exception as e:
-                print(f"⚠️ 예외 발생: {e}")
+                print(f"⚠️ 리그 ID {league_id} 수집 중 예외 발생: {e}")
 
             all_leagues_data["leagues"][str(league_id)] = league_match_data
+
+    finally:
+        if driver:
+            driver.quit()
 
     # 결과 파일 저장
     with open("match_details_v4.json", "w", encoding="utf-8") as f:
