@@ -1,4 +1,5 @@
 import json
+import os
 import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -12,10 +13,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 # ==========================================
-# 🧩 독립 파싱 모듈 영역
+# 🧩 1단계: 개별 독립 파싱 모듈 (각 항목별 전용 함수)
 # ==========================================
 
-def parse_league_name(soup, league_id, fallback_name):
+def parse_league_name(soup, league_id, default_name):
+    """리그명 추출 모듈"""
     try:
         title_elem = soup.select_one("div#title, div.title, .league_title, h4, strong")
         if title_elem:
@@ -26,10 +28,11 @@ def parse_league_name(soup, league_id, fallback_name):
                     return cleaned
     except Exception as e:
         print(f"  ⚠️ [리그명 모듈 경고]: {e}")
-    return fallback_name
+    return default_name
 
-def parse_active_round(soup, league_id, fallback_round, fallback_total):
-    default_total = 46 if league_id == 39 else 38
+def parse_active_round(soup, league_id, default_round, default_total):
+    """활성 라운드 및 총 라운드 수 추출 모듈"""
+    fallback_total = 46 if league_id == 39 else 38
     try:
         active_elem = soup.select_one("div.round span.current.on, div.round span.on, span.current.on")
         active_text = ""
@@ -46,16 +49,17 @@ def parse_active_round(soup, league_id, fallback_round, fallback_total):
                     break
 
         all_rounds = soup.select("div.round span[round]")
-        total_cnt = len(all_rounds) if all_rounds else default_total
+        total_cnt = len(all_rounds) if all_rounds else fallback_total
         
         if active_text.isdigit():
             return f"{active_text}/{total_cnt}", total_cnt
     except Exception as e:
         print(f"  ⚠️ [라운드 모듈 경고]: {e}")
         
-    return fallback_round, fallback_total
+    return default_round, default_total
 
-def parse_standing_legends(soup, fallback_legends):
+def parse_standing_legends(soup, default_legends):
+    """하단 컬러 범례 추출 모듈"""
     try:
         legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain, .explain")
         parsed_legends = []
@@ -82,11 +86,12 @@ def parse_standing_legends(soup, fallback_legends):
     except Exception as e:
         print(f"  ⚠️ [범례 모듈 경고]: {e}")
         
-    fallback_map = {item["color"]: item["description"] for item in fallback_legends if item.get("color")}
-    return fallback_legends, fallback_map
+    # 실패 시 기존 범례 유지 및 맵 구성
+    fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
+    return default_legends, fallback_map
 
-def parse_standings(soup, color_to_label, fallback_standings):
-    """💡 [안전 장치 강화] li.standis 정밀 파싱 모듈"""
+def parse_standings(soup, color_to_label, default_standings):
+    """💡 랭킹표 및 컬러 꼬리표 매핑 모듈 (li.standis 정밀 파싱)"""
     parsed_standings = []
     seen_teams = set()
     
@@ -161,17 +166,27 @@ def parse_standings(soup, color_to_label, fallback_standings):
     except Exception as e:
         print(f"  ⚠️ [랭킹표 모듈 경고]: {e}")
         
-    # 만약 파싱 중 예외가 발생하거나 데이터가 비면 기존 데이터를 보존하여 초기화 방지
-    return fallback_standings
+    # 파싱 실패 시 기존 데이터를 안전하게 반환하여 초기화 방지
+    return default_standings
 
 
 # ==========================================
-# 🚀 메인 컨트롤러 영역 (탭 강제 고정 및 검증 로직 추가)
+# 🚀 2단계: 메인 제어 및 드라이버 실행부
 # ==========================================
 def run_crawler_v4():
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S")
     
+    # 기존 파일이 있다면 불러와서 데이터 보존 (초기화 방지 핵심 로직)
+    existing_leagues = {}
+    if os.path.exists("match_details_v4.json"):
+        try:
+            with open("match_details_v4.json", "r", encoding="utf-8") as f:
+                loaded_json = json.load(f)
+                existing_leagues = loaded_json.get("leagues", {})
+        except Exception as e:
+            print(f"ℹ️ 기존 JSON 파일 로드 실패 (새로 생성): {e}")
+
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -203,40 +218,40 @@ def run_crawler_v4():
             url = league["url"]
             print(f"🔄 [수집 중] 리그 ID {league_id} ({url})")
 
+            # 기존에 수집된 데이터가 있다면 그 값을 기본값으로 세팅하여 초기화 차단
+            prev_data = existing_leagues.get(str(league_id), {})
             league_match_data = {
                 "league_id": league_id,
-                "league_name": f"리그 ID {league_id}",
-                "active_round": f"1/{46 if league_id == 39 else 38}",
-                "total_rounds": 46 if league_id == 39 else 38,
-                "standing_legends": [],
-                "standings": []
+                "league_name": prev_data.get("league_name", f"리그 ID {league_id}"),
+                "active_round": prev_data.get("active_round", f"1/{46 if league_id == 39 else 38}"),
+                "total_rounds": prev_data.get("total_rounds", 46 if league_id == 39 else 38),
+                "standing_legends": prev_data.get("standing_legends", []),
+                "standings": prev_data.get("standings", [])
             }
 
             try:
                 driver.get(url)
                 
-                # 1. 랭킹 리스트 렌더링 기본 대기
+                # 1. 랭킹 리스트 렌더링 대기
                 WebDriverWait(driver, 15).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, "li.standis"))
                 )
                 
-                # 💡 2. [필수 검증] '합계' 탭(`data-st-type="1"`) 및 '결과' 탭(`data-st-hf="0"`) 강제 활성화 검증
+                # 💡 2. [필수 탭 고정] 합계(`data-st-type="1"`) 및 결과(`data-st-hf="0"`) 탭 강제 클릭
                 try:
-                    # 합계 탭 클릭
                     total_btn = driver.find_element(By.CSS_SELECTOR, "#standingType span[data-st-type='1']")
                     driver.execute_script("arguments[0].click();", total_btn)
                     time.sleep(1)
 
-                    # 결과 탭 클릭 (누락되었던 2단계 필터 강제 적용)
                     result_btn = driver.find_element(By.CSS_SELECTOR, "#standingHF span[data-st-hf='0']")
                     driver.execute_script("arguments[0].click();", result_btn)
                     time.sleep(1.5) # AJAX 반영 대기
                 except Exception as tab_err:
-                    raise Exception(f"필수 탭('합계' 또는 '결과') 선택 중 오류 발생: {tab_err}")
+                    print(f"  ⚠️ 탭 제어 중 경고 (기본 상태 유지): {tab_err}")
 
                 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
-                # 모듈 호출 및 데이터 누적
+                # 3. 각 독립 모듈 함수에 기존 값을 폴백으로 전달하여 안전하게 갱신
                 league_match_data["league_name"] = parse_league_name(
                     soup, league_id, league_match_data["league_name"]
                 )
@@ -252,18 +267,14 @@ def run_crawler_v4():
                 )
                 league_match_data["standing_legends"] = legends
                 
-                new_standings = parse_standings(
+                league_match_data["standings"] = parse_standings(
                     soup, color_map, league_match_data["standings"]
                 )
-                
-                # 만약 파싱 결과가 비어있지 않다면 안전하게 교체
-                if new_standings:
-                    league_match_data["standings"] = new_standings
 
                 print(f"✅ 수집 성공: {league_match_data['league_name']} (라운드: {league_match_data['active_round']}, 범례: {len(legends)}개, 순위 팀: {len(league_match_data['standings'])}개)")
 
             except Exception as e:
-                print(f"⚠️ 리그 ID {league_id} 크롤링 중 예외 발생: {e}")
+                print(f"⚠️ 리그 ID {league_id} 크롤링 중 예외 발생 (기존 데이터 보존): {e}")
 
             all_leagues_data["leagues"][str(league_id)] = league_match_data
 
