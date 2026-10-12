@@ -12,6 +12,7 @@ def run_crawler_v4():
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
     }
 
+    # 실제 수집 대상 리그 URL 설정
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -56,7 +57,7 @@ def run_crawler_v4():
                     if txt:
                         league_match_data["league_name"] = txt.replace("라이브스코어", "").strip()
 
-                # 2. 💡 [이중 방어 Fallback 적용] Active Round 정밀 추출
+                # 2. Active Round 정밀 추출 (Fallback 적용)
                 active_elem = soup.select_one("div.round span.current.on, span.current.on")
                 active_text = "1"
                 
@@ -64,7 +65,7 @@ def run_crawler_v4():
                     # 1차 시도: round 속성값 가져오기
                     active_text = active_elem.get("round", "").strip()
                     
-                    # 2차 시도: 속성값이 없거나 숫자가 아니면 태그 내부 텍스트(예: "6")로 변환 추출
+                    # 2차 시도: 속성값이 없거나 숫자가 아니면 태그 내부 텍스트로 변환 추출
                     if not active_text.isdigit():
                         active_text = active_elem.text.strip()
 
@@ -129,4 +130,40 @@ def run_crawler_v4():
                             stat_slice = cell_texts[-6:] # 경기수, 승, 무, 패, 득실, 승점
 
                             style_attr = row.get("style", "")
-                            tag_color =
+                            tag_color = ""  # 구문 오류 수정 완료
+                            if "--tagcolor:" in style_attr:
+                                try:
+                                    tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
+                                except:
+                                    pass
+
+                            tag_label = color_to_label.get(tag_color, "일반")
+
+                            parsed_standings.append({
+                                "rank": rank_val,
+                                "team": team_val,
+                                "tag_color": tag_color,
+                                "tag_label": tag_label,
+                                "경기수": stat_slice[0],
+                                "승": stat_slice[1],
+                                "무": stat_slice[2],
+                                "패": stat_slice[3],
+                                "득실": stat_slice[4],
+                                "승점": stat_slice[5]
+                            })
+
+                league_match_data["standings"] = parsed_standings
+                print(f"✅ 수집 성공: {league_match_data['league_name']} (라운드: {league_match_data['active_round']}, 팀 수: {len(parsed_standings)}개)")
+
+            except Exception as e:
+                print(f"⚠️ 예외 발생: {e}")
+
+            all_leagues_data["leagues"][str(league_id)] = league_match_data
+
+    # 결과 파일 저장
+    with open("match_details_v4.json", "w", encoding="utf-8") as f:
+        json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
+    print("🎉 match_details_v4.json 저장 완료")
+
+if __name__ == "__main__":
+    run_crawler_v4()
