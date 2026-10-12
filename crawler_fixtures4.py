@@ -22,10 +22,11 @@ def run_crawler_v4():
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 10)
 
+    # 💡 올바른 풀 URL 주소로 수정 (세리에 A, 기타 리그 등)
     target_leagues = [
-        {"id": 34, "url": "url?id=42league/34"},
-        {"id": 39, "url": "https://github.com/copilot2league/39"},
-        {"id": 40, "url": "https://github.com/copilot2league/40"}
+        {"id": 34, "url": "https://football.scoreman123.com/league/34"},
+        {"id": 39, "url": "https://football.scoreman123.com/league/39"},
+        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
     ]
 
     all_leagues_data = {
@@ -101,7 +102,7 @@ def run_crawler_v4():
 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 순위표(Standings) 정밀 파싱 (중첩 span 구조 완벽 대응)
+                # 4. 💡 순위표(Standings) 파싱 로직 (ul#standingList 하위 데이터 정밀 타격)
                 standings_items = driver.find_elements(By.CSS_SELECTOR, "#standingList li.standis")
                 parsed_standings = []
                 
@@ -130,24 +131,22 @@ def run_crawler_v4():
                     except:
                         pass
 
-                    # 💡 행 내부의 모든 하위 요소를 탐색하여 자식이 없는 말단 노드의 텍스트만 순서대로 수집
+                    # 행 내부의 모든 말단 텍스트 요소들을 순서대로 수집
                     all_elements = item.find_elements(By.XPATH, ".//*")
                     leaf_texts = []
                     for el in all_elements:
-                        # 자식 요소가 없고 텍스트가 존재하는 경우만 수집
                         if not el.find_elements(By.XPATH, "./*"):
                             t = el.text.strip()
                             if t and t != rank_val and t != team_val:
                                 leaf_texts.append(t)
 
-                    # 구단명을 못 찾았을 경우 leaf_texts에서 첫 번째 비숫자 문자열을 구단명으로 지정
                     if not team_val:
                         for t in leaf_texts:
                             if not t.isdigit() and len(t) > 1:
                                 team_val = t
                                 break
 
-                    # 순수 성적 지표에 해당하는 뒤쪽 6개의 값 추출 (경기, 승, 무, 패, 득실, 승점)
+                    # 뒤에서부터 정확히 6개 스탯 슬라이싱 (경기, 승, 무, 패, 득실, 승점)
                     stat_candidates = [t for t in leaf_texts if t != rank_val and t != team_val]
                     if len(stat_candidates) >= 6:
                         stat_slice = stat_candidates[-6:]
