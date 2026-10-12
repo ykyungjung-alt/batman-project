@@ -29,7 +29,7 @@ def run_crawler_v4():
         for league in target_leagues:
             league_id = league["id"]
             url = league["url"]
-            print(f"\n🔄 [수집 중] 리그 ID {league_id}")
+            print(f"🔄 [수집 중] 리그 ID {league_id}")
 
             league_match_data = {
                 "league_id": league_id,
@@ -49,82 +49,36 @@ def run_crawler_v4():
 
                 soup = BeautifulSoup(res.text, 'html.parser')
 
-                # 1. 리그명 추출
+                # 1. 리그명 정밀 추출
                 title_elem = soup.select_one("div#title, div.title, .league_title, h4")
                 if title_elem:
                     txt = title_elem.text.strip()
                     if txt:
                         league_match_data["league_name"] = txt.replace("라이브스코어", "").strip()
 
-                # ==========================================
-                # 💡 [핵심] 영역별 1, 2, 3번 목록으로 나누어 수집
-                # ==========================================
-
-                # [목록 1] 상위 인포 및 스테이지 영역 후보군 (div.stage)
-                list1_stages = []
-                for el in soup.select("div.stage span, div.stage div"):
-                    list1_stages.append({
-                        "text": el.text.strip(),
-                        "class": el.get("class", []),
-                        "stage_attr": el.get("stage", "")
-                    })
-                print(f"  👉 [목록 1: Stage 영역] 총 {len(list1_stages)}개 수집됨")
-
-                # [목록 2] 레프트사이드 하위 라운드 영역 후보군 (div.round 내부의 모든 span)
-                list2_rounds = []
-                for el in soup.select("div.round span"):
-                    list2_rounds.append({
-                        "round_attr": el.get("round", ""),
-                        "stage_attr": el.get("stage", ""),
-                        "text": el.text.strip(),
-                        "class": el.get("class", [])
-                    })
-                print(f"  👉 [목록 2: Round 영역] 총 {len(list2_rounds)}개 수집됨")
-
-                # [목록 3] 팀순위 테이블 행 데이터 후보군
-                list3_tables = []
-                target_table = None
-                for tag in soup.find_all(['h3', 'h4', 'div', 'strong']):
-                    if '팀순위' in tag.text:
-                        nxt = tag.find_next('table')
-                        if nxt:
-                            target_table = nxt
-                            break
-                if not target_table:
-                    for tbl in soup.select('table'):
-                        if 'PTS' in tbl.text and '구단' in tbl.text:
-                            target_table = tbl
-                            break
-
-                if target_table:
-                    for row in target_table.select('tr'):
-                        cells = [c.text.strip() for c in row.select('td, th') if c.text.strip()]
-                        if cells:
-                            list3_tables.append(cells)
-                print(f"  👉 [목록 3: 팀순위 테이블] 총 {len(list3_tables)}개 행 수집됨")
-
-                # ==========================================
-                # 🔄 [재배열 및 선택 단계] 목록들을 분석하여 최종 값 추출
-                # ==========================================
-
-                # [재배열 1] 목록 2(Round 영역)에서 'current'와 'on' 클래스를 모두 가진 진짜 활성 라운드 골라내기
+                # 2. Active Round & Total Rounds 정밀 추출 (div.round 내부 span 순회)
+                round_elements = soup.select("div.round span[round]")
                 active_text = "1"
-                for item in list2_rounds:
-                    classes = item["class"]
+                total_cnt = len(round_elements) if round_elements else (46 if league_id == 39 else 38)
+
+                for el in round_elements:
+                    span_str = str(el)
+                    classes = el.get("class", [])
                     class_str = " ".join(classes) if isinstance(classes, list) else str(classes)
                     
-                    if "current" in class_str and "on" in class_str:
-                        # round 속성이 숫지면 우선 사용, 아니면 텍스트 사용
-                        val = item["round_attr"] if item["round_attr"].isdigit() else item["text"]
+                    # 'current' 또는 'on' 클래스가 포함된 활성 라운드 태그 탐색
+                    if "current" in class_str or "on" in class_str or "current" in span_str:
+                        val = el.get("round", "").strip()
+                        if not val.isdigit():
+                            val = el.text.strip()
                         if val.isdigit():
                             active_text = val
                             break
 
-                total_cnt = len(list2_rounds) if list2_rounds else (46 if league_id == 39 else 38)
                 league_match_data["total_rounds"] = total_cnt
                 league_match_data["active_round"] = f"{active_text}/{total_cnt}"
 
-                # 하단 색상 범례 수집
+                # 3. 하단 색상 범례(Standing Legends) 수집
                 legend_items = soup.select("#standingColor span.explain, .explain")
                 color_to_label = {}
                 parsed_legends = []
@@ -143,35 +97,62 @@ def run_crawler_v4():
                         if bg_color:
                             color_to_label[bg_color] = desc_text
                         parsed_legends.append({"color": bg_color, "description": desc_text})
+                
                 league_match_data["standing_legends"] = parsed_legends
 
-                # [재배열 2] 목록 3(테이블 행 데이터)을 순회하며 정제된 순위표 완성
+                # 4. 💡 [핵심 개선] 태그 구조에 구애받지 않고 문서 내 모든 행/블록에서 순위표 토큰 정밀 추출
                 parsed_standings = []
-                for cell_texts in list3_tables:
-                    # [순위, 구단, P, W, D, L, GD, PTS] 구조 검증 (첫 셀이 1~25 사이의 숫자)
-                    if len(cell_texts) >= 8 and cell_texts[0].isdigit():
-                        rank_val = cell_texts[0]
-                        if int(rank_val) > 25:
-                            continue
-                            
-                        team_val = cell_texts[1]
-                        stat_slice = cell_texts[-6:] # [경기수, 승, 무, 패, 득실, 승점]
+                seen_teams = set()
+                candidate_rows = soup.select('tr, li, div')
 
-                        parsed_standings.append({
-                            "rank": rank_val,
-                            "team": team_val,
-                            "tag_color": "",
-                            "tag_label": "일반",
-                            "경기수": stat_slice[0],
-                            "승": stat_slice[1],
-                            "무": stat_slice[2],
-                            "패": stat_slice[3],
-                            "득실": stat_slice[4],
-                            "승점": stat_slice[5]
-                        })
+                for row in candidate_rows:
+                    raw_tokens = [t.strip() for t in row.text.split() if t.strip()]
+                    
+                    # 유효성 검사: 첫 번째 토큰이 1~25 사이의 숫자(순위)이고, 전체 토큰 수가 8개 이상인 행
+                    if raw_tokens and raw_tokens[0].isdigit():
+                        rank_num = int(raw_tokens[0])
+                        if 1 <= rank_num <= 25 and len(raw_tokens) >= 8:
+                            team_val = raw_tokens[1]
+                            
+                            # 헤더나 불필요한 텍스트 필터링
+                            if team_val in ["구단", "PTS", "순위", "승점", "R"] or any(kw in team_val for kw in ["승점", "득실", "승무패", "통계", "합계"]):
+                                continue
+                                
+                            stat_slice = raw_tokens[-6:] # [경기수, 승, 무, 패, 득실, 승점]
+                            
+                            # 스탯 영역이 숫자인지 검증
+                            if stat_slice[0].isdigit() and stat_slice[1].isdigit() and stat_slice[-1].isdigit():
+                                if team_val not in seen_teams:
+                                    seen_teams.add(team_val)
+
+                                    style_attr = row.get("style", "")
+                                    tag_color = ""
+                                    if "--tagcolor:" in style_attr:
+                                        try:
+                                            tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
+                                        except:
+                                            pass
+
+                                    tag_label = color_to_label.get(tag_color, "일반")
+
+                                    parsed_standings.append({
+                                        "rank": str(rank_num),
+                                        "team": team_val,
+                                        "tag_color": tag_color,
+                                        "tag_label": tag_label,
+                                        "경기수": stat_slice[0],
+                                        "승": stat_slice[1],
+                                        "무": stat_slice[2],
+                                        "패": stat_slice[3],
+                                        "득실": stat_slice[4],
+                                        "승점": stat_slice[5]
+                                    })
+
+                # 순위 오름차순 정렬 보장
+                parsed_standings.sort(key=lambda x: int(x['rank']))
 
                 league_match_data["standings"] = parsed_standings
-                print(f"✅ 수집 완료: {league_match_data['league_name']} (현재 라운드: {league_match_data['active_round']}, 팀 수: {len(parsed_standings)}개)")
+                print(f"✅ 수집 성공: {league_match_data['league_name']} (라운드: {league_match_data['active_round']}, 팀 수: {len(parsed_standings)}개)")
 
             except Exception as e:
                 print(f"⚠️ 예외 발생: {e}")
