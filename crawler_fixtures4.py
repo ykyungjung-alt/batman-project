@@ -54,7 +54,7 @@ def run_crawler_v4():
                 "league_name": f"리그 ID {league_id}",
                 "active_round": f"1/{default_total_rounds}",
                 "total_rounds": default_total_rounds,
-                "standing_legends": [],  # 💡 리그별 컬러 범례 리스트
+                "standing_legends": [],
                 "standings": []
             }
 
@@ -75,7 +75,7 @@ def run_crawler_v4():
                     if txt:
                         league_match_data["league_name"] = txt.replace("라이브스코어", "").replace("시즌", "").strip()
 
-                # 2. 현재 라운드 추출
+                # 2. 현재 라운드(Active Round) 및 총 라운드 수 추출
                 active_elem = soup.select_one("div.round span.current.on, div.round span.on")
                 active_text = "1"
                 
@@ -90,7 +90,7 @@ def run_crawler_v4():
                 league_match_data["total_rounds"] = total_cnt
                 league_match_data["active_round"] = f"{active_text}/{total_cnt}"
 
-                # 3. 💡 [핵심] 하단 범례(`div#standingColor`) 영역에서 컬러 형식 동적 추출
+                # 3. 하단 컬러 범례(standing_legends) 동적 추출 및 사전 구축
                 legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain")
                 color_to_label = {}
                 parsed_legends = []
@@ -113,18 +113,14 @@ def run_crawler_v4():
                 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 [핵심] 랭킹표 행(`li.standis`)에서 `--tagcolor` 추출 후 범례 꼬리표 매핑
+                # 4. 💡 [핵심] `li.standis` 구조를 직접 타격하여 순위 데이터와 `--tagcolor` 꼬리표 완벽 연동
                 parsed_standings = []
                 seen_teams = set()
                 
-                # 두 번째 이미지의 구조인 li.standis 및 일반 tr 요소를 동시 타격
-                candidate_rows = soup.select('li.standis, tr')
+                standing_rows = soup.select('li.standis')
 
-                for row in candidate_rows:
-                    if len(row.find_all(['li.standis', 'tr'])) > 0:
-                        continue
-
-                    # 행(row)의 style 속성에서 `--tagcolor: #FF9966` 추출
+                for row in standing_rows:
+                    # 행(li.standis)의 스타일 속성에서 --tagcolor 추출 (예: --tagcolor:#FF9966)
                     style_attr = row.get("style", "")
                     tag_color = ""
                     if "--tagcolor:" in style_attr:
@@ -139,6 +135,7 @@ def run_crawler_v4():
                     if tokens and tokens[0].isdigit():
                         rank_val = tokens[0]
                         rank_int = int(rank_val)
+                        
                         if 1 <= rank_int <= 25 and len(tokens) >= 8:
                             team_val = tokens[1]
                             
@@ -151,7 +148,7 @@ def run_crawler_v4():
                                 if team_val not in seen_teams:
                                     seen_teams.add(team_val)
                                     
-                                    # 💡 추출된 tag_color에 맞는 꼬리표 라벨명 대조 (없으면 "일반")
+                                    # 위에서 수집한 범례 사전과 대조하여 라벨 부여 (없으면 "일반")
                                     tag_label = color_to_label.get(tag_color, "일반")
 
                                     parsed_standings.append({
