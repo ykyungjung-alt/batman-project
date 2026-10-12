@@ -24,8 +24,8 @@ def run_crawler_v4():
 
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
-        {"id": 39, "url": "https://football.scoreman123.com/league/39"},
-        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
+        {"id": 39, "url": "url?id=12league/39"},
+        {"id": 40, "url": "url?id=12league/40"}
     ]
 
     all_leagues_data = {
@@ -93,7 +93,7 @@ def run_crawler_v4():
                             desc_text = el.text.strip()
                             if bg_color and desc_text:
                                 parsed_legends.append({"color": bg_color, "description": desc_text})
-                                color_to_label[bg_color.lower()] = desc_text
+                                color_to_label[bg_color.upper()] = desc_text
                         except:
                             continue
                 except:
@@ -101,7 +101,7 @@ def run_crawler_v4():
 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 순위표(Standings) 파싱 로직 정밀 보정 (li.standis 단위 순회)
+                # 4. 💡 순위표(Standings) 파싱 로직 최종 정밀 보정
                 standings_items = driver.find_elements(By.CSS_SELECTOR, "#standingList li.standis")
                 parsed_standings = []
                 
@@ -114,9 +114,9 @@ def run_crawler_v4():
                         except:
                             tag_color = ""
 
-                    tag_label = color_to_label.get(tag_color.lower(), "일반")
+                    tag_label = color_to_label.get(tag_color.upper(), "일반")
 
-                    # 순위 추출
+                    # 순위 (R) 추출
                     try:
                         rank_val = item.find_element(By.CSS_SELECTOR, "span.rank em, span.rank").text.strip()
                     except:
@@ -128,27 +128,33 @@ def run_crawler_v4():
                     except:
                         team_val = ""
 
-                    # 해당 li 안의 모든 유효 텍스트 추출
-                    spans = item.find_elements(By.CSS_SELECTOR, "span")
-                    all_texts = [s.text.strip() for s in spans if s.text.strip()]
+                    # 💡 제공해주신 구조 상 li.standis 내부의 모든 하위 텍스트/숫자 요소를 순서대로 추출
+                    # 스크린샷 기준: 순위 -> 팀명 -> 경기수(P) -> 승(W) -> 무(D) -> 패(L) -> 득실(GD) -> 승점(PTS) 순서로 배열됨
+                    all_spans = item.find_elements(By.TAG_NAME, "span")
+                    raw_texts = []
+                    for s in all_spans:
+                        # 자식 span이 없는 말단 노드의 텍스트만 깔끔하게 추출
+                        if not s.find_elements(By.TAG_NAME, "span"):
+                            txt = s.text.strip()
+                            if txt:
+                                raw_texts.append(txt)
 
-                    # 만약 team_val을 못 찾았을 경우 텍스트 리스트에서 추출 시도
-                    if not team_val and len(all_texts) > 1:
-                        for t in all_texts:
+                    # 만약 구단명을 못 찾았을 경우 raw_texts에서 적절한 위치의 텍스트 지정
+                    if not team_val and len(raw_texts) > 1:
+                        for t in raw_texts:
                             if t != rank_val and not t.isdigit() and len(t) > 1:
                                 team_val = t
                                 break
 
-                    # 스탯 정보 추출 (뒤에서부터 P, W, D, L, GD, PTS 순서 매핑)
-                    # 스크린샷 구조상 숫자 데이터들이 뒤쪽에 순서대로 배치됨
-                    numeric_texts = [s.text.strip() for s in item.find_elements(By.XPATH, "./span[not(@class)] | ./span/b")]
-                    
-                    # 안전하게 전체 span 텍스트 활용
-                    if not numeric_texts:
-                        numeric_texts = all_span_texts = [s.text.strip() for s in item.find_elements(By.TAG_NAME, "span") if s.text.strip()]
-
-                    # 뒤에서 6개 값 픽업 (경기, 승, 무, 패, 득실, 승점)
-                    stat_slice = numeric_texts[-6:] if len(numeric_texts) >= 6 else ["", "", "", "", "", ""]
+                    # 뒤에서부터 정확히 6개의 스탯 (경기, 승, 무, 패, 득실, 승점) 슬라이싱
+                    # 만약 raw_texts 길이가 부족할 경우 대비해 안전하게 처리
+                    stat_slice = []
+                    # 숫자 성향의 뒤쪽 데이터들 골라내기
+                    digits_candidates = [t for t in raw_texts if t != rank_val and t != team_val]
+                    if len(digits_candidates) >= 6:
+                        stat_slice = digits_candidates[-6:]
+                    else:
+                        stat_slice = digits_candidates + [""] * (6 - len(digits_candidates))
 
                     if rank_val and team_val:
                         parsed_standings.append({
@@ -174,7 +180,7 @@ def run_crawler_v4():
 
         with open("match_details_v4.json", "w", encoding="utf-8") as f:
             json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
-        print(f"\n🎉 [match_details_v4.json] 순위표 데이터 정상 수집 및 통합 저장 완료")
+        print(f"\n🎉 [match_details_v4.json] 순위표 데이터 완벽 수집 및 통합 저장 완료")
 
     finally:
         driver.quit()
