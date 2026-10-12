@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from bs4 import BeautifulSoup
 
 def run_crawler_v4():
     kst = ZoneInfo("Asia/Seoul")
@@ -22,7 +23,7 @@ def run_crawler_v4():
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 10)
 
-    # 💡 올바른 풀 URL 주소
+    # 실제 접속 URL 목록
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -54,88 +55,85 @@ def run_crawler_v4():
 
             try:
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#standingList")))
+                
+                # Selenium이 렌더링한 페이지 소스를 BeautifulSoup으로 파싱하여 정밀 추출 준비
+                soup = BeautifulSoup(driver.page_source, 'html.parser')
 
                 # 1. 실제 리그명 추출
-                try:
-                    title_elem = driver.find_element(By.CSS_SELECTOR, "div#title, div.box h4, .league_title, h4")
+                title_elem = soup.select_one("div.box h4, .league_title, h4")
+                if title_elem:
                     txt = title_elem.text.strip()
                     if txt and txt not in ["일정", "대진표", "팀순위", "정보", "오즈통계", "베스트11"]:
                         league_match_data["league_name"] = txt.replace("라이브스코어", "").strip()
-                except:
-                    pass
                 
                 if not league_match_data["league_name"]:
                     league_match_data["league_name"] = f"리그 ID {league_id}"
 
                 # 2. active_round 추출
-                round_spans = driver.find_elements(By.CSS_SELECTOR, "div.round span")
-                for span in round_spans:
-                    outer_html = span.get_attribute("outerHTML")
-                    if "current" in outer_html or "style class" in outer_html:
-                        league_match_data["active_round"] = span.get_attribute("round").strip()
-                        break
+                active_elem = soup.select_one("#schedule .stage span.current.on, #schedule div.round span.current.on, #schedule span.current.on, span.current.on")
+                active_text = active_elem.text.strip() if active_elem else "1"
                 
-                if round_spans:
-                    league_match_data["total_rounds"] = str(len(round_spans))
+                all_rounds = soup.select("#schedule div.round span[round], .schedule div.round span[round], #schedule span[round]")
+                total_cnt = len(all_rounds) if all_rounds else (46 if league_id == 39 else 38)
+                league_match_data["total_rounds"] = str(total_cnt)
+                
+                if active_text.isdigit():
+                    league_match_data["active_round"] = active_text
+                else:
+                    league_match_data["active_round"] = active_text
 
                 # 3. 하단 색상 범례(standingColor) 수집
+                legend_items = soup.select("#standingColor span.explain, .explain")
                 color_to_label = {}
                 parsed_legends = []
-                try:
-                    legend_elements = driver.find_elements(By.CSS_SELECTOR, "#standingColor span.explain")
-                    for el in legend_elements:
-                        try:
-                            i_elem = el.find_element(By.TAG_NAME, "i")
-                            bg_style = i_elem.get_attribute("style") or ""
-                            bg_color = ""
-                            if "background-color:" in bg_style:
+                
+                for lg in legend_items:
+                    color_i = lg.select_one("i")
+                    desc_span = lg.select_one("span")
+                    if color_i:
+                        bg_style = color_i.get("style", "")
+                        bg_color = ""
+                        if "background-color:" in bg_style:
+                            try:
                                 bg_color = bg_style.split("background-color:")[1].split(";")[0].strip()
-                            
-                            desc_text = el.text.strip()
-                            if bg_color and desc_text:
-                                parsed_legends.append({"color": bg_color, "description": desc_text})
-                                color_to_label[bg_color.upper()] = desc_text
-                        except:
-                            continue
-                except:
-                    pass
-
+                            except Exception:
+                                bg_color = ""
+                        desc_text = desc_span.text.strip() if desc_span else lg.text.strip()
+                        if bg_color:
+                            color_to_label[bg_color.upper()] = desc_text
+                        parsed_legends.append({
+                            "color": bg_color,
+                            "description": desc_text
+                        })
+                
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 순위표(Standings) 파싱 로직 (랭킹 및 성적 지표 완벽 매핑 이식 완료)
-                standings_items = driver.find_elements(By.CSS_SELECTOR, "#standingList li.standis")
+                # 4. 💡 [병합 성공] 검증된 랭킹(standings) 파싱 로직 적용
+                standings_items = soup.select("#standingList li.standis")
                 parsed_standings = []
                 
                 for item in standings_items:
-                    style_attr = item.get_attribute("style") or ""
+                    style_attr = item.get("style", "")
                     tag_color = ""
                     if "--tagcolor:" in style_attr:
                         try:
                             tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
-                        except:
+                        except Exception:
                             tag_color = ""
 
                     tag_label = color_to_label.get(tag_color, "일반")
 
-                    # 순위(R) 추출
-                    rank_val = ""
-                    try:
-                        rank_val = item.find_element(By.CSS_SELECTOR, "span.rank em, span.rank").text.strip()
-                    except:
-                        pass
-
-                    # 구단명 추출
-                    team_val = ""
-                    try:
-                        team_val = item.find_element(By.CSS_SELECTOR, "span.team span.name, span.name").text.strip()
-                    except:
-                        pass
-
-                    # 행 내부의 모든 말단 텍스트 요소들을 순서대로 수집
-                    all_sub_nodes = item.find_elements(By.TAG_NAME, "span")
+                    rank_elem = item.select_one(".rank em, .rank")
+                    name_elem = item.select_one(".team .name, span.name")
+                    
+                    rank_val = rank_elem.text.strip() if rank_elem else ""
+                    team_val = name_elem.text.strip() if name_elem else ""
+                    
+                    # 중첩된 span 구조에서 말단 텍스트 노드들을 순서대로 완벽하게 수집
+                    all_sub_nodes = item.select("span")
                     leaf_texts = []
                     for node in all_sub_nodes:
-                        if not node.find_elements(By.TAG_NAME, "span"):
+                        if not node.find("span"):
                             t = node.text.strip()
                             if t and t != rank_val and t != team_val:
                                 leaf_texts.append(t)
