@@ -56,13 +56,19 @@ def run_crawler_v4():
                     if txt:
                         league_match_data["league_name"] = txt.replace("라이브스코어", "").strip()
 
-                # 2. Active Round 정밀 추출 (devTools에서 확인된 round 속성 우선 타격)
+                # 2. 💡 [이중 방어 Fallback 적용] Active Round 정밀 추출
                 active_elem = soup.select_one("div.round span.current.on, span.current.on")
                 active_text = "1"
+                
                 if active_elem:
+                    # 1차 시도: round 속성값 가져오기
                     active_text = active_elem.get("round", "").strip()
+                    
+                    # 2차 시도: 속성값이 없거나 숫자가 아니면 태그 내부 텍스트(예: "6")로 변환 추출
                     if not active_text.isdigit():
                         active_text = active_elem.text.strip()
+
+                # 최종 안전장치: 숫자가 아닐 경우 강제로 "1" 처리
                 if not active_text.isdigit():
                     active_text = "1"
 
@@ -94,7 +100,7 @@ def run_crawler_v4():
                 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 [정밀 개선] '팀순위' 헤더 직계 테이블 타격 (다른 통계 테이블과 충돌 방지)
+                # 4. '팀순위' 테이블 정밀 타격
                 target_table = None
                 for tag in soup.find_all(['h3', 'h4', 'div', 'strong']):
                     if '팀순위' in tag.text:
@@ -103,7 +109,6 @@ def run_crawler_v4():
                             target_table = nxt
                             break
                 
-                # 만약 헤더를 못 찾을 경우 'PTS'와 '구단'이 함께 포함된 테이블 검색
                 if not target_table:
                     for tbl in soup.select('table'):
                         tbl_text = tbl.text
@@ -124,40 +129,4 @@ def run_crawler_v4():
                             stat_slice = cell_texts[-6:] # 경기수, 승, 무, 패, 득실, 승점
 
                             style_attr = row.get("style", "")
-                            tag_color = ""
-                            if "--tagcolor:" in style_attr:
-                                try:
-                                    tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
-                                except:
-                                    pass
-
-                            tag_label = color_to_label.get(tag_color, "일반")
-
-                            parsed_standings.append({
-                                "rank": rank_val,
-                                "team": team_val,
-                                "tag_color": tag_color,
-                                "tag_label": tag_label,
-                                "경기수": stat_slice[0],
-                                "승": stat_slice[1],
-                                "무": stat_slice[2],
-                                "패": stat_slice[3],
-                                "득실": stat_slice[4],
-                                "승점": stat_slice[5]
-                            })
-
-                league_match_data["standings"] = parsed_standings
-                print(f"✅ 수집 성공: {league_match_data['league_name']} (라운드: {league_match_data['active_round']}, 팀 수: {len(parsed_standings)}개)")
-
-            except Exception as e:
-                print(f"⚠️ 예외 발생: {e}")
-
-            all_leagues_data["leagues"][str(league_id)] = league_match_data
-
-    # 결과 파일 저장
-    with open("match_details_v4.json", "w", encoding="utf-8") as f:
-        json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
-    print("🎉 match_details_v4.json 저장 완료")
-
-if __name__ == "__main__":
-    run_crawler_v4()
+                            tag_color =
