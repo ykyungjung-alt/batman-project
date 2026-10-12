@@ -23,9 +23,9 @@ def run_crawler_v4():
     wait = WebDriverWait(driver, 10)
 
     target_leagues = [
-        {"id": 34, "url": "https://football.scoreman123.com/league/34"},
-        {"id": 39, "url": "https://football.scoreman123.com/league/39"},
-        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
+        {"id": 34, "url": "url?id=42league/34"},
+        {"id": 39, "url": "https://github.com/copilot2league/39"},
+        {"id": 40, "url": "https://github.com/copilot2league/40"}
     ]
 
     all_leagues_data = {
@@ -93,7 +93,7 @@ def run_crawler_v4():
                             desc_text = el.text.strip()
                             if bg_color and desc_text:
                                 parsed_legends.append({"color": bg_color, "description": desc_text})
-                                color_to_label[bg_color.lower()] = desc_text
+                                color_to_label[bg_color.upper()] = desc_text
                         except:
                             continue
                 except:
@@ -101,7 +101,7 @@ def run_crawler_v4():
 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 순위표(Standings) 파싱 로직 정밀 구현
+                # 4. 💡 순위표(Standings) 정밀 파싱 (중첩 span 구조 완벽 대응)
                 standings_items = driver.find_elements(By.CSS_SELECTOR, "#standingList li.standis")
                 parsed_standings = []
                 
@@ -110,11 +110,11 @@ def run_crawler_v4():
                     tag_color = ""
                     if "--tagcolor:" in style_attr:
                         try:
-                            tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip()
+                            tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
                         except:
                             tag_color = ""
 
-                    tag_label = color_to_label.get(tag_color.lower(), "일반")
+                    tag_label = color_to_label.get(tag_color, "일반")
 
                     # 순위(R) 추출
                     rank_val = ""
@@ -130,28 +130,29 @@ def run_crawler_v4():
                     except:
                         pass
 
-                    # 해당 행 내부의 모든 하위 span 태그를 순서대로 수집하여 텍스트만 추출
-                    all_spans = item.find_elements(By.TAG_NAME, "span")
-                    row_texts = []
-                    for s in all_spans:
-                        t = s.text.strip()
-                        if t and not s.find_elements(By.TAG_NAME, "span"):
-                            row_texts.append(t)
+                    # 💡 행 내부의 모든 하위 요소를 탐색하여 자식이 없는 말단 노드의 텍스트만 순서대로 수집
+                    all_elements = item.find_elements(By.XPATH, ".//*")
+                    leaf_texts = []
+                    for el in all_elements:
+                        # 자식 요소가 없고 텍스트가 존재하는 경우만 수집
+                        if not el.find_elements(By.XPATH, "./*"):
+                            t = el.text.strip()
+                            if t and t != rank_val and t != team_val:
+                                leaf_texts.append(t)
 
-                    # 구단명을 못 찾았을 경우 텍스트 목록에서 순위가 아니고 숫자가 아닌 첫 항목을 구단명으로 지정
-                    if not team_val and len(row_texts) > 1:
-                        for t in row_texts:
-                            if t != rank_val and not t.isdigit() and len(t) > 1:
+                    # 구단명을 못 찾았을 경우 leaf_texts에서 첫 번째 비숫자 문자열을 구단명으로 지정
+                    if not team_val:
+                        for t in leaf_texts:
+                            if not t.isdigit() and len(t) > 1:
                                 team_val = t
                                 break
 
-                    # 순위와 구단명을 제외한 나머지 데이터 중에서 성적에 해당하는 6개 지표 추출
-                    # 구조상 순위, 구단명 뒤에 P, W, D, L, GD, PTS 순서대로 값이 위치함
-                    filtered_vals = [t for t in row_texts if t != rank_val and t != team_val]
-                    if len(filtered_vals) >= 6:
-                        stat_slice = filtered_vals[-6:]
+                    # 순수 성적 지표에 해당하는 뒤쪽 6개의 값 추출 (경기, 승, 무, 패, 득실, 승점)
+                    stat_candidates = [t for t in leaf_texts if t != rank_val and t != team_val]
+                    if len(stat_candidates) >= 6:
+                        stat_slice = stat_candidates[-6:]
                     else:
-                        stat_slice = filtered_vals + [""] * (6 - len(filtered_vals))
+                        stat_slice = stat_candidates + [""] * (6 - len(stat_candidates))
 
                     if rank_val and team_val:
                         parsed_standings.append({
@@ -177,7 +178,7 @@ def run_crawler_v4():
 
         with open("match_details_v4.json", "w", encoding="utf-8") as f:
             json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
-        print(f"\n🎉 [match_details_v4.json] 순위표 데이터 정상 수집 및 통합 저장 완료")
+        print(f"\n🎉 [match_details_v4.json] 순위표 데이터 정밀 수집 및 저장 완료")
 
     finally:
         driver.quit()
