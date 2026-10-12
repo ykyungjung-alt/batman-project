@@ -1,29 +1,41 @@
 {
-    "updated_at": "2026-10-13 03:29:00",
+    "updated_at": "2026-10-13 03:39:44",
     "leagues": {
         "34": {
             "league_id": 34,
             "league_name": "리그 ID 34",
+            "league_name_error": null,
             "active_round": "1/38",
+            "active_round_error": null,
             "total_rounds": 38,
             "standing_legends": [],
-            "standings": []
+            "standing_legends_error": null,
+            "standings": [],
+            "standings_error": "[런타임 오류] 페이지 로드 또는 제어 중 예외 발생: Message: invalid argument\n  (Session info: chrome=154.0.8037.97)\nStacktrace:\n#0 0x563f2cbe9aaa <unknown>\n#1 0x563f2c517860 <unknown>\n#2 0x563f2c4feb19 <unknown>\n#3 0x563f2c4fccbb <unknown>\n#4 0x563f2c4fd560 <unknown>\n#5 0x563f2c51b551 <unknown>\n#6 0x563f2c5b8ecb <unknown>\n#7 0x563f2c5b81df <unknown>\n#8 0x563f2c561148 <unknown>\n#9 0x563f2c561f11 <unknown>\n#10 0x563f2cbac5ac <unknown>\n#11 0x563f2cbaadc5 <unknown>\n#12 0x563f2cb95e95 <unknown>\n#13 0x563f2cbaba1a <unknown>\n#14 0x563f2cb7e5c9 <unknown>\n#15 0x563f2cbd40f8 <unknown>\n#16 0x563f2cbd4295 <unknown>\n#17 0x563f2cbe83f3 <unknown>\n#18 0x7fcb4489cb84 <unknown>\n#19 0x7fcb44929ecc <unknown>\n"
         },
         "39": {
             "league_id": 39,
             "league_name": "리그 ID 39",
+            "league_name_error": null,
             "active_round": "1/46",
+            "active_round_error": null,
             "total_rounds": 46,
             "standing_legends": [],
-            "standings": []
+            "standing_legends_error": null,
+            "standings": [],
+            "standings_error": "[런타임 오류] 페이지 로드 또는 제어 중 예외 발생: Message: invalid argument\n  (Session info: chrome=154.0.8037.97)\nStacktrace:\n#0 0x563f2cbe9aaa <unknown>\n#1 0x563f2c517860 <unknown>\n#2 0x563f2c4feb19 <unknown>\n#3 0x563f2c4fccbb <unknown>\n#4 0x563f2c4fd560 <unknown>\n#5 0x563f2c51b551 <unknown>\n#6 0x563f2c5b8ecb <unknown>\n#7 0x563f2c5b81df <unknown>\n#8 0x563f2c561148 <unknown>\n#9 0x563f2c561f11 <unknown>\n#10 0x563f2cbac5ac <unknown>\n#11 0x563f2cbaadc5 <unknown>\n#12 0x563f2cb95e95 <unknown>\n#13 0x563f2cbaba1a <unknown>\n#14 0x563f2cb7e5c9 <unknown>\n#15 0x563f2cbd40f8 <unknown>\n#16 0x563f2cbd4295 <unknown>\n#17 0x563f2cbe83f3 <unknown>\n#18 0x7fcb4489cb84 <unknown>\n#19 0x7fcb44929ecc <unknown>\n"
         },
         "40": {
             "league_id": 40,
             "league_name": "리그 ID 40",
+            "league_name_error": null,
             "active_round": "1/38",
+            "active_round_error": null,
             "total_rounds": 38,
             "standing_legends": [],
-            "standings": []
+            "standing_legends_error": null,
+            "standings": [],
+            "standings_error": "[런타임 오류] 페이지 로드 또는 제어 중 예외 발생: Message: invalid argument\n  (Session info: chrome=154.0.8037.97)\nStacktrace:\n#0 0x563f2cbe9aaa <unknown>\n#1 0x563f2c517860 <unknown>\n#2 0x563f2c4feb19 <unknown>\n#3 0x563f2c4fccbb <unknown>\n#4 0x563f2c4fd560 <unknown>\n#5 0x563f2c51b551 <unknown>\n#6 0x563f2c5b8ecb <unknown>\n#7 0x563f2c5b81df <unknown>\n#8 0x563f2c561148 <unknown>\n#9 0x563f2c561f11 <unknown>\n#10 0x563f2cbac5ac <unknown>\n#11 0x563f2cbaadc5 <unknown>\n#12 0x563f2cb95e95 <unknown>\n#13 0x563f2cbaba1a <unknown>\n#14 0x563f2cb7e5c9 <unknown>\n#15 0x563f2cbd40f8 <unknown>\n#16 0x563f2cbd4295 <unknown>\n#17 0x563f2cbe83f3 <unknown>\n#18 0x7fcb4489cb84 <unknown>\n#19 0x7fcb44929ecc <unknown>\n"
         }
     }
 }
