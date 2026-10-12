@@ -4,31 +4,38 @@ from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-def crawl_match_details_with_browser():
-    # 💡 백그라운드 브라우저 모드 설정 (headless를 원치 않으시면 options.headless = False로 변경 가능)
+def crawl_leagues_optimized():
+    # 1. 브라우저 최적화 옵션 설정 (속도 향상 및 리소스 최소화)
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # 화면 창을 띄우지 않고 백그라운드 실행
+    chrome_options.add_argument("--headless")  # 백그라운드 실행
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    
+    # 이미지 로드 차단으로 페이지 로딩 속도 극대화
+    prefs = {"profile.managed_default_content_settings.images": 2}
+    chrome_options.add_experimental_option("prefs", prefs)
+    
     chrome_options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
-    # 웹드라이버 실행
+    # 💡 브라우저는 딱 한 번만 실행합니다 (단일 세션 재사용)
     driver = webdriver.Chrome(options=chrome_options)
-    
+    wait = WebDriverWait(driver, 10)  # 최대 10초 대기 세팅
+
+    # 순회할 리그 ID 리스트
     target_league_ids = [34, 39, 40]
 
     try:
         for league_id in target_league_ids:
             target_url = f"https://football.scoreman123.com/league/{league_id}"
-            print(f"\n--- 브라우저 탐색 시작: 리그 ID {league_id} ---")
+            print(f"\n[탐색 시작] 리그 ID: {league_id} ({target_url})")
             
-            # 브라우저로 실제 페이지 접속
+            # 주소 이동
             driver.get(target_url)
             
-            # 페이지가 렌더링될 때까지 충분히 대기 (동적 로딩 대응)
-            time.sleep(3)
-
             match_data = {
                 "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "league_id": league_id,
@@ -40,6 +47,9 @@ def crawl_match_details_with_browser():
             }
 
             try:
+                # 💡 핵심: 순위표(#standingList)가 나타날 때까지 명시적으로 기다림 (불필요한 대기 제거)
+                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#standingList")))
+
                 # 1. 리그명 추출
                 try:
                     title_elem = driver.find_element(By.CSS_SELECTOR, "div.box h4, .league_title, h4")
@@ -52,12 +62,11 @@ def crawl_match_details_with_browser():
                 if not match_data["league_name"]:
                     match_data["league_name"] = f"리그 ID {league_id}"
 
-                # 2. active_round 추출 (div.round 안의 span 태그들 중 style class 요소를 가진 것 탐색)
+                # 2. active_round 추출 (style class="current on" 패턴 정밀 탐색)
                 active_text = "1"
                 round_spans = driver.find_elements(By.CSS_SELECTOR, "div.round span")
                 
                 for span in round_spans:
-                    # 각 span의 HTML 원본 소스를 가져와서 "current" 또는 "style class" 포함 여부 확인
                     outer_html = span.get_attribute("outerHTML")
                     if "current" in outer_html or "style class" in outer_html:
                         active_text = span.get_attribute("round").strip()
@@ -109,24 +118,24 @@ def crawl_match_details_with_browser():
                         })
 
                 match_data["standings"] = parsed_standings
-                print(f"[{match_data['league_name']}] 수집 성공 (Round: {match_data['active_round']} / Total: {match_data['total_rounds']})")
+                print(f"[{match_data['league_name']}] 수집 완료 (Round: {match_data['active_round']} / Total: {match_data['total_rounds']})")
 
-            except Exception as parse_err:
-                print(f"데이터 파싱 중 오류 발생: {parse_err}")
+            except Exception as page_err:
+                print(f"리그 ID {league_id} 데이터 파싱 중 오류 발생: {page_err}")
 
-            # 파일로 개별 저장
+            # 파일로 각각 저장
             output_filename = f"match_details_league_{league_id}.json"
             with open(output_filename, "w", encoding="utf-8") as f:
                 json.dump(match_data, f, ensure_ascii=False, indent=4)
             print(f"[{output_filename}] 저장 완료.")
 
-            # 다음 페이지로 넘어갈 때 자연스러운 브라우저 탐색 간격 유지
-            time.sleep(2)
+            # 다음 페이지로 넘어갈 때 부하를 줄이기 위한 최소한의 간격 (0.5초~1초)
+            time.sleep(1)
 
     finally:
-        # 작업 완료 후 브라우저 세션 종료
+        # 모든 순회가 끝나면 브라우저를 한 번에 안전하게 종료
         driver.quit()
-        print("\n모든 브라우저 탐색 작업이 종료되었습니다.")
+        print("\n모든 브라우저 탐색 작업이 완료되었습니다.")
 
 if __name__ == "__main__":
-    crawl_match_details_with_browser()
+    crawl_leagues_optimized()
