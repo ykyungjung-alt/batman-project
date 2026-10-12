@@ -12,11 +12,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 # ==========================================
-# 🧩 100% 독립된 파싱 모듈 영역
+# 🧩 독립 파싱 모듈 영역
 # ==========================================
 
 def parse_league_name(soup, league_id, fallback_name):
-    """리그명 추출 모듈 (실패 시 기존 값 유지)"""
     try:
         title_elem = soup.select_one("div#title, div.title, .league_title, h4, strong")
         if title_elem:
@@ -30,7 +29,6 @@ def parse_league_name(soup, league_id, fallback_name):
     return fallback_name
 
 def parse_active_round(soup, league_id, fallback_round, fallback_total):
-    """활성 라운드 및 총 라운드 수 추출 모듈 (실패 시 기존 값 유지)"""
     default_total = 46 if league_id == 39 else 38
     try:
         active_elem = soup.select_one("div.round span.current.on, div.round span.on, span.current.on")
@@ -58,7 +56,6 @@ def parse_active_round(soup, league_id, fallback_round, fallback_total):
     return fallback_round, fallback_total
 
 def parse_standing_legends(soup, fallback_legends):
-    """하단 컬러 범례 추출 모듈 (실패 시 기존 값 유지)"""
     try:
         legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain, .explain")
         parsed_legends = []
@@ -85,65 +82,78 @@ def parse_standing_legends(soup, fallback_legends):
     except Exception as e:
         print(f"  ⚠️ [범례 모듈 경고]: {e}")
         
-    # 기존 범례를 바탕으로 color_map 재구축
     fallback_map = {item["color"]: item["description"] for item in fallback_legends if item.get("color")}
     return fallback_legends, fallback_map
 
 def parse_standings(soup, color_to_label, fallback_standings):
-    """랭킹표 및 컬러 꼬리표 매핑 모듈 (실패 시 기존 값 유지)"""
+    """💡 [안전 장치 강화] li.standis 정밀 파싱 모듈"""
     parsed_standings = []
     seen_teams = set()
     
     try:
-        # 테이블 구조 순회 파싱
-        for tbl in soup.select('table'):
-            for row in tbl.select('tr'):
-                cells = [c.text.strip() for c in row.select('td, th') if c.text.strip()]
-                
-                if len(cells) >= 8 and cells[0].isdigit():
-                    rank_val = cells[0]
-                    rank_int = int(rank_val)
-                    
-                    if 1 <= rank_int <= 25:
-                        team_val = cells[1]
-                        if team_val in ["구단", "PTS", "순위", "승점"] or any(k in team_val for k in ["승점", "득실"]):
-                            continue
-                        
-                        p_val = cells[2]
-                        w_val = cells[3]
-                        d_val = cells[4]
-                        l_val = cells[5]
-                        gd_val = cells[6]
-                        pts_val = cells[7]
-                        
-                        if p_val.isdigit() and pts_val.isdigit():
-                            if team_val not in seen_teams:
-                                seen_teams.add(team_val)
-                                
-                                style_attr = row.get("style", "")
-                                tag_color = ""
-                                if "--tagcolor:" in style_attr:
-                                    try:
-                                        tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
-                                    except:
-                                        pass
-                                
-                                tag_label = color_to_label.get(tag_color, "일반")
+        standing_rows = soup.select('li.standis')
+        
+        for row in standing_rows:
+            style_attr = row.get("style", "")
+            tag_color = ""
+            if "--tagcolor:" in style_attr:
+                try:
+                    tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
+                except:
+                    pass
 
-                                parsed_standings.append({
-                                    "rank": rank_val,
-                                    "team": team_val,
-                                    "tag_color": tag_color,
-                                    "tag_label": tag_label,
-                                    "경기수": p_val,
-                                    "승": w_val,
-                                    "무": d_val,
-                                    "패": l_val,
-                                    "득실": gd_val,
-                                    "승점": pts_val
-                                })
-            if parsed_standings:
-                break
+            rank_elem = row.select_one("span.rank")
+            if not rank_elem:
+                continue
+            rank_val = rank_elem.text.strip()
+            if not rank_val.isdigit():
+                continue
+
+            team_name_elem = row.select_one("span.team span.name")
+            if team_name_elem:
+                team_val = team_name_elem.text.strip()
+            else:
+                team_elem = row.select_one("span.team")
+                if team_elem:
+                    for img in team_elem.select("img"):
+                        img.decompose()
+                    team_val = team_elem.text.strip()
+                else:
+                    continue
+
+            if not team_val or team_val in ["구단", "PTS", "순위", "승점"]:
+                continue
+
+            direct_spans = [s for s in row.find_all("span", recursive=False)]
+            stat_values = []
+            for s in direct_spans[2:]:
+                stat_values.append(s.text.strip())
+
+            if len(stat_values) >= 6:
+                p_val = stat_values[0]
+                w_val = stat_values[1]
+                d_val = stat_values[2]
+                l_val = stat_values[3]
+                gd_val = stat_values[4]
+                pts_val = stat_values[5]
+
+                if p_val.isdigit() and pts_val.isdigit():
+                    if team_val not in seen_teams:
+                        seen_teams.add(team_val)
+                        tag_label = color_to_label.get(tag_color, "일반")
+
+                        parsed_standings.append({
+                            "rank": rank_val,
+                            "team": team_val,
+                            "tag_color": tag_color,
+                            "tag_label": tag_label,
+                            "경기수": p_val,
+                            "승": w_val,
+                            "무": d_val,
+                            "패": l_val,
+                            "득실": gd_val,
+                            "승점": pts_val
+                        })
 
         if parsed_standings:
             parsed_standings.sort(key=lambda x: int(x['rank']))
@@ -151,11 +161,12 @@ def parse_standings(soup, color_to_label, fallback_standings):
     except Exception as e:
         print(f"  ⚠️ [랭킹표 모듈 경고]: {e}")
         
+    # 만약 파싱 중 예외가 발생하거나 데이터가 비면 기존 데이터를 보존하여 초기화 방지
     return fallback_standings
 
 
 # ==========================================
-# 🚀 메인 컨트롤러 영역
+# 🚀 메인 컨트롤러 영역 (탭 강제 고정 및 검증 로직 추가)
 # ==========================================
 def run_crawler_v4():
     kst = ZoneInfo("Asia/Seoul")
@@ -168,7 +179,6 @@ def run_crawler_v4():
     options.add_argument("--disable-gpu")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 
-    # 💡 실제 스코어맨 도메인 URL 정확히 반영
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -193,7 +203,6 @@ def run_crawler_v4():
             url = league["url"]
             print(f"🔄 [수집 중] 리그 ID {league_id} ({url})")
 
-            # 초기 데이터 구조 (실패 시 안전하게 유지될 기본값)
             league_match_data = {
                 "league_id": league_id,
                 "league_name": f"리그 ID {league_id}",
@@ -206,15 +215,28 @@ def run_crawler_v4():
             try:
                 driver.get(url)
                 
-                # 페이지 로딩 대기
+                # 1. 랭킹 리스트 렌더링 기본 대기
                 WebDriverWait(driver, 15).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "table, div.round"))
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "li.standis"))
                 )
-                time.sleep(3)
+                
+                # 💡 2. [필수 검증] '합계' 탭(`data-st-type="1"`) 및 '결과' 탭(`data-st-hf="0"`) 강제 활성화 검증
+                try:
+                    # 합계 탭 클릭
+                    total_btn = driver.find_element(By.CSS_SELECTOR, "#standingType span[data-st-type='1']")
+                    driver.execute_script("arguments[0].click();", total_btn)
+                    time.sleep(1)
+
+                    # 결과 탭 클릭 (누락되었던 2단계 필터 강제 적용)
+                    result_btn = driver.find_element(By.CSS_SELECTOR, "#standingHF span[data-st-hf='0']")
+                    driver.execute_script("arguments[0].click();", result_btn)
+                    time.sleep(1.5) # AJAX 반영 대기
+                except Exception as tab_err:
+                    raise Exception(f"필수 탭('합계' 또는 '결과') 선택 중 오류 발생: {tab_err}")
 
                 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
-                # 💡 각 모듈을 독립적으로 호출하여 기존 데이터를 안전하게 갱신
+                # 모듈 호출 및 데이터 누적
                 league_match_data["league_name"] = parse_league_name(
                     soup, league_id, league_match_data["league_name"]
                 )
@@ -230,9 +252,13 @@ def run_crawler_v4():
                 )
                 league_match_data["standing_legends"] = legends
                 
-                league_match_data["standings"] = parse_standings(
+                new_standings = parse_standings(
                     soup, color_map, league_match_data["standings"]
                 )
+                
+                # 만약 파싱 결과가 비어있지 않다면 안전하게 교체
+                if new_standings:
+                    league_match_data["standings"] = new_standings
 
                 print(f"✅ 수집 성공: {league_match_data['league_name']} (라운드: {league_match_data['active_round']}, 범례: {len(legends)}개, 순위 팀: {len(league_match_data['standings'])}개)")
 
