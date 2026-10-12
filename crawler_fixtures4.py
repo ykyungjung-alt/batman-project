@@ -53,10 +53,10 @@ def run_crawler_v4():
             }
 
             try:
-                # Selenium으로 페이지가 렌더링될 때까지 대기
-                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.box, #standingList")))
+                # 페이지 렌더링 대기
+                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.box, table")))
                 
-                # 💡 Selenium이 렌더링 완료한 소스를 BeautifulSoup으로 인계
+                # Selenium이 렌더링한 소스를 BeautifulSoup으로 파싱
                 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
                 # 1. League name
@@ -116,7 +116,7 @@ def run_crawler_v4():
                 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. 💡 Standings (사용자님이 제공해주신 검증된 랭킹표 데이터 정밀 추출 및 키 값 매핑 로직 완벽 적용)
+                # 4. 💡 Standings (랭킹표 데이터 정밀 추출 및 키 값 매핑 로직 완벽 적용)
                 standings_items = soup.select("#standingList li.standis, table tr")
                 parsed_standings = []
                 
