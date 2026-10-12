@@ -12,7 +12,6 @@ def run_crawler_v4():
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
     }
 
-    # 수집 대상 리그 URL 설정
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -24,7 +23,6 @@ def run_crawler_v4():
         "leagues": {}
     }
 
-    # 세션을 통한 TCP 연결 재사용 최적화
     with requests.Session() as session:
         session.headers.update(headers)
 
@@ -51,24 +49,25 @@ def run_crawler_v4():
 
                 soup = BeautifulSoup(res.text, 'html.parser')
 
-                # 1. 리그명 정밀 추출 (<div id="title" class="title">세리에 A</div>)
-                title_elem = soup.select_one("div#title, div.title, .league_title")
+                # 1. 리그명 추출
+                title_elem = soup.select_one("div#title, div.title, .league_title, h4")
                 if title_elem:
                     txt = title_elem.text.strip()
                     if txt:
-                        league_match_data["league_name"] = txt
+                        league_match_data["league_name"] = txt.replace("라이브스코어", "").strip()
 
-                # 2. Active Round 정밀 추출 (div.round 내부에서 class="current on"인 항목 정확히 타격)
+                # 2. Active Round 정밀 추출 (round 속성 및 text 동시 활용)
                 active_elem = soup.select_one("div.round span.current.on")
-                if not active_elem:
-                    for span in soup.select("div.round span"):
-                        classes = span.get("class", [])
-                        if "current" in classes and "on" in classes:
-                            active_elem = span
-                            break
+                active_text = "1"
+                if active_elem:
+                    # round 속성이 존재하면 우선 사용, 없으면 태그 텍스트 사용
+                    active_text = active_elem.get("round", "").strip()
+                    if not active_text.isdigit():
+                        active_text = active_elem.text.strip()
 
-                active_text = active_elem.text.strip() if active_elem and active_elem.text.strip().isdigit() else "1"
-                
+                if not active_text.isdigit():
+                    active_text = "1"
+
                 all_rounds = soup.select("div.round span[round]")
                 total_cnt = len(all_rounds) if all_rounds else (46 if league_id == 39 else 38)
                 
@@ -97,19 +96,21 @@ def run_crawler_v4():
                 
                 league_match_data["standing_legends"] = parsed_legends
 
-                # 4. '팀순위' 헤더 기준 하위 테이블 정밀 타격
-                team_ranking_header = None
-                for tag in soup.find_all(['h3', 'h4', 'div', 'strong']):
-                    if '팀순위' in tag.text:
-                        team_ranking_header = tag
+                # 4. '팀순위' 테이블 정밀 타격 (승점/PTS 포함된 테이블 탐색)
+                target_table = None
+                for tbl in soup.select('table'):
+                    tbl_text = tbl.text
+                    if ('승점' in tbl_text or 'PTS' in tbl_text) and len(tbl.select('tr')) > 5:
+                        target_table = tbl
                         break
-
-                target_table = team_ranking_header.find_next('table') if team_ranking_header else None
+                
                 if not target_table:
-                    for tbl in soup.select('table'):
-                        if '승점' in tbl.text and '득실' in tbl.text:
-                            target_table = tbl
-                            break
+                    for tag in soup.find_all(['h3', 'h4', 'div', 'strong']):
+                        if '팀순위' in tag.text:
+                            nxt = tag.find_next('table')
+                            if nxt:
+                                target_table = nxt
+                                break
 
                 parsed_standings = []
                 if target_table:
@@ -123,7 +124,6 @@ def run_crawler_v4():
                             team_val = cell_texts[1]
                             stat_slice = cell_texts[-6:] # 경기수, 승, 무, 패, 득실, 승점
 
-                            # 행 스타일에서 진출/강등 색상 태그 추출
                             style_attr = row.get("style", "")
                             tag_color = ""
                             if "--tagcolor:" in style_attr:
@@ -148,7 +148,7 @@ def run_crawler_v4():
                             })
 
                 league_match_data["standings"] = parsed_standings
-                print(f"✅ 수집 성공: {league_match_data['league_name']} (총 {len(parsed_standings)}개 팀)")
+                print(f"✅ 수집 성공: {league_match_data['league_name']} (라운드: {league_match_data['active_round']}, 팀 수: {len(parsed_standings)}개)")
 
             except Exception as e:
                 print(f"⚠️ 예외 발생: {e}")
