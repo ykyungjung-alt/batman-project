@@ -58,8 +58,15 @@ def run_crawler_v4():
                     if txt:
                         league_match_data["league_name"] = txt
 
-                # 2. Active Round 정밀 추출 (div.round 내부의 진짜 라운드 current.on 타격)
-                active_elem = soup.select_one("div.round span.current.on, div.round span.on")
+                # 2. Active Round 정밀 추출 (div.round 내부에서 class="current on"인 항목 정확히 타격)
+                active_elem = soup.select_one("div.round span.current.on")
+                if not active_elem:
+                    for span in soup.select("div.round span"):
+                        classes = span.get("class", [])
+                        if "current" in classes and "on" in classes:
+                            active_elem = span
+                            break
+
                 active_text = active_elem.text.strip() if active_elem and active_elem.text.strip().isdigit() else "1"
                 
                 all_rounds = soup.select("div.round span[round]")
