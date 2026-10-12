@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-12 09:36:40",
+    "last_updated": "2026-10-12 12:27:12",
     "match_details": {
         "3068932": {
             "match_code": "3068932",
@@ -7,7 +7,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Berktago Stadium",
-                "weather": "이슬비,  17°C"
+                "weather": "흐림,  19℃～20℃"
             },
             "home": "파크타코르",
             "away": "알 카디시야",
@@ -109,7 +109,7 @@
                 "league": "라리가2",
                 "round": "라리가2·  라운드 9",
                 "stadium": "Nuevo Jose Zorrilla",
-                "weather": "구름 조금,  22°C"
+                "weather": "맑음,  21℃～22℃"
             },
             "home": "바야돌리드",
             "away": "알바세테",
@@ -118,7 +118,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "16",
+                        "rank": "17",
                         "team": "바야돌리드",
                         "played": "8",
                         "win": "2",
@@ -299,7 +299,7 @@
                 "league": "라리가2",
                 "round": "라리가2·  라운드 9",
                 "stadium": "Municipal El Plantio",
-                "weather": "구름 조금,  22°C"
+                "weather": "구름 많음,  26℃～27℃"
             },
             "home": "부르고스 CF",
             "away": "그라나다",
@@ -308,7 +308,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "7",
+                        "rank": "8",
                         "team": "부르고스 CF",
                         "played": "8",
                         "win": "4",
@@ -480,7 +480,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "10",
+                        "rank": "11",
                         "team": "ZED",
                         "played": "5",
                         "win": "2",
@@ -994,7 +994,7 @@
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 9",
                 "stadium": "Football Academy Stadium",
-                "weather": "구름 조금,  19°C"
+                "weather": "맑음,  21℃～22℃"
             },
             "home": "슈니크",
             "away": "시라크 지움리",
@@ -1178,64 +1178,13 @@
                 }
             }
         },
-        "3099984": {
-            "match_code": "3099984",
-            "head_info": {
-                "league": "국제 친선경기",
-                "round": "",
-                "stadium": "",
-                "weather": ""
-            },
-            "home": "El Salvador U16",
-            "away": "Honduras U16",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "3승 1무 5패",
-                        "goals_per_game": "1.78",
-                        "conceded_per_game": "1.89"
-                    },
-                    "away_summary": {
-                        "recent_record": "6승 1무 2패",
-                        "goals_per_game": "2.44",
-                        "conceded_per_game": "1.22"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 0 (0%)",
-                        "무승부 0 (0%)",
-                        "승 1 (100%)",
-                        "2.00",
-                        "경기당 득점",
-                        "4.00"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "INT FRL2025.10.02",
-                                "Honduras U16",
-                                "4-2",
-                                "El Salvador U16"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
-                }
-            }
-        },
         "3100439": {
             "match_code": "3100439",
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "흐림,  5°C"
             },
             "home": "핀란드 U19 (여)",
             "away": "벨기에 U19 (여)",
@@ -1388,33 +1337,33 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "구름 조금,  9°C"
             },
-            "home": "폴란드 U19 (여)",
-            "away": "크로아티아 U19 (여)",
+            "home": "크로아티아 U19 (여)(N)",
+            "away": "폴란드 U19 (여)",
             "meta_details": {
                 "rankings": [],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "5승 4무 1패",
-                        "goals_per_game": "1.80",
-                        "conceded_per_game": "0.30"
-                    },
-                    "away_summary": {
                         "recent_record": "5승 1무 4패",
                         "goals_per_game": "1.70",
                         "conceded_per_game": "1.30"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 4무 1패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "0.30"
                     },
                     "matches": []
                 },
                 "h2h": {
                     "summary": [
-                        "승 4 (80%)",
-                        "무승부 0 (0%)",
                         "승 1 (20%)",
-                        "3.20",
+                        "무승부 0 (0%)",
+                        "승 4 (80%)",
+                        "0.40",
                         "경기당 득점",
-                        "0.40"
+                        "3.20"
                     ],
                     "matches": [
                         {
@@ -1463,26 +1412,6 @@
                     "home": [
                         {
                             "league": "U19 여자 유로컵",
-                            "match_time": "2026-11-27 14:00:00",
-                            "teams": "11.27 2026 vs 폴란드 U19 (여) vs 코소보 U19 (여) vs 46 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "U19 여자 유로컵",
-                            "match_time": "2026-11-30 14:00:00",
-                            "teams": "11.30 2026 vs 폴란드 U19 (여) vs 슬로바키아 U19 (여) vs 49 일",
-                            "interval": "49 일"
-                        },
-                        {
-                            "league": "U19 여자 유로컵",
-                            "match_time": "2026-12-03 14:00:00",
-                            "teams": "12.03 2026 vs 그리스 U19 (여) vs 폴란드 U19 (여) vs 52 일",
-                            "interval": "52 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "U19 여자 유로컵",
                             "match_time": "2026-11-28 14:00:00",
                             "teams": "11.28 2026 vs 아이슬란드 U19 (여) vs 크로아티아 U19 (여) vs 47 일",
                             "interval": "시작전"
@@ -1499,6 +1428,26 @@
                             "teams": "12.04 2026 vs 크로아티아 U19 (여) vs 벨기에 U19 (여) vs 53 일",
                             "interval": "53 일"
                         }
+                    ],
+                    "away": [
+                        {
+                            "league": "U19 여자 유로컵",
+                            "match_time": "2026-11-27 14:00:00",
+                            "teams": "11.27 2026 vs 폴란드 U19 (여) vs 코소보 U19 (여) vs 46 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "U19 여자 유로컵",
+                            "match_time": "2026-11-30 14:00:00",
+                            "teams": "11.30 2026 vs 폴란드 U19 (여) vs 슬로바키아 U19 (여) vs 49 일",
+                            "interval": "49 일"
+                        },
+                        {
+                            "league": "U19 여자 유로컵",
+                            "match_time": "2026-12-03 14:00:00",
+                            "teams": "12.03 2026 vs 그리스 U19 (여) vs 폴란드 U19 (여) vs 52 일",
+                            "interval": "52 일"
+                        }
                     ]
                 }
             }
@@ -1509,7 +1458,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "맑음,  14°C"
             },
             "home": "슬로바키아 U19 (여)",
             "away": "터키 U19 (여)",
@@ -1662,7 +1611,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "구름 조금,  14°C"
             },
             "home": "코소보 U19 (여)",
             "away": "북마케도니아 U19 (여)",
@@ -1749,7 +1698,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "맑음,  14°C"
             },
             "home": "독일 U19 (여)",
             "away": "오스트리아 U19 (여)",
@@ -2012,7 +1961,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "흐림,  21°C"
             },
             "home": "포르투갈 U23 여",
             "away": "벨기에 U23 여",
@@ -2239,7 +2188,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "맑음,  22°C"
             },
             "home": "이탈리아 (WU-23)",
             "away": "프랑스 U23 여",
@@ -2296,7 +2245,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "흐림,  14°C"
             },
             "home": "몰도바 (여)",
             "away": "조지아 (여)",
