@@ -1,28 +1,75 @@
 {
-    "updated_at": "2026-10-13 02:54:35",
+    "updated_at": "2026-10-13 03:10:09",
     "leagues": {
         "34": {
             "league_id": 34,
-            "league_name": "리그 ID 34",
-            "active_round": "1/38",
+            "league_name": "세리에 A",
+            "active_round": "6/38",
             "total_rounds": 38,
-            "standing_legends": [],
+            "standing_legends": [
+                {
+                    "color": "#FF9966",
+                    "description": "UEFA CL qualifying"
+                },
+                {
+                    "color": "#00CCFF",
+                    "description": "UEFA EL qualifying"
+                },
+                {
+                    "color": "#009900",
+                    "description": "UEFA ECL qualifying"
+                },
+                {
+                    "color": "#B1A7A7",
+                    "description": "강등팀"
+                }
+            ],
             "standings": []
         },
         "39": {
             "league_id": 39,
-            "league_name": "리그 ID 39",
-            "active_round": "1/38",
-            "total_rounds": 38,
-            "standing_legends": [],
+            "league_name": "잉글랜드 리그 1",
+            "active_round": "11/46",
+            "total_rounds": 46,
+            "standing_legends": [
+                {
+                    "color": "#CCCCFF",
+                    "description": "승격팀"
+                },
+                {
+                    "color": "#00CCCC",
+                    "description": "승격 플레이오프"
+                },
+                {
+                    "color": "#B1A7A7",
+                    "description": "강등팀"
+                }
+            ],
             "standings": []
         },
         "40": {
             "league_id": 40,
-            "league_name": "리그 ID 40",
-            "active_round": "1/38",
+            "league_name": "세리에 B",
+            "active_round": "7/38",
             "total_rounds": 38,
-            "standing_legends": [],
+            "standing_legends": [
+                {
+                    "color": "#CCCCFF",
+                    "description": "승격팀"
+                },
+                {
+                    "color": "#00CCCC",
+                    "description": "승격 플레이오프"
+                },
+                {
+                    "color": "#FF9999",
+                    "description": "강등 플레이오프"
+                },
+                {
+                    "color": "#B1A7A7",
+                    "description": "강등팀"
+                }
+            ],
             "standings": []
         }
     }
