@@ -36,7 +36,7 @@ def parse_league_name(soup, league_id, fallback_name):
         return fallback_name, f"[코드 에러] 리그명 파싱 중 런타임 예외 발생: {str(e)}"
 
 def parse_active_round(soup, league_id, default_round, default_total):
-    """💡 액티브 라운드 및 총 라운드 수 정밀 추출 모듈 (미탐색 시 에러 확정)"""
+    """활성 라운드 및 총 라운드 수 정밀 추출 모듈 (미탐색 시 에러 확정)"""
     fallback_total = 46 if league_id == 39 else 38
     try:
         active_elem = soup.select_one("div.round span.current.on, div.round span.on, span.current.on, span.on")
@@ -54,7 +54,6 @@ def parse_active_round(soup, league_id, default_round, default_total):
                     active_text = span.text.strip()
                     break
 
-        # 💡 액티브 라운드를 못 찾아내면 명백한 에러로 처리
         if not active_text.isdigit():
             return default_round, fallback_total, "[모듈 에러] 활성 라운드(active_round) 요소를 전혀 탐색할 수 없거나 숫자가 아닙니다."
 
@@ -210,7 +209,7 @@ def run_crawler_v4():
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
-        {"id": 40, "url": "https://www.scoreman123.com/aboutusleague/40"}
+        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
     ]
 
     all_leagues_data = {
@@ -232,4 +231,91 @@ def run_crawler_v4():
             url = league["url"]
             print(f"🔄 [수집 중] 리그 ID {league_id} ({url})")
 
-            prev_data = existing_leagues.get(str
+            # 💡 [구문 오류 수정 완료] 올바른 괄호와 인자로 prev_data 안전 취득
+            prev_data = existing_leagues.get(str(league_id), {})
+            
+            league_match_data = {
+                "league_id": league_id,
+                "league_name": prev_data.get("league_name", f"리그 ID {league_id}"),
+                "league_name_error": None,
+                "active_round": prev_data.get("active_round", f"1/{46 if league_id == 39 else 38}"),
+                "active_round_error": None,
+                "total_rounds": prev_data.get("total_rounds", 46 if league_id == 39 else 38),
+                "standing_legends": prev_data.get("standing_legends", []),
+                "standing_legends_error": None,
+                "standings": prev_data.get("standings", []),
+                "standings_error": None
+            }
+
+            try:
+                # 💡 [주소 오류 검증] URL 접속 시도
+                try:
+                    driver.get(url)
+                except Exception as net_err:
+                    league_match_data["standings_error"] = f"[주소 오류] URL 접속에 실패했습니다: {str(net_err)}"
+                    print(f"⚠️ {league_match_data['standings_error']}")
+                    all_leagues_data["leagues"][str(league_id)] = league_match_data
+                    continue
+
+                # 랭킹 리스트 로딩 대기
+                try:
+                    WebDriverWait(driver, 15).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, "li.standis"))
+                    )
+                except Exception:
+                    league_match_data["standings_error"] = "[모듈 에러] 페이지 내 타겟 요소(li.standis)가 시간 내에 렌더링되지 않았습니다."
+
+                # 💡 [조건 불일치 검증] 합계(data-st-type="1") 및 결과(data-st-hf="0") 탭 강제 세팅 및 활성화 검증
+                try:
+                    total_btn = WebDriverWait(driver, 10).until(
+                        EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingType span[data-st-type='1']"))
+                    )
+                    driver.execute_script("arguments[0].click();", total_btn)
+                    time.sleep(1)
+
+                    result_btn = WebDriverWait(driver, 10).until(
+                        EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingHF span[data-st-hf='0']"))
+                    )
+                    driver.execute_script("arguments[0].click();", result_btn)
+                    time.sleep(1.5)
+
+                    total_class = total_btn.get_attribute("class") or ""
+                    result_class = result_btn.get_attribute("class") or ""
+                    if "on" not in total_class or "on" not in result_class:
+                        print(f"  ⚠️ [조건 불일치] '합계' 또는 '결과' 탭에 'on' 클래스가 활성화되지 않았습니다.")
+                except Exception as tab_err:
+                    print(f"  ⚠️ [조건 불일치] 필수 탭 제어 중 예외 발생: {tab_err}")
+
+                soup = BeautifulSoup(driver.page_source, 'html.parser')
+
+                # 모듈별 독립 호출 및 에러 유형 기록
+                name_res, name_err = parse_league_name(soup, league_id, league_match_data["league_name"])
+                league_match_data["league_name"] = name_res
+                league_match_data["league_name_error"] = name_err
+                
+                round_res, total_cnt, round_err = parse_active_round(
+                    soup, league_id, league_match_data["active_round"], league_match_data["total_rounds"]
+                )
+                league_match_data["active_round"] = round_res
+                league_match_data["total_rounds"] = total_cnt
+                league_match_data["active_round_error"] = round_err
+                
+                legends_res, color_map, legend_err = parse_standing_legends(
+                    soup, league_match_data["standing_legends"]
+                )
+                league_match_data["standing_legends"] = legends_res
+                league_match_data["standing_legends_error"] = legend_err
+                
+                standings_res, standings_err = parse_standings(
+                    soup, color_map, league_match_data["standings"]
+                )
+                league_match_data["standings"] = standings_res
+                league_match_data["standings_error"] = standings_err
+
+                print(f"✅ 수집 완료: {league_match_data['league_name']} (순위 팀: {len(league_match_data['standings'])}개)")
+
+            except Exception as e:
+                err_msg = f"[코드 에러] 크롤링 실행 중 런타임 예외 발생: {str(e)}"
+                print(f"⚠️ 리그 ID {league_id} 실패: {err_msg}")
+                league_match_data["standings_error"] = err_msg
+                driver.save_screenshot(f"
