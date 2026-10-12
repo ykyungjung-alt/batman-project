@@ -12,46 +12,58 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 # ==========================================
-# 🧩 독립 모듈 영역 (각 항목별 개별 함수)
+# 🧩 100% 독립된 파싱 모듈 영역
 # ==========================================
 
-def parse_league_name(soup, league_id):
-    """리그명 추출 모듈"""
+def parse_league_name(soup, league_id, fallback_name):
+    """리그명 추출 모듈 (실패 시 기존 값 유지)"""
     try:
         title_elem = soup.select_one("div#title, div.title, .league_title, h4, strong")
         if title_elem:
             txt = title_elem.text.strip()
             if txt:
-                return txt.replace("라이브스코어", "").replace("시즌", "").strip()
+                cleaned = txt.replace("라이브스코어", "").replace("시즌", "").replace("스코어맨", "").strip()
+                if cleaned:
+                    return cleaned
     except Exception as e:
-        print(f"  └ [모듈 에러] 리그명 추출 실패: {e}")
-    return f"리그 ID {league_id}"
+        print(f"  ⚠️ [리그명 모듈 경고]: {e}")
+    return fallback_name
 
-def parse_active_round(soup, league_id):
-    """활성 라운드 및 총 라운드 수 추출 모듈"""
+def parse_active_round(soup, league_id, fallback_round, fallback_total):
+    """활성 라운드 및 총 라운드 수 추출 모듈 (실패 시 기존 값 유지)"""
     default_total = 46 if league_id == 39 else 38
     try:
-        active_elem = soup.select_one("div.round span.current.on, div.round span.on")
-        active_text = "1"
+        active_elem = soup.select_one("div.round span.current.on, div.round span.on, span.current.on")
+        active_text = ""
         
         if active_elem:
             active_text = active_elem.get("round", "").strip()
             if not active_text.isdigit():
                 active_text = active_elem.text.strip()
 
+        if not active_text.isdigit():
+            for span in soup.select("div.round span"):
+                if "current" in span.get("class", []) and span.text.strip().isdigit():
+                    active_text = span.text.strip()
+                    break
+
         all_rounds = soup.select("div.round span[round]")
         total_cnt = len(all_rounds) if all_rounds else default_total
-        return f"{active_text}/{total_cnt}", total_cnt
+        
+        if active_text.isdigit():
+            return f"{active_text}/{total_cnt}", total_cnt
     except Exception as e:
-        print(f"  └ [모듈 에러] 라운드 추출 실패: {e}")
-        return f"1/{default_total}", default_total
+        print(f"  ⚠️ [라운드 모듈 경고]: {e}")
+        
+    return fallback_round, fallback_total
 
-def parse_standing_legends(soup):
-    """하단 컬러 범례 추출 모듈"""
-    parsed_legends = []
-    color_to_label = {}
+def parse_standing_legends(soup, fallback_legends):
+    """하단 컬러 범례 추출 모듈 (실패 시 기존 값 유지)"""
     try:
-        legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain")
+        legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain, .explain")
+        parsed_legends = []
+        color_to_label = {}
+        
         for lg in legend_items:
             color_i = lg.select_one("i")
             desc_span = lg.select_one("span")
@@ -67,94 +79,79 @@ def parse_standing_legends(soup):
                 if bg_color:
                     color_to_label[bg_color] = desc_text
                 parsed_legends.append({"color": bg_color, "description": desc_text})
+                
+        if parsed_legends:
+            return parsed_legends, color_to_label
     except Exception as e:
-        print(f"  └ [모듈 에러] 범례 추출 실패: {e}")
+        print(f"  ⚠️ [범례 모듈 경고]: {e}")
         
-    return parsed_legends, color_to_label
+    # 기존 범례를 바탕으로 color_map 재구축
+    fallback_map = {item["color"]: item["description"] for item in fallback_legends if item.get("color")}
+    return fallback_legends, fallback_map
 
-def parse_standings(soup, color_to_label):
-    """랭킹표 및 컬러 꼬리표(tag_color, tag_label) 매핑 모듈"""
+def parse_standings(soup, color_to_label, fallback_standings):
+    """랭킹표 및 컬러 꼬리표 매핑 모듈 (실패 시 기존 값 유지)"""
     parsed_standings = []
     seen_teams = set()
     
     try:
-        # li.standis 구조 기반 파싱 (동적 생성된 랭킹 리스트 타격)
-        standing_rows = soup.select('li.standis')
-        
-        for row in standing_rows:
-            style_attr = row.get("style", "")
-            tag_color = ""
-            if "--tagcolor:" in style_attr:
-                try:
-                    tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
-                except:
-                    pass
-
-            tokens = [t.strip() for t in row.text.split() if t.strip()]
-            
-            if tokens and tokens[0].isdigit():
-                rank_val = tokens[0]
-                rank_int = int(rank_val)
+        # 테이블 구조 순회 파싱
+        for tbl in soup.select('table'):
+            for row in tbl.select('tr'):
+                cells = [c.text.strip() for c in row.select('td, th') if c.text.strip()]
                 
-                if 1 <= rank_int <= 25 and len(tokens) >= 8:
-                    team_val = tokens[1]
+                if len(cells) >= 8 and cells[0].isdigit():
+                    rank_val = cells[0]
+                    rank_int = int(rank_val)
                     
-                    if team_val in ["구단", "PTS", "순위", "승점"] or any(k in team_val for k in ["승점", "득실"]):
-                        continue
+                    if 1 <= rank_int <= 25:
+                        team_val = cells[1]
+                        if team_val in ["구단", "PTS", "순위", "승점"] or any(k in team_val for k in ["승점", "득실"]):
+                            continue
                         
-                    stats = tokens[-6:] # [경기수, 승, 무, 패, 득실, 승점]
-                    
-                    if stats[0].isdigit() and stats[-1].isdigit():
-                        if team_val not in seen_teams:
-                            seen_teams.add(team_val)
-                            tag_label = color_to_label.get(tag_color, "일반")
+                        p_val = cells[2]
+                        w_val = cells[3]
+                        d_val = cells[4]
+                        l_val = cells[5]
+                        gd_val = cells[6]
+                        pts_val = cells[7]
+                        
+                        if p_val.isdigit() and pts_val.isdigit():
+                            if team_val not in seen_teams:
+                                seen_teams.add(team_val)
+                                
+                                style_attr = row.get("style", "")
+                                tag_color = ""
+                                if "--tagcolor:" in style_attr:
+                                    try:
+                                        tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
+                                    except:
+                                        pass
+                                
+                                tag_label = color_to_label.get(tag_color, "일반")
 
-                            parsed_standings.append({
-                                "rank": rank_val,
-                                "team": team_val,
-                                "tag_color": tag_color,
-                                "tag_label": tag_label,
-                                "경기수": stats[0],
-                                "승": stats[1],
-                                "무": stats[2],
-                                "패": stats[3],
-                                "득실": stats[4],
-                                "승점": stats[5]
-                            })
+                                parsed_standings.append({
+                                    "rank": rank_val,
+                                    "team": team_val,
+                                    "tag_color": tag_color,
+                                    "tag_label": tag_label,
+                                    "경기수": p_val,
+                                    "승": w_val,
+                                    "무": d_val,
+                                    "패": l_val,
+                                    "득실": gd_val,
+                                    "승점": pts_val
+                                })
+            if parsed_standings:
+                break
 
-        # 백업: 혹시 li 구조가 안 잡힐 경우 table 구조 탐색
-        if not parsed_standings:
-            for tbl in soup.select('table'):
-                for row in tbl.select('tr'):
-                    cells = [c.text.strip() for c in row.select('td, th') if c.text.strip()]
-                    if len(cells) >= 8 and cells[0].isdigit():
-                        rank_val = cells[0]
-                        if 1 <= int(rank_val) <= 25:
-                            team_val = cells[1]
-                            if team_val in ["구단", "PTS", "순위", "승점"]:
-                                continue
-                            stats = cells[-6:]
-                            if stats[0].isdigit() and stats[-1].isdigit():
-                                if team_val not in seen_teams:
-                                    seen_teams.add(team_val)
-                                    parsed_standings.append({
-                                        "rank": rank_val,
-                                        "team": team_val,
-                                        "tag_color": "",
-                                        "tag_label": color_to_label.get("", "일반"),
-                                        "경기수": stats[0],
-                                        "승": stats[1],
-                                        "무": stats[2],
-                                        "패": stats[3],
-                                        "득실": stats[4],
-                                        "승점": stats[5]
-                                    })
-
-        parsed_standings.sort(key=lambda x: int(x['rank']))
+        if parsed_standings:
+            parsed_standings.sort(key=lambda x: int(x['rank']))
+            return parsed_standings
     except Exception as e:
-        print(f"  └ [모듈 에러] 랭킹표 파싱 실패: {e}")
+        print(f"  ⚠️ [랭킹표 모듈 경고]: {e}")
         
-    return parsed_standings
+    return fallback_standings
 
 
 # ==========================================
@@ -171,7 +168,7 @@ def run_crawler_v4():
     options.add_argument("--disable-gpu")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 
-    # 💡 실제 스코어맨 도메인 URL 정확히 복원
+    # 💡 실제 스코어맨 도메인 URL 정확히 반영
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -196,11 +193,12 @@ def run_crawler_v4():
             url = league["url"]
             print(f"🔄 [수집 중] 리그 ID {league_id} ({url})")
 
+            # 초기 데이터 구조 (실패 시 안전하게 유지될 기본값)
             league_match_data = {
                 "league_id": league_id,
                 "league_name": f"리그 ID {league_id}",
-                "active_round": "1/38",
-                "total_rounds": 38,
+                "active_round": f"1/{46 if league_id == 39 else 38}",
+                "total_rounds": 46 if league_id == 39 else 38,
                 "standing_legends": [],
                 "standings": []
             }
@@ -208,30 +206,38 @@ def run_crawler_v4():
             try:
                 driver.get(url)
                 
-                # 랭킹 리스트 동적 로딩 대기
+                # 페이지 로딩 대기
                 WebDriverWait(driver, 15).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "li.standis"))
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "table, div.round"))
                 )
-                time.sleep(2)
+                time.sleep(3)
 
                 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
-                # 독립된 모듈 함수들을 각각 호출하여 데이터 적재
-                league_match_data["league_name"] = parse_league_name(soup, league_id)
+                # 💡 각 모듈을 독립적으로 호출하여 기존 데이터를 안전하게 갱신
+                league_match_data["league_name"] = parse_league_name(
+                    soup, league_id, league_match_data["league_name"]
+                )
                 
-                active_str, total_cnt = parse_active_round(soup, league_id)
+                active_str, total_cnt = parse_active_round(
+                    soup, league_id, league_match_data["active_round"], league_match_data["total_rounds"]
+                )
                 league_match_data["active_round"] = active_str
                 league_match_data["total_rounds"] = total_cnt
                 
-                legends, color_map = parse_standing_legends(soup)
+                legends, color_map = parse_standing_legends(
+                    soup, league_match_data["standing_legends"]
+                )
                 league_match_data["standing_legends"] = legends
                 
-                league_match_data["standings"] = parse_standings(soup, color_map)
+                league_match_data["standings"] = parse_standings(
+                    soup, color_map, league_match_data["standings"]
+                )
 
                 print(f"✅ 수집 성공: {league_match_data['league_name']} (라운드: {league_match_data['active_round']}, 범례: {len(legends)}개, 순위 팀: {len(league_match_data['standings'])}개)")
 
             except Exception as e:
-                print(f"⚠️ 리그 ID {league_id} 수집 중 예외 발생: {e}")
+                print(f"⚠️ 리그 ID {league_id} 크롤링 중 예외 발생: {e}")
 
             all_leagues_data["leagues"][str(league_id)] = league_match_data
 
