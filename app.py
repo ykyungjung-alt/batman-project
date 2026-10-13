@@ -690,6 +690,8 @@ with tabs[2]:
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+
+
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"#### [규칙 3-1번: 선수 전력 누수 및 이동 피로도 타임라인] - {home_team} vs {away_team}")
@@ -873,7 +875,7 @@ with tabs[3]:
 
         return h_past_cell, processed_future, last_past_fatigue
 
-# 💡 최상위 레벨 호출부 (들여쓰기 0칸)
+# 💡 최상위 레벨 (공백 0칸 기준 엄격 정돈)
 home_past_desc, home_future, h_last_fatigue = parse_chronological_timeline_4days(home_fixtures, home_team, match_date)
 away_past_desc, away_future, a_last_fatigue = parse_chronological_timeline_4days(away_fixtures, away_team, match_date)
 
@@ -938,7 +940,8 @@ timeline_table_html = f"""
 </table>
 </div>
 """
-        st.markdown(timeline_table_html, unsafe_allow_html=True)
+
+st.markdown(timeline_table_html, unsafe_allow_html=True)
         
         h_imp_atk, h_imp_def = 10, -10
         h_fatigue_atk = -5 * h_last_fatigue
