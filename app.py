@@ -789,7 +789,7 @@ def process_parsed_list(sorted_items, is_future=True):
 
             date_short = match_time.split(" ")[0].replace("-", ".") if "-" in match_time else match_time
             
-            # 💡 [핵심 수정] 날짜 및 상대팀명 아래로 리그명, 중요도, 홈/원정 여부가 줄바꿈(<br>)되어 들어가도록 구성
+            # 날짜/상대팀 아래로 리그명, 중요도, 홈/원정 여부가 줄바꿈(<br>)되어 표기
             row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {importance_label} / {loc_type}"
             
             processed.append({
