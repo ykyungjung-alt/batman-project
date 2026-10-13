@@ -3,6 +3,7 @@ import os
 import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -12,72 +13,78 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 # ==========================================
-# 🧩 템플릿 구조 기반 정밀 파싱 모듈
+# 🧩 BeautifulSoup 기반 안전 파싱 모듈 (스택 트레이스 원천 차단)
 # ==========================================
 
-def parse_league_name(driver, fallback_name):
+def parse_league_name(soup, fallback_name):
     """리그명 추출 모듈"""
     try:
-        title_elem = driver.find_element(By.CSS_SELECTOR, "div#title, div.title, .league_title, h4, strong, .league_name")
+        title_elem = soup.select_one("div#title, div.title, .league_title, h4, strong, .league_name")
+        if not title_elem:
+            return fallback_name, "[모듈 에러] 리그명 타이틀 DOM 요소를 찾지 못했습니다."
         txt = title_elem.text.strip()
         if not txt:
             return fallback_name, "[조건 불일치] 리그명 타이틀의 텍스트 내용이 비어 있습니다."
         cleaned = txt.replace("라이브스코어", "").replace("시즌", "").replace("스코어맨", "").strip()
         return cleaned if cleaned else fallback_name, None
     except Exception as e:
-        return fallback_name, f"[모듈 에러] 리그명 타이틀 DOM 요소를 찾지 못했습니다: {str(e)}"
+        return fallback_name, f"[코드 에러] 리그명 파싱 중 예외 발생: {str(e)}"
 
-def parse_active_round(driver, league_id, default_round, default_total):
+def parse_active_round(soup, league_id, default_round, default_total):
     """활성 라운드 및 총 라운드 수 추출 모듈"""
     fallback_total = 46 if league_id == 39 else 38
     try:
-        active_elem = driver.find_element(By.CSS_SELECTOR, "div.round span.current.on, div.round span.on, span.current.on, span.on")
-        active_text = active_elem.get_attribute("round") or active_elem.text.strip()
+        active_elem = soup.select_one("div.round span.current.on, div.round span.on, span.current.on, span.on")
+        active_text = ""
+        if active_elem:
+            active_text = active_elem.get("round", "").strip()
+            if not active_text.isdigit():
+                active_text = active_elem.text.strip()
+
         if not active_text.isdigit():
-            spans = driver.find_elements(By.CSS_SELECTOR, "div.round span, span")
-            for s in spans:
-                if "on" in (s.get_attribute("class") or "") and s.text.strip().isdigit():
-                    active_text = s.text.strip()
+            for span in soup.select("div.round span, span"):
+                classes = span.get("class", [])
+                if "on" in classes and span.text.strip().isdigit():
+                    active_text = span.text.strip()
                     break
+
         if not active_text.isdigit():
             return default_round, fallback_total, "[모듈 에러] 활성 라운드 요소를 찾을 수 없습니다."
-        
-        all_rounds = driver.find_elements(By.CSS_SELECTOR, "div.round span[round], div.round span")
+
+        all_rounds = soup.select("div.round span[round], div.round span")
         total_cnt = len([s for s in all_rounds if s.text.strip().isdigit()])
         if total_cnt == 0:
             total_cnt = fallback_total
         return f"{active_text}/{total_cnt}", total_cnt, None
     except Exception as e:
-        return default_round, fallback_total, f"[모듈 에러] 라운드 파싱 예외: {str(e)}"
+        return default_round, fallback_total, f"[코드 에러] 라운드 파싱 중 예외 발생: {str(e)}"
 
-def parse_standing_legends(driver, default_legends):
-    """💡 tplStandingsBlock 템플릿 구조에 맞춘 하단 컬러 범례 추출 모듈"""
+def parse_standing_legends(soup, default_legends):
+    """하단 컬러 범례(#standingColor) 추출 모듈"""
     try:
-        legend_items = driver.find_elements(By.CSS_SELECTOR, "#standingColor span.explain, div#standingColor span.explain")
-        if not legend_items:
-            legend_items = driver.find_elements(By.CSS_SELECTOR, ".explain")
-
+        legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain, .explain")
         if not legend_items:
             fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
-            return default_legends, fallback_map, "[모듈 에러] 하단 범례(#standingColor) 요소를 찾지 못했습니다."
+            return default_legends, fallback_map, "[모듈 에러] 하단 범례(#standingColor)를 찾을 수 없습니다."
 
         parsed_legends = []
         color_to_label = {}
         for lg in legend_items:
-            try:
-                color_i = lg.find_element(By.TAG_NAME, "i")
-                bg_style = color_i.get_attribute("style") or ""
-                bg_color = ""
+            color_i = lg.select_one("i")
+            desc_span = lg.select_one("span")
+            bg_color = ""
+            if color_i:
+                bg_style = color_i.get("style", "")
                 if "background-color:" in bg_style:
-                    bg_color = bg_style.split("background-color:")[1].split(";")[0].strip().upper()
-                
-                desc_span = lg.find_element(By.TAG_NAME, "span")
-                desc_text = desc_span.text.strip() if desc_span else lg.text.strip()
-                if bg_color:
-                    color_to_label[bg_color] = desc_text
-                parsed_legends.append({"color": bg_color, "description": desc_text})
-            except:
-                continue
+                    try:
+                        bg_color = bg_style.split("background-color:")[1].split(";")[0].strip().upper()
+                    except:
+                        pass
+            
+            desc_text = desc_span.text.strip() if desc_span else lg.text.strip()
+            if bg_color:
+                color_to_label[bg_color] = desc_text
+            parsed_legends.append({"color": bg_color, "description": desc_text})
 
         if not parsed_legends:
             fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
@@ -85,24 +92,20 @@ def parse_standing_legends(driver, default_legends):
         return parsed_legends, color_to_label, None
     except Exception as e:
         fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
-        return default_legends, fallback_map, f"[코드 에러] 범례 파싱 예외: {str(e)}"
+        return default_legends, fallback_map, f"[코드 에러] 범례 파싱 예외 발생: {str(e)}"
 
-def parse_standings(driver, color_to_label, default_standings):
-    """💡 tplStandingsItem 원본 템플릿 구조(R, 구단, P, W, D, L, GD, PTS) 1대1 매칭 파싱 모듈"""
+def parse_standings(soup, color_to_label, default_standings):
+    """💡 tplStandingsItem 템플릿 구조 기반 순위표 정밀 파싱 모듈"""
     parsed_standings = []
     seen_teams = set()
     
     try:
-        # li.standis 항목들이 DOM에 렌더링될 때까지 대기
-        WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "ul#standingList li.standis"))
-        )
-        rows = driver.find_elements(By.CSS_SELECTOR, "ul#standingList li.standis")
-        if not rows:
-            return default_standings, "[모듈 에러] 'ul#standingList li.standis' 요소를 찾을 수 없습니다."
+        standing_rows = soup.select('ul#standingList li.standis')
+        if not standing_rows:
+            return default_standings, "[모듈 에러] 페이지 내 'ul#standingList li.standis' 요소를 전혀 탐색할 수 없습니다."
 
-        for row in rows:
-            style_attr = row.get_attribute("style") or ""
+        for row in standing_rows:
+            style_attr = row.get("style", "")
             tag_color = ""
             if "--tagcolor:" in style_attr:
                 try:
@@ -110,57 +113,49 @@ def parse_standings(driver, color_to_label, default_standings):
                 except:
                     pass
 
-            try:
-                # 1. 순위 (R) -> span.rank <em>
-                rank_elem = row.find_element(By.CSS_SELECTOR, "span.rank")
-                rank_val = "".join([c for c in rank_elem.text.strip() if c.isdigit()])
-                if not rank_val:
-                    continue
-
-                # 2. 구단명 (Team Name) -> span.team span.name
-                team_elem = row.find_element(By.CSS_SELECTOR, "span.team span.name")
-                team_val = team_elem.text.strip()
-            except:
+            rank_elem = row.select_one("span.rank")
+            if not rank_elem:
                 continue
+            rank_val = "".join([c for c in rank_elem.get_text(strip=True) if c.isdigit()])
+            if not rank_val:
+                continue
+
+            team_name_elem = row.select_one("span.team span.name")
+            if team_name_elem:
+                team_val = team_name_elem.get_text(strip=True)
+            else:
+                team_elem = row.select_one("span.team")
+                if team_elem:
+                    for img in team_elem.select("img"):
+                        img.decompose()
+                    team_val = team_elem.get_text(strip=True)
+                else:
+                    continue
 
             if not team_val or team_val in ["구단", "PTS", "순위", "승점"]:
                 continue
 
-            # 3. 템플릿 직계 자식 span 순서 매칭
-            # [0]: span.rank
-            # [1]: span.team
-            # [2]: <span>{$sum}</span> (경기수 P)
-            # [3]: <span><span>{$win}</span></span> (승 W)
-            # [4]: <span><span>{$draw}</span></span> (무 D)
-            # [5]: <span><span>{$lose}</span></span> (패 L)
-            # [6]: <span><span>{$goalDiff}</span></span> (득실 GD)
-            # [7]: <span class="key blue"><b>{$point}</b></span> (승점 PTS)
-            child_spans = row.find_elements(By.XPATH, "./span")
+            # 직계 자식 span 순서 (R, 구단, P, W, D, L, GD, PTS)
+            child_spans = row.find_all("span", recursive=False)
             
-            def get_text_safe(elem):
-                if not elem:
+            def get_text_safe(span_elem):
+                if not span_elem:
                     return ""
-                try:
-                    b_tag = elem.find_element(By.TAG_NAME, "b")
-                    if b_tag:
-                        return b_tag.text.strip()
-                except:
-                    pass
-                try:
-                    inner = elem.find_element(By.TAG_NAME, "span")
-                    if inner:
-                        return inner.text.strip()
-                except:
-                    pass
-                return elem.text.strip()
+                b_tag = span_elem.select_one("b")
+                if b_tag:
+                    return b_tag.get_text(strip=True)
+                inner = span_elem.select_one("span")
+                if inner:
+                    return inner.get_text(strip=True)
+                return span_elem.get_text(strip=True)
 
             if len(child_spans) >= 8:
-                p_val = get_text_safe(child_spans[2])   # P
-                w_val = get_text_safe(child_spans[3])   # W
-                d_val = get_text_safe(child_spans[4])   # D
-                l_val = get_text_safe(child_spans[5])   # L
-                gd_val = get_text_safe(child_spans[6])  # GD
-                pts_val = get_text_safe(child_spans[7]) # PTS
+                p_val = get_text_safe(child_spans[2])
+                w_val = get_text_safe(child_spans[3])
+                d_val = get_text_safe(child_spans[4])
+                l_val = get_text_safe(child_spans[5])
+                gd_val = get_text_safe(child_spans[6])
+                pts_val = get_text_safe(child_spans[7])
 
                 if team_val not in seen_teams:
                     seen_teams.add(team_val)
@@ -182,7 +177,7 @@ def parse_standings(driver, color_to_label, default_standings):
             parsed_standings.sort(key=lambda x: int(x['rank']) if x['rank'].isdigit() else 999)
             return parsed_standings, None
 
-        return default_standings, "[조건 불일치] li.standis 행은 존재하나 템플릿 컬럼 매칭에 실패했습니다."
+        return default_standings, "[조건 불일치] li.standis 행은 존재하나 컬럼 매칭에 실패했습니다."
     except Exception as e:
         return default_standings, f"[코드 에러] 순위표 파싱 예외 발생: {str(e)}"
 
@@ -258,6 +253,7 @@ def run_crawler_v4():
                 all_leagues_data["leagues"][str(league_id)] = league_match_data
                 continue
 
+            # Selenium으로 동적 요소 렌더링 대기 및 탭 클릭 제어
             try:
                 WebDriverWait(driver, 15).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, "#standingPlates"))
@@ -280,26 +276,28 @@ def run_crawler_v4():
             except Exception as tab_err:
                 print(f"  ⚠️ [조건 불일치] 필수 탭 제어 중 예외 발생: {tab_err}")
 
-            # 모듈 호출
-            name_res, name_err = parse_league_name(driver, league_match_data["league_name"])
+            # 💡 Selenium이 렌더링한 최종 소스를 BeautifulSoup에 전달하여 안전하게 파싱
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+
+            name_res, name_err = parse_league_name(soup, league_match_data["league_name"])
             league_match_data["league_name"] = name_res
             league_match_data["league_name_error"] = name_err
             
             round_res, total_cnt, round_err = parse_active_round(
-                driver, league_id, league_match_data["active_round"], league_match_data["total_rounds"]
+                soup, league_id, league_match_data["active_round"], league_match_data["total_rounds"]
             )
             league_match_data["active_round"] = round_res
             league_match_data["total_rounds"] = total_cnt
             league_match_data["active_round_error"] = round_err
             
             legends_res, color_map, legend_err = parse_standing_legends(
-                driver, league_match_data["standing_legends"]
+                soup, league_match_data["standing_legends"]
             )
             league_match_data["standing_legends"] = legends_res
             league_match_data["standing_legends_error"] = legend_err
             
             standings_res, standings_err = parse_standings(
-                driver, color_map, league_match_data["standings"]
+                soup, color_map, league_match_data["standings"]
             )
             league_match_data["standings"] = standings_res
             league_match_data["standings_error"] = standings_err
