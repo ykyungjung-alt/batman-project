@@ -90,7 +90,7 @@ all_details_dict = load_all_match_details()   # 1, 2번 병합본 (기본 시스
 v3_details_dict = load_v3_match_details()       # 3번 전용 (1, 2단계 표 연동용)
 v4_leagues_dict = load_v4_match_details()       # 4번 전용 (리그 순위표 데이터용)
 
-st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
+st.markdown("<h2 style='font-size: 20px;'>배트맨 프로젝트 통합 마스터 규격 및 분석 엔진</h2>", unsafe_allow_html=True)
 st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
 
 st.sidebar.markdown("---")
