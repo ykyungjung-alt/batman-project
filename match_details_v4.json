@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-10-13 14:44:38",
+    "updated_at": "2026-10-13 14:56:28",
     "leagues": {
         "34": {
             "league_id": 34,
@@ -58,9 +58,9 @@
         "40": {
             "league_id": 40,
             "league_name": "세리에 B",
-            "league_name_error": "[모듈 에러] 리그명 타이틀 DOM 요소를 찾지 못했습니다.",
+            "league_name_error": null,
             "active_round": "7/38",
-            "active_round_error": "[모듈 에러] 활성 라운드(active_round) 요소를 전혀 탐색할 수 없거나 숫자가 아닙니다.",
+            "active_round_error": null,
             "total_rounds": 38,
             "standing_legends": [
                 {
@@ -80,7 +80,7 @@
                     "description": "강등팀"
                 }
             ],
-            "standing_legends_error": "[모듈 에러] 하단 범례(#standingColor) 요소를 탐색할 수 없습니다.",
+            "standing_legends_error": null,
             "standings": [],
             "standings_error": "[모듈 에러] 페이지 내 'ul#standingList li.standis' 요소를 전혀 탐색할 수 없습니다."
         }
