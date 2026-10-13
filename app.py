@@ -739,7 +739,7 @@ with tabs[3]:
             past_fixtures = sorted(past_fixtures, key=lambda x: x[0])
             future_fixtures = sorted(future_fixtures, key=lambda x: x[0])
 
-            def process_parsed_list(sorted_items, is_future=True):
+def process_parsed_list(sorted_items, is_future=True):
     processed = []
     cumulative_fatigue = 0
     for diff_d, fix in sorted_items:
