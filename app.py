@@ -343,6 +343,9 @@ with tabs[0]:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (3~4일 이후 경기 등)")
         st.info("💡 크롤러 대상 기간(오늘/내일)에 포함되지 않은 경기이므로, 상세 전적표 및 통계 지표를 조회할 수 없습니다. 경기 당일 또는 전일에 데이터를 갱신해 주세요.")
 
+# ==========================================
+# 💡 규칙 1번 탭 (10경기 전수 + E티어 50% 할인 룰 내장)
+# ==========================================
 with tabs[1]:
     st.markdown(f"### [규칙 1번: 종합 최근 10경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
     st.markdown("""
@@ -389,7 +392,7 @@ with tabs[1]:
     h_name = home_team
     a_name = away_team
 
-    # 💡 [수정] 7개 제한을 풀고 수집된 전체 경기(최대 10개) 반영
+    # 전체 10경기 수집 반영
     h_matches = recent_form.get("home_matches", [])
     a_matches = recent_form.get("away_matches", [])
 
@@ -420,12 +423,12 @@ with tabs[1]:
     def atk_tier_nm(g): return atk_tier(g)[0]
     def def_tier_nm(c): return def_tier(c)[0]
 
-    # 💡 [수정] E티어 상대 득점 50% 할인 룰 적용 파싱 함수
-    def make_df_with_discount(matches, tname, def_gpg, def_cpg, def_rec):
+    # 1~2단계 전용 로컬 파싱 함수 (E티어 50% 할인 룰 적용)
+    def local_make_df(matches, tname, def_gpg, def_cpg, def_rec):
         if not matches:
             return pd.DataFrame(), def_gpg, def_cpg, def_rec
         rows = []
-        effective_scored_total = 0.0
+        eff_scored = 0.0
         c_total = 0
         w = d = l = 0
         
@@ -438,7 +441,6 @@ with tabs[1]:
                 s1, s2 = int(scores[0]), int(scores[1])
             except:
                 s1 = s2 = 0
-            
             sc, cc = 0, 0
             pair = teams.split(" vs ")
             if len(pair) == 2:
@@ -449,50 +451,41 @@ with tabs[1]:
             else:
                 sc, cc = s1, s2
                 
-            # 경기 결과 승/무/패 판정 (원본 스코어 기준)
             if sc > cc: res = "승"; w += 1
             elif sc == cc: res = "무"; d += 1
             else: res = "패"; l += 1
             
-            # 상대 티어 분석 및 E티어 50% 할인 룰 계산
             tier_str = "정보 없음"
-            multiplier = 1.0
+            mult = 1.0
             tier_info = m.get("opponent_tier_info", "")
-            
             if tier_info and "/" in tier_info:
                 try:
                     oa, od = map(float, tier_info.split("/"))
-                    atk_t_name = atk_tier_nm(oa)
-                    def_t_name = def_tier_nm(od)
-                    tier_str = f"공격 {atk_t_name} ({oa:.2f}) / 방어 {def_t_name} ({od:.2f})"
-                    
-                    # E티어 상대인 경우 득점 50% 할인 적용
-                    if atk_t_name == "Tier E" or def_t_name == "Tier E":
-                        multiplier = 0.5
-                        tier_str += " ⚠️ (E티어 50% 할인 적용)"
+                    at_name = atk_tier_nm(oa)
+                    df_name = def_tier_nm(od)
+                    tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
+                    if at_name == "Tier E" or df_name == "Tier E":
+                        mult = 0.5
+                        tier_str += " ⚠️ (E티어 50% 할인)"
                 except:
                     pass
             
-            applied_sc = sc * multiplier
-            effective_scored_total += applied_sc
+            app_sc = sc * mult
+            eff_scored += app_sc
             c_total += cc
             
             seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
-            score_display = f"{s1} : {s2}" + (f" (할인적용 득점: {applied_sc:.1f})" if multiplier < 1.0 else "")
-            
-            rows.append({
-                "LIFO 순서": seq, "경기 일시": mtime, "대회": league, "대진": teams, 
-                "스코어": score_display, "결과": res, "상대 공수 티어": tier_str
-            })
+            score_display = f"{s1} : {s2}" + (f" (할인: {app_sc:.1f})" if mult < 1.0 else "")
+            rows.append({"LIFO 순서": seq, "경기 일시": mtime, "대회": league, "대진": teams, "스코어": score_display, "결과": res, "상대 공수 티어": tier_str})
             
         cnt = len(matches)
-        gpg = effective_scored_total / cnt if cnt > 0 else def_gpg
+        gpg = eff_scored / cnt if cnt > 0 else def_gpg
         cpg = c_total / cnt if cnt > 0 else def_cpg
         rec = f"{cnt}전 {w}승 {d}무 {l}패" if cnt > 0 else def_rec
         return pd.DataFrame(rows), gpg, cpg, rec
 
-    h_df, h_gpg, h_cpg, h_rec = make_df_with_discount(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base)
-    a_df, a_gpg, a_cpg, a_rec = make_df_with_discount(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base)
+    h_df, h_gpg, h_cpg, h_rec = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base)
+    a_df, a_gpg, a_cpg, a_rec = local_make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base)
 
     h_at, h_atw = atk_tier(h_gpg)
     h_de, h_dew = def_tier(h_cpg)
@@ -508,24 +501,27 @@ with tabs[1]:
         <b>{h_name} 규칙 1번 상세 산출 내역 (할인 룰 반영)</b><br>
         • 최근 전적: <b>{h_rec}</b><br>
         • 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> / 평균 실점: <b>{h_cpg:.2f}골/경기</b><br>
-        • 공격 티어: <b>{h_at} ({h_atw})</b><br>
-        • 방어 티어: <b>{h_de} ({h_dew})</b>
+        • 공격 티어: <b>{h_at} ({h_atw})</b> | 방어 티어: <b>{h_de} ({h_dew})</b>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("---")
 
     st.markdown(f"#### 원정 팀 ({a_name}) 최근 전적 분석 로그 (LIFO - 최대 10경기 전수)")
     if not a_df.empty:
-        st.dataframe(h_df, use_container_width=True, hide_index=True) # 원정용 a_df 출력
+        st.dataframe(a_df, use_container_width=True, hide_index=True)
     else:
         st.info("📋 개별 경기 상세 데이터 없음")
     st.markdown(f"""<div class="calc-box">
         <b>{a_name} 규칙 1번 상세 산출 내역 (할인 룰 반영)</b><br>
         • 최근 전적: <b>{a_rec}</b><br>
         • 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> / 평균 실점: <b>{a_cpg:.2f}골/경기</b><br>
-        • 공격 티어: <b>{a_at} ({a_atw})</b><br>
-        • 방어 티어: <b>{a_de} ({a_dew})</b>
+        • 공격 티어: <b>{a_at} ({a_atw})</b> | 방어 티어: <b>{a_de} ({a_dew})</b>
     </div>""", unsafe_allow_html=True)
+
+
+# ==========================================
+# 💡 규칙 2번 탭 (구장별 전적 표 출력)
+# ==========================================
 with tabs[2]:
     st.markdown(f"### [규칙 2번: 구장별 Shift 검증 및 환경 보정] - {home_team} vs {away_team}")
     st.markdown("""
@@ -540,8 +536,9 @@ with tabs[2]:
     s_home_matches = stadium_form.get("home_matches", [])[:10]
     s_away_matches = stadium_form.get("away_matches", [])[:10]
 
-    s_h_df, s_h_gpg, s_h_cpg, s_h_rec = make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패")
-    s_a_df, s_a_gpg, s_a_cpg, s_a_rec = make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패")
+    # 동일한 로컬 파싱 함수(local_make_df)를 2단계 탭 안에서도 안전하게 호출
+    s_h_df, s_h_gpg, s_h_cpg, s_h_rec = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패")
+    s_a_df, s_a_gpg, s_a_cpg, s_a_rec = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패")
 
     s_h_at, s_h_atw = atk_tier(s_h_gpg)
     s_h_de, s_h_dew = def_tier(s_h_cpg)
