@@ -12,11 +12,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 # ==========================================
-# 🧩 Selenium 기반 독립 파싱 모듈 (단일 통일)
+# 🧩 캡처 및 텍스트 기반 정밀 파싱 모듈
 # ==========================================
 
 def parse_league_name(driver, fallback_name):
-    """리그명 추출 모듈 (Selenium 기반)"""
+    """리그명 추출 모듈"""
     try:
         title_elem = driver.find_element(By.CSS_SELECTOR, "div#title, div.title, .league_title, h4, strong, .league_name")
         txt = title_elem.text.strip()
@@ -28,7 +28,7 @@ def parse_league_name(driver, fallback_name):
         return fallback_name, f"[모듈 에러] 리그명 타이틀 DOM 요소를 찾지 못했습니다: {str(e)}"
 
 def parse_active_round(driver, league_id, default_round, default_total):
-    """활성 라운드 및 총 라운드 수 추출 모듈 (Selenium 기반)"""
+    """활성 라운드 및 총 라운드 수 추출 모듈"""
     fallback_total = 46 if league_id == 39 else 38
     try:
         active_elem = driver.find_element(By.CSS_SELECTOR, "div.round span.current.on, div.round span.on, span.current.on, span.on")
@@ -51,7 +51,7 @@ def parse_active_round(driver, league_id, default_round, default_total):
         return default_round, fallback_total, f"[모듈 에러] 라운드 파싱 예외: {str(e)}"
 
 def parse_standing_legends(driver, default_legends):
-    """하단 컬러 범례(#standingColor) 추출 모듈 (Selenium 기반)"""
+    """하단 컬러 범례(#standingColor) 추출 모듈"""
     try:
         legend_items = driver.find_elements(By.CSS_SELECTOR, "#standingColor span.explain, div#standingColor span.explain, .explain")
         if not legend_items:
@@ -84,88 +84,123 @@ def parse_standing_legends(driver, default_legends):
         fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
         return default_legends, fallback_map, f"[코드 에러] 범례 파싱 예외: {str(e)}"
 
-def parse_standings(driver, color_to_label, default_standings):
-    """ul#standingList li.standis 순위표 정밀 파싱 모듈 (Selenium 기반)"""
+def parse_standings_with_capture(driver, color_to_label, default_standings, league_id):
+    """
+    💡 순위표 영역 캡처 저장 및 텍스트 라인 기반 정밀 파싱 모듈
+    - 1단계: 순위표 컨테이너(#standingPlates) 스크린샷 캡처 (`standing_table_{league_id}.png`)
+    - 2단계: DOM 요소 탐색 실패 시 컨테이너 텍스트(.text) 라인 분할을 통한 완벽한 데이터 복구
+    """
     parsed_standings = []
     seen_teams = set()
+
     try:
-        standing_rows = driver.find_elements(By.CSS_SELECTOR, "ul#standingList li.standis")
-        if not standing_rows:
-            return default_standings, "[모듈 에러] 페이지 내 'ul#standingList li.standis' 요소를 전혀 탐색할 수 없습니다."
+        # 1. 순위표 전체 컨테이너 요소 대기 및 확보
+        container = WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "div#standingPlates, ul#standingList"))
+        )
 
-        for row in standing_rows:
-            style_attr = row.get_attribute("style") or ""
-            tag_color = ""
-            if "--tagcolor:" in style_attr:
-                try:
-                    tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
-                except:
-                    pass
+        # 2. 순위표 영역 스크린샷 캡처 저장 (시각적 확인 및 검증용)
+        try:
+            container.screenshot(f"standing_table_{league_id}.png")
+            print(f"  📸 [캡처 완료] standing_table_{league_id}.png 저장 성공")
+        except Exception as cap_err:
+            print(f"  ⚠️ [캡처 경고] 스크린샷 저장 실패: {cap_err}")
 
-            try:
-                rank_elem = row.find_element(By.CSS_SELECTOR, "span.rank")
-                rank_val = "".join([c for c in rank_elem.text.strip() if c.isdigit()])
-                if not rank_val:
-                    continue
-
-                team_elem = row.find_element(By.CSS_SELECTOR, "span.team span.name")
-                team_val = team_elem.text.strip()
-            except:
-                continue
-
-            if not team_val or team_val in ["구단", "PTS", "순위", "승점"]:
-                continue
-
-            # 직계 자식 span들 (순위, 팀명 이후의 P, W, D, L, GD, PTS 스탯 컬럼)
-            spans = row.find_elements(By.XPATH, "./span[position()>2]")
-            stat_values = []
-            for s in spans:
-                try:
+        # 3. 행 요소(li.standis) 우선 탐색 시도
+        rows = container.find_elements(By.CSS_SELECTOR, "li.standis")
+        
+        if rows:
+            for row in rows:
+                style_attr = row.get_attribute("style") or ""
+                tag_color = ""
+                if "--tagcolor:" in style_attr:
                     try:
-                        b_elem = s.find_element(By.TAG_NAME, "b")
-                        val = b_elem.text.strip()
+                        tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
                     except:
-                        try:
-                            inner_span = s.find_element(By.TAG_NAME, "span")
-                            val = inner_span.text.strip()
-                        except:
-                            val = s.text.strip()
-                    if val:
-                        stat_values.append(val)
+                        pass
+
+                try:
+                    rank_elem = row.find_element(By.CSS_SELECTOR, "span.rank")
+                    rank_val = "".join([c for c in rank_elem.text.strip() if c.isdigit()])
+                    
+                    team_elem = row.find_element(By.CSS_SELECTOR, "span.team span.name")
+                    team_val = team_elem.text.strip()
                 except:
                     continue
 
-            if len(stat_values) >= 6:
-                p_val = stat_values[0]   # 경기수 (P)
-                w_val = stat_values[1]   # 승 (W)
-                d_val = stat_values[2]   # 무 (D)
-                l_val = stat_values[3]   # 패 (L)
-                gd_val = stat_values[4]  # 득실 (GD)
-                pts_val = stat_values[5] # 승점 (PTS)
+                if not rank_val or not team_val or team_val in ["구단", "PTS", "순위", "승점"]:
+                    continue
 
-                if team_val not in seen_teams:
-                    seen_teams.add(team_val)
-                    tag_label = color_to_label.get(tag_color, "일반")
-                    parsed_standings.append({
-                        "rank": rank_val,
-                        "team": team_val,
-                        "tag_color": tag_color,
-                        "tag_label": tag_label,
-                        "경기수": p_val,
-                        "승": w_val,
-                        "무": d_val,
-                        "패": l_val,
-                        "득실": gd_val,
-                        "승점": pts_val
-                    })
+                spans = row.find_elements(By.XPATH, "./span[position()>2]")
+                stat_values = []
+                for s in spans:
+                    try:
+                        try:
+                            b_elem = s.find_element(By.TAG_NAME, "b")
+                            val = b_elem.text.strip()
+                        except:
+                            try:
+                                inner_span = s.find_element(By.TAG_NAME, "span")
+                                val = inner_span.text.strip()
+                            except:
+                                val = s.text.strip()
+                        if val:
+                            stat_values.append(val)
+                    except:
+                        continue
+
+                if len(stat_values) >= 6:
+                    if team_val not in seen_teams:
+                        seen_teams.add(team_val)
+                        tag_label = color_to_label.get(tag_color, "일반")
+                        parsed_standings.append({
+                            "rank": rank_val,
+                            "team": team_val,
+                            "tag_color": tag_color,
+                            "tag_label": tag_label,
+                            "경기수": stat_values[0],
+                            "승": stat_values[1],
+                            "무": stat_values[2],
+                            "패": stat_values[3],
+                            "득실": stat_values[4],
+                            "승점": stat_values[5]
+                        })
+
+        # 4. 만약 li.standis가 안 잡히더라도 컨테이너 텍스트(.text) 라인 파싱을 통해 완벽 백업 추출
+        if not parsed_standings:
+            print(f"  🔄 [텍스트 추출 전환] 리그 ID {league_id}: 텍스트 라인 기반 파싱 시작...")
+            lines = container.text.split("\n")
+            for line in lines:
+                parts = line.strip().split()
+                if len(parts) >= 8 and parts[0].isdigit():
+                    rank_val = parts[0]
+                    team_val = parts[1]
+                    if team_val in ["구단", "PTS", "순위", "승점"]:
+                        continue
+                    stats = parts[2:8]
+                    if len(stats) == 6 and stats[0].isdigit() and stats[5].isdigit():
+                        if team_val not in seen_teams:
+                            seen_teams.add(team_val)
+                            parsed_standings.append({
+                                "rank": rank_val,
+                                "team": team_val,
+                                "tag_color": "",
+                                "tag_label": "일반",
+                                "경기수": stats[0],
+                                "승": stats[1],
+                                "무": stats[2],
+                                "패": stats[3],
+                                "득실": stats[4],
+                                "승점": stats[5]
+                            })
 
         if parsed_standings:
             parsed_standings.sort(key=lambda x: int(x['rank']) if x['rank'].isdigit() else 999)
             return parsed_standings, None
 
-        return default_standings, "[조건 불일치] li.standis 행은 존재하나 스탯 매칭에 실패했습니다."
+        return default_standings, "[모듈 에러] 캡처 및 텍스트 라인 파싱에서 순위 데이터를 찾지 못했습니다."
     except Exception as e:
-        return default_standings, f"[코드 에러] 랭킹표 파싱 중 예외 발생: {str(e)}"
+        return default_standings, f"[코드 에러] 순위표 파싱 예외 발생: {str(e)}"
 
 
 # ==========================================
@@ -191,7 +226,6 @@ def run_crawler_v4():
     options.add_argument("--disable-gpu")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 
-    # 💡 실제 스코어맨 절대 도메인 주소 정확히 적용
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -242,10 +276,10 @@ def run_crawler_v4():
 
             try:
                 WebDriverWait(driver, 15).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "li.standis"))
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "#standingPlates"))
                 )
             except Exception:
-                league_match_data["standings_error"] = "[모듈 에러] 페이지 내 타겟 요소(li.standis)가 시간 내에 렌더링되지 않았습니다."
+                league_match_data["standings_error"] = "[모듈 에러] 페이지 내 순위표 영역(#standingPlates)이 시간 내에 렌더링되지 않았습니다."
 
             try:
                 total_btn = WebDriverWait(driver, 10).until(
@@ -262,7 +296,7 @@ def run_crawler_v4():
             except Exception as tab_err:
                 print(f"  ⚠️ [조건 불일치] 필수 탭 제어 중 예외 발생: {tab_err}")
 
-            # Selenium 단일 모듈 호출
+            # 모듈 호출
             name_res, name_err = parse_league_name(driver, league_match_data["league_name"])
             league_match_data["league_name"] = name_res
             league_match_data["league_name_error"] = name_err
@@ -280,8 +314,8 @@ def run_crawler_v4():
             league_match_data["standing_legends"] = legends_res
             league_match_data["standing_legends_error"] = legend_err
             
-            standings_res, standings_err = parse_standings(
-                driver, color_map, league_match_data["standings"]
+            standings_res, standings_err = parse_standings_with_capture(
+                driver, color_map, league_match_data["standings"], league_id
             )
             league_match_data["standings"] = standings_res
             league_match_data["standings_error"] = standings_err
