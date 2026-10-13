@@ -771,12 +771,12 @@ if has_detailed_data:
     st.markdown(f"##### 표 3-2: {home_team} vs {away_team} 일정 및 피로도·중요도 매트릭스")
 
     # ==========================================
-    # 3-2단계: 일정 이동피로도 및 중요도 판단 함수
+    # 3-2단계: 일정 이동피로도 및 중요도 판단 함수 (정밀 교정본)
     # ==========================================
     def parse_chronological_timeline_4days(fix_list, target_team_name, base_match_date):
         base_dt = None
         try:
-            base_clean = base_match_date.split(" ")[0].replace(".", "-")
+            base_clean = base_match_date.split(" ")[0].replace(".", "-").replace("/", "-")
             base_dt = datetime.strptime(base_clean[:10], "%Y-%m-%d")
         except Exception:
             pass
@@ -787,7 +787,7 @@ if has_detailed_data:
             match_time = fix.get("match_time", "")
             curr_dt = None
             try:
-                curr_clean = match_time.split(" ")[0].replace(".", "-")
+                curr_clean = match_time.split(" ")[0].replace(".", "-").replace("/", "-")
                 curr_dt = datetime.strptime(curr_clean[:10], "%Y-%m-%d")
             except Exception:
                 continue
@@ -798,6 +798,7 @@ if has_detailed_data:
                 elif diff_days > 0:
                     future_fixtures.append((diff_days, fix))
                     
+        # 과거는 최신순(기준일에 가까운 순), 미래는 다가오는 순으로 정렬
         past_fixtures = sorted(past_fixtures, key=lambda x: x[0], reverse=True)
         future_fixtures = sorted(future_fixtures, key=lambda x: x[0])
         
@@ -828,24 +829,25 @@ if has_detailed_data:
             elif "친선" in league_name:
                 importance_label = "중요도하"
                 
-            date_short = match_time.split(" ")[0].replace("-", ".") if "-" in match_time else match_time
+            date_short = match_time.split(" ")[0].replace("-", ".").replace("/", ".") if "-" in match_time or "/" in match_time else match_time
             row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {importance_label} / {loc_type}"
             return {
                 "desc": row_desc,
                 "loc_type": loc_type
             }
 
+        # 1. 과거 경기 처리 (최근 3일 이내 유효 경기 탐색 및 피로도 연속성 계산)
         processed_past = []
         running_fatigue = 0
-        chrono_past = sorted(past_fixtures, key=lambda x: x[0])
+        chrono_past = sorted(past_fixtures, key=lambda x: x[0])  # 오래된 순 (-3일 -> -1일)
         for diff_d, fix in chrono_past:
             abs_diff = abs(diff_d)
-            if abs_diff <= 3:
+            if abs_diff <= 3:  # 정확히 3일 이내 과거 경기
                 details = parse_fix_details(fix)
                 if details["loc_type"] == "원정":
                     running_fatigue += 1
                 else:
-                    running_fatigue = 0
+                    running_fatigue = 0  # 홈이면 복귀/휴식으로 리셋
                 processed_past.append({
                     "desc": details["desc"],
                     "fatigue_level": running_fatigue,
@@ -855,21 +857,16 @@ if has_detailed_data:
         h_past_cell = "휴식"
         last_past_fatigue = 0
         if processed_past:
-            h_past_cell = processed_past[-1]["desc"]
+            h_past_cell = processed_past[-1]["desc"]  # 가장 최근 과거 경기 표시
             last_past_fatigue = processed_past[-1]["fatigue_level"]
 
+        # 2. 미래 경기 처리 (피로도 누적 전파 방지 및 단순 일정 안내용 정돈)
         processed_future = []
-        current_fatigue = last_past_fatigue
         for diff_d, fix in future_fixtures:
-            if 0 < diff_d <= 9:
+            if 0 < diff_d <= 9:  # 향후 9일 이내
                 details = parse_fix_details(fix)
-                if details["loc_type"] == "원정":
-                    current_fatigue += 1
-                else:
-                    current_fatigue = 0
                 processed_future.append({
                     "desc": details["desc"],
-                    "fatigue_level": current_fatigue if details["loc_type"] == "원정" else 0,
                     "loc_type": details["loc_type"]
                 })
 
