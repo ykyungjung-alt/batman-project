@@ -13,13 +13,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 # ==========================================
-# 🧩 개별 독립 파싱 모듈
+# 🧩 개별 독립 파싱 모듈 (정밀 구조 반영)
 # ==========================================
 
 def parse_league_name(soup, league_id, fallback_name):
     """리그명 추출 모듈"""
     try:
-        title_elem = soup.select_one("div#title, div.title, .league_title, h4, strong")
+        title_elem = soup.select_one("div#title, div.title, .league_title, h4, strong, .league_name")
         if not title_elem:
             return fallback_name, "[모듈 에러] 리그명 타이틀 DOM 요소를 찾지 못했습니다."
         
@@ -67,9 +67,13 @@ def parse_active_round(soup, league_id, default_round, default_total):
         return default_round, fallback_total, f"[코드 에러] 라운드 파싱 중 런타임 예외 발생: {str(e)}"
 
 def parse_standing_legends(soup, default_legends):
-    """하단 컬러 범례 추출 모듈"""
+    """💡 div#standingColor 구조에 맞춘 하단 컬러 범례 정밀 추출 모듈"""
     try:
-        legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain, .explain")
+        # div#standingColor 내부의 span.explain 요소들 정확히 타겟팅
+        legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain")
+        if not legend_items:
+            legend_items = soup.select(".explain")
+
         if not legend_items:
             fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
             return default_legends, fallback_map, "[모듈 에러] 하단 범례(#standingColor) 요소를 탐색할 수 없습니다."
@@ -80,18 +84,19 @@ def parse_standing_legends(soup, default_legends):
         for lg in legend_items:
             color_i = lg.select_one("i")
             desc_span = lg.select_one("span")
+            bg_color = ""
             if color_i:
                 bg_style = color_i.get("style", "")
-                bg_color = ""
                 if "background-color:" in bg_style:
                     try:
                         bg_color = bg_style.split("background-color:")[1].split(";")[0].strip().upper()
                     except:
                         pass
-                desc_text = desc_span.text.strip() if desc_span else lg.text.strip()
-                if bg_color:
-                    color_to_label[bg_color] = desc_text
-                parsed_legends.append({"color": bg_color, "description": desc_text})
+            
+            desc_text = desc_span.text.strip() if desc_span else lg.text.strip()
+            if bg_color:
+                color_to_label[bg_color] = desc_text
+            parsed_legends.append({"color": bg_color, "description": desc_text})
                 
         if not parsed_legends:
             fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
@@ -103,7 +108,7 @@ def parse_standing_legends(soup, default_legends):
         return default_legends, fallback_map, f"[코드 에러] 범례 파싱 중 런타임 예외 발생: {str(e)}"
 
 def parse_standings(soup, color_to_label, default_standings):
-    """ul#standingList li.standis 구조 정밀 파싱 모듈"""
+    """💡 ul#standingList li.standis 구조 및 순차적 스탯 매핑 정밀 파싱 모듈"""
     parsed_standings = []
     seen_teams = set()
     
@@ -125,8 +130,10 @@ def parse_standings(soup, color_to_label, default_standings):
             if not rank_elem:
                 continue
             rank_val = rank_elem.get_text(strip=True)
-            if not rank_val.isdigit():
+            rank_digits = "".join([c for c in rank_val if c.isdigit()])
+            if not rank_digits:
                 continue
+            rank_val = rank_digits
 
             team_name_elem = row.select_one("span.team span.name")
             if team_name_elem:
@@ -158,7 +165,7 @@ def parse_standings(soup, color_to_label, default_standings):
                 gd_val = stat_values[4]
                 pts_val = stat_values[5]
 
-                if p_val.isdigit() and pts_val.isdigit():
+                if p_val.isdigit():
                     if team_val not in seen_teams:
                         seen_teams.add(team_val)
                         tag_label = color_to_label.get(tag_color, "일반")
@@ -211,7 +218,7 @@ def run_crawler_v4():
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
-        {"id": 40, "url": "https://sports.scoreman123.com/tennisleague/40"}
+        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
     ]
 
     all_leagues_data = {
