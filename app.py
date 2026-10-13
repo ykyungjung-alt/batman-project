@@ -492,14 +492,23 @@ with tabs[1]:
     a_at, a_atw = atk_tier(a_gpg)
     a_de, a_dew = def_tier(a_cpg)
 
+# ==========================================
+    # 💡 1단계 탭 산출 내역 렌더링부
+    # ==========================================
     st.markdown(f"#### 홈 팀 ({h_name}) 최근 전적 분석 로그 (LIFO - 최대 10경기 전수)")
     if not h_df.empty:
         st.dataframe(h_df, use_container_width=True, hide_index=True)
     else:
         st.info("📋 개별 경기 상세 데이터 없음")
+    
+    # 총 득점/실점 계산 및 골득실 산출
+    h_total_scored = h_gpg * len(h_matches) if h_matches else 0
+    h_total_conceded = h_cpg * len(h_matches) if h_matches else 0
+    h_goal_diff = h_total_scored - h_total_conceded
+    
     st.markdown(f"""<div class="calc-box">
         <b>{h_name} 규칙 1번 상세 산출 내역 (할인 룰 반영)</b><br>
-        • 최근 전적: <b>{h_rec}</b><br>
+        • 최근 전적: <b>{h_rec}</b> (총 득점: <b>{h_total_scored:.1f}골</b> / 총 실점: <b>{h_total_conceded:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if h_goal_diff >= 0 else '#c62828'};">{h_goal_diff:+.1f}</b>)<br>
         • 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> / 평균 실점: <b>{h_cpg:.2f}골/경기</b><br>
         • 공격 티어: <b>{h_at} ({h_atw})</b> | 방어 티어: <b>{h_de} ({h_dew})</b>
     </div>""", unsafe_allow_html=True)
@@ -511,16 +520,21 @@ with tabs[1]:
         st.dataframe(a_df, use_container_width=True, hide_index=True)
     else:
         st.info("📋 개별 경기 상세 데이터 없음")
+        
+    a_total_scored = a_gpg * len(a_matches) if a_matches else 0
+    a_total_conceded = a_cpg * len(a_matches) if a_matches else 0
+    a_goal_diff = a_total_scored - a_total_conceded
+    
     st.markdown(f"""<div class="calc-box">
         <b>{a_name} 규칙 1번 상세 산출 내역 (할인 룰 반영)</b><br>
-        • 최근 전적: <b>{a_rec}</b><br>
+        • 최근 전적: <b>{a_rec}</b> (총 득점: <b>{a_total_scored:.1f}골</b> / 총 실점: <b>{a_total_conceded:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if a_goal_diff >= 0 else '#c62828'};">{a_goal_diff:+.1f}</b>)<br>
         • 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> / 평균 실점: <b>{a_cpg:.2f}골/경기</b><br>
         • 공격 티어: <b>{a_at} ({a_atw})</b> | 방어 티어: <b>{a_de} ({a_dew})</b>
     </div>""", unsafe_allow_html=True)
 
 
 # ==========================================
-# 💡 규칙 2번 탭 (구장별 전적 표 출력)
+# 💡 규칙 2번 탭 (구장별 전적 표 및 산출 내역)
 # ==========================================
 with tabs[2]:
     st.markdown(f"### [규칙 2번: 구장별 Shift 검증 및 환경 보정] - {home_team} vs {away_team}")
@@ -536,7 +550,7 @@ with tabs[2]:
     s_home_matches = stadium_form.get("home_matches", [])[:10]
     s_away_matches = stadium_form.get("away_matches", [])[:10]
 
-    # 동일한 로컬 파싱 함수(local_make_df)를 2단계 탭 안에서도 안전하게 호출
+    # 로컬 파싱 함수를 통한 구장별 전적 데이터프레임 생성
     s_h_df, s_h_gpg, s_h_cpg, s_h_rec = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패")
     s_a_df, s_a_gpg, s_a_cpg, s_a_rec = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패")
 
@@ -545,14 +559,20 @@ with tabs[2]:
     s_a_at, s_a_atw = atk_tier(s_a_gpg)
     s_a_de, s_a_dew = def_tier(s_a_cpg)
 
+    # 홈 팀 구장별 표 및 산출 내역
     st.markdown(f"#### 홈 팀 ({h_name}) 구장별 전적 및 상대 티어 대조 표")
     if not s_h_df.empty:
         st.dataframe(s_h_df, use_container_width=True, hide_index=True)
     else:
         st.info("📋 구장별 상세 전적 데이터 없음")
+        
+    s_h_scored = s_h_gpg * len(s_home_matches) if s_home_matches else 0
+    s_h_conceded = s_h_cpg * len(s_home_matches) if s_home_matches else 0
+    s_h_diff = s_h_scored - s_h_conceded
+
     st.markdown(f"""<div class="calc-box">
         <b>{h_name} 규칙 2번(구장별) 상세 산출 내역:</b><br>
-        • 구장 전적 성향: <b>{s_h_rec}</b><br>
+        • 구장 전적 성향: <b>{s_h_rec}</b> (총 득점: <b>{s_h_scored:.1f}골</b> / 총 실점: <b>{s_h_conceded:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
         • 수집된 지표: 구장 평균 득점 <b>{s_h_gpg:.2f}골/경기</b> / 평균 실점 <b>{s_h_cpg:.2f}골/경기</b><br>
         • 정량 공식 대조 체급: <b>공격력 {s_h_at}, 방어력 {s_h_de}</b><br>
         • 구장 환경 보정 가중치: <b>공격 {s_h_atw}, 방어 {s_h_dew}</b>
@@ -560,14 +580,20 @@ with tabs[2]:
 
     st.markdown("---")
 
+    # 원정 팀 구장별 표 및 산출 내역
     st.markdown(f"#### 원정 팀 ({a_name}) 구장별 전적 및 상대 티어 대조 표")
     if not s_a_df.empty:
         st.dataframe(s_a_df, use_container_width=True, hide_index=True)
     else:
         st.info("📋 구장별 상세 전적 데이터 없음")
+        
+    s_a_scored = s_a_gpg * len(s_away_matches) if s_away_matches else 0
+    s_a_conceded = s_a_cpg * len(s_away_matches) if s_away_matches else 0
+    s_a_diff = s_a_scored - s_a_conceded
+
     st.markdown(f"""<div class="calc-box">
         <b>{a_name} 규칙 2번(구장별) 상세 산출 내역:</b><br>
-        • 구장 전적 성향: <b>{s_a_rec}</b><br>
+        • 구장 전적 성향: <b>{s_a_rec}</b> (총 득점: <b>{s_a_scored:.1f}골</b> / 총 실점: <b>{s_a_conceded:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
         • 수집된 지표: 구장 평균 득점 <b>{s_a_gpg:.2f}골/경기</b> / 평균 실점 <b>{s_a_cpg:.2f}골/경기</b><br>
         • 정량 공식 대조 체급: <b>공격력 {s_a_at}, 방어력 {s_a_de}</b><br>
         • 구장 환경 보정 가중치: <b>공격 {s_a_atw}, 방어 {s_a_dew}</b>
