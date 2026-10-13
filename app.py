@@ -1058,33 +1058,38 @@ with tabs[5]:
 
     if has_detailed_data:
         # 1. 1단계 기본 기대치 (안전 추출)
-        h_base_g = h_gpg if 'h_gpg' in locals() else 1.0
-        h_base_c = h_cpg if 'h_cpg' in locals() else 1.0
-        a_base_g = a_gpg if 'a_gpg' in locals() else 1.0
-        a_base_c = a_cpg if 'a_cpg' in locals() else 1.0
+        h_base_g = h_gpg if 'h_gpg' in locals() else 0.0
+        h_base_c = h_cpg if 'h_cpg' in locals() else 0.0
+        a_base_g = a_gpg if 'a_gpg' in locals() else 0.0
+        a_base_c = a_cpg if 'a_cpg' in locals() else 0.0
 
         # 2. 규칙 1 (7경기 LIFO 가중치) 값 연동 (없을 경우 기본값 0%)
-        h_r1_atk = h_r1_atk_val if 'h_r1_atk_val' in locals() else 6.0
-        h_r1_def = h_r1_def_val if 'h_r1_def_val' in locals() else -4.0
-        a_r1_atk = a_r1_atk_val if 'a_r1_atk_val' in locals() else 6.0
-        a_r1_def = a_r1_def_val if 'a_r1_def_val' in locals() else -8.0
+        h_at = h_at if 'h_at' in locals() else "S"
+        h_atw = h_atw if 'h_atw' in locals() else "+0%"
+        h_de = h_de if 'h_de' in locals() else "S"
+        h_dew = h_dew if 'h_dew' in locals() else "+0%"
 
+        a_at = a_at if 'a_at' in locals() else "S"
+        a_atw = a_atw if 'a_atw' in locals() else "+0%"
+        a_de = a_de if 'a_de' in locals() else "S"
+        a_dew = a_dew if 'a_dew' in locals() else "+0%"
+        
         # 3. 규칙 2 (구장 환경 보정) 값 연동 (앞서 2단계에서 정의한 h_atk_val 등 활용)
         h_r2_atk = h_atk_val if 'h_atk_val' in locals() else 0.0
-        h_r2_def = h_def_val if 'h_def_val' in locals() else -15.0
-        a_r2_atk = a_atk_val if 'a_atk_val' in locals() else 15.0
-        a_r2_def = a_def_val if 'a_def_val' in locals() else 15.0
+        h_r2_def = h_def_val if 'h_def_val' in locals() else 0.0
+        a_r2_atk = a_atk_val if 'a_atk_val' in locals() else 0.0
+        a_r2_def = a_def_val if 'a_def_val' in locals() else 0.0
 
         # 4. 규칙 3-1 / 3-2 (선수 전력 변동 및 이동 피로도) 값 연동 (없을 시 미확인 또는 규격 기본값 매칭)
-        h_r31_atk = h_r31_atk_val if 'h_r31_atk_val' in locals() else -7.0
-        h_r31_def = h_r31_def_val if 'h_r31_def_val' in locals() else -7.0
-        a_r31_atk = a_r31_atk_val if 'a_r31_atk_val' in locals() else 10.5
+        h_r31_atk = h_r31_atk_val if 'h_r31_atk_val' in locals() else 0.0
+        h_r31_def = h_r31_def_val if 'h_r31_def_val' in locals() else 0.0
+        a_r31_atk = a_r31_atk_val if 'a_r31_atk_val' in locals() else 0.0
         a_r31_def = a_r31_def_val if 'a_r31_def_val' in locals() else 0.0
 
         h_r32_atk = h_r32_atk_val if 'h_r32_atk_val' in locals() else 0.0
         h_r32_def = h_r32_def_val if 'h_r32_def_val' in locals() else 0.0
-        a_r32_atk = a_r32_atk_val if 'a_r32_atk_val' in locals() else -5.0
-        a_r32_def = a_r32_def_val if 'a_r32_def_val' in locals() else 5.0
+        a_r32_atk = a_r32_atk_val if 'a_r32_atk_val' in locals() else 0.0
+        a_r32_def = a_r32_def_val if 'a_r32_def_val' in locals() else 0.0
 
         # 5. 규칙 4 (H2H 상성 보정) 값 연동
         h_r4_atk = h_r4_atk_val if 'h_r4_atk_val' in locals() else 0.0
@@ -1158,7 +1163,7 @@ with tabs[5]:
                     <td><b>규칙 1 (7경기 LIFO 가중치)</b></td>
                     <td>공격 {h_r1_atk:+.1f}% / 방어 {h_r1_def:+.1f}%</td>
                     <td>공격 {a_r1_atk:+.1f}% / 방어 {a_r1_def:+.1f}%</td>
-                    <td>최근 7경기 상대 티어 가중치</td>
+                    <td>최근 10경기 상대 티어 가중치</td>
                 </tr>
                 <tr>
                     <td><b>규칙 2 (구장 환경 보정)</b></td>
