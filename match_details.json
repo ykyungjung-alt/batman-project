@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-13 09:38:43",
+    "last_updated": "2026-10-13 12:26:17",
     "match_details": {
         "3068865": {
             "match_code": "3068865",
@@ -7,7 +7,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Hunter International Sports Centre",
-                "weather": "구름 조금,  15°C"
+                "weather": "구름 조금,  18℃～19℃"
             },
             "home": "뉴캐슬 제츠",
             "away": "감바 오사카",
@@ -109,7 +109,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Sanga Stadium by Kyocera",
-                "weather": "맑음,  23°C"
+                "weather": "구름 많음,  26℃～27℃"
             },
             "home": "교토",
             "away": "라차부리",
@@ -211,7 +211,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Pohang Steelyard Stadium",
-                "weather": "맑음,  20°C"
+                "weather": "이슬비,  22℃～23℃"
             },
             "home": "포항",
             "away": "조호르 DT",
@@ -345,7 +345,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Shanghai Pudong Football Stadium",
-                "weather": "구름 조금,  24°C"
+                "weather": "맑음,  23℃～24℃"
             },
             "home": "상하이 하이강",
             "away": "대전",
@@ -463,7 +463,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Buriram City Stadium",
-                "weather": "흐림,  27°C"
+                "weather": "흐림,  25℃～26℃"
             },
             "home": "부리람",
             "away": "베이징 궈안",
@@ -589,7 +589,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "",
-                "weather": "맑음,  29°C"
+                "weather": "맑음,  26℃～27℃"
             },
             "home": "공안",
             "away": "가시마",
@@ -691,7 +691,7 @@
                 "league": "AFC 챔피언스리그 2",
                 "round": "",
                 "stadium": "",
-                "weather": "맑음,  30°C"
+                "weather": "구름 조금,  30°C"
             },
             "home": "이스트 벵골",
             "away": "알 쇼르타",
@@ -960,7 +960,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "13",
+                        "rank": "14",
                         "team": "이집트 국립은행",
                         "played": "5",
                         "win": "2",
@@ -974,7 +974,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "10",
+                        "rank": "11",
                         "team": "엘 가이쉬",
                         "played": "5",
                         "win": "2",
@@ -1134,57 +1134,57 @@
                 }
             }
         },
-        "3100305": {
-            "match_code": "3100305",
+        "3101924": {
+            "match_code": "3101924",
             "head_info": {
-                "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 5",
-                "stadium": "",
-                "weather": "맑음,  28°C"
+                "league": "걸프 클럽 챔피언스리그",
+                "round": "",
+                "stadium": "Al Janoub Stadium",
+                "weather": "흐림,  33°C"
             },
-            "home": "워터하우스",
-            "away": "Tru-Juice FC",
+            "home": "카타르 SC",
+            "away": "알 자우라",
             "meta_details": {
                 "rankings": [
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "3",
-                        "team": "워터하우스",
-                        "played": "4",
-                        "win": "3",
-                        "draw": "1",
-                        "loss": "0",
-                        "goals_for": "14",
-                        "goals_against": "1",
-                        "goal_diff": "13",
-                        "points": "10"
+                        "rank": "QAT D1-11",
+                        "team": "카타르 SC",
+                        "played": "5",
+                        "win": "0",
+                        "draw": "2",
+                        "loss": "3",
+                        "goals_for": "4",
+                        "goals_against": "12",
+                        "goal_diff": "-8",
+                        "points": "2"
                     },
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "5",
-                        "team": "Tru-Juice FC",
-                        "played": "4",
-                        "win": "2",
-                        "draw": "1",
+                        "rank": "IRQ SL-2",
+                        "team": "알 자우라",
+                        "played": "9",
+                        "win": "5",
+                        "draw": "3",
                         "loss": "1",
-                        "goals_for": "5",
-                        "goals_against": "2",
-                        "goal_diff": "3",
-                        "points": "7"
+                        "goals_for": "15",
+                        "goals_against": "6",
+                        "goal_diff": "9",
+                        "points": "18"
                     }
                 ],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "5승 2무 3패",
-                        "goals_per_game": "2.50",
-                        "conceded_per_game": "0.90"
+                        "recent_record": "2승 4무 4패",
+                        "goals_per_game": "1.20",
+                        "conceded_per_game": "1.80"
                     },
                     "away_summary": {
-                        "recent_record": "2승 1무 1패",
-                        "goals_per_game": "1.25",
-                        "conceded_per_game": "0.50"
+                        "recent_record": "5승 3무 2패",
+                        "goals_per_game": "1.50",
+                        "conceded_per_game": "0.70"
                     },
                     "matches": []
                 },
@@ -1193,74 +1193,46 @@
                     "matches": []
                 },
                 "fixtures": {
-                    "home": [],
-                    "away": []
-                }
-            }
-        },
-        "3101222": {
-            "match_code": "3101222",
-            "head_info": {
-                "league": "국제 친선경기",
-                "round": "",
-                "stadium": "",
-                "weather": "지역성 천둥,  23°C"
-            },
-            "home": "엘 살바도르 (여)",
-            "away": "파라과이 (여)",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "6승 2무 2패",
-                        "goals_per_game": "1.50",
-                        "conceded_per_game": "1.10"
-                    },
-                    "away_summary": {
-                        "recent_record": "4승 1무 5패",
-                        "goals_per_game": "2.10",
-                        "conceded_per_game": "1.80"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 0 (0%)",
-                        "무승부 0 (0%)",
-                        "승 2 (100%)",
-                        "1.50",
-                        "경기당 득점",
-                        "4.00"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "INT FRL2026.10.10",
-                                "엘 살바도르 (여)",
-                                "1-5",
-                                "파라과이 (여)"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "CNCF GWC2024.02.29",
-                                "파라과이 (여)",
-                                "3-2",
-                                "엘 살바도르 (여)"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
                     "home": [
                         {
-                            "league": "WWCQ CONC",
-                            "match_time": "2026-11-27 21:00:00",
-                            "teams": "11.27 2026 vs 미국 (여) vs 엘 살바도르 (여) vs 46 일",
+                            "league": "카타르 스타스리그",
+                            "match_time": "2026-10-17 14:30:00",
+                            "teams": "10.17 2026 vs 알 사일리야 vs 카타르 SC vs 4 일",
                             "interval": "시작전"
+                        },
+                        {
+                            "league": "카타르 스타스리그",
+                            "match_time": "2026-10-23 16:45:00",
+                            "teams": "10.23 2026 vs 샤말 vs 카타르 SC vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "걸프 클럽 챔피언스리그",
+                            "match_time": "2026-10-27 17:00:00",
+                            "teams": "10.27 2026 vs 알 리파 vs 카타르 SC vs 14 일",
+                            "interval": "14 일"
                         }
                     ],
-                    "away": []
+                    "away": [
+                        {
+                            "league": "스타스 리그",
+                            "match_time": "2026-10-18 15:00:00",
+                            "teams": "10.18 2026 vs Ghaz Al Shamal vs 알 자우라 vs 5 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "스타스 리그",
+                            "match_time": "2026-10-23 16:45:00",
+                            "teams": "10.23 2026 vs 알 자우라 vs 알 쇼르타 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "걸프 클럽 챔피언스리그",
+                            "match_time": "2026-10-28 17:30:00",
+                            "teams": "10.28 2026 vs 알 자우라 vs 알 나스르 vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ]
                 }
             }
         },
@@ -1494,6 +1466,116 @@
                             "match_time": "2026-12-04 14:00:00",
                             "teams": "12.04 2026 vs 슬로베니아 U19 (여) vs 노르웨이 U19 (여) vs 52 일",
                             "interval": "52 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3101908": {
+            "match_code": "3101908",
+            "head_info": {
+                "league": "국제 친선경기",
+                "round": "",
+                "stadium": "",
+                "weather": ""
+            },
+            "home": "스페인 U19 (여)",
+            "away": "스웨덴 U19 (여)",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "8승 2무 0패",
+                        "goals_per_game": "2.80",
+                        "conceded_per_game": "0.40"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "1.00",
+                        "conceded_per_game": "1.10"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 5 (83.3%)",
+                        "무승부 0 (0%)",
+                        "승 1 (16.7%)",
+                        "2.17",
+                        "경기당 득점",
+                        "0.50"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "UEFA-W U192026.07.07",
+                                "스페인 U19 (여)",
+                                "3-0",
+                                "스웨덴 U19 (여)"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA-W U192023.10.28",
+                                "스페인 U19 (여)",
+                                "3-0",
+                                "스웨덴 U19 (여)"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT FRL2023.02.16",
+                                "스페인 U19 (여)",
+                                "3-0",
+                                "스웨덴 U19 (여)"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA-W U192022.07.06",
+                                "스페인 U19 (여)",
+                                "1-0",
+                                "스웨덴 U19 (여)"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA-W U192015.07.27",
+                                "스페인 U19 (여)",
+                                "1-3",
+                                "스웨덴 U19 (여)"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA-W U192014.07.18",
+                                "스웨덴 U19 (여)",
+                                "0-2",
+                                "스페인 U19 (여)"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": [
+                        {
+                            "league": "U19 여자 유로컵",
+                            "match_time": "2026-11-29 14:00:00",
+                            "teams": "11.29 2026 vs 스웨덴 U19 (여) vs 터키 U19 (여) vs 47 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "U19 여자 유로컵",
+                            "match_time": "2026-12-02 14:00:00",
+                            "teams": "12.02 2026 vs 스웨덴 U19 (여) vs 핀란드 U19 (여) vs 50 일",
+                            "interval": "50 일"
+                        },
+                        {
+                            "league": "U19 여자 유로컵",
+                            "match_time": "2026-12-05 14:00:00",
+                            "teams": "12.05 2026 vs 포르투갈 U19 (여) vs 스웨덴 U19 (여) vs 53 일",
+                            "interval": "53 일"
                         }
                     ]
                 }
@@ -2261,7 +2343,7 @@
                 "league": "국제 친선경기",
                 "round": "England U21 Professional Development League 2·  라운드 10",
                 "stadium": "",
-                "weather": "구름 조금,  16°C"
+                "weather": "맑음,  17°C"
             },
             "home": "셰필드 웬즈데이 U21",
             "away": "허더스필드 U21",
@@ -2451,7 +2533,7 @@
                 "league": "프리미어리그",
                 "round": "",
                 "stadium": "",
-                "weather": "지역성 천둥,  26°C"
+                "weather": "흐림,  26°C"
             },
             "home": "은투가사제",
             "away": "캄팔라 시티",
