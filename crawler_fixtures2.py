@@ -59,7 +59,6 @@ def run_table_based_crawler_v2():
     try:
         for target in target_matches:
             m_id = target["match_code"]
-            home_team_name = target["home"]
             detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
 
             try:
@@ -68,11 +67,13 @@ def run_table_based_crawler_v2():
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
 
                 # ==========================================
-                # 1. 헤드 정보 (stadium, home_stadium, weather)
+                # 1. 헤드 정보 (stadium, home_stadium, match_time, weather 수집)
                 # ==========================================
                 head_info = {
                     "league": target["league"],
                     "round": "",
+                    "match_time_raw": "",
+                    "match_time_display": "",
                     "stadium": "",
                     "home_stadium": "",
                     "weather": ""
@@ -96,6 +97,15 @@ def run_table_based_crawler_v2():
                                 head_info["round"] = txt
                                 break
 
+                    # 💡 경기 시간 정보 수집
+                    time_span = detail_soup.find("span", {"name": "timeData"})
+                    if time_span:
+                        if time_span.has_attr("data-t"):
+                            head_info["match_time_raw"] = time_span["data-t"]
+                        disp_text = time_span.get_text(strip=True)
+                        if disp_text:
+                            head_info["match_time_display"] = disp_text
+
                     other_info_div = detail_soup.find("div", {"id": "otherInfo"})
                     if other_info_div:
                         spans = other_info_div.find_all("span")
@@ -113,7 +123,7 @@ def run_table_based_crawler_v2():
                             head_info["stadium"] = stadium_candidates[0]
 
                     # ------------------------------------------
-                    # 1-1. 홈팀 서브페이지 접근하여 실제 홈구장 수집
+                    # 1-1. 홈팀 서브페이지 접근하여 실제 홈구장(home_stadium) 수집
                     # ------------------------------------------
                     home_div = detail_soup.find("div", {"class": "home"})
                     if home_div and home_div.has_attr("data-url"):
@@ -134,6 +144,7 @@ def run_table_based_crawler_v2():
                                         h_stadium_name = div_tag.get_text(strip=True)
                                 head_info["home_stadium"] = h_stadium_name
 
+                        # 원래 경기 상세 페이지로 복귀
                         driver.get(detail_url)
                         time.sleep(0.8)
                         detail_soup = BeautifulSoup(driver.page_source, "html.parser")
@@ -219,125 +230,4 @@ def run_table_based_crawler_v2():
                 # ==========================================
                 # 4. 최근전적
                 # ==========================================
-                recent_form = {"home_summary": {}, "away_summary": {}, "matches": []}
-                try:
-                    recent_div = detail_soup.find("div", id="dv_recent")
-                    if recent_div:
-                        stats_div = recent_div.find("div", id="dv_recent_stats")
-                        if stats_div:
-                            valid_votes = []
-                            for v in stats_div.find_all("div", class_="vote"):
-                                c_list = v.get("class", [])
-                                if "text" in c_list:
-                                    continue
-                                text_content = v.get_text()
-                                if any(k in text_content for k in ["최근전적", "경기당 득점", "경기당 실점"]):
-                                    valid_votes.append(v)
-                            
-                            for v in valid_votes:
-                                ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "p2"])
-                                if len(ext_els) >= 3:
-                                    left_val = ext_els[0].get_text(strip=True)
-                                    label = ext_els[1].get_text(strip=True)
-                                    right_val = ext_els[2].get_text(strip=True)
-                                    
-                                    if "최근전적" in label:
-                                        recent_form["home_summary"]["recent_record"] = left_val
-                                        recent_form["away_summary"]["recent_record"] = right_val
-                                    elif "경기당 득점" in label:
-                                        recent_form["home_summary"]["goals_per_game"] = left_val
-                                        recent_form["away_summary"]["goals_per_game"] = right_val
-                                    elif "경기당 실점" in label:
-                                        recent_form["home_summary"]["conceded_per_game"] = left_val
-                                        recent_form["away_summary"]["conceded_per_game"] = right_val
-
-                        r_table = recent_div.find_next("table")
-                        if r_table:
-                            for r_row in r_table.find_all("tr"):
-                                cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"]) if c.get_text(strip=True)]
-                                if len(cols) >= 3 and not any("득점" in c for c in cols):
-                                    recent_form["matches"].append({"row_data": cols})
-                            if len(recent_form["matches"]) > 10:
-                                recent_form["matches"] = recent_form["matches"][:10]
-                except Exception as e:
-                    print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
-
-                # ==========================================
-                # 5. 경기 일정
-                # ==========================================
-                fixtures_data = {"home": [], "away": []}
-                try:
-                    futer_div = detail_soup.find("div", id="dv_futer")
-                    if futer_div:
-                        home_div = futer_div.find("div", class_="home-div")
-                        if home_div:
-                            for c_item in home_div.find_all("li", class_="courselis"):
-                                league = c_item.find("div", class_="team")
-                                time_span = c_item.find("span", {"name": "timeData"})
-                                teams = c_item.find("div", class_="corteam")
-                                interval = c_item.find("div", class_="interval")
-                                
-                                match_info = {
-                                    "league": league.get_text(strip=True) if league else "",
-                                    "match_time": time_span["data-t"] if time_span and time_span.has_attr("data-t") else (time_span.get_text(strip=True) if time_span else ""),
-                                    "teams": teams.get_text(separator=" vs ", strip=True) if teams else "",
-                                    "interval": interval.get_text(strip=True) if interval else ""
-                                }
-                                if match_info["teams"] and match_info not in fixtures_data["home"]:
-                                    fixtures_data["home"].append(match_info)
-
-                        guest_div = futer_div.find("div", class_="guest-div")
-                        if guest_div:
-                            for c_item in guest_div.find_all("li", class_="courselis"):
-                                league = c_item.find("div", class_="team")
-                                time_span = c_item.find("span", {"name": "timeData"})
-                                teams = c_item.find("div", class_="corteam")
-                                interval = c_item.find("div", class_="interval")
-                                
-                                match_info = {
-                                    "league": league.get_text(strip=True) if league else "",
-                                    "match_time": time_span["data-t"] if time_span and time_span.has_attr("data-t") else (time_span.get_text(strip=True) if time_span else ""),
-                                    "teams": teams.get_text(separator=" vs ", strip=True) if teams else "",
-                                    "interval": interval.get_text(strip=True) if interval else ""
-                                }
-                                if match_info["teams"] and match_info not in fixtures_data["away"]:
-                                    fixtures_data["away"].append(match_info)
-                except Exception as e:
-                    print(f"  - 경기일정 파싱 예외 ({m_id}): {e}")
-
-                match_details[m_id] = {
-                    "match_code": m_id,
-                    "head_info": head_info,
-                    "home": target["home"],
-                    "away": target["away"],
-                    "meta_details": {
-                        "rankings": rankings_data,
-                        "recent_form": recent_form,
-                        "h2h": h2h_data,
-                        "fixtures": fixtures_data
-                    }
-                }
-                counter += 1
-
-            except Exception as e:
-                print(f"  ⚠️ 상세 페이지 수집 실패 (Match ID: {m_id}): {e}")
-                continue
-
-        output_data = {
-            "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
-            "match_details": match_details
-        }
-
-        target_file = "match_details_v2.json"
-        temp_file = target_file + ".tmp"
-        with open(temp_file, "w", encoding="utf-8") as f:
-            json.dump(output_data, f, ensure_ascii=False, indent=4)
-        os.replace(temp_file, target_file)
-
-        print(f"\n🎉 성공: 내일({tomorrow_date_key_prefix}) 경기 총 {counter - 1}개의 데이터가 match_details_v2.json에 안전하게 저장되었습니다!")
-
-    finally:
-        driver.quit()
-
-if __name__ == "__main__":
-    run_table_based_crawler_v2()
+                recent_form = {"home_summary": {},
