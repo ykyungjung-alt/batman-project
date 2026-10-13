@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-13 12:26:17",
+    "last_updated": "2026-10-13 15:33:39",
     "match_details": {
         "3068865": {
             "match_code": "3068865",
@@ -1328,7 +1328,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "맑음,  18°C"
             },
             "home": "이탈리아 U19 (여)",
             "away": "노르웨이 U19 (여)",
@@ -1477,7 +1477,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "맑음,  20°C"
             },
             "home": "스페인 U19 (여)",
             "away": "스웨덴 U19 (여)",
@@ -1720,119 +1720,6 @@
                 "fixtures": {
                     "home": [],
                     "away": []
-                }
-            }
-        },
-        "3099989": {
-            "match_code": "3099989",
-            "head_info": {
-                "league": "국제 친선경기",
-                "round": "",
-                "stadium": "Chongqing Longxing Football Stadium",
-                "weather": ""
-            },
-            "home": "중국",
-            "away": "타지키스탄",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "3승 3무 4패",
-                        "goals_per_game": "1.10",
-                        "conceded_per_game": "1.60"
-                    },
-                    "away_summary": {
-                        "recent_record": "5승 3무 2패",
-                        "goals_per_game": "2.00",
-                        "conceded_per_game": "1.00"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 2 (50%)",
-                        "무승부 1 (25%)",
-                        "승 1 (25%)",
-                        "1.25",
-                        "경기당 득점",
-                        "0.25"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "INT FRL2026.10.06",
-                                "중국",
-                                "0-1",
-                                "타지키스탄"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "AFC2024.01.13",
-                                "중국",
-                                "0-0",
-                                "타지키스탄"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "INT FRL2019.06.11",
-                                "중국",
-                                "1-0",
-                                "타지키스탄"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "INT CF2010.06.26",
-                                "중국",
-                                "4-0",
-                                "타지키스탄"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "아시안컵",
-                            "match_time": "2027-01-09 14:00:00",
-                            "teams": "01.09 2027 vs 이란 vs 중국 vs 88 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "아시안컵",
-                            "match_time": "2027-01-14 14:00:00",
-                            "teams": "01.14 2027 vs 중국 vs 시리아 vs 93 일",
-                            "interval": "93 일"
-                        },
-                        {
-                            "league": "아시안컵",
-                            "match_time": "2027-01-18 14:00:00",
-                            "teams": "01.18 2027 vs 키르기스스탄 vs 중국 vs 97 일",
-                            "interval": "97 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "아시안컵",
-                            "match_time": "2027-01-10 14:00:00",
-                            "teams": "01.10 2027 vs 타지키스탄 vs 이라크 vs 89 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "아시안컵",
-                            "match_time": "2027-01-14 14:00:00",
-                            "teams": "01.14 2027 vs 싱가포르 vs 타지키스탄 vs 93 일",
-                            "interval": "93 일"
-                        },
-                        {
-                            "league": "아시안컵",
-                            "match_time": "2027-01-19 14:00:00",
-                            "teams": "01.19 2027 vs 호주 vs 타지키스탄 vs 98 일",
-                            "interval": "98 일"
-                        }
-                    ]
                 }
             }
         },
