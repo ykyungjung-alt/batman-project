@@ -47,7 +47,8 @@ def run_table_based_crawler():
     try:
         for target in target_matches:
             m_id = target["match_code"]
-            detail_url = f"url?id=32match/data-{m_id}"
+            # 💡 [핵심 수정] 32match -> 28match로 올바른 상세 페이지 경로 수정
+            detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
 
             try:
                 driver.get(detail_url)
