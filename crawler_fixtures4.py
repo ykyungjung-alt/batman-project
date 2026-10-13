@@ -13,7 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 # ==========================================
-# 🧩 개별 독립 파싱 모듈 (정밀 구조 반영)
+# 🧩 개별 독립 파싱 모듈
 # ==========================================
 
 def parse_league_name(soup, league_id, fallback_name):
@@ -67,13 +67,9 @@ def parse_active_round(soup, league_id, default_round, default_total):
         return default_round, fallback_total, f"[코드 에러] 라운드 파싱 중 런타임 예외 발생: {str(e)}"
 
 def parse_standing_legends(soup, default_legends):
-    """💡 div#standingColor 구조에 맞춘 하단 컬러 범례 정밀 추출 모듈"""
+    """하단 컬러 범례(#standingColor) 추출 모듈"""
     try:
-        # div#standingColor 내부의 span.explain 요소들 정확히 타겟팅
-        legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain")
-        if not legend_items:
-            legend_items = soup.select(".explain")
-
+        legend_items = soup.select("#standingColor span.explain, div#standingColor span.explain, .explain")
         if not legend_items:
             fallback_map = {item["color"]: item["description"] for item in default_legends if item.get("color")}
             return default_legends, fallback_map, "[모듈 에러] 하단 범례(#standingColor) 요소를 탐색할 수 없습니다."
@@ -108,7 +104,7 @@ def parse_standing_legends(soup, default_legends):
         return default_legends, fallback_map, f"[코드 에러] 범례 파싱 중 런타임 예외 발생: {str(e)}"
 
 def parse_standings(soup, color_to_label, default_standings):
-    """💡 ul#standingList li.standis 구조 및 순차적 스탯 매핑 정밀 파싱 모듈"""
+    """💡 R, 구단, P, W, D, L, GD, PTS 컬럼 구조 및 중첩 태그(em, b, span) 정밀 매칭 파싱 모듈"""
     parsed_standings = []
     seen_teams = set()
     
@@ -118,6 +114,7 @@ def parse_standings(soup, color_to_label, default_standings):
             return default_standings, "[모듈 에러] 페이지 내 'ul#standingList li.standis' 요소를 전혀 탐색할 수 없습니다."
 
         for row in standing_rows:
+            # 1. 태그 컬러(--tagcolor) 추출
             style_attr = row.get("style", "")
             tag_color = ""
             if "--tagcolor:" in style_attr:
@@ -126,15 +123,15 @@ def parse_standings(soup, color_to_label, default_standings):
                 except:
                     pass
 
+            # 2. 순위 (R - span.rank 내부 em 또는 텍스트)
             rank_elem = row.select_one("span.rank")
             if not rank_elem:
                 continue
-            rank_val = rank_elem.get_text(strip=True)
-            rank_digits = "".join([c for c in rank_val if c.isdigit()])
-            if not rank_digits:
+            rank_val = "".join([c for c in rank_elem.get_text(strip=True) if c.isdigit()])
+            if not rank_val:
                 continue
-            rank_val = rank_digits
 
+            # 3. 구단명 (구단 - span.team span.name)
             team_name_elem = row.select_one("span.team span.name")
             if team_name_elem:
                 team_val = team_name_elem.get_text(strip=True)
@@ -150,44 +147,56 @@ def parse_standings(soup, color_to_label, default_standings):
             if not team_val or team_val in ["구단", "PTS", "순위", "승점"]:
                 continue
 
+            # 4. 직계 자식 span들을 순서대로 가져와서 각 컬럼(P, W, D, L, GD, PTS)에 정밀 매핑
             direct_spans = row.find_all("span", recursive=False)
+            
+            def extract_cell_value(span_elem):
+                if not span_elem:
+                    return ""
+                b_tag = span_elem.select_one("b")
+                if b_tag:
+                    return b_tag.get_text(strip=True)
+                inner_span = span_elem.select_one("span")
+                if inner_span:
+                    return inner_span.get_text(strip=True)
+                return span_elem.get_text(strip=True)
+
             stat_values = []
+            # direct_spans[0]은 rank, [1]은 team이므로 [2]부터 차례대로 스탯 데이터
             for span in direct_spans[2:]:
-                val = span.get_text(strip=True)
-                if val:
-                    stat_values.append(val)
+                val = extract_cell_value(span)
+                stat_values.append(val)
 
             if len(stat_values) >= 6:
-                p_val = stat_values[0]
-                w_val = stat_values[1]
-                d_val = stat_values[2]
-                l_val = stat_values[3]
-                gd_val = stat_values[4]
-                pts_val = stat_values[5]
+                p_val = stat_values[0]   # P (경기수)
+                w_val = stat_values[1]   # W (승)
+                d_val = stat_values[2]   # D (무)
+                l_val = stat_values[3]   # L (패)
+                gd_val = stat_values[4]  # GD (득실)
+                pts_val = stat_values[5] # PTS (승점)
 
-                if p_val.isdigit():
-                    if team_val not in seen_teams:
-                        seen_teams.add(team_val)
-                        tag_label = color_to_label.get(tag_color, "일반")
+                if team_val not in seen_teams:
+                    seen_teams.add(team_val)
+                    tag_label = color_to_label.get(tag_color, "일반")
 
-                        parsed_standings.append({
-                            "rank": rank_val,
-                            "team": team_val,
-                            "tag_color": tag_color,
-                            "tag_label": tag_label,
-                            "경기수": p_val,
-                            "승": w_val,
-                            "무": d_val,
-                            "패": l_val,
-                            "득실": gd_val,
-                            "승점": pts_val
-                        })
+                    parsed_standings.append({
+                        "rank": rank_val,
+                        "team": team_val,
+                        "tag_color": tag_color,
+                        "tag_label": tag_label,
+                        "경기수": p_val,
+                        "승": w_val,
+                        "무": d_val,
+                        "패": l_val,
+                        "득실": gd_val,
+                        "승점": pts_val
+                    })
 
         if parsed_standings:
-            parsed_standings.sort(key=lambda x: int(x['rank']))
+            parsed_standings.sort(key=lambda x: int(x['rank']) if x['rank'].isdigit() else 999)
             return parsed_standings, None
             
-        return default_standings, "[조건 불일치] li.standis 행은 존재하나 각 항목별 정밀 매칭에 실패했습니다."
+        return default_standings, "[조건 불일치] li.standis 행은 존재하나 컬럼별 정밀 매칭에 실패했습니다."
     except Exception as e:
         return default_standings, f"[코드 에러] 랭킹표 파싱 중 런타임 예외 발생: {str(e)}"
 
@@ -215,6 +224,7 @@ def run_crawler_v4():
     options.add_argument("--disable-gpu")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 
+    # 💡 실제 유효한 스코어맨 도메인 URL 적용
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
