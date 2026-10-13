@@ -303,18 +303,35 @@ with tabs[1]:
     })
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
-    # 데이터 추출 (match_details_v3.json 기반)
-    meta_details = detailed_info.get("meta_details", {})
-    recent_form = meta_details.get("recent_form", {})
+    # 💡 1. 사이드바 매치코드 및 팀명 기반으로 match_details_v3.json 데이터 정밀 탐색
+    target_match_data = None
     
-    # 💡 홈팀/원정팀 이름 명확히 분리 매칭
-    h_team_name = recent_form.get("home_team_name", home_team)
-    h_matches = recent_form.get("home_matches", [])[:7]
-    
-    a_team_name = recent_form.get("away_team_name", away_team)
-    a_matches = recent_form.get("away_matches", [])[:7]
+    # 1순위: match_code로 일치하는 데이터 탐색
+    if match_code and match_code in all_details_dict:
+        target_match_data = all_details_dict[match_code]
+    else:
+        # 2순위 폴백: 홈팀/원정팀 이름 매칭
+        for k, v in all_details_dict.items():
+            if str(v.get("home", "")).strip() == home_team.strip() and str(v.get("away", "")).strip() == away_team.strip():
+                target_match_data = v
+                break
 
-    # 티어 판별 함수
+    # 💡 2. 오직 'recent_form'(최근 전적) 프롬프트 타이틀 영역 하위 데이터만 정밀 추출
+    if target_match_data and isinstance(target_match_data, dict):
+        meta_details = target_match_data.get("meta_details", {})
+        recent_form_dict = meta_details.get("recent_form", {})
+        
+        # 홈팀/원정팀 이름 및 전적 배열(LIFO 7경기) 분리 매칭
+        h_team_name = recent_form_dict.get("home_team_name", home_team).strip()
+        h_matches = recent_form_dict.get("home_matches", [])[:7]
+        
+        a_team_name = recent_form_dict.get("away_team_name", away_team).strip()
+        a_matches = recent_form_dict.get("away_matches", [])[:7]
+    else:
+        h_team_name, h_matches = home_team, []
+        a_team_name, a_matches = away_team, []
+
+    # 공수 수치 기반 티어 판별 함수
     def get_attack_tier_name(g):
         if g >= 2.3: return "Tier A"
         elif g >= 1.7: return "Tier B"
@@ -329,8 +346,8 @@ with tabs[1]:
         elif c < 1.7: return "Tier D"
         else: return "Tier E"
 
-    # 팀 스탯 및 표 데이터 생성 함수 (opponent_tier_info 연동)
-    def build_team_form_dataframe(matches, team_name):
+    # 💡 3. 최근 전적 로그 전용 표 생성 및 득실/상대 티어 매칭 함수
+    def build_recent_form_dataframe(matches, target_team):
         if not matches:
             return pd.DataFrame(), 0.0, 0.0, "0전 0승 0무 0패"
         
@@ -341,27 +358,28 @@ with tabs[1]:
         for idx, m in enumerate(matches):
             league = m.get("league", "-")
             match_time = m.get("match_time", "-")
-            teams = m.get("teams", "-")
+            teams_str = m.get("teams", "-") # 예: "가시마 vs 뉴캐슬 제츠"
             scores = m.get("ft_scores", ["0", "0"])
             opp_tier_info = m.get("opponent_tier_info", "0.00/0.00")
             
             try:
-                score_a = int(scores[0])
-                score_b = int(scores[1])
+                score_1 = int(scores[0])
+                score_2 = int(scores[1])
             except:
-                score_a, score_b = 0, 0
+                score_1, score_2 = 0, 0
                 
-            parts = teams.split(" vs ")
+            # '팀A vs 팀B' 구조에서 대상 팀 위치에 따른 득/실점 정밀 역산
+            parts = teams_str.split(" vs ")
             if len(parts) == 2:
-                t_a, t_b = parts[0].strip(), parts[1].strip()
-                if team_name in t_a and team_name not in t_b:
-                    scored, conceded = score_a, score_b
-                elif team_name in t_b and team_name not in t_a:
-                    scored, conceded = score_b, score_a
+                t1, t2 = parts[0].strip(), parts[1].strip()
+                if target_team in t1 and target_team not in t2:
+                    scored, conceded = score_1, score_2
+                elif target_team in t2 and target_team not in t1:
+                    scored, conceded = score_2, score_1
                 else:
-                    scored, conceded = score_a, score_b
+                    scored, conceded = score_1, score_2
             else:
-                scored, conceded = score_a, score_b
+                scored, conceded = score_1, score_2
                 
             total_scored += scored
             total_conceded += conceded
@@ -376,14 +394,14 @@ with tabs[1]:
                 res = "패"
                 losses += 1
                 
-            # 💡 opponent_tier_info ("1.80/1.50") 파싱하여 공수 티어로 매핑
+            # opponent_tier_info ("공격수치/수비수치") 파싱하여 상대 공수 티어 대조
             try:
                 opp_parts = opp_tier_info.split("/")
                 opp_atk_val = float(opp_parts[0])
                 opp_def_val = float(opp_parts[1])
                 opp_atk_tier = get_attack_tier_name(opp_atk_val)
                 opp_def_tier = get_defense_tier_name(opp_def_val)
-                tier_display = f"공격 {opp_atk_tier} ({opp_atk_val}) / 방어 {opp_def_tier} ({opp_def_val})"
+                tier_display = f"공격 {opp_atk_tier} ({opp_atk_val:.2f}) / 방어 {opp_def_tier} ({opp_def_val:.2f})"
             except:
                 tier_display = f"정보 없음 ({opp_tier_info})"
                 
@@ -392,8 +410,8 @@ with tabs[1]:
                 "LIFO 순서": seq_label,
                 "경기 일시": match_time,
                 "대회": league,
-                "대진": teams,
-                "스코어": f"{score_a} : {score_b}",
+                "대진": teams_str,
+                "스코어": f"{score_1} : {score_2}",
                 "결과": res,
                 "상대 공수 티어 산출": tier_display
             })
@@ -404,10 +422,11 @@ with tabs[1]:
         rec_str = f"{count}전 {wins}승 {draws}무 {losses}패"
         return pd.DataFrame(table_rows), gpg, cpg, rec_str
 
-    h_df, h_gpg, h_cpg, h_rec = build_team_form_dataframe(h_matches, h_team_name)
-    a_df, a_gpg, a_cpg, a_rec = build_team_form_dataframe(a_matches, a_team_name)
+    # 홈팀 / 원정팀 각각 최근 전적 표 및 통계 데이터 생성
+    h_df, h_gpg, h_cpg, h_rec = build_recent_form_dataframe(h_matches, h_team_name)
+    a_df, a_gpg, a_cpg, a_rec = build_recent_form_dataframe(a_matches, a_team_name)
 
-    # 전체 체급 판별 함수
+    # 전체 체급 및 가중치 판별 함수
     def get_attack_tier(g):
         if g >= 2.3: return "Tier A", "+8.0%"
         elif g >= 1.7: return "Tier B", "+6.0%"
@@ -428,11 +447,12 @@ with tabs[1]:
     a_at_tier, a_at_weight = get_attack_tier(a_gpg)
     a_df_tier, a_df_weight = get_defense_tier(a_cpg)
         
-    st.markdown(f"#### 예시표 1-1: 홈 팀 ({h_team_name}) 최근 7경기 전수 LIFO 및 상대 티어 대조 표")
+    # 💡 렌더링: 홈팀 최근 전적 표 및 산출 내역
+    st.markdown(f"#### 예시표 1-1: 홈 팀 ({h_team_name}) 최근 전적(LIFO) 및 상대 티어 대조 표")
     if not h_df.empty:
         st.dataframe(h_df, use_container_width=True, hide_index=True)
     else:
-        st.info("수집된 홈팀 최근 전적 데이터가 없습니다.")
+        st.warning(f"⚠️ '{h_team_name}'의 최근 전적(recent_form) 데이터를 찾을 수 없습니다.")
         
     st.markdown(
         f"""<div class="calc-box">
@@ -446,11 +466,13 @@ with tabs[1]:
     )
     
     st.markdown("---")
-    st.markdown(f"#### 예시표 1-2: 원정 팀 ({a_team_name}) 최근 7경기 전수 LIFO 및 상대 티어 대조 표")
+    
+    # 💡 렌더링: 원정팀 최근 전적 표 및 산출 내역
+    st.markdown(f"#### 예시표 1-2: 원정 팀 ({a_team_name}) 최근 전적(LIFO) 및 상대 티어 대조 표")
     if not a_df.empty:
         st.dataframe(a_df, use_container_width=True, hide_index=True)
     else:
-        st.info("수집된 원정팀 최근 전적 데이터가 없습니다.")
+        st.warning(f"⚠️ '{a_team_name}'의 최근 전적(recent_form) 데이터를 찾을 수 없습니다.")
         
     st.markdown(
         f"""<div class="calc-box">
