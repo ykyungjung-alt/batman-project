@@ -59,7 +59,7 @@ def run_table_based_crawler_v2():
     try:
         for target in target_matches:
             m_id = target["match_code"]
-            detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
+            detail_url = f"url?id=33match/data-{m_id}"
 
             try:
                 driver.get(detail_url)
@@ -344,6 +344,7 @@ def run_table_based_crawler_v2():
             json.dump(output_data, f, ensure_ascii=False, indent=4)
         os.replace(temp_file, target_file)
 
+        # 💡 [오류 수정 완료] 올바른 변수명(tomorrow_date_key_prefix) 사용
         print(f"\n🎉 성공: 내일({tomorrow_date_key_prefix}) 경기 총 {counter - 1}개의 데이터가 match_details_v2.json에 안전하게 저장되었습니다!")
 
     finally:
