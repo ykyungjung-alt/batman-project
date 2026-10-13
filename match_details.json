@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-14 03:29:04",
+    "last_updated": "2026-10-14 03:35:56",
     "match_details": {
         "3073093": {
             "match_code": "3073093",
@@ -903,125 +903,32 @@
             "head_info": {
                 "league": "AFC 챔피언스리그",
                 "round": "",
-                "match_time_raw": "10/13/2026 6:15:00 PM",
+                "match_time_raw": "",
                 "match_time_display": "2026-10-14 03:15",
-                "stadium": "King Abdullah Sports City",
-                "home_stadium": "King Abdullah Sports City",
-                "weather": "맑음,  30℃～31℃"
+                "stadium": "",
+                "home_stadium": "",
+                "weather": ""
             },
             "home": "알 이티하드 FC",
             "away": "알 알리 두바이",
             "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "SPL-4",
-                        "team": "알 이티하드 FC",
-                        "played": "8",
-                        "win": "5",
-                        "draw": "2",
-                        "loss": "1",
-                        "goals_for": "14",
-                        "goals_against": "9",
-                        "goal_diff": "5",
-                        "points": "17"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "UAE LP-3",
-                        "team": "알 알리 두바이",
-                        "played": "5",
-                        "win": "3",
-                        "draw": "1",
-                        "loss": "1",
-                        "goals_for": "10",
-                        "goals_against": "5",
-                        "goal_diff": "5",
-                        "points": "10"
-                    }
-                ],
+                "rankings": [],
                 "recent_form": {
-                    "home_summary": {
-                        "recent_record": "6승 3무 1패",
-                        "goals_per_game": "1.80",
-                        "conceded_per_game": "1.00"
-                    },
-                    "away_summary": {
-                        "recent_record": "5승 3무 2패",
-                        "goals_per_game": "1.60",
-                        "conceded_per_game": "1.00"
-                    },
+                    "home_summary": {},
+                    "away_summary": {},
                     "matches": []
                 },
                 "h2h": {
-                    "summary": [
-                        "승 0 (0%)",
-                        "무승부 0 (0%)",
-                        "승 1 (100%)",
-                        "0.00",
-                        "경기당 득점",
-                        "1.00",
-                        "핸디캡：0승 0무 1패",
-                        "언오버：0오버 0무 1언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "ACLE2025.09.30",
-                                "알 이티하드 FC",
-                                "0-1",
-                                "알 알리 두바이"
-                            ]
-                        }
-                    ]
+                    "summary": [],
+                    "matches": []
                 },
                 "lineup_summary": {
                     "home": [],
                     "away": []
                 },
                 "fixtures": {
-                    "home": [
-                        {
-                            "league": "사우디 프로페셔널리그",
-                            "match_time": "2026-10-16 18:00:00",
-                            "teams": "10.16 2026 vs 알 이티하드 FC vs 알 샤밥 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "사우디 프로페셔널리그",
-                            "match_time": "2026-10-20 18:00:00",
-                            "teams": "10.20 2026 vs 알 에티파크 vs 알 이티하드 FC vs 7 일",
-                            "interval": "7 일"
-                        },
-                        {
-                            "league": "사우디 프로페셔널리그",
-                            "match_time": "2026-10-23 15:30:00",
-                            "teams": "10.23 2026 vs 알 이티하드 FC vs 알 디리야 vs 10 일",
-                            "interval": "10 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "UAE 리그",
-                            "match_time": "2026-10-17 15:45:00",
-                            "teams": "10.17 2026 vs 알 알리 두바이 vs 알 아인 vs 4 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "AFC 챔피언스리그",
-                            "match_time": "2026-10-27 16:00:00",
-                            "teams": "10.27 2026 vs 알 알리 두바이 vs 에스테갈 F.C. vs 14 일",
-                            "interval": "14 일"
-                        },
-                        {
-                            "league": "UAE 리그",
-                            "match_time": "2026-10-30 15:35:00",
-                            "teams": "10.30 2026 vs 알 알리 두바이 vs 이티하드 칼바 vs 17 일",
-                            "interval": "17 일"
-                        }
-                    ]
+                    "home": [],
+                    "away": []
                 }
             }
         },
