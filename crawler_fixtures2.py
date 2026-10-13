@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 import json
 import time
 import os
@@ -18,21 +18,10 @@ def run_table_based_crawler_v2():
     target_matches = []
     daily_matches_input = data.get("daily_matches", {})
     
-    kst = ZoneInfo("Asia/Seoul")
-    today_kst = datetime.now(kst)
-    weekdays = ["월", "화", "수", "목", "금", "토", "일"]
-    
-    tomorrow_dt = today_kst + timedelta(days=1)
-    m_str = tomorrow_dt.strftime("%m")
-    d_str = tomorrow_dt.strftime("%d")
-    w_str = weekdays[tomorrow_dt.weekday()]
-    
-    tomorrow_date_key_prefix = f"{m_str}-{d_str} ({w_str})"
-    print(f"📅 동적 계산된 내일 날짜 키 패턴: {tomorrow_date_key_prefix}")
-
+    # 💡 [핵심 수정] 내일 날짜 대신 `[오늘]` 키를 기준으로 수집하도록 변경
     for date_key, matches in daily_matches_input.items():
-        if date_key.startswith(tomorrow_date_key_prefix):
-            print(f"🎯 발견한 내일 경기 블록: {date_key} (총 {len(matches)}개 경기)")
+        if "[오늘]" in date_key or "오늘" in date_key:
+            print(f"🎯 발견한 오늘 경기 블록: {date_key} (총 {len(matches)}개 경기)")
             for m in matches:
                 m_code = m.get("match_code")
                 if m_code and m_code not in [t["match_code"] for t in target_matches]:
@@ -40,10 +29,11 @@ def run_table_based_crawler_v2():
                         "match_code": m_code,
                         "league": m.get("league", ""),
                         "home": m.get("home", ""),
-                        "away": m.get("away", "")
+                        "away": m.get("away", ""),
+                        "time": m.get("time", "")  # 💡 목록의 정확한 시간 정보 보존
                     })
 
-    print(f"🎯 [내일 경기 정밀 수집] 총 {len(target_matches)}개 경기 수집 시작")
+    print(f"🎯 [오늘 경기 정밀 수집] 총 {len(target_matches)}개 경기 수집 시작")
 
     options = Options()
     options.add_argument("--headless")
@@ -52,6 +42,7 @@ def run_table_based_crawler_v2():
     options.add_argument("--window-size=1920,1080")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 
+    kst = ZoneInfo("Asia/Seoul")
     driver = webdriver.Chrome(options=options)
     match_details = {}
     counter = 1
@@ -59,7 +50,7 @@ def run_table_based_crawler_v2():
     try:
         for target in target_matches:
             m_id = target["match_code"]
-            detail_url = f"url?id=33match/data-{m_id}"
+            detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
 
             try:
                 driver.get(detail_url)
@@ -73,7 +64,7 @@ def run_table_based_crawler_v2():
                     "league": target["league"],
                     "round": "",
                     "match_time_raw": "",
-                    "match_time_display": "",
+                    "match_time_display": target.get("time", ""),  # 💡 [핵심 수정] 상세 파싱으로 오염되지 않도록 목록의 정확한 시간 기본 탑재
                     "stadium": "",
                     "home_stadium": "",
                     "weather": ""
@@ -97,14 +88,10 @@ def run_table_based_crawler_v2():
                                 head_info["round"] = txt
                                 break
 
-                    # 경기 시간 정보 수집
                     time_span = detail_soup.find("span", {"name": "timeData"})
                     if time_span:
                         if time_span.has_attr("data-t"):
                             head_info["match_time_raw"] = time_span["data-t"]
-                        disp_text = time_span.get_text(strip=True)
-                        if disp_text:
-                            head_info["match_time_display"] = disp_text
 
                     other_info_div = detail_soup.find("div", {"id": "otherInfo"})
                     if other_info_div:
@@ -344,8 +331,7 @@ def run_table_based_crawler_v2():
             json.dump(output_data, f, ensure_ascii=False, indent=4)
         os.replace(temp_file, target_file)
 
-        # 💡 [오류 수정 완료] 올바른 변수명(tomorrow_date_key_prefix) 사용
-        print(f"\n🎉 성공: 내일({tomorrow_date_key_prefix}) 경기 총 {counter - 1}개의 데이터가 match_details_v2.json에 안전하게 저장되었습니다!")
+        print(f"\n🎉 성공: 오늘 경기 총 {counter - 1}개의 데이터가 match_details_v2.json에 안전하게 저장되었습니다!")
 
     finally:
         driver.quit()
