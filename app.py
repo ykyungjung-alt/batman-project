@@ -357,9 +357,9 @@ with tabs[1]:
     tier_weight_df = pd.DataFrame({
         "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
         "공격력 기준 (평균 득점)": ["2.3골 이상", "1.7 ~ 2.2골 미만", "1.1 ~ 1.6골 미만", "0.5 ~ 1.1골 미만", "0.5골 미만 (< 0.5)"],
-        "공격 가중치": ["+8.0%", "+6.0%", "+4.0%", "+2.0%", "0.0% (최하위)"],
+        "공격 가중치": ["+12.0%", "+9.0%", "+6.0%", "+3.0%", "0.0% (최하위)"],
         "방어력 기준 (평균 실점)": ["0.5골 미만 (< 0.5)", "0.5 ~ 0.9골 미만", "0.9 ~ 1.3골 미만", "1.3 ~ 1.7골 미만", "1.7골 이상"],
-        "방어 가중치": ["-8.0% (최상위)", "-6.0%", "-4.0%", "-2.0%", "0.0%"]
+        "방어 가중치": ["-12.0% (최상위)", "-9.0%", "-6.0%", "-3.0%", "0.0%"]
     })
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
@@ -403,17 +403,17 @@ with tabs[1]:
     a_rec_base = a_sum.get("recent_record", "0전 0승 0무 0패")
 
     def atk_tier(g):
-        if g >= 2.3: return "Tier A", "+8.0%"
-        elif g >= 1.7: return "Tier B", "+6.0%"
-        elif g >= 1.1: return "Tier C", "+4.0%"
-        elif g >= 0.5: return "Tier D", "+2.0%"
+        if g >= 2.3: return "Tier A", "+12.0%"
+        elif g >= 1.7: return "Tier B", "+9.0%"
+        elif g >= 1.1: return "Tier C", "+6.0%"
+        elif g >= 0.5: return "Tier D", "+3.0%"
         else: return "Tier E", "0.0%"
 
     def def_tier(c):
-        if c < 0.5: return "Tier A", "-8.0%"
-        elif c < 0.9: return "Tier B", "-6.0%"
-        elif c < 1.3: return "Tier C", "-4.0%"
-        elif c < 1.7: return "Tier D", "-2.0%"
+        if c < 0.5: return "Tier A", "-12.0%"
+        elif c < 0.9: return "Tier B", "-9.0%"
+        elif c < 1.3: return "Tier C", "-6.0%"
+        elif c < 1.7: return "Tier D", "-3.0%"
         else: return "Tier E", "0.0%"
 
     def atk_tier_nm(g): return atk_tier(g)[0]
