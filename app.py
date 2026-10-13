@@ -440,6 +440,19 @@ with tabs[1]:
         raw_scored_total = 0.0
         raw_conceded_total = 0.0
         w = d = l = 0
+        # 💡 경기 일시 포맷을 YYYY.MM.DD 형태로 정돈하는 로직
+        formatted_mtime = mtime
+        try:
+            clean_date = mtime.split(" ")[0].replace("-", ".").replace("/", ".")
+            parts = clean_date.split(".")
+            if len(parts) == 3:
+                if len(parts[0]) <= 2:  # MM.DD.YYYY 형태인 경우
+                    formatted_mtime = f"{parts[2]}.{parts[0].zfill(2)}.{parts[1].zfill(2)}"
+                else:  # YYYY.MM.DD 형태인 경우
+                    formatted_mtime = f"{parts[0]}.{parts[1].zfill(2)}.{parts[2].zfill(2)}"
+        except Exception:
+            formatted_mtime = mtime
+
         
         for idx, m in enumerate(matches):
             league = m.get("league", "-")
@@ -488,7 +501,7 @@ with tabs[1]:
             
             seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
             score_display = f"{s1} : {s2}" + (f" (할인: {app_sc:.1f})" if mult < 1.0 else "")
-            rows.append({"LIFO 순서": seq, "경기 일시": mtime, "대회": league, "대진": teams, "스코어": score_display, "결과": res, "상대 공수 티어": tier_str})
+            rows.append({"LIFO 순서": seq, "경기 일시": formatted_mtime, "대회": league, "대진": teams, "스코어": score_display, "결과": res, "상대 공수 티어": tier_str})
             
         cnt = len(matches)
         gpg = eff_scored / cnt if cnt > 0 else def_gpg
