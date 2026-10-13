@@ -1061,22 +1061,25 @@ with tabs[4]:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (3~4일 이후 경기 등)")
         st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, H2H 상대전적 상성 산출 내역을 표시할 수 없습니다.")
 
-target_leagues = [
-        {"id": 34, "url": "https://football.scoreman123.com/league/34"},
-        {"id": 39, "url": "https://football.scoreman123.com/league/39"},
-        {"id": 40, "url": "https://football.scoreman123.com/league/40"},
-        {"id": 36, "url": "https://football.scoreman123.com/league/36"},
-        {"id": 37, "url": "https://football.scoreman123.com/league/37"},
-        {"id": 31, "url": "https://football.scoreman123.com/league/31"},
-        {"id": 33, "url": "https://football.scoreman123.com/league/33"},
-        {"id": 8, "url": "https://football.scoreman123.com/league/8"},
-        {"id": 9, "url": "https://football.scoreman123.com/league/9"},
-        {"id": 11, "url": "https://football.scoreman123.com/league/11"},
-        {"id": 12, "url": "https://football.scoreman123.com/league/12"},
-        {"id": 25, "url": "https://football.scoreman123.com/league/25"},
-        {"id": 15, "url": "https://football.scoreman123.com/league/15"},
-        {"id": 1292, "url": "https://football.scoreman123.com/league/1292"}
-    ]
+# 규칙 4번 최종 계산 결과 변수 명시적 할당 (5-1 표 연동용)
+        global r4_home_atk, r4_home_def, r4_away_atk, r4_away_def
+        
+        # 데렌(홈팀) 승률이 50% 이상이므로 우세 보정 부여 (+10% / -10%)
+        # 칸쿤스-에르침(원정팀)은 열세이므로 0.0% 고정
+        if home_win_rate >= 50.0:
+            r4_home_atk = 10.0
+            r4_home_def = -10.0
+        else:
+            r4_home_atk = 0.0
+            r4_home_def = 0.0
+
+        if away_win_rate >= 50.0:
+            r4_away_atk = 10.0
+            r4_away_def = -10.0
+        else:
+            r4_away_atk = 0.0
+            r4_away_def = 0.0
+
 
 # ========================================== #
 # 💡 규칙 5번 탭 (5-1 표: 최종 보정 득실점 산출 매트릭스) - 에러 방어 완벽 반영본 #
