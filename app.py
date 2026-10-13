@@ -362,7 +362,7 @@ with tabs[1]:
 
     
 
-    st.success(f"✅ 경기 데이터 로드 완료 → {h_name}: {len(h_matches)}경기 / {a_name}: {len(a_matches)}경기")
+   
 
     # ========== 티어 함수 ==========
     def atk_tier(g):
