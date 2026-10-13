@@ -649,17 +649,17 @@ with tabs[3]:
     .custom-table th { background-color: #f5f5f5; font-weight: bold; }
     </style>
     <table class="custom-table">
-    <thead><tr><th>전력 등급</th><th>포지션</th><th>정량적 스펙 및 평가 기준</th><th>보정 비율</th></tr></thead>
-    <tbody>
-    <tr><td>상 (High)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 팀 내 득점/도움 1~2위 또는 선발 출전율 80% 이상<br>• [DF/GK] 클린시트 기여 1위 / 경기당 평균 실점 1.0 이하</td><td>14%<br>(공격: -14% / 방어: +14%)</td></tr>
-    <tr><td>중 (Medium)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 선발 출전율 50% ~ 79% / 핵심 주전 로테이션<br>• [DF/GK] 주전 수비수·골키퍼 / 태클·인터셉트 상위권</td><td>7%<br>(공격: -7% / 방어: +7%)</td></tr>
-    <tr><td>하 (Low)</td><td>공용</td><td>• 선발 출전율 50% 미만 / 백업 및 후보 자원 (결장 시 수비/공격 수치 변화 미비)</td><td>0%</td></tr>
-    </tbody>
+      <thead><tr><th>전력 등급</th><th>포지션</th><th>정량적 스펙 및 평가 기준</th><th>보정 비율</th></tr></thead>
+      <tbody>
+        <tr><td>상 (High)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 팀 내 득점/도움 1~2위 또는 선발 출전율 80% 이상<br>• [DF/GK] 클린시트 기여 1위 / 경기당 평균 실점 1.0 이하</td><td>14%<br>(공격: -14% / 방어: +14%)</td></tr>
+        <tr><td>중 (Medium)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 선발 출전율 50% ~ 79% / 핵심 주전 로테이션<br>• [DF/GK] 주전 수비수·골키퍼 / 태클·인터셉트 상위권</td><td>7%<br>(공격: -7% / 방어: +7%)</td></tr>
+        <tr><td>하 (Low)</td><td>공용</td><td>• 선발 출전율 50% 미만 / 백업 및 후보 자원 (결장 시 수비/공격 수치 변화 미비)</td><td>0%</td></tr>
+      </tbody>
     </table>
     """
     st.markdown(html_table, unsafe_allow_html=True)
-    
-    st.markdown(f"##### 3-1: 구단명 - {home_team} 선수 전력 변동 ")
+
+    st.markdown(f"##### 3-1: 구단명 - {home_team} 선수 전력 변동")
     table_3_1_kor = pd.DataFrame({
         "선수 실명": ["손흥민", "김민재", "[총합]"],
         "포지션": ["FW", "DF", "-"],
@@ -673,7 +673,7 @@ with tabs[3]:
     })
     st.dataframe(table_3_1_kor, use_container_width=True, hide_index=True)
 
-    st.markdown(f"##### 3-1: 구단명 - {away_team} 선수 전력 변동 ")
+    st.markdown(f"##### 3-1: 구단명 - {away_team} 선수 전력 변동")
     table_3_1_jpn = pd.DataFrame({
         "선수 실명": ["엔도 와타루", "쿠보 타케후사", "[총합]"],
         "포지션": ["MF", "FW", "-"],
@@ -687,7 +687,7 @@ with tabs[3]:
     })
     st.dataframe(table_3_1_jpn, use_container_width=True, hide_index=True)
 
-    # --- [규칙 3-2번: 일정 누수·피로도 및 시계열 타임라인] ---
+    # --- [규칙 3-2번 영역] ---
     st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
@@ -704,10 +704,9 @@ with tabs[3]:
         fixtures_info = meta_details.get("fixtures", {})
         home_fixtures = fixtures_info.get("home", [])
         away_fixtures = fixtures_info.get("away", [])
-
+        
         st.markdown(f"##### 표 3-2: {home_team} vs {away_team} 일정 및 피로도·중요도 매트릭스")
-
-        # 💡 기준 경기 일자 기준 과거/향후 일정 분리 및 4일 간격 검증 파싱 함수
+        
         def parse_chronological_timeline_4days(fix_list, target_team_name, base_match_date):
             base_dt = None
             try:
@@ -715,10 +714,9 @@ with tabs[3]:
                 base_dt = datetime.strptime(base_clean[:10], "%Y-%m-%d")
             except Exception:
                 pass
-
+                
             past_fixtures = []
             future_fixtures = []
-
             for fix in fix_list:
                 match_time = fix.get("match_time", "")
                 curr_dt = None
@@ -727,142 +725,134 @@ with tabs[3]:
                     curr_dt = datetime.strptime(curr_clean[:10], "%Y-%m-%d")
                 except Exception:
                     continue
-
                 if base_dt and curr_dt:
                     diff_days = (curr_dt - base_dt).days
-                    if diff_days < 0: # 과거
+                    if diff_days < 0:
                         past_fixtures.append((abs(diff_days), fix))
-                    elif diff_days > 0: # 향후
+                    elif diff_days > 0:
                         future_fixtures.append((diff_days, fix))
-
-            # 과거는 기준일에 가까운 순(오름차순), 향후는 다가올 순(오름차순) 정렬
+                        
             past_fixtures = sorted(past_fixtures, key=lambda x: x[0])
             future_fixtures = sorted(future_fixtures, key=lambda x: x[0])
-
-    def process_parsed_list(sorted_items, is_future=True):
-        processed = []
-        cumulative_fatigue = 0
-        for diff_d, fix in sorted_items:
-            if 0 < diff_d <= 9:
-                match_time = fix.get("match_time", "")
-                league_raw = fix.get("league", "")
-                league_name = translate_tournament_code(league_raw)
-                teams_str = fix.get("teams", "")
-                parts = [p.strip() for p in teams_str.split("vs")]
-                opp_name = "상대미상"
-                loc_type = "원정"
-                if len(parts) >= 3:
-                    team_a = parts[1]
-                    team_b = parts[2]
-                    if target_team_name in team_a:
-                        opp_name = team_b
-                        loc_type = "홈" if team_a == target_team_name else "원정"
-                    else:
-                        opp_name = team_a if target_team_name not in team_b else team_b
+            
+            def process_parsed_list(sorted_items, is_future=True):
+                processed = []
+                cumulative_fatigue = 0
+                for diff_d, fix in sorted_items:
+                    if 0 < diff_d <= 9:
+                        match_time = fix.get("match_time", "")
+                        league_raw = fix.get("league", "")
+                        league_name = translate_tournament_code(league_raw)
+                        teams_str = fix.get("teams", "")
+                        parts = [p.strip() for p in teams_str.split("vs")]
+                        opp_name = "상대미상"
                         loc_type = "원정"
-                else:
-                    opp_name = team_a if target_team_name not in team_b else team_b
-                    loc_type = "원정"
-
-                importance_label = "중요도중"
-                imp_atk = 5
-                imp_def = -5
-                if any(k in league_name for k in ["챔피언스", "유로파", "결승", "컵", "강등", "예선"]):
-                    importance_label = "중요도상"
-                    imp_atk = 10
-                    imp_def = -10
-                elif "친선" in league_name:
-                    importance_label = "중요도하"
-                    imp_atk = 0
-                    imp_def = 0
-
-                if is_future:
-                    if loc_type == "원정":
-                        cumulative_fatigue += 1
-                        fatigue_str = f"누적 {cumulative_fatigue}"
-                    else:
-                        cumulative_fatigue = 0
-                        fatigue_str = "휴식/홈복귀(Reset)"
-                else:
-                    fatigue_str = "-"
-
-                date_short = match_time.split(" ")[0].replace("-", ".") if "-" in match_time else match_time
+                        if len(parts) >= 3:
+                            team_a = parts[1]
+                            team_b = parts[2]
+                            if target_team_name in team_a:
+                                opp_name = team_b
+                                loc_type = "홈" if team_a == target_team_name else "원정"
+                            else:
+                                opp_name = team_a if target_team_name not in team_b else team_b
+                                loc_type = "원정"
+                        else:
+                            opp_name = team_a if target_team_name not in team_b else team_b
+                            loc_type = "원정"
+                            
+                        importance_label = "중요도중"
+                        imp_atk = 5
+                        imp_def = -5
+                        if any(k in league_name for k in ["챔피언스", "유로파", "결승", "컵", "강등", "예선"]):
+                            importance_label = "중요도상"
+                            imp_atk = 10
+                            imp_def = -10
+                        elif "친선" in league_name:
+                            importance_label = "중요도하"
+                            imp_atk = 0
+                            imp_def = 0
+                            
+                        if is_future:
+                            if loc_type == "원정":
+                                cumulative_fatigue += 1
+                                fatigue_str = f"누적 {cumulative_fatigue}"
+                            else:
+                                cumulative_fatigue = 0
+                                fatigue_str = "휴식/홈복귀(Reset)"
+                        else:
+                            fatigue_str = "-"
+                            
+                        date_short = match_time.split(" ")[0].replace("-", ".") if "-" in match_time else match_time
+                        
+                        # 날짜 및 상대팀 아래로 리그명, 중요도, 홈/원정 여부 줄바꿈 적용
+                        row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {importance_label} / {loc_type}"
+                        processed.append({
+                            "desc": row_desc,
+                            "imp_atk": imp_atk,
+                            "imp_def": imp_def,
+                            "fatigue_level": cumulative_fatigue if loc_type == "원정" else 0
+                        })
+                return processed
                 
-                # 날짜 및 상대팀 아래로 리그명, 중요도, 홈/원정 여부가 줄바꿈되어 표기
-                row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {importance_label} / {loc_type}"
-                
-                processed.append({
-                    "desc": row_desc,
-                    "imp_atk": imp_atk,
-                    "imp_def": imp_def,
-                    "fatigue_level": cumulative_fatigue if loc_type == "원정" else 0
-                })
-        return processed
+            return process_parsed_list(past_fixtures, False), process_parsed_list(future_fixtures, True)
 
-    return process_parsed_list(past_fixtures, False), process_parsed_list(future_fixtures, True)
-
-# --- 메인 실행부 영역 ---
-home_past, home_future = parse_chronological_timeline_4days(home_fixtures, home_team, match_date)
-away_past, away_future = parse_chronological_timeline_4days(away_fixtures, away_team, match_date)
-
-table_rows = []
-
-# 컬럼 순서 매핑: 3일이내(과거) | 해당경기 | 향후 3일이내 | 향후 6일이내 | 향후 9일이내
-h_past_c1 = home_past[0]["desc"] if len(home_past) > 0 else "휴식"
-h_fut_c1 = home_future[0]["desc"] if len(home_future) > 0 else "휴식"
-h_fut_c2 = home_future[1]["desc"] if len(home_future) > 1 else "휴식"
-h_fut_c3 = home_future[2]["desc"] if len(home_future) > 2 else "휴식"
-
-a_past_c1 = away_past[0]["desc"] if len(away_past) > 0 else "휴식"
-a_fut_c1 = away_future[0]["desc"] if len(away_future) > 0 else "휴식"
-a_fut_c2 = away_future[1]["desc"] if len(away_future) > 1 else "휴식"
-a_fut_c3 = away_future[2]["desc"] if len(away_future) > 2 else "휴식"
-
-match_info_display = f"{match_date.split()[0]} / {home_team} vs {away_team} / {tournament_display} / 중요도상 / 해당경기"
-
-h_last_fatigue = home_future[-1]["fatigue_level"] if home_future else (home_past[-1]["fatigue_level"] if home_past else 0)
-a_last_fatigue = away_future[-1]["fatigue_level"] if away_future else (away_past[-1]["fatigue_level"] if away_past else 0)
-
-table_rows.append({
-    "팀명": f"홈 팀 ({home_team})",
-    "3일이내(과거)": h_past_c1,
-    "해당 경기": match_info_display,
-    "향후 3일이내": h_fut_c1,
-    "향후 6일이내": h_fut_c2,
-    "향후 9일이내": h_fut_c3,
-    "보정사항 (중요도/피로누적)": f"중요도상 / 피로누적 {h_last_fatigue}"
-})
-table_rows.append({
-    "팀명": f"원정 팀 ({away_team})",
-    "3일이내(과거)": a_past_c1,
-    "해당 경기": match_info_display,
-    "향후 3일이내": a_fut_c1,
-    "향후 6일이내": a_fut_c2,
-    "향후 9일이내": a_fut_c3,
-    "보정사항 (중요도/피로누적)": f"중요도상 / 피로누적 {a_last_fatigue}"
-})
-
-df_r3 = pd.DataFrame(table_rows)
-st.dataframe(df_r3, use_container_width=True, hide_index=True)
-
-# 💡 상세 산출 내역 계산 (피로도: 공격 -5% 누적, 방어 +5% 누적)
-h_imp_atk, h_imp_def = 10, -10
-h_fatigue_atk = -5 * h_last_fatigue
-h_fatigue_def = 5 * h_last_fatigue
-a_imp_atk, a_imp_def = 10, -10
-a_fatigue_atk = -5 * a_last_fatigue
-a_fatigue_def = 5 * a_last_fatigue
-
-st.markdown(f"""
-<div class="calc-box">
-    <b>규칙 3-2번 상세 산출 내역 및 보정 합산:</b><br>
-    • <b>{home_team}:</b> 중요도 상(공격력 +{h_imp_atk}%, 방어력 {h_imp_def}%), 피로누적 {h_last_fatigue}단계(공격력 {h_fatigue_atk}%, 방어력 +{h_fatigue_def}%)<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {h_imp_atk + h_fatigue_atk:+d}%, 방어력 {h_imp_def + h_fatigue_def:+d}%<br><br>
-    • <b>{away_team}:</b> 중요도 상(공격력 +{a_imp_atk}%, 방어력 {a_imp_def}%), 피로누적 {a_last_fatigue}단계(공격력 {a_fatigue_atk}%, 방어력 +{a_fatigue_def}%)<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {a_imp_atk + a_fatigue_atk:+d}%, 방어력 {a_imp_def + a_fatigue_def:+d}%
-</div>
-""", unsafe_allow_html=True)
-
+        home_past, home_future = parse_chronological_timeline_4days(home_fixtures, home_team, match_date)
+        away_past, away_future = parse_chronological_timeline_4days(away_fixtures, away_team, match_date)
+        
+        table_rows = []
+        h_past_c1 = home_past[0]["desc"] if len(home_past) > 0 else "휴식"
+        h_fut_c1 = home_future[0]["desc"] if len(home_future) > 0 else "휴식"
+        h_fut_c2 = home_future[1]["desc"] if len(home_future) > 1 else "휴식"
+        h_fut_c3 = home_future[2]["desc"] if len(home_future) > 2 else "휴식"
+        
+        a_past_c1 = away_past[0]["desc"] if len(away_past) > 0 else "휴식"
+        a_fut_c1 = away_future[0]["desc"] if len(away_future) > 0 else "휴식"
+        a_fut_c2 = away_future[1]["desc"] if len(away_future) > 1 else "휴식"
+        a_fut_c3 = away_future[2]["desc"] if len(away_future) > 2 else "휴식"
+        
+        match_info_display = f"{match_date.split()[0]} / {home_team} vs {away_team} / {tournament_display} / 중요도상 / 해당경기"
+        
+        h_last_fatigue = home_future[-1]["fatigue_level"] if home_future else (home_past[-1]["fatigue_level"] if home_past else 0)
+        a_last_fatigue = away_future[-1]["fatigue_level"] if away_future else (away_past[-1]["fatigue_level"] if away_past else 0)
+        
+        table_rows.append({
+            "팀명": f"홈 팀 ({home_team})",
+            "3일이내(과거)": h_past_c1,
+            "해당 경기": match_info_display,
+            "향후 3일이내": h_fut_c1,
+            "향후 6일이내": h_fut_c2,
+            "향후 9일이내": h_fut_c3,
+            "보정사항 (중요도/피로누적)": f"중요도상 / 피로누적 {h_last_fatigue}"
+        })
+        table_rows.append({
+            "팀명": f"원정 팀 ({away_team})",
+            "3일이내(과거)": a_past_c1,
+            "해당 경기": match_info_display,
+            "향후 3일이내": a_fut_c1,
+            "향후 6일이내": a_fut_c2,
+            "향후 9일이내": a_fut_c3,
+            "보정사항 (중요도/피로누적)": f"중요도상 / 피로누적 {a_last_fatigue}"
+        })
+        
+        df_r3 = pd.DataFrame(table_rows)
+        st.dataframe(df_r3, use_container_width=True, hide_index=True)
+        
+        h_imp_atk, h_imp_def = 10, -10
+        h_fatigue_atk = -5 * h_last_fatigue
+        h_fatigue_def = 5 * h_last_fatigue
+        a_imp_atk, a_imp_def = 10, -10
+        a_fatigue_atk = -5 * a_last_fatigue
+        a_fatigue_def = 5 * a_last_fatigue
+        
+        st.markdown(f"""
+        <div class="calc-box">
+            <b>규칙 3-2번 상세 산출 내역 및 보정 합산:</b><br>
+            • <b>{home_team}:</b> 중요도 상(공격력 +{h_imp_atk}%, 방어력 {h_imp_def}%), 피로누적 {h_last_fatigue}단계(공격력 {h_fatigue_atk}%, 방어력 +{h_fatigue_def}%)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {h_imp_atk + h_fatigue_atk:+d}%, 방어력 {h_imp_def + h_fatigue_def:+d}%<br><br>
+            • <b>{away_team}:</b> 중요도 상(공격력 +{a_imp_atk}%, 방어력 {a_imp_def}%), 피로누적 {a_last_fatigue}단계(공격력 {a_fatigue_atk}%, 방어력 +{a_fatigue_def}%)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {a_imp_atk + a_fatigue_atk:+d}%, 방어력 {a_imp_def + a_fatigue_def:+d}%
+        </div>
+        """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터(fixtures)가 아직 수집되지 않았습니다.")
         st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, 일정 누수 및 피로도 산출 내역을 표시할 수 없습니다.")
