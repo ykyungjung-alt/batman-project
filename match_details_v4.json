@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-10-13 15:06:34",
+    "updated_at": "2026-10-13 15:15:49",
     "leagues": {
         "34": {
             "league_id": 34,
@@ -10,19 +10,19 @@
             "total_rounds": 38,
             "standing_legends": [
                 {
-                    "color": "#FF9966",
+                    "color": "RGB(255, 153, 102)",
                     "description": "UEFA CL qualifying"
                 },
                 {
-                    "color": "#00CCFF",
+                    "color": "RGB(0, 204, 255)",
                     "description": "UEFA EL qualifying"
                 },
                 {
-                    "color": "#009900",
+                    "color": "RGB(0, 153, 0)",
                     "description": "UEFA ECL qualifying"
                 },
                 {
-                    "color": "#B1A7A7",
+                    "color": "RGB(177, 167, 167)",
                     "description": "강등팀"
                 }
             ],
@@ -39,15 +39,15 @@
             "total_rounds": 46,
             "standing_legends": [
                 {
-                    "color": "#CCCCFF",
+                    "color": "RGB(204, 204, 255)",
                     "description": "승격팀"
                 },
                 {
-                    "color": "#00CCCC",
+                    "color": "RGB(0, 204, 204)",
                     "description": "승격 플레이오프"
                 },
                 {
-                    "color": "#B1A7A7",
+                    "color": "RGB(177, 167, 167)",
                     "description": "강등팀"
                 }
             ],
@@ -64,19 +64,19 @@
             "total_rounds": 38,
             "standing_legends": [
                 {
-                    "color": "#CCCCFF",
+                    "color": "RGB(204, 204, 255)",
                     "description": "승격팀"
                 },
                 {
-                    "color": "#00CCCC",
+                    "color": "RGB(0, 204, 204)",
                     "description": "승격 플레이오프"
                 },
                 {
-                    "color": "#FF9999",
+                    "color": "RGB(255, 153, 153)",
                     "description": "강등 플레이오프"
                 },
                 {
-                    "color": "#B1A7A7",
+                    "color": "RGB(177, 167, 167)",
                     "description": "강등팀"
                 }
             ],
