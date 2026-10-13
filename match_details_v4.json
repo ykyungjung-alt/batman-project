@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-10-13 15:27:17",
+    "updated_at": "2026-10-13 15:30:35",
     "leagues": {
         "34": {
             "league_id": 34,
@@ -28,7 +28,7 @@
             ],
             "standing_legends_error": null,
             "standings": [],
-            "standings_error": "[모듈 에러] 캡처 및 텍스트 라인 파싱에서 순위 데이터를 찾지 못했습니다."
+            "standings_error": "[코드 에러] 순위표 파싱 예외 발생: Message: \nStacktrace:\n#0 0x556f642b4aaa <unknown>\n#1 0x556f63be2aa9 <unknown>\n#2 0x556f63c393ff <unknown>\n#3 0x556f63c39671 <unknown>\n#4 0x556f63c85f74 <unknown>\n#5 0x556f63c831df <unknown>\n#6 0x556f63c2c148 <unknown>\n#7 0x556f63c2cf11 <unknown>\n#8 0x556f642775ac <unknown>\n#9 0x556f64275dc5 <unknown>\n#10 0x556f64260e95 <unknown>\n#11 0x556f64276a1a <unknown>\n#12 0x556f642495c9 <unknown>\n#13 0x556f6429f0f8 <unknown>\n#14 0x556f6429f295 <unknown>\n#15 0x556f642b33f3 <unknown>\n#16 0x7f5995a9cb84 <unknown>\n#17 0x7f5995b29ecc <unknown>\n"
         },
         "39": {
             "league_id": 39,
@@ -53,7 +53,7 @@
             ],
             "standing_legends_error": null,
             "standings": [],
-            "standings_error": "[모듈 에러] 캡처 및 텍스트 라인 파싱에서 순위 데이터를 찾지 못했습니다."
+            "standings_error": "[코드 에러] 순위표 파싱 예외 발생: Message: \nStacktrace:\n#0 0x556f642b4aaa <unknown>\n#1 0x556f63be2aa9 <unknown>\n#2 0x556f63c393ff <unknown>\n#3 0x556f63c39671 <unknown>\n#4 0x556f63c85f74 <unknown>\n#5 0x556f63c831df <unknown>\n#6 0x556f63c2c148 <unknown>\n#7 0x556f63c2cf11 <unknown>\n#8 0x556f642775ac <unknown>\n#9 0x556f64275dc5 <unknown>\n#10 0x556f64260e95 <unknown>\n#11 0x556f64276a1a <unknown>\n#12 0x556f642495c9 <unknown>\n#13 0x556f6429f0f8 <unknown>\n#14 0x556f6429f295 <unknown>\n#15 0x556f642b33f3 <unknown>\n#16 0x7f5995a9cb84 <unknown>\n#17 0x7f5995b29ecc <unknown>\n"
         },
         "40": {
             "league_id": 40,
@@ -82,7 +82,7 @@
             ],
             "standing_legends_error": null,
             "standings": [],
-            "standings_error": "[모듈 에러] 캡처 및 텍스트 라인 파싱에서 순위 데이터를 찾지 못했습니다."
+            "standings_error": "[코드 에러] 순위표 파싱 예외 발생: Message: \nStacktrace:\n#0 0x556f642b4aaa <unknown>\n#1 0x556f63be2aa9 <unknown>\n#2 0x556f63c393ff <unknown>\n#3 0x556f63c39671 <unknown>\n#4 0x556f63c85f74 <unknown>\n#5 0x556f63c831df <unknown>\n#6 0x556f63c2c148 <unknown>\n#7 0x556f63c2cf11 <unknown>\n#8 0x556f642775ac <unknown>\n#9 0x556f64275dc5 <unknown>\n#10 0x556f64260e95 <unknown>\n#11 0x556f64276a1a <unknown>\n#12 0x556f642495c9 <unknown>\n#13 0x556f6429f0f8 <unknown>\n#14 0x556f6429f295 <unknown>\n#15 0x556f642b33f3 <unknown>\n#16 0x7f5995a9cb84 <unknown>\n#17 0x7f5995b29ecc <unknown>\n"
         }
     }
 }
