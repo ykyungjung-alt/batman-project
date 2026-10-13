@@ -434,52 +434,64 @@ with tabs[1]:
     def local_make_df(matches, tname, def_gpg, def_cpg, def_rec):
         if not matches:
             return pd.DataFrame(), def_gpg, def_cpg, def_rec, 0.0, 0.0
+            
         rows = []
         eff_scored = 0.0
         c_total = 0
         raw_scored_total = 0.0
         raw_conceded_total = 0.0
         w = d = l = 0
-        # 💡 경기 일시 포맷을 YYYY.MM.DD 형태로 정돈하는 로직
-        formatted_mtime = mtime
-        try:
-            clean_date = mtime.split(" ")[0].replace("-", ".").replace("/", ".")
-            parts = clean_date.split(".")
-            if len(parts) == 3:
-                if len(parts[0]) <= 2:  # MM.DD.YYYY 형태인 경우
-                    formatted_mtime = f"{parts[2]}.{parts[0].zfill(2)}.{parts[1].zfill(2)}"
-                else:  # YYYY.MM.DD 형태인 경우
-                    formatted_mtime = f"{parts[0]}.{parts[1].zfill(2)}.{parts[2].zfill(2)}"
-        except Exception:
-            formatted_mtime = mtime
-
         
         for idx, m in enumerate(matches):
             league = m.get("league", "-")
             mtime = m.get("match_time", "-")
+            
+            # 💡 [정상 위치] mtime을 먼저 가져온 후 YYYY.MM.DD 형태로 정돈
+            formatted_mtime = mtime
+            try:
+                clean_date = mtime.split(" ")[0].replace("-", ".").replace("/", ".")
+                parts = clean_date.split(".")
+                if len(parts) == 3:
+                    if len(parts[0]) <= 2:  # MM.DD.YYYY 형태인 경우
+                        formatted_mtime = f"{parts[2]}.{parts[0].zfill(2)}.{parts[1].zfill(2)}"
+                    else:  # YYYY.MM.DD 형태인 경우
+                        formatted_mtime = f"{parts[0]}.{parts[1].zfill(2)}.{parts[2].zfill(2)}"
+            except Exception:
+                formatted_mtime = mtime
+
             teams = m.get("teams", "-")
             scores = m.get("ft_scores", ["0", "0"])
             try:
                 s1, s2 = int(scores[0]), int(scores[1])
             except:
                 s1 = s2 = 0
+                
             sc, cc = 0, 0
             pair = teams.split(" vs ")
             if len(pair) == 2:
                 t1, t2 = pair[0].strip(), pair[1].strip()
-                if tname in t1: sc, cc = s1, s2
-                elif tname in t2: sc, cc = s2, s1
-                else: sc, cc = s1, s2
+                if tname in t1:
+                    sc, cc = s1, s2
+                elif tname in t2:
+                    sc, cc = s2, s1
+                else:
+                    sc, cc = s1, s2
             else:
                 sc, cc = s1, s2
                 
             raw_scored_total += sc
             raw_conceded_total += cc
             
-            if sc > cc: res = "승"; w += 1
-            elif sc == cc: res = "무"; d += 1
-            else: res = "패"; l += 1
-            
+            if sc > cc:
+                res = "승"
+                w += 1
+            elif sc == cc:
+                res = "무"
+                d += 1
+            else:
+                res = "패"
+                l += 1
+                
             tier_str = "정보 없음"
             mult = 1.0
             tier_info = m.get("opponent_tier_info", "")
@@ -494,19 +506,29 @@ with tabs[1]:
                         tier_str += " ⚠️ (E티어 50% 할인)"
                 except:
                     pass
-            
+                    
             app_sc = sc * mult
             eff_scored += app_sc
             c_total += cc
             
             seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
             score_display = f"{s1} : {s2}" + (f" (할인: {app_sc:.1f})" if mult < 1.0 else "")
-            rows.append({"LIFO 순서": seq, "경기 일시": formatted_mtime, "대회": league, "대진": teams, "스코어": score_display, "결과": res, "상대 공수 티어": tier_str})
+            
+            rows.append({
+                "LIFO 순서": seq,
+                "경기 일시": formatted_mtime,
+                "대회": league,
+                "대진": teams,
+                "스코어": score_display,
+                "결과": res,
+                "상대 공수 티어": tier_str
+            })
             
         cnt = len(matches)
         gpg = eff_scored / cnt if cnt > 0 else def_gpg
         cpg = c_total / cnt if cnt > 0 else def_cpg
         rec = f"{cnt}전 {w}승 {d}무 {l}패" if cnt > 0 else def_rec
+        
         return pd.DataFrame(rows), gpg, cpg, rec, raw_scored_total, raw_conceded_total
 
     h_df, h_gpg, h_cpg, h_rec, h_raw_s, h_raw_c = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base)
