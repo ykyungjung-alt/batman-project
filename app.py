@@ -21,13 +21,22 @@ def load_match_data():
 
 # 💡 날짜 고정 없이, 시스템에 존재하는 모든 상세 데이터 파일(match_details.json, v2 등)을 유연하게 통합 탐색
 @st.cache_data(ttl=10)
+def load_match_data():
+    if os.path.exists("data.json"):
+        try:
+            with open("data.json", "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {"last_updated": "안전 모드 (데이터 없음)", "daily_matches": {}}
+
+
+# 💡 [기존 1, 2번 파일 병합용] 0단계 및 기본 텍스트 산출 내역 유지용
+@st.cache_data(ttl=10)
 def load_all_match_details():
-    # 💡 v3, v4 상세 데이터 파일 경로 추가 통합
     target_files = [
         "match_details.json", 
-        "match_details_v2.json", 
-        "match_details_v3.json", 
-        "match_details_v4.json"
+        "match_details_v2.json"
     ]
     combined_details = {}
     for t_file in target_files:
@@ -43,10 +52,43 @@ def load_all_match_details():
                 pass
     return combined_details
 
+
+# 💡 [3번 파일 독립 발췌용] 규칙 1번·2번 상세 표 데이터 전용 (match_details_v3.json)
+@st.cache_data(ttl=10)
+def load_v3_match_details():
+    v3_file = "match_details_v3.json"
+    if os.path.exists(v3_file):
+        try:
+            with open(v3_file, "r", encoding="utf-8") as f:
+                file_data = json.load(f)
+                return file_data.get("match_details", {})
+        except Exception:
+            pass
+    return {}
+
+
+# 💡 [4번 파일 독립 발췌용] 리그 순위표 및 랭킹 데이터 전용 (match_details_v4.json)
+@st.cache_data(ttl=10)
+def load_v4_match_details():
+    v4_file = "match_details_v4.json"
+    if os.path.exists(v4_file):
+        try:
+            with open(v4_file, "r", encoding="utf-8") as f:
+                file_data = json.load(f)
+                return file_data.get("leagues", {})
+        except Exception:
+            pass
+    return {}
+
+
 data = load_match_data()
 last_updated_time = data.get("last_updated", "알 수 없음")
 daily_matches = data.get("daily_matches", {})
-all_details_dict = load_all_match_details()
+
+# 각각의 성향에 맞춘 독립 및 병합 딕셔너리 호출 선언
+all_details_dict = load_all_match_details()   # 1, 2번 병합본 (기본 시스템 유지용)
+v3_details_dict = load_v3_match_details()       # 3번 전용 (1, 2단계 표 연동용)
+v4_leagues_dict = load_v4_match_details()       # 4번 전용 (리그 순위표 데이터용)
 
 st.title("배트맨 프로젝트 통합 마스터 규격 및 분석 엔진")
 st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
@@ -322,16 +364,16 @@ with tabs[1]:
     })
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
-    # 데이터 매칭 및 안전 추출
+    # v3 전용 딕셔너리에서 안전 발췌
     target_match_data = None
     target_code = str(match_code).strip()
     target_home = str(home_team).strip().replace(" ", "")
     target_away = str(away_team).strip().replace(" ", "")
 
-    if target_code and target_code in all_details_dict:
-        target_match_data = all_details_dict[target_code]
+    if target_code and target_code in v3_details_dict:
+        target_match_data = v3_details_dict[target_code]
     else:
-        for k, v in all_details_dict.items():
+        for k, v in v3_details_dict.items():
             v_home = str(v.get("home", "")).strip().replace(" ", "")
             v_away = str(v.get("away", "")).strip().replace(" ", "")
             if v_home == target_home and v_away == target_away:
@@ -339,29 +381,17 @@ with tabs[1]:
                 break
 
     if not target_match_data:
-        st.error("❌ 대상 경기 데이터를 찾지 못했습니다!")
-        st.stop()
+        target_match_data = {"meta_details": {"recent_form": {"home_matches": [], "away_matches": []}, "stadium_form": {"home_matches": [], "away_matches": []}}}
 
     meta_details = target_match_data.get("meta_details", {})
     recent_form = meta_details.get("recent_form", {})
-    stadium_form = meta_details.get("stadium_form", {})  # 2단계에서 활용하기 위해 미리 추출
+    stadium_form = meta_details.get("stadium_form", {})
 
-    h_name = recent_form.get("home_team_name", target_match_data.get("home", home_team)).strip()
-    a_name = recent_form.get("away_team_name", target_match_data.get("away", away_team)).strip()
+    h_name = home_team
+    a_name = away_team
 
-    h_matches = recent_form.get("home_matches", [])
-    a_matches = recent_form.get("away_matches", [])
-
-    if (not h_matches or not a_matches) and "matches" in recent_form:
-        all_matches = recent_form.get("matches", [])
-        if isinstance(all_matches, list):
-            if not h_matches:
-                h_matches = [m for m in all_matches if h_name in m.get("teams", "")]
-            if not a_matches:
-                a_matches = [m for m in all_matches if a_name in m.get("teams", "")]
-
-    h_matches = h_matches[:7] if h_matches else []
-    a_matches = a_matches[:7] if a_matches else []
+    h_matches = recent_form.get("home_matches", [])[:7]
+    a_matches = recent_form.get("away_matches", [])[:7]
 
     h_sum = recent_form.get("home_summary", {})
     a_sum = recent_form.get("away_summary", {})
@@ -430,9 +460,9 @@ with tabs[1]:
             seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
             rows.append({"LIFO 순서": seq, "경기 일시": mtime, "대회": league, "대진": teams, "스코어": f"{s1} : {s2}", "결과": res, "상대 공수 티어": tier_str})
         cnt = len(matches)
-        gpg = s_total / cnt
-        cpg = c_total / cnt
-        rec = f"{cnt}전 {w}승 {d}무 {l}패"
+        gpg = s_total / cnt if cnt > 0 else def_gpg
+        cpg = c_total / cnt if cnt > 0 else def_cpg
+        rec = f"{cnt}전 {w}승 {d}무 {l}패" if cnt > 0 else def_rec
         return pd.DataFrame(rows), gpg, cpg, rec
 
     h_df, h_gpg, h_cpg, h_rec = make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base)
@@ -443,7 +473,6 @@ with tabs[1]:
     a_at, a_atw = atk_tier(a_gpg)
     a_de, a_dew = def_tier(a_cpg)
 
-    # 홈팀 출력
     st.markdown(f"#### 홈 팀 ({h_name}) 최근 전적 분석 로그 (LIFO)")
     if not h_df.empty:
         st.dataframe(h_df, use_container_width=True, hide_index=True)
@@ -459,7 +488,6 @@ with tabs[1]:
 
     st.markdown("---")
 
-    # 원정팀 출력
     st.markdown(f"#### 원정 팀 ({a_name}) 최근 전적 분석 로그 (LIFO)")
     if not a_df.empty:
         st.dataframe(a_df, use_container_width=True, hide_index=True)
@@ -483,15 +511,8 @@ with tabs[2]:
         """, unsafe_allow_html=True,
     )
 
-    # 2단계 구장별 전적 배열 안전 추출 (최대 10개)
     s_home_matches = stadium_form.get("home_matches", [])[:10]
     s_away_matches = stadium_form.get("away_matches", [])[:10]
-
-    # 만약 개별 배열이 없고 통합 matches 형태로 되어있을 경우 보완 필터링
-    if not s_home_matches and "matches" in stadium_form:
-        s_home_matches = [m for m in stadium_form.get("matches", []) if h_name in m.get("teams", "")]
-    if not s_away_matches and "matches" in stadium_form:
-        s_away_matches = [m for m in stadium_form.get("matches", []) if a_name in m.get("teams", "")]
 
     s_h_df, s_h_gpg, s_h_cpg, s_h_rec = make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패")
     s_a_df, s_a_gpg, s_a_cpg, s_a_rec = make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패")
@@ -501,7 +522,6 @@ with tabs[2]:
     s_a_at, s_a_atw = atk_tier(s_a_gpg)
     s_a_de, s_a_dew = def_tier(s_a_cpg)
 
-    # 홈 팀 구장별 전적 출력
     st.markdown(f"#### 홈 팀 ({h_name}) 구장별 전적 및 상대 티어 대조 표")
     if not s_h_df.empty:
         st.dataframe(s_h_df, use_container_width=True, hide_index=True)
@@ -517,7 +537,6 @@ with tabs[2]:
 
     st.markdown("---")
 
-    # 원정 팀 구장별 전적 출력
     st.markdown(f"#### 원정 팀 ({a_name}) 구장별 전적 및 상대 티어 대조 표")
     if not s_a_df.empty:
         st.dataframe(s_a_df, use_container_width=True, hide_index=True)
