@@ -1,11 +1,11 @@
 {
-    "updated_at": "2026-10-13 03:53:25",
+    "updated_at": "2026-10-13 14:20:42",
     "leagues": {
         "34": {
             "league_id": 34,
             "league_name": "세리에 A",
             "league_name_error": null,
-            "active_round": "6/38",
+            "active_round": "7/38",
             "active_round_error": null,
             "total_rounds": 38,
             "standing_legends": [
@@ -57,13 +57,30 @@
         },
         "40": {
             "league_id": 40,
-            "league_name": "대기",
+            "league_name": "세리에 B",
             "league_name_error": null,
-            "active_round": "1/38",
-            "active_round_error": "[모듈 에러] 활성 라운드(active_round) 요소를 전혀 탐색할 수 없거나 숫자가 아닙니다.",
+            "active_round": "7/38",
+            "active_round_error": null,
             "total_rounds": 38,
-            "standing_legends": [],
-            "standing_legends_error": "[모듈 에러] 하단 범례(#standingColor) 요소를 탐색할 수 없습니다.",
+            "standing_legends": [
+                {
+                    "color": "#CCCCFF",
+                    "description": "승격팀"
+                },
+                {
+                    "color": "#00CCCC",
+                    "description": "승격 플레이오프"
+                },
+                {
+                    "color": "#FF9999",
+                    "description": "강등 플레이오프"
+                },
+                {
+                    "color": "#B1A7A7",
+                    "description": "강등팀"
+                }
+            ],
+            "standing_legends_error": null,
             "standings": [],
             "standings_error": "[모듈 에러] 페이지 내 'li.standis' 랭킹 리스트 요소를 전혀 탐색할 수 없습니다."
         }
