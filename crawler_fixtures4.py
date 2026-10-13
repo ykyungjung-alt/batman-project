@@ -256,7 +256,18 @@ def run_crawler_v4():
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
-        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
+        {"id": 40, "url": "https://football.scoreman123.com/league/40"},
+        {"id": 36, "url": "https://football.scoreman123.com/league/36"},
+        {"id": 37, "url": "https://football.scoreman123.com/league/37"},
+        {"id": 31, "url": "https://football.scoreman123.com/league/31"},
+        {"id": 33, "url": "https://football.scoreman123.com/league/33"},
+        {"id": 8, "url": "https://football.scoreman123.com/league/8"},
+        {"id": 9, "url": "https://football.scoreman123.com/league/9"},
+        {"id": 11, "url": "https://football.scoreman123.com/league/11"},
+        {"id": 12, "url": "https://football.scoreman123.com/league/12"},
+        {"id": 25, "url": "https://football.scoreman123.com/league/25"},
+        {"id": 15, "url": "https://football.scoreman123.com/league/15"},
+        {"id": 1292, "url": "https://football.scoreman123.com/league/1292"}
     ]
     all_leagues_data = {
         "updated_at": now_kst,
