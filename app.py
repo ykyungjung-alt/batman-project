@@ -792,9 +792,9 @@ with tabs[3]:
             if base_dt and curr_dt:
                 diff_days = (curr_dt - base_dt).days
                 if diff_days < 0:
-                    past_fixtures.append((diff_days, fix))  # 음수 (과거)
+                    past_fixtures.append((diff_days, fix))
                 elif diff_days > 0:
-                    future_fixtures.append((diff_days, fix))  # 양수 (미래)
+                    future_fixtures.append((diff_days, fix))
                     
         past_fixtures = sorted(past_fixtures, key=lambda x: x[0], reverse=True)
         future_fixtures = sorted(future_fixtures, key=lambda x: x[0])
@@ -833,7 +833,6 @@ with tabs[3]:
                 "loc_type": loc_type
             }
 
-        # 1. 과거 경기 처리 (3일 이내 과거 경기 및 피로도 연속성 계산)
         processed_past = []
         running_fatigue = 0
         chrono_past = sorted(past_fixtures, key=lambda x: x[0])
@@ -857,7 +856,6 @@ with tabs[3]:
             h_past_cell = processed_past[-1]["desc"]
             last_past_fatigue = processed_past[-1]["fatigue_level"]
 
-        # 2. 미래(향후) 경기 처리 (과거 피로도 상태를 이어받아 누적 및 홈 복귀 리셋 적용)
         processed_future = []
         current_fatigue = last_past_fatigue
         for diff_d, fix in future_fixtures:
@@ -873,73 +871,73 @@ with tabs[3]:
                     "loc_type": details["loc_type"]
                 })
 
-return h_past_cell, processed_future, last_past_fatigue
+        return h_past_cell, processed_future, last_past_fatigue
 
-    home_past_desc, home_future, h_last_fatigue = parse_chronological_timeline_4days(home_fixtures, home_team, match_date)
-    away_past_desc, away_future, a_last_fatigue = parse_chronological_timeline_4days(away_fixtures, away_team, match_date)
+# 💡 최상위 레벨 호출부 (들여쓰기 0칸)
+home_past_desc, home_future, h_last_fatigue = parse_chronological_timeline_4days(home_fixtures, home_team, match_date)
+away_past_desc, away_future, a_last_fatigue = parse_chronological_timeline_4days(away_fixtures, away_team, match_date)
 
-    h_past_c1 = home_past_desc
-    h_fut_c1 = home_future[0]["desc"] if len(home_future) > 0 else "휴식"
-    h_fut_c2 = home_future[1]["desc"] if len(home_future) > 1 else "휴식"
-    h_fut_c3 = home_future[2]["desc"] if len(home_future) > 2 else "휴식"
+h_past_c1 = home_past_desc
+h_fut_c1 = home_future[0]["desc"] if len(home_future) > 0 else "휴식"
+h_fut_c2 = home_future[1]["desc"] if len(home_future) > 1 else "휴식"
+h_fut_c3 = home_future[2]["desc"] if len(home_future) > 2 else "휴식"
 
-    a_past_c1 = away_past_desc
-    a_fut_c1 = away_future[0]["desc"] if len(away_future) > 0 else "휴식"
-    a_fut_c2 = away_future[1]["desc"] if len(away_future) > 1 else "휴식"
-    a_fut_c3 = away_future[2]["desc"] if len(away_future) > 2 else "휴식"
+a_past_c1 = away_past_desc
+a_fut_c1 = away_future[0]["desc"] if len(away_future) > 0 else "휴식"
+a_fut_c2 = away_future[1]["desc"] if len(away_future) > 1 else "휴식"
+a_fut_c3 = away_future[2]["desc"] if len(away_future) > 2 else "휴식"
 
-    date_str_short = match_date.split()[0].replace("-", ".") if "-" in match_date else match_date
-    home_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 홈"
-    away_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 원정"
+date_str_short = match_date.split()[0].replace("-", ".") if "-" in match_date else match_date
+home_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 홈"
+away_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 원정"
 
-    h_last_fatigue = home_future[-1]["fatigue_level"] if home_future else 0
-    a_last_fatigue = away_future[-1]["fatigue_level"] if away_future else 0
+h_last_fatigue = home_future[-1]["fatigue_level"] if home_future else 0
+a_last_fatigue = away_future[-1]["fatigue_level"] if away_future else 0
 
-    # 💡 HTML 기반 표 렌더링 (들여쓰기 오류 원천 차단 정돈본)
-    timeline_table_html = f"""
-    <style>
-    .custom-timeline-wrap {{width: 100%; overflow-x: auto; margin-top: 10px; margin-bottom: 20px; border: 1px solid #e0e0e0; border-radius: 6px;}}
-    .custom-timeline-table {{width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; background-color: white; min-width: 800px;}}
-    .custom-timeline-table th, .custom-timeline-table td {{border: 1px solid #e0e0e0; padding: 10px 8px; vertical-align: middle; white-space: nowrap;}}
-    .custom-timeline-table th {{background-color: #f5f5f5; font-weight: bold; color: #333;}}
-    .custom-timeline-table tr:hover {{background-color: #fafafa;}}
-    </style>
-    <div class="custom-timeline-wrap">
-    <table class="custom-timeline-table">
-    <thead>
-    <tr>
-    <th>팀명</th>
-    <th>3일이내(과거)</th>
-    <th style="background-color: #e3f2fd;">해당 경기</th>
-    <th>향후 3일이내</th>
-    <th>향후 6일이내</th>
-    <th>향후 9일이내</th>
-    <th>보정사항 (중요도/피로누적)</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-    <td style="font-weight: bold; background-color: #fafafa;">홈 팀<br>({home_team})</td>
-    <td>{h_past_c1}</td>
-    <td style="background-color: #f7fbff; font-weight: bold;">{home_match_cell}</td>
-    <td>{h_fut_c1}</td>
-    <td>{h_fut_c2}</td>
-    <td>{h_fut_c3}</td>
-    <td>중요도상 / 피로누적 {h_last_fatigue}</td>
-    </tr>
-    <tr>
-    <td style="font-weight: bold; background-color: #fafafa;">원정 팀<br>({away_team})</td>
-    <td>{a_past_c1}</td>
-    <td style="background-color: #f7fbff; font-weight: bold;">{away_match_cell}</td>
-    <td>{a_fut_c1}</td>
-    <td>{a_fut_c2}</td>
-    <td>{a_fut_c3}</td>
-    <td>중요도상 / 피로누적 {a_last_fatigue}</td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-    """
+timeline_table_html = f"""
+<style>
+.custom-timeline-wrap {{width: 100%; overflow-x: auto; margin-top: 10px; margin-bottom: 20px; border: 1px solid #e0e0e0; border-radius: 6px;}}
+.custom-timeline-table {{width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; background-color: white; min-width: 800px;}}
+.custom-timeline-table th, .custom-timeline-table td {{border: 1px solid #e0e0e0; padding: 10px 8px; vertical-align: middle; white-space: nowrap;}}
+.custom-timeline-table th {{background-color: #f5f5f5; font-weight: bold; color: #333;}}
+.custom-timeline-table tr:hover {{background-color: #fafafa;}}
+</style>
+<div class="custom-timeline-wrap">
+<table class="custom-timeline-table">
+<thead>
+<tr>
+<th>팀명</th>
+<th>3일이내(과거)</th>
+<th style="background-color: #e3f2fd;">해당 경기</th>
+<th>향후 3일이내</th>
+<th>향후 6일이내</th>
+<th>향후 9일이내</th>
+<th>보정사항 (중요도/피로누적)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight: bold; background-color: #fafafa;">홈 팀<br>({home_team})</td>
+<td>{h_past_c1}</td>
+<td style="background-color: #f7fbff; font-weight: bold;">{home_match_cell}</td>
+<td>{h_fut_c1}</td>
+<td>{h_fut_c2}</td>
+<td>{h_fut_c3}</td>
+<td>중요도상 / 피로누적 {h_last_fatigue}</td>
+</tr>
+<tr>
+<td style="font-weight: bold; background-color: #fafafa;">원정 팀<br>({away_team})</td>
+<td>{a_past_c1}</td>
+<td style="background-color: #f7fbff; font-weight: bold;">{away_match_cell}</td>
+<td>{a_fut_c1}</td>
+<td>{a_fut_c2}</td>
+<td>{a_fut_c3}</td>
+<td>중요도상 / 피로누적 {a_last_fatigue}</td>
+</tr>
+</tbody>
+</table>
+</div>
+"""
         st.markdown(timeline_table_html, unsafe_allow_html=True)
         
         h_imp_atk, h_imp_def = 10, -10
