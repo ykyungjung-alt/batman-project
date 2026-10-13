@@ -6,18 +6,6 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import streamlit as st
 
-@st.cache_data(ttl=10)
-def load_match_data():
-    if os.path.exists("data.json"):
-        try:
-            with open("data.json", "r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception:
-            pass
-    return {
-        "last_updated": "안전 모드 (데이터 없음)",
-        "daily_matches": {}
-    }
 
 # 💡 날짜 고정 없이, 시스템에 존재하는 모든 상세 데이터 파일(match_details.json, v2 등)을 유연하게 통합 탐색
 @st.cache_data(ttl=10)
