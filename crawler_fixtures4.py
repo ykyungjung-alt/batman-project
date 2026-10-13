@@ -13,7 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 # ==========================================
-# 🧩 BeautifulSoup 기반 안전 파싱 모듈 (스택 트레이스 원천 차단)
+# 🧩 개별 독립 파싱 모듈 (심층 텍스트 변환 적용)
 # ==========================================
 
 def parse_league_name(soup, fallback_name):
@@ -95,7 +95,7 @@ def parse_standing_legends(soup, default_legends):
         return default_legends, fallback_map, f"[코드 에러] 범례 파싱 예외 발생: {str(e)}"
 
 def parse_standings(soup, color_to_label, default_standings):
-    """💡 tplStandingsItem 템플릿 구조 기반 순위표 정밀 파싱 모듈"""
+    """💡 2중 중첩 span 및 b 태그 구조를 심층 파싱하여 R, 구단, P, W, D, L, GD, PTS를 완벽 매칭하는 모듈"""
     parsed_standings = []
     seen_teams = set()
     
@@ -105,6 +105,7 @@ def parse_standings(soup, color_to_label, default_standings):
             return default_standings, "[모듈 에러] 페이지 내 'ul#standingList li.standis' 요소를 전혀 탐색할 수 없습니다."
 
         for row in standing_rows:
+            # 1. 태그 컬러 추출 (--tagcolor)
             style_attr = row.get("style", "")
             tag_color = ""
             if "--tagcolor:" in style_attr:
@@ -113,6 +114,7 @@ def parse_standings(soup, color_to_label, default_standings):
                 except:
                     pass
 
+            # 2. 순위 (R) 추출
             rank_elem = row.select_one("span.rank")
             if not rank_elem:
                 continue
@@ -120,6 +122,7 @@ def parse_standings(soup, color_to_label, default_standings):
             if not rank_val:
                 continue
 
+            # 3. 구단명 추출
             team_name_elem = row.select_one("span.team span.name")
             if team_name_elem:
                 team_val = team_name_elem.get_text(strip=True)
@@ -135,31 +138,55 @@ def parse_standings(soup, color_to_label, default_standings):
             if not team_val or team_val in ["구단", "PTS", "순위", "승점"]:
                 continue
 
-            # 직계 자식 span 순서 (R, 구단, P, W, D, L, GD, PTS)
-            child_spans = row.find_all("span", recursive=False)
-            
-            def get_text_safe(span_elem):
-                if not span_elem:
+            # 4. 💡 심층 텍스트 추출 함수 (<b> 태그 및 2중 중첩 span 내부 실제 숫자 수집)
+            def extract_deep_text(elem):
+                if not elem:
                     return ""
-                b_tag = span_elem.select_one("b")
+                b_tag = elem.select_one("b")
                 if b_tag:
                     return b_tag.get_text(strip=True)
-                inner = span_elem.select_one("span")
-                if inner:
-                    return inner.get_text(strip=True)
-                return span_elem.get_text(strip=True)
+                inner_spans = elem.find_all("span")
+                if inner_spans:
+                    for s in reversed(inner_spans):
+                        txt = s.get_text(strip=True)
+                        if txt:
+                            return txt
+                return elem.get_text(strip=True)
 
-            if len(child_spans) >= 8:
-                p_val = get_text_safe(child_spans[2])
-                w_val = get_text_safe(child_spans[3])
-                d_val = get_text_safe(child_spans[4])
-                l_val = get_text_safe(child_spans[5])
-                gd_val = get_text_safe(child_spans[6])
-                pts_val = get_text_safe(child_spans[7])
+            # 직계 자식 span들 순서대로 가져오기 (0: rank, 1: team, 2~7: 스탯 데이터)
+            direct_spans = row.find_all("span", recursive=False)
+            stat_values = []
+            
+            for span in direct_spans[2:]:
+                val = extract_deep_text(span)
+                if val:
+                    stat_values.append(val)
+
+            # 백업 탐색 (구조가 미세하게 다를 경우 대비)
+            if len(stat_values) < 6:
+                stat_values = []
+                for s in row.select("span"):
+                    if s.find_parent("span", class_="team") or s.find_parent("span", class_="rank"):
+                        continue
+                    if s.get("class") and ("rank" in s.get("class") or "team" in s.get("class")):
+                        continue
+                    val = extract_deep_text(s)
+                    if val and val != rank_val and val != team_val and val not in stat_values:
+                        stat_values.append(val)
+
+            # 5. 최종 6대 스탯 컬럼 매칭 및 데이터 변환 완성
+            if len(stat_values) >= 6:
+                p_val = stat_values[0]   # P (경기수)
+                w_val = stat_values[1]   # W (승)
+                d_val = stat_values[2]   # D (무)
+                l_val = stat_values[3]   # L (패)
+                gd_val = stat_values[4]  # GD (득실)
+                pts_val = stat_values[5] # PTS (승점)
 
                 if team_val not in seen_teams:
                     seen_teams.add(team_val)
                     tag_label = color_to_label.get(tag_color, "일반")
+
                     parsed_standings.append({
                         "rank": rank_val,
                         "team": team_val,
@@ -176,10 +203,10 @@ def parse_standings(soup, color_to_label, default_standings):
         if parsed_standings:
             parsed_standings.sort(key=lambda x: int(x['rank']) if x['rank'].isdigit() else 999)
             return parsed_standings, None
-
-        return default_standings, "[조건 불일치] li.standis 행은 존재하나 컬럼 매칭에 실패했습니다."
+            
+        return default_standings, "[조건 불일치] li.standis 행은 존재하나 스탯 6개 컬럼 매칭에 실패했습니다."
     except Exception as e:
-        return default_standings, f"[코드 에러] 순위표 파싱 예외 발생: {str(e)}"
+        return default_standings, f"[코드 에러] 순위표 파싱 중 예외 발생: {str(e)}"
 
 
 # ==========================================
@@ -205,6 +232,7 @@ def run_crawler_v4():
     options.add_argument("--disable-gpu")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 
+    # 💡 실제 스코어맨 절대 도메인 URL 적용
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -253,7 +281,6 @@ def run_crawler_v4():
                 all_leagues_data["leagues"][str(league_id)] = league_match_data
                 continue
 
-            # Selenium으로 동적 요소 렌더링 대기 및 탭 클릭 제어
             try:
                 WebDriverWait(driver, 15).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, "#standingPlates"))
@@ -269,52 +296,3 @@ def run_crawler_v4():
                 time.sleep(1)
 
                 result_btn = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingHF span[data-st-hf='0']"))
-                )
-                driver.execute_script("arguments[0].click();", result_btn)
-                time.sleep(1.5)
-            except Exception as tab_err:
-                print(f"  ⚠️ [조건 불일치] 필수 탭 제어 중 예외 발생: {tab_err}")
-
-            # 💡 Selenium이 렌더링한 최종 소스를 BeautifulSoup에 전달하여 안전하게 파싱
-            soup = BeautifulSoup(driver.page_source, 'html.parser')
-
-            name_res, name_err = parse_league_name(soup, league_match_data["league_name"])
-            league_match_data["league_name"] = name_res
-            league_match_data["league_name_error"] = name_err
-            
-            round_res, total_cnt, round_err = parse_active_round(
-                soup, league_id, league_match_data["active_round"], league_match_data["total_rounds"]
-            )
-            league_match_data["active_round"] = round_res
-            league_match_data["total_rounds"] = total_cnt
-            league_match_data["active_round_error"] = round_err
-            
-            legends_res, color_map, legend_err = parse_standing_legends(
-                soup, league_match_data["standing_legends"]
-            )
-            league_match_data["standing_legends"] = legends_res
-            league_match_data["standing_legends_error"] = legend_err
-            
-            standings_res, standings_err = parse_standings(
-                soup, color_map, league_match_data["standings"]
-            )
-            league_match_data["standings"] = standings_res
-            league_match_data["standings_error"] = standings_err
-
-            print(f"✅ 수집 완료: {league_match_data['league_name']} (순위 팀: {len(league_match_data['standings'])}개)")
-
-            all_leagues_data["leagues"][str(league_id)] = league_match_data
-
-    except Exception as e:
-        print(f"❌ [크롤링 실행 중 예외 발생]: {e}")
-    finally:
-        if driver:
-            driver.quit()
-
-    with open("match_details_v4.json", "w", encoding="utf-8") as f:
-        json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
-    print("🎉 match_details_v4.json 저장 완료")
-
-if __name__ == "__main__":
-    run_crawler_v4()
