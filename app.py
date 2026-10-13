@@ -262,6 +262,11 @@ with tabs[0]:
     st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
     st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
     
+    # 💡 경기 일시 데이터 안전 추출
+    match_time_display = detailed_info.get("head_info", {}).get("match_time_display", "")
+    if not match_time_display:
+        match_time_display = selected_match.get("time", match_date)
+
     if has_detailed_data:
         meta_status = "정상 통과 (정밀 데이터 연동 완료)"
         head_info = detailed_info.get("head_info", {})
@@ -277,35 +282,36 @@ with tabs[0]:
         home_stadium_name = head_info.get("home_stadium", "").strip()  # 홈팀의 실제 홈구장
         weather_info = head_info.get("weather", "").strip()
         
-        # 💡 [핵심] 실제 개최 구장과 홈팀 홈구장 비교 판정 및 색상 배지 생성
+        # 💡 [핵심] 실제 개최 구장과 홈팀 홈구장 비교 및 색상/상태 표기 로직
         if stadium_name and home_stadium_name:
             if stadium_name.lower() == home_stadium_name.lower():
-                stadium_badge = f"<span style='color: #2e7d32; font-weight: bold;'>🟢 홈구장 ({stadium_name})</span>"
+                stadium_badge = f"<span style='color: #2e7d32; font-weight: bold;'>{stadium_name} (홈)</span>"
             else:
-                stadium_badge = f"<span style='color: #c62828; font-weight: bold;'>🔴 중립 (개최: {stadium_name} / 홈구장: {home_stadium_name})</span>"
+                stadium_badge = f"<span style='color: #c62828; font-weight: bold;'>{stadium_name} (중립)</span>"
         elif stadium_name:
-            stadium_badge = f"개최 구장: {stadium_name} (홈구장 정보 미확인)"
+            stadium_badge = f"{stadium_name} (홈구장 미확인)"
         else:
             stadium_badge = "구장 정보 실시간 반영 대기"
 
-        # 날씨 정보 결합
-        if stadium_badge and weather_info:
-            stadium_info = f"{stadium_badge} / 날씨: {weather_info}"
-        else:
-            stadium_info = stadium_badge if stadium_badge else f"구장 정보 없음 (날씨: {weather_info})"
+        # 구장 정보 조합: "실제 경기장 명 / 홈경기장 명 / 날씨" 순서 규격 적용
+        h_stadium_text = home_stadium_name if home_stadium_name else "정보 없음"
+        w_text = weather_info if weather_info else "날씨 정보 없음"
+        
+        stadium_info = f"{stadium_badge} / 홈구장: {h_stadium_text} / 날씨: {w_text}"
             
     else:
         meta_status = "⚠️ 해당 경기의 상세 정밀 데이터 없음 (데이터 없음)"
         tournament_display = tournament_name
         stadium_info = "데이터 없음"
 
-    # 💡 [핵심 수정] HTML 배지가 깨지지 않고 시각적으로 렌더링되도록 st.markdown 마크다운 테이블 활용
+    # 💡 [핵심 수정] 메타 항목 및 요청하신 출력 순서/서식 반영 마크다운 테이블
     meta_markdown_table = f"""
-| 메타 항목 | 고정 값 (SSOT) |
+| 메타 항목 | 상세 정보 (SSOT) |
 | :--- | :--- |
+| **경기 일시** | {match_time_display} |
 | **대회 성격** | {tournament_display} |
 | **대진 매치** | {home_team} vs {away_team} |
-| **개최 구장 및 홈구장 검증** | {stadium_info} |
+| **구장 정보** | {stadium_info} |
 | **데이터 상태 검증** | {meta_status} |
 """
     st.markdown(meta_markdown_table, unsafe_allow_html=True)
