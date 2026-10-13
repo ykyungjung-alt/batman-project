@@ -27,7 +27,8 @@ def run_table_based_crawler():
                         "match_code": m_code,
                         "league": m.get("league", ""),
                         "home": m.get("home", ""),
-                        "away": m.get("away", "")
+                        "away": m.get("away", ""),
+                        "time": m.get("time", "")  # 💡 목록에 있는 정확한 시간 정보 보존
                     })
 
     print(f"🎯 [전체 경기 정밀 수집] 총 {len(target_matches)}개 경기 수집 시작")
@@ -61,7 +62,7 @@ def run_table_based_crawler():
                     "league": target["league"],
                     "round": "",
                     "match_time_raw": "",
-                    "match_time_display": "",
+                    "match_time_display": target.get("time", ""),  # 💡 [핵심 수정] 상세 파싱으로 오염되지 않도록 목록의 정확한 시간을 기본 탑재
                     "stadium": "",
                     "home_stadium": "",
                     "weather": ""
@@ -85,14 +86,11 @@ def run_table_based_crawler():
                                 head_info["round"] = txt
                                 break
 
-                    # 💡 경기 시간 정보(match_time_raw, match_time_display) 수집 복구
+                    # 💡 원본 사이트의 왜곡된 시간 데이터 대신 raw 식별값만 안전하게 백업
                     time_span = detail_soup.find("span", {"name": "timeData"})
                     if time_span:
                         if time_span.has_attr("data-t"):
                             head_info["match_time_raw"] = time_span["data-t"]
-                        disp_text = time_span.get_text(strip=True)
-                        if disp_text:
-                            head_info["match_time_display"] = disp_text
 
                     other_info_div = detail_soup.find("div", {"id": "otherInfo"})
                     if other_info_div:
@@ -274,6 +272,7 @@ def run_table_based_crawler():
                                 text = item.get_text(strip=True)
                                 if text and text not in lineup_data["home"]:
                                     lineup_data["home"].append(text)
+                        
                         guest_side = l_box.find("div", class_=["guest", "right-side"])
                         if guest_side:
                             items = guest_side.find_all(["div", "li", "span"], class_=["player", "item", "val"])
@@ -281,6 +280,7 @@ def run_table_based_crawler():
                                 text = item.get_text(strip=True)
                                 if text and text not in lineup_data["away"]:
                                     lineup_data["away"].append(text)
+
                     if len(lineup_data["home"]) > 6:
                         lineup_data["home"] = lineup_data["home"][:6]
                     if len(lineup_data["away"]) > 6:
