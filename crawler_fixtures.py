@@ -57,12 +57,13 @@ def run_table_based_crawler():
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
                 # ==========================================
-                # 1. 헤드 정보 (시간 항목 제거 완료)
+                # 1. 헤드 정보 (stadium, home_stadium, weather 수집)
                 # ==========================================
                 head_info = {
                     "league": target["league"],
                     "round": "",
                     "stadium": "",
+                    "home_stadium": "",  # 홈팀 실제 홈구장 수집 필드
                     "weather": ""
                 }
                 
