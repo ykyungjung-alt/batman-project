@@ -323,59 +323,74 @@ with tabs[1]:
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
     # ==========================================
-    # 💡 강제 추출 버전 — 경로 직접 확인
+    # 💡 두 구조 모두 지원: home/away_matches 형식 + matches 형식
     # ==========================================
     target_match_data = None
     target_code = str(match_code).strip()
     target_home = str(home_team).strip().replace(" ", "")
     target_away = str(away_team).strip().replace(" ", "")
 
-    # 1순위: 매치코드 직접 일치
+    # 매치 데이터 찾기
     if target_code and target_code in all_details_dict:
         target_match_data = all_details_dict[target_code]
-        st.info(f"✅ 1순위 매치코드 매칭 성공: {target_code}")
     else:
-        # 2순위: 팀 이름으로 찾기
         for k, v in all_details_dict.items():
             v_home = str(v.get("home", "")).strip().replace(" ", "")
             v_away = str(v.get("away", "")).strip().replace(" ", "")
             if v_home == target_home and v_away == target_away:
                 target_match_data = v
-                st.info(f"✅ 팀이름 매칭 성공: {k}")
                 break
 
     if not target_match_data:
         st.error("❌ 대상 경기 데이터를 찾지 못했습니다!")
         st.stop()
 
-    # ✅ 경로 직접 확인하며 추출
-    st.write("🔍 데이터 키 확인:", list(target_match_data.keys()))
-    
     meta_details = target_match_data.get("meta_details", {})
-    st.write("🔍 meta_details 키:", list(meta_details.keys()))
-    
     recent_form = meta_details.get("recent_form", {})
-    st.write("🔍 recent_form 키:", list(recent_form.keys()))
     
     if not recent_form:
-        st.error("❌ recent_form 데이터가 비어있습니다!")
+        st.error("❌ recent_form 데이터가 없습니다!")
         st.stop()
 
-    # ✅ 팀 이름
+    # 팀 이름
     h_name = recent_form.get("home_team_name", target_match_data.get("home", home_team)).strip()
     a_name = recent_form.get("away_team_name", target_match_data.get("away", away_team)).strip()
 
-    # ✅ home_matches / away_matches 직접 강제 추출
-    h_matches = recent_form["home_matches"][:7] if "home_matches" in recent_form else []
-    a_matches = recent_form["away_matches"][:7] if "away_matches" in recent_form else []
+    # ========== 경기 데이터 불러오기 — 두 가지 형식 모두 지원 ==========
+    h_matches = []
+    a_matches = []
+
+    # 형식 1: home_matches / away_matches (개별 분리형)
+    if "home_matches" in recent_form and isinstance(recent_form["home_matches"], list):
+        h_matches = recent_form["home_matches"][:7]
+        st.info(f"✅ 형식1: home_matches 사용 — {len(h_matches)}경기")
+    if "away_matches" in recent_form and isinstance(recent_form["away_matches"], list):
+        a_matches = recent_form["away_matches"][:7]
+        st.info(f"✅ 형식1: away_matches 사용 — {len(a_matches)}경기")
+
+    # 형식 2: matches 배열에서 팀 이름으로 필터링 (통합형)
+    if not h_matches or not a_matches:
+        all_matches = recent_form.get("matches", [])
+        if isinstance(all_matches, list) and all_matches:
+            st.info(f"✅ 형식2: matches 배열 필터링 — 전체 {len(all_matches)}경기")
+            if not h_matches:
+                h_matches = [m for m in all_matches if h_name in m.get("teams", "")][:7]
+            if not a_matches:
+                a_matches = [m for m in all_matches if a_name in m.get("teams", "")][:7]
+
+    # 형식 3: 요약 데이터만 사용
+    h_sum = recent_form.get("home_summary", {})
+    a_sum = recent_form.get("away_summary", {})
+    
+    h_gpg_base = float(h_sum.get("goals_per_game", 0))
+    h_cpg_base = float(h_sum.get("conceded_per_game", 0))
+    h_rec_base = h_sum.get("recent_record", "0전 0승 0무 0패")
+    
+    a_gpg_base = float(a_sum.get("goals_per_game", 0))
+    a_cpg_base = float(a_sum.get("conceded_per_game", 0))
+    a_rec_base = a_sum.get("recent_record", "0전 0승 0무 0패")
 
     st.success(f"✅ 최종 → {h_name}: {len(h_matches)}경기 / {a_name}: {len(a_matches)}경기")
-    
-    # 미리보기
-    if h_matches:
-        st.write("🔍 홈팀 첫 경기 예시:", h_matches[0])
-    if a_matches:
-        st.write("🔍 원정팀 첫 경기 예시:", a_matches[0])
 
     # ========== 티어 함수 ==========
     def atk_tier(g):
@@ -395,10 +410,10 @@ with tabs[1]:
     def atk_tier_nm(g): return atk_tier(g)[0]
     def def_tier_nm(c): return def_tier(c)[0]
 
-    # ========== 표 생성 함수 ==========
-    def make_df(matches, tname):
+    # ========== 표 생성 & 계산 ==========
+    def make_df(matches, tname, def_gpg, def_cpg, def_rec):
         if not matches:
-            return pd.DataFrame(), 0.0, 0.0, "0전 0승 0무 0패"
+            return pd.DataFrame(), def_gpg, def_cpg, def_rec
         
         rows = []
         s_total = c_total = 0
@@ -461,8 +476,8 @@ with tabs[1]:
         return pd.DataFrame(rows), gpg, cpg, rec
 
     # ========== 실행 ==========
-    h_df, h_gpg, h_cpg, h_rec = make_df(h_matches, h_name)
-    a_df, a_gpg, a_cpg, a_rec = make_df(a_matches, a_name)
+    h_df, h_gpg, h_cpg, h_rec = make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base)
+    a_df, a_gpg, a_cpg, a_rec = make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base)
 
     h_at, h_atw = atk_tier(h_gpg)
     h_de, h_dew = def_tier(h_cpg)
@@ -474,7 +489,7 @@ with tabs[1]:
     if not h_df.empty:
         st.dataframe(h_df, use_container_width=True, hide_index=True)
     else:
-        st.info("📋 경기 데이터가 없습니다.")
+        st.info("📋 개별 경기 상세 없음 — 요약 수치 기준 계산")
     
     st.markdown(f"""<div class="calc-box">
         <b>{h_name} 규칙 1번 상세 산출 내역</b><br>
@@ -491,7 +506,7 @@ with tabs[1]:
     if not a_df.empty:
         st.dataframe(a_df, use_container_width=True, hide_index=True)
     else:
-        st.info("📋 경기 데이터가 없습니다.")
+        st.info("📋 개별 경기 상세 없음 — 요약 수치 기준 계산")
     
     st.markdown(f"""<div class="calc-box">
         <b>{a_name} 규칙 1번 상세 산출 내역</b><br>
