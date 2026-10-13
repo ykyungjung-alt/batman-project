@@ -770,7 +770,7 @@ with tabs[3]:
         
         st.markdown(f"##### 표 3-2: {home_team} vs {away_team} 일정 및 피로도·중요도 매트릭스")
         
-# ==========================================
+    # ==========================================
     # 3단계: 일정 이동피로도 및 중요도 판단 함수
     # ==========================================
     def parse_chronological_timeline_4days(fix_list, target_team_name, base_match_date):
@@ -875,93 +875,93 @@ with tabs[3]:
 
         return h_past_cell, processed_future, last_past_fatigue
 
-# 💡 최상위 레벨 (공백 0칸 기준 엄격 정돈)
-home_past_desc, home_future, h_last_fatigue = parse_chronological_timeline_4days(home_fixtures, home_team, match_date)
-away_past_desc, away_future, a_last_fatigue = parse_chronological_timeline_4days(away_fixtures, away_team, match_date)
+    home_past_desc, home_future, h_last_fatigue = parse_chronological_timeline_4days(home_fixtures, home_team, match_date)
+    away_past_desc, away_future, a_last_fatigue = parse_chronological_timeline_4days(away_fixtures, away_team, match_date)
 
-h_past_c1 = home_past_desc
-h_fut_c1 = home_future[0]["desc"] if len(home_future) > 0 else "휴식"
-h_fut_c2 = home_future[1]["desc"] if len(home_future) > 1 else "휴식"
-h_fut_c3 = home_future[2]["desc"] if len(home_future) > 2 else "휴식"
+    h_past_c1 = home_past_desc
+    h_fut_c1 = home_future[0]["desc"] if len(home_future) > 0 else "휴식"
+    h_fut_c2 = home_future[1]["desc"] if len(home_future) > 1 else "휴식"
+    h_fut_c3 = home_future[2]["desc"] if len(home_future) > 2 else "휴식"
 
-a_past_c1 = away_past_desc
-a_fut_c1 = away_future[0]["desc"] if len(away_future) > 0 else "휴식"
-a_fut_c2 = away_future[1]["desc"] if len(away_future) > 1 else "휴식"
-a_fut_c3 = away_future[2]["desc"] if len(away_future) > 2 else "휴식"
+    a_past_c1 = away_past_desc
+    a_fut_c1 = away_future[0]["desc"] if len(away_future) > 0 else "휴식"
+    a_fut_c2 = away_future[1]["desc"] if len(away_future) > 1 else "휴식"
+    a_fut_c3 = away_future[2]["desc"] if len(away_future) > 2 else "휴식"
 
-date_str_short = match_date.split()[0].replace("-", ".") if "-" in match_date else match_date
-home_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 홈"
-away_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 원정"
+    date_str_short = match_date.split()[0].replace("-", ".") if "-" in match_date else match_date
+    home_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 홈"
+    away_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 원정"
 
-h_last_fatigue = home_future[-1]["fatigue_level"] if home_future else 0
-a_last_fatigue = away_future[-1]["fatigue_level"] if away_future else 0
+    h_last_fatigue = home_future[-1]["fatigue_level"] if home_future else 0
+    a_last_fatigue = away_future[-1]["fatigue_level"] if away_future else 0
 
-timeline_table_html = f"""
-<style>
-.custom-timeline-wrap {{width: 100%; overflow-x: auto; margin-top: 10px; margin-bottom: 20px; border: 1px solid #e0e0e0; border-radius: 6px;}}
-.custom-timeline-table {{width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; background-color: white; min-width: 800px;}}
-.custom-timeline-table th, .custom-timeline-table td {{border: 1px solid #e0e0e0; padding: 10px 8px; vertical-align: middle; white-space: nowrap;}}
-.custom-timeline-table th {{background-color: #f5f5f5; font-weight: bold; color: #333;}}
-.custom-timeline-table tr:hover {{background-color: #fafafa;}}
-</style>
-<div class="custom-timeline-wrap">
-<table class="custom-timeline-table">
-<thead>
-<tr>
-<th>팀명</th>
-<th>3일이내(과거)</th>
-<th style="background-color: #e3f2fd;">해당 경기</th>
-<th>향후 3일이내</th>
-<th>향후 6일이내</th>
-<th>향후 9일이내</th>
-<th>보정사항 (중요도/피로누적)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="font-weight: bold; background-color: #fafafa;">홈 팀<br>({home_team})</td>
-<td>{h_past_c1}</td>
-<td style="background-color: #f7fbff; font-weight: bold;">{home_match_cell}</td>
-<td>{h_fut_c1}</td>
-<td>{h_fut_c2}</td>
-<td>{h_fut_c3}</td>
-<td>중요도상 / 피로누적 {h_last_fatigue}</td>
-</tr>
-<tr>
-<td style="font-weight: bold; background-color: #fafafa;">원정 팀<br>({away_team})</td>
-<td>{a_past_c1}</td>
-<td style="background-color: #f7fbff; font-weight: bold;">{away_match_cell}</td>
-<td>{a_fut_c1}</td>
-<td>{a_fut_c2}</td>
-<td>{a_fut_c3}</td>
-<td>중요도상 / 피로누적 {a_last_fatigue}</td>
-</tr>
-</tbody>
-</table>
-</div>
-"""
+    timeline_table_html = f"""
+    <style>
+    .custom-timeline-wrap {{width: 100%; overflow-x: auto; margin-top: 10px; margin-bottom: 20px; border: 1px solid #e0e0e0; border-radius: 6px;}}
+    .custom-timeline-table {{width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; background-color: white; min-width: 800px;}}
+    .custom-timeline-table th, .custom-timeline-table td {{border: 1px solid #e0e0e0; padding: 10px 8px; vertical-align: middle; white-space: nowrap;}}
+    .custom-timeline-table th {{background-color: #f5f5f5; font-weight: bold; color: #333;}}
+    .custom-timeline-table tr:hover {{background-color: #fafafa;}}
+    </style>
+    <div class="custom-timeline-wrap">
+    <table class="custom-timeline-table">
+    <thead>
+    <tr>
+    <th>팀명</th>
+    <th>3일이내(과거)</th>
+    <th style="background-color: #e3f2fd;">해당 경기</th>
+    <th>향후 3일이내</th>
+    <th>향후 6일이내</th>
+    <th>향후 9일이내</th>
+    <th>보정사항 (중요도/피로누적)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td style="font-weight: bold; background-color: #fafafa;">홈 팀<br>({home_team})</td>
+    <td>{h_past_c1}</td>
+    <td style="background-color: #f7fbff; font-weight: bold;">{home_match_cell}</td>
+    <td>{h_fut_c1}</td>
+    <td>{h_fut_c2}</td>
+    <td>{h_fut_c3}</td>
+    <td>중요도상 / 피로누적 {h_last_fatigue}</td>
+    </tr>
+    <tr>
+    <td style="font-weight: bold; background-color: #fafafa;">원정 팀<br>({away_team})</td>
+    <td>{a_past_c1}</td>
+    <td style="background-color: #f7fbff; font-weight: bold;">{away_match_cell}</td>
+    <td>{a_fut_c1}</td>
+    <td>{a_fut_c2}</td>
+    <td>{a_fut_c3}</td>
+    <td>중요도상 / 피로누적 {a_last_fatigue}</td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    """
 
-st.markdown(timeline_table_html, unsafe_allow_html=True)
-        
-        h_imp_atk, h_imp_def = 10, -10
-        h_fatigue_atk = -5 * h_last_fatigue
-        h_fatigue_def = 5 * h_last_fatigue
-        a_imp_atk, a_imp_def = 10, -10
-        a_fatigue_atk = -5 * a_last_fatigue
-        a_fatigue_def = 5 * a_last_fatigue
-        
-        st.markdown(f"""
-        <div class="calc-box">
-            <b>규칙 3-2번 상세 산출 내역 및 보정 합산:</b><br>
-            • <b>{home_team}:</b> 중요도 상(공격력 +{h_imp_atk}%, 방어력 {h_imp_def}%), 피로누적 {h_last_fatigue}단계(공격력 {h_fatigue_atk}%, 방어력 +{h_fatigue_def}%)<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {h_imp_atk + h_fatigue_atk:+d}%, 방어력 {h_imp_def + h_fatigue_def:+d}%<br><br>
-            • <b>{away_team}:</b> 중요도 상(공격력 +{a_imp_atk}%, 방어력 {a_imp_def}%), 피로누적 {a_last_fatigue}단계(공격력 {a_fatigue_atk}%, 방어력 +{a_fatigue_def}%)<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {a_imp_atk + a_fatigue_atk:+d}%, 방어력 {a_imp_def + a_fatigue_def:+d}%
-        </div>
-        """, unsafe_allow_html=True)
-    else:
-        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터(fixtures)가 아직 수집되지 않았습니다.")
-        st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, 일정 누수 및 피로도 산출 내역을 표시할 수 없습니다.")
+    st.markdown(timeline_table_html, unsafe_allow_html=True)
+
+    h_imp_atk, h_imp_def = 10, -10
+    h_fatigue_atk = -5 * h_last_fatigue
+    h_fatigue_def = 5 * h_last_fatigue
+    a_imp_atk, a_imp_def = 10, -10
+    a_fatigue_atk = -5 * a_last_fatigue
+    a_fatigue_def = 5 * a_last_fatigue
+
+    st.markdown(f"""
+    <div class="calc-box">
+        <b>규칙 3-2번 상세 산출 내역 및 보정 합산:</b><br>
+        • <b>{home_team}:</b> 중요도 상(공격력 +{h_imp_atk}%, 방어력 {h_imp_def}%), 피로누적 {h_last_fatigue}단계(공격력 {h_fatigue_atk}%, 방어력 +{h_fatigue_def}%)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {h_imp_atk + h_fatigue_atk:+d}%, 방어력 {h_imp_def + h_fatigue_def:+d}%<br><br>
+        • <b>{away_team}:</b> 중요도 상(공격력 +{a_imp_atk}%, 방어력 {a_imp_def}%), 피로누적 {a_last_fatigue}단계(공격력 {a_fatigue_atk}%, 방어력 +{a_fatigue_def}%)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {a_imp_atk + a_fatigue_atk:+d}%, 방어력 {a_imp_def + a_fatigue_def:+d}%
+    </div>
+    """, unsafe_allow_html=True)
+else:
+    st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터(fixtures)가 아직 수집되지 않았습니다.")
+    st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, 일정 누수 및 피로도 산출 내역을 표시할 수 없습니다.")
+
 # --- [4단계] ---
 with tabs[4]:
     st.markdown(f"#### [규칙 4번: 역대 공식 맞대결 상성 전수 로그 및 단방향 10% 룰] - {home_team} vs {away_team}")
