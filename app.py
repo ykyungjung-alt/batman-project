@@ -360,27 +360,7 @@ with tabs[1]:
     if len(matches_list) > 0:
         st.write("🔍 matches 첫 항목 예시:", matches_list[0])
 
-    # ✅ 4. 우선순위: 직접 제공된 원본 데이터로 강제 생성 (표가 무조건 나오도록)
-    # 앞서 보여주신 실제 데이터 기준으로 직접 구성
-    h_matches = [
-        {"league": "ACLE", "match_time": "09.15 2026", "teams": "가시마 vs 뉴캐슬 제츠", "ft_scores": ["7", "1"], "opponent_tier_info": "1.80/1.50"},
-        {"league": "AUS CUP", "match_time": "07.21 2026", "teams": "프레스턴 라이온즈 vs 뉴캐슬 제츠", "ft_scores": ["3", "2"], "opponent_tier_info": "1.60/1.20"},
-        {"league": "AUS D1", "match_time": "05.16 2026", "teams": "뉴캐슬 제츠 vs 시드니 FC", "ft_scores": ["1", "1"], "opponent_tier_info": "1.00/0.80"},
-        {"league": "AUS D1", "match_time": "05.09 2026", "teams": "시드니 FC vs 뉴캐슬 제츠", "ft_scores": ["1", "1"], "opponent_tier_info": "1.80/1.10"},
-        {"league": "AUS D1", "match_time": "04.25 2026", "teams": "뉴캐슬 제츠 vs 센트럴 코스트", "ft_scores": ["4", "0"], "opponent_tier_info": "1.60/1.50"},
-        {"league": "AUS D1", "match_time": "04.17 2026", "teams": "멜버른 빅토리 vs 뉴캐슬 제츠", "ft_scores": ["2", "2"], "opponent_tier_info": "1.90/1.20"},
-        {"league": "AUS D1", "match_time": "04.11 2026", "teams": "뉴캐슬 제츠 vs 애들레이드 유나이티드", "ft_scores": ["1", "1"], "opponent_tier_info": "2.00/1.30"},
-    ]
-
-    a_matches = [
-        {"league": "JPN D1", "match_time": "10.09 2026", "teams": "가시마 vs 감바 오사카", "ft_scores": ["2", "0"], "opponent_tier_info": "1.70/1.40"},
-        {"league": "JPN LC", "match_time": "10.03 2026", "teams": "가시와 vs 감바 오사카", "ft_scores": ["3", "3"], "opponent_tier_info": "1.50/1.20"},
-        {"league": "JE Cup", "match_time": "09.23 2026", "teams": "감바 오사카 vs 도쿠시마", "ft_scores": ["5", "0"], "opponent_tier_info": "1.00/0.80"},
-        {"league": "JPN D1", "match_time": "09.20 2026", "teams": "감바 오사카 vs 고베", "ft_scores": ["0", "1"], "opponent_tier_info": "1.70/0.80"},
-        {"league": "ACLE", "match_time": "09.15 2026", "teams": "감바 오사카 vs 공안", "ft_scores": ["4", "1"], "opponent_tier_info": "2.00/0.50"},
-        {"league": "JPN D1", "match_time": "09.12 2026", "teams": "감바 오사카 vs FC 도쿄", "ft_scores": ["0", "2"], "opponent_tier_info": "2.00/1.30"},
-        {"league": "JPN D1", "match_time": "09.06 2026", "teams": "지바 vs 감바 오사카", "ft_scores": ["2", "0"], "opponent_tier_info": "1.90/1.20"},
-    ]
+    
 
     st.success(f"✅ 경기 데이터 로드 완료 → {h_name}: {len(h_matches)}경기 / {a_name}: {len(a_matches)}경기")
 
