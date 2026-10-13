@@ -285,19 +285,64 @@ with tabs[1]:
     })
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
-    # 💡 수집된 recent_form 데이터에서 홈/원정 지표 추출
+    # 💡 match_details_v3.json 구조에 맞춘 최근 전적 통계 산출 함수
+    def calculate_team_stats(matches, team_name, max_count=7):
+        target_matches = matches[:max_count]
+        if not target_matches:
+            return 0.0, 0.0, "0전 0승 0무 0패"
+        
+        total_scored = 0
+        total_conceded = 0
+        wins, draws, losses = 0, 0, 0
+        
+        for m in target_matches:
+            teams_str = m.get("teams", "")
+            scores = m.get("ft_scores", ["0", "0"])
+            try:
+                score_a = int(scores[0])
+                score_b = int(scores[1])
+            except:
+                score_a, score_b = 0, 0
+                
+            parts = teams_str.split(" vs ")
+            if len(parts) == 2:
+                team_a, team_b = parts[0].strip(), parts[1].strip()
+                if team_name in team_a and team_name not in team_b:
+                    scored, conceded = score_a, score_b
+                elif team_name in team_b and team_name not in team_a:
+                    scored, conceded = score_b, score_a
+                else:
+                    scored, conceded = score_a, score_b
+            else:
+                scored, conceded = score_a, score_b
+                
+            total_scored += scored
+            total_conceded += conceded
+            
+            if scored > conceded:
+                wins += 1
+            elif scored == conceded:
+                draws += 1
+            else:
+                losses += 1
+                
+        count = len(target_matches)
+        gpg = total_scored / count if count > 0 else 0.0
+        cpg = total_conceded / count if count > 0 else 0.0
+        rec_str = f"{count}전 {wins}승 {draws}무 {losses}패"
+        return gpg, cpg, rec_str
+
+    # 💡 JSON 데이터에서 홈/원정 전적 추출
     meta_details = detailed_info.get("meta_details", {})
     recent_form = meta_details.get("recent_form", {})
-    home_sum = recent_form.get("home_summary", {})
-    away_sum = recent_form.get("away_summary", {})
+    
+    h_team_name = recent_form.get("home_team_name", home_team)
+    h_matches = recent_form.get("home_matches", [])
+    a_team_name = recent_form.get("away_team_name", away_team)
+    a_matches = recent_form.get("away_matches", [])
 
-    h_gpg = float(home_sum.get("goals_per_game", 0.0))
-    h_cpg = float(home_sum.get("conceded_per_game", 0.0))
-    h_rec = home_sum.get("recent_record", "-")
-
-    a_gpg = float(away_sum.get("goals_per_game", 0.0))
-    a_cpg = float(away_sum.get("conceded_per_game", 0.0))
-    a_rec = away_sum.get("recent_record", "-")
+    h_gpg, h_cpg, h_rec = calculate_team_stats(h_matches, h_team_name, 7)
+    a_gpg, a_cpg, a_rec = calculate_team_stats(a_matches, a_team_name, 7)
 
     # 💡 티어 및 가중치 자동 판별 함수 (공격력)
     def get_attack_tier(g):
@@ -307,7 +352,7 @@ with tabs[1]:
         elif g >= 0.5: return "Tier D", "+2.0%"
         else: return "Tier E", "0.0%"
 
-    # 💡 티어 및 가중치 자동 판별 함수 (방어력: 실점이 적을수록 상위)
+    # 💡 티어 및 가중치 자동 판별 함수 (방어력)
     def get_defense_tier(c):
         if c < 0.5: return "Tier A", "-8.0%"
         elif c < 0.9: return "Tier B", "-6.0%"
