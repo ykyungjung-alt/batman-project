@@ -507,11 +507,10 @@ with tabs[1]:
     h_goal_diff = h_total_scored - h_total_conceded
     
     st.markdown(f"""<div class="calc-box">
-        <b>{h_name} 규칙 1번 상세 산출 내역 (보정 전 vs 보정 후 비교)</b><br>
+        <b>{h_name} 규칙 1번 상세 산출 내역</b><br>
         • 최근 전적: <b>{h_rec}</b> (총 득점: <b>{h_total_scored:.1f}골</b> / 총 실점: <b>{h_total_conceded:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if h_goal_diff >= 0 else '#c62828'};">{h_goal_diff:+.1f}</b>)<br>
-        • 평균 득점 비교: 원본 <b>{h_gpg_base:.2f}골/경기</b> ➔ <b>E티어 할인 보정후 {h_gpg:.2f}골/경기</b><br>
-        • 평균 실점: <b>{h_cpg:.2f}골/경기</b><br>
-        • 최종 체급 티어: 공격 <b>{h_at} ({h_atw})</b> | 방어 <b>{h_de} ({h_dew})</b>
+        • 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> / 평균 실점: <b>{h_cpg:.2f}골/경기</b><br>
+        • 공격 티어: <b>{h_at} ({h_atw})</b> | 방어 티어: <b>{h_de} ({h_dew})</b>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("---")
@@ -527,11 +526,10 @@ with tabs[1]:
     a_goal_diff = a_total_scored - a_total_conceded
     
     st.markdown(f"""<div class="calc-box">
-        <b>{a_name} 규칙 1번 상세 산출 내역 (보정 전 vs 보정 후 비교)</b><br>
+        <b>{a_name} 규칙 1번 상세 산출 내역</b><br>
         • 최근 전적: <b>{a_rec}</b> (총 득점: <b>{a_total_scored:.1f}골</b> / 총 실점: <b>{a_total_conceded:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if a_goal_diff >= 0 else '#c62828'};">{a_goal_diff:+.1f}</b>)<br>
-        • 평균 득점 비교: 원본 <b>{a_gpg_base:.2f}골/경기</b> ➔ <b>E티어 할인 보정후 {a_gpg:.2f}골/경기</b><br>
-        • 평균 실점: <b>{a_cpg:.2f}골/경기</b><br>
-        • 최종 체급 티어: 공격 <b>{a_at} ({a_atw})</b> | 방어 <b>{a_de} ({a_dew})</b>
+        • 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> / 평균 실점: <b>{a_cpg:.2f}골/경기</b><br>
+        • 공격 티어: <b>{a_at} ({a_atw})</b> | 방어 티어: <b>{a_de} ({a_dew})</b>
     </div>""", unsafe_allow_html=True)
 
 
@@ -573,11 +571,11 @@ with tabs[2]:
     s_h_diff = s_h_scored - s_h_conceded
 
     st.markdown(f"""<div class="calc-box">
-        <b>{h_name} 규칙 2번 구장별 상세 산출 내역 (환경 보정 비교)</b><br>
+        <b>{h_name} 규칙 2번(구장별) 상세 산출 내역</b><br>
         • 구장 전적 성향: <b>{s_h_rec}</b> (총 득점: <b>{s_h_scored:.1f}골</b> / 총 실점: <b>{s_h_conceded:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
-        • 구장 지표 비교: 구장 원본 평균 득점 <b>{s_h_gpg:.2f}골/경기</b> (실점 {s_h_cpg:.2f}골)<br>
+        • 수집된 지표: 구장 평균 득점 <b>{s_h_gpg:.2f}골/경기</b> / 평균 실점 <b>{s_h_cpg:.2f}골/경기</b><br>
         • 정량 공식 대조 체급: 공격력 <b>{s_h_at}</b>, 방어력 <b>{s_h_de}</b><br>
-        • 구장 환경 보정 가중치 적용 결과: 공격 <b>{s_h_atw}</b>, 방어 <b>{s_h_dew}</b>
+        • 구장 환경 보정 가중치: 공격 <b>{s_h_atw}</b>, 방어 <b>{s_h_dew}</b>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("---")
@@ -594,12 +592,14 @@ with tabs[2]:
     s_a_diff = s_a_scored - s_a_conceded
 
     st.markdown(f"""<div class="calc-box">
-        <b>{a_name} 규칙 2번 구장별 상세 산출 내역 (환경 보정 비교)</b><br>
+        <b>{a_name} 규칙 2번(구장별) 상세 산출 내역</b><br>
         • 구장 전적 성향: <b>{s_a_rec}</b> (총 득점: <b>{s_a_scored:.1f}골</b> / 총 실점: <b>{s_a_conceded:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
-        • 구장 지표 비교: 구장 원본 평균 득점 <b>{s_a_gpg:.2f}골/경기</b> (실점 {s_a_cpg:.2f}골)<br>
+        • 수집된 지표: 구장 평균 득점 <b>{s_a_gpg:.2f}골/경기</b> / 평균 실점 <b>{s_a_cpg:.2f}골/경기</b><br>
         • 정량 공식 대조 체급: 공격력 <b>{s_a_at}</b>, 방어력 <b>{s_a_de}</b><br>
-        • 구장 환경 보정 가중치 적용 결과: 공격 <b>{s_a_atw}</b>, 방어 <b>{s_a_dew}</b>
+        • 구장 환경 보정 가중치: 공격 <b>{s_a_atw}</b>, 방어 <b>{s_a_dew}</b>
     </div>""", unsafe_allow_html=True)
+
+
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"### [규칙 3-1번: 선수 전력 누수 및 이동 피로도 타임라인 매트릭스] - {home_team} vs {away_team}")
