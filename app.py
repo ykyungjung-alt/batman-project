@@ -97,12 +97,31 @@ match_code = str(selected_match.get("match_code", ""))
 # ==========================================
 # 💡 [핵심 방어 장치] 통합 상세 데이터 안전 추출 및 플래그 설정 (팀 이름 매칭 폴백 추가)
 # ==========================================
-raw_detailed_info = all_details_dict.get(match_code, None)
+# ==========================================
+# 💡 [강력한 3단계 통합 매칭 로직] 매치코드 및 팀 이름 정밀 비교
+# ==========================================
+raw_detailed_info = None
+target_code = str(match_code).strip()
+target_home = str(home_team).strip().replace(" ", "")
+target_away = str(away_team).strip().replace(" ", "")
 
-# 만약 match_code로 못 찾았을 경우, 홈팀/원정팀 이름이 일치하는 데이터로 2차 탐색 (폴백)
+# 1순위: 상위 딕셔너리 키로 직접 탐색
+if target_code and target_code in all_details_dict:
+    raw_detailed_info = all_details_dict[target_code]
+
+# 2순위: 데이터 내부의 "match_code" 필드 값과 일치하는 항목 탐색
+if not raw_detailed_info and target_code:
+    for k, v in all_details_dict.items():
+        if str(v.get("match_code", "")).strip() == target_code:
+            raw_detailed_info = v
+            break
+
+# 3순위: 홈팀 / 원정팀 이름 정규화(공백 제거) 후 일치하는 항목 탐색 (폴백)
 if not raw_detailed_info:
     for k, v in all_details_dict.items():
-        if v.get("home") == home_team and v.get("away") == away_team:
+        v_home = str(v.get("home", "")).strip().replace(" ", "")
+        v_away = str(v.get("away", "")).strip().replace(" ", "")
+        if v_home == target_home and v_away == target_away:
             raw_detailed_info = v
             break
 
@@ -117,8 +136,8 @@ else:
             "recent_form": {
                 "home_summary": {},
                 "away_summary": {},
-                "home_matches": [],  # 💡 누락 방지용 빈 리스트 추가
-                "away_matches": [],  # 💡 누락 방지용 빈 리스트 추가
+                "home_matches": [],
+                "away_matches": [],
                 "matches": []
             },
             "h2h": {"summary": [], "matches": []},
