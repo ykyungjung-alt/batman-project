@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-13 06:24:04",
+    "last_updated": "2026-10-13 09:38:43",
     "match_details": {
         "3068865": {
             "match_code": "3068865",
@@ -7,7 +7,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Hunter International Sports Centre",
-                "weather": "이슬비,  15°C"
+                "weather": "구름 조금,  15°C"
             },
             "home": "뉴캐슬 제츠",
             "away": "감바 오사카",
@@ -109,7 +109,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Sanga Stadium by Kyocera",
-                "weather": "맑음,  22°C"
+                "weather": "맑음,  23°C"
             },
             "home": "교토",
             "away": "라차부리",
@@ -211,7 +211,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Pohang Steelyard Stadium",
-                "weather": ""
+                "weather": "맑음,  20°C"
             },
             "home": "포항",
             "away": "조호르 DT",
@@ -345,7 +345,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Shanghai Pudong Football Stadium",
-                "weather": ""
+                "weather": "구름 조금,  24°C"
             },
             "home": "상하이 하이강",
             "away": "대전",
@@ -463,7 +463,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "Buriram City Stadium",
-                "weather": ""
+                "weather": "흐림,  27°C"
             },
             "home": "부리람",
             "away": "베이징 궈안",
@@ -589,7 +589,7 @@
                 "league": "AFC 챔피언스리그",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "맑음,  29°C"
             },
             "home": "공안",
             "away": "가시마",
@@ -691,7 +691,7 @@
                 "league": "AFC 챔피언스리그 2",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "맑음,  30°C"
             },
             "home": "이스트 벵골",
             "away": "알 쇼르타",
@@ -1134,132 +1134,13 @@
                 }
             }
         },
-        "3100304": {
-            "match_code": "3100304",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 5",
-                "stadium": "",
-                "weather": "지역성 천둥,  29°C"
-            },
-            "home": "티볼리",
-            "away": "라싱 유나이티드",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "4",
-                        "team": "티볼리",
-                        "played": "4",
-                        "win": "2",
-                        "draw": "2",
-                        "loss": "0",
-                        "goals_for": "7",
-                        "goals_against": "2",
-                        "goal_diff": "5",
-                        "points": "8"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "3",
-                        "team": "라싱 유나이티드",
-                        "played": "4",
-                        "win": "3",
-                        "draw": "0",
-                        "loss": "1",
-                        "goals_for": "10",
-                        "goals_against": "3",
-                        "goal_diff": "7",
-                        "points": "9"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "3승 2무 5패",
-                        "goals_per_game": "1.20",
-                        "conceded_per_game": "1.80"
-                    },
-                    "away_summary": {
-                        "recent_record": "4승 2무 4패",
-                        "goals_per_game": "1.90",
-                        "conceded_per_game": "1.30"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 2 (33.3%)",
-                        "무승부 3 (50%)",
-                        "승 1 (16.7%)",
-                        "0.33",
-                        "경기당 득점"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "JAM D12026.03.22",
-                                "라싱 유나이티드",
-                                "0-0",
-                                "티볼리"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12026.01.22",
-                                "티볼리",
-                                "0-0",
-                                "라싱 유나이티드"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12025.09.28",
-                                "라싱 유나이티드",
-                                "0-0",
-                                "티볼리"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12025.03.23",
-                                "티볼리",
-                                "1-0",
-                                "라싱 유나이티드"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12025.01.23",
-                                "라싱 유나이티드",
-                                "2-0",
-                                "티볼리"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12024.10.21",
-                                "티볼리",
-                                "1-0",
-                                "라싱 유나이티드"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
-                }
-            }
-        },
         "3100305": {
             "match_code": "3100305",
             "head_info": {
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 5",
                 "stadium": "",
-                "weather": "구름 조금,  28°C"
+                "weather": "맑음,  28°C"
             },
             "home": "워터하우스",
             "away": "Tru-Juice FC",
@@ -1268,7 +1149,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "2",
+                        "rank": "3",
                         "team": "워터하우스",
                         "played": "4",
                         "win": "3",
@@ -1323,7 +1204,7 @@
                 "league": "국제 친선경기",
                 "round": "",
                 "stadium": "",
-                "weather": ""
+                "weather": "지역성 천둥,  23°C"
             },
             "home": "엘 살바도르 (여)",
             "away": "파라과이 (여)",
@@ -2016,7 +1897,7 @@
                 "league": "국제 친선경기",
                 "round": "England U21 Professional Development League 2·  라운드 10",
                 "stadium": "",
-                "weather": ""
+                "weather": "맑음,  20°C"
             },
             "home": "피터버러 U21",
             "away": "셰필드U U21",
@@ -2190,7 +2071,7 @@
                 "league": "국제 친선경기",
                 "round": "England U21 Professional Development League 2·  라운드 10",
                 "stadium": "",
-                "weather": ""
+                "weather": "맑음,  20°C"
             },
             "home": "QPR U21",
             "away": "카디프 U21",
@@ -2380,7 +2261,7 @@
                 "league": "국제 친선경기",
                 "round": "England U21 Professional Development League 2·  라운드 10",
                 "stadium": "",
-                "weather": ""
+                "weather": "구름 조금,  16°C"
             },
             "home": "셰필드 웬즈데이 U21",
             "away": "허더스필드 U21",
@@ -2643,7 +2524,7 @@
                 "league": "프리미어리그",
                 "round": "",
                 "stadium": "",
-                "weather": "지역성 천둥,  28°C"
+                "weather": "지역성 천둥,  27°C"
             },
             "home": "루가지",
             "away": "BUL",
