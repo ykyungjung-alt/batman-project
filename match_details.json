@@ -1,11 +1,13 @@
 {
-    "last_updated": "2026-10-14 02:37:13",
+    "last_updated": "2026-10-14 02:54:33",
     "match_details": {
         "3073175": {
             "match_code": "3073175",
             "head_info": {
                 "league": "챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:45:00 PM",
+                "match_time_display": "2026.10.13 16:45 화요일",
                 "stadium": "Felix-Bollaert Stade",
                 "home_stadium": "Felix-Bollaert Stade",
                 "weather": "구름 많음,  16℃～17℃"
@@ -60,6 +62,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -109,6 +115,8 @@
             "head_info": {
                 "league": "챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:45:00 PM",
+                "match_time_display": "2026.10.13 16:45 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "맑음,  20℃～21℃"
@@ -163,6 +171,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -212,6 +224,8 @@
             "head_info": {
                 "league": "챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 7:00:00 PM",
+                "match_time_display": "2026.10.13 19:00 화요일",
                 "stadium": "Giuseppe Meazza",
                 "home_stadium": "Giuseppe Meazza",
                 "weather": "구름 조금,  16℃～17℃"
@@ -266,6 +280,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -315,6 +333,8 @@
             "head_info": {
                 "league": "챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 7:00:00 PM",
+                "match_time_display": "2026.10.13 19:00 화요일",
                 "stadium": "Rams Park",
                 "home_stadium": "Rams Park",
                 "weather": "구름 많음,  16℃～17℃"
@@ -372,7 +392,9 @@
                         "승 1 (50%)",
                         "0.50",
                         "경기당 득점",
-                        "1.00"
+                        "1.00",
+                        "핸디캡：2승 0무 0패",
+                        "언오버：1오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -392,6 +414,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -442,6 +468,8 @@
             "head_info": {
                 "league": "챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 7:00:00 PM",
+                "match_time_display": "2026.10.13 19:00 화요일",
                 "stadium": "Riyadh Air Metropolitano",
                 "home_stadium": "Civitas Metropolitano",
                 "weather": "구름 조금,  22℃～23℃"
@@ -499,7 +527,9 @@
                         "승 1 (25%)",
                         "1.00",
                         "경기당 득점",
-                        "0.75"
+                        "0.75",
+                        "핸디캡：2승 0무 2패",
+                        "언오버：1오버 0무 3언더"
                     ],
                     "matches": [
                         {
@@ -535,6 +565,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -585,6 +619,8 @@
             "head_info": {
                 "league": "챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 7:00:00 PM",
+                "match_time_display": "2026.10.13 19:00 화요일",
                 "stadium": "Emirates Stadium",
                 "home_stadium": "Emirates Stadium",
                 "weather": "구름 많음,  16℃～17℃"
@@ -639,6 +675,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -688,6 +728,8 @@
             "head_info": {
                 "league": "챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 7:00:00 PM",
+                "match_time_display": "2026.10.13 19:00 화요일",
                 "stadium": "Viking Stadion",
                 "home_stadium": "Viking Stadion",
                 "weather": "이슬비,  8℃～9℃"
@@ -742,6 +784,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -791,6 +837,8 @@
             "head_info": {
                 "league": "챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 7:00:00 PM",
+                "match_time_display": "2026.10.13 19:00 화요일",
                 "stadium": "Red Bull Arena",
                 "home_stadium": "Red Bull Arena",
                 "weather": "구름 많음,  11℃～12℃"
@@ -845,6 +893,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -894,6 +946,8 @@
             "head_info": {
                 "league": "챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 7:00:00 PM",
+                "match_time_display": "2026.10.13 19:00 화요일",
                 "stadium": "Estadio de la Cerámica",
                 "home_stadium": "El Madrigal",
                 "weather": "구름 조금,  22℃～23℃"
@@ -951,7 +1005,9 @@
                         "승 2 (28.6%)",
                         "1.00",
                         "경기당 득점",
-                        "1.14"
+                        "1.14",
+                        "핸디캡：5승 0무 2패",
+                        "언오버：2오버 0무 5언더"
                     ],
                     "matches": [
                         {
@@ -1012,6 +1068,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -1061,6 +1121,8 @@
             "head_info": {
                 "league": "AFC 챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:00:00 PM",
+                "match_time_display": "2026.10.13 16:00 화요일",
                 "stadium": "Jassim Bin Hamad Stadium",
                 "home_stadium": "Jassim Bin Hamad Stadium",
                 "weather": "맑음,  32℃～33℃"
@@ -1118,7 +1180,9 @@
                         "승 4 (40%)",
                         "1.50",
                         "경기당 득점",
-                        "1.80"
+                        "1.80",
+                        "핸디캡：5승 1무 4패",
+                        "언오버：6오버 0무 4언더"
                     ],
                     "matches": [
                         {
@@ -1203,6 +1267,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -1252,6 +1320,8 @@
             "head_info": {
                 "league": "AFC 챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:15:00 PM",
+                "match_time_display": "2026.10.13 18:15 화요일",
                 "stadium": "King Abdullah Sports City",
                 "home_stadium": "King Abdullah Sports City",
                 "weather": "맑음,  30℃～31℃"
@@ -1309,7 +1379,9 @@
                         "승 1 (100%)",
                         "0.00",
                         "경기당 득점",
-                        "1.00"
+                        "1.00",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：0오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -1321,6 +1393,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -1371,6 +1447,8 @@
             "head_info": {
                 "league": "AFC 챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/14/2026 10:00:00 AM",
+                "match_time_display": "2026.10.14 10:00 수요일",
                 "stadium": "Noevir Stadium",
                 "home_stadium": "Noevir Stadium",
                 "weather": "맑음,  20°C"
@@ -1426,7 +1504,9 @@
                         "승 0 (0%)",
                         "무승부 1 (100%)",
                         "1.00",
-                        "경기당 득점"
+                        "경기당 득점",
+                        "핸디캡：0승 1무 0패",
+                        "언오버：0오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -1438,6 +1518,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -1488,6 +1572,8 @@
             "head_info": {
                 "league": "AFC 챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/14/2026 10:00:00 AM",
+                "match_time_display": "2026.10.14 10:00 수요일",
                 "stadium": "Sankyo Frontier Kashiwa Stadium",
                 "home_stadium": "Hitachi Kashiwa Soccer Stadium",
                 "weather": "구름 조금,  22°C"
@@ -1542,6 +1628,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -1591,6 +1681,8 @@
             "head_info": {
                 "league": "잉글랜드 챔피언쉽",
                 "round": "잉글랜드 챔피언쉽·  라운드 10",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "Ashton Gate",
                 "home_stadium": "Ashton Gate",
                 "weather": "구름 많음,  13℃～14℃"
@@ -1648,7 +1740,9 @@
                         "승 3 (30%)",
                         "1.60",
                         "경기당 득점",
-                        "1.20"
+                        "1.20",
+                        "핸디캡：5승 1무 4패",
+                        "언오버：6오버 0무 4언더"
                     ],
                     "matches": [
                         {
@@ -1733,6 +1827,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -1782,6 +1880,8 @@
             "head_info": {
                 "league": "잉글랜드 챔피언쉽",
                 "round": "잉글랜드 챔피언쉽·  라운드 10",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "Turf Moor Stadium",
                 "home_stadium": "Turf Moor Stadium",
                 "weather": "맑음,  11℃～12℃"
@@ -1839,7 +1939,9 @@
                         "승 1 (10%)",
                         "2.10",
                         "경기당 득점",
-                        "0.40"
+                        "0.40",
+                        "핸디캡：9승 0무 1패",
+                        "언오버：5오버 0무 3언더"
                     ],
                     "matches": [
                         {
@@ -1924,6 +2026,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -1973,6 +2079,8 @@
             "head_info": {
                 "league": "잉글랜드 챔피언쉽",
                 "round": "잉글랜드 챔피언쉽·  라운드 10",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "Molineux Stadium",
                 "home_stadium": "Molineux Stadium",
                 "weather": "구름 많음,  13℃～14℃"
@@ -2029,7 +2137,9 @@
                         "무승부 4 (40%)",
                         "2.00",
                         "경기당 득점",
-                        "1.50"
+                        "1.50",
+                        "핸디캡：5승 0무 5패",
+                        "언오버：7오버 0무 3언더"
                     ],
                     "matches": [
                         {
@@ -2114,6 +2224,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -2163,6 +2277,8 @@
             "head_info": {
                 "league": "잉글랜드 챔피언쉽",
                 "round": "잉글랜드 챔피언쉽·  라운드 10",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "Cardiff City Stadium",
                 "home_stadium": "Cardiff City Stadium",
                 "weather": "구름 많음,  13℃～14℃"
@@ -2219,7 +2335,9 @@
                         "무승부 2 (20%)",
                         "1.40",
                         "경기당 득점",
-                        "1.60"
+                        "1.60",
+                        "핸디캡：4승 1무 5패",
+                        "언오버：6오버 0무 4언더"
                     ],
                     "matches": [
                         {
@@ -2304,6 +2422,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -2353,6 +2475,8 @@
             "head_info": {
                 "league": "잉글랜드 챔피언쉽",
                 "round": "잉글랜드 챔피언쉽·  라운드 10",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "The Den Stadium",
                 "home_stadium": "The Den Stadium",
                 "weather": "구름 많음,  15℃～16℃"
@@ -2410,7 +2534,9 @@
                         "승 2 (20%)",
                         "1.00",
                         "경기당 득점",
-                        "0.90"
+                        "0.90",
+                        "핸디캡：7승 1무 2패",
+                        "언오버：4오버 0무 6언더"
                     ],
                     "matches": [
                         {
@@ -2495,6 +2621,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -2544,6 +2674,8 @@
             "head_info": {
                 "league": "잉글랜드 챔피언쉽",
                 "round": "잉글랜드 챔피언쉽·  라운드 10",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "The Racecourse Ground",
                 "home_stadium": "The Racecourse Ground",
                 "weather": "구름 조금,  13℃～14℃"
@@ -2601,7 +2733,9 @@
                         "승 1 (50%)",
                         "2.00",
                         "경기당 득점",
-                        "2.50"
+                        "2.50",
+                        "핸디캡：1승 0무 1패",
+                        "언오버：2오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -2621,6 +2755,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -2671,6 +2809,8 @@
             "head_info": {
                 "league": "잉글랜드 챔피언쉽",
                 "round": "잉글랜드 챔피언쉽·  라운드 10",
+                "match_time_raw": "10/13/2026 7:00:00 PM",
+                "match_time_display": "2026.10.13 19:00 화요일",
                 "stadium": "St Andrews stadium",
                 "home_stadium": "St Andrews stadium",
                 "weather": "구름 많음,  13℃～14℃"
@@ -2728,7 +2868,9 @@
                         "승 3 (30%)",
                         "1.00",
                         "경기당 득점",
-                        "0.80"
+                        "0.80",
+                        "핸디캡：6승 0무 4패",
+                        "언오버：4오버 0무 6언더"
                     ],
                     "matches": [
                         {
@@ -2813,6 +2955,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -2862,6 +3008,8 @@
             "head_info": {
                 "league": "잉글랜드 챔피언쉽",
                 "round": "잉글랜드 챔피언쉽·  라운드 10",
+                "match_time_raw": "10/13/2026 7:00:00 PM",
+                "match_time_display": "2026.10.13 19:00 화요일",
                 "stadium": "Bet365 Stadium",
                 "home_stadium": "Bet365 Stadium",
                 "weather": "구름 많음,  12℃～13℃"
@@ -2919,7 +3067,9 @@
                         "승 4 (40%)",
                         "1.50",
                         "경기당 득점",
-                        "1.30"
+                        "1.30",
+                        "핸디캡：5승 1무 4패",
+                        "언오버：5오버 0무 5언더"
                     ],
                     "matches": [
                         {
@@ -3004,6 +3154,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -3053,6 +3207,8 @@
             "head_info": {
                 "league": "EFL 트로피",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:00:00 PM",
+                "match_time_display": "2026.10.13 18:00 화요일",
                 "stadium": "Meadow Lane Stadium",
                 "home_stadium": "Meadow Lane Stadium",
                 "weather": "구름 많음,  16℃～17℃"
@@ -3107,6 +3263,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -3156,6 +3316,8 @@
             "head_info": {
                 "league": "EFL 트로피",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:00:00 PM",
+                "match_time_display": "2026.10.13 18:00 화요일",
                 "stadium": "Boundary Park",
                 "home_stadium": "Boundary Park",
                 "weather": "구름 많음,  13℃～14℃"
@@ -3213,7 +3375,9 @@
                         "승 1 (100%)",
                         "2.00",
                         "경기당 득점",
-                        "3.00"
+                        "3.00",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：1오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -3225,6 +3389,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -3275,6 +3443,8 @@
             "head_info": {
                 "league": "EFL 트로피",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:00:00 PM",
+                "match_time_display": "2026.10.13 18:00 화요일",
                 "stadium": "Whaddon Road Stadium",
                 "home_stadium": "Whaddon Road Stadium",
                 "weather": "구름 많음,  16℃～17℃"
@@ -3330,7 +3500,9 @@
                         "승 0 (0%)",
                         "무승부 1 (100%)",
                         "2.00",
-                        "경기당 득점"
+                        "경기당 득점",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：1오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -3342,6 +3514,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -3392,6 +3568,8 @@
             "head_info": {
                 "league": "EFL 트로피",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:00:00 PM",
+                "match_time_display": "2026.10.13 18:00 화요일",
                 "stadium": "Bescot Stadium",
                 "home_stadium": "Bescot Stadium",
                 "weather": "맑음,  14℃～15℃"
@@ -3449,7 +3627,9 @@
                         "승 0 (0%)",
                         "1.00",
                         "경기당 득점",
-                        "0.00"
+                        "0.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：0오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -3461,6 +3641,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -3511,6 +3695,8 @@
             "head_info": {
                 "league": "EFL 트로피",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:00:00 PM",
+                "match_time_display": "2026.10.13 18:00 화요일",
                 "stadium": "Madejski Stadium",
                 "home_stadium": "Madejski Stadium",
                 "weather": "구름 조금,  16℃～17℃"
@@ -3565,6 +3751,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -3614,6 +3804,8 @@
             "head_info": {
                 "league": "EFL 트로피",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:00:00 PM",
+                "match_time_display": "2026.10.13 18:00 화요일",
                 "stadium": "Priestfield Stadium",
                 "home_stadium": "Priestfield Stadium",
                 "weather": "구름 조금,  18℃～19℃"
@@ -3671,7 +3863,9 @@
                         "승 0 (0%)",
                         "3.00",
                         "경기당 득점",
-                        "2.00"
+                        "2.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：1오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -3683,6 +3877,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -3733,6 +3931,8 @@
             "head_info": {
                 "league": "AFC 챔피언스리그 2",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:00:00 PM",
+                "match_time_display": "2026.10.13 16:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 조금,  27°C"
@@ -3787,6 +3987,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -3836,6 +4040,8 @@
             "head_info": {
                 "league": "AFC 챔피언스리그 2",
                 "round": "",
+                "match_time_raw": "10/14/2026 7:45:00 AM",
+                "match_time_display": "2026.10.14 07:45 수요일",
                 "stadium": "Olympic Park Stadium",
                 "home_stadium": "Olympic Park Stadium",
                 "weather": "구름 조금,  13°C"
@@ -3891,7 +4097,9 @@
                         "승 1 (50%)",
                         "무승부 0 (0%)",
                         "1.00",
-                        "경기당 득점"
+                        "경기당 득점",
+                        "핸디캡：1승 0무 1패",
+                        "언오버：1오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -3911,6 +4119,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -3961,6 +4173,8 @@
             "head_info": {
                 "league": "AFC 챔피언스리그 2",
                 "round": "",
+                "match_time_raw": "10/14/2026 12:15:00 PM",
+                "match_time_display": "2026.10.14 12:15 수요일",
                 "stadium": "Stadion Gelora Bandung Lautan Api",
                 "home_stadium": "Stadion Gelora Bandung Lautan Api",
                 "weather": ""
@@ -4015,6 +4229,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -4064,6 +4282,8 @@
             "head_info": {
                 "league": "AFC 챔피언스리그 2",
                 "round": "",
+                "match_time_raw": "10/14/2026 1:45:00 PM",
+                "match_time_display": "2026.10.14 13:45 수요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -4121,7 +4341,9 @@
                         "승 1 (100%)",
                         "1.00",
                         "경기당 득점",
-                        "2.00"
+                        "2.00",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：1오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -4133,6 +4355,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -4183,6 +4409,8 @@
             "head_info": {
                 "league": "챔피언쉽",
                 "round": "챔피언쉽·  라운드 9",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "",
                 "home_stadium": "Hampden Park",
                 "weather": "흐림,  9℃～10℃"
@@ -4240,7 +4468,9 @@
                         "승 3 (30%)",
                         "1.10",
                         "경기당 득점",
-                        "1.20"
+                        "1.20",
+                        "핸디캡：6승 0무 4패",
+                        "언오버：4오버 1무 5언더"
                     ],
                     "matches": [
                         {
@@ -4325,6 +4555,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -4374,6 +4608,8 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 6",
+                "match_time_raw": "10/13/2026 5:00:00 PM",
+                "match_time_display": "2026.10.13 17:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 조금,  24°C"
@@ -4431,7 +4667,9 @@
                         "승 6 (60%)",
                         "0.50",
                         "경기당 득점",
-                        "1.20"
+                        "1.20",
+                        "핸디캡：2승 1무 7패",
+                        "언오버：4오버 1무 5언더"
                     ],
                     "matches": [
                         {
@@ -4516,6 +4754,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -4565,6 +4807,8 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 6",
+                "match_time_raw": "10/13/2026 5:00:00 PM",
+                "match_time_display": "2026.10.13 17:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "흐림,  26°C"
@@ -4622,7 +4866,9 @@
                         "승 1 (10%)",
                         "1.50",
                         "경기당 득점",
-                        "0.80"
+                        "0.80",
+                        "핸디캡：7승 2무 1패",
+                        "언오버：5오버 1무 4언더"
                     ],
                     "matches": [
                         {
@@ -4707,6 +4953,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -4756,6 +5006,8 @@
             "head_info": {
                 "league": "남부 프리미어리그",
                 "round": "남부 프리미어리그·  라운드 12",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "맑음,  14°C"
@@ -4810,6 +5062,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -4859,6 +5115,8 @@
             "head_info": {
                 "league": "남부 프리미어리그",
                 "round": "남부 프리미어리그·  라운드 12",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 조금,  14°C"
@@ -4916,7 +5174,9 @@
                         "승 1 (10%)",
                         "1.60",
                         "경기당 득점",
-                        "0.90"
+                        "0.90",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：1오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -5001,6 +5261,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -5050,6 +5314,8 @@
             "head_info": {
                 "league": "남부 프리미어리그",
                 "round": "남부 프리미어리그·  라운드 12",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 조금,  13°C"
@@ -5107,7 +5373,9 @@
                         "승 2 (66.7%)",
                         "0.67",
                         "경기당 득점",
-                        "1.67"
+                        "1.67",
+                        "핸디캡：0승 0무 0패",
+                        "언오버：0오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -5135,6 +5403,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -5185,6 +5457,8 @@
             "head_info": {
                 "league": "남부 프리미어리그",
                 "round": "남부 프리미어리그·  라운드 12",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "맑음,  13°C"
@@ -5242,7 +5516,9 @@
                         "승 2 (50%)",
                         "1.50",
                         "경기당 득점",
-                        "2.25"
+                        "2.25",
+                        "핸디캡：0승 1무 2패",
+                        "언오버：2오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -5278,6 +5554,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -5328,6 +5608,8 @@
             "head_info": {
                 "league": "남부 프리미어리그",
                 "round": "남부 프리미어리그·  라운드 12",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 조금,  13°C"
@@ -5385,7 +5667,9 @@
                         "승 4 (66.7%)",
                         "1.00",
                         "경기당 득점",
-                        "1.50"
+                        "1.50",
+                        "핸디캡：2승 0무 3패",
+                        "언오버：1오버 2무 2언더"
                     ],
                     "matches": [
                         {
@@ -5438,6 +5722,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -5487,6 +5775,8 @@
             "head_info": {
                 "league": "남부 프리미어리그",
                 "round": "남부 프리미어리그·  라운드 12",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "West Leigh Park Stadium",
                 "home_stadium": "West Leigh Park Stadium",
                 "weather": "맑음,  15°C"
@@ -5544,7 +5834,9 @@
                         "승 0 (0%)",
                         "1.80",
                         "경기당 득점",
-                        "0.40"
+                        "0.40",
+                        "핸디캡：6승 1무 1패",
+                        "언오버：1오버 1무 6언더"
                     ],
                     "matches": [
                         {
@@ -5629,6 +5921,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -5678,6 +5974,8 @@
             "head_info": {
                 "league": "남부 프리미어리그",
                 "round": "남부 프리미어리그·  라운드 12",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 조금,  12°C"
@@ -5735,7 +6033,9 @@
                         "승 0 (0%)",
                         "3.00",
                         "경기당 득점",
-                        "2.00"
+                        "2.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：1오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -5747,6 +6047,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -5797,6 +6101,8 @@
             "head_info": {
                 "league": "남부 프리미어리그",
                 "round": "남부 프리미어리그·  라운드 12",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "맑음,  13°C"
@@ -5852,7 +6158,9 @@
                         "승 2 (50%)",
                         "무승부 0 (0%)",
                         "1.75",
-                        "경기당 득점"
+                        "경기당 득점",
+                        "핸디캡：2승 0무 2패",
+                        "언오버：3오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -5888,6 +6196,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -5938,6 +6250,8 @@
             "head_info": {
                 "league": "남부 프리미어리그",
                 "round": "남부 프리미어리그·  라운드 12",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "맑음,  15°C"
@@ -5992,6 +6306,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -6041,6 +6359,8 @@
             "head_info": {
                 "league": "걸프 클럽 챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:00:00 PM",
+                "match_time_display": "2026.10.13 16:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -6098,7 +6418,9 @@
                         "승 0 (0%)",
                         "2.67",
                         "경기당 득점",
-                        "0.33"
+                        "0.33",
+                        "핸디캡：1승 0무 1패",
+                        "언오버：0오버 0무 2언더"
                     ],
                     "matches": [
                         {
@@ -6126,6 +6448,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -6176,6 +6502,8 @@
             "head_info": {
                 "league": "걸프 클럽 챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:00:00 PM",
+                "match_time_display": "2026.10.13 18:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "흐림,  30°C"
@@ -6230,6 +6558,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -6279,6 +6611,8 @@
             "head_info": {
                 "league": "걸프 클럽 챔피언스리그",
                 "round": "",
+                "match_time_raw": "10/14/2026 2:45:00 PM",
+                "match_time_display": "2026.10.14 14:45 수요일",
                 "stadium": "Abdullah bin Khalifa Stadium",
                 "home_stadium": "Abdullah bin Khalifa Stadium",
                 "weather": ""
@@ -6333,6 +6667,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -6382,6 +6720,8 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 18",
+                "match_time_raw": "10/14/2026 10:00:00 AM",
+                "match_time_display": "2026.10.14 10:00 수요일",
                 "stadium": "",
                 "home_stadium": "Central Stadium",
                 "weather": "구름 조금,  29°C"
@@ -6439,7 +6779,9 @@
                         "승 7 (70%)",
                         "0.60",
                         "경기당 득점",
-                        "2.40"
+                        "2.40",
+                        "핸디캡：4승 0무 6패",
+                        "언오버：5오버 0무 5언더"
                     ],
                     "matches": [
                         {
@@ -6524,6 +6866,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -6567,6 +6913,8 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 17",
+                "match_time_raw": "10/14/2026 2:00:00 PM",
+                "match_time_display": "2026.10.14 14:00 수요일",
                 "stadium": "Munayshy Stadium",
                 "home_stadium": "Munayshy Stadium",
                 "weather": "구름 조금,  39°C"
@@ -6624,7 +6972,9 @@
                         "승 2 (33.3%)",
                         "1.17",
                         "경기당 득점",
-                        "1.33"
+                        "1.33",
+                        "핸디캡：3승 2무 0패",
+                        "언오버：3오버 0무 2언더"
                     ],
                     "matches": [
                         {
@@ -6677,6 +7027,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -6714,9 +7068,11 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:00:00 PM",
+                "match_time_display": "2026.10.13 16:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 많음,  13℃～14℃"
+                "weather": ""
             },
             "home": "오스트리아 (여)",
             "away": "코소보 (여)",
@@ -6742,7 +7098,9 @@
                         "승 0 (0%)",
                         "2.00",
                         "경기당 득점",
-                        "1.00"
+                        "1.00",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：0오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -6755,6 +7113,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -6766,9 +7128,11 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:00:00 PM",
+                "match_time_display": "2026.10.13 16:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 많음,  5℃～6℃"
+                "weather": ""
             },
             "home": "노르웨이 (여)",
             "away": "루마니아 (여)",
@@ -6794,7 +7158,9 @@
                         "승 0 (0%)",
                         "4.00",
                         "경기당 득점",
-                        "0.00"
+                        "0.00",
+                        "핸디캡：1승 0무 1패",
+                        "언오버：1오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -6815,6 +7181,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -6826,6 +7196,8 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:00:00 PM",
+                "match_time_display": "2026.10.13 16:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 많음,  8℃～9℃"
@@ -6854,7 +7226,9 @@
                         "승 5 (83.3%)",
                         "0.33",
                         "경기당 득점",
-                        "2.67"
+                        "2.67",
+                        "핸디캡：1승 0무 5패",
+                        "언오버：3오버 0무 3언더"
                     ],
                     "matches": [
                         {
@@ -6907,6 +7281,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -6918,6 +7296,8 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:15:00 PM",
+                "match_time_display": "2026.10.13 16:15 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 많음,  6℃～7℃"
@@ -6946,7 +7326,9 @@
                         "승 0 (0%)",
                         "2.00",
                         "경기당 득점",
-                        "0.00"
+                        "0.00",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：0오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -6959,6 +7341,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -6970,6 +7356,8 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 5:00:00 PM",
+                "match_time_display": "2026.10.13 17:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 조금,  7℃～8℃"
@@ -6998,7 +7386,9 @@
                         "승 0 (0%)",
                         "5.00",
                         "경기당 득점",
-                        "0.00"
+                        "0.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：0오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -7011,6 +7401,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7022,6 +7416,8 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 5:30:00 PM",
+                "match_time_display": "2026.10.13 17:30 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 많음,  3℃～4℃"
@@ -7050,7 +7446,9 @@
                         "승 0 (0%)",
                         "3.33",
                         "경기당 득점",
-                        "0.00"
+                        "0.00",
+                        "핸디캡：2승 0무 1패",
+                        "언오버：1오버 0무 2언더"
                     ],
                     "matches": [
                         {
@@ -7079,6 +7477,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7090,6 +7492,8 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 5:30:00 PM",
+                "match_time_display": "2026.10.13 17:30 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "흐림,  11℃～12℃"
@@ -7118,7 +7522,9 @@
                         "승 0 (0%)",
                         "5.80",
                         "경기당 득점",
-                        "0.80"
+                        "0.80",
+                        "핸디캡：2승 0무 1패",
+                        "언오버：2오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -7163,6 +7569,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7174,6 +7584,8 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:15:00 PM",
+                "match_time_display": "2026.10.13 18:15 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 많음,  20℃～21℃"
@@ -7202,7 +7614,9 @@
                         "승 1 (20%)",
                         "2.20",
                         "경기당 득점",
-                        "0.40"
+                        "0.40",
+                        "핸디캡：2승 0무 2패",
+                        "언오버：2오버 1무 1언더"
                     ],
                     "matches": [
                         {
@@ -7247,6 +7661,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7258,6 +7676,8 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:15:00 PM",
+                "match_time_display": "2026.10.13 18:15 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 조금,  10℃～11℃"
@@ -7286,7 +7706,9 @@
                         "승 0 (0%)",
                         "2.00",
                         "경기당 득점",
-                        "0.00"
+                        "0.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：0오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -7299,6 +7721,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7310,6 +7736,8 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:15:00 PM",
+                "match_time_display": "2026.10.13 18:15 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 많음,  13℃～14℃"
@@ -7338,7 +7766,9 @@
                         "승 0 (0%)",
                         "2.00",
                         "경기당 득점",
-                        "0.00"
+                        "0.00",
+                        "핸디캡：1승 0무 2패",
+                        "언오버：1오버 0무 2언더"
                     ],
                     "matches": [
                         {
@@ -7367,6 +7797,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7378,6 +7812,8 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:30:00 PM",
+                "match_time_display": "2026.10.13 18:30 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 많음,  15℃～16℃"
@@ -7406,7 +7842,9 @@
                         "승 0 (0%)",
                         "3.00",
                         "경기당 득점",
-                        "1.00"
+                        "1.00",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：0오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -7419,6 +7857,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7430,6 +7872,8 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:30:00 PM",
+                "match_time_display": "2026.10.13 18:30 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 많음,  11℃～12℃"
@@ -7458,7 +7902,9 @@
                         "승 0 (0%)",
                         "4.00",
                         "경기당 득점",
-                        "0.67"
+                        "0.67",
+                        "핸디캡：0승 0무 0패",
+                        "언오버：0오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -7487,6 +7933,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7498,6 +7948,8 @@
             "head_info": {
                 "league": "여자 월드컵 유럽 예선",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:45:00 PM",
+                "match_time_display": "2026.10.13 18:45 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "이슬비,  16℃～17℃"
@@ -7526,7 +7978,9 @@
                         "승 0 (0%)",
                         "8.00",
                         "경기당 득점",
-                        "0.00"
+                        "0.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：1오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -7539,6 +7993,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7550,6 +8008,8 @@
             "head_info": {
                 "league": "프리미어리그 컵",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:00:00 PM",
+                "match_time_display": "2026.10.13 18:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "맑음,  17°C"
@@ -7589,6 +8049,10 @@
                 "h2h": {
                     "summary": [],
                     "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -7639,6 +8103,8 @@
             "head_info": {
                 "league": "프리미어리그 컵",
                 "round": "",
+                "match_time_raw": "10/13/2026 6:00:00 PM",
+                "match_time_display": "2026.10.13 18:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -7678,6 +8144,10 @@
                 "h2h": {
                     "summary": [],
                     "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -7728,6 +8198,8 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "",
+                "match_time_raw": "10/14/2026 1:00:00 PM",
+                "match_time_display": "2026.10.14 13:00 수요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -7756,7 +8228,9 @@
                         "승 3 (50%)",
                         "1.00",
                         "경기당 득점",
-                        "2.17"
+                        "2.17",
+                        "핸디캡：2승 0무 4패",
+                        "언오버：3오버 0무 3언더"
                     ],
                     "matches": [
                         {
@@ -7809,6 +8283,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7820,6 +8298,8 @@
             "head_info": {
                 "league": "리그 1",
                 "round": "리그 1·  라운드 3",
+                "match_time_raw": "10/13/2026 3:30:00 PM",
+                "match_time_display": "2026.10.13 15:30 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -7874,6 +8354,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7885,6 +8369,8 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "",
+                "match_time_raw": "10/13/2026 5:00:00 PM",
+                "match_time_display": "2026.10.13 17:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -7913,7 +8399,9 @@
                         "승 3 (50%)",
                         "0.83",
                         "경기당 득점",
-                        "1.33"
+                        "1.33",
+                        "핸디캡：2승 0무 4패",
+                        "언오버：3오버 0무 3언더"
                     ],
                     "matches": [
                         {
@@ -7966,6 +8454,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -7977,6 +8469,8 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 8",
+                "match_time_raw": "10/14/2026 5:00:00 AM",
+                "match_time_display": "2026.10.14 05:00 수요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -8034,7 +8528,9 @@
                         "승 1 (10%)",
                         "3.30",
                         "경기당 득점",
-                        "1.10"
+                        "1.10",
+                        "핸디캡：4승 1무 3패",
+                        "언오버：5오버 0무 3언더"
                     ],
                     "matches": [
                         {
@@ -8119,6 +8615,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": [
@@ -8137,6 +8637,8 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 8",
+                "match_time_raw": "10/14/2026 8:00:00 AM",
+                "match_time_display": "2026.10.14 08:00 수요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -8194,7 +8696,9 @@
                         "승 0 (0%)",
                         "3.50",
                         "경기당 득점",
-                        "0.50"
+                        "0.50",
+                        "핸디캡：1승 0무 1패",
+                        "언오버：1오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -8214,6 +8718,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -8240,6 +8748,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 3:45:00 PM",
+                "match_time_display": "2026.10.13 15:45 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -8268,7 +8778,9 @@
                         "승 0 (0%)",
                         "2.50",
                         "경기당 득점",
-                        "1.10"
+                        "1.10",
+                        "핸디캡：5승 0무 4패",
+                        "언오버：5오버 0무 2언더"
                     ],
                     "matches": [
                         {
@@ -8353,6 +8865,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -8364,6 +8880,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:00:00 PM",
+                "match_time_display": "2026.10.13 16:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 조금,  25°C"
@@ -8392,7 +8910,9 @@
                         "승 0 (0%)",
                         "2.00",
                         "경기당 득점",
-                        "1.00"
+                        "1.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：1오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -8405,6 +8925,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -8416,6 +8940,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:00:00 PM",
+                "match_time_display": "2026.10.13 16:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -8443,7 +8969,9 @@
                         "무승부 2 (50%)",
                         "0.50",
                         "경기당 득점",
-                        "0.25"
+                        "0.25",
+                        "핸디캡：0승 1무 0패",
+                        "언오버：0오버 0무 1언더"
                     ],
                     "matches": [
                         {
@@ -8480,6 +9008,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -8491,6 +9023,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 4:00:00 PM",
+                "match_time_display": "2026.10.13 16:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -8519,7 +9053,9 @@
                         "승 0 (0%)",
                         "5.00",
                         "경기당 득점",
-                        "0.00"
+                        "0.00",
+                        "핸디캡：0승 0무 0패",
+                        "언오버：0오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -8532,6 +9068,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -8543,6 +9083,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 5:00:00 PM",
+                "match_time_display": "2026.10.13 17:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "흐림,  16°C"
@@ -8571,7 +9113,9 @@
                         "승 1 (100%)",
                         "1.00",
                         "경기당 득점",
-                        "7.00"
+                        "7.00",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：1오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -8584,6 +9128,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -8595,6 +9143,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 7:00:00 PM",
+                "match_time_display": "2026.10.13 19:00 화요일",
                 "stadium": "",
                 "home_stadium": "Brisbane stadium",
                 "weather": ""
@@ -8623,7 +9173,9 @@
                         "승 0 (0%)",
                         "4.00",
                         "경기당 득점",
-                        "0.00"
+                        "0.00",
+                        "핸디캡：0승 0무 0패",
+                        "언오버：0오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -8635,6 +9187,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [],
@@ -8654,6 +9210,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 8:00:00 PM",
+                "match_time_display": "2026.10.13 20:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "지역성 천둥,  16°C"
@@ -8682,7 +9240,9 @@
                         "승 0 (0%)",
                         "4.29",
                         "경기당 득점",
-                        "0.00"
+                        "0.00",
+                        "핸디캡：4승 1무 1패",
+                        "언오버：1오버 0무 5언더"
                     ],
                     "matches": [
                         {
@@ -8743,6 +9303,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -8754,6 +9318,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 9:00:00 PM",
+                "match_time_display": "2026.10.13 21:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "흐림,  29°C"
@@ -8782,7 +9348,9 @@
                         "승 6 (60%)",
                         "0.70",
                         "경기당 득점",
-                        "1.60"
+                        "1.60",
+                        "핸디캡：3승 3무 2패",
+                        "언오버：5오버 0무 3언더"
                     ],
                     "matches": [
                         {
@@ -8867,6 +9435,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -8878,6 +9450,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 9:00:00 PM",
+                "match_time_display": "2026.10.13 21:00 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -8906,7 +9480,9 @@
                         "승 0 (0%)",
                         "2.00",
                         "경기당 득점",
-                        "1.00"
+                        "1.00",
+                        "핸디캡：0승 0무 0패",
+                        "언오버：0오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -8919,6 +9495,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -8930,6 +9510,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 11:00:00 PM",
+                "match_time_display": "2026.10.13 23:00 화요일",
                 "stadium": "Texas Health Mansfield Stadium",
                 "home_stadium": "Texas Health Mansfield Stadium",
                 "weather": "구름 조금,  10°C"
@@ -8958,7 +9540,9 @@
                         "승 2 (40%)",
                         "0.80",
                         "경기당 득점",
-                        "1.00"
+                        "1.00",
+                        "핸디캡：0승 1무 4패",
+                        "언오버：1오버 0무 4언더"
                     ],
                     "matches": [
                         {
@@ -9003,6 +9587,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -9021,6 +9609,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 11:30:00 PM",
+                "match_time_display": "2026.10.13 23:30 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "구름 조금,  25°C"
@@ -9049,7 +9639,9 @@
                         "승 0 (0%)",
                         "3.80",
                         "경기당 득점",
-                        "0.60"
+                        "0.60",
+                        "핸디캡：5승 2무 3패",
+                        "언오버：7오버 1무 2언더"
                     ],
                     "matches": [
                         {
@@ -9134,6 +9726,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -9145,6 +9741,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/13/2026 11:30:00 PM",
+                "match_time_display": "2026.10.13 23:30 화요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -9171,7 +9769,9 @@
                         "승 1 (50%)",
                         "무승부 0 (0%)",
                         "2.00",
-                        "경기당 득점"
+                        "경기당 득점",
+                        "핸디캡：0승 0무 0패",
+                        "언오버：0오버 0무 0언더"
                     ],
                     "matches": [
                         {
@@ -9192,6 +9792,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -9203,6 +9807,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/14/2026 1:00:00 AM",
+                "match_time_display": "2026.10.14 01:00 수요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": "맑음,  26°C"
@@ -9231,7 +9837,9 @@
                         "승 2 (20%)",
                         "3.70",
                         "경기당 득점",
-                        "0.90"
+                        "0.90",
+                        "핸디캡：4승 1무 3패",
+                        "언오버：5오버 0무 3언더"
                     ],
                     "matches": [
                         {
@@ -9316,6 +9924,10 @@
                         }
                     ]
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [
                         {
@@ -9341,6 +9953,8 @@
             "head_info": {
                 "league": "국제 친선경기",
                 "round": "",
+                "match_time_raw": "10/14/2026 2:00:00 AM",
+                "match_time_display": "2026.10.14 02:00 수요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -9366,6 +9980,10 @@
                     "summary": [],
                     "matches": []
                 },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
                 "fixtures": {
                     "home": [],
                     "away": []
@@ -9377,6 +9995,8 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "",
+                "match_time_raw": "10/14/2026 1:00:00 PM",
+                "match_time_display": "2026.10.14 13:00 수요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -9401,6 +10021,10 @@
                 "h2h": {
                     "summary": [],
                     "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
@@ -9451,6 +10075,8 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "",
+                "match_time_raw": "10/14/2026 1:00:00 PM",
+                "match_time_display": "2026.10.14 13:00 수요일",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -9479,7 +10105,9 @@
                         "승 3 (30%)",
                         "1.00",
                         "경기당 득점",
-                        "1.30"
+                        "1.30",
+                        "핸디캡：4승 1무 4패",
+                        "언오버：3오버 0무 6언더"
                     ],
                     "matches": [
                         {
@@ -9563,6 +10191,10 @@
                             ]
                         }
                     ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
                 },
                 "fixtures": {
                     "home": [
