@@ -346,6 +346,9 @@ with tabs[0]:
 # ==========================================
 # 💡 규칙 1번 탭 (10경기 전수 + E티어 50% 할인 룰 내장)
 # ==========================================
+# ==========================================
+# 💡 규칙 1번 탭 (통합 상세 데이터 기반 10경기 전수 + E티어 50% 할인)
+# ==========================================
 with tabs[1]:
     st.markdown(f"### [규칙 1번: 종합 최근 10경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
     st.markdown("""
@@ -367,175 +370,153 @@ with tabs[1]:
     })
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
-    target_match_data = None
-    target_code = str(match_code).strip()
-    target_home = str(home_team).strip().replace(" ", "")
-    target_away = str(away_team).strip().replace(" ", "")
+    if has_detailed_data:
+        meta_details = detailed_info.get("meta_details", {})
+        recent_form = meta_details.get("recent_form", {})
+        stadium_form = meta_details.get("stadium_form", {})
 
-    if target_code and target_code in v3_details_dict:
-        target_match_data = v3_details_dict[target_code]
-    else:
-        for k, v in v3_details_dict.items():
-            v_home = str(v.get("home", "")).strip().replace(" ", "")
-            v_away = str(v.get("away", "")).strip().replace(" ", "")
-            if v_home == target_home and v_away == target_away:
-                target_match_data = v
-                break
+        h_name = home_team
+        a_name = away_team
 
-    if not target_match_data:
-        target_match_data = {"meta_details": {"recent_form": {"home_matches": [], "away_matches": []}, "stadium_form": {"home_matches": [], "away_matches": []}}}
+        h_matches = recent_form.get("home_matches", [])
+        a_matches = recent_form.get("away_matches", [])
 
-    meta_details = target_match_data.get("meta_details", {})
-    recent_form = meta_details.get("recent_form", {})
-    stadium_form = meta_details.get("stadium_form", {})
-
-    h_name = home_team
-    a_name = away_team
-
-    h_matches = recent_form.get("home_matches", [])
-    a_matches = recent_form.get("away_matches", [])
-
-    h_sum = recent_form.get("home_summary", {})
-    a_sum = recent_form.get("away_summary", {})
-    h_gpg_base = float(h_sum.get("goals_per_game", 0))
-    h_cpg_base = float(h_sum.get("conceded_per_game", 0))
-    h_rec_base = h_sum.get("recent_record", "0전 0승 0무 0패")
-    
-    a_gpg_base = float(a_sum.get("goals_per_game", 0))
-    a_cpg_base = float(a_sum.get("conceded_per_game", 0))
-    a_rec_base = a_sum.get("recent_record", "0전 0승 0무 0패")
-
-    def atk_tier(g):
-        if g >= 2.3: return "Tier A", "+8.0%"
-        elif g >= 1.7: return "Tier B", "+6.0%"
-        elif g >= 1.1: return "Tier C", "+4.0%"
-        elif g >= 0.5: return "Tier D", "+2.0%"
-        else: return "Tier E", "0.0%"
-
-    def def_tier(c):
-        if c < 0.5: return "Tier A", "-8.0%"
-        elif c < 0.9: return "Tier B", "-6.0%"
-        elif c < 1.3: return "Tier C", "-4.0%"
-        elif c < 1.7: return "Tier D", "-2.0%"
-        else: return "Tier E", "0.0%"
-
-    def atk_tier_nm(g): return atk_tier(g)[0]
-    def def_tier_nm(c): return def_tier(c)[0]
-
-    # 💡 원본 합산(실제 총득실)과 할인 보정 평균(GPG)을 완전 분리하여 산출하는 정밀 파싱 함수
-    def local_make_df(matches, tname, def_gpg, def_cpg, def_rec):
-        if not matches:
-            return pd.DataFrame(), def_gpg, def_cpg, def_rec, 0.0, 0.0
-        rows = []
-        eff_scored = 0.0
-        c_total = 0
-        raw_scored_total = 0.0
-        raw_conceded_total = 0.0
-        w = d = l = 0
+        h_sum = recent_form.get("home_summary", {})
+        a_sum = recent_form.get("away_summary", {})
+        h_gpg_base = float(h_sum.get("goals_per_game", 0))
+        h_cpg_base = float(h_sum.get("conceded_per_game", 0))
+        h_rec_base = h_sum.get("recent_record", "0전 0승 0무 0패")
         
-        for idx, m in enumerate(matches):
-            league = m.get("league", "-")
-            mtime = m.get("match_time", "-")
-            teams = m.get("teams", "-")
-            scores = m.get("ft_scores", ["0", "0"])
-            try:
-                s1, s2 = int(scores[0]), int(scores[1])
-            except:
-                s1 = s2 = 0
-            sc, cc = 0, 0
-            pair = teams.split(" vs ")
-            if len(pair) == 2:
-                t1, t2 = pair[0].strip(), pair[1].strip()
-                if tname in t1: sc, cc = s1, s2
-                elif tname in t2: sc, cc = s2, s1
-                else: sc, cc = s1, s2
-            else:
-                sc, cc = s1, s2
-                
-            # 1. 실제 원본 득실 누적 (총합산용)
-            raw_scored_total += sc
-            raw_conceded_total += cc
+        a_gpg_base = float(a_sum.get("goals_per_game", 0))
+        a_cpg_base = float(a_sum.get("conceded_per_game", 0))
+        a_rec_base = a_sum.get("recent_record", "0전 0승 0무 0패")
+
+        def atk_tier(g):
+            if g >= 2.3: return "Tier A", "+8.0%"
+            elif g >= 1.7: return "Tier B", "+6.0%"
+            elif g >= 1.1: return "Tier C", "+4.0%"
+            elif g >= 0.5: return "Tier D", "+2.0%"
+            else: return "Tier E", "0.0%"
+
+        def def_tier(c):
+            if c < 0.5: return "Tier A", "-8.0%"
+            elif c < 0.9: return "Tier B", "-6.0%"
+            elif c < 1.3: return "Tier C", "-4.0%"
+            elif c < 1.7: return "Tier D", "-2.0%"
+            else: return "Tier E", "0.0%"
+
+        def atk_tier_nm(g): return atk_tier(g)[0]
+        def def_tier_nm(c): return def_tier(c)[0]
+
+        def local_make_df(matches, tname, def_gpg, def_cpg, def_rec):
+            if not matches:
+                return pd.DataFrame(), def_gpg, def_cpg, def_rec, 0.0, 0.0
+            rows = []
+            eff_scored = 0.0
+            c_total = 0
+            raw_scored_total = 0.0
+            raw_conceded_total = 0.0
+            w = d = l = 0
             
-            if sc > cc: res = "승"; w += 1
-            elif sc == cc: res = "무"; d += 1
-            else: res = "패"; l += 1
-            
-            tier_str = "정보 없음"
-            mult = 1.0
-            tier_info = m.get("opponent_tier_info", "")
-            if tier_info and "/" in tier_info:
+            for idx, m in enumerate(matches):
+                league = m.get("league", "-")
+                mtime = m.get("match_time", "-")
+                teams = m.get("teams", "-")
+                scores = m.get("ft_scores", ["0", "0"])
                 try:
-                    oa, od = map(float, tier_info.split("/"))
-                    at_name = atk_tier_nm(oa)
-                    df_name = def_tier_nm(od)
-                    tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
-                    if at_name == "Tier E" or df_name == "Tier E":
-                        mult = 0.5
-                        tier_str += " ⚠️ (E티어 50% 할인)"
+                    s1, s2 = int(scores[0]), int(scores[1])
                 except:
-                    pass
+                    s1 = s2 = 0
+                sc, cc = 0, 0
+                pair = teams.split(" vs ")
+                if len(pair) == 2:
+                    t1, t2 = pair[0].strip(), pair[1].strip()
+                    if tname in t1: sc, cc = s1, s2
+                    elif tname in t2: sc, cc = s2, s1
+                    else: sc, cc = s1, s2
+                else:
+                    sc, cc = s1, s2
+                    
+                raw_scored_total += sc
+                raw_conceded_total += cc
+                
+                if sc > cc: res = "승"; w += 1
+                elif sc == cc: res = "무"; d += 1
+                else: res = "패"; l += 1
+                
+                tier_str = "정보 없음"
+                mult = 1.0
+                tier_info = m.get("opponent_tier_info", "")
+                if tier_info and "/" in tier_info:
+                    try:
+                        oa, od = map(float, tier_info.split("/"))
+                        at_name = atk_tier_nm(oa)
+                        df_name = def_tier_nm(od)
+                        tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
+                        if at_name == "Tier E" or df_name == "Tier E":
+                            mult = 0.5
+                            tier_str += " ⚠️ (E티어 50% 할인)"
+                    except:
+                        pass
+                
+                app_sc = sc * mult
+                eff_scored += app_sc
+                c_total += cc
+                
+                seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
+                score_display = f"{s1} : {s2}" + (f" (할인: {app_sc:.1f})" if mult < 1.0 else "")
+                rows.append({"LIFO 순서": seq, "경기 일시": mtime, "대회": league, "대진": teams, "스코어": score_display, "결과": res, "상대 공수 티어": tier_str})
+                
+            cnt = len(matches)
+            gpg = eff_scored / cnt if cnt > 0 else def_gpg
+            cpg = c_total / cnt if cnt > 0 else def_cpg
+            rec = f"{cnt}전 {w}승 {d}무 {l}패" if cnt > 0 else def_rec
+            return pd.DataFrame(rows), gpg, cpg, rec, raw_scored_total, raw_conceded_total
+
+        h_df, h_gpg, h_cpg, h_rec, h_raw_s, h_raw_c = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base)
+        a_df, a_gpg, a_cpg, a_rec, a_raw_s, a_raw_c = local_make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base)
+
+        h_at, h_atw = atk_tier(h_gpg)
+        h_de, h_dew = def_tier(h_cpg)
+        a_at, a_atw = atk_tier(a_gpg)
+        a_de, a_dew = def_tier(a_cpg)
+
+        h_goal_diff = h_raw_s - h_raw_c
+        a_goal_diff = a_raw_s - a_raw_c
+
+        st.markdown(f"#### 홈 팀 ({h_name}) 최근 전적 분석 로그 (LIFO - 최대 10경기 전수)")
+        if not h_df.empty:
+            st.dataframe(h_df, use_container_width=True, hide_index=True)
+        else:
+            st.info("📋 개별 경기 상세 데이터 없음")
             
-            # 2. 50% 할인율이 적용된 보정 득점 계산 (평균 득점 티어 산출용)
-            app_sc = sc * mult
-            eff_scored += app_sc
-            c_total += cc
+        st.markdown(f"""<div class="calc-box">
+            <b>{h_name} 규칙 1번 상세 산출 내역</b><br>
+            • 최근 전적: <b>{h_rec}</b> (총 득점: <b>{h_raw_s:.1f}골</b> / 총 실점: <b>{h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if h_goal_diff >= 0 else '#c62828'};">{h_goal_diff:+.1f}</b>)<br>
+            • 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> / 평균 실점: <b>{h_cpg:.2f}골/경기</b><br>
+            • 공격 티어: <b>{h_at} ({h_atw})</b> | 방어 티어: <b>{h_de} ({h_dew})</b>
+        </div>""", unsafe_allow_html=True)
+
+        st.markdown("---")
+
+        st.markdown(f"#### 원정 팀 ({a_name}) 최근 전적 분석 로그 (LIFO - 최대 10경기 전수)")
+        if not a_df.empty:
+            st.dataframe(a_df, use_container_width=True, hide_index=True)
+        else:
+            st.info("📋 개별 경기 상세 데이터 없음")
             
-            seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
-            score_display = f"{s1} : {s2}" + (f" (할인: {app_sc:.1f})" if mult < 1.0 else "")
-            rows.append({"LIFO 순서": seq, "경기 일시": mtime, "대회": league, "대진": teams, "스코어": score_display, "결과": res, "상대 공수 티어": tier_str})
-            
-        cnt = len(matches)
-        gpg = eff_scored / cnt if cnt > 0 else def_gpg
-        cpg = c_total / cnt if cnt > 0 else def_cpg
-        rec = f"{cnt}전 {w}승 {d}무 {l}패" if cnt > 0 else def_rec
-        return pd.DataFrame(rows), gpg, cpg, rec, raw_scored_total, raw_conceded_total
-
-    h_df, h_gpg, h_cpg, h_rec, h_raw_s, h_raw_c = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base)
-    a_df, a_gpg, a_cpg, a_rec, a_raw_s, a_raw_c = local_make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base)
-
-    h_at, h_atw = atk_tier(h_gpg)
-    h_de, h_dew = def_tier(h_cpg)
-    a_at, a_atw = atk_tier(a_gpg)
-    a_de, a_dew = def_tier(a_cpg)
-
-    h_goal_diff = h_raw_s - h_raw_c
-    a_goal_diff = a_raw_s - a_raw_c
-
-    # 홈 팀 출력
-    st.markdown(f"#### 홈 팀 ({h_name}) 최근 전적 분석 로그 (LIFO - 최대 10경기 전수)")
-    if not h_df.empty:
-        st.dataframe(h_df, use_container_width=True, hide_index=True)
+        st.markdown(f"""<div class="calc-box">
+            <b>{a_name} 규칙 1번 상세 산출 내역</b><br>
+            • 최근 전적: <b>{a_rec}</b> (총 득점: <b>{a_raw_s:.1f}골</b> / 총 실점: <b>{a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if a_goal_diff >= 0 else '#c62828'};">{a_goal_diff:+.1f}</b>)<br>
+            • 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> / 평균 실점: <b>{a_cpg:.2f}골/경기</b><br>
+            • 공격 티어: <b>{a_at} ({a_atw})</b> | 방어 티어: <b>{a_de} ({a_dew})</b>
+        </div>""", unsafe_allow_html=True)
     else:
-        st.info("📋 개별 경기 상세 데이터 없음")
-        
-    st.markdown(f"""<div class="calc-box">
-        <b>{h_name} 규칙 1번 상세 산출 내역</b><br>
-        • 최근 전적: <b>{h_rec}</b> (총 득점: <b>{h_raw_s:.1f}골</b> / 총 실점: <b>{h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if h_goal_diff >= 0 else '#c62828'};">{h_goal_diff:+.1f}</b>)<br>
-        • 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> / 평균 실점: <b>{h_cpg:.2f}골/경기</b><br>
-        • 공격 티어: <b>{h_at} ({h_atw})</b> | 방어 티어: <b>{h_de} ({h_dew})</b>
-    </div>""", unsafe_allow_html=True)
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 
-    st.markdown("---")
-
-    # 원정 팀 출력
-    st.markdown(f"#### 원정 팀 ({a_name}) 최근 전적 분석 로그 (LIFO - 최대 10경기 전수)")
-    if not a_df.empty:
-        st.dataframe(a_df, use_container_width=True, hide_index=True)
-    else:
-        st.info("📋 개별 경기 상세 데이터 없음")
-        
-    st.markdown(f"""<div class="calc-box">
-        <b>{a_name} 규칙 1번 상세 산출 내역</b><br>
-        • 최근 전적: <b>{a_rec}</b> (총 득점: <b>{a_raw_s:.1f}골</b> / 총 실점: <b>{a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if a_goal_diff >= 0 else '#c62828'};">{a_goal_diff:+.1f}</b>)<br>
-        • 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> / 평균 실점: <b>{a_cpg:.2f}골/경기</b><br>
-        • 공격 티어: <b>{a_at} ({a_atw})</b> | 방어 티어: <b>{a_de} ({a_dew})</b>
-    </div>""", unsafe_allow_html=True)
 
 # ==========================================
 # 💡 규칙 2번 탭 (구장별 전적 표 및 산출 내역)
-# ==========================================
-# ==========================================
-# 💡 규칙 2번 탭 (구장별 전적 표 및 원본/보정 분리 산출)
 # ==========================================
 with tabs[2]:
     st.markdown(f"### [규칙 2번: 구장별 Shift 검증 및 환경 보정] - {home_team} vs {away_team}")
@@ -548,53 +529,52 @@ with tabs[2]:
         """, unsafe_allow_html=True,
     )
 
-    s_home_matches = stadium_form.get("home_matches", [])[:10]
-    s_away_matches = stadium_form.get("away_matches", [])[:10]
+    if has_detailed_data:
+        s_home_matches = stadium_form.get("home_matches", [])[:10]
+        s_away_matches = stadium_form.get("away_matches", [])[:10]
 
-    # 구장 데이터에도 동일하게 local_make_df를 적용하여 원본 합산과 보정 평균을 분리 추출
-    s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패")
-    s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패")
+        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패")
+        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패")
 
-    s_h_at, s_h_atw = atk_tier(s_h_gpg)
-    s_h_de, s_h_dew = def_tier(s_h_cpg)
-    s_a_at, s_a_atw = atk_tier(s_a_gpg)
-    s_a_de, s_a_dew = def_tier(s_a_cpg)
+        s_h_at, s_h_atw = atk_tier(s_h_gpg)
+        s_h_de, s_h_dew = def_tier(s_h_cpg)
+        s_a_at, s_a_atw = atk_tier(s_a_gpg)
+        s_a_de, s_a_dew = def_tier(s_a_cpg)
 
-    s_h_diff = s_h_raw_s - s_h_raw_c
-    s_a_diff = s_a_raw_s - s_a_raw_c
+        s_h_diff = s_h_raw_s - s_h_raw_c
+        s_a_diff = s_a_raw_s - s_a_raw_c
 
-    # 홈 팀 구장별 출력
-    st.markdown(f"#### 홈 팀 ({h_name}) 구장별 전적 및 상대 티어 대조 표")
-    if not s_h_df.empty:
-        st.dataframe(s_h_df, use_container_width=True, hide_index=True)
+        st.markdown(f"#### 홈 팀 ({h_name}) 구장별 전적 및 상대 티어 대조 표")
+        if not s_h_df.empty:
+            st.dataframe(s_h_df, use_container_width=True, hide_index=True)
+        else:
+            st.info("📋 구장별 상세 전적 데이터 없음")
+            
+        st.markdown(f"""<div class="calc-box">
+            <b>{h_name} 규칙 2번(구장별) 상세 산출 내역</b><br>
+            • 구장 전적 성향: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
+            • 수집된 지표: 구장 평균 득점 <b>{s_h_gpg:.2f}골/경기</b> / 평균 실점 <b>{s_h_cpg:.2f}골/경기</b><br>
+            • 정량 공식 대조 체급: 공격력 <b>{s_h_at}</b>, 방어력 <b>{s_h_de}</b><br>
+            • 구장 환경 보정 가중치: 공격 <b>{s_h_atw}</b>, 방어 <b>{s_h_dew}</b>
+        </div>""", unsafe_allow_html=True)
+
+        st.markdown("---")
+
+        st.markdown(f"#### 원정 팀 ({a_name}) 구장별 전적 및 상대 티어 대조 표")
+        if not s_a_df.empty:
+            st.dataframe(s_a_df, use_container_width=True, hide_index=True)
+        else:
+            st.info("📋 구장별 상세 전적 데이터 없음")
+            
+        st.markdown(f"""<div class="calc-box">
+            <b>{a_name} 규칙 2번(구장별) 상세 산출 내역</b><br>
+            • 구장 전적 성향: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
+            • 수집된 지표: 구장 평균 득점 <b>{s_a_gpg:.2f}골/경기</b> / 평균 실점 <b>{s_a_cpg:.2f}골/경기</b><br>
+            • 정량 공식 대조 체급: 공격력 <b>{s_a_at}</b>, 방어력 <b>{s_a_de}</b><br>
+            • 구장 환경 보정 가중치: 공격 <b>{s_a_atw}</b>, 방어 <b>{s_a_dew}</b>
+        </div>""", unsafe_allow_html=True)
     else:
-        st.info("📋 구장별 상세 전적 데이터 없음")
-        
-    st.markdown(f"""<div class="calc-box">
-        <b>{h_name} 규칙 2번(구장별) 상세 산출 내역</b><br>
-        • 구장 전적 성향: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
-        • 수집된 지표: 구장 평균 득점 <b>{s_h_gpg:.2f}골/경기</b> / 평균 실점 <b>{s_h_cpg:.2f}골/경기</b><br>
-        • 정량 공식 대조 체급: 공격력 <b>{s_h_at}</b>, 방어력 <b>{s_h_de}</b><br>
-        • 구장 환경 보정 가중치: 공격 <b>{s_h_atw}</b>, 방어 <b>{s_h_dew}</b>
-    </div>""", unsafe_allow_html=True)
-
-    st.markdown("---")
-
-    # 원정 팀 구장별 출력
-    st.markdown(f"#### 원정 팀 ({a_name}) 구장별 전적 및 상대 티어 대조 표")
-    if not s_a_df.empty:
-        st.dataframe(s_a_df, use_container_width=True, hide_index=True)
-    else:
-        st.info("📋 구장별 상세 전적 데이터 없음")
-        
-    st.markdown(f"""<div class="calc-box">
-        <b>{a_name} 규칙 2번(구장별) 상세 산출 내역</b><br>
-        • 구장 전적 성향: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
-        • 수집된 지표: 구장 평균 득점 <b>{s_a_gpg:.2f}골/경기</b> / 평균 실점 <b>{s_a_cpg:.2f}골/경기</b><br>
-        • 정량 공식 대조 체급: 공격력 <b>{s_a_at}</b>, 방어력 <b>{s_a_de}</b><br>
-        • 구장 환경 보정 가중치: 공격 <b>{s_a_atw}</b>, 방어 <b>{s_a_dew}</b>
-    </div>""", unsafe_allow_html=True)
-
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
