@@ -531,7 +531,7 @@ with tabs[1]:
 
 
 # ==========================================
-# 💡 규칙 2번 탭 (구장별 Shift 검증 및 1단계 티어 연동 보정) - 간결한 보정치 적용
+# 💡 규칙 2번 탭 (구장별 Shift 검증) - 골득실 수치 표기 포함
 # ==========================================
 with tabs[2]:
     st.markdown(f"### [규칙 2번: 구장별 Shift 검증 및 환경 보정] - {home_team} vs {away_team}")
@@ -563,7 +563,6 @@ with tabs[2]:
         base_a_at = a_at if 'a_at' in locals() else "Tier C"
         base_a_de = a_de if 'a_de' in locals() else "Tier C"
 
-        # 💡 [2단계 전용] 순수 보정치 산정 함수 (부수 설명 제거)
         def get_shift_correction(base_tier, stadium_tier, is_attack=True):
             tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
             b_val = tier_ranks.get(base_tier, 3)
@@ -574,16 +573,13 @@ with tabs[2]:
                 elif s_val < b_val: return "-15%", -15.0
                 else: return "0%", 0.0
             else:
-                # 방어력: 등급 하락 시 실점 증가(+15%), 등급 상승 시 실점 감소(-15%)
                 if s_val < b_val: return "+15%", 15.0
                 elif s_val > b_val: return "-15%", -15.0
                 else: return "0%", 0.0
 
-        # 홈 팀 보정치 산출
         h_atk_shift_str, h_atk_val = get_shift_correction(base_h_at, s_h_at, is_attack=True)
         h_def_shift_str, h_def_val = get_shift_correction(base_h_de, s_h_de, is_attack=False)
 
-        # 원정 팀 보정치 산출
         a_atk_shift_str, a_atk_val = get_shift_correction(base_a_at, s_a_at, is_attack=True)
         a_def_shift_str, a_def_val = get_shift_correction(base_a_de, s_a_de, is_attack=False)
 
@@ -601,7 +597,7 @@ with tabs[2]:
             <b>{h_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
             • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b><br>
             • 구장 환경 체급: 공격 <b>{s_h_at}</b> / 방어 <b>{s_h_de}</b><br>
-            • 구장 전적 성향: <b>{s_h_rec}</b> (득실차: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
+            • 구장 전적 성향: <b>{s_h_rec}</b> (총 <b>{int(s_h_raw_s)}득점 / {int(s_h_raw_c)}실점</b>, 득실차: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
             • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{h_atk_shift_str}</b> / 방어 <b>{h_def_shift_str}</b>
         </div>""", unsafe_allow_html=True,
     )
@@ -619,7 +615,7 @@ with tabs[2]:
             <b>{a_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
             • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b><br>
             • 구장 환경 체급: 공격 <b>{s_a_at}</b> / 방어 <b>{s_a_de}</b><br>
-            • 구장 전적 성향: <b>{s_a_rec}</b> (득실차: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
+            • 구장 전적 성향: <b>{s_a_rec}</b> (총 <b>{int(s_a_raw_s)}득점 / {int(s_a_raw_c)}실점</b>, 득실차: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
             • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> / 방어 <b>{a_def_shift_str}</b>
         </div>""", unsafe_allow_html=True,
     )
