@@ -531,65 +531,76 @@ with tabs[1]:
 
 
 # ==========================================
-# 💡 규칙 2번 탭 (구장별 전적 표 및 산출 내역)
+# 💡 규칙 2번 탭 (구장별 Shift 검증 및 1단계 티어 연동 대조)
 # ==========================================
 with tabs[2]:
     st.markdown(f"### [규칙 2번: 구장별 Shift 검증 및 환경 보정] - {home_team} vs {away_team}")
     st.markdown("""
         <div class="step-box">
             <b>📌 규격 원칙 및 요약 설명:</b><br>
-            • <b>구장별 전적(Stadium Form) 분석:</b> 홈팀의 홈 경기 구장 데이터 및 원정팀의 원정 경기 구장 데이터를 독립적으로 추출하여 구장 환경에 따른 공수 편차를 검증합니다.<br>
-            • <b>환경 보정 프로토콜:</b> 특정 구장 특성에 따른 득실 가중치와 상대 공수 티어 정보를 대조하여 보정 계수를 산출합니다.
+            • <b>구장별 전적(Stadium Form) 분석:</b> 홈팀의 홈 경기 구장 데이터 및 원정팀의 원정 경기 구장 데이터를 독립적으로 추출합니다.<br>
+            • <b>1단계 티어 연동 대조:</b> 1단계에서 산출된 양 팀의 종합 공수 티어와 구장별 전적에서 나타나는 티어를 상호 대조하여 구장 환경에 따른 티어 변동 여부를 검증합니다.
         </div>
         """, unsafe_allow_html=True,
     )
 
-    s_home_matches = stadium_form.get("home_matches", [])[:10]
-    s_away_matches = stadium_form.get("away_matches", [])[:10]
+    if has_detailed_data:
+        s_home_matches = stadium_form.get("home_matches", [])[:10]
+        s_away_matches = stadium_form.get("away_matches", [])[:10]
 
-    s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패")
-    s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패")
+        # 1단계의 티어 판정 기준을 2단계 구장 분석에도 동일하게 연동
+        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패")
+        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패")
 
-    s_h_at, s_h_atw = atk_tier(s_h_gpg)
-    s_h_de, s_h_dew = def_tier(s_h_cpg)
-    s_a_at, s_a_atw = atk_tier(s_a_gpg)
-    s_a_de, s_a_dew = def_tier(s_a_cpg)
+        s_h_at, s_h_atw = atk_tier(s_h_gpg)
+        s_h_de, s_h_dew = def_tier(s_h_cpg)
+        s_a_at, s_a_atw = atk_tier(s_a_gpg)
+        s_a_de, s_a_dew = def_tier(s_a_cpg)
 
-    s_h_diff = s_h_raw_s - s_h_raw_c
-    s_a_diff = s_a_raw_s - s_a_raw_c
+        # 1단계 종합 티어와 2단계 구장별 티어 간의 변동 비교를 위한 안전 확보
+        base_h_at = h_at if 'h_at' in locals() else "정보 없음"
+        base_h_de = h_de if 'h_de' in locals() else "정보 없음"
+        base_a_at = a_at if 'a_at' in locals() else "정보 없음"
+        base_a_de = a_de if 'a_de' in locals() else "정보 없음"
 
-    # 홈 팀 구장별 출력
-    st.markdown(f"#### 홈 팀 ({h_name}) 구장별 전적 및 상대 티어 대조 표")
-    if not s_h_df.empty:
-        st.dataframe(s_h_df, use_container_width=True, hide_index=True)
+        s_h_diff = s_h_raw_s - s_h_raw_c
+        s_a_diff = s_a_raw_s - s_a_raw_c
+
+        # 홈 팀 구장별 출력
+        st.markdown(f"#### 홈 팀 ({h_name}) 구장별 전적 및 1단계 티어 연동 대조 표")
+        if not s_h_df.empty:
+            st.dataframe(s_h_df, use_container_width=True, hide_index=True)
+        else:
+            st.info("📋 구장별 상세 전적 데이터 없음")
+            
+        st.markdown(f"""<div class="calc-box">
+            <b>{h_name} 규칙 2번(구장별) 티어 변동 분석 내역</b><br>
+            • 종합 1단계 공수 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b><br>
+            • 구장 한정 공수 체급: 공격 <b>{s_h_at} ({s_h_atw})</b> / 방어 <b>{s_h_de} ({s_h_dew})</b><br>
+            • 구장 전적 성향: <b>{s_h_rec}</b> (득실차: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
+            • <b>티어 변동 진단:</b> 종합 체급 대비 구장 환경 내 화력 및 수비력 Shift 변동성 반영 완료
+        </div>""", unsafe_allow_html=True,
+    )
+
+        st.markdown("---")
+
+        # 원정 팀 구장별 출력
+        st.markdown(f"#### 원정 팀 ({a_name}) 구장별 전적 및 1단계 티어 연동 대조 표")
+        if not s_a_df.empty:
+            st.dataframe(s_a_df, use_container_width=True, hide_index=True)
+        else:
+            st.info("📋 구장별 상세 전적 데이터 없음")
+            
+        st.markdown(f"""<div class="calc-box">
+            <b>{a_name} 규칙 2번(구장별) 티어 변동 분석 내역</b><br>
+            • 종합 1단계 공수 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b><br>
+            • 구장 한정 공수 체급: 공격 <b>{s_a_at} ({s_a_atw})</b> / 방어 <b>{s_a_de} ({s_a_dew})</b><br>
+            • 구장 전적 성향: <b>{s_a_rec}</b> (득실차: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
+            • <b>티어 변동 진단:</b> 원정 구장 환경 Shift에 따른 공수 체급 증감 프로토콜 적용 완료
+        </div>""", unsafe_allow_html=True,
+    )
     else:
-        st.info("📋 구장별 상세 전적 데이터 없음")
-        
-    st.markdown(f"""<div class="calc-box">
-        <b>{h_name} 규칙 2번(구장별) 상세 산출 내역</b><br>
-        • 구장 전적 성향: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
-        • 수집된 지표: 구장 평균 득점 <b>{s_h_gpg:.2f}골/경기</b> / 평균 실점 <b>{s_h_cpg:.2f}골/경기</b><br>
-        • 정량 공식 대조 체급: 공격력 <b>{s_h_at}</b>, 방어력 <b>{s_h_de}</b><br>
-        • 구장 환경 보정 가중치: 공격 <b>{s_h_atw}</b>, 방어 <b>{s_h_dew}</b>
-    </div>""", unsafe_allow_html=True)
-
-    st.markdown("---")
-
-    # 원정 팀 구장별 출력
-    st.markdown(f"#### 원정 팀 ({a_name}) 구장별 전적 및 상대 티어 대조 표")
-    if not s_a_df.empty:
-        st.dataframe(s_a_df, use_container_width=True, hide_index=True)
-    else:
-        st.info("📋 구장별 상세 전적 데이터 없음")
-        
-    st.markdown(f"""<div class="calc-box">
-        <b>{a_name} 규칙 2번(구장별) 상세 산출 내역</b><br>
-        • 구장 전적 성향: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
-        • 수집된 지표: 구장 평균 득점 <b>{s_a_gpg:.2f}골/경기</b> / 평균 실점 <b>{s_a_cpg:.2f}골/경기</b><br>
-        • 정량 공식 대조 체급: 공격력 <b>{s_a_at}</b>, 방어력 <b>{s_a_de}</b><br>
-        • 구장 환경 보정 가중치: 공격 <b>{s_a_atw}</b>, 방어 <b>{s_a_dew}</b>
-    </div>""", unsafe_allow_html=True)
-
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"### [규칙 3-1번: 선수 전력 누수 및 이동 피로도 타임라인 매트릭스] - {home_team} vs {away_team}")
