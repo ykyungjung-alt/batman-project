@@ -566,7 +566,6 @@ with tabs[1]:
         • 공격 티어: <b>{a_at} ({a_atw})</b><br>
         • 방어 티어: <b>{a_de} ({a_dew})</b>
     </div>""", unsafe_allow_html=True)
-# --- [2단계] ---
 with tabs[2]:
     st.markdown(f"### [규칙 2번: 구장별 Shift 검증 및 환경 보정] - {home_team} vs {away_team}")
     st.markdown("""
@@ -610,7 +609,7 @@ with tabs[2]:
                 target_match_data = v
                 break
 
-    # 'stadium_form' 및 "form_title": "구장별 전적" 조건 엄격 검증 후 싹 수집
+    # 💡 'stadium_form' 및 "form_title": "구장별 전적" 조건 엄격 검증 후 구장 데이터 수집
     s_home_matches, s_away_matches = [], []
     s_home_team_name, s_away_team_name = home_team, away_team
 
@@ -620,10 +619,10 @@ with tabs[2]:
         
         if stadium_form_dict.get("form_title") == "구장별 전적":
             s_home_team_name = stadium_form_dict.get("home_team_name", home_team).strip()
-            s_home_matches = stadium_form_dict.get("home_matches", [])[:10]  # 최대 10경기
+            s_home_matches = stadium_form_dict.get("home_matches", [])[:10]  # 구장 전적 최대 10경기
             
             s_away_team_name = stadium_form_dict.get("away_team_name", away_team).strip()
-            s_away_matches = stadium_form_dict.get("away_matches", [])[:10]  # 최대 10경기
+            s_away_matches = stadium_form_dict.get("away_matches", [])[:10]  # 구장 전적 최대 10경기
 
     # 공수 수치 기반 티어 판별 함수
     def get_attack_tier_name(g):
