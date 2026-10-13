@@ -90,7 +90,7 @@ all_details_dict = load_all_match_details()   # 1, 2번 병합본 (기본 시스
 v3_details_dict = load_v3_match_details()       # 3번 전용 (1, 2단계 표 연동용)
 v4_leagues_dict = load_v4_match_details()       # 4번 전용 (리그 순위표 데이터용)
 
-st.markdown("<h2 style='font-size: 20px;'>배트맨 프로젝트 통합 마스터 규격 및 분석 엔진</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='font-size: 24px;'>배트맨 프로젝트 통합 마스터 규격 및 분석 엔진</h2>", unsafe_allow_html=True)
 st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
 
 st.sidebar.markdown("---")
@@ -259,7 +259,7 @@ tabs = st.tabs(tab_titles)
 # 0단계 탭 (메타 및 순위표 출력)
 # ==========================================
 with tabs[0]:
-    st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
+    st.markdown("#### [0단계: 대진 정보 및 팀순위 정보]")
     st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
     
     # 경기 일시 데이터 안전 추출
@@ -315,7 +315,7 @@ with tabs[0]:
 | **데이터 상태 검증** | {meta_status} |
 """
     st.markdown(meta_markdown_table, unsafe_allow_html=True)
-    st.markdown("### 📊 공식 팀 순위 및 조건별 전적표 현황")
+    st.markdown("##### 📊 공식 팀 순위 및 조건별 전적표 현황")
 
     # 2. 공식 팀 순위 및 전적표 출력 (안전한 방어 분기 처리)
     if has_detailed_data:
@@ -355,7 +355,7 @@ with tabs[0]:
 # 💡 규칙 1번 탭 (v3 데이터 전용 단독 연동 및 10경기 전수 + E티어 50% 할인)
 # ==========================================
 with tabs[1]:
-    st.markdown(f"### [규칙 1번: 종합 최근 10경기 전수 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
+    st.markdown(f"#### [규칙 1번: 종합 최근 10경기 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
     st.markdown("""
         <div class="step-box">
             <b>📌 규격 원칙 및 요약 설명:</b><br>
@@ -508,7 +508,7 @@ with tabs[1]:
     a_goal_diff = a_raw_s - a_raw_c
 
     # 홈 팀 1단계 출력
-    st.markdown(f"#### 홈 팀 ({h_name}) 최근 전적 분석 로그 (LIFO - 최대 10경기 전수)")
+    st.markdown(f"##### 홈 팀 ({h_name}) 최근 전적 분석 로그 ")
     if not h_df.empty:
         st.dataframe(h_df, use_container_width=True, hide_index=True)
     else:
@@ -524,7 +524,7 @@ with tabs[1]:
     st.markdown("---")
 
     # 원정 팀 1단계 출력
-    st.markdown(f"#### 원정 팀 ({a_name}) 최근 전적 분석 로그 (LIFO - 최대 10경기 전수)")
+    st.markdown(f"##### 원정 팀 ({a_name}) 최근 전적 분석 로그 ")
     if not a_df.empty:
         st.dataframe(a_df, use_container_width=True, hide_index=True)
     else:
@@ -542,7 +542,7 @@ with tabs[1]:
 # 💡 규칙 2번 탭 (구장별 Shift 검증) - 전적 요약 및 보정 평균 득실 표기 반영
 # ==========================================
 with tabs[2]:
-    st.markdown(f"### [규칙 2번: 구장별 Shift 검증 및 환경 보정] - {home_team} vs {away_team}")
+    st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
     st.markdown("""
         <div class="step-box">
             <b>📌 규격 원칙 및 요약 설명:</b><br>
@@ -595,7 +595,7 @@ with tabs[2]:
         s_a_diff = s_a_raw_s - s_a_raw_c
 
         # --- 홈 팀 렌더링 ---
-        st.markdown(f"#### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증")
+        st.markdown(f"##### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증")
         if not s_h_df.empty:
             st.dataframe(s_h_df, use_container_width=True, hide_index=True)
         else:
@@ -613,7 +613,7 @@ with tabs[2]:
         st.markdown("---")
 
         # --- 원정 팀 렌더링 ---
-        st.markdown(f"#### 원정 팀 ({a_name}) 구장별 전적 및 티어 변동 검증")
+        st.markdown(f"##### 원정 팀 ({a_name}) 구장별 전적 및 티어 변동 검증")
         if not s_a_df.empty:
             st.dataframe(s_a_df, use_container_width=True, hide_index=True)
         else:
@@ -631,7 +631,7 @@ with tabs[2]:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
-    st.markdown(f"### [규칙 3-1번: 선수 전력 누수 및 이동 피로도 타임라인 매트릭스] - {home_team} vs {away_team}")
+    st.markdown(f"#### [규칙 3-1번: 선수 전력 누수 및 이동 피로도 타임라인] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
         <b>📌 규칙 3-1 (선수 전력 변동: 누수 및 가산) 규격 요약:</b><br>
@@ -641,7 +641,7 @@ with tabs[3]:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("#### 선수 등급(상/중/하) 정량 판정 기준표")
+    st.markdown("##### 선수 등급(상/중/하) 정량 판정 기준표")
     html_table = """
     <style>
     .custom-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 14px; }
@@ -659,7 +659,7 @@ with tabs[3]:
     """
     st.markdown(html_table, unsafe_allow_html=True)
     
-    st.markdown(f"#### 예시표 3-1: 구단명 - {home_team} 선수 전력 변동 매트릭스")
+    st.markdown(f"##### 3-1: 구단명 - {home_team} 선수 전력 변동 ")
     table_3_1_kor = pd.DataFrame({
         "선수 실명": ["손흥민", "김민재", "[총합]"],
         "포지션": ["FW", "DF", "-"],
@@ -673,7 +673,7 @@ with tabs[3]:
     })
     st.dataframe(table_3_1_kor, use_container_width=True, hide_index=True)
 
-    st.markdown(f"#### 예시표 3-1: 구단명 - {away_team} 선수 전력 변동 매트릭스")
+    st.markdown(f"##### 3-1: 구단명 - {away_team} 선수 전력 변동 ")
     table_3_1_jpn = pd.DataFrame({
         "선수 실명": ["엔도 와타루", "쿠보 타케후사", "[총합]"],
         "포지션": ["MF", "FW", "-"],
@@ -688,7 +688,7 @@ with tabs[3]:
     st.dataframe(table_3_1_jpn, use_container_width=True, hide_index=True)
 
     # --- [규칙 3-2번: 일정 누수·피로도 및 시계열 타임라인] ---
-    st.markdown(f"### [규칙 3-2번: 일정 누수·피로도 및 시계열 타임라인 산정] - {home_team} vs {away_team}")
+    st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
         <b>📌 규칙 3-2번 규격 원칙 및 요약 설명:</b><br>
@@ -705,7 +705,7 @@ with tabs[3]:
         home_fixtures = fixtures_info.get("home", [])
         away_fixtures = fixtures_info.get("away", [])
 
-        st.markdown(f"#### 표 3-2: {home_team} vs {away_team} 시계열 일정 및 피로도·중요도 매트릭스")
+        st.markdown(f"##### 표 3-2: {home_team} vs {away_team} 일정 및 피로도·중요도 매트릭스")
 
         # 💡 기준 경기 일자 기준 과거/향후 일정 분리 및 4일 간격 검증 파싱 함수
         def parse_chronological_timeline_4days(fix_list, target_team_name, base_match_date):
@@ -863,7 +863,7 @@ with tabs[3]:
         st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, 일정 누수 및 피로도 산출 내역을 표시할 수 없습니다.")
 # --- [4단계] ---
 with tabs[4]:
-    st.markdown(f"### [규칙 4번: 역대 공식 맞대결 상성 전수 로그 및 단방향 10% 룰] - {home_team} vs {away_team}")
+    st.markdown(f"#### [규칙 4번: 역대 공식 맞대결 상성 전수 로그 및 단방향 10% 룰] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
         <b>📌 규칙 4번 규격 원칙 및 요약 설명:</b><br>
@@ -881,7 +881,7 @@ with tabs[4]:
         h2h_matches = h2h_info.get("matches", [])
         h2h_summary = h2h_info.get("summary", [])
         
-        st.markdown(f"#### 예시표 4: {home_team} 기준 역대 공식 맞대결 최근 경기 전수 표")
+        st.markdown(f"##### {home_team} 기준 역대 공식 맞대결 최근 경기 전수 표")
         
         if h2h_matches:
             h2h_table_data = []
@@ -999,7 +999,7 @@ target_leagues = [
 # 💡 규칙 5번 탭 (5-1 표: 최종 보정 득실점 산출 매트릭스) - 통째 수정본
 # ==========================================
 with tabs[5]:
-    st.markdown(f"### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
+    st.markdown(f"#### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
     st.markdown("""
         <div class="step-box">
             <b>📌 규격 원칙 및 요약 설명:</b><br>
@@ -1063,7 +1063,7 @@ with tabs[5]:
         a_final_exp_g = max(0.2, (a_max_g + (2.0 - h_min_c)) / 2.0)
         a_final_exp_c = max(0.2, (a_min_c + (2.0 - h_max_g)) / 2.0)
 
-        st.markdown(f"#### 📊 [5-1 표] 최종 보정 득실점 산출 매트릭스 ({home_team} vs {a_name if 'a_name' in locals() else '원정팀'})")
+        st.markdown(f"##### 📊 [5-1 표] 최종 보정 득실점 산출 매트릭스 ({home_team} vs {a_name if 'a_name' in locals() else '원정팀'})")
 
         # HTML 마크업으로 5-1 표 구성
         table_html = f"""
@@ -1165,14 +1165,14 @@ with tabs[5]:
 # --- [6단계] ---
 with tabs[6]:
   st.markdown(
-      f"### [규칙 6번: 예상 스코어 순위 산출 및 최종 통합 흐름 매트릭스] -"
+      f"#### [규칙 6번: 예상 스코어 순위 산출 및 최종 통합 흐름 매트릭스] -"
       f" {home_team} vs {away_team}"
   )
   st.markdown(
       """ <div class="step-box"> <b>📌 예상스코어 순위 산출 방법 규격:</b><br> • <b>1순위 (최적합):</b> 규칙 5-2의 실전 교차 검증 결과에 가장 적합한 결과값을 최우선으로 선정합니다.<br> • <b>2순위 (차선책):</b> 1순위를 제외한 푸아송 확률이 가장 높은 결과값을 선정합니다.<br> • <b>3순위 (대안책):</b> 푸아송 결과값에 의거하여 가장 큰 확률 비중을 차지하는 점수 차이 합산. </div> """,
       unsafe_allow_html=True,
   )
-  st.markdown("#### 예시표 6: 최종 통합 흐름 매트릭스 및 예상 스코어 산출 표")
+  st.markdown("##### 예시표 6: 최종 통합 흐름 매트릭스 및 예상 스코어 산출 표")
   ex6_df = pd.DataFrame({
       "규칙 단계": [
           "규칙 5-1",
@@ -1230,7 +1230,7 @@ with tabs[6]:
 # --- [전체 요약 리포트 탭] ---
 with tabs[7]:
   st.markdown(
-      f"### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 최종 요약 리포트 -"
+      f"#### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 최종 요약 리포트 -"
       f" {home_team} vs {away_team}"
   )
   st.markdown(
