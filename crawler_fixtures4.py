@@ -103,7 +103,7 @@ def parse_standing_legends(soup, default_legends):
         return default_legends, fallback_map, f"[코드 에러] 범례 파싱 중 런타임 예외 발생: {str(e)}"
 
 def parse_standings(soup, color_to_label, default_standings):
-    """ul#standingList li.standis 구조 및 중첩 span 스탯 정밀 파싱 모듈"""
+    """ul#standingList li.standis 구조 정밀 파싱 모듈"""
     parsed_standings = []
     seen_teams = set()
     
@@ -211,7 +211,7 @@ def run_crawler_v4():
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
-        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
+        {"id": 40, "url": "https://sports.scoreman123.com/tennisleague/40"}
     ]
 
     all_leagues_data = {
@@ -297,4 +297,25 @@ def run_crawler_v4():
             league_match_data["standing_legends"] = legends_res
             league_match_data["standing_legends_error"] = legend_err
             
-            standings_res, standings_err
+            standings_res, standings_err = parse_standings(
+                soup, color_map, league_match_data["standings"]
+            )
+            league_match_data["standings"] = standings_res
+            league_match_data["standings_error"] = standings_err
+
+            print(f"✅ 수집 완료: {league_match_data['league_name']} (순위 팀: {len(league_match_data['standings'])}개)")
+
+            all_leagues_data["leagues"][str(league_id)] = league_match_data
+
+    except Exception as e:
+        print(f"❌ [크롤링 실행 중 예외 발생]: {e}")
+    finally:
+        if driver:
+            driver.quit()
+
+    with open("match_details_v4.json", "w", encoding="utf-8") as f:
+        json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
+    print("🎉 match_details_v4.json 저장 완료")
+
+if __name__ == "__main__":
+    run_crawler_v4()
