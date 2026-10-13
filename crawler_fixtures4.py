@@ -13,7 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 # ==========================================
-# 🧩 개별 독립 파싱 모듈 (안전한 정적/동적 결합)
+# 🧩 개별 독립 파싱 모듈
 # ==========================================
 
 def parse_league_name(soup, fallback_name):
@@ -95,7 +95,7 @@ def parse_standing_legends(soup, default_legends):
         return default_legends, fallback_map, f"[코드 에러] 범례 파싱 예외 발생: {str(e)}"
 
 def parse_standings(soup, color_to_label, default_standings):
-    """💡 tplStandingsItem 템플릿 구조 기반 순위표 정밀 파싱 모듈 (중첩 span/b 태그 대응)"""
+    """💡 tplStandingsItem 템플릿 구조 기반 순위표 정밀 파싱 모듈 (중첩 span/b 태그 심층 대응)"""
     parsed_standings = []
     seen_teams = set()
     
@@ -267,4 +267,71 @@ def run_crawler_v4():
             try:
                 driver.get(url)
             except Exception as net_err:
-                league_match_data["standings_error"] = f"[주소 오류] URL
+                league_match_data["standings_error"] = f"[주소 오류] URL 접속에 실패했습니다: {str(net_err)}"
+                print(f"⚠️ {league_match_data['standings_error']}")
+                all_leagues_data["leagues"][str(league_id)] = league_match_data
+                continue
+
+            try:
+                WebDriverWait(driver, 15).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "#standingPlates"))
+                )
+            except Exception:
+                league_match_data["standings_error"] = "[모듈 에러] 페이지 내 순위표 영역(#standingPlates)이 시간 내에 렌더링되지 않았습니다."
+
+            try:
+                total_btn = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingType span[data-st-type='1']"))
+                )
+                driver.execute_script("arguments[0].click();", total_btn)
+                time.sleep(1)
+
+                result_btn = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingHF span[data-st-hf='0']"))
+                )
+                driver.execute_script("arguments[0].click();", result_btn)
+                time.sleep(1.5)
+            except Exception as tab_err:
+                print(f"  ⚠️ [조건 불일치] 필수 탭 제어 중 예외 발생: {tab_err}")
+
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+
+            name_res, name_err = parse_league_name(soup, league_match_data["league_name"])
+            league_match_data["league_name"] = name_res
+            league_match_data["league_name_error"] = name_err
+            
+            round_res, total_cnt, round_err = parse_active_round(
+                soup, league_id, league_match_data["active_round"], league_match_data["total_rounds"]
+            )
+            league_match_data["active_round"] = round_res
+            league_match_data["total_rounds"] = total_cnt
+            league_match_data["active_round_error"] = round_err
+            
+            legends_res, color_map, legend_err = parse_standing_legends(
+                soup, league_match_data["standing_legends"]
+            )
+            league_match_data["standing_legends"] = legends_res
+            league_match_data["standing_legends_error"] = legend_err
+            
+            standings_res, standings_err = parse_standings(
+                soup, color_map, league_match_data["standings"]
+            )
+            league_match_data["standings"] = standings_res
+            league_match_data["standings_error"] = standings_err
+
+            print(f"✅ 수집 완료: {league_match_data['league_name']} (순위 팀: {len(league_match_data['standings'])}개)")
+
+            all_leagues_data["leagues"][str(league_id)] = league_match_data
+
+    except Exception as e:
+        print(f"❌ [크롤링 실행 중 예외 발생]: {e}")
+    finally:
+        if driver:
+            driver.quit()
+
+    with open("match_details_v4.json", "w", encoding="utf-8") as f:
+        json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
+    print("🎉 match_details_v4.json 저장 완료")
+
+if __name__ == "__main__":
+    run_crawler_v4()
