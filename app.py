@@ -262,7 +262,7 @@ with tabs[0]:
     st.markdown("## [0단계: 프리 앤트리 메타데이터 및 공식 규칙 필터 검증]")
     st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
     
-    # 💡 경기 일시 데이터 안전 추출
+    # 경기 일시 데이터 안전 추출
     match_time_display = detailed_info.get("head_info", {}).get("match_time_display", "")
     if not match_time_display:
         match_time_display = selected_match.get("time", match_date)
@@ -282,29 +282,29 @@ with tabs[0]:
         home_stadium_name = head_info.get("home_stadium", "").strip()  # 홈팀의 실제 홈구장
         weather_info = head_info.get("weather", "").strip()
         
-        # 💡 [핵심] 실제 개최 구장과 홈팀 홈구장 비교 및 색상/상태 표기 로직
+        # 💡 [핵심 규칙 반영] 구장 정보 순서 및 색상 지정 (실제 경기장명 / 일치여부 / 날씨)
         if stadium_name and home_stadium_name:
             if stadium_name.lower() == home_stadium_name.lower():
-                stadium_badge = f"<span style='color: #2e7d32; font-weight: bold;'>{stadium_name} (홈)</span>"
+                # 홈구장 일치 시: 실제 경기장명 / 녹색 (홈)
+                stadium_badge = f"{stadium_name} / <span style='color: #2e7d32; font-weight: bold;'>{home_stadium_name} (홈)</span>"
             else:
-                stadium_badge = f"<span style='color: #c62828; font-weight: bold;'>{stadium_name} (중립)</span>"
+                # 중립구장 불일치 시: 실제 경기장명 / 빨간색 (중립)
+                stadium_badge = f"{stadium_name} / <span style='color: #c62828; font-weight: bold;'>{home_stadium_name} (중립)</span>"
         elif stadium_name:
-            stadium_badge = f"{stadium_name} (홈구장 미확인)"
+            stadium_badge = f"{stadium_name} / 홈구장 정보 미확인"
         else:
             stadium_badge = "구장 정보 실시간 반영 대기"
 
-        # 구장 정보 조합: "실제 경기장 명 / 홈경기장 명 / 날씨" 순서 규격 적용
-        h_stadium_text = home_stadium_name if home_stadium_name else "정보 없음"
+        # 날씨 정보 결합 순서 정돈
         w_text = weather_info if weather_info else "날씨 정보 없음"
-        
-        stadium_info = f"{stadium_badge} / 홈구장: {h_stadium_text} / 날씨: {w_text}"
+        stadium_info = f"{stadium_badge} / 날씨: {w_text}"
             
     else:
         meta_status = "⚠️ 해당 경기의 상세 정밀 데이터 없음 (데이터 없음)"
         tournament_display = tournament_name
         stadium_info = "데이터 없음"
 
-    # 💡 [핵심 수정] 메타 항목 및 요청하신 출력 순서/서식 반영 마크다운 테이블
+    # 메타 항목 및 요청하신 출력 순서/서식 반영 마크다운 테이블
     meta_markdown_table = f"""
 | 메타 항목 | 상세 정보 (SSOT) |
 | :--- | :--- |
