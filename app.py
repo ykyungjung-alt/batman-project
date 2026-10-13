@@ -301,14 +301,14 @@ with tabs[0]:
 
     # 1. 기본 메타 테이블 표시 (HTML 렌더링을 위해 st.markdown 또는 st.table 활용)
     meta_df_data = {
-        "메타 항목": ["대회 성격", "대진 매치", "개최 구장 및 홈구장 검증", "데이터 상태 검증"],
-        "고정 값 (SSOT)": [
-            tournament_display,
-            f"{home_team_name} vs {away_team_name}",
-            stadium_info,
-            meta_status
-        ]
-    }
+    "메타 항목": ["대회 성격", "대진 매치", "개최 구장 및 홈구장 검증", "데이터 상태 검증"],
+    "고정 값 (SSOT)": [
+        tournament_display,
+        f"{home_team} vs {away_team}",          # 🟢 올바른 변수명으로 변경
+        stadium_info,
+        meta_status
+    ]
+}
     
     # 구장 배지의 HTML 태그가 깨지지 않도록 data_editor 또는 st.markdown 활용 권장
     st.table(meta_df_data)
