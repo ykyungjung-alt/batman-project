@@ -502,100 +502,213 @@ with tabs[1]:
     </div>""", unsafe_allow_html=True)
 # --- [2단계] ---
 with tabs[2]:
-  st.markdown(
-      f"### [규칙 2번: 구장별 순수 최근 7경기 대조 및 조건부 티어 변동 보정] -"
-      f" {home_team} vs {away_team}"
-  )
-  st.markdown(
-      """ <div class="step-box"> <b>📌 규격 원칙 및 요약 설명:</b><br> • <b>구장별 LIFO 대조:</b> 홈 구장 또는 원정 구장별 순수 최근 7경기 역순 전수 대조를 통한 Shift 변동성 검증을 수행합니다.<br> • <b>티어변동 보정치:</b> 각 팀의 티어 변동이 있는지 확인하고 변동이 있을 시 보정치 공격 ±15%, 방어 ±15%를 적용합니다.<br> • <b>상대 공수 티어 필수 태깅:</b> 각 구장별 7경기에 출전한 상대 팀의 공수 티어(Tier A~E)를 개별적으로 태깅합니다.<br> • <b>중립구장 경기 룰:</b> 양팀이 중립구장에서 경기를 진행할 경우 양쪽 다 원정 최근 7경기를 적용하여 검증합니다. </div> """,
-      unsafe_allow_html=True,
-  )
-  st.markdown(
-      f"#### 예시표 2-1: 홈 팀 ({home_team}) - 홈 구장 기준 최근 공식 7경기 전수"
-      " LIFO 대조 표"
-  )
-  kor_g2_df = pd.DataFrame({
-      "구장 LIFO 순서": ["최신 (1)", "2", "3", "4", "5", "6", "과거 (7)"],
-      "경기 일시": [
-          "2026-06-06",
-          "2026-03-21",
-          "2023-11-16",
-          "2023-10-13",
-          "2023-03-28",
-          "2023-03-24",
-          "2022-06-14",
-      ],
-      "상대 팀 (대회명)": [
-          "싱가포르 (월드컵예선)",
-          "태국 (월드컵예선)",
-          "싱가포르 (월드컵예선)",
-          "베트남 (공식 A매치)",
-          "우루과이 (공식 A매치)",
-          "콜롬비아 (공식 A매치)",
-          "이집트 (공식 A매치)",
-      ],
-      "홈/중립/원정": ["홈", "홈", "홈", "홈", "홈", "홈", "홈"],
-      "결과": ["7 : 0", "1 : 1", "5 : 0", "6 : 0", "1 : 2", "2 : 2", "4 : 1"],
-      "승패": ["승", "무", "승", "승", "패", "무", "승"],
-      "상대 공·방 티어 필수 태깅": [
-          "평균득점/실점 [공격 D티어, 방어 E티어] (50% 할인)",
-          "평균득점/실점 [공격 D티어, 방어 C티어]",
-          "평균득점/실점 [공격 E티어, 방어 D티어] (50% 할인)",
-          "평균득점/실점 [공격 E티어, 방어 D티어] (50% 할인)",
-          "평균득점/실점 [공격 A티어, 방어 B티어]",
-          "평균득점/실점 [공격 B티어, 방어 B티어]",
-          "평균득점/실점 [공격 C티어, 방어 D티어]",
-      ],
-  })
-  st.dataframe(kor_g2_df, use_container_width=True, hide_index=True)
-  st.markdown(
-      f""" <div class="calc-box"> <b>{home_team} 규칙 2번 상세 산출 내역:</b><br> • 최근 7경기 득실: 득점 24, 실점 6 (평균 득점 3.42 / 평균 실점 0.86)<br> • 경고등 발동 조건 충족 E티어에 해당하는 싱가포르(7점), 싱가포르(5점), 베트남(6점) 전의 득점 18점을 50% 할인 적용하여 9점으로 계산한 총득점 15 (평균 득점 2.14) 공격력 Tier B<br> • 정량 공식 대조 체급: <b>공격력 Tier B, 방어력 Tier B</b><br> • 홈 구장 Shift 검증 결과: 규칙 1과 규칙 2에서의 변동성(Shift)<br> &nbsp;&nbsp;&nbsp;&nbsp;- 공격력 B ➔ 공격력 B (변동없음) 0%<br> &nbsp;&nbsp;&nbsp;&nbsp;- 방어력 C ➔ 방어력 B (상향보정) 방어 -15% </div> """,
-      unsafe_allow_html=True,
-  )
-  st.markdown("---")
-  st.markdown(
-      f"#### 예시표 2-2: 원정 팀 ({away_team}) - 원정 구장 기준 최근 공식 7경기"
-      " 전수 LIFO 대조 표"
-  )
-  jpn_g2_df = pd.DataFrame({
-      "구장 LIFO 순서": ["최신 (1)", "2", "3", "4", "5", "6", "과거 (7)"],
-      "경기 일시": [
-          "2026-06-06",
-          "2026-03-26",
-          "2023-11-21",
-          "2023-10-17",
-          "2023-09-12",
-          "2023-06-20",
-          "2023-03-28",
-      ],
-      "상대 팀 (대회명)": [
-          "미얀마 (월드컵예선)",
-          "북한 (월드컵예선)",
-          "시리아 (월드컵예선)",
-          "튀니지 (공식 A매치)",
-          "튀르키예 (공식 A매치)",
-          "페루 (공식 A매치)",
-          "콜롬비아 (공식 A매치)",
-      ],
-      "홈/중립/원정": ["원정", "원정", "원정", "중립", "중립", "중립", "원정"],
-      "결과": ["5 : 0", "3 : 0", "5 : 0", "2 : 0", "4 : 2", "4 : 1", "1 : 2"],
-      "승패": ["승", "승(몰수)", "승", "승", "승", "승", "패"],
-      "상대 공·방 티어 필수 태깅": [
-          "평균득점/실점 [공격 E티어, 방어 E티어] (50% 할인)",
-          "평균득점/실점 [공격 D티어, 방어 C티어]",
-          "평균득점/실점 [공격 D티어, 방어 E티어] (50% 할인)",
-          "평균득점/실점 [공격 B티어, 방어 C티어]",
-          "평균득점/실점 [공격 B티어, 방어 B티어]",
-          "평균득점/실점 [공격 B티어, 방어 C티어]",
-          "평균득점/실점 [공격 B티어, 방어 B티어]",
-      ],
-  })
-  st.dataframe(jpn_g2_df, use_container_width=True, hide_index=True)
-  st.markdown(
-      f""" <div class="calc-box"> <b>{away_team} 규칙 2번 상세 산출 내역:</b><br> • 최근 7경기 득실: 득점 24, 실점 5 (평균 득점 3.42 / 평균 실점 0.71)<br> • 경고등 발동 조건 충족 E티어에 해당하는 미얀마(5점), 시리아(5점) 전의 득점 10점을 50% 할인 적용하여 5점으로 계산한 총득점 24에서 19로 변경 (평균 득점 2.71) 공격력 Tier A<br> • 정량 공식 대조 체급: <b>공격력 Tier A, 방어력 Tier B</b><br> • 원정 구장 Shift 검증 결과: 규칙 1과 규칙 2에서의 변동성(Shift)<br> &nbsp;&nbsp;&nbsp;&nbsp;- 공격력 B ➔ 공격력 A (상향조정) 공격 +15%<br> &nbsp;&nbsp;&nbsp;&nbsp;- 방어력 A ➔ 방어력 B (하향조정) 방어 +15% </div> """,
-      unsafe_allow_html=True,
-  )
+    st.markdown(f"### [규칙 2번: 구장별 Shift 검증 및 환경 보정] - {home_team} vs {away_team}")
+    st.markdown("""
+        <div class="step-box">
+            <b>📌 규격 원칙 및 요약 설명:</b><br>
+            • <b>구장별 전적(Stadium Form) 분석:</b> 홈팀의 홈 경기 구장 데이터 및 원정팀의 원정 경기 구장 데이터를 독립적으로 추출하여 구장 환경에 따른 공수 편차를 검증합니다.<br>
+            • <b>환경 보정 프로토콜:</b> 특정 구장 특성에 따른 득실 가중치와 상대 공수 티어 정보를 대조하여 보정 계수를 산출합니다.
+        </div>
+        """, unsafe_allow_html=True,
+    )
 
+    # ==========================================
+    # 💡 [2단계 전용 정밀 매칭 및 stadium_form 추출 로직]
+    # ==========================================
+    target_match_data = None
+    target_code = str(match_code).strip()
+    target_home = str(home_team).strip().replace(" ", "")
+    target_away = str(away_team).strip().replace(" ", "")
+
+    # 1~4단계 강제 매칭 검증
+    if target_code in all_details_dict:
+        target_match_data = all_details_dict[target_code]
+
+    if not target_match_data:
+        for k, v in all_details_dict.items():
+            if str(v.get("match_code", "")).strip() == target_code:
+                target_match_data = v
+                break
+
+    if not target_match_data:
+        for k, v in all_details_dict.items():
+            v_home = str(v.get("home", "")).strip().replace(" ", "")
+            v_away = str(v.get("away", "")).strip().replace(" ", "")
+            if v_home == target_home and v_away == target_away:
+                target_match_data = v
+                break
+
+    if not target_match_data and target_code:
+        for k, v in all_details_dict.items():
+            if target_code in str(k):
+                target_match_data = v
+                break
+
+    # 'stadium_form' 및 "form_title": "구장별 전적" 조건 엄격 검증 후 싹 수집
+    s_home_matches, s_away_matches = [], []
+    s_home_team_name, s_away_team_name = home_team, away_team
+
+    if target_match_data and isinstance(target_match_data, dict):
+        meta_details = target_match_data.get("meta_details", {})
+        stadium_form_dict = meta_details.get("stadium_form", {})
+        
+        if stadium_form_dict.get("form_title") == "구장별 전적":
+            s_home_team_name = stadium_form_dict.get("home_team_name", home_team).strip()
+            s_home_matches = stadium_form_dict.get("home_matches", [])[:10]  # 구장 전적은 최대 10경기 반영
+            
+            s_away_team_name = stadium_form_dict.get("away_team_name", away_team).strip()
+            s_away_matches = stadium_form_dict.get("away_matches", [])[:10]
+
+    # 공수 수치 기반 티어 판별 함수
+    def get_attack_tier_name(g):
+        if g >= 2.3: return "Tier A"
+        elif g >= 1.7: return "Tier B"
+        elif g >= 1.1: return "Tier C"
+        elif g >= 0.5: return "Tier D"
+        else: return "Tier E"
+
+    def get_defense_tier_name(c):
+        if c < 0.5: return "Tier A"
+        elif c < 0.9: return "Tier B"
+        elif c < 1.3: return "Tier C"
+        elif c < 1.7: return "Tier D"
+        else: return "Tier E"
+
+    # 구장별 전적 로그 전용 표 생성 및 득실/상대 티어 매칭 함수
+    def build_stadium_form_dataframe(matches, target_team):
+        if not matches:
+            return pd.DataFrame(), 0.0, 0.0, "0전 0승 0무 0패"
+        
+        table_rows = []
+        total_scored = 0
+        total_conceded = 0
+        wins, draws, losses = 0, 0, 0
+        
+        for idx, m in enumerate(matches):
+            league = m.get("league", "-")
+            match_time = m.get("match_time", "-")
+            teams_str = m.get("teams", "-")
+            scores = m.get("ft_scores", ["0", "0"])
+            opp_tier_info = m.get("opponent_tier_info", "0.00/0.00")
+            
+            try:
+                score_1 = int(scores[0])
+                score_2 = int(scores[1])
+            except:
+                score_1, score_2 = 0, 0
+                
+            parts = teams_str.split(" vs ")
+            if len(parts) == 2:
+                t1, t2 = parts[0].strip(), parts[1].strip()
+                if target_team in t1 and target_team not in t2:
+                    scored, conceded = score_1, score_2
+                elif target_team in t2 and target_team not in t1:
+                    scored, conceded = score_2, score_1
+                else:
+                    scored, conceded = score_1, score_2
+            else:
+                scored, conceded = score_1, score_2
+                
+            total_scored += scored
+            total_conceded += conceded
+            
+            if scored > conceded:
+                res = "승"
+                wins += 1
+            elif scored == conceded:
+                res = "무"
+                draws += 1
+            else:
+                res = "패"
+                losses += 1
+                
+            try:
+                opp_parts = opp_tier_info.split("/")
+                opp_atk_val = float(opp_parts[0])
+                opp_def_val = float(opp_parts[1])
+                opp_atk_tier = get_attack_tier_name(opp_atk_val)
+                opp_def_tier = get_defense_tier_name(opp_def_val)
+                tier_display = f"공격 {opp_atk_tier} ({opp_atk_val:.2f}) / 방어 {opp_def_tier} ({opp_def_val:.2f})"
+            except:
+                tier_display = f"정보 없음 ({opp_tier_info})"
+                
+            seq_label = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
+            table_rows.append({
+                "구장 순서": seq_label,
+                "경기 일시": match_time,
+                "대회": league,
+                "대진": teams_str,
+                "스코어": f"{score_1} : {score_2}",
+                "결과": res,
+                "상대 공수 티어 산출": tier_display
+            })
+            
+        count = len(matches)
+        gpg = total_scored / count if count > 0 else 0.0
+        cpg = total_conceded / count if count > 0 else 0.0
+        rec_str = f"{count}전 {wins}승 {draws}무 {losses}패"
+        return pd.DataFrame(table_rows), gpg, cpg, rec_str
+
+    s_h_df, s_h_gpg, s_h_cpg, s_h_rec = build_stadium_form_dataframe(s_home_matches, s_home_team_name)
+    s_a_df, s_a_gpg, s_a_cpg, s_a_rec = build_stadium_form_dataframe(s_away_matches, s_away_team_name)
+
+    def get_attack_tier(g):
+        if g >= 2.3: return "Tier A", "+8.0%"
+        elif g >= 1.7: return "Tier B", "+6.0%"
+        elif g >= 1.1: return "Tier C", "+4.0%"
+        elif g >= 0.5: return "Tier D", "+2.0%"
+        else: return "Tier E", "0.0%"
+
+    def get_defense_tier(c):
+        if c < 0.5: return "Tier A", "-8.0%"
+        elif c < 0.9: return "Tier B", "-6.0%"
+        elif c < 1.3: return "Tier C", "-4.0%"
+        elif c < 1.7: return "Tier D", "-2.0%"
+        else: return "Tier E", "0.0%"
+
+    s_h_at_tier, s_h_at_weight = get_attack_tier(s_h_gpg)
+    s_h_df_tier, s_h_df_weight = get_defense_tier(s_h_cpg)
+
+    s_a_at_tier, s_a_at_weight = get_attack_tier(s_a_gpg)
+    s_a_df_tier, s_a_df_weight = get_defense_tier(s_a_cpg)
+        
+    # 💡 렌더링: 홈 팀 구장별 전적 표 및 산출 내역
+    st.markdown(f"#### 예시표 2-1: 홈 팀 ({s_home_team_name}) 구장별 전적 및 상대 티어 대조 표")
+    if not s_h_df.empty:
+        st.dataframe(s_h_df, use_container_width=True, hide_index=True)
+    else:
+        st.warning(f"⚠️ '{s_home_team_name}'의 '구장별 전적' 데이터를 찾을 수 없습니다.")
+        
+    st.markdown(
+        f"""<div class="calc-box">
+            <b>{s_home_team_name} 규칙 2번(구장별) 상세 산출 내역:</b><br>
+            • 구장 전적 성향: <b>{s_h_rec}</b><br>
+            • 수집된 지표: 구장 평균 득점 <b>{s_h_gpg:.2f}</b> / 평균 실점 <b>{s_h_cpg:.2f}</b><br>
+            • 정량 공식 대조 체급: <b>공격력 {s_h_at_tier}, 방어력 {s_h_df_tier}</b><br>
+            • 구장 환경 보정 가중치: <b>공격 {s_h_at_weight}, 방어 {s_h_df_weight}</b>
+        </div>""",
+        unsafe_allow_html=True,
+    )
+    
+    st.markdown("---")
+    
+    # 💡 렌더링: 원정 팀 구장별 전적 표 및 산출 내역
+    st.markdown(f"#### 예시표 2-2: 원정 팀 ({s_away_team_name}) 구장별 전적 및 상대 티어 대조 표")
+    if not s_a_df.empty:
+        st.dataframe(s_a_df, use_container_width=True, hide_index=True)
+    else:
+        st.warning(f"⚠️ '{s_away_team_name}'의 '구장별 전적' 데이터를 찾을 수 없습니다.")
+        
+    st.markdown(
+        f"""<div class="calc-box">
+            <b>{s_away_team_name} 규칙 2번(구장별) 상세 산출 내역:</b><br>
+            • 구장 전적 성향: <b>{s_a_rec}</b><br>
+            • 수집된 지표: 구장 평균 득점 <b>{s_a_gpg:.2f}</b> / 평균 실점 <b>{s_a_cpg:.2f}</b><br>
+            • 정량 공식 대조 체급: <b>공격력 {s_a_at_tier}, 방어력 {s_a_df_tier}</b><br>
+            • 구장 환경 보정 가중치: <b>공격 {s_a_at_weight}, 방어 {s_a_df_weight}</b>
+        </div>""",
+        unsafe_allow_html=True,
+    )
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"### [규칙 3-1번: 선수 전력 누수 및 이동 피로도 타임라인 매트릭스] - {home_team} vs {away_team}")
