@@ -285,31 +285,42 @@ with tabs[1]:
     })
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
-    # 💡 match_details_v3.json 구조에 맞춘 최근 전적 통계 산출 함수
-    def calculate_team_stats(matches, team_name, max_count=7):
-        target_matches = matches[:max_count]
-        if not target_matches:
-            return 0.0, 0.0, "0전 0승 0무 0패"
+    # 데이터 추출
+    meta_details = detailed_info.get("meta_details", {})
+    recent_form = meta_details.get("recent_form", {})
+    
+    h_team_name = recent_form.get("home_team_name", home_team)
+    h_matches = recent_form.get("home_matches", [])[:7]
+    a_team_name = recent_form.get("away_team_name", away_team)
+    a_matches = recent_form.get("away_matches", [])[:7]
+
+    # 팀 스탯 및 표 데이터 생성 함수
+    def build_team_form_dataframe(matches, team_name):
+        if not matches:
+            return pd.DataFrame(), 0.0, 0.0, "0전 0승 0무 0패"
         
-        total_scored = 0
-        total_conceded = 0
+        table_rows = []
+        total_scored, total_conceded = 0, 0
         wins, draws, losses = 0, 0, 0
         
-        for m in target_matches:
-            teams_str = m.get("teams", "")
+        for idx, m in enumerate(matches):
+            league = m.get("league", "-")
+            match_time = m.get("match_time", "-")
+            teams = m.get("teams", "-")
             scores = m.get("ft_scores", ["0", "0"])
+            
             try:
                 score_a = int(scores[0])
                 score_b = int(scores[1])
             except:
                 score_a, score_b = 0, 0
                 
-            parts = teams_str.split(" vs ")
+            parts = teams.split(" vs ")
             if len(parts) == 2:
-                team_a, team_b = parts[0].strip(), parts[1].strip()
-                if team_name in team_a and team_name not in team_b:
+                t_a, t_b = parts[0].strip(), parts[1].strip()
+                if team_name in t_a and team_name not in t_b:
                     scored, conceded = score_a, score_b
-                elif team_name in team_b and team_name not in team_a:
+                elif team_name in t_b and team_name not in t_a:
                     scored, conceded = score_b, score_a
                 else:
                     scored, conceded = score_a, score_b
@@ -320,31 +331,36 @@ with tabs[1]:
             total_conceded += conceded
             
             if scored > conceded:
+                res = "승"
                 wins += 1
             elif scored == conceded:
+                res = "무"
                 draws += 1
             else:
+                res = "패"
                 losses += 1
                 
-        count = len(target_matches)
+            seq_label = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
+            table_rows.append({
+                "LIFO 순서": seq_label,
+                "경기 일시": match_time,
+                "대회": league,
+                "대진": teams,
+                "스코어": f"{score_a} : {score_b}",
+                "결과": res,
+                "득/실": f"{scored}득 {conceded}실"
+            })
+            
+        count = len(matches)
         gpg = total_scored / count if count > 0 else 0.0
         cpg = total_conceded / count if count > 0 else 0.0
         rec_str = f"{count}전 {wins}승 {draws}무 {losses}패"
-        return gpg, cpg, rec_str
+        return pd.DataFrame(table_rows), gpg, cpg, rec_str
 
-    # 💡 JSON 데이터에서 홈/원정 전적 추출
-    meta_details = detailed_info.get("meta_details", {})
-    recent_form = meta_details.get("recent_form", {})
-    
-    h_team_name = recent_form.get("home_team_name", home_team)
-    h_matches = recent_form.get("home_matches", [])
-    a_team_name = recent_form.get("away_team_name", away_team)
-    a_matches = recent_form.get("away_matches", [])
+    h_df, h_gpg, h_cpg, h_rec = build_team_form_dataframe(h_matches, h_team_name)
+    a_df, a_gpg, a_cpg, a_rec = build_team_form_dataframe(a_matches, a_team_name)
 
-    h_gpg, h_cpg, h_rec = calculate_team_stats(h_matches, h_team_name, 7)
-    a_gpg, a_cpg, a_rec = calculate_team_stats(a_matches, a_team_name, 7)
-
-    # 💡 티어 및 가중치 자동 판별 함수 (공격력)
+    # 티어 판별 함수
     def get_attack_tier(g):
         if g >= 2.3: return "Tier A", "+8.0%"
         elif g >= 1.7: return "Tier B", "+6.0%"
@@ -352,7 +368,6 @@ with tabs[1]:
         elif g >= 0.5: return "Tier D", "+2.0%"
         else: return "Tier E", "0.0%"
 
-    # 💡 티어 및 가중치 자동 판별 함수 (방어력)
     def get_defense_tier(c):
         if c < 0.5: return "Tier A", "-8.0%"
         elif c < 0.9: return "Tier B", "-6.0%"
@@ -366,7 +381,12 @@ with tabs[1]:
     a_at_tier, a_at_weight = get_attack_tier(a_gpg)
     a_df_tier, a_df_weight = get_defense_tier(a_cpg)
         
-    st.markdown(f"#### 예시표 1-1: 홈 팀 ({home_team}) 최근 전적 지표 연동")
+    st.markdown(f"#### 예시표 1-1: 홈 팀 ({home_team}) 최근 7경기 전수 LIFO 대조 표")
+    if not h_df.empty:
+        st.dataframe(h_df, use_container_width=True, hide_index=True)
+    else:
+        st.info("수집된 홈팀 최근 전적 데이터가 없습니다.")
+        
     st.markdown(
         f"""<div class="calc-box">
             <b>{home_team} 규칙 1번 상세 산출 내역:</b><br>
@@ -379,7 +399,12 @@ with tabs[1]:
     )
     
     st.markdown("---")
-    st.markdown(f"#### 예시표 1-2: 원정 팀 ({away_team}) 최근 전적 지표 연동")
+    st.markdown(f"#### 예시표 1-2: 원정 팀 ({away_team}) 최근 7경기 전수 LIFO 대조 표")
+    if not a_df.empty:
+        st.dataframe(a_df, use_container_width=True, hide_index=True)
+    else:
+        st.info("수집된 원정팀 최근 전적 데이터가 없습니다.")
+        
     st.markdown(
         f"""<div class="calc-box">
             <b>{away_team} 규칙 1번 상세 산출 내역:</b><br>
