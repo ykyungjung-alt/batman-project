@@ -264,7 +264,6 @@ with tabs[0]:
     
     if has_detailed_data:
         meta_status = "정상 통과 (정밀 데이터 연동 완료)"
-        
         head_info = detailed_info.get("head_info", {})
         league_name = head_info.get("league", tournament_name)
         round_info = head_info.get("round", "")
@@ -273,76 +272,46 @@ with tabs[0]:
             tournament_display = f"{league_name} ({round_info})"
         else:
             tournament_display = league_name
-
-        stadium_name = head_info.get("stadium", "")
-        weather_info = head_info.get("weather", "")
+            
+        stadium_name = head_info.get("stadium", "").strip()          # 실제 경기 개최 구장
+        home_stadium_name = head_info.get("home_stadium", "").strip()  # 홈팀의 실제 홈구장
+        weather_info = head_info.get("weather", "").strip()
         
-        if stadium_name and weather_info:
-            stadium_info = f"{stadium_name} / 날씨: {weather_info}"
+        # 💡 [핵심] 실제 개최 구장과 홈팀 홈구장 비교 판정 및 색상 배지 생성
+        if stadium_name and home_stadium_name:
+            if stadium_name.lower() == home_stadium_name.lower():
+                stadium_badge = f"<span style='color: #2e7d32; font-weight: bold;'>🟢 홈구장 ({stadium_name})</span>"
+            else:
+                stadium_badge = f"<span style='color: #c62828; font-weight: bold;'>🔴 중립 (개최: {stadium_name} / 홈구장: {home_stadium_name})</span>"
         elif stadium_name:
-            stadium_info = stadium_name
-        elif weather_info:
-            stadium_info = f"구장 정보 없음 (날씨: {weather_info})"
+            stadium_badge = f"개최 구장: {stadium_name} (홈구장 정보 미확인)"
         else:
-            stadium_info = "홈구장 실시간 반영"
+            stadium_badge = "구장 정보 실시간 반영 대기"
+
+        # 날씨 정보 결합
+        if stadium_badge and weather_info:
+            stadium_info = f"{stadium_badge} / 날씨: {weather_info}"
+        else:
+            stadium_info = stadium_badge if stadium_badge else f"구장 정보 없음 (날씨: {weather_info})"
+            
     else:
         meta_status = "⚠️ 해당 경기의 상세 정밀 데이터 없음 (데이터 없음)"
         tournament_display = tournament_name
         stadium_info = "데이터 없음"
 
-    # 1. 기본 메타 테이블 표시
-    st.table({
-        "메타 항목": [
-            "대회 성격", 
-            "기준 경기 일시", 
-            "구장 정보", 
-            "대결 정보", 
-            "필터 검증 결과"
-        ],
-        "내용": [
+    # 1. 기본 메타 테이블 표시 (HTML 렌더링을 위해 st.markdown 또는 st.table 활용)
+    meta_df_data = {
+        "메타 항목": ["대회 성격", "대진 매치", "개최 구장 및 홈구장 검증", "데이터 상태 검증"],
+        "고정 값 (SSOT)": [
             tournament_display,
-            f"{match_date} (공식 지정 경기)",
+            f"{home_team_name} vs {away_team_name}",
             stadium_info,
-            f"{home_team} vs {away_team}",
             meta_status
         ]
-    })
+    }
     
-    st.markdown("---")
-    st.markdown("### 📊 공식 팀 순위 및 조건별 전적표 현황")
-
-    # 2. 공식 팀 순위 및 전적표 출력 (안전한 방어 분기 처리)
-    if has_detailed_data:
-        meta_details = detailed_info.get("meta_details", {})
-        rankings_raw = meta_details.get("rankings", [])
-        
-        if rankings_raw:
-            rankings_list = []
-            for idx, r in enumerate(rankings_raw):
-                rankings_list.append({
-                    "No": idx + 1,
-                    "리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
-                    "팀": str(r.get("team", "-")),
-                    "경기": str(r.get("played", "0")),
-                    "승": str(r.get("win", "0")),
-                    "무승부": str(r.get("draw", "0")),
-                    "패": str(r.get("loss", "0")),
-                    "득점": str(r.get("goals_for", "0")),
-                    "실점": str(r.get("goals_against", "0")),
-                    "득실": str(r.get("goal_diff", "0")),
-                    "승점": str(r.get("points", "0"))
-                })
-            df_rankings = pd.DataFrame(rankings_list)
-            
-            st.markdown("🔍 수집된 팀별 전체 및 조건별 세부 전적표입니다.")
-            st.dataframe(df_rankings[["리그순위", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
-            
-        else:
-            st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
-    else:
-        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (3~4일 이후 경기 등)")
-        st.info("💡 크롤러 대상 기간(오늘/내일)에 포함되지 않은 경기이므로, 상세 전적표 및 통계 지표를 조회할 수 없습니다. 경기 당일 또는 전일에 데이터를 갱신해 주세요.")
-
+    # 구장 배지의 HTML 태그가 깨지지 않도록 data_editor 또는 st.markdown 활용 권장
+    st.table(meta_df_data)
 # ==========================================
 # 💡 규칙 1번 탭 (v3 데이터 전용 단독 연동 및 10경기 전수 + E티어 50% 할인)
 # ==========================================
