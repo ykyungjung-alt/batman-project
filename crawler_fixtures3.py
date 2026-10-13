@@ -16,89 +16,80 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
         driver.get(sub_url)
         time.sleep(0.3)
         soup = BeautifulSoup(driver.page_source, "html.parser")
-        
         sub_home, sub_away = "", ""
         teams_spans = soup.find_all("span", class_=["home", "away"])
         if len(teams_spans) >= 2:
             sub_home = teams_spans[0].get_text(strip=True)
             sub_away = teams_spans[1].get_text(strip=True)
-
+            
         recent_div = soup.find("div", id="dv_recent")
         if recent_div:
             stats_div = recent_div.find("div", id="dv_recent_stats")
             if stats_div:
                 home_goals, home_conceded = "0.00", "0.00"
                 away_goals, away_conceded = "0.00", "0.00"
-                
                 for v in stats_div.find_all("div", class_="vote"):
                     ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "p2"])
                     if len(ext_els) >= 3:
                         left_val = ext_els[0].get_text(strip=True)
                         label = ext_els[1].get_text(strip=True)
                         right_val = ext_els[2].get_text(strip=True)
-                        
                         if "경기당 득점" in label:
                             home_goals = left_val
                             away_goals = right_val
                         elif "경기당 실점" in label:
                             home_conceded = left_val
                             away_conceded = right_val
-                
+                            
                 is_target_home = target_team_name in sub_home or not (target_team_name in sub_away)
                 opp_goals = away_goals if is_target_home else home_goals
                 opp_conceded = away_conceded if is_target_home else home_conceded
                 
-                # 💡 티어 판정 로직을 완전히 제거하고 순수 골득실 수치만 반환
                 return f"{opp_goals}/{opp_conceded}"
     except Exception:
         pass
-    
     return "0.00/0.00"
 
 def run_table_based_crawler_v3():
     if not os.path.exists("data.json"):
         print("❌ data.json 파일이 존재하지 않습니다.")
         return
-
+        
     with open("data.json", "r", encoding="utf-8") as f:
         data = json.load(f)
-
+        
     target_matches = []
     daily_matches_input = data.get("daily_matches", {})
-    
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst)
     limit_kst = now_kst + timedelta(hours=24)
     
     print(f"🕒 [V3] 실행 시간(KST): {now_kst.strftime('%Y-%m-%d %H:%M')}")
     print(f"🎯 [V3] 수집 대상 타임라인 (~24시간 후): {limit_kst.strftime('%Y-%m-%d %H:%M')}")
-
+    
     current_year = now_kst.year
-
     for date_key, matches in daily_matches_input.items():
         try:
             date_part = date_key.split()[0]
             m_part, d_part = map(int, date_part.split("-"))
         except Exception:
             continue
-
+            
         for m in matches:
             time_str = m.get("time", "")
             if not time_str or ":" not in time_str:
                 continue
-            
             try:
                 if " " in time_str:
                     time_part = time_str.split(" ")[1]
                 else:
                     time_part = time_str
-                    
                 hour_val, min_val = map(int, time_part.split(":"))
                 match_dt = datetime(current_year, m_part, d_part, hour_val, min_val, tzinfo=kst)
                 
                 if match_dt < now_kst - timedelta(days=15) and m_part == 1:
                     match_dt = datetime(current_year + 1, m_part, d_part, hour_val, min_val, tzinfo=kst)
-
+                    
                 if now_kst <= match_dt <= limit_kst:
                     m_code = m.get("match_code")
                     if m_code and m_code not in [t["match_code"] for t in target_matches]:
@@ -110,9 +101,9 @@ def run_table_based_crawler_v3():
                         })
             except Exception:
                 continue
-
+                
     print(f"🎯 [V3] 24시간 이내 조건에 일치하는 총 {len(target_matches)}개 메인 경기 크롤링 시작")
-
+    
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -123,7 +114,7 @@ def run_table_based_crawler_v3():
     driver = webdriver.Chrome(options=options)
     match_details = {}
     counter = 1
-
+    
     try:
         for target in target_matches:
             m_id = target["match_code"]
@@ -134,14 +125,9 @@ def run_table_based_crawler_v3():
             try:
                 driver.get(detail_url)
                 time.sleep(1.0)
-                
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
-                head_info = {
-                    "league": target["league"],
-                    "round": ""
-                }
-                
+                head_info = {"league": target["league"], "round": ""}
                 try:
                     sclass_span = detail_soup.find("span", {"class": "sclassListLink"})
                     if sclass_span:
@@ -149,35 +135,63 @@ def run_table_based_crawler_v3():
                         head_info["league"] = full_text.replace("·", "").strip()
                 except Exception:
                     pass
-
+                    
                 recent_form_data = {
                     "form_title": "최근 전적",
-                    "home_team_name": main_home, "home_matches": [], 
-                    "away_team_name": main_away, "away_matches": []
+                    "home_team_name": main_home,
+                    "home_matches": [],
+                    "away_team_name": main_away,
+                    "away_matches": []
                 }
-                
                 stadium_form_data = {
                     "form_title": "구장별 전적",
-                    "home_team_name": main_home, "home_matches": [], 
-                    "away_team_name": main_away, "away_matches": []
+                    "home_team_name": main_home,
+                    "home_matches": [],
+                    "away_team_name": main_away,
+                    "away_matches": []
                 }
                 
                 try:
                     def parse_matches(container_ul, target_team, target_list, max_count=10):
-                        if not container_ul: return
+                        if not container_ul:
+                            return
                         count = 0
                         for li in container_ul.find_all("li", class_="courselis"):
-                            if count >= max_count: break
+                            if count >= max_count:
+                                break
                             if "ftScore" in str(li) or li.find("span", class_="ftScore"):
                                 league_div = li.find("div", class_="team")
                                 time_span = li.find("span", {"name": "timeData"})
                                 
+                                # 💡 [안전 장치 추가] 수집 시점에서 날짜 형식을 YYYY.MM.DD로 강제 정돈
+                                raw_t_str = time_span.get_text(strip=True) if time_span else ""
+                                formatted_t_str = raw_t_str
+                                try:
+                                    parts_main = raw_t_str.split(" ")
+                                    date_part = parts_main[0].replace("-", ".").replace("/", ".")
+                                    tokens = date_part.split(".")
+                                    if len(tokens) == 3:
+                                        # MM.DD.YYYY 형태일 경우 YYYY.MM.DD로 안전하게 재조합
+                                        if len(tokens[0]) <= 2 and len(tokens[2]) == 4:
+                                            mm, dd, yyyy = tokens[0].zfill(2), tokens[1].zfill(2), tokens[2]
+                                            date_part = f"{yyyy}.{mm}.{dd}"
+                                        elif len(tokens[0]) == 4:
+                                            yyyy, mm, dd = tokens[0], tokens[1].zfill(2), tokens[2].zfill(2)
+                                            date_part = f"{yyyy}.{mm}.{dd}"
+                                            
+                                    if len(parts_main) > 1:
+                                        formatted_t_str = f"{date_part} {' '.join(parts_main[1:])}"
+                                    else:
+                                        formatted_t_str = date_part
+                                except Exception:
+                                    formatted_t_str = raw_t_str
+
                                 team_spans = li.find_all("span")
-                                teams_text = ""
                                 span_texts = [s.get_text(strip=True) for s in team_spans if s.get_text(strip=True) and not s.has_attr("name")]
+                                teams_text = ""
                                 if len(span_texts) >= 2:
                                     teams_text = f"{span_texts[0]} vs {span_texts[1]}"
-                                
+                                    
                                 ft_scores = [span.get_text(strip=True) for span in li.find_all("span", class_="ftScore")]
                                 
                                 sub_m_id = None
@@ -187,20 +201,21 @@ def run_table_based_crawler_v3():
                                         try:
                                             sub_m_id = onclick_attr.split("'")[1]
                                             break
-                                        except: pass
-                                
+                                        except:
+                                            pass
+                                            
                                 opponent_tier_info = "0.00/0.00"
                                 if sub_m_id:
                                     opponent_tier_info = fetch_opponent_stats_fast(driver, sub_m_id, target_team)
-                                    driver.get(detail_url)
-                                    time.sleep(0.2)
-
+                                driver.get(detail_url)
+                                time.sleep(0.2)
+                                
                                 match_info = {
                                     "league": league_div.get_text(strip=True) if league_div else "",
-                                    "match_time": time_span.get_text(strip=True) if time_span else "",
+                                    "match_time": formatted_t_str,  # 💡 정돈된 날짜 포맷 반영 완료
                                     "teams": teams_text,
                                     "ft_scores": ft_scores,
-                                    "opponent_tier_info": opponent_tier_info  # 💡 순수 골득실 수치(예: "2.20/2.10")만 저장
+                                    "opponent_tier_info": opponent_tier_info
                                 }
                                 if match_info["ft_scores"] and match_info not in target_list:
                                     target_list.append(match_info)
@@ -209,8 +224,10 @@ def run_table_based_crawler_v3():
                     # 1. 최근전적 수집
                     home_ul = detail_soup.find("ul", id="tb_home_recent")
                     away_ul = detail_soup.find("ul", id="tb_guest_recent")
-                    if home_ul: parse_matches(home_ul, main_home, recent_form_data["home_matches"], 10)
-                    if away_ul: parse_matches(away_ul, main_away, recent_form_data["away_matches"], 10)
+                    if home_ul:
+                        parse_matches(home_ul, main_home, recent_form_data["home_matches"], 10)
+                    if away_ul:
+                        parse_matches(away_ul, main_away, recent_form_data["away_matches"], 10)
 
                     # 2. 구장별 전적 수집
                     try:
@@ -218,19 +235,19 @@ def run_table_based_crawler_v3():
                         if checkbox and not checkbox.is_selected():
                             driver.execute_script("arguments[0].click();", checkbox)
                             time.sleep(0.5)
-                            
                         stadium_soup = BeautifulSoup(driver.page_source, "html.parser")
                         s_home_ul = stadium_soup.find("ul", id="tb_home_recent")
                         s_away_ul = stadium_soup.find("ul", id="tb_guest_recent")
-                        
-                        if s_home_ul: parse_matches(s_home_ul, main_home, stadium_form_data["home_matches"], 10)
-                        if s_away_ul: parse_matches(s_away_ul, main_away, stadium_form_data["away_matches"], 10)
+                        if s_home_ul:
+                            parse_matches(s_home_ul, main_home, stadium_form_data["home_matches"], 10)
+                        if s_away_ul:
+                            parse_matches(s_away_ul, main_away, stadium_form_data["away_matches"], 10)
                     except Exception as s_err:
                         print(f"  - 구장별 전적 토글 수집 예외: {s_err}")
-
+                        
                 except Exception as e:
                     print(f"  - 전적 수집 예외 ({m_id}): {e}")
-
+                    
                 match_details[m_id] = {
                     "match_code": m_id,
                     "head_info": head_info,
@@ -242,21 +259,19 @@ def run_table_based_crawler_v3():
                     }
                 }
                 counter += 1
-
+                
             except Exception as e:
                 print(f"  ⚠️ 데이터 수집 실패 (Match ID: {m_id}): {e}")
                 continue
-
+                
         output_data = {
             "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
             "match_details": match_details
         }
-        
         with open("match_details_v3.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
-            
-        print(f"\n🎉 성공: 골득실 수치 중심 크롤링 완료 -> match_details_v3.json 저장 완료")
-
+        print(f"\n🎉 성공: 날짜 정돈 및 골득실 수치 중심 크롤링 완료 -> match_details_v3.json 저장 완료")
+        
     finally:
         driver.quit()
 
