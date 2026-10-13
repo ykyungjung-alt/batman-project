@@ -631,6 +631,7 @@ with tabs[2]:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 # --- [3단계: 전력누수·피로 매트릭스] ---
 # --- [3단계: 전력누수·피로 매트릭스 전체 교체본] ---
+# --- [3단계: 전력누수·피로 매트릭스 전체 교체본] ---
 with tabs[3]:
     st.markdown(f"#### [규칙 3-1번: 선수 전력 누수 및 이동 피로도 타임라인] - {home_team} vs {away_team}")
     st.markdown("""
@@ -785,8 +786,8 @@ with tabs[3]:
                             
                         date_short = match_time.split(" ")[0].replace("-", ".") if "-" in match_time else match_time
                         
-                        # 각 타임라인 항목에 날짜/상대팀 아래로 리그명, 중요도, 홈/원정 여부 줄바꿈 적용
-                        row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {importance_label} / {loc_type}"
+                        # 💡 st.dataframe 환경에 맞춘 줄바꿈(\n) 적용
+                        row_desc = f"{date_short} / vs {opp_name}\n{league_name} / {importance_label} / {loc_type}"
                         processed.append({
                             "desc": row_desc,
                             "imp_atk": imp_atk,
@@ -800,6 +801,7 @@ with tabs[3]:
         home_past, home_future = parse_chronological_timeline_4days(home_fixtures, home_team, match_date)
         away_past, away_future = parse_chronological_timeline_4days(away_fixtures, away_team, match_date)
         
+        table_rows = []
         h_past_c1 = home_past[0]["desc"] if len(home_past) > 0 else "휴식"
         h_fut_c1 = home_future[0]["desc"] if len(home_future) > 0 else "휴식"
         h_fut_c2 = home_future[1]["desc"] if len(home_future) > 1 else "휴식"
@@ -810,56 +812,36 @@ with tabs[3]:
         a_fut_c2 = away_future[1]["desc"] if len(away_future) > 1 else "휴식"
         a_fut_c3 = away_future[2]["desc"] if len(away_future) > 2 else "휴식"
         
-        # 💡 해당 경기 셀에 홈/원정 각각 명시 및 줄바꿈 적용
+        # 💡 해당 경기 셀에 홈/원정 각각 명시 및 줄바꿈(\n) 적용
         date_str_short = match_date.split()[0].replace("-", ".") if "-" in match_date else match_date
-        home_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 홈"
-        away_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 원정"
+        home_match_cell = f"{date_str_short} / {home_team} vs {away_team}\n{tournament_display} / 중요도상 / 홈"
+        away_match_cell = f"{date_str_short} / {home_team} vs {away_team}\n{tournament_display} / 중요도상 / 원정"
         
         h_last_fatigue = home_future[-1]["fatigue_level"] if home_future else (home_past[-1]["fatigue_level"] if home_past else 0)
         a_last_fatigue = away_future[-1]["fatigue_level"] if away_future else (away_past[-1]["fatigue_level"] if away_past else 0)
         
-        # 💡 HTML 테이블을 통한 줄바꿈(<br>) 완벽 렌더링
-        table_html = f"""
-        <style>
-        .timeline-table {{ width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 13px; text-align: center; }}
-        .timeline-table th, .timeline-table td {{ border: 1px solid #e0e0e0; padding: 8px; vertical-align: middle; }}
-        .timeline-table th {{ background-color: #f5f5f5; font-weight: bold; }}
-        </style>
-        <table class="timeline-table">
-          <thead>
-            <tr>
-              <th>팀명</th>
-              <th>3일이내(과거)</th>
-              <th style="background-color: #e3f2fd;">해당 경기</th>
-              <th>향후 3일이내</th>
-              <th>향후 6일이내</th>
-              <th>향후 9일이내</th>
-              <th>보정사항 (중요도/피로누적)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="font-weight: bold; background-color: #fafafa;">홈 팀<br>({home_team})</td>
-              <td>{h_past_c1}</td>
-              <td style="background-color: #f7fbff; font-weight: bold;">{home_match_cell}</td>
-              <td>{h_fut_c1}</td>
-              <td>{h_fut_c2}</td>
-              <td>{h_fut_c3}</td>
-              <td>중요도상 / 피로누적 {h_last_fatigue}</td>
-            </tr>
-            <tr>
-              <td style="font-weight: bold; background-color: #fafafa;">원정 팀<br>({away_team})</td>
-              <td>{a_past_c1}</td>
-              <td style="background-color: #f7fbff; font-weight: bold;">{away_match_cell}</td>
-              <td>{a_fut_c1}</td>
-              <td>{a_fut_c2}</td>
-              <td>{a_fut_c3}</td>
-              <td>중요도상 / 피로누적 {a_last_fatigue}</td>
-            </tr>
-          </tbody>
-        </table>
-        """
-        st.markdown(table_html, unsafe_allow_html=True)
+        table_rows.append({
+            "팀명": f"홈 팀\n({home_team})",
+            "3일이내(과거)": h_past_c1,
+            "해당 경기": home_match_cell,
+            "향후 3일이내": h_fut_c1,
+            "향후 6일이내": h_fut_c2,
+            "향후 9일이내": h_fut_c3,
+            "보정사항 (중요도/피로누적)": f"중요도상 / 피로누적 {h_last_fatigue}"
+        })
+        table_rows.append({
+            "팀명": f"원정 팀\n({away_team})",
+            "3일이내(과거)": a_past_c1,
+            "해당 경기": away_match_cell,
+            "향후 3일이내": a_fut_c1,
+            "향후 6일이내": a_fut_c2,
+            "향후 9일이내": a_fut_c3,
+            "보정사항 (중요도/피로누적)": f"중요도상 / 피로누적 {a_last_fatigue}"
+        })
+        
+        # 💡 st.dataframe을 사용하여 늘여보기, 줄이기, 전체화면 등 표 기본 인터랙션 완벽 복원
+        df_r3 = pd.DataFrame(table_rows)
+        st.dataframe(df_r3, use_container_width=True, hide_index=True)
         
         h_imp_atk, h_imp_def = 10, -10
         h_fatigue_atk = -5 * h_last_fatigue
