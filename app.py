@@ -770,6 +770,26 @@ if has_detailed_data:
     
     st.markdown(f"##### 표 3-2: {home_team} vs {away_team} 일정 및 피로도·중요도 매트릭스")
 
+# --- [규칙 3-2번 영역: 일정 및 이동 피로도] ---
+st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
+st.markdown("""
+<div class="step-box">
+    <b>📌 규칙 3-2번 규격 원칙 및 요약 설명:</b><br>
+    • <b>타임라인 정렬 순서:</b> <code>3일이내(과거)</code> ➔ <code>해당경기</code> ➔ <code>향후 3일이내</code> ➔ <code>향후 6일이내</code> ➔ <code>향후 9일이내</code> 순으로 전개됩니다.<br>
+    • <b>4일 간격 기준 정밀 검증:</b> 0단계의 '기준 경기 일시'를 바탕으로 날짜 간격을 엄격하게 역추적하여 유효한 경기만 타임라인에 반영합니다.<br>
+    • <b>이동 피로도 룰:</b> 원정 경기마다 누적되며, 원정에서 홈 복귀 또는 휴식 시 <b>0%로 Reset</b>됩니다. 단계마다 <b>공격 -5%, 방어 +5%</b>가 누적 적용됩니다.<br>
+    • <b>경기 중요도 가중치 (부호 대칭):</b> 상(공+10%, 방-10%), 중(공+5%, 방-5%), 하(0%)
+</div>
+""", unsafe_allow_html=True)
+
+if has_detailed_data:
+    meta_details = detailed_info.get("meta_details", {})
+    fixtures_info = meta_details.get("fixtures", {})
+    home_fixtures = fixtures_info.get("home", [])
+    away_fixtures = fixtures_info.get("away", [])
+    
+    st.markdown(f"##### 표 3-2: {home_team} vs {away_team} 일정 및 피로도·중요도 매트릭스")
+
     # ==========================================
     # 3-2단계: 일정 이동피로도 및 중요도 판단 함수 (정밀 교정본)
     # ==========================================
@@ -798,7 +818,6 @@ if has_detailed_data:
                 elif diff_days > 0:
                     future_fixtures.append((diff_days, fix))
                     
-        # 과거는 최신순(기준일에 가까운 순), 미래는 다가오는 순으로 정렬
         past_fixtures = sorted(past_fixtures, key=lambda x: x[0], reverse=True)
         future_fixtures = sorted(future_fixtures, key=lambda x: x[0])
         
@@ -839,15 +858,15 @@ if has_detailed_data:
         # 1. 과거 경기 처리 (최근 3일 이내 유효 경기 탐색 및 피로도 연속성 계산)
         processed_past = []
         running_fatigue = 0
-        chrono_past = sorted(past_fixtures, key=lambda x: x[0])  # 오래된 순 (-3일 -> -1일)
+        chrono_past = sorted(past_fixtures, key=lambda x: x[0])
         for diff_d, fix in chrono_past:
             abs_diff = abs(diff_d)
-            if abs_diff <= 3:  # 정확히 3일 이내 과거 경기
+            if abs_diff <= 3:
                 details = parse_fix_details(fix)
                 if details["loc_type"] == "원정":
                     running_fatigue += 1
                 else:
-                    running_fatigue = 0  # 홈이면 복귀/휴식으로 리셋
+                    running_fatigue = 0
                 processed_past.append({
                     "desc": details["desc"],
                     "fatigue_level": running_fatigue,
@@ -857,13 +876,13 @@ if has_detailed_data:
         h_past_cell = "휴식"
         last_past_fatigue = 0
         if processed_past:
-            h_past_cell = processed_past[-1]["desc"]  # 가장 최근 과거 경기 표시
+            h_past_cell = processed_past[-1]["desc"]
             last_past_fatigue = processed_past[-1]["fatigue_level"]
 
-        # 2. 미래 경기 처리 (피로도 누적 전파 방지 및 단순 일정 안내용 정돈)
+        # 2. 미래 경기 처리 (피로도 누적 없이 단순 일정 안내용 정돈)
         processed_future = []
         for diff_d, fix in future_fixtures:
-            if 0 < diff_d <= 9:  # 향후 9일 이내
+            if 0 < diff_d <= 9:
                 details = parse_fix_details(fix)
                 processed_future.append({
                     "desc": details["desc"],
@@ -889,8 +908,9 @@ if has_detailed_data:
     home_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 홈"
     away_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 원정"
 
-    h_last_fatigue = home_future[-1]["fatigue_level"] if home_future else 0
-    a_last_fatigue = away_future[-1]["fatigue_level"] if away_future else 0
+    # 💡 KeyError 원천 차단: 반환된 최종 피로도 수치 안전 반영
+    h_last_fatigue = h_last_fatigue
+    a_last_fatigue = a_last_fatigue
 
     timeline_table_html = f"""
     <style>
