@@ -225,9 +225,9 @@ def run_crawler_v4():
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
 
     target_leagues = [
-        {"id": 34, "url": "https://github.com/copilot6league/34"},
-        {"id": 39, "url": "https://github.com/copilot6league/39"},
-        {"id": 40, "url": "https://github.com/copilot6league/40"}
+        {"id": 34, "url": "https://football.scoreman123.com/league/34"},
+        {"id": 39, "url": "https://football.scoreman123.com/league/39"},
+        {"id": 40, "url": "https://football.scoreman123.com/league/40"}
     ]
 
     all_leagues_data = {
