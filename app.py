@@ -323,7 +323,7 @@ with tabs[1]:
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
     # ==========================================
-    # 💡 실제 구조에 맞춰 완전 재작성
+    # 💡 최종 통합: 모든 구조에서 경기 데이터 채우기
     # ==========================================
     target_match_data = None
     target_code = str(match_code).strip()
@@ -367,11 +367,11 @@ with tabs[1]:
 
     st.info(f"✅ recent_form 키: {list(recent_form_dict.keys())}")
 
-    # ✅ 실제 구조에 맞춰 추출
-    h_team_name = target_match_data.get("home", home_team).strip()
-    a_team_name = target_match_data.get("away", away_team).strip()
+    # 팀 이름 기본 설정
+    h_team_name = recent_form_dict.get("home_team_name", target_match_data.get("home", home_team)).strip()
+    a_team_name = recent_form_dict.get("away_team_name", target_match_data.get("away", away_team)).strip()
 
-    # 요약 데이터 직접 파싱
+    # ========== 요약 데이터 ==========
     home_summary = recent_form_dict.get("home_summary", {})
     away_summary = recent_form_dict.get("away_summary", {})
 
@@ -383,26 +383,33 @@ with tabs[1]:
     a_cpg = float(away_summary.get("conceded_per_game", 0))
     a_rec = away_summary.get("recent_record", "0전 0승 0무 0패")
 
-    # ✅ matches 리스트에서 각 팀별 경기 분리
-    all_matches = recent_form_dict.get("matches", [])
+    # ========== 경기 리스트 — 여러 형식 모두 지원 ==========
     h_matches = []
     a_matches = []
 
-    if all_matches:
-        st.info(f"✅ 전체 경기 리스트: {len(all_matches)}경기")
-        for m in all_matches:
-            teams_str = m.get("teams", "")
-            if h_team_name in teams_str:
-                h_matches.append(m)
-            if a_team_name in teams_str:
-                a_matches.append(m)
-        # 최근 7개만 유지
-        h_matches = h_matches[:7]
-        a_matches = a_matches[:7]
-    else:
-        st.warning("⚠️ matches 리스트가 비어있습니다 — 요약 수치로만 계산합니다")
+    # 형식 1: home_matches / away_matches (개별 리스트 분리형)
+    if "home_matches" in recent_form_dict and isinstance(recent_form_dict["home_matches"], list):
+        h_matches = recent_form_dict["home_matches"][:7]
+        st.info(f"✅ home_matches 형식: {len(h_matches)}경기")
+    if "away_matches" in recent_form_dict and isinstance(recent_form_dict["away_matches"], list):
+        a_matches = recent_form_dict["away_matches"][:7]
+        st.info(f"✅ away_matches 형식: {len(a_matches)}경기")
 
-    st.success(f"✅ 데이터 로드 → {h_team_name}: {len(h_matches)}경기 / {a_team_name}: {len(a_matches)}경기")
+    # 형식 2: matches 단일 배열에서 분리 (통합 배열형)
+    if not h_matches and not a_matches and "matches" in recent_form_dict:
+        all_matches = recent_form_dict["matches"]
+        if isinstance(all_matches, list) and all_matches:
+            st.info(f"✅ matches 형식: 전체 {len(all_matches)}경기")
+            for m in all_matches:
+                teams_str = m.get("teams", "")
+                if h_team_name in teams_str:
+                    h_matches.append(m)
+                if a_team_name in teams_str:
+                    a_matches.append(m)
+            h_matches = h_matches[:7]
+            a_matches = a_matches[:7]
+
+    st.success(f"✅ 최종 → {h_team_name}: {len(h_matches)}경기 / {a_team_name}: {len(a_matches)}경기")
 
     # ========== 티어 판별 함수 ==========
     def get_attack_tier(g):
@@ -419,17 +426,14 @@ with tabs[1]:
         elif c < 1.7: return "Tier D", "-2.0%"
         else: return "Tier E", "0.0%"
 
-    def get_attack_tier_name(g):
-        return get_attack_tier(g)[0]
+    def get_attack_tier_name(g): return get_attack_tier(g)[0]
+    def get_defense_tier_name(c): return get_defense_tier(c)[0]
 
-    def get_defense_tier_name(c):
-        return get_defense_tier(c)[0]
-
-    # ========== 경기별 표 생성 함수 ==========
-    def build_form_df(matches, target_team, gpg, cpg, rec_str):
+    # ========== 표 생성 및 계산 함수 ==========
+    def build_form_df(matches, target_team, base_gpg, base_cpg, base_rec):
         if not matches:
-            # 경기 리스트가 없으면 요약 정보만 반환
-            return pd.DataFrame(), gpg, cpg, rec_str
+            # 경기 데이터 없으면 요약값 그대로 반환
+            return pd.DataFrame(), base_gpg, base_cpg, base_rec
         
         rows = []
         total_scored = total_conceded = 0
@@ -441,10 +445,8 @@ with tabs[1]:
             teams_str = m.get("teams", "-")
             scores = m.get("ft_scores", ["0", "0"])
             
-            try:
-                s1, s2 = int(scores[0]), int(scores[1])
-            except:
-                s1 = s2 = 0
+            try: s1, s2 = int(scores[0]), int(scores[1])
+            except: s1 = s2 = 0
 
             # 득실 판별
             scored, conceded = 0, 0
@@ -463,22 +465,18 @@ with tabs[1]:
             total_scored += scored
             total_conceded += conceded
             
-            if scored > conceded:
-                res = "승"; wins += 1
-            elif scored == conceded:
-                res = "무"; draws += 1
-            else:
-                res = "패"; losses += 1
+            if scored > conceded: res = "승"; wins += 1
+            elif scored == conceded: res = "무"; draws += 1
+            else: res = "패"; losses += 1
 
             # 상대 티어
-            opp_tier = m.get("opponent_tier_info", "")
             tier_disp = "정보 없음"
+            opp_tier = m.get("opponent_tier_info", "")
             if opp_tier and "/" in opp_tier:
                 try:
                     oa, od = map(float, opp_tier.split("/"))
                     tier_disp = f"공격 {get_attack_tier_name(oa)} ({oa:.2f}) / 방어 {get_defense_tier_name(od)} ({od:.2f})"
-                except:
-                    pass
+                except: pass
 
             seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
             rows.append({
@@ -490,15 +488,14 @@ with tabs[1]:
                 "결과": res,
                 "상대 공수 티어": tier_disp
             })
-
-        # 리스트에서 계산한 값이 있으면 덮어씀
-        if matches:
-            count = len(matches)
-            gpg = total_scored / count
-            cpg = total_conceded / count
-            rec_str = f"{count}전 {wins}승 {draws}무 {losses}패"
-
-        return pd.DataFrame(rows) if rows else pd.DataFrame(), gpg, cpg, rec_str
+        
+        # 경기 데이터 기반으로 재계산
+        count = len(matches)
+        gpg = total_scored / count
+        cpg = total_conceded / count
+        rec_str = f"{count}전 {wins}승 {draws}무 {losses}패"
+        
+        return pd.DataFrame(rows), gpg, cpg, rec_str
 
     # ========== 실행 ==========
     h_df, h_gpg, h_cpg, h_rec = build_form_df(h_matches, h_team_name, h_gpg, h_cpg, h_rec)
@@ -509,37 +506,39 @@ with tabs[1]:
     a_at_tier, a_at_weight = get_attack_tier(a_gpg)
     a_df_tier, a_df_weight = get_defense_tier(a_cpg)
         
-    # 홈팀 출력
+    # ========== 홈팀 출력 ==========
     st.markdown(f"#### 예시표 1-1: 홈 팀 ({h_team_name}) 최근 전적(LIFO) 및 상대 티어 대조 표")
     if not h_df.empty:
         st.dataframe(h_df, use_container_width=True, hide_index=True)
     else:
-        st.info(f"📋 경기 상세 없음 — 요약 수치 사용")
+        st.info(f"📋 개별 경기 상세 데이터가 없습니다. 요약 수치로 계산합니다.")
         
     st.markdown(
         f"""<div class="calc-box">
             <b>{h_team_name} 규칙 1번 상세 산출 내역:</b><br>
-            • 최근 전적: <b>{h_rec}</b><br>
-            • 평균 득점: <b>{h_gpg:.2f}</b> / 평균 실점: <b>{h_cpg:.2f}</b><br>
-            • 공격: <b>{h_at_tier}</b> ({h_at_weight}) / 방어: <b>{h_df_tier}</b> ({h_df_weight})
+            • 최근 전적 성향: <b>{h_rec}</b><br>
+            • 수집된 지표: 평균 득점 <b>{h_gpg:.2f}골/경기</b> / 평균 실점 <b>{h_cpg:.2f}골/경기</b><br>
+            • 정량 공식 대조 체급: <b>공격력 {h_at_tier}</b> / <b>방어력 {h_df_tier}</b><br>
+            • 기초 가중치: <b>공격 {h_at_weight}</b> / <b>방어 {h_df_weight}</b>
         </div>""", unsafe_allow_html=True
     )
     
     st.markdown("---")
     
-    # 원정팀 출력
+    # ========== 원정팀 출력 ==========
     st.markdown(f"#### 예시표 1-2: 원정 팀 ({a_team_name}) 최근 전적(LIFO) 및 상대 티어 대조 표")
     if not a_df.empty:
         st.dataframe(a_df, use_container_width=True, hide_index=True)
     else:
-        st.info(f"📋 경기 상세 없음 — 요약 수치 사용")
+        st.info(f"📋 개별 경기 상세 데이터가 없습니다. 요약 수치로 계산합니다.")
         
     st.markdown(
         f"""<div class="calc-box">
             <b>{a_team_name} 규칙 1번 상세 산출 내역:</b><br>
-            • 최근 전적: <b>{a_rec}</b><br>
-            • 평균 득점: <b>{a_gpg:.2f}</b> / 평균 실점: <b>{a_cpg:.2f}</b><br>
-            • 공격: <b>{a_at_tier}</b> ({a_at_weight}) / 방어: <b>{a_df_tier}</b> ({a_df_weight})
+            • 최근 전적 성향: <b>{a_rec}</b><br>
+            • 수집된 지표: 평균 득점 <b>{a_gpg:.2f}골/경기</b> / 평균 실점 <b>{a_cpg:.2f}골/경기</b><br>
+            • 정량 공식 대조 체급: <b>공격력 {a_at_tier}</b> / <b>방어 {a_df_tier}</b><br>
+            • 기초 가중치: <b>공격 {a_at_weight}</b> / <b>방어 {a_df_weight}</b>
         </div>""", unsafe_allow_html=True
     )
 # --- [2단계] ---
