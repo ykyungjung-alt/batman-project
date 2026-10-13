@@ -95,9 +95,16 @@ match_date = selected_match.get("time", "오늘")
 match_code = str(selected_match.get("match_code", ""))
 
 # ==========================================
-# 💡 [핵심 방어 장치] 통합 상세 데이터 안전 추출 및 플래그 설정
+# 💡 [핵심 방어 장치] 통합 상세 데이터 안전 추출 및 플래그 설정 (팀 이름 매칭 폴백 추가)
 # ==========================================
 raw_detailed_info = all_details_dict.get(match_code, None)
+
+# 만약 match_code로 못 찾았을 경우, 홈팀/원정팀 이름이 일치하는 데이터로 2차 탐색 (폴백)
+if not raw_detailed_info:
+    for k, v in all_details_dict.items():
+        if v.get("home") == home_team and v.get("away") == away_team:
+            raw_detailed_info = v
+            break
 
 if raw_detailed_info and isinstance(raw_detailed_info, dict):
     detailed_info = raw_detailed_info
@@ -107,7 +114,13 @@ else:
         "head_info": {},
         "meta_details": {
             "rankings": [],
-            "recent_form": {"home_summary": {}, "away_summary": {}, "matches": []},
+            "recent_form": {
+                "home_summary": {},
+                "away_summary": {},
+                "home_matches": [],  # 💡 누락 방지용 빈 리스트 추가
+                "away_matches": [],  # 💡 누락 방지용 빈 리스트 추가
+                "matches": []
+            },
             "h2h": {"summary": [], "matches": []},
             "fixtures": {"home": [], "away": []}
         }
