@@ -1246,20 +1246,29 @@ with tabs[5]:
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 
-# --- [표 5-2: 동급 티어 실전 5경기 교차 검증 (실제 데이터 동적 연동)] ---
-st.markdown("##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스")
+# --- [표 5-2: 동급 티어 실전 5경기 교차 검증 (홈/원정 완벽 분리 및 익스트림 티어 매칭)] ---
+st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
 
-def get_real_recent_5_matches(team_fixtures):
+def get_extreme_tier_matched_5_matches(team_fixtures, opp_at, opp_de):
     """
-    친선 경기를 전면 배제하고, 최신순 공식 경기 중 최대 5경기를 추출하는 함수
+    1) 친선 경기 전면 배제
+    2) 공수 티어 격차가 2단계 이상인 경우, C티어 기준 단순히 가까운 쪽보다
+       A티어나 E티어 등 양 끝단(익스트림 구간)에 근접한 유사 티어 매칭 경기를 우선 픽업
+    3) 최신순 공식 경기 정확히 5개 산출
     """
     valid_matches = []
     if not team_fixtures or not isinstance(team_fixtures, list):
         return valid_matches
         
+    tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
+    opp_at_val = tier_ranks.get(opp_at, 3)
+    opp_de_val = tier_ranks.get(opp_de, 3)
+    tier_gap = abs(opp_at_val - opp_de_val)
+    
+    # 1차 후보 수집 (친선전 배제 및 스코어 유효성 검증)
+    candidate_matches = []
     for fix in team_fixtures:
         league_str = str(fix.get("league", ""))
-        # 친선 경기 전면 배제 필터링
         if "친선" in league_str or "Friendly" in league_str or "친선경기" in league_str:
             continue
             
@@ -1267,34 +1276,49 @@ def get_real_recent_5_matches(team_fixtures):
         if not score_str or (":" not in score_str and "-" not in score_str):
             continue
             
-        valid_matches.append(fix)
-        if len(valid_matches) >= 5: # 딱 5경기만 확보
-            break
-            
-    return valid_matches
+        candidate_matches.append(fix)
+        
+    # 2단계 이상 격차 구간에서의 익스트림(양 끝단 A/E) 우선 정렬 로직 적용
+    if tier_gap >= 2:
+        # A티어(최상단) 또는 E티어(최하단) 지표가 포함된 익스트림 매칭 경기를 우선순위로 상단 배치
+        def extreme_priority_sort(f):
+            t_info = f.get("opponent_tier_info", "")
+            if "Tier A" in t_info or "Tier E" in t_info:
+                return 0 # 최우선 순위
+            return 1
+        candidate_matches.sort(key=extreme_priority_sort)
+        
+    return candidate_matches[:5] # 최신순 또는 우선순위 정렬 상위 5개 채택
 
-# 홈 팀 / 원정 팀 실제 경기 데이터 로드 (세션 또는 매칭 데이터 연동)
-home_raw_list = home_matches if 'home_matches' in locals() else []
-away_raw_list = away_matches if 'away_matches' in locals() else []
+# 1/2단계에서 산출된 홈/원정 팀의 공수 티어 변수 안전 확보
+h_current_at = h_at if 'h_at' in locals() else "Tier C"
+h_current_de = h_de if 'h_de' in locals() else "Tier C"
+a_current_at = a_at if 'a_at' in locals() else "Tier C"
+a_current_de = a_de if 'a_de' in locals() else "Tier C"
 
-home_f5 = get_real_recent_5_matches(home_raw_list)
-away_f5 = get_real_recent_5_matches(away_raw_list)
+# 원정 팀의 공수 체급 기준에 맞춘 홈 팀의 최근 5경기 매칭
+home_raw_list = h_matches if 'h_matches' in locals() else []
+home_matched_5 = get_extreme_tier_matched_5_matches(home_raw_list, a_current_at, a_current_de)
 
-# 테이블 생성 렌더링 함수 (홈 팀 기준 예시)
-def build_match_table_rows(match_list):
+# 홈 팀의 공수 체급 기준에 맞춘 원정 팀의 최근 5경기 매칭
+away_raw_list = a_matches if 'a_matches' in locals() else []
+away_matched_5 = get_extreme_tier_matched_5_matches(away_raw_list, h_current_at, h_current_de)
+
+def build_team_52_table_rows(match_list, team_label, target_tier_str):
     rows_html = ""
     total_gf, total_ga = 0, 0
     cnt = len(match_list)
     
     if cnt == 0:
-        return "<tr><td colspan='9' style='text-align: center; color: #888;'>조건에 일치하는 공식 최근 경기가 없습니다.</td></tr>", 0, 0, 0.0, 0.0
+        return f"<tr><td colspan='9' style='text-align: center; color: #888;'>[{team_label}] 조건에 일치하는 공식 최근 경기가 없습니다.</td></tr>", 0, 0, 0.0, 0.0
         
     for i, m in enumerate(match_list, 1):
         m_date = str(m.get("match_time", "-")).split(" ")[0].replace("-", ".")
-        m_league = str(m.get("league", "-"))
+        m_league = translate_tournament_code(str(m.get("league", "-")))
         m_score = str(m.get("score", "0 : 0"))
         m_loc = str(m.get("location", "중립"))
         m_opp = str(m.get("opponent", "상대 팀"))
+        m_opp_tier = str(m.get("opponent_tier_info", "유사 티어 매칭"))
         
         gf, ga = 0, 0
         try:
@@ -1317,7 +1341,7 @@ def build_match_table_rows(match_list):
         <td>{m_league}</td>
         <td>{m_loc}</td>
         <td>{m_opp}</td>
-        <td>공수 티어 매칭 완료</td>
+        <td>{m_opp_tier}</td>
         <td>{m_score}</td>
         <td>{w_l}</td>
         <td>{gf}득점 / {ga}실점</td>
@@ -1327,7 +1351,13 @@ def build_match_table_rows(match_list):
     avg_ga = total_ga / cnt
     return rows_html, total_gf, total_ga, avg_gf, avg_ga
 
-h_rows, h_tgf, h_tga, h_agf, h_aga = build_match_table_rows(home_f5)
+# 홈 팀 및 원정 팀 행 데이터와 통계 산출
+h_rows, h_tgf, h_tga, h_agf, h_aga = build_team_52_table_rows(
+    home_matched_5, home_team, f"공격 {a_current_at}/방어 {a_current_de}"
+)
+a_rows, a_tgf, a_tga, a_agf, a_aga = build_team_52_table_rows(
+    away_matched_5, away_team, f"공격 {h_current_at}/방어 {h_current_de}"
+)
 
 table_5_2_html = f"""
 <style>
@@ -1345,24 +1375,33 @@ table_5_2_html = f"""
 <th>대회 명칭</th>
 <th>장소</th>
 <th>상대 팀</th>
-<th>상대 티어 (2단계 연동)</th>
+<th>상대 티어 (익스트림/격차 보정 연동)</th>
 <th>최종 스코어</th>
 <th>결과</th>
 <th>비고 (득점 / 실점)</th>
 </tr>
 </thead>
 <tbody>
+<!-- 홈 팀 영역 -->
+<tr style="background-color: #e3f2fd; font-weight: bold;"><td colspan="9">🏠 홈 팀: {home_team} (상대 공수 티어: 공격 {a_current_at} / 방어 {a_current_de} 기준 매칭)</td></tr>
 {h_rows}
 <tr style="background-color: #f1f8e9; font-weight: bold;">
 <td colspan="5">{home_team} 팀 최근 공식 5경기 총합 및 실전 평균</td>
 <td colspan="4">5경기 총합: {h_tgf}득점 / {h_tga}실점<br><span style="color: #d32f2f;">실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span></td>
+</tr>
+
+<!-- 원정 팀 영역 -->
+<tr style="background-color: #e3f2fd; font-weight: bold; border-top: 2px solid #ccc;"><td colspan="9">✈️ 원정 팀: {away_team} (상대 공수 티어: 공격 {h_current_at} / 방어 {h_current_de} 기준 매칭)</td></tr>
+{a_rows}
+<tr style="background-color: #f1f8e9; font-weight: bold;">
+<td colspan="5">{away_team} 팀 최근 공식 5경기 총합 및 실전 평균</td>
+<td colspan="4">5경기 총합: {a_tgf}득점 / {a_tga}실점<br><span style="color: #d32f2f;">실전 평균: 평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골</span></td>
 </tr>
 </tbody>
 </table>
 </div>
 """
 st.markdown(table_5_2_html, unsafe_allow_html=True)
-
 # --- [6단계] ---
 with tabs[6]:
   st.markdown(
