@@ -103,7 +103,7 @@ def parse_standing_legends(soup, default_legends):
         return default_legends, fallback_map, f"[코드 에러] 범례 파싱 중 런타임 예외 발생: {str(e)}"
 
 def parse_standings(soup, color_to_label, default_standings):
-    """ul#standingList li.standis 구조 정밀 파싱 모듈"""
+    """ul#standingList li.standis 구조 및 중첩 span 스탯 정밀 파싱 모듈"""
     parsed_standings = []
     seen_teams = set()
     
@@ -297,8 +297,4 @@ def run_crawler_v4():
             league_match_data["standing_legends"] = legends_res
             league_match_data["standing_legends_error"] = legend_err
             
-            standings_res, standings_err = parse_standings(
-                soup, color_map, league_match_data["standings"]
-            )
-            league_match_data["standings"] = standings_res
-            league
+            standings_res, standings_err
