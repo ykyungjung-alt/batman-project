@@ -323,49 +323,89 @@ with tabs[1]:
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
     # ==========================================
-    # 💡 [1단계 전용 정밀 매칭 및 데이터 추출 로직]
+    # 💡 [1단계 전용 정밀 매칭 및 데이터 추출 로직] - 보강 버전
     # ==========================================
     target_match_data = None
     target_code = str(match_code).strip()
     target_home = str(home_team).strip().replace(" ", "")
     target_away = str(away_team).strip().replace(" ", "")
 
-    # 1순위: 매치코드로 직접 일치하는 상세 데이터 탐색
+    # 1순위: 매치코드 직접 일치
     if target_code and target_code in all_details_dict:
         target_match_data = all_details_dict[target_code]
+        st.info(f"✅ 1순위 매치코드 매칭 성공: {target_code}")
 
-    # 2순위: 데이터 내부의 "match_code" 필드로 재탐색
+    # 2순위: 내부 match_code 필드로 재탐색
     if not target_match_data and target_code:
         for k, v in all_details_dict.items():
             if str(v.get("match_code", "")).strip() == target_code:
                 target_match_data = v
+                st.info(f"✅ 2순위 내부코드 매칭 성공: {k}")
                 break
 
-    # 3순위: 홈/원정 팀 이름 공백 제거 정밀 대조 (폴백)
+    # 3순위: 팀 이름 정밀 대조
     if not target_match_data:
         for k, v in all_details_dict.items():
             v_home = str(v.get("home", "")).strip().replace(" ", "")
             v_away = str(v.get("away", "")).strip().replace(" ", "")
             if v_home == target_home and v_away == target_away:
                 target_match_data = v
+                st.info(f"✅ 3순위 팀이름 매칭 성공: {k}")
                 break
 
-    # 'recent_form' 및 "form_title": "최근 전적" 조건 엄격 검증 후 싹 수집
-    h_matches, a_matches = [], []
-    h_team_name, a_team_name = home_team, away_team
+    # ❌ 최종 실패 시 즉시 중단
+    if not target_match_data:
+        st.error("❌ 대상 경기 데이터를 전혀 찾지 못했습니다!")
+        st.write(f"검색값 → 코드:{target_code}, 홈:{target_home}, 원정:{target_away}")
+        st.stop()
 
-    if target_match_data and isinstance(target_match_data, dict):
-        meta_details = target_match_data.get("meta_details", {})
-        recent_form_dict = meta_details.get("recent_form", {})
-        
-        if recent_form_dict.get("form_title") == "최근 전적":
-            h_team_name = recent_form_dict.get("home_team_name", home_team).strip()
-            h_matches = recent_form_dict.get("home_matches", [])[:7]
-            
-            a_team_name = recent_form_dict.get("away_team_name", away_team).strip()
-            a_matches = recent_form_dict.get("away_matches", [])[:7]
+    # 🔍 데이터 구조 디버깅
+    meta_details = target_match_data.get("meta_details", target_match_data)
+    st.write("📂 데이터 키 확인:", list(meta_details.keys())[:15])
 
-    # 공수 수치 기반 티어 판별 함수
+    # recent_form 여러 가능한 키 이름으로 시도
+    recent_form_dict = None
+    for key in ["recent_form", "recent_matches", "form", "last_matches"]:
+        if key in meta_details and isinstance(meta_details[key], dict):
+            recent_form_dict = meta_details[key]
+            st.info(f"✅ '{key}' 키에서 최근전적 발견")
+            break
+
+    if not recent_form_dict:
+        st.warning("⚠️ recent_form 관련 키를 찾지 못했습니다. 전체 구조:")
+        st.json(meta_details, expanded=False)
+        st.stop()
+
+    # form_title 유연하게 확인
+    form_title = recent_form_dict.get("form_title") or recent_form_dict.get("title") or recent_form_dict.get("name", "")
+    if "최근" not in form_title and "전적" not in form_title and "Recent" not in form_title:
+        st.warning(f"⚠️ form_title이 예상과 다릅니다: {form_title}")
+
+    # 경기 리스트 추출 (여러 가능 키명 시도)
+    h_team_name = home_team
+    a_team_name = away_team
+    h_matches = []
+    a_matches = []
+
+    # 키명 후보 배열로 통일 시도
+    home_keys = ["home_matches", "home_recent", "home_last", "home"]
+    away_keys = ["away_matches", "away_recent", "away_last", "away"]
+
+    for k in home_keys:
+        if k in recent_form_dict and isinstance(recent_form_dict[k], list):
+            h_matches = recent_form_dict[k][:7]
+            h_team_name = recent_form_dict.get("home_team_name", recent_form_dict.get("home_name", home_team)).strip()
+            break
+
+    for k in away_keys:
+        if k in recent_form_dict and isinstance(recent_form_dict[k], list):
+            a_matches = recent_form_dict[k][:7]
+            a_team_name = recent_form_dict.get("away_team_name", recent_form_dict.get("away_name", away_team)).strip()
+            break
+
+    st.write(f"✅ 수집 완료 → {h_team_name}: {len(h_matches)}경기 / {a_team_name}: {len(a_matches)}경기")
+
+    # ========== 공수 수치 기반 티어 판별 함수 ==========
     def get_attack_tier_name(g):
         if g >= 2.3: return "Tier A"
         elif g >= 1.7: return "Tier B"
@@ -380,7 +420,7 @@ with tabs[1]:
         elif c < 1.7: return "Tier D"
         else: return "Tier E"
 
-    # 최근 전적 로그 전용 표 생성 및 득실/상대 티어 매칭 함수
+    # ========== 최근 전적 표 생성 함수 ==========
     def build_recent_form_dataframe(matches, target_team):
         if not matches:
             return pd.DataFrame(), 0.0, 0.0, "0전 0승 0무 0패"
@@ -388,27 +428,29 @@ with tabs[1]:
         table_rows = []
         total_scored = 0
         total_conceded = 0
-        wins, draws, losses = 0, 0, 0
+        wins = draws = losses = 0
         
         for idx, m in enumerate(matches):
-            league = m.get("league", "-")
-            match_time = m.get("match_time", "-")
-            teams_str = m.get("teams", "-")
-            scores = m.get("ft_scores", ["0", "0"])
-            opp_tier_info = m.get("opponent_tier_info", "0.00/0.00")
+            league = m.get("league", m.get("tournament", "-"))
+            match_time = m.get("match_time", m.get("date", "-"))
+            teams_str = m.get("teams", m.get("match", "-"))
+            scores = m.get("ft_scores", m.get("score", ["0", "0"]))
             
+            # 득점 숫자 변환
             try:
                 score_1 = int(scores[0])
                 score_2 = int(scores[1])
             except:
-                score_1, score_2 = 0, 0
-                
+                score_1 = score_2 = 0
+
+            # ✅ 정확한 팀 매칭: 양쪽 이름 모두 비교
+            scored, conceded = 0, 0
             parts = teams_str.split(" vs ")
             if len(parts) == 2:
                 t1, t2 = parts[0].strip(), parts[1].strip()
-                if target_team in t1 and target_team not in t2:
+                if target_team == t1 or target_team in t1:
                     scored, conceded = score_1, score_2
-                elif target_team in t2 and target_team not in t1:
+                elif target_team == t2 or target_team in t2:
                     scored, conceded = score_2, score_1
                 else:
                     scored, conceded = score_1, score_2
@@ -419,24 +461,25 @@ with tabs[1]:
             total_conceded += conceded
             
             if scored > conceded:
-                res = "승"
-                wins += 1
+                res = "승"; wins += 1
             elif scored == conceded:
-                res = "무"
-                draws += 1
+                res = "무"; draws += 1
             else:
-                res = "패"
-                losses += 1
+                res = "패"; losses += 1
                 
-            try:
-                opp_parts = opp_tier_info.split("/")
-                opp_atk_val = float(opp_parts[0])
-                opp_def_val = float(opp_parts[1])
-                opp_atk_tier = get_attack_tier_name(opp_atk_val)
-                opp_def_tier = get_defense_tier_name(opp_def_val)
-                tier_display = f"공격 {opp_atk_tier} ({opp_atk_val:.2f}) / 방어 {opp_def_tier} ({opp_def_val:.2f})"
-            except:
-                tier_display = f"정보 없음 ({opp_tier_info})"
+            # 상대 티어 정보 안전 추출
+            opp_tier_info = m.get("opponent_tier_info", "")
+            tier_display = "정보 없음"
+            if opp_tier_info and "/" in opp_tier_info:
+                try:
+                    opp_parts = opp_tier_info.split("/")
+                    opp_atk_val = float(opp_parts[0])
+                    opp_def_val = float(opp_parts[1])
+                    opp_atk_tier = get_attack_tier_name(opp_atk_val)
+                    opp_def_tier = get_defense_tier_name(opp_def_val)
+                    tier_display = f"공격 {opp_atk_tier} ({opp_atk_val:.2f}) / 방어 {opp_def_tier} ({opp_def_val:.2f})"
+                except:
+                    pass
                 
             seq_label = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
             table_rows.append({
@@ -455,6 +498,7 @@ with tabs[1]:
         rec_str = f"{count}전 {wins}승 {draws}무 {losses}패"
         return pd.DataFrame(table_rows), gpg, cpg, rec_str
 
+    # ========== 실행 및 결과 출력 ==========
     h_df, h_gpg, h_cpg, h_rec = build_recent_form_dataframe(h_matches, h_team_name)
     a_df, a_gpg, a_cpg, a_rec = build_recent_form_dataframe(a_matches, a_team_name)
 
@@ -474,10 +518,10 @@ with tabs[1]:
 
     h_at_tier, h_at_weight = get_attack_tier(h_gpg)
     h_df_tier, h_df_weight = get_defense_tier(h_cpg)
-
     a_at_tier, a_at_weight = get_attack_tier(a_gpg)
     a_df_tier, a_df_weight = get_defense_tier(a_cpg)
         
+    # 홈팀 결과 표시
     st.markdown(f"#### 예시표 1-1: 홈 팀 ({h_team_name}) 최근 전적(LIFO) 및 상대 티어 대조 표")
     if not h_df.empty:
         st.dataframe(h_df, use_container_width=True, hide_index=True)
@@ -497,6 +541,7 @@ with tabs[1]:
     
     st.markdown("---")
     
+    # 원정팀 결과 표시
     st.markdown(f"#### 예시표 1-2: 원정 팀 ({a_team_name}) 최근 전적(LIFO) 및 상대 티어 대조 표")
     if not a_df.empty:
         st.dataframe(a_df, use_container_width=True, hide_index=True)
