@@ -845,24 +845,23 @@ table_rows.append({
 df_r3 = pd.DataFrame(table_rows)
 st.dataframe(df_r3, use_container_width=True, hide_index=True)
 
-        # 💡 상세 산출 내역 계산 (피로도: 공격 -5% 누적, 방어 +5% 누적)
-        h_imp_atk, h_imp_def = 10, -10
-        h_fatigue_atk = -5 * h_last_fatigue
-        h_fatigue_def = 5 * h_last_fatigue
-        
-        a_imp_atk, a_imp_def = 10, -10
-        a_fatigue_atk = -5 * a_last_fatigue
-        a_fatigue_def = 5 * a_last_fatigue
+# 💡 상세 산출 내역 계산 (피로도: 공격 -5% 누적, 방어 +5% 누적)
+h_imp_atk, h_imp_def = 10, -10
+h_fatigue_atk = -5 * h_last_fatigue
+h_fatigue_def = 5 * h_last_fatigue
+a_imp_atk, a_imp_def = 10, -10
+a_fatigue_atk = -5 * a_last_fatigue
+a_fatigue_def = 5 * a_last_fatigue
 
-        st.markdown(f"""
-        <div class="calc-box">
-            <b>규칙 3-2번 상세 산출 내역 및 보정 합산:</b><br>
-            • <b>{home_team}:</b> 중요도 상(공격력 +{h_imp_atk}%, 방어력 {h_imp_def}%), 피로누적 {h_last_fatigue}단계(공격력 {h_fatigue_atk}%, 방어력 +{h_fatigue_def}%)<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {h_imp_atk + h_fatigue_atk:+d}%, 방어력 {h_imp_def + h_fatigue_def:+d}%<br><br>
-            • <b>{away_team}:</b> 중요도 상(공격력 +{a_imp_atk}%, 방어력 {a_imp_def}%), 피로누적 {a_last_fatigue}단계(공격력 {a_fatigue_atk}%, 방어력 +{a_fatigue_def}%)<br>
-              &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {a_imp_atk + a_fatigue_atk:+d}%, 방어력 {a_imp_def + a_fatigue_def:+d}%
-        </div>
-        """, unsafe_allow_html=True)
+st.markdown(f"""
+<div class="calc-box">
+    <b>규칙 3-2번 상세 산출 내역 및 보정 합산:</b><br>
+    • <b>{home_team}:</b> 중요도 상(공격력 +{h_imp_atk}%, 방어력 {h_imp_def}%), 피로누적 {h_last_fatigue}단계(공격력 {h_fatigue_atk}%, 방어력 +{h_fatigue_def}%)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {h_imp_atk + h_fatigue_atk:+d}%, 방어력 {h_imp_def + h_fatigue_def:+d}%<br><br>
+    • <b>{away_team}:</b> 중요도 상(공격력 +{a_imp_atk}%, 방어력 {a_imp_def}%), 피로누적 {a_last_fatigue}단계(공격력 {a_fatigue_atk}%, 방어력 +{a_fatigue_def}%)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {a_imp_atk + a_fatigue_atk:+d}%, 방어력 {a_imp_def + a_fatigue_def:+d}%
+</div>
+""", unsafe_allow_html=True)
 
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터(fixtures)가 아직 수집되지 않았습니다.")
