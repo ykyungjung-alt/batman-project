@@ -531,7 +531,7 @@ with tabs[1]:
 
 
 # ==========================================
-# 💡 규칙 2번 탭 (구장별 Shift 검증) - 골득실 수치 표기 포함
+# 💡 규칙 2번 탭 (구장별 Shift 검증) - 전적 요약 및 보정 평균 득실 표기 반영
 # ==========================================
 with tabs[2]:
     st.markdown(f"### [규칙 2번: 구장별 Shift 검증 및 환경 보정] - {home_team} vs {away_team}")
@@ -595,9 +595,9 @@ with tabs[2]:
             
         st.markdown(f"""<div class="calc-box">
             <b>{h_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
-            • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b><br>
-            • 구장 환경 체급: 공격 <b>{s_h_at}</b> / 방어 <b>{s_h_de}</b><br>
-            • 구장 전적 성향: <b>{s_h_rec}</b> (총 <b>{int(s_h_raw_s)}득점 / {int(s_h_raw_c)}실점</b>, 득실차: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
+            • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
+            • 보정 평균 득점: <b>{s_h_gpg:.2f}골/경기</b> / 평균 실점: <b>{s_h_cpg:.2f}골/경기</b><br>
+            • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{s_h_at}</b> / 방어 <b>{s_h_de}</b><br>
             • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{h_atk_shift_str}</b> / 방어 <b>{h_def_shift_str}</b>
         </div>""", unsafe_allow_html=True,
     )
@@ -613,9 +613,9 @@ with tabs[2]:
             
         st.markdown(f"""<div class="calc-box">
             <b>{a_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
-            • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b><br>
-            • 구장 환경 체급: 공격 <b>{s_a_at}</b> / 방어 <b>{s_a_de}</b><br>
-            • 구장 전적 성향: <b>{s_a_rec}</b> (총 <b>{int(s_a_raw_s)}득점 / {int(s_a_raw_c)}실점</b>, 득실차: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
+            • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
+            • 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> / 평균 실점: <b>{s_a_cpg:.2f}골/경기</b><br>
+            • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{s_a_at}</b> / 방어 <b>{s_a_de}</b><br>
             • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> / 방어 <b>{a_def_shift_str}</b>
         </div>""", unsafe_allow_html=True,
     )
