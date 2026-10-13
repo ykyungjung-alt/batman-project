@@ -740,59 +740,65 @@ with tabs[3]:
             future_fixtures = sorted(future_fixtures, key=lambda x: x[0])
 
             def process_parsed_list(sorted_items, is_future=True):
-                processed = []
-                cumulative_fatigue = 0
-                for diff_d, fix in sorted_items:
-                    # 4일 간격 규격 검증 (6일 이내 근접 경기 채택)
-                    if 0 < diff_d <= 9:
-                        match_time = fix.get("match_time", "")
-                        league_raw = fix.get("league", "")
-                        league_name = translate_tournament_code(league_raw)
-                        teams_str = fix.get("teams", "")
-                        
-                        parts = [p.strip() for p in teams_str.split("vs")]
-                        opp_name = "상대미상"
-                        loc_type = "원정"
-                        
-                        if len(parts) >= 3:
-                            team_a = parts[1]
-                            team_b = parts[2]
-                            if target_team_name in team_a:
-                                opp_name = team_b
-                                loc_type = "홈" if team_a == target_team_name else "원정"
-                            else:
-                                opp_name = team_a if target_team_name not in team_b else team_b
-                                loc_type = "원정"
-                        
-                        importance_label = "중요도중"
-                        imp_atk = 5
-                        imp_def = -5
-                        if any(k in league_name for k in ["챔피언스", "유로파", "결승", "컵", "강등", "예선"]):
-                            importance_label = "중요도상"
-                            imp_atk = 10
-                            imp_def = -10
-                        elif "친선" in league_name:
-                            importance_label = "중요도하"
-                            imp_atk = 0
-                            imp_def = 0
+    processed = []
+    cumulative_fatigue = 0
+    for diff_d, fix in sorted_items:
+        # 4일 간격 규격 검증 (9일 이내 근접 경기 채택)
+        if 0 < diff_d <= 9:
+            match_time = fix.get("match_time", "")
+            league_raw = fix.get("league", "")
+            league_name = translate_tournament_code(league_raw)
+            teams_str = fix.get("teams", "")
+            parts = [p.strip() for p in teams_str.split("vs")]
+            opp_name = "상대미상"
+            loc_type = "원정"
+            if len(parts) >= 3:
+                team_a = parts[1]
+                team_b = parts[2]
+                if target_team_name in team_a:
+                    opp_name = team_b
+                    loc_type = "홈" if team_a == target_team_name else "원정"
+                else:
+                    opp_name = team_a if target_team_name not in team_b else team_b
+                    loc_type = "원정"
+            else:
+                opp_name = team_a if target_team_name not in team_b else team_b
+                loc_type = "원정"
 
-                        if loc_type == "원정":
-                            cumulative_fatigue += 1
-                            fatigue_str = f"누적{cumulative_fatigue}"
-                        else:
-                            cumulative_fatigue = 0
-                            fatigue_str = "휴식/홈복귀(Reset)"
+            importance_label = "중요도중"
+            imp_atk = 5
+            imp_def = -5
+            if any(k in league_name for k in ["챔피언스", "유로파", "결승", "컵", "강등", "예선"]):
+                importance_label = "중요도상"
+                imp_atk = 10
+                imp_def = -10
+            elif "친선" in league_name:
+                importance_label = "중요도하"
+                imp_atk = 0
+                imp_def = 0
 
-                        date_short = match_time.split(" ")[0].replace("-", ".") if "-" in match_time else match_time
-                        row_desc = f"{date_short}/{opp_name}/{league_name}/{importance_label}/{loc_type}/{fatigue_str}"
-                        
-                        processed.append({
-                            "desc": row_desc,
-                            "imp_atk": imp_atk,
-                            "imp_def": imp_def,
-                            "fatigue_level": cumulative_fatigue if loc_type == "원정" else 0
-                        })
-                return processed
+            if is_future:
+                if loc_type == "원정":
+                    cumulative_fatigue += 1
+                    fatigue_str = f"누적 {cumulative_fatigue}"
+                else:
+                    cumulative_fatigue = 0
+                    fatigue_str = "휴식/홈복귀(Reset)"
+            else:
+                fatigue_str = "-"
+
+            date_short = match_time.split(" ")[0].replace("-", ".") if "-" in match_time else match_time
+            
+            # 💡 [핵심 수정] 날짜 및 상대팀명 아래로 리그명, 중요도, 홈/원정 여부가 줄바꿈(<br>)되어 들어가도록 구성
+            row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {importance_label} / {loc_type}"
+            
+            processed.append({
+                "desc": row_desc,
+                "imp_atk": imp_atk,
+                "imp_def": imp_def,
+                "fatigue_level": cumulative_fatigue if loc_type == "원정" else 0
+            })
+    return processed
 
             return process_parsed_list(past_fixtures, False), process_parsed_list(future_fixtures, True)
 
