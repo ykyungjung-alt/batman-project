@@ -452,10 +452,12 @@ with tabs[1]:
                 clean_date = mtime.split(" ")[0].replace("-", ".").replace("/", ".")
                 parts = clean_date.split(".")
                 if len(parts) == 3:
-                    if len(parts[0]) <= 2:  # MM.DD.YYYY 형태인 경우
-                        formatted_mtime = f"{parts[2]}.{parts[0].zfill(2)}.{parts[1].zfill(2)}"
-                    else:  # YYYY.MM.DD 형태인 경우
-                        formatted_mtime = f"{parts[0]}.{parts[1].zfill(2)}.{parts[2].zfill(2)}"
+                    # 예: 10.10.2026 (parts[0]=10(월), parts[1]=10(일), parts[2]=2026(연도))인 경우
+                    if len(parts[2]) == 4 and len(parts[0]) <= 2:
+                        mm = parts[0].zfill(2)
+                        dd = parts[1].zfill(2)
+                        yyyy = parts[2]
+                        formatted_mtime = f"{yyyy}.{mm}.{dd}"
             except Exception:
                 formatted_mtime = mtime
 
