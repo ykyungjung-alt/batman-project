@@ -322,17 +322,35 @@ with tabs[1]:
     })
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
-    # 💡 1. 사이드바 매치코드 및 팀명 기반으로 match_details_v3.json 데이터 정밀 탐색
+    # ==========================================
+    # 💡 [1단계 전용 정밀 매칭 및 데이터 추출 로직]
+    # ==========================================
     target_match_data = None
-    if match_code and match_code in all_details_dict:
-        target_match_data = all_details_dict[match_code]
-    else:
+    target_code = str(match_code).strip()
+    target_home = str(home_team).strip().replace(" ", "")
+    target_away = str(away_team).strip().replace(" ", "")
+
+    # 1순위: 매치코드로 직접 일치하는 상세 데이터 탐색
+    if target_code and target_code in all_details_dict:
+        target_match_data = all_details_dict[target_code]
+
+    # 2순위: 데이터 내부의 "match_code" 필드로 재탐색
+    if not target_match_data and target_code:
         for k, v in all_details_dict.items():
-            if str(v.get("home", "")).strip() == home_team.strip() and str(v.get("away", "")).strip() == away_team.strip():
+            if str(v.get("match_code", "")).strip() == target_code:
                 target_match_data = v
                 break
 
-    # 💡 2. 'recent_form' 키와 "form_title": "최근 전적" 조건의 명시적 검증 후 추출
+    # 3순위: 홈/원정 팀 이름 공백 제거 정밀 대조 (폴백)
+    if not target_match_data:
+        for k, v in all_details_dict.items():
+            v_home = str(v.get("home", "")).strip().replace(" ", "")
+            v_away = str(v.get("away", "")).strip().replace(" ", "")
+            if v_home == target_home and v_away == target_away:
+                target_match_data = v
+                break
+
+    # 'recent_form' 및 "form_title": "최근 전적" 조건 엄격 검증 후 싹 수집
     h_matches, a_matches = [], []
     h_team_name, a_team_name = home_team, away_team
 
@@ -340,7 +358,6 @@ with tabs[1]:
         meta_details = target_match_data.get("meta_details", {})
         recent_form_dict = meta_details.get("recent_form", {})
         
-        # 💡 "form_title": "최근 전적"이 일치하는지 엄격히 확인
         if recent_form_dict.get("form_title") == "최근 전적":
             h_team_name = recent_form_dict.get("home_team_name", home_team).strip()
             h_matches = recent_form_dict.get("home_matches", [])[:7]
@@ -363,7 +380,7 @@ with tabs[1]:
         elif c < 1.7: return "Tier D"
         else: return "Tier E"
 
-    # 💡 3. 최근 전적 로그 전용 표 생성 및 득실/상대 티어 매칭 함수
+    # 최근 전적 로그 전용 표 생성 및 득실/상대 티어 매칭 함수
     def build_recent_form_dataframe(matches, target_team):
         if not matches:
             return pd.DataFrame(), 0.0, 0.0, "0전 0승 0무 0패"
