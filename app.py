@@ -531,15 +531,15 @@ with tabs[1]:
 
 
 # ==========================================
-# 💡 규칙 2번 탭 (구장별 Shift 검증 및 1단계 티어 연동 대조)
+# 💡 규칙 2번 탭 (구장별 Shift 검증 및 1단계 티어 연동 보정) - 단독 적용
 # ==========================================
 with tabs[2]:
     st.markdown(f"### [규칙 2번: 구장별 Shift 검증 및 환경 보정] - {home_team} vs {away_team}")
     st.markdown("""
         <div class="step-box">
             <b>📌 규격 원칙 및 요약 설명:</b><br>
-            • <b>구장별 전적(Stadium Form) 분석:</b> 홈팀의 홈 경기 구장 데이터 및 원정팀의 원정 경기 구장 데이터를 독립적으로 추출합니다.<br>
-            • <b>1단계 티어 연동 대조:</b> 1단계에서 산출된 양 팀의 종합 공수 티어와 구장별 전적에서 나타나는 티어를 상호 대조하여 구장 환경에 따른 티어 변동 여부를 검증합니다.
+            • <b>구장별 전적(Stadium Form) 분석:</b> 홈팀의 홈 경기 구장 및 원정팀의 원정 경기 구장 데이터를 독립적으로 추출합니다.<br>
+            • <b>1단계 티어 대조 및 Shift 보정치:</b> 1단계 종합 티어와 구장별 티어를 비교하여 상승(+15% / -15%), 하락(-15% / +15%), 유지(0%) 보정치를 적용합니다.
         </div>
         """, unsafe_allow_html=True,
     )
@@ -548,55 +548,79 @@ with tabs[2]:
         s_home_matches = stadium_form.get("home_matches", [])[:10]
         s_away_matches = stadium_form.get("away_matches", [])[:10]
 
-        # 1단계의 티어 판정 기준을 2단계 구장 분석에도 동일하게 연동
         s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패")
         s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패")
 
+        # 구장 전적 기반 공수 티어 산출
         s_h_at, s_h_atw = atk_tier(s_h_gpg)
         s_h_de, s_h_dew = def_tier(s_h_cpg)
         s_a_at, s_a_atw = atk_tier(s_a_gpg)
         s_a_de, s_a_dew = def_tier(s_a_cpg)
 
-        # 1단계 종합 티어와 2단계 구장별 티어 간의 변동 비교를 위한 안전 확보
-        base_h_at = h_at if 'h_at' in locals() else "정보 없음"
-        base_h_de = h_de if 'h_de' in locals() else "정보 없음"
-        base_a_at = a_at if 'a_at' in locals() else "정보 없음"
-        base_a_de = a_de if 'a_de' in locals() else "정보 없음"
+        # 1단계 종합 티어 가져오기 (없을 경우 기본값 C티어)
+        base_h_at = h_at if 'h_at' in locals() else "Tier C"
+        base_h_de = h_de if 'h_de' in locals() else "Tier C"
+        base_a_at = a_at if 'a_at' in locals() else "Tier C"
+        base_a_de = a_de if 'a_de' in locals() else "Tier C"
+
+        # 💡 [2단계 전용] 규격서 기준 Shift 보정치 판정 함수 (상승/하락/유지)
+        def get_shift_correction(base_tier, stadium_tier, is_attack=True):
+            tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
+            b_val = tier_ranks.get(base_tier, 3)
+            s_val = tier_ranks.get(stadium_tier, 3)
+            
+            if is_attack:
+                if s_val > b_val: return "+15%", 15.0, "상승 (+15%)"
+                elif s_val < b_val: return "-15%", -15.0, "하락 (-15%)"
+                else: return "0%", 0.0, "유지 (0%)"
+            else:
+                # 방어력: 등급이 낮아지면(숫자 감소) 실점 증가(수비 불안), 높아지면 실점 감소(수비 안정)
+                if s_val < b_val: return "+15%", 15.0, "하락/불안 (+15%)"
+                elif s_val > b_val: return "-15%", -15.0, "상승/안정 (-15%)"
+                else: return "0%", 0.0, "유지 (0%)"
+
+        # 홈 팀 Shift 판정
+        h_atk_shift_str, h_atk_val, h_atk_desc = get_shift_correction(base_h_at, s_h_at, is_attack=True)
+        h_def_shift_str, h_def_val, h_def_desc = get_shift_correction(base_h_de, s_h_de, is_attack=False)
+
+        # 원정 팀 Shift 판정
+        a_atk_shift_str, a_atk_val, a_atk_desc = get_shift_correction(base_a_at, s_a_at, is_attack=True)
+        a_def_shift_str, a_def_val, a_def_desc = get_shift_correction(base_a_de, s_a_de, is_attack=False)
 
         s_h_diff = s_h_raw_s - s_h_raw_c
         s_a_diff = s_a_raw_s - s_a_raw_c
 
-        # 홈 팀 구장별 출력
-        st.markdown(f"#### 홈 팀 ({h_name}) 구장별 전적 및 1단계 티어 연동 대조 표")
+        # --- 홈 팀 렌더링 ---
+        st.markdown(f"#### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증")
         if not s_h_df.empty:
             st.dataframe(s_h_df, use_container_width=True, hide_index=True)
         else:
             st.info("📋 구장별 상세 전적 데이터 없음")
             
         st.markdown(f"""<div class="calc-box">
-            <b>{h_name} 규칙 2번(구장별) 티어 변동 분석 내역</b><br>
-            • 종합 1단계 공수 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b><br>
-            • 구장 한정 공수 체급: 공격 <b>{s_h_at} ({s_h_atw})</b> / 방어 <b>{s_h_de} ({s_h_dew})</b><br>
+            <b>{h_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
+            • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b><br>
+            • 구장 환경 체급: 공격 <b>{s_h_at}</b> / 방어 <b>{s_h_de}</b><br>
             • 구장 전적 성향: <b>{s_h_rec}</b> (득실차: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
-            • <b>티어 변동 진단:</b> 종합 체급 대비 구장 환경 내 화력 및 수비력 Shift 변동성 반영 완료
+            • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{h_atk_shift_str}</b> ({h_atk_desc}) / 방어 <b>{h_def_shift_str}</b> ({h_def_desc})
         </div>""", unsafe_allow_html=True,
     )
 
         st.markdown("---")
 
-        # 원정 팀 구장별 출력
-        st.markdown(f"#### 원정 팀 ({a_name}) 구장별 전적 및 1단계 티어 연동 대조 표")
+        # --- 원정 팀 렌더링 ---
+        st.markdown(f"#### 원정 팀 ({a_name}) 구장별 전적 및 티어 변동 검증")
         if not s_a_df.empty:
             st.dataframe(s_a_df, use_container_width=True, hide_index=True)
         else:
             st.info("📋 구장별 상세 전적 데이터 없음")
             
         st.markdown(f"""<div class="calc-box">
-            <b>{a_name} 규칙 2번(구장별) 티어 변동 분석 내역</b><br>
-            • 종합 1단계 공수 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b><br>
-            • 구장 한정 공수 체급: 공격 <b>{s_a_at} ({s_a_atw})</b> / 방어 <b>{s_a_de} ({s_a_dew})</b><br>
+            <b>{a_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
+            • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b><br>
+            • 구장 환경 체급: 공격 <b>{s_a_at}</b> / 방어 <b>{s_a_de}</b><br>
             • 구장 전적 성향: <b>{s_a_rec}</b> (득실차: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
-            • <b>티어 변동 진단:</b> 원정 구장 환경 Shift에 따른 공수 체급 증감 프로토콜 적용 완료
+            • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> ({a_atk_desc}) / 방어 <b>{a_def_shift_str}</b> ({a_def_desc})
         </div>""", unsafe_allow_html=True,
     )
     else:
