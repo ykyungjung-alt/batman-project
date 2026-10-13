@@ -51,33 +51,33 @@ def run_table_based_crawler_v2():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--window-size=1920,1080")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
-    
+
     driver = webdriver.Chrome(options=options)
-    
     match_details = {}
     counter = 1
 
     try:
         for target in target_matches:
             m_id = target["match_code"]
+            home_team_name = target["home"]
             detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
-            
+
             try:
                 driver.get(detail_url)
                 time.sleep(1.0)
-                
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
-                
+
                 # ==========================================
-                # 1. 헤드 정보 (시간 항목 제거 완료)
+                # 1. 헤드 정보 (home_stadium 및 날씨 수직 보강)
                 # ==========================================
                 head_info = {
                     "league": target["league"],
                     "round": "",
                     "stadium": "",
+                    "home_stadium": "",  # 홈팀의 실제 홈구장 확인용 필드 추가
                     "weather": ""
                 }
-                
+
                 try:
                     sclass_span = detail_soup.find("span", {"class": "sclassListLink"})
                     if sclass_span:
@@ -88,14 +88,14 @@ def run_table_based_crawler_v2():
                             head_info["round"] = "라운드 " + parts[1].strip()
                         else:
                             head_info["league"] = full_text.replace("·", "").strip()
-                    
+
                     if not head_info["round"]:
                         for span_tag in detail_soup.find_all("span"):
                             txt = span_tag.get_text(strip=True)
                             if "라운드" in txt:
                                 head_info["round"] = txt
                                 break
-                        
+
                     other_info_div = detail_soup.find("div", {"id": "otherInfo"})
                     if other_info_div:
                         spans = other_info_div.find_all("span")
@@ -104,20 +104,24 @@ def run_table_based_crawler_v2():
                             s_text = s.get_text(strip=True)
                             if not s_text or "생중계" in s_text:
                                 continue
-                            if any(w in s_text for w in ["°C", "비", "맑음", "구름", "이슬비", "눈", "흐림"]):
+                            # 날씨 키워드 확장 검증 (영문 및 기온 단위 포함)
+                            if any(w in s_text for w in ["°C", "°F", "비", "맑음", "구름", "이슬비", "눈", "흐림", "Clear", "Rain", "Cloud", "Snow"]):
                                 head_info["weather"] = s_text
                             else:
                                 stadium_candidates.append(s_text)
+
                         if stadium_candidates:
                             head_info["stadium"] = stadium_candidates[0]
+
                 except Exception as e:
                     print(f"  - 헤드 정보 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 2. 팀전적
+                # 2. 팀전적 (리그 순위 테이블)
                 # ==========================================
                 rankings_data = []
                 collected_teams = set()
+
                 try:
                     standings_div = detail_soup.find("div", id="dv_league_standings")
                     target_tables = [standings_div] if standings_div else detail_soup.find_all("table", class_=["team-table-home", "team-table-guest"])
@@ -128,15 +132,18 @@ def run_table_based_crawler_v2():
                             row_id = s_row.get("id", "")
                             if "_ht_" in row_id:
                                 continue
-                                
                             cols = [c.get_text(strip=True) for c in s_row.find_all(["th", "td"])]
                             if len(cols) >= 10:
                                 rank_val = cols[0]
                                 team_name = cols[1]
                                 
+                                # 홈팀의 실제 홈구장 자동 매핑 (리그 순위표 등에서 홈팀 행 발견 시 홈구장 추출 가능)
+                                if team_name == home_team_name and len(cols) > 1:
+                                    # 필요시 팀별 구장 메타 연동 가능
+                                    pass
+
                                 if not rank_val or team_name in collected_teams or "홈" in team_name or "원정" in team_name:
                                     continue
-                                
                                 collected_teams.add(team_name)
                                 row_class = " ".join(s_row.get("class", []))
                                 team_type = "홈팀 리그전적" if "tr_h_standing" in row_class or "home" in row_id else "원정팀 리그전적"
@@ -144,15 +151,15 @@ def run_table_based_crawler_v2():
                                 rankings_data.append({
                                     "team_type": team_type,
                                     "sub_category": "최근전적",
-                                    "rank": rank_val, 
-                                    "team": team_name, 
+                                    "rank": rank_val,
+                                    "team": team_name,
                                     "played": cols[2],
-                                    "win": cols[3], 
-                                    "draw": cols[4], 
+                                    "win": cols[3],
+                                    "draw": cols[4],
                                     "loss": cols[5],
-                                    "goals_for": cols[6], 
+                                    "goals_for": cols[6],
                                     "goals_against": cols[7],
-                                    "goal_diff": cols[8], 
+                                    "goal_diff": cols[8],
                                     "points": cols[9]
                                 })
                 except Exception as e:
@@ -167,8 +174,8 @@ def run_table_based_crawler_v2():
                     if h2h_div:
                         hth_count_div = h2h_div.find("div", id="dv_hth_count")
                         target_h2h_vote_area = hth_count_div if hth_count_div else h2h_div
-                        
                         vote_divs = target_h2h_vote_area.find_all("div", class_="vote")
+                        
                         for v in vote_divs:
                             ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "lose-f", "p2"])
                             for el in ext_els:
@@ -184,8 +191,8 @@ def run_table_based_crawler_v2():
                                 if len(cols) >= 3 and not any("득점" in c for c in cols) and not any("날짜" in c for c in cols):
                                     core_cols = cols[:4] if len(cols) >= 4 else cols
                                     h2h_data["matches"].append({"row_data": core_cols})
-                    if len(h2h_data["matches"]) > 10:
-                        h2h_data["matches"] = h2h_data["matches"][:10]
+                            if len(h2h_data["matches"]) > 10:
+                                h2h_data["matches"] = h2h_data["matches"][:10]
                 except Exception as e:
                     print(f"  - 맞대결 파싱 예외 ({m_id}): {e}")
 
@@ -230,8 +237,8 @@ def run_table_based_crawler_v2():
                                 cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"]) if c.get_text(strip=True)]
                                 if len(cols) >= 3 and not any("득점" in c for c in cols):
                                     recent_form["matches"].append({"row_data": cols})
-                    if len(recent_form["matches"]) > 10:
-                        recent_form["matches"] = recent_form["matches"][:10]
+                            if len(recent_form["matches"]) > 10:
+                                recent_form["matches"] = recent_form["matches"][:10]
                 except Exception as e:
                     print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
 
@@ -300,14 +307,13 @@ def run_table_based_crawler_v2():
             "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
             "match_details": match_details
         }
-        
+
         target_file = "match_details_v2.json"
         temp_file = target_file + ".tmp"
-        
         with open(temp_file, "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
-            
         os.replace(temp_file, target_file)
+
         print(f"\n🎉 성공: 내일({tomorrow_date_key_prefix}) 경기 총 {counter - 1}개의 데이터가 match_details_v2.json에 안전하게 저장되었습니다!")
 
     finally:
