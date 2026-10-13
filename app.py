@@ -738,19 +738,19 @@ with tabs[3]:
     })
     st.dataframe(table_3_1_jpn, use_container_width=True, hide_index=True)
 
-# --- [규칙 3-2번 영역: 일정 및 이동 피로도] ---
-st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
-st.markdown("""
-<div class="step-box">
+    # --- [규칙 3-2번 영역: 일정 및 이동 피로도] ---
+    st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
+    st.markdown("""
+    <div class="step-box">
     <b>📌 규칙 3-2번 규격 원칙 및 요약 설명:</b><br>
     • <b>타임라인 연동 원칙:</b> 1단계(최근 전적)의 실전 경기 로그 데이터를 직접 대조하여 기준일 대비 3일 이내 과거 경기를 정밀 탐색하여 연동합니다.<br>
     • <b>타임라인 정렬 순서:</b> <code>3일이내(과거)</code> ➔ <code>해당경기</code> ➔ <code>향후 3일이내</code> ➔ <code>향후 6일이내</code> ➔ <code>향후 9일이내</code> 순으로 전개됩니다.<br>
     • <b>이동 피로도 룰:</b> 원정 경기마다 누적되며, 원정에서 홈 복귀 또는 휴식 시 <b>0%로 Reset</b>됩니다. 단계마다 <b>공격 -5%, 방어 +5%</b>가 누적 적용됩니다.<br>
     • <b>경기 중요도 가중치 (부호 대칭):</b> 상(공+10%, 방-10%), 중(공+5%, 방-5%), 하(0%)
-</div>
-""", unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
 
-if has_detailed_data:
+    if has_detailed_data:
     meta_details = detailed_info.get("meta_details", {})
     fixtures_info = meta_details.get("fixtures", {})
     home_fixtures = fixtures_info.get("home", [])
@@ -964,7 +964,7 @@ if has_detailed_data:
         &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {a_imp_atk + a_fatigue_atk:+d}%, 방어력 {a_imp_def + a_fatigue_def:+d}%
     </div>
     """, unsafe_allow_html=True)
-else:
+    else:
     st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터(fixtures)가 아직 수집되지 않았습니다.")
     st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, 일정 누수 및 피로도 산출 내역을 표시할 수 없습니다.")
 
