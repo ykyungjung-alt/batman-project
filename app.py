@@ -554,10 +554,10 @@ with tabs[2]:
         
         if stadium_form_dict.get("form_title") == "구장별 전적":
             s_home_team_name = stadium_form_dict.get("home_team_name", home_team).strip()
-            s_home_matches = stadium_form_dict.get("home_matches", [])[:10]  # 구장 전적은 최대 10경기 반영
+            s_home_matches = stadium_form_dict.get("home_matches", [])[:10]  # 최대 10경기
             
             s_away_team_name = stadium_form_dict.get("away_team_name", away_team).strip()
-            s_away_matches = stadium_form_dict.get("away_matches", [])[:10]
+            s_away_matches = stadium_form_dict.get("away_matches", [])[:10]  # 최대 10경기
 
     # 공수 수치 기반 티어 판별 함수
     def get_attack_tier_name(g):
