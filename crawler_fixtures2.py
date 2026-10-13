@@ -344,4 +344,10 @@ def run_table_based_crawler_v2():
             json.dump(output_data, f, ensure_ascii=False, indent=4)
         os.replace(temp_file, target_file)
 
-        print(f"\n🎉 성공: 내일({tomorrow_date
+        print(f"\n🎉 성공: 내일({tomorrow_date_key_prefix}) 경기 총 {counter - 1}개의 데이터가 match_details_v2.json에 안전하게 저장되었습니다!")
+
+    finally:
+        driver.quit()
+
+if __name__ == "__main__":
+    run_table_based_crawler_v2()
