@@ -769,12 +769,12 @@ with tabs[3]:
         st.markdown(f"##### 표 3-2: {home_team} vs {away_team} 일정 및 피로도·중요도 매트릭스")
         
         def parse_chronological_timeline_4days(fix_list, target_team_name, base_match_date):
-        base_dt = None
-        try:
-            base_clean = base_match_date.split(" ")[0].replace(".", "-")
-            base_dt = datetime.strptime(base_clean[:10], "%Y-%m-%d")
-        except Exception:
-            pass
+            base_dt = None
+            try:
+                base_clean = base_match_date.split(" ")[0].replace(".", "-")
+                base_dt = datetime.strptime(base_clean[:10], "%Y-%m-%d")
+            except Exception:
+                pass
             
         past_fixtures = []
         future_fixtures = []
