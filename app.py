@@ -1061,25 +1061,22 @@ with tabs[4]:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (3~4일 이후 경기 등)")
         st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, H2H 상대전적 상성 산출 내역을 표시할 수 없습니다.")
 
-# 규칙 4번 최종 계산 결과 변수 명시적 할당 (5-1 표 연동용)
-        global r4_home_atk, r4_home_def, r4_away_atk, r4_away_def
-        
-        # 데렌(홈팀) 승률이 50% 이상이므로 우세 보정 부여 (+10% / -10%)
-        # 칸쿤스-에르침(원정팀)은 열세이므로 0.0% 고정
-        if home_win_rate >= 50.0:
-            r4_home_atk = 10.0
-            r4_home_def = -10.0
-        else:
-            r4_home_atk = 0.0
-            r4_home_def = 0.0
+# 4단계 하단에 있는 기존 변수 할당부를 아래 코드로 교체
+global h_r4_atk_val, h_r4_def_val, a_r4_atk_val, a_r4_def_val
 
-        if away_win_rate >= 50.0:
-            r4_away_atk = 10.0
-            r4_away_def = -10.0
-        else:
-            r4_away_atk = 0.0
-            r4_away_def = 0.0
+if home_win_rate >= 50.0:
+    h_r4_atk_val = 10.0
+    h_r4_def_val = -10.0
+else:
+    h_r4_atk_val = 0.0
+    h_r4_def_val = 0.0
 
+if away_win_rate >= 50.0:
+    a_r4_atk_val = 10.0
+    a_r4_def_val = -10.0
+else:
+    a_r4_atk_val = 0.0
+    a_r4_def_val = 0.0
 
 # ========================================== #
 # 💡 규칙 5번 탭 (5-1 표: 최종 보정 득실점 산출 매트릭스) - 에러 방어 완벽 반영본 #
