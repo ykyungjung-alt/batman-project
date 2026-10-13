@@ -768,7 +768,10 @@ with tabs[3]:
         
         st.markdown(f"##### 표 3-2: {home_team} vs {away_team} 일정 및 피로도·중요도 매트릭스")
         
-def parse_chronological_timeline_4days(fix_list, target_team_name, base_match_date):
+# ==========================================
+    # 3단계: 일정 이동피로도 및 중요도 판단 함수
+    # ==========================================
+    def parse_chronological_timeline_4days(fix_list, target_team_name, base_match_date):
         base_dt = None
         try:
             base_clean = base_match_date.split(" ")[0].replace(".", "-")
@@ -888,9 +891,9 @@ def parse_chronological_timeline_4days(fix_list, target_team_name, base_match_da
     date_str_short = match_date.split()[0].replace("-", ".") if "-" in match_date else match_date
     home_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 홈"
     away_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 원정"
-        
-        h_last_fatigue = home_future[-1]["fatigue_level"] if home_future else (home_past[-1]["fatigue_level"] if home_past else 0)
-        a_last_fatigue = away_future[-1]["fatigue_level"] if away_future else (away_past[-1]["fatigue_level"] if away_past else 0)
+
+    h_last_fatigue = home_future[-1]["fatigue_level"] if home_future else (home_past[-1]["fatigue_level"] if 'home_past' in locals() and home_past else 0)
+    a_last_fatigue = away_future[-1]["fatigue_level"] if away_future else (away_past[-1]["fatigue_level"] if 'away_past' in locals() and away_past else 0)
         
         # 💡 HTML 기반 표 렌더링 (가로 스크롤 및 마우스 드래그/크기 조절 유사 환경 제공)
         timeline_table_html = f"""
