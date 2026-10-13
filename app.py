@@ -299,19 +299,16 @@ with tabs[0]:
         tournament_display = tournament_name
         stadium_info = "데이터 없음"
 
-    # 1. 기본 메타 테이블 표시 (HTML 렌더링을 위해 st.markdown 또는 st.table 활용)
-    meta_df_data = {
-    "메타 항목": ["대회 성격", "대진 매치", "개최 구장 및 홈구장 검증", "데이터 상태 검증"],
-    "고정 값 (SSOT)": [
-        tournament_display,
-        f"{home_team} vs {away_team}",          # 🟢 올바른 변수명으로 변경
-        stadium_info,
-        meta_status
-    ]
-}
-    
-    # 구장 배지의 HTML 태그가 깨지지 않도록 data_editor 또는 st.markdown 활용 권장
-    st.table(meta_df_data)
+    # 💡 [핵심 수정] HTML 배지가 깨지지 않고 시각적으로 렌더링되도록 st.markdown 마크다운 테이블 활용
+    meta_markdown_table = f"""
+| 메타 항목 | 고정 값 (SSOT) |
+| :--- | :--- |
+| **대회 성격** | {tournament_display} |
+| **대진 매치** | {home_team} vs {away_team} |
+| **개최 구장 및 홈구장 검증** | {stadium_info} |
+| **데이터 상태 검증** | {meta_status} |
+"""
+    st.markdown(meta_markdown_table, unsafe_allow_html=True)
 # ==========================================
 # 💡 규칙 1번 탭 (v3 데이터 전용 단독 연동 및 10경기 전수 + E티어 50% 할인)
 # ==========================================
