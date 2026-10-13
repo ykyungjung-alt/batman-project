@@ -22,9 +22,14 @@ def load_match_data():
 # 💡 날짜 고정 없이, 시스템에 존재하는 모든 상세 데이터 파일(match_details.json, v2 등)을 유연하게 통합 탐색
 @st.cache_data(ttl=10)
 def load_all_match_details():
-    target_files = ["match_details.json", "match_details_v2.json"]
+    # 💡 v3, v4 상세 데이터 파일 경로 추가 통합
+    target_files = [
+        "match_details.json", 
+        "match_details_v2.json", 
+        "match_details_v3.json", 
+        "match_details_v4.json"
+    ]
     combined_details = {}
-    
     for t_file in target_files:
         if os.path.exists(t_file):
             try:
@@ -36,7 +41,6 @@ def load_all_match_details():
                             combined_details[k] = v
             except Exception:
                 pass
-                
     return combined_details
 
 data = load_match_data()
