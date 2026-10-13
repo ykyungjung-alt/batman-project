@@ -47,7 +47,6 @@ def run_table_based_crawler():
     try:
         for target in target_matches:
             m_id = target["match_code"]
-            # 💡 [핵심 수정] 32match -> 28match로 올바른 상세 페이지 경로 수정
             detail_url = f"https://www.scoreman123.com/match/data-{m_id}"
 
             try:
@@ -56,13 +55,15 @@ def run_table_based_crawler():
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
 
                 # ==========================================
-                # 1. 헤드 정보 (stadium, home_stadium, weather 수집)
+                # 1. 헤드 정보 (stadium, home_stadium, match_time, weather 수집)
                 # ==========================================
                 head_info = {
                     "league": target["league"],
                     "round": "",
+                    "match_time_raw": "",
+                    "match_time_display": "",
                     "stadium": "",
-                    "home_stadium": "",  # 홈팀 실제 홈구장 수집 필드
+                    "home_stadium": "",
                     "weather": ""
                 }
 
@@ -83,6 +84,15 @@ def run_table_based_crawler():
                             if "라운드" in txt:
                                 head_info["round"] = txt
                                 break
+
+                    # 💡 경기 시간 정보(match_time_raw, match_time_display) 수집 복구
+                    time_span = detail_soup.find("span", {"name": "timeData"})
+                    if time_span:
+                        if time_span.has_attr("data-t"):
+                            head_info["match_time_raw"] = time_span["data-t"]
+                        disp_text = time_span.get_text(strip=True)
+                        if disp_text:
+                            head_info["match_time_display"] = disp_text
 
                     other_info_div = detail_soup.find("div", {"id": "otherInfo"})
                     if other_info_div:
@@ -186,12 +196,11 @@ def run_table_based_crawler():
                         vote_divs = target_h2h_vote_area.find_all("div", class_="vote")
                         
                         for v in vote_divs:
-                            ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "lose-f", "p2"])
+                            ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "lose-f"])
                             for el in ext_els:
                                 summary_text = el.get_text(strip=True)
-                                if summary_text and not any(k in summary_text for k in ["핸디캡", "언오버"]):
-                                    if summary_text not in h2h_data["summary"]:
-                                        h2h_data["summary"].append(summary_text)
+                                if summary_text and summary_text not in h2h_data["summary"]:
+                                    h2h_data["summary"].append(summary_text)
 
                         h_table = h2h_div.find_next("table")
                         if h_table:
@@ -252,7 +261,35 @@ def run_table_based_crawler():
                     print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
 
                 # ==========================================
-                # 5. 경기 일정
+                # 5. 라인업 및 성향 지표
+                # ==========================================
+                lineup_data = {"home": [], "away": []}
+                try:
+                    lineup_boxes = detail_soup.find_all("div", class_=["lineupbox", "lineupis", "tacticsbox"])
+                    for l_box in lineup_boxes:
+                        home_side = l_box.find("div", class_=["home", "left-side"])
+                        if home_side:
+                            items = home_side.find_all(["div", "li", "span"], class_=["player", "item", "val"])
+                            for item in items:
+                                text = item.get_text(strip=True)
+                                if text and text not in lineup_data["home"]:
+                                    lineup_data["home"].append(text)
+                        guest_side = l_box.find("div", class_=["guest", "right-side"])
+                        if guest_side:
+                            items = guest_side.find_all(["div", "li", "span"], class_=["player", "item", "val"])
+                            for item in items:
+                                text = item.get_text(strip=True)
+                                if text and text not in lineup_data["away"]:
+                                    lineup_data["away"].append(text)
+                    if len(lineup_data["home"]) > 6:
+                        lineup_data["home"] = lineup_data["home"][:6]
+                    if len(lineup_data["away"]) > 6:
+                        lineup_data["away"] = lineup_data["away"][:6]
+                except Exception as e:
+                    print(f"  - 라인업 성향 파싱 예외 ({m_id}): {e}")
+
+                # ==========================================
+                # 6. 경기 일정
                 # ==========================================
                 fixtures_data = {"home": [], "away": []}
                 try:
@@ -303,6 +340,7 @@ def run_table_based_crawler():
                         "rankings": rankings_data,
                         "recent_form": recent_form,
                         "h2h": h2h_data,
+                        "lineup_summary": lineup_data,
                         "fixtures": fixtures_data
                     }
                 }
