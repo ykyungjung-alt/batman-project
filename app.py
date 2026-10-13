@@ -291,7 +291,8 @@ with tabs[1]:
             • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 공식 경기만을 채택합니다.<br>
             • <b>특수 룰:</b> E티어 상대 득점 50% 할인 및 경고등 발동 프로토콜을 적용합니다.
         </div>
-        """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True,
+    )
         
     tier_weight_df = pd.DataFrame({
         "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
@@ -302,16 +303,33 @@ with tabs[1]:
     })
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
 
-    # 데이터 추출
+    # 데이터 추출 (match_details_v3.json 기반)
     meta_details = detailed_info.get("meta_details", {})
     recent_form = meta_details.get("recent_form", {})
     
+    # 💡 홈팀/원정팀 이름 명확히 분리 매칭
     h_team_name = recent_form.get("home_team_name", home_team)
     h_matches = recent_form.get("home_matches", [])[:7]
+    
     a_team_name = recent_form.get("away_team_name", away_team)
     a_matches = recent_form.get("away_matches", [])[:7]
 
-    # 팀 스탯 및 표 데이터 생성 함수
+    # 티어 판별 함수
+    def get_attack_tier_name(g):
+        if g >= 2.3: return "Tier A"
+        elif g >= 1.7: return "Tier B"
+        elif g >= 1.1: return "Tier C"
+        elif g >= 0.5: return "Tier D"
+        else: return "Tier E"
+
+    def get_defense_tier_name(c):
+        if c < 0.5: return "Tier A"
+        elif c < 0.9: return "Tier B"
+        elif c < 1.3: return "Tier C"
+        elif c < 1.7: return "Tier D"
+        else: return "Tier E"
+
+    # 팀 스탯 및 표 데이터 생성 함수 (opponent_tier_info 연동)
     def build_team_form_dataframe(matches, team_name):
         if not matches:
             return pd.DataFrame(), 0.0, 0.0, "0전 0승 0무 0패"
@@ -325,6 +343,7 @@ with tabs[1]:
             match_time = m.get("match_time", "-")
             teams = m.get("teams", "-")
             scores = m.get("ft_scores", ["0", "0"])
+            opp_tier_info = m.get("opponent_tier_info", "0.00/0.00")
             
             try:
                 score_a = int(scores[0])
@@ -357,6 +376,17 @@ with tabs[1]:
                 res = "패"
                 losses += 1
                 
+            # 💡 opponent_tier_info ("1.80/1.50") 파싱하여 공수 티어로 매핑
+            try:
+                opp_parts = opp_tier_info.split("/")
+                opp_atk_val = float(opp_parts[0])
+                opp_def_val = float(opp_parts[1])
+                opp_atk_tier = get_attack_tier_name(opp_atk_val)
+                opp_def_tier = get_defense_tier_name(opp_def_val)
+                tier_display = f"공격 {opp_atk_tier} ({opp_atk_val}) / 방어 {opp_def_tier} ({opp_def_val})"
+            except:
+                tier_display = f"정보 없음 ({opp_tier_info})"
+                
             seq_label = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
             table_rows.append({
                 "LIFO 순서": seq_label,
@@ -365,7 +395,7 @@ with tabs[1]:
                 "대진": teams,
                 "스코어": f"{score_a} : {score_b}",
                 "결과": res,
-                "득/실": f"{scored}득 {conceded}실"
+                "상대 공수 티어 산출": tier_display
             })
             
         count = len(matches)
@@ -377,7 +407,7 @@ with tabs[1]:
     h_df, h_gpg, h_cpg, h_rec = build_team_form_dataframe(h_matches, h_team_name)
     a_df, a_gpg, a_cpg, a_rec = build_team_form_dataframe(a_matches, a_team_name)
 
-    # 티어 판별 함수
+    # 전체 체급 판별 함수
     def get_attack_tier(g):
         if g >= 2.3: return "Tier A", "+8.0%"
         elif g >= 1.7: return "Tier B", "+6.0%"
@@ -398,7 +428,7 @@ with tabs[1]:
     a_at_tier, a_at_weight = get_attack_tier(a_gpg)
     a_df_tier, a_df_weight = get_defense_tier(a_cpg)
         
-    st.markdown(f"#### 예시표 1-1: 홈 팀 ({home_team}) 최근 7경기 전수 LIFO 대조 표")
+    st.markdown(f"#### 예시표 1-1: 홈 팀 ({h_team_name}) 최근 7경기 전수 LIFO 및 상대 티어 대조 표")
     if not h_df.empty:
         st.dataframe(h_df, use_container_width=True, hide_index=True)
     else:
@@ -406,7 +436,7 @@ with tabs[1]:
         
     st.markdown(
         f"""<div class="calc-box">
-            <b>{home_team} 규칙 1번 상세 산출 내역:</b><br>
+            <b>{h_team_name} 규칙 1번 상세 산출 내역:</b><br>
             • 최근 전적 성향: <b>{h_rec}</b><br>
             • 수집된 지표: 평균 득점 <b>{h_gpg:.2f}</b> / 평균 실점 <b>{h_cpg:.2f}</b><br>
             • 정량 공식 대조 체급: <b>공격력 {h_at_tier}, 방어력 {h_df_tier}</b><br>
@@ -416,7 +446,7 @@ with tabs[1]:
     )
     
     st.markdown("---")
-    st.markdown(f"#### 예시표 1-2: 원정 팀 ({away_team}) 최근 7경기 전수 LIFO 대조 표")
+    st.markdown(f"#### 예시표 1-2: 원정 팀 ({a_team_name}) 최근 7경기 전수 LIFO 및 상대 티어 대조 표")
     if not a_df.empty:
         st.dataframe(a_df, use_container_width=True, hide_index=True)
     else:
@@ -424,7 +454,7 @@ with tabs[1]:
         
     st.markdown(
         f"""<div class="calc-box">
-            <b>{away_team} 규칙 1번 상세 산출 내역:</b><br>
+            <b>{a_team_name} 규칙 1번 상세 산출 내역:</b><br>
             • 최근 전적 성향: <b>{a_rec}</b><br>
             • 수집된 지표: 평균 득점 <b>{a_gpg:.2f}</b> / 평균 실점 <b>{a_cpg:.2f}</b><br>
             • 정량 공식 대조 체급: <b>공격력 {a_at_tier}, 방어력 {a_df_tier}</b><br>
