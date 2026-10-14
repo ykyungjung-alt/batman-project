@@ -583,6 +583,9 @@ with tabs[2]:
     </div>
     """, unsafe_allow_html=True)
 
+    # 💡 [핵심 해결] tier_ranks 딕셔너리를 함수 호출 전에 미리 안전하게 정의합니다.
+    tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
+
     if has_detailed_data:
         # 0단계 메타데이터에서 구장 정보 안전 추출
         head_meta = detailed_info.get("head_info", {}) if 'detailed_info' in locals() else {}
