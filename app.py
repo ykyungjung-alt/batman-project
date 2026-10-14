@@ -564,36 +564,39 @@ with tabs[1]:
 
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (구장 Shift 및 홈/중립 판정 명시 연동)
+# 💡 규칙 2번 탭 (0단계 구장 메타 연동 및 홈/중립 판정 가시화)
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
     
+    # 0단계 메타데이터(head_info 또는 상세 메타)에서 홈구장 및 실제 경기 구장 정보 추출
+    is_neutral_venue = False
+    venue_display_text = "구장 정보 없음 (기본 홈 적용)"
+    
+    # 0단계 메타데이터 안전 탐색
+    head_meta = detailed_info.get("head_info", {}) if 'detailed_info' in locals() else {}
+    venue_val = str(head_meta.get("stadium", "")) or str(head_meta.get("venue", ""))
+    home_stadium_val = str(head_meta.get("home_stadium", ""))
+    
+    if venue_val:
+        # 0단계 구장 비교 로직: 홈구장 이름과 실제 경기 구장 이름이 다르면 중립구장으로 판정
+        if home_stadium_val and venue_val.strip().lower() != home_stadium_val.strip().lower():
+            is_neutral_venue = True
+            venue_display_text = f"{venue_val} / <span style='color: #c62828; font-weight: bold;'>중립구장 (홈구장 '{home_stadium_val}' 불일치 ➔ 원정 성향 대체 적용)</span>"
+        else:
+            venue_display_text = f"{venue_val} / <span style='color: #2e7d32; font-weight: bold;'>홈구장 일치 (홈 이점 적용)</span>"
+    else:
+        venue_display_text = "구장 메타데이터 대기 중 / <span style='color: #2e7d32; font-weight: bold;'>기본 홈 이점 적용</span>"
+
+    # 🏟️ 0단계 연동 상태 화면 가시화 박스 출력
+    st.markdown(f"""
+    <div style="padding: 12px; background-color: #f8f9fa; border: 1px solid #ddd; border-left: 5px solid {'#c62828' if is_neutral_venue else '#2e7d32'}; margin-bottom: 15px; font-size: 14px; border-radius: 4px;">
+    <b>🏟️ 0단계 구장 판정 상태:</b> {venue_display_text}
+    </div>
+    """, unsafe_allow_html=True)
+
     if has_detailed_data:
-        # 0단계 메타데이터를 활용한 홈/중립 구장 판정 및 표시 로직
-        is_neutral_venue = False
-        venue_display_text = "구장 정보 없음"
-        
-        if 'meta_data' in locals() and isinstance(meta_data, dict):
-            raw_venue = str(meta_data.get("venue", ""))
-            if raw_venue:
-                if "중립" in raw_venue or "Neutral" in raw_venue or "(홈)" not in raw_venue:
-                    if "(홈)" not in raw_venue:
-                        is_neutral_venue = True
-                        venue_display_text = f"{raw_venue} / <span style='color: #c62828; font-weight: bold;'>중립구장 (원정 성향 대체 적용)</span>"
-                    else:
-                        venue_display_text = f"{raw_venue} / <span style='color: #2e7d32; font-weight: bold;'>홈구장 일치 (홈 이점 적용)</span>"
-                else:
-                    venue_display_text = f"{raw_venue} / <span style='color: #2e7d32; font-weight: bold;'>홈구장 일치 (홈 이점 적용)</span>"
-
-        # 화면에 현재 구장 판정 상태 가시적으로 출력
-        st.markdown(f"""
-        <div style="padding: 10px; background-color: #f8f9fa; border-left: 4px solid {'#c62828' if is_neutral_venue else '#2e7d32'}; margin-bottom: 15px; font-size: 14px;">
-        <b>🏟️ 구장 판정 상태 (0단계 연동):</b> {venue_display_text}
-        </div>
-        """, unsafe_allow_html=True)
-
-        # 중립구장 판정 시 원정 성향 데이터 우선 분기 대입
+        # 중립구장 판정 시 홈 경기 대신 원정 경기 데이터 우선 대입 분기 적용
         if is_neutral_venue and stadium_form.get("away_matches"):
             s_home_matches = stadium_form.get("away_matches", [])[:20]
         else:
