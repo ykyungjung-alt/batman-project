@@ -1351,7 +1351,68 @@ with tabs[5]:
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 
-# --- [6단계] 예상 스코어 순위 산출 및 최종 통합 흐름 매트릭스 ---
+# ==========================================
+# 💡 규칙 5-3: 다득점/체급차 변동성 보정 (Over Factor) 산출
+# ==========================================
+# tier_ranks 기준 체급 비교 (예: Tier A = 5, Tier B = 4, Tier C = 3, Tier D = 2, Tier E = 1)
+h_tier_val = tier_ranks.get(h_current_at, 3)
+a_tier_val = tier_ranks.get(a_current_at, 3)
+tier_diff = abs(h_tier_val - a_tier_val)
+
+# 초기 base 값 (규칙 5-1 결과)
+h_base = h_final_exp_g
+a_base = a_final_exp_g
+h_conceded_base = h_final_exp_c
+a_conceded_base = a_final_exp_c
+
+h_over_factor = 0.0
+a_over_factor = 0.0
+over_factor_desc = "0% 적용 (표준/저득점형)"
+
+# 1. 체급 격차형 (티어 차이 2단계 이상)
+if tier_diff >= 2:
+    if h_tier_val > a_tier_val:
+        # 홈 팀이 상위, 원정 팀이 하위
+        add_rate = 0.10 + (tier_diff - 2) * 0.10  # 2단계: +10%, 3단계: +20%, 4단계: +30%
+        h_over_factor = add_rate
+        over_factor_desc = f"체급 격차형 ({tier_diff}단계 차이): 홈 팀 공격력 +{int(add_rate*100)}% 가산"
+    else:
+        # 원정 팀이 상위, 홈 팀이 하위
+        add_rate = 0.10 + (tier_diff - 2) * 0.10
+        a_over_factor = add_rate
+        over_factor_desc = f"체급 격차형 ({tier_diff}단계 차이): 원정 팀 공격력 +{int(add_rate*100)}% 가산"
+
+# 2. 동급 난타전형 (total > 3.2 또는 양 팀 실점 하한선 1.50 이상)
+elif (h_base + a_base > 3.2) or (h_conceded_base >= 1.50 or a_conceded_base >= 1.50):
+    h_over_factor = 0.15
+    a_over_factor = 0.15
+    over_factor_desc = "동급 난타전형: 양 팀 화력 보존 및 수비 불안 반영 (+15% 가산)"
+
+# 최종 보정 기대 득점 (final) 산출
+h_final = h_base * (1 + h_over_factor)
+a_final = a_base * (1 + a_over_factor)
+total_expected_goals = h_final + a_final
+
+
+# ==========================================
+# 💡 규칙 5-4: 이원화 동적 골 범위 행렬 확정
+# ==========================================
+if total_expected_goals < 2.2:
+    poisson_zone_name = "저득점 통제 구역 (total < 2.2)"
+    matrix_range = "0 ~ 3골 범위 (4×4 행렬)"
+    max_goals = 3
+elif total_expected_goals <= 3.2 and tier_diff < 2:
+    poisson_zone_name = "표준 득점 구역 (2.2 ~ 3.2)"
+    matrix_range = "0 ~ 4골 범위 (5×5 행렬 - 기본)"
+    max_goals = 4
+else:
+    poisson_zone_name = "다득점 변동 구역 (total > 3.2 또는 격차 2단계 이상)"
+    matrix_range = "0 ~ 6골 / 0 ~ 7골 동적 확장 행렬"
+    max_goals = 6
+
+
+
+
 # --- [6단계] 예상 스코어 순위 산출 및 최종 통합 흐름 매트릭스 ---
 with tabs[6]:
     st.markdown(
@@ -1392,8 +1453,8 @@ with tabs[6]:
         f"홈 팀 ({home_team})": [
             f"기대 득점 {h_final_exp_g:.2f}골 / 예상 실점 {h_final_exp_c:.2f}골",
             f"평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골",
-            "0% 적용",
-            "표준 구역 (0 ~ 4골)",
+            f"{int(h_over_factor*100)}% 적용 (최종 = {h_final:.2f})",
+            f"{poisson_zone_name}",
             "승리 확률 21.5%",
             "1골",
             "0골",
@@ -1402,8 +1463,8 @@ with tabs[6]:
         f"원정 팀 ({away_team})": [
             f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골",
             f"평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골",
-            "0% 적용",
-            "표준 구역 (0 ~ 4골)",
+            f"{int(a_over_factor*100)}% 적용 (최종 = {a_final:.2f})",
+            f"총 기대득점(total): {total_expected_goals:.2f}골",
             "승리 확률 54.5%",
             "2골",
             "1골",
@@ -1412,8 +1473,8 @@ with tabs[6]:
         "단계별 산출 근거 및 푸아송 확률": [
             "기하평균 공수 교차 상쇄 결합 연산",
             "동급 A/B티어 상대 최근 5경기 전수 실전 평균",
-            "티어 격차 0단계 규칙 적용",
-            "total = 2.64 기준 5×5 행렬 지정",
+            over_factor_desc,
+            matrix_range,
             "푸아송 연산 산출 (무승부 확률 24.0%)",
             "[푸아송 확률 9.69%] 5-2 결과와 가장 가까운 결과",
             "[푸아송 확률 12.13%] 수비 하한선 반영 단일 최고 확률 저득점 스코어",
@@ -1421,6 +1482,8 @@ with tabs[6]:
         ],
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
+
+
 with tabs[7]:
   st.markdown(
       f"#### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 최종 요약 리포트 -"
