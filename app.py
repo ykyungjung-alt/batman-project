@@ -5,9 +5,12 @@ import re
 from bs4 import BeautifulSoup
 import pandas as pd
 import streamlit as st
+import math
 
+# 페이지 설정 (반드시 맨 처음에 위치해야 함)
+st.set_page_config(page_title="배트맨 프로젝트 분석 엔진", layout="wide")
 
-# 1. 데이터 로딩 함수 정의 (전체 코드 통틀어 딱 1번만 선언)
+# 1. 데이터 로딩 함수 정의
 @st.cache_data(ttl=10)
 def load_match_data():
     if os.path.exists("data.json"):
@@ -63,8 +66,7 @@ def load_v4_match_details():
             pass
     return {}
 
-
-# 2. 데이터 호출 및 사이드바 초기화 (여기서도 딱 1번만 실행)
+# 2. 데이터 호출 및 초기화 (한 번만 수행)
 data = load_match_data()
 last_updated_time = data.get("last_updated", "알 수 없음")
 daily_matches = data.get("daily_matches", {})
@@ -73,6 +75,7 @@ all_details_dict = load_all_match_details()
 v3_details_dict = load_v3_match_details()
 v4_leagues_dict = load_v4_match_details()
 
+# 3. 메인 타이틀 출력 (중복 방지)
 st.markdown("<h2 style='font-size: 28px;'>⚽ 배트맨 프로젝트 통합 마스터 규격 및 분석 엔진 ⚽</h2>", unsafe_allow_html=True)
 st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
 
@@ -84,7 +87,7 @@ date_options = list(daily_matches.keys())
 if not date_options:
     date_options = ["오늘 (데이터 없음)"]
 
-selected_date = st.sidebar.selectbox("📅 날짜를 선택하세요:", date_options)
+selected_date = st.sidebar.selectbox("📅 날짜를 선택하세요:", date_options, key="main_date_selectbox")
 
 matches = daily_matches.get(selected_date, [])
 selected_match = None
@@ -92,7 +95,7 @@ selected_match = None
 if matches:
     leagues = sorted(list(set(m.get("league", "기타 리그") for m in matches)))
     if leagues:
-        selected_league = st.sidebar.selectbox("리그를 선택하세요:", leagues)
+        selected_league = st.sidebar.selectbox("리그를 선택하세요:", leagues, key="main_league_selectbox")
         league_matches = [m for m in matches if m.get("league", "기타 리그") == selected_league]
         
         match_options = [f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" for m in league_matches]
@@ -182,20 +185,17 @@ tab_titles = [
 ]
 tabs = st.tabs(tab_titles)
 
-
 # ==========================================
-# 0단계 탭 (메타 및 순위표 출력 및 구장 판별 연동 플래그 정의)
+# 0단계 탭
 # ==========================================
 with tabs[0]:
     st.markdown("#### [0단계: 대진 정보 및 팀순위 정보]")
     st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
 
-    # 경기 일시 데이터 안전 추출
     match_time_display = detailed_info.get("head_info", {}).get("match_time_display", "")
     if not match_time_display:
         match_time_display = selected_match.get("time", match_date)
 
-    # 💡 [핵심 연동] 0단계 구장 판별 메타 플래그 사전 정의 (전역 공유용)
     is_neutral_venue = False
     venue_display_text = "구장 정보 없음"
 
@@ -204,35 +204,24 @@ with tabs[0]:
         head_info = detailed_info.get("head_info", {})
         league_name = head_info.get("league", tournament_name)
         round_info = head_info.get("round", "")
-        if round_info:
-            tournament_display = f"{league_name} ({round_info})"
-        else:
-            tournament_display = league_name
+        tournament_display = f"{league_name} ({round_info})" if round_info else league_name
 
-        stadium_name = head_info.get("stadium", "").strip()          # 실제 경기 개최 구장
-        home_stadium_name = head_info.get("home_stadium", "").strip()  # 홈팀의 실제 홈구장
+        stadium_name = head_info.get("stadium", "").strip()
+        home_stadium_name = head_info.get("home_stadium", "").strip()
         weather_info = head_info.get("weather", "").strip()
 
-        # 💡 [핵심 규칙 반영] 구장 정보 순서 및 색상 지정 (실제 경기장명 / 홈·중립 판정)
         if stadium_name and home_stadium_name:
             if stadium_name.lower() == home_stadium_name.lower():
-                # 홈구장 일치 시: 실제 경기장명 / 녹색 (홈)
                 stadium_badge = f"{stadium_name} / <span style='color: #2e7d32; font-weight: bold;'>{home_stadium_name} (홈)</span>"
                 is_neutral_venue = False
-                venue_display_text = f"{stadium_name} / 홈구장 일치 (홈 이점 적용)"
             else:
-                # 중립구장 불일치 시: 실제 경기장명 / 빨간색 (중립)
                 stadium_badge = f"{stadium_name} / <span style='color: #c62828; font-weight: bold;'>{home_stadium_name} (중립)</span>"
                 is_neutral_venue = True
-                venue_display_text = f"{stadium_name} / 중립구장 (홈구장 '{home_stadium_name}' 불일치 ➔ 원정 성향 대체 적용)"
         elif stadium_name:
             stadium_badge = f"{stadium_name} / 홈구장 정보 미확인"
-            venue_display_text = f"{stadium_name} / 홈구장 정보 미확인"
         else:
             stadium_badge = "구장 정보 실시간 반영 대기"
-            venue_display_text = "구장 정보 미확인"
 
-        # 날씨 정보 결합 순서 정돈
         w_text = weather_info if weather_info else "날씨 정보 없음"
         stadium_info = f"{stadium_badge} / 날씨: {w_text}"
     else:
@@ -241,7 +230,6 @@ with tabs[0]:
         stadium_info = "데이터 없음"
         is_neutral_venue = False
 
-    # 메타 항목 및 요청하신 출력 순서/서식 반영 마크다운 테이블
     meta_markdown_table = f"""
     | 메타 항목 | 상세 정보 (SSOT) |
     | :--- | :--- |
@@ -252,10 +240,8 @@ with tabs[0]:
     | **데이터 상태 검증** | {meta_status} |
     """
     st.markdown(meta_markdown_table, unsafe_allow_html=True)
-
     st.markdown("##### 📊 공식 팀 순위 및 조건별 전적표 현황")
     
-    # 2. 공식 팀 순위 및 전적표 출력 (안전한 방어 분기 처리)
     if has_detailed_data:
         meta_details = detailed_info.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
@@ -266,313 +252,17 @@ with tabs[0]:
                     "No": idx + 1,
                     "리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
                     "팀": str(r.get("team", "-")),
-                    "경기": str(r.get("played", "0")),
-                    "승": str(r.get("win", "0")),
-                    "무승부": str(r.get("draw", "0")),
-                    "패": str(r.get("loss", "0")),
-                    "득점": str(r.get("goals_for", "0")),
-                    "실점": str(r.get("goals_against", "0")),
-                    "득실": str(r.get("goal_diff", "0")),
-                    "승점": str(r.get("points", "0"))
+                    "경기": str(r.get("played", "0")), "승": str(r.get("win", "0")),
+                    "무승부": str(r.get("draw", "0")), "패": str(r.get("loss", "0")),
+                    "득점": str(r.get("goals_for", "0")), "실점": str(r.get("goals_against", "0")),
+                    "득실": str(r.get("goal_diff", "0")), "승점": str(r.get("points", "0"))
                 })
             df_rankings = pd.DataFrame(rankings_list)
-            st.markdown("🔍 수집된 팀별 전체 및 조건별 세부 전적표입니다.")
             st.dataframe(df_rankings[["리그순위", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
         else:
             st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
     else:
-        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (3~4일 이후 경기 등)")
-        st.info("💡 크롤러 대상 기간(오늘/내일)에 포함되지 않은 경기이므로, 상세 전적표 및 통계 지표를 조회할 수 없습니다. 경기 당일 또는 전일에 데이터를 갱신해 주세요.")
-
-
-# 💡 [4번 파일 독립 발췌용] 리그 순위표 및 랭킹 데이터 전용 (match_details_v4.json)
-@st.cache_data(ttl=10)
-def load_v4_match_details():
-    v4_file = "match_details_v4.json"
-    if os.path.exists(v4_file):
-        try:
-            with open(v4_file, "r", encoding="utf-8") as f:
-                file_data = json.load(f)
-                return file_data.get("leagues", {})
-        except Exception:
-            pass
-    return {}
-
-
-data = load_match_data()
-last_updated_time = data.get("last_updated", "알 수 없음")
-daily_matches = data.get("daily_matches", {})
-
-# 각각의 성향에 맞춘 독립 및 병합 딕셔너리 호출 선언
-all_details_dict = load_all_match_details()   # 1, 2번 병합본 (기본 시스템 유지용)
-v3_details_dict = load_v3_match_details()       # 3번 전용 (1, 2단계 표 연동용)
-v4_leagues_dict = load_v4_match_details()       # 4번 전용 (리그 순위표 데이터용)
-
-st.markdown("<h2 style='font-size: 28px;'>⚽ 배트맨 프로젝트 통합 마스터 규격 및 분석 엔진 ⚽</h2>", unsafe_allow_html=True)
-st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
-
-st.sidebar.markdown("---")
-st.sidebar.markdown(f"🕒 **데이터 갱신 시각 (KST)**\n\n`{last_updated_time}`")
-st.sidebar.subheader("🏆 실시간 수집 대진 선택")
-
-# 1. 사이드바 날짜 선택창 구성 (daily_matches에 있는 키값 활용)
-date_options = list(daily_matches.keys())
-if not date_options:
-    date_options = ["오늘 (데이터 없음)"]
-
-selected_date = st.sidebar.selectbox("📅 날짜를 선택하세요:", date_options)
-
-# 2. 선택한 날짜의 경기 리스트 가져오기
-matches = daily_matches.get(selected_date, [])
-selected_match = None
-
-if matches:
-    leagues = sorted(list(set(m.get("league", "기타 리그") for m in matches)))
-    if leagues:
-        selected_league = st.sidebar.selectbox("리그를 선택하세요:", leagues)
-        league_matches = [m for m in matches if m.get("league", "기타 리그") == selected_league]
-        
-        # match_name 대신 홈/원정/시간 조합으로 안전하게 생성
-        match_options = [f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" for m in league_matches]
-        
-        if match_options:
-            selected_match_name = st.sidebar.radio("분석할 경기를 선택하세요:", match_options, key="match_radio_selection")
-            
-            # 선택된 경기 매칭
-            selected_match = next((m for m in league_matches if f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" == selected_match_name), None)
-
-# [핵심 방어 로직] 조건에 맞는 경기가 없을 때 경고 문구 출력 및 안전 정지
-if not selected_match:
-    st.warning(f"⚠️ [{selected_date}] 조건에 해당하는 경기 데이터가 존재하지 않습니다. (데이터 없음)")
-    st.info("💡 안내: 아직 해당 날짜에 수집된 경기 일정이나 정밀 데이터가 없습니다. 다른 날짜를 선택하시거나 데이터 갱신 후 이용해 주세요.")
-    st.stop()
-
-# 정상 매칭 시 변수 지정
-home_team = selected_match.get("home", "홈팀")
-away_team = selected_match.get("away", "원정팀")
-tournament_name = selected_match.get("league", "리그")
-match_date = selected_match.get("time", "오늘")
-match_code = str(selected_match.get("match_code", ""))
-
-# ==========================================
-# 💡 [핵심 방어 장치] 통합 상세 데이터 안전 추출 및 플래그 설정 (팀 이름 매칭 폴백 추가)
-# ==========================================
-# ==========================================
-# 💡 [강력한 3단계 통합 매칭 로직] 매치코드 및 팀 이름 정밀 비교
-# ==========================================
-raw_detailed_info = None
-target_code = str(match_code).strip()
-target_home = str(home_team).strip().replace(" ", "")
-target_away = str(away_team).strip().replace(" ", "")
-
-# 1순위: 상위 딕셔너리 키로 직접 탐색
-if target_code and target_code in all_details_dict:
-    raw_detailed_info = all_details_dict[target_code]
-
-# 2순위: 데이터 내부의 "match_code" 필드 값과 일치하는 항목 탐색
-if not raw_detailed_info and target_code:
-    for k, v in all_details_dict.items():
-        if str(v.get("match_code", "")).strip() == target_code:
-            raw_detailed_info = v
-            break
-
-# 3순위: 홈팀 / 원정팀 이름 정규화(공백 제거) 후 일치하는 항목 탐색 (폴백)
-if not raw_detailed_info:
-    for k, v in all_details_dict.items():
-        v_home = str(v.get("home", "")).strip().replace(" ", "")
-        v_away = str(v.get("away", "")).strip().replace(" ", "")
-        if v_home == target_home and v_away == target_away:
-            raw_detailed_info = v
-            break
-
-if raw_detailed_info and isinstance(raw_detailed_info, dict):
-    detailed_info = raw_detailed_info
-    has_detailed_data = True
-else:
-    detailed_info = {
-        "head_info": {},
-        "meta_details": {
-            "rankings": [],
-            "recent_form": {
-                "home_summary": {},
-                "away_summary": {},
-                "home_matches": [],
-                "away_matches": [],
-                "matches": []
-            },
-            "h2h": {"summary": [], "matches": []},
-            "fixtures": {"home": [], "away": []}
-        }
-    }
-    has_detailed_data = False
-
-# ==========================================
-# 💡 [공통 유틸리티] 대회 압축어 정식 한글 명칭 및 날짜 포맷 자동 변환 함수
-# ==========================================
-def translate_tournament_code(code_str):
-    if not code_str:
-        return "기타 공식 경기"
-    
-    mapping = {
-        # 주요 리그 및 컵대회 압축어
-        "GER D1": "독일 분데스리가",
-        "GERC": "독일 DFB 포칼",
-        "INT CF": "국가대표 친선경기",
-        "ENG PR": "잉글랜드 프리미어리그",
-        "ENG FAC": "잉글랜드 FA컵",
-        "SPA D1": "스페인 라리가",
-        "SPA D2": "스페인 라리가 2",          # 💡 스페인 2부 리그 추가
-        "SPA CUP": "스페인 코파 델 레이",       # 💡 스페인 컵대회 추가
-        "ESP D1": "스페인 라리가",
-        "ESP C": "스페인 코파 델 레이",
-        "ITA D1": "이탈리아 세리에 A",
-        "ITA Cup": "이탈리아 컵 (코파 이탈리아)",
-        "FRA C": "프랑스 쿠프 드 프랑스",
-        "KFAC": "대한민국 코리아컵 (FA컵)",
-        "ENG LC": "잉글랜드 리그컵 (카라바오컵)",
-        "ACLE": "AFC 챔피언스리그 엘리트 (ACLE)",
-        "FRA D1": "프랑스 리그 1",
-        "UEFA ECL": "UEFA 유로파 컨퍼런스리그",
-        "UEFA CL": "UEFA 챔피언스리그",
-        "UEFA EL": "UEFA 유로파리그",
-        "AFC CL": "AFC 챔피언스리그",
-        "ACQ": "AFC 아시안컵 예선",
-        "AC": "AFC 아시안컵 본선",
-        "WC": "FIFA 월드컵 본선",
-        "FIFA WC": "FIFA 월드컵 본선",
-        "WCC": "FIFA 클럽 월드컵",
-        "FIFA CWC": "FIFA 클럽 월드컵",
-        "U20 WC": "FIFA U-20 월드컵",
-        "U17 WC": "FIFA U-17 월드컵",
-        "W-WC": "FIFA 여자 월드컵"
-    }
-    
-    converted = code_str
-    for k, v in mapping.items():
-        if k in code_str:
-            converted = code_str.replace(k, v)
-            break
-            
-    # 💡 한글/괄호/공백 뒤에 곧바로 연도(20...)가 붙어 있는 경우 사이에 ' - ' 삽입
-    match_pattern = re.search(r'(.*?)(\d{4}\.\d{2}\.\d{2})', converted)
-    if match_pattern:
-        prefix = match_pattern.group(1).strip()
-        date_part = match_pattern.group(2)
-        return f"{prefix} - {date_part}"
-        
-    return converted
-tab_titles = [
-    "0단계 (메타)", 
-    "규칙 1 (LIFO 7경기)", 
-    "규칙 2 (구장 Shift)", 
-    "규칙 3 (누수·피로)", 
-    "규칙 4 (H2H 상성)", 
-    "규칙 5 (최종 람다)", 
-    "규칙 6 (푸아송 예측)", 
-    "요약 리포트"
-]
-tabs = st.tabs(tab_titles)
-
-# ==========================================
-# 0단계 탭 (메타 및 순위표 출력 및 구장 판별 연동 플래그 정의)
-# ==========================================
-with tabs[0]:
-    st.markdown("#### [0단계: 대진 정보 및 팀순위 정보]")
-    st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
-
-    # 경기 일시 데이터 안전 추출
-    match_time_display = detailed_info.get("head_info", {}).get("match_time_display", "")
-    if not match_time_display:
-        match_time_display = selected_match.get("time", match_date)
-
-    # 💡 [핵심 연동] 0단계 구장 판별 메타 플래그 사전 정의 (전역 공유용)
-    is_neutral_venue = False
-    venue_display_text = "구장 정보 없음"
-
-    if has_detailed_data:
-        meta_status = "정상 통과 (정밀 데이터 연동 완료)"
-        head_info = detailed_info.get("head_info", {})
-        league_name = head_info.get("league", tournament_name)
-        round_info = head_info.get("round", "")
-        if round_info:
-            tournament_display = f"{league_name} ({round_info})"
-        else:
-            tournament_display = league_name
-
-        stadium_name = head_info.get("stadium", "").strip()          # 실제 경기 개최 구장
-        home_stadium_name = head_info.get("home_stadium", "").strip()  # 홈팀의 실제 홈구장
-        weather_info = head_info.get("weather", "").strip()
-
-        # 💡 [핵심 규칙 반영] 구장 정보 순서 및 색상 지정 (실제 경기장명 / 홈·중립 판정)
-        if stadium_name and home_stadium_name:
-            if stadium_name.lower() == home_stadium_name.lower():
-                # 홈구장 일치 시: 실제 경기장명 / 녹색 (홈)
-                stadium_badge = f"{stadium_name} / <span style='color: #2e7d32; font-weight: bold;'>{home_stadium_name} (홈)</span>"
-                is_neutral_venue = False
-                venue_display_text = f"{stadium_name} / 홈구장 일치 (홈 이점 적용)"
-            else:
-                # 중립구장 불일치 시: 실제 경기장명 / 빨간색 (중립)
-                stadium_badge = f"{stadium_name} / <span style='color: #c62828; font-weight: bold;'>{home_stadium_name} (중립)</span>"
-                is_neutral_venue = True
-                venue_display_text = f"{stadium_name} / 중립구장 (홈구장 '{home_stadium_name}' 불일치 ➔ 원정 성향 대체 적용)"
-        elif stadium_name:
-            stadium_badge = f"{stadium_name} / 홈구장 정보 미확인"
-            venue_display_text = f"{stadium_name} / 홈구장 정보 미확인"
-        else:
-            stadium_badge = "구장 정보 실시간 반영 대기"
-            venue_display_text = "구장 정보 미확인"
-
-        # 날씨 정보 결합 순서 정돈
-        w_text = weather_info if weather_info else "날씨 정보 없음"
-        stadium_info = f"{stadium_badge} / 날씨: {w_text}"
-    else:
-        meta_status = "⚠️ 해당 경기의 상세 정밀 데이터 없음 (데이터 없음)"
-        tournament_display = tournament_name
-        stadium_info = "데이터 없음"
-        is_neutral_venue = False
-
-    # 메타 항목 및 요청하신 출력 순서/서식 반영 마크다운 테이블
-    meta_markdown_table = f"""
-    | 메타 항목 | 상세 정보 (SSOT) |
-    | :--- | :--- |
-    | **경기 일시** | {match_time_display} |
-    | **대회 성격** | {tournament_display} |
-    | **대진 매치** | {home_team} vs {away_team} |
-    | **구장 정보** | {stadium_info} |
-    | **데이터 상태 검증** | {meta_status} |
-    """
-    st.markdown(meta_markdown_table, unsafe_allow_html=True)
-
-    st.markdown("##### 📊 공식 팀 순위 및 조건별 전적표 현황")
-    
-    # 2. 공식 팀 순위 및 전적표 출력 (안전한 방어 분기 처리)
-    if has_detailed_data:
-        meta_details = detailed_info.get("meta_details", {})
-        rankings_raw = meta_details.get("rankings", [])
-        if rankings_raw:
-            rankings_list = []
-            for idx, r in enumerate(rankings_raw):
-                rankings_list.append({
-                    "No": idx + 1,
-                    "리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
-                    "팀": str(r.get("team", "-")),
-                    "경기": str(r.get("played", "0")),
-                    "승": str(r.get("win", "0")),
-                    "무승부": str(r.get("draw", "0")),
-                    "패": str(r.get("loss", "0")),
-                    "득점": str(r.get("goals_for", "0")),
-                    "실점": str(r.get("goals_against", "0")),
-                    "득실": str(r.get("goal_diff", "0")),
-                    "승점": str(r.get("points", "0"))
-                })
-            df_rankings = pd.DataFrame(rankings_list)
-            st.markdown("🔍 수집된 팀별 전체 및 조건별 세부 전적표입니다.")
-            st.dataframe(df_rankings[["리그순위", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
-        else:
-            st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
-    else:
-        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (3~4일 이후 경기 등)")
-        st.info("💡 크롤러 대상 기간(오늘/내일)에 포함되지 않은 경기이므로, 상세 전적표 및 통계 지표를 조회할 수 없습니다. 경기 당일 또는 전일에 데이터를 갱신해 주세요.")
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 
 
 
