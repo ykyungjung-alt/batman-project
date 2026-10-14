@@ -1282,16 +1282,29 @@ with tabs[5]:
             for i, m in enumerate(match_list, 1):
                 m_date = str(m.get("match_time", "-")).split(" ")[0].replace("-", ".")
                 raw_league = str(m.get("league", "-"))
-                m_league = translate_tournament_code(raw_league) # 정식 한글 대회명 변환 적용
+                m_league = translate_tournament_code(raw_league)
 
                 m_score = str(m.get("score", "") or m.get("result", "0 : 0"))
                 scores_arr = m.get("ft_scores", [])
-                if scores_arr and len(scores_arr) >= 2:
+                if scores_arr and len(scores_arr >= 2):
                     m_score = f"{scores_arr[0]} : {scores_arr[1]}"
 
                 m_loc = str(m.get("location", "공식"))
-                m_opp = str(m.get("opponent", "상대 팀"))
-                m_opp_tier = str(m.get("opponent_tier_info", "유사 티어 매칭"))
+                
+                # 💡 [핵심 보완] 상대 팀 이름 안전 추출 (opponent 키가 없으면 teams 문자열에서 파싱)
+                m_opp = str(m.get("opponent", "") or m.get("team", "")).strip()
+                if not m_opp or m_opp == "상대 팀":
+                    teams_str = str(m.get("teams", ""))
+                    if " vs " in teams_str:
+                        t_parts = [p.strip() for p in teams_str.split("vs")]
+                        if len(t_parts) >= 2:
+                            # 현재 분석 중인 팀이 아닌 쪽을 상대 팀으로 지정
+                            m_opp = t_parts[1] if team_label in t_parts[0] else t_parts[0]
+                    if not m_opp:
+                        m_opp = "상대 팀"
+
+                # 💡 [핵심 보완] 상대 티어 정보 안전 추출
+                m_opp_tier = str(m.get("opponent_tier_info", "") or m.get("tier_info", "유사 티어 매칭"))
                 
                 gf, ga = 0, 0
                 try:
