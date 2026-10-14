@@ -418,9 +418,9 @@ with tabs[1]:
 
     def def_tier(c):
         if c < 0.5: return "Tier A", "-12.0%"
-        elif c < 0.9: return "Tier B", "-9.0%"
-        elif c < 1.3: return "Tier C", "-6.0%"
-        elif c < 1.7: return "Tier D", "-3.0%"
+        elif c < 0.1: return "Tier B", "-9.0%"
+        elif c < 1.5: return "Tier C", "-6.0%"
+        elif c < 2.0: return "Tier D", "-3.0%"
         else: return "Tier E", "0.0%"
 
     def atk_tier_nm(g): return atk_tier(g)[0]
