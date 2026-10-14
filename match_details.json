@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-14 15:44:09",
+    "last_updated": "2026-10-14 18:37:34",
     "match_details": {
         "3068871": {
             "match_code": "3068871",
@@ -230,139 +230,6 @@
                             "match_time": "2026-10-27 10:00:00",
                             "teams": "10.27 2026 vs 조호르 DT vs 포트 MTI FC vs 13 일",
                             "interval": "13 일"
-                        }
-                    ]
-                }
-            }
-        },
-        "3069041": {
-            "match_code": "3069041",
-            "head_info": {
-                "league": "AFC 챔피언스리그 2",
-                "round": "",
-                "match_time_raw": "10/14/2026 7:45:00 AM",
-                "match_time_display": "2026-10-14 16:45",
-                "stadium": "Olympic Park Stadium",
-                "home_stadium": "Olympic Park Stadium",
-                "weather": "구름 많음,  13℃～14℃"
-            },
-            "home": "멜버른 빅토리",
-            "away": "서울",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "AUS D1-4",
-                        "team": "멜버른 빅토리",
-                        "played": "26",
-                        "win": "11",
-                        "draw": "7",
-                        "loss": "8",
-                        "goals_for": "44",
-                        "goals_against": "33",
-                        "goal_diff": "11",
-                        "points": "40"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "KOR D1-1",
-                        "team": "서울",
-                        "played": "31",
-                        "win": "20",
-                        "draw": "5",
-                        "loss": "6",
-                        "goals_for": "58",
-                        "goals_against": "26",
-                        "goal_diff": "32",
-                        "points": "65"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "3승 6무 1패",
-                        "goals_per_game": "1.30",
-                        "conceded_per_game": "0.60"
-                    },
-                    "away_summary": {
-                        "recent_record": "7승 0무 3패",
-                        "goals_per_game": "2.30",
-                        "conceded_per_game": "1.00"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 1 (50%)",
-                        "무승부 0 (0%)",
-                        "1.00",
-                        "경기당 득점",
-                        "핸디캡：1승 0무 1패",
-                        "언오버：1오버 0무 1언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "ACLE2020.12.03",
-                                "멜버른 빅토리",
-                                "2-1",
-                                "서울"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ACLE2020.02.18",
-                                "서울",
-                                "1-0",
-                                "멜버른 빅토리"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "호주 A리그",
-                            "match_time": "2026-10-18 02:00:00",
-                            "teams": "10.18 2026 vs 웰링턴 피닉스 vs 멜버른 빅토리 vs 4 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "호주 A리그",
-                            "match_time": "2026-10-24 08:40:00",
-                            "teams": "10.24 2026 vs 멜버른 빅토리 vs 멜버른 시티 vs 10 일",
-                            "interval": "10 일"
-                        },
-                        {
-                            "league": "AFC 챔피언스리그 2",
-                            "match_time": "2026-10-28 12:15:00",
-                            "teams": "10.28 2026 vs 페르시브 반둥 vs 멜버른 빅토리 vs 14 일",
-                            "interval": "14 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "K리그 1",
-                            "match_time": "2026-10-18 07:30:00",
-                            "teams": "10.18 2026 vs 서울 vs 김천 vs 4 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "K리그 1",
-                            "match_time": "2026-10-24 05:00:00",
-                            "teams": "10.24 2026 vs 서울 vs 강원 vs 10 일",
-                            "interval": "10 일"
-                        },
-                        {
-                            "league": "AFC 챔피언스리그 2",
-                            "match_time": "2026-10-28 12:15:00",
-                            "teams": "10.28 2026 vs 비에텔 vs 서울 vs 14 일",
-                            "interval": "14 일"
                         }
                     ]
                 }
@@ -613,7 +480,7 @@
                 "match_time_display": "2026-10-14 23:45",
                 "stadium": "Abdullah bin Khalifa Stadium",
                 "home_stadium": "Abdullah bin Khalifa Stadium",
-                "weather": "구름 조금,  33°C"
+                "weather": "흐림,  33°C"
             },
             "home": "알 두하일",
             "away": "알 샤밥",
@@ -722,7 +589,7 @@
                 "match_time_display": "2026-10-14 19:00",
                 "stadium": "",
                 "home_stadium": "Central Stadium",
-                "weather": "구름 조금,  8°C"
+                "weather": "구름 조금,  9°C"
             },
             "home": "에르티스 파블로다르",
             "away": "FC 아스타나",
@@ -892,9 +759,15 @@
                     "away": [
                         {
                             "league": "프리미어리그",
+                            "match_time": "2026-10-18 14:00:00",
+                            "teams": "10.18 2026 vs FC 아스타나 vs 카스피 아크타우 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
                             "match_time": "2026-10-25 14:00:00",
                             "teams": "10.25 2026 vs FC 아스타나 vs 카이사르 키질로르다 vs 11 일",
-                            "interval": "시작전"
+                            "interval": "11 일"
                         },
                         {
                             "league": "프리미어리그",
@@ -1070,7 +943,7 @@
                 "match_time_display": "2026-10-14 22:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  30°C"
+                "weather": "구름 조금,  31°C"
             },
             "home": "순리세",
             "away": "가소기 유나이티드",
@@ -1161,117 +1034,6 @@
                 }
             }
         },
-        "3089019": {
-            "match_code": "3089019",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 8",
-                "match_time_raw": "10/14/2026 8:00:00 AM",
-                "match_time_display": "2026-10-14 17:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": "구름 조금,  7°C"
-            },
-            "home": "FC 울란바토르",
-            "away": "Khovd Western",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "2",
-                        "team": "FC 울란바토르",
-                        "played": "6",
-                        "win": "5",
-                        "draw": "1",
-                        "loss": "0",
-                        "goals_for": "29",
-                        "goals_against": "4",
-                        "goal_diff": "25",
-                        "points": "16"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "7",
-                        "team": "Khovd Western",
-                        "played": "6",
-                        "win": "1",
-                        "draw": "0",
-                        "loss": "5",
-                        "goals_for": "13",
-                        "goals_against": "27",
-                        "goal_diff": "-14",
-                        "points": "3"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "6승 1무 3패",
-                        "goals_per_game": "3.80",
-                        "conceded_per_game": "1.50"
-                    },
-                    "away_summary": {
-                        "recent_record": "3승 0무 7패",
-                        "goals_per_game": "2.10",
-                        "conceded_per_game": "3.30"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 2 (100%)",
-                        "무승부 0 (0%)",
-                        "승 0 (0%)",
-                        "3.50",
-                        "경기당 득점",
-                        "0.50",
-                        "핸디캡：1승 0무 1패",
-                        "언오버：1오버 0무 1언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "MGL PL2026.05.06",
-                                "FC 울란바토르",
-                                "3-0",
-                                "Khovd Western"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MGL PL2025.10.04",
-                                "Khovd Western",
-                                "1-4",
-                                "FC 울란바토르"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-18 05:00:00",
-                            "teams": "10.18 2026 vs FC 울란바토르 vs Central Stallions vs 4 일",
-                            "interval": "시작전"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-19 05:00:00",
-                            "teams": "10.19 2026 vs Amtat FC vs Khovd Western vs 5 일",
-                            "interval": "시작전"
-                        }
-                    ]
-                }
-            }
-        },
         "3074499": {
             "match_code": "3074499",
             "head_info": {
@@ -1281,7 +1043,7 @@
                 "match_time_display": "2026-10-14 22:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "지역성 천둥,  30°C"
+                "weather": "구름 조금,  30°C"
             },
             "home": "키게지 홈보이즈",
             "away": "NEC FC",
@@ -1361,7 +1123,7 @@
                 "match_time_display": "2026-10-14 22:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "지역성 천둥,  28°C"
+                "weather": "구름 조금,  27°C"
             },
             "home": "폴리스",
             "away": "빌라",
