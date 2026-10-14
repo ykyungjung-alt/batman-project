@@ -1252,7 +1252,7 @@ with tabs[5]:
         home_matched_5 = get_real_matches_without_friendlies(home_raw_pool)
         away_matched_5 = get_real_matches_without_friendlies(away_raw_pool)
 
-def build_team_52_dataframe(match_list, team_label):
+        def build_team_52_dataframe(match_list, team_label):
             rows = []
             total_gf, total_ga = 0, 0
             cnt = len(match_list)
