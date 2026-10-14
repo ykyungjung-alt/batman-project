@@ -176,4 +176,85 @@ def run_table_based_crawler_v2():
                                     if summary_text not in h2h_data["summary"]:
                                         h2h_data["summary"].append(summary_text)
 
-                        h_table = h2h_div.find_
+                        h_table = h2h_div.find_next("table")
+                        if h_table:
+                            for h_row in h_table.find_all("tr"):
+                                cols = [c.get_text(strip=True) for c in h_row.find_all(["th", "td"]) if c.get_text(strip=True)]
+                                if len(cols) >= 3 and not any("득점" in c for c in cols) and not any("날짜" in c for c in cols):
+                                    core_cols = cols[:4] if len(cols) >= 4 else cols
+                                    h2h_data["matches"].append({"row_data": core_cols})
+                            if len(h2h_data["matches"]) > 10:
+                                h2h_data["matches"] = h2h_data["matches"][:10]
+                except Exception as e:
+                    print(f"  - 맞대결 파싱 예외 ({m_id}): {e}")
+
+                recent_form = {"home_summary": {}, "away_summary": {}, "matches": []}
+                try:
+                    recent_div = detail_soup.find("div", id="dv_recent")
+                    if recent_div:
+                        stats_div = recent_div.find("div", id="dv_recent_stats")
+                        if stats_div:
+                            valid_votes = []
+                            for v in stats_div.find_all("div", class_="vote"):
+                                c_list = v.get("class", [])
+                                if "text" in c_list:
+                                    continue
+                                text_content = v.get_text()
+                                if any(k in text_content for k in ["최근전적", "경기당 득점", "경기당 실점"]):
+                                    valid_votes.append(v)
+                            for v in valid_votes:
+                                ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "p2"])
+                                if len(ext_els) >= 3:
+                                    left_val = ext_els[0].get_text(strip=True)
+                                    label = ext_els[1].get_text(strip=True)
+                                    right_val = ext_els[2].get_text(strip=True)
+                                    if "최근전적" in label:
+                                        recent_form["home_summary"]["recent_record"] = left_val
+                                        recent_form["away_summary"]["recent_record"] = right_val
+                                    elif "경기당 득점" in label:
+                                        recent_form["home_summary"]["goals_per_game"] = left_val
+                                        recent_form["away_summary"]["goals_per_game"] = right_val
+                                    elif "경기당 실점" in label:
+                                        recent_form["home_summary"]["conceded_per_game"] = left_val
+                                        recent_form["away_summary"]["conceded_per_game"] = right_val
+
+                        r_table = recent_div.find_next("table")
+                        if r_table:
+                            for r_row in r_table.find_all("tr"):
+                                cols = [c.get_text(strip=True) for c in r_row.find_all(["th", "td"]) if c.get_text(strip=True)]
+                                if len(cols) >= 3 and not any("득점" in c for c in cols):
+                                    recent_form["matches"].append({"row_data": cols})
+                            if len(recent_form["matches"]) > 10:
+                                recent_form["matches"] = recent_form["matches"][:10]
+                except Exception as e:
+                    print(f"  - 최근전적 파싱 예외 ({m_id}): {e}")
+
+                fixtures_data = {"home": [], "away": []}
+                try:
+                    futer_div = detail_soup.find("div", id="dv_futer")
+                    if futer_div:
+                        home_div = futer_div.find("div", class_="home-div")
+                        if home_div:
+                            for c_item in home_div.find_all("li", class_="courselis"):
+                                league = c_item.find("div", class_="team")
+                                time_span = c_item.find("span", {"name": "timeData"})
+                                teams = c_item.find("div", class_="corteam")
+                                interval = c_item.find("div", class_="interval")
+                                match_info = {
+                                    "league": league.get_text(strip=True) if league else "",
+                                    "match_time": time_span["data-t"] if time_span and time_span.has_attr("data-t") else (time_span.get_text(strip=True) if time_span else ""),
+                                    "teams": teams.get_text(separator=" vs ", strip=True) if teams else "",
+                                    "interval": interval.get_text(strip=True) if interval else ""
+                                }
+                                if match_info["teams"] and match_info not in fixtures_data["home"]:
+                                    fixtures_data["home"].append(match_info)
+
+                        guest_div = futer_div.find("div", class_="guest-div")
+                        if guest_div:
+                            for c_item in guest_div.find_all("li", class_="courselis"):
+                                league = c_item.find("div", class_="team")
+                                time_span = c_item.find("span", {"name": "timeData"})
+                                teams = c_item.find("div", class_="corteam")
+                                interval = c_item.find("div", class_="interval")
+                                match_info = {
+                                    "league": league.get
