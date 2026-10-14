@@ -1361,8 +1361,13 @@ with tabs[5]:
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
         st.markdown(f"📌 **{away_team} 최근 5경기 총합:** {a_tgf}득점 / {a_tga}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골</span>", unsafe_allow_html=True)
     else:
-        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+         st.stop()  # 👈 데이터가 없을 때 후속 연산 진행을 차단하여 NameError 방지
 
+# ==========================================
+# 💡 규칙 5-3: 다득점/체급차 변동성 보정 (Over Factor) 산출 및 표 렌더링
+# ==========================================
+h_tier_val = tier_ranks.get(h_current_at, 3)
 # ==========================================
     # 💡 규칙 5-3: 다득점/체급차 변동성 보정 (Over Factor) 산출 및 표 렌더링
     # ==========================================
