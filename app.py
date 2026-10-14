@@ -34,8 +34,15 @@ def load_all_match_details():
                     file_data = json.load(f)
                     match_dict = file_data.get("match_details", {})
                     for k, v in match_dict.items():
-                        if k not in combined_details:
-                            combined_details[k] = v
+                        # 키를 문자열 및 공백 제거 형태로 정규화하여 저장
+                        clean_k = str(k).strip()
+                        combined_details[clean_k] = v
+                        
+                        # 데이터 내부의 match_code 필드가 있다면 이 값도 키로 추가 인덱싱
+                        if isinstance(v, dict):
+                            m_code = str(v.get("match_code", "")).strip()
+                            if m_code:
+                                combined_details[m_code] = v
             except Exception:
                 pass
     return combined_details
