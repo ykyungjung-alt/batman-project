@@ -19,40 +19,106 @@ def load_match_data():
     return {"last_updated": "안전 모드 (데이터 없음)", "daily_matches": {}}
 
 
-# 💡 [기존 1, 2번 파일 병합용] 0단계 및 기본 텍스트 산출 내역 유지용
-@st.cache_data(ttl=10)
-def load_all_match_details():
-    target_files = [
-        "match_details.json", 
-        "match_details_v2.json"
-    ]
-    combined_details = {}
-    for t_file in target_files:
-        if os.path.exists(t_file):
-            try:
-                with open(t_file, "r", encoding="utf-8") as f:
-                    file_data = json.load(f)
-                    match_dict = file_data.get("match_details", {})
-                    for k, v in match_dict.items():
-                        if k not in combined_details:
-                            combined_details[k] = v
-            except Exception:
-                pass
-    return combined_details
+# ==========================================
+# 0단계 탭 (메타 및 순위표 출력 및 구장 판별 연동 플래그 정의)
+# ==========================================
+with tabs[0]:
+    st.markdown("#### [0단계: 대진 정보 및 팀순위 정보]")
+    st.markdown("친선 경기를 전면 배제하고 공식 A매치 유효성 검증을 거친 대진 메타데이터를 고정합니다. (SSOT 원칙 적용)")
 
+    # 경기 일시 데이터 안전 추출
+    match_time_display = detailed_info.get("head_info", {}).get("match_time_display", "")
+    if not match_time_display:
+        match_time_display = selected_match.get("time", match_date)
 
-# 💡 [3번 파일 독립 발췌용] 규칙 1번·2번 상세 표 데이터 전용 (match_details_v3.json)
-@st.cache_data(ttl=10)
-def load_v3_match_details():
-    v3_file = "match_details_v3.json"
-    if os.path.exists(v3_file):
-        try:
-            with open(v3_file, "r", encoding="utf-8") as f:
-                file_data = json.load(f)
-                return file_data.get("match_details", {})
-        except Exception:
-            pass
-    return {}
+    # 💡 [핵심 연동] 0단계 구장 판별 메타 플래그 사전 정의 (전역 공유용)
+    is_neutral_venue = False
+    venue_display_text = "구장 정보 없음"
+
+    if has_detailed_data:
+        meta_status = "정상 통과 (정밀 데이터 연동 완료)"
+        head_info = detailed_info.get("head_info", {})
+        league_name = head_info.get("league", tournament_name)
+        round_info = head_info.get("round", "")
+        if round_info:
+            tournament_display = f"{league_name} ({round_info})"
+        else:
+            tournament_display = league_name
+
+        stadium_name = head_info.get("stadium", "").strip()          # 실제 경기 개최 구장
+        home_stadium_name = head_info.get("home_stadium", "").strip()  # 홈팀의 실제 홈구장
+        weather_info = head_info.get("weather", "").strip()
+
+        # 💡 [핵심 규칙 반영] 구장 정보 순서 및 색상 지정 (실제 경기장명 / 홈·중립 판정)
+        if stadium_name and home_stadium_name:
+            if stadium_name.lower() == home_stadium_name.lower():
+                # 홈구장 일치 시: 실제 경기장명 / 녹색 (홈)
+                stadium_badge = f"{stadium_name} / <span style='color: #2e7d32; font-weight: bold;'>{home_stadium_name} (홈)</span>"
+                is_neutral_venue = False
+                venue_display_text = f"{stadium_name} / 홈구장 일치 (홈 이점 적용)"
+            else:
+                # 중립구장 불일치 시: 실제 경기장명 / 빨간색 (중립)
+                stadium_badge = f"{stadium_name} / <span style='color: #c62828; font-weight: bold;'>{home_stadium_name} (중립)</span>"
+                is_neutral_venue = True
+                venue_display_text = f"{stadium_name} / 중립구장 (홈구장 '{home_stadium_name}' 불일치 ➔ 원정 성향 대체 적용)"
+        elif stadium_name:
+            stadium_badge = f"{stadium_name} / 홈구장 정보 미확인"
+            venue_display_text = f"{stadium_name} / 홈구장 정보 미확인"
+        else:
+            stadium_badge = "구장 정보 실시간 반영 대기"
+            venue_display_text = "구장 정보 미확인"
+
+        # 날씨 정보 결합 순서 정돈
+        w_text = weather_info if weather_info else "날씨 정보 없음"
+        stadium_info = f"{stadium_badge} / 날씨: {w_text}"
+    else:
+        meta_status = "⚠️ 해당 경기의 상세 정밀 데이터 없음 (데이터 없음)"
+        tournament_display = tournament_name
+        stadium_info = "데이터 없음"
+        is_neutral_venue = False
+
+    # 메타 항목 및 요청하신 출력 순서/서식 반영 마크다운 테이블
+    meta_markdown_table = f"""
+    | 메타 항목 | 상세 정보 (SSOT) |
+    | :--- | :--- |
+    | **경기 일시** | {match_time_display} |
+    | **대회 성격** | {tournament_display} |
+    | **대진 매치** | {home_team} vs {away_team} |
+    | **구장 정보** | {stadium_info} |
+    | **데이터 상태 검증** | {meta_status} |
+    """
+    st.markdown(meta_markdown_table, unsafe_allow_html=True)
+
+    st.markdown("##### 📊 공식 팀 순위 및 조건별 전적표 현황")
+    
+    # 2. 공식 팀 순위 및 전적표 출력 (안전한 방어 분기 처리)
+    if has_detailed_data:
+        meta_details = detailed_info.get("meta_details", {})
+        rankings_raw = meta_details.get("rankings", [])
+        if rankings_raw:
+            rankings_list = []
+            for idx, r in enumerate(rankings_raw):
+                rankings_list.append({
+                    "No": idx + 1,
+                    "리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
+                    "팀": str(r.get("team", "-")),
+                    "경기": str(r.get("played", "0")),
+                    "승": str(r.get("win", "0")),
+                    "무승부": str(r.get("draw", "0")),
+                    "패": str(r.get("loss", "0")),
+                    "득점": str(r.get("goals_for", "0")),
+                    "실점": str(r.get("goals_against", "0")),
+                    "득실": str(r.get("goal_diff", "0")),
+                    "승점": str(r.get("points", "0"))
+                })
+            df_rankings = pd.DataFrame(rankings_list)
+            st.markdown("🔍 수집된 팀별 전체 및 조건별 세부 전적표입니다.")
+            st.dataframe(df_rankings[["리그순위", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
+        else:
+            st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
+    else:
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (3~4일 이후 경기 등)")
+        st.info("💡 크롤러 대상 기간(오늘/내일)에 포함되지 않은 경기이므로, 상세 전적표 및 통계 지표를 조회할 수 없습니다. 경기 당일 또는 전일에 데이터를 갱신해 주세요.")
 
 
 # 💡 [4번 파일 독립 발췌용] 리그 순위표 및 랭킹 데이터 전용 (match_details_v4.json)
