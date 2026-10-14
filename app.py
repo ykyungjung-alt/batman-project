@@ -358,7 +358,7 @@ with tabs[1]:
         "등급 (Tier)": ["Tier A", "Tier B", "Tier C", "Tier D", "Tier E"],
         "공격력 기준 (평균 득점)": ["2.3골 이상", "1.7 ~ 2.2골 미만", "1.1 ~ 1.6골 미만", "0.5 ~ 1.1골 미만", "0.5골 미만 (< 0.5)"],
         "공격 가중치": ["+12.0%", "+9.0%", "+6.0%", "+3.0%", "0.0% (최하위)"],
-        "방어력 기준 (평균 실점)": ["0.5골 미만 (< 0.5)", "0.5 ~ 0.9골 미만", "0.9 ~ 1.3골 미만", "1.3 ~ 1.7골 미만", "1.7골 이상"],
+        "방어력 기준 (평균 실점)": ["0.5골 미만 (< 0.5)", "0.5 ~ 1.0골 미만", "1.0 ~ 1.5골 미만", "1.5 ~ 2.0골 미만", "2.0골 이상"],
         "방어 가중치": ["-12.0% (최상위)", "-9.0%", "-6.0%", "-3.0%", "0.0%"]
     })
     st.dataframe(tier_weight_df, use_container_width=True, hide_index=True)
@@ -563,23 +563,44 @@ with tabs[1]:
     </div>""", unsafe_allow_html=True)
 
 
-# ========================================== #
-# 💡 규칙 2번 탭 (구장별 Shift 검증) - 티어 변동 색상 시각화 반영 #
-# ========================================== #
+# ==============================================================================
+# 💡 규칙 2번 탭 (구장 Shift 및 홈/중립 판정 명시 연동)
+# ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
-    st.markdown("""
-    <div class="step-box">
-        <b>📌 규격 원칙 및 요약 설명:</b><br>
-        • <b>구장별 전적(Stadium Form) 분석:</b> 홈팀의 홈 경기 구장 및 원정팀의 원정 경기 구장 데이터를 독립적으로 추출합니다.<br>
-        • <b>1단계 티어 대조 및 Shift 보정치:</b> 1단계 종합 티어와 구장별 티어를 비교하여 상승/하락에 따른 순수 보정치 수치를 적용합니다.
-    </div>
-    """, unsafe_allow_html=True)
-
+    
     if has_detailed_data:
-        s_home_matches = stadium_form.get("home_matches", [])[:10]
-        s_away_matches = stadium_form.get("away_matches", [])[:10]
+        # 0단계 메타데이터를 활용한 홈/중립 구장 판정 및 표시 로직
+        is_neutral_venue = False
+        venue_display_text = "구장 정보 없음"
         
+        if 'meta_data' in locals() and isinstance(meta_data, dict):
+            raw_venue = str(meta_data.get("venue", ""))
+            if raw_venue:
+                if "중립" in raw_venue or "Neutral" in raw_venue or "(홈)" not in raw_venue:
+                    if "(홈)" not in raw_venue:
+                        is_neutral_venue = True
+                        venue_display_text = f"{raw_venue} / <span style='color: #c62828; font-weight: bold;'>중립구장 (원정 성향 대체 적용)</span>"
+                    else:
+                        venue_display_text = f"{raw_venue} / <span style='color: #2e7d32; font-weight: bold;'>홈구장 일치 (홈 이점 적용)</span>"
+                else:
+                    venue_display_text = f"{raw_venue} / <span style='color: #2e7d32; font-weight: bold;'>홈구장 일치 (홈 이점 적용)</span>"
+
+        # 화면에 현재 구장 판정 상태 가시적으로 출력
+        st.markdown(f"""
+        <div style="padding: 10px; background-color: #f8f9fa; border-left: 4px solid {'#c62828' if is_neutral_venue else '#2e7d32'}; margin-bottom: 15px; font-size: 14px;">
+        <b>🏟️ 구장 판정 상태 (0단계 연동):</b> {venue_display_text}
+        </div>
+        """, unsafe_allow_html=True)
+
+        # 중립구장 판정 시 원정 성향 데이터 우선 분기 대입
+        if is_neutral_venue and stadium_form.get("away_matches"):
+            s_home_matches = stadium_form.get("away_matches", [])[:20]
+        else:
+            s_home_matches = stadium_form.get("home_matches", [])[:20]
+
+        s_away_matches = stadium_form.get("away_matches", [])[:20]
+
         s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패")
         s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패")
 
@@ -595,7 +616,11 @@ with tabs[2]:
         base_a_at = a_at if 'a_at' in locals() else "Tier C"
         base_a_de = a_de if 'a_de' in locals() else "Tier C"
 
-        tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
+        # 5-2 표 연동을 위한 최종 체급 변수 확정 (2단계 구장 Shift 결과 반영)
+        h_current_at = s_h_at if 's_h_at' in locals() else base_h_at
+        h_current_de = s_h_de if 's_h_de' in locals() else base_h_de
+        a_current_at = s_a_at if 's_a_at' in locals() else base_a_at
+        a_current_de = s_a_de if 's_a_de' in locals() else base_a_de
 
         # 💡 티어 변동에 따른 색상 결정 함수 (공격: 높을수록 좋음 / 방어: 높을수록 좋음)
         def get_tier_colored_html(base_tier, stadium_tier):
@@ -1246,14 +1271,16 @@ with tabs[5]:
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 
-# --- [표 5-2: 동급 티어 실전 5경기 교차 검증 (홈/원정 완벽 분리 및 익스트림 티어 매칭)] ---
+# ==============================================================================
+# 📊 [규칙 5-2 표: 동급 티어 실전 5경기 교차 검증 매트릭스 (익스트림/격차 보정 연동)]
+# ==============================================================================
+st.markdown("---")
 st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
 
 def get_extreme_tier_matched_5_matches(team_fixtures, opp_at, opp_de):
     """
     1) 친선 경기 전면 배제
-    2) 공수 티어 격차가 2단계 이상인 경우, C티어 기준 단순히 가까운 쪽보다
-       A티어나 E티어 등 양 끝단(익스트림 구간)에 근접한 유사 티어 매칭 경기를 우선 픽업
+    2) 공수 티어 격차가 2단계 이상인 경우, A티어나 E티어 등 양 끝단(익스트림 구간)에 근접한 유사 티어 매칭 경기를 우선 픽업
     3) 최신순 공식 경기 정확히 5개 산출
     """
     valid_matches = []
@@ -1265,7 +1292,6 @@ def get_extreme_tier_matched_5_matches(team_fixtures, opp_at, opp_de):
     opp_de_val = tier_ranks.get(opp_de, 3)
     tier_gap = abs(opp_at_val - opp_de_val)
     
-    # 1차 후보 수집 (친선전 배제 및 스코어 유효성 검증)
     candidate_matches = []
     for fix in team_fixtures:
         league_str = str(fix.get("league", ""))
@@ -1280,27 +1306,20 @@ def get_extreme_tier_matched_5_matches(team_fixtures, opp_at, opp_de):
         
     # 2단계 이상 격차 구간에서의 익스트림(양 끝단 A/E) 우선 정렬 로직 적용
     if tier_gap >= 2:
-        # A티어(최상단) 또는 E티어(최하단) 지표가 포함된 익스트림 매칭 경기를 우선순위로 상단 배치
         def extreme_priority_sort(f):
-            t_info = f.get("opponent_tier_info", "")
+            t_info = str(f.get("opponent_tier_info", ""))
             if "Tier A" in t_info or "Tier E" in t_info:
-                return 0 # 최우선 순위
+                return 0
             return 1
         candidate_matches.sort(key=extreme_priority_sort)
         
-    return candidate_matches[:5] # 최신순 또는 우선순위 정렬 상위 5개 채택
+    return candidate_matches[:5]
 
-# 1/2단계에서 산출된 홈/원정 팀의 공수 티어 변수 안전 확보
-h_current_at = h_at if 'h_at' in locals() else "Tier C"
-h_current_de = h_de if 'h_de' in locals() else "Tier C"
-a_current_at = a_at if 'a_at' in locals() else "Tier C"
-a_current_de = a_de if 'a_de' in locals() else "Tier C"
-
-# 원정 팀의 공수 체급 기준에 맞춘 홈 팀의 최근 5경기 매칭
+# 홈 팀은 원정 팀의 2단계 연동 체급(a_current_at, a_current_de)에 맞춤
 home_raw_list = h_matches if 'h_matches' in locals() else []
 home_matched_5 = get_extreme_tier_matched_5_matches(home_raw_list, a_current_at, a_current_de)
 
-# 홈 팀의 공수 체급 기준에 맞춘 원정 팀의 최근 5경기 매칭
+# 원정 팀은 홈 팀의 2단계 연동 체급(h_current_at, h_current_de)에 맞춤
 away_raw_list = a_matches if 'a_matches' in locals() else []
 away_matched_5 = get_extreme_tier_matched_5_matches(away_raw_list, h_current_at, h_current_de)
 
@@ -1314,7 +1333,7 @@ def build_team_52_table_rows(match_list, team_label, target_tier_str):
         
     for i, m in enumerate(match_list, 1):
         m_date = str(m.get("match_time", "-")).split(" ")[0].replace("-", ".")
-        m_league = translate_tournament_code(str(m.get("league", "-")))
+        m_league = str(m.get("league", "-"))
         m_score = str(m.get("score", "0 : 0"))
         m_loc = str(m.get("location", "중립"))
         m_opp = str(m.get("opponent", "상대 팀"))
@@ -1351,7 +1370,6 @@ def build_team_52_table_rows(match_list, team_label, target_tier_str):
     avg_ga = total_ga / cnt
     return rows_html, total_gf, total_ga, avg_gf, avg_ga
 
-# 홈 팀 및 원정 팀 행 데이터와 통계 산출
 h_rows, h_tgf, h_tga, h_agf, h_aga = build_team_52_table_rows(
     home_matched_5, home_team, f"공격 {a_current_at}/방어 {a_current_de}"
 )
@@ -1382,16 +1400,14 @@ table_5_2_html = f"""
 </tr>
 </thead>
 <tbody>
-<!-- 홈 팀 영역 -->
-<tr style="background-color: #e3f2fd; font-weight: bold;"><td colspan="9">🏠 홈 팀: {home_team} (상대 공수 티어: 공격 {a_current_at} / 방어 {a_current_de} 기준 매칭)</td></tr>
+<tr style="background-color: #e3f2fd; font-weight: bold;"><td colspan="9">🏠 홈 팀: {home_team} (2단계 연동 상대 티어: 공격 {a_current_at} / 방어 {a_current_de})</td></tr>
 {h_rows}
 <tr style="background-color: #f1f8e9; font-weight: bold;">
 <td colspan="5">{home_team} 팀 최근 공식 5경기 총합 및 실전 평균</td>
 <td colspan="4">5경기 총합: {h_tgf}득점 / {h_tga}실점<br><span style="color: #d32f2f;">실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span></td>
 </tr>
 
-<!-- 원정 팀 영역 -->
-<tr style="background-color: #e3f2fd; font-weight: bold; border-top: 2px solid #ccc;"><td colspan="9">✈️ 원정 팀: {away_team} (상대 공수 티어: 공격 {h_current_at} / 방어 {h_current_de} 기준 매칭)</td></tr>
+<tr style="background-color: #e3f2fd; font-weight: bold; border-top: 2px solid #ccc;"><td colspan="9">✈️ 원정 팀: {away_team} (2단계 연동 상대 티어: 공격 {h_current_at} / 방어 {h_current_de})</td></tr>
 {a_rows}
 <tr style="background-color: #f1f8e9; font-weight: bold;">
 <td colspan="5">{away_team} 팀 최근 공식 5경기 총합 및 실전 평균</td>
