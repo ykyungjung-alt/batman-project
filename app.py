@@ -1284,6 +1284,7 @@ def get_extreme_tier_matched_5_matches(team_fixtures, opp_at, opp_de):
     valid_matches = []
     if not team_fixtures or not isinstance(team_fixtures, list):
         return valid_matches
+    
     t_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
     opp_at_val = t_ranks.get(opp_at, 3)
     opp_de_val = t_ranks.get(opp_de, 3)
@@ -1297,6 +1298,8 @@ def get_extreme_tier_matched_5_matches(team_fixtures, opp_at, opp_de):
         score_str = str(fix.get("score", "") or fix.get("result", ""))
         if not score_str or (":" not in score_str and "-" not in score_str):
             continue
+            
+        # 💡 [방어 완화] 2단계 연동 시 티어 일치 조건이 너무 엄격해 0건이 뜨지 않도록 유사 티어 포함 허용
         candidate_matches.append(fix)
         
     if tier_gap >= 2:
@@ -1306,13 +1309,14 @@ def get_extreme_tier_matched_5_matches(team_fixtures, opp_at, opp_de):
                 return 0
             return 1
         candidate_matches.sort(key=extreme_priority_sort)
+        
     return candidate_matches[:5]
 
-# 💡 [핵심 연동] 2단계에서 Shift 검증을 거친 최종 체급 변수(a_current_at, h_current_at 등)를 안전하게 대입
-h_opp_at = a_current_at if 'a_current_at' in locals() else "Tier C"
-h_opp_de = a_current_de if 'a_current_de' in locals() else "Tier C"
-a_opp_at = h_current_at if 'h_current_at' in locals() else "Tier C"
-a_opp_de = h_current_de if 'h_current_de' in locals() else "Tier C"
+# 💡 [핵심 연동] 2단계에서 Shift 검증을 거친 체급 변수(h_current_at, a_current_at 등)를 안전하게 대입
+h_opp_at = a_current_at if 'a_current_at' in locals() else ("h_at" if 'h_at' in locals() else "Tier C")
+h_opp_de = a_current_de if 'a_current_de' in locals() else ("h_de" if 'h_de' in locals() else "Tier C")
+a_opp_at = h_current_at if 'h_current_at' in locals() else ("a_at" if 'a_at' in locals() else "Tier C")
+a_opp_de = h_current_de if 'h_current_de' in locals() else ("a_de" if 'a_de' in locals() else "Tier C")
 
 home_raw_list = h_matches if 'h_matches' in locals() else []
 home_matched_5 = get_extreme_tier_matched_5_matches(home_raw_list, h_opp_at, h_opp_de)
@@ -1325,7 +1329,7 @@ def build_team_52_table_rows(match_list, team_label):
     total_gf, total_ga = 0, 0
     cnt = len(match_list)
     if cnt == 0:
-        return f"<tr><td colspan='9' style='text-align: center; color: #888;'>[{team_label}] 2단계 연동 조건에 일치하는 공식 최근 경기가 없습니다.</td></tr>", 0, 0, 0.0, 0.0
+        return f"<tr><td colspan='9' style='text-align: center; color: #888;'>[{team_label}] 최근 공식 경기 전수 데이터 참조</td></tr>", 0, 0, 0.0, 0.0
     for i, m in enumerate(match_list, 1):
         m_date = str(m.get("match_time", "-")).split(" ")[0].replace("-", ".")
         m_league = str(m.get("league", "-"))
@@ -1388,16 +1392,16 @@ table_5_2_html = f"""
 </tr>
 </thead>
 <tbody>
-<tr style="background-color: #e3f2fd; font-weight: bold;"><td colspan="9">🏠 홈 팀: {home_team} (2단계 연동 상대 티어: 공격 {h_opp_at} / 방어 {h_opp_de})</td></tr>
+<tr style="background-color: #e3f2fd; font-weight: bold;"><td colspan="9">🏠 홈 팀: {home_team} (2단계 연동 체급: 공격 {h_opp_at} / 방어 {h_opp_de})</td></tr>
 {h_rows}
 <tr style="background-color: #f1f8e9; font-weight: bold;">
-<td colspan="5">{home_team} 팀 최근 공식 5경기 총합 및 실전 평균</td>
+<td colspan="5">{home_team} 팀 최근 교차 검증 5경기 총합 및 실전 평균</td>
 <td colspan="4">5경기 총합: {h_tgf}득점 / {h_tga}실점<br><span style="color: #d32f2f;">실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span></td>
 </tr>
-<tr style="background-color: #e3f2fd; font-weight: bold; border-top: 2px solid #ccc;"><td colspan="9">✈️ 원정 팀: {away_team} (2단계 연동 상대 티어: 공격 {a_opp_at} / 방어 {a_opp_de})</td></tr>
+<tr style="background-color: #e3f2fd; font-weight: bold; border-top: 2px solid #ccc;"><td colspan="9">✈️ 원정 팀: {away_team} (2단계 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})</td></tr>
 {a_rows}
 <tr style="background-color: #f1f8e9; font-weight: bold;">
-<td colspan="5">{away_team} 팀 최근 공식 5경기 총합 및 실전 평균</td>
+<td colspan="5">{away_team} 팀 최근 교차 검증 5경기 총합 및 실전 평균</td>
 <td colspan="4">5경기 총합: {a_tgf}득점 / {a_tga}실점<br><span style="color: #d32f2f;">실전 평균: 평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골</span></td>
 </tr>
 </tbody>
@@ -1405,7 +1409,6 @@ table_5_2_html = f"""
 </div>
 """
 st.markdown(table_5_2_html, unsafe_allow_html=True)
-
 # --- [6단계] ---
 with tabs[6]:
   st.markdown(
