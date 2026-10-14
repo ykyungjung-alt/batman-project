@@ -257,4 +257,49 @@ def run_table_based_crawler_v2():
                                 teams = c_item.find("div", class_="corteam")
                                 interval = c_item.find("div", class_="interval")
                                 match_info = {
-                                    "league": league.get
+                                    "league": league.get_text(strip=True) if league else "",
+                                    "match_time": time_span["data-t"] if time_span and time_span.has_attr("data-t") else (time_span.get_text(strip=True) if time_span else ""),
+                                    "teams": teams.get_text(separator=" vs ", strip=True) if teams else "",
+                                    "interval": interval.get_text(strip=True) if interval else ""
+                                }
+                                if match_info["teams"] and match_info not in fixtures_data["away"]:
+                                    fixtures_data["away"].append(match_info)
+                except Exception as e:
+                    print(f"  - 경기일정 파싱 예외 ({m_id}): {e}")
+
+                match_details[m_id] = {
+                    "match_code": m_id,
+                    "head_info": head_info,
+                    "home": target["home"],
+                    "away": target["away"],
+                    "meta_details": {
+                        "rankings": rankings_data,
+                        "recent_form": recent_form,
+                        "h2h": h2h_data,
+                        "fixtures": fixtures_data
+                    }
+                }
+                counter += 1
+
+            except Exception as e:
+                print(f"  ⚠️ 상세 페이지 수집 실패 (Match ID: {m_id}): {e}")
+                continue
+
+        output_data = {
+            "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
+            "match_details": match_details
+        }
+        
+        target_file = "match_details_v2.json"
+        temp_file = target_file + ".tmp"
+        with open(temp_file, "w", encoding="utf-8") as f:
+            json.dump(output_data, f, ensure_ascii=False, indent=4)
+        os.replace(temp_file, target_file)
+        
+        print(f"\n🎉 성공: 내일({target_date_str}) 경기 총 {counter - 1}개의 데이터가 match_details_v2.json에 안전하게 저장되었습니다!")
+
+    finally:
+        driver.quit()
+
+if __name__ == "__main__":
+    run_table_based_crawler_v2()
