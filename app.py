@@ -1212,7 +1212,7 @@ with tabs[5]:
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 
         # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (A~E 등급 체급 변환 적용 및 네이티브 표 렌더링)
+        # 📊 [5-2 표] 렌더링
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
@@ -1222,7 +1222,6 @@ with tabs[5]:
         a_opp_at = h_current_at if 'h_current_at' in locals() else "Tier C"
         a_opp_de = h_current_de if 'h_current_de' in locals() else "Tier C"
 
-        # 전적 풀 독립 확보
         home_raw_pool = []
         away_raw_pool = []
         target_v3_match = v3_details_dict.get(str(match_code), {}) if 'v3_details_dict' in locals() else {}
@@ -1271,7 +1270,6 @@ with tabs[5]:
                 if scores_arr and len(scores_arr) >= 2:
                     m_score = f"{scores_arr[0]} : {scores_arr[1]}"
                 m_loc = str(m.get("location", "공식"))
-
                 m_opp = ""
                 teams_str = str(m.get("teams", ""))
                 if " vs " in teams_str:
@@ -1292,16 +1290,6 @@ with tabs[5]:
                         od = float(parts_o[1].strip())
                     except:
                         pass
-                else:
-                    raw_tier_str = str(m.get("tier_info", ""))
-                    if "/" in raw_tier_str:
-                        try:
-                            parts_t = raw_tier_str.split("/")
-                            oa = float(parts_t[0].strip())
-                            od = float(parts_t[1].strip())
-                        except:
-                            pass
-
                 at_name = atk_tier_nm(oa)
                 df_name = def_tier_nm(od)
                 m_opp_tier = f"{at_name} / {df_name}"
@@ -1318,15 +1306,8 @@ with tabs[5]:
                 w_l = "승" if gf > ga else ("패" if gf < ga else "무")
                 seq_txt = f"{i} (최신)" if i == 1 else (f"{i} (과거)" if i == cnt else str(i))
                 rows.append({
-                    "순서": seq_txt,
-                    "경기 일시": m_date,
-                    "대회 명칭": m_league,
-                    "장소": m_loc,
-                    "상대 팀": m_opp,
-                    "상대 티어 (A~E 등급 연동)": m_opp_tier,
-                    "최종 스코어": m_score,
-                    "결과": w_l,
-                    "비고 (득점 / 실점)": f"{gf}득점 / {ga}실점"
+                    "순서": seq_txt, "경기 일시": m_date, "대회 명칭": m_league, "장소": m_loc, "상대 팀": m_opp,
+                    "상대 티어 (A~E 등급 연동)": m_opp_tier, "최종 스코어": m_score, "결과": w_l, "비고 (득점 / 실점)": f"{gf}득점 / {ga}실점"
                 })
             avg_gf = total_gf / cnt if cnt > 0 else 0.0
             avg_ga = total_ga / cnt if cnt > 0 else 0.0
@@ -1343,90 +1324,75 @@ with tabs[5]:
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
         st.markdown(f"📌 **{away_team} 최근 5경기 총합:** {a_tgf} 득점 / {a_tga} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
 
+        # --------------------------------------------------------------------------
+        # 📊 [5-3 표] 렌더링 (규칙 5번 탭 내부로 완벽히 격리)
+        # --------------------------------------------------------------------------
+        if 'h_current_at' not in locals(): h_current_at = 'Tier C'
+        if 'a_current_at' not in locals(): a_current_at = 'Tier C'
+        h_tier_val = tier_ranks.get(h_current_at, 3)
+        a_tier_val = tier_ranks.get(a_current_at, 3)
+        tier_diff = abs(h_tier_val - a_tier_val)
+
+        h_base = h_final_exp_g
+        a_base = a_final_exp_g
+        h_conceded_base = h_final_exp_c
+        a_conceded_base = a_final_exp_c
+
+        h_over_factor = 0.0
+        a_over_factor = 0.0
+        over_factor_desc = "0% 적용 (표준/저득점형)"
+
+        if tier_diff >= 2:
+            if h_tier_val > a_tier_val:
+                add_rate = 0.10 + (tier_diff - 2) * 0.10
+                h_over_factor = add_rate
+                over_factor_desc = f"체급 격차형 ({tier_diff}단계 차이): 홈 팀 공격력 + {int(add_rate*100)}% 가산"
+            else:
+                add_rate = 0.10 + (tier_diff - 2) * 0.10
+                a_over_factor = add_rate
+                over_factor_desc = f"체급 격차형 ({tier_diff}단계 차이): 원정 팀 공격력 + {int(add_rate*100)}% 가산"
+        elif (h_base + a_base > 3.2) or (h_conceded_base >= 1.50 or a_conceded_base >= 1.50):
+            h_over_factor = 0.15
+            a_over_factor = 0.15
+            over_factor_desc = "동급 난타전형: 양 팀 화력 보존 및 수비 불안 반영 (+15% 가산)"
+
+        h_final = h_base * (1 + h_over_factor)
+        a_final = a_base * (1 + a_over_factor)
+        total_expected_goals = h_final + a_final
+
+        st.markdown("---")
+        st.markdown(f"##### 📊 [5-3 표] 다득점/체급차 변동성 보정 (Over Factor) 산출 매트릭스 ({home_team} vs {away_team})")
+        table_data_53 = [
+            {"구분 항목": "변동성 보정 유형 판정", f"홈 팀 ({home_team})": over_factor_desc, f"원정 팀 ({away_team})": over_factor_desc, "산출 근거 및 공식": "final = base * (1 + OverFactor)"},
+            {"구분 항목": "다득점 가산 비율 (Over Factor)", f"홈 팀 ({home_team})": f"+ {int(h_over_factor*100)}%", f"원정 팀 ({away_team})": f"+ {int(a_over_factor*100)}%", "산출 근거 및 공식": "티어 격차 및 난타전 조건 연동"},
+            {"구분 항목": "최종 보정 기대 득실점 (final)", f"홈 팀 ({home_team})": f"보정 득점 {h_final:.2f} 골", f"원정 팀 ({away_team})": f"보정 득점 {a_final:.2f} 골", "산출 근거 및 공식": "base 대비 최종 가산 반영 완료"}
+        ]
+        st.dataframe(pd.DataFrame(table_data_53), use_container_width=True, hide_index=True)
+
+        # --------------------------------------------------------------------------
+        # 📊 [5-4 표] 렌더링 (규칙 5번 탭 내부로 완벽히 격리)
+        # --------------------------------------------------------------------------
+        if total_expected_goals < 2.2:
+            poisson_zone_name = "저득점 통제 구역 (total < 2.2)"
+            matrix_range = "0 ~ 3골 범위 (4×4 행렬)"
+        elif total_expected_goals <= 3.2 and tier_diff < 2:
+            poisson_zone_name = "표준 득점 구역 (2.2 ~ 3.2)"
+            matrix_range = "0 ~ 4골 범위 (5×5 행렬 - 기본)"
+        else:
+            poisson_zone_name = "다득점 변동 구역 (total > 3.2 또는 격차 2단계 이상)"
+            matrix_range = "0 ~ 6골 / 0 ~ 7골 동적 확장 행렬"
+
+        st.markdown("---")
+        st.markdown(f"##### 📊 [5-4 표] 이원화 동적 골 범위 행렬 확정 매트릭스 ({home_team} vs {away_team})")
+        table_data_54 = [
+            {"구분 항목": "총 기대 득점 (개별 final)", f"홈 팀 ({home_team})": f"{h_final:.2f}골", f"원정 팀 ({away_team})": f"{a_final:.2f}골", "확정 구획 범주": poisson_zone_name, "푸아송 연산 행렬 범위": matrix_range},
+            {"구분 항목": "양 팀 합계 (total)", f"홈 팀 ({home_team})": f"{total_expected_goals:.2f}골", f"원정 팀 ({away_team})": f"{total_expected_goals:.2f}골", "확정 구획 범주": poisson_zone_name, "푸아송 연산 행렬 범위": matrix_range}
+        ]
+        st.dataframe(pd.DataFrame(table_data_54), use_container_width=True, hide_index=True)
+
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
         st.stop()
-
-# ==========================================
-# 💡 규칙 5-3: 다득점/체급차 변동성 보정 (Over Factor) 산출 및 표 렌더링
-# ==========================================
-# 안전 폴백 변수 정의 (NameError 완벽 방지)
-if 'h_current_at' not in locals():
-    h_current_at = 'Tier C'
-if 'a_current_at' not in locals():
-    a_current_at = 'Tier C'
-if 'h_final_exp_g' not in locals():
-    h_final_exp_g = 1.0
-if 'a_final_exp_g' not in locals():
-    a_final_exp_g = 1.0
-if 'h_final_exp_c' not in locals():
-    h_final_exp_c = 1.0
-if 'a_final_exp_c' not in locals():
-    a_final_exp_c = 1.0
-if 'tier_ranks' not in locals():
-    tier_ranks = {'Tier A': 5, 'Tier B': 4, 'Tier C': 3, 'Tier D': 2, 'Tier E': 1}
-
-h_tier_val = tier_ranks.get(h_current_at, 3)
-a_tier_val = tier_ranks.get(a_current_at, 3)
-tier_diff = abs(h_tier_val - a_tier_val)
-
-h_base = h_final_exp_g
-a_base = a_final_exp_g
-h_conceded_base = h_final_exp_c
-a_conceded_base = a_final_exp_c
-
-h_over_factor = 0.0
-a_over_factor = 0.0
-over_factor_desc = "0% 적용 (표준/저득점형)"
-
-if tier_diff >= 2:
-    if h_tier_val > a_tier_val:
-        add_rate = 0.10 + (tier_diff - 2) * 0.10
-        h_over_factor = add_rate
-        over_factor_desc = f"체급 격차형 ({tier_diff}단계 차이): 홈 팀 공격력 + {int(add_rate*100)}% 가산"
-    else:
-        add_rate = 0.10 + (tier_diff - 2) * 0.10
-        a_over_factor = add_rate
-        over_factor_desc = f"체급 격차형 ({tier_diff}단계 차이): 원정 팀 공격력 + {int(add_rate*100)}% 가산"
-elif (h_base + a_base > 3.2) or (h_conceded_base >= 1.50 or a_conceded_base >= 1.50):
-    h_over_factor = 0.15
-    a_over_factor = 0.15
-    over_factor_desc = "동급 난타전형: 양 팀 화력 보존 및 수비 불안 반영 (+15% 가산)"
-
-h_final = h_base * (1 + h_over_factor)
-a_final = a_base * (1 + a_over_factor)
-total_expected_goals = h_final + a_final
-
-st.markdown("---")
-st.markdown(f"##### 📊 [5-3 표] 다득점/체급차 변동성 보정 (Over Factor) 산출 매트릭스 ({home_team} vs {away_team})")
-
-table_data_53 = [
-    {"구분 항목": "변동성 보정 유형 판정", f"홈 팀 ({home_team})": over_factor_desc, f"원정 팀 ({away_team})": over_factor_desc, "산출 근거 및 공식": "final = base * (1 + OverFactor)"},
-    {"구분 항목": "다득점 가산 비율 (Over Factor)", f"홈 팀 ({home_team})": f"+ {int(h_over_factor*100)}%", f"원정 팀 ({away_team})": f"+ {int(a_over_factor*100)}%", "산출 근거 및 공식": "티어 격차 및 난타전 조건 연동"},
-    {"구분 항목": "최종 보정 기대 득실점 (final)", f"홈 팀 ({home_team})": f"보정 득점 {h_final:.2f} 골", f"원정 팀 ({away_team})": f"보정 득점 {a_final:.2f} 골", "산출 근거 및 공식": "base 대비 최종 가산 반영 완료"}
-]
-st.dataframe(pd.DataFrame(table_data_53), use_container_width=True, hide_index=True)
-
-# ==========================================
-# 💡 규칙 5-4: 이원화 동적 골 범위 행렬 확정 및 표 렌더링 (양팀 분리 출력)
-# ==========================================
-if total_expected_goals < 2.2:
-    poisson_zone_name = "저득점 통제 구역 (total < 2.2)"
-    matrix_range = "0 ~ 3골 범위 (4×4 행렬)"
-elif total_expected_goals <= 3.2 and tier_diff < 2:
-    poisson_zone_name = "표준 득점 구역 (2.2 ~ 3.2)"
-    matrix_range = "0 ~ 4골 범위 (5×5 행렬 - 기본)"
-else:
-    poisson_zone_name = "다득점 변동 구역 (total > 3.2 또는 격차 2단계 이상)"
-    matrix_range = "0 ~ 6골 / 0 ~ 7골 동적 확장 행렬"
-
-st.markdown("---")
-st.markdown(f"##### 📊 [5-4 표] 이원화 동적 골 범위 행렬 확정 매트릭스 ({home_team} vs {away_team})")
-table_data_54 = [
-    {"구분 항목": "총 기대 득점 (개별 final)", f"홈 팀 ({home_team})": f"{h_final:.2f}골", f"원정 팀 ({away_team})": f"{a_final:.2f}골", "확정 구획 범주": poisson_zone_name, "푸아송 연산 행렬 범위": matrix_range},
-    {"구분 항목": "양 팀 합계 (total)", f"홈 팀 ({home_team})": f"{total_expected_goals:.2f}골", f"원정 팀 ({away_team})": f"{total_expected_goals:.2f}골", "확정 구획 범주": poisson_zone_name, "푸아송 연산 행렬 범위": matrix_range}
-]
-st.dataframe(pd.DataFrame(table_data_54), use_container_width=True, hide_index=True)
 
 import math
 
