@@ -1115,16 +1115,13 @@ else:
     a_r4_atk_val = 0.0
     a_r4_def_val = 0.0
 
-# ==============================================================================
-# 💡 규칙 5번 탭 (들여쓰기 및 5-1, 5-2 표 완벽 정돈 통합 렌더링)
-# ==============================================================================
 with tabs[5]:
     st.markdown(f"#### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
-    <b>📌 규격 원칙 및 요약 설명:</b><br>
-    • 1단계 공수 기본 기대치부터 규칙 1~4까지의 모든 보정치(LIFO, 구장 Shift, 선수 전력, 이동 피로도, H2H 상성)를 누적 합산합니다.<br>
-    • 최종 누적 보정치와 독자 공수 한계선을 바탕으로 기하평균 공수 교차 상쇄 결합 연산을 수행하여 최종 1차 기본 기대 득실점을 도출합니다.
+        <b>📌 규격 원칙 및 요약 설명:</b><br>
+        • 1단계 공수 기본 기대치부터 규칙 1~4까지의 모든 보정치(LIFO, 구장 Shift, 선수 전력, 이동 피로도, H2H 상성)를 누적 합산합니다.<br>
+        • 최종 누적 보정치와 독자 공수 한계선을 바탕으로 기하평균 공수 교차 상쇄 결합 연산을 수행하여 최종 1차 기본 기대 득실점을 도출합니다.
     </div>
     """, unsafe_allow_html=True)
 
@@ -1146,11 +1143,14 @@ with tabs[5]:
         a_dew = a_dew if 'a_dew' in locals() else "-4.0%"
 
         def parse_pct(val_str):
-            if isinstance(val_str, (int, float)): return float(val_str)
+            if isinstance(val_str, (int, float)):
+                return float(val_str)
             if isinstance(val_str, str):
                 cleaned = val_str.replace('%', '').replace('+', '').strip()
-                try: return float(cleaned)
-                except: return 0.0
+                try:
+                    return float(cleaned)
+                except:
+                    return 0.0
             return 0.0
 
         h_r1_atk = parse_pct(h_atw)
@@ -1225,14 +1225,11 @@ with tabs[5]:
         # 전적 풀 독립 확보
         home_raw_pool = []
         away_raw_pool = []
-
         target_v3_match = v3_details_dict.get(str(match_code), {}) if 'v3_details_dict' in locals() else {}
         stadium_form_block = target_v3_match.get("meta_details", {}).get("stadium_form", {}) if target_v3_match else {}
-
         if stadium_form_block:
             home_raw_pool = stadium_form_block.get("home_matches", [])
             away_raw_pool = stadium_form_block.get("away_matches", [])
-
         if not home_raw_pool:
             home_raw_pool = s_home_matches if 's_home_matches' in locals() and s_home_matches else (h_matches if 'h_matches' in locals() else [])
         if not away_raw_pool:
@@ -1247,12 +1244,10 @@ with tabs[5]:
                 league_lower = league_raw.lower()
                 if any(keyword in league_lower for keyword in ["친선", "friendly", "int cf", "club friendlies", "friendlies"]):
                     continue
-                
                 scores_arr = fix.get("ft_scores", [])
                 score_str = str(fix.get("score", "") or fix.get("result", ""))
                 if not score_str and (scores_arr and len(scores_arr) >= 2):
                     score_str = f"{scores_arr[0]} : {scores_arr[1]}"
-                
                 if not score_str or (":" not in score_str and "-" not in score_str and not scores_arr):
                     continue
                 valid.append(fix)
@@ -1267,36 +1262,29 @@ with tabs[5]:
             cnt = len(match_list)
             if cnt == 0:
                 return pd.DataFrame([{"순서": "데이터 없음", "경기 일시": "-", "대회 명칭": "-", "장소": "-", "상대 팀": f"[{team_label}] 최근 공식 경기 전수 참조", "상대 티어": "-", "최종 스코어": "-", "결과": "-", "비고": "0득점 / 0실점"}]), 0, 0, 0.0, 0.0
-            
             for i, m in enumerate(match_list, 1):
                 m_date = str(m.get("match_time", "-")).split(" ")[0].replace("-", ".")
                 raw_league = str(m.get("league", "-"))
                 m_league = translate_tournament_code(raw_league)
-
                 m_score = str(m.get("score", "") or m.get("result", "0 : 0"))
                 scores_arr = m.get("ft_scores", [])
                 if scores_arr and len(scores_arr) >= 2:
                     m_score = f"{scores_arr[0]} : {scores_arr[1]}"
-
                 m_loc = str(m.get("location", "공식"))
-                
-                # 1. 상대 팀 이름 정밀 추출
+
                 m_opp = ""
                 teams_str = str(m.get("teams", ""))
                 if " vs " in teams_str:
                     t_parts = [p.strip() for p in teams_str.split("vs")]
                     if len(t_parts) >= 2:
                         m_opp = t_parts[1] if team_label in t_parts[0] else t_parts[0]
-                
                 if not m_opp:
                     m_opp = str(m.get("opponent", "") or m.get("team", "")).strip()
                 if not m_opp:
                     m_opp = "상대 팀명 미확인"
 
-                # 2. [핵심 선행 연산] 상대 팀의 실제 득실점 평균을 먼저 계산 후 A~E 등급 부여
-                oa, od = 1.3, 1.2  # 기본 안전 폴백 값
+                oa, od = 1.3, 1.2
                 tier_info = m.get("opponent_tier_info", "")
-                
                 if tier_info and "/" in tier_info:
                     try:
                         parts_o = tier_info.split("/")
@@ -1305,7 +1293,6 @@ with tabs[5]:
                     except:
                         pass
                 else:
-                    # 데이터 내부에 독립된 수치가 있는 경우 추가 탐색
                     raw_tier_str = str(m.get("tier_info", ""))
                     if "/" in raw_tier_str:
                         try:
@@ -1315,11 +1302,9 @@ with tabs[5]:
                         except:
                             pass
 
-                # 3. 규칙 1번 기준 함수로 티어 선행 계산 및 확정
                 at_name = atk_tier_nm(oa)
                 df_name = def_tier_nm(od)
                 m_opp_tier = f"{at_name} / {df_name}"
-
                 gf, ga = 0, 0
                 try:
                     parts = m_score.replace("-", ":").split(":")
@@ -1328,12 +1313,10 @@ with tabs[5]:
                         ga = int(parts[1].strip())
                 except:
                     pass
-                
                 total_gf += gf
                 total_ga += ga
                 w_l = "승" if gf > ga else ("패" if gf < ga else "무")
                 seq_txt = f"{i} (최신)" if i == 1 else (f"{i} (과거)" if i == cnt else str(i))
-                
                 rows.append({
                     "순서": seq_txt,
                     "경기 일시": m_date,
@@ -1355,15 +1338,14 @@ with tabs[5]:
         st.markdown(f"📌 **{home_team} 최근 5경기 총합:** {h_tgf}득점 / {h_tga}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span>", unsafe_allow_html=True)
 
         st.markdown("---")
-
         st.markdown(f"##### ✈️ 원정 팀: {away_team} (2단계 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_agf, a_aga = build_team_52_dataframe(away_matched_5, away_team)
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
         st.markdown(f"📌 **{away_team} 최근 5경기 총합:** {a_tgf} 득점 / {a_tga} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
 
-else:
-    st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-    st.stop()  # 👈 데이터가 없을 때 후속 연산 진행을 차단하여 에러 방지
+    else:
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+        st.stop()
 
 # ==========================================
 # 💡 규칙 5-3: 다득점/체급차 변동성 보정 (Over Factor) 산출 및 표 렌더링
