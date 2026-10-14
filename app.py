@@ -1419,7 +1419,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 스코어 순위 / 확률 정밀 연산 블록 (5-2 ~ 5-4 완벽 직결 규격)
+# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1438,7 +1438,7 @@ elif total_exp_goals <= 3.2 and (tier_diff if 'tier_diff' in locals() else 0) < 
 else:
     matrix_max_k = 6
 
-# 2. 푸아송 확률 매트릭스 산출 (5-3 최종 람다 h_final, a_final 적용)
+# 2. 푸아송 확률 매트릭스 산출 (5-3 최종 람다 적용)
 score_probs = []
 for h_g in range(matrix_max_k + 1):
     for a_g in range(matrix_max_k + 1):
@@ -1452,32 +1452,21 @@ calc_home_win = sum(item["prob"] for item in score_probs if item["home_score"] >
 calc_away_win = sum(item["prob"] for item in score_probs if item["home_score"] < item["away_score"]) * 100
 calc_draw = sum(item["prob"] for item in score_probs if item["home_score"] == item["away_score"]) * 100
 
-# 4. [핵심 연동] 규칙 5-2 실전 평균(h_agf, a_agf)과 수비 억제력을 1순위 최적합 오차식에 직접 반영
+# 4. [규칙 5-2 연동] 1순위 최적합 스코어 산출
 h_target_52 = h_agf if 'h_agf' in locals() else 1.0
 a_target_52 = a_agf if 'a_agf' in locals() else 1.0
 
 scored_candidates = []
 for item in score_probs:
     hg, ag, prob = item["home_score"], item["away_score"], item["prob"]
-    
-    # 5-2 실전 평균 스코어와의 기하학적 거리(오차) 계산
     v52_distance = abs(hg - h_target_52) + abs(ag - a_target_52)
-    
-    # 최적합 점수 산출: 확률이 높고(prob), 동시에 5-2 실전 평균 체급과 오차가 적을수록 우선순위 부여
     fitness_score = v52_distance - (prob * 3.0)
-    
-    scored_candidates.append({
-        "home_score": hg,
-        "away_score": ag,
-        "prob": prob,
-        "fitness": fitness_score
-    })
+    scored_candidates.append({"home_score": hg, "away_score": ag, "prob": prob, "fitness": fitness_score })
 
-# 적합도(fitness)가 가장 낮은(오차가 적고 확률이 조화로운) 스코어를 1순위(최적합)로 선정
 sorted_by_fitness = sorted(scored_candidates, key=lambda x: x["fitness"])
 best_match_52 = sorted_by_fitness[0]
 
-# 5. [2순위 차선책 선정] 1순위를 제외한 단일 최고 확률 스코어
+# 5. [2순위 차선책 산출]
 sorted_by_prob = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
 second_match = None
 for s in sorted_by_prob:
@@ -1487,16 +1476,18 @@ for s in sorted_by_prob:
 if not second_match:
     second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-# 1순위 결과 텍스트 매핑
+# 1순위 / 2순위 텍스트 매핑
 h_pred_1st = f"{best_match_52['home_score']}골"
 a_pred_1st = f"{best_match_52['away_score']}골"
 p1_rate = best_match_52["prob"] * 100
+score_1st_str = f"{best_match_52['home_score']} : {best_match_52['away_score']}"
 
-# 2순위 결과 텍스트 매핑
 h_pred_2nd = f"{second_match['home_score']}골"
 a_pred_2nd = f"{second_match['away_score']}골"
 p2_rate = second_match["prob"] * 100
+score_2nd_str = f"{second_match['home_score']} : {second_match['away_score']}"
 s2_h, s2_a = second_match['home_score'], second_match['away_score']
+
 if s2_h > s2_a:
     s2_result_str = f"{s2_h - s2_a}점차 {home_team} 승리"
 elif s2_h < s2_a:
@@ -1504,7 +1495,7 @@ elif s2_h < s2_a:
 else:
     s2_result_str = "무승부"
 
-# 6. [3순위 대안책] 1순위 및 2순위 스코어를 제외한 나머지 점수 차이별 확률 분포 산출
+# 6. [3순위 대안책 산출] (1, 2순위 제외 후 점수 차이별 최고 확률 구도 도출)
 diff_probs = {}
 for item in score_probs:
     if (item["home_score"] == best_match_52["home_score"] and item["away_score"] == best_match_52["away_score"]) or \
@@ -1530,59 +1521,84 @@ else:
     h_score_3rd = "무승부 공방"
     dominant_str = "무승부 공방 우세"
 
-p3_desc = (
-    f"• 2순위 단일 예측: {p2_rate:.1f}% / {s2_result_str} ({s2_h}:{s2_a})\n"
-    f"• 3순위 대안 분포: {dominant_prob:.1f}% / {dominant_str}"
-)
-
 
 # --------------------------------------------------------------------------
-# 📊 [규칙 6번 카드형 UI] 최종 렌더링 매핑
+# 📊 [규칙 6번 렌더링] 승무패 확률 및 예측 순위 완전 분리 카드 레이아웃
 # --------------------------------------------------------------------------
 with tabs[6]:
     st.markdown(f"#### [규칙 6번: 예상 스코어 순위 산출 및 최종 통합 흐름 매트릭스] - {home_team} vs {away_team}")
     st.markdown(
         """<div class="step-box">
         <b>📌 예상스코어 순위 산출 방법 규격:</b><br>
-        • <b>1순위 (최적합):</b> 규칙 5-2 실전 평균 및 5-3·5-4 변동성 보정을 거친 푸아송 매트릭스에서 가장 근접한 최적 스코어를 선정합니다.<br>
-        • <b>2순위 (차선책):</b> 1순위를 제외한 푸아송 확률이 가장 높은 단일 스코어를 선정합니다.<br>
-        • <b>3순위 (대안책):</b> 상위 순위를 제외한 나머지 점수 차이별 확률 분포를 분석하여 대안 구도를 매핑합니다.
+        • <b>승무패 수리 확률:</b> 푸아송 매트릭스 전수 조합을 바탕으로 최종 승/무/패 확률을 산출합니다.<br>
+        • <b>1순위 (최적합):</b> 규칙 5-2 실전 평균 및 5-3·5-4 보정값을 반영한 최적 스코어를 선정합니다.<br>
+        • <b>2순위 (차선책):</b> 1순위를 제외한 단일 최고 확률 스코어를 선정합니다.<br>
+        • <b>3순위 (대안책):</b> 상위 순위를 제외한 점수 차이별 확률 분포를 분석하여 대안 구도를 매핑합니다.
         </div>""",
         unsafe_allow_html=True,
     )
     
-    st.markdown("##### 🏆 최종 예상 스코어 및 순위 산출 결과 요약")
+    # ── [섹션 A] 최종 승무패 수리 확률 요약 카드 ──
+    st.markdown("##### 📈 최종 승무패 수리 확률 분포")
+    col_w1, col_w2, col_w3 = st.columns(3)
+    with col_w1:
+        st.markdown(f"""
+        <div style="background-color: #f1f8e9; padding: 12px; border-radius: 8px; border: 1px solid #c8e6c9; text-align: center;">
+            <p style="margin: 0; font-size: 13px; color: #2e7d32; font-weight: bold;">🏠 {home_team} 승리</p>
+            <p style="margin: 4px 0; font-size: 20px; font-weight: bold; color: #1b5e20;">{calc_home_win:.1f}%</p>
+        </div>
+        """, unsafe_allow_html=True)
+    with col_w2:
+        st.markdown(f"""
+        <div style="background-color: #fffde7; padding: 12px; border-radius: 8px; border: 1px solid #fff9c4; text-align: center;">
+            <p style="margin: 0; font-size: 13px; color: #f57f17; font-weight: bold;">⚖️ 무승부 공방</p>
+            <p style="margin: 4px 0; font-size: 20px; font-weight: bold; color: #f57f17;">{calc_draw:.1f}%</p>
+        </div>
+        """, unsafe_allow_html=True)
+    with col_w3:
+        st.markdown(f"""
+        <div style="background-color: #e3f2fd; padding: 12px; border-radius: 8px; border: 1px solid #bbdefb; text-align: center;">
+            <p style="margin: 0; font-size: 13px; color: #1565c0; font-weight: bold;">✈️ {away_team} 승리</p>
+            <p style="margin: 4px 0; font-size: 20px; font-weight: bold; color: #0d47a1;">{calc_away_win:.1f}%</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    st.markdown("<br>", unsafe_allow_html=True)
     
+    # ── [섹션 B] 최종 예상 스코어 순위 요약 카드 (1~3순위 분리) ──
+    st.markdown("##### 🏆 최종 예상 스코어 및 순위 산출 결과 요약")
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown(f"""
-        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6;">
-            <h4 style="margin-top:0; color: #1f77b4;">🥇 예측 1순위 (최적합)</h4>
-            <p><b>홈:</b> {h_pred_1st} | <b>원정:</b> {a_pred_1st}</p>
-            <p style="font-size: 13px; color: #666;">푸아송 확률: <b>{p1_rate:.2f}%</b><br>(5-2 실전 평균 및 5-3/5-4 연동)</p>
+        <div style="background-color: #f8f9fa; padding: 14px; border-radius: 8px; border: 1px solid #dee2e6;">
+            <h5 style="margin-top:0; color: #1f77b4; margin-bottom: 6px;">🥇 예측 1순위 (최적합)</h5>
+            <p style="margin: 4px 0; font-size: 16px;"><b>스코어: {score_1st_str}</b></p>
+            <p style="font-size: 12px; color: #666; margin: 0;">확률: <b>{p1_rate:.2f}%</b> (5-2/5-3/5-4 연동)</p>
         </div>
         """, unsafe_allow_html=True)
         
     with col2:
         st.markdown(f"""
-        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6;">
-            <h4 style="margin-top:0; color: #ff7f0e;">🥈 예측 2순위 (차선책)</h4>
-            <p><b>홈:</b> {h_pred_2nd} | <b>원정:</b> {a_pred_2nd}</p>
-            <p style="font-size: 13px; color: #666;">푸아송 확률: <b>{p2_rate:.2f}%</b><br>구도: <b>{s2_result_str}</b></p>
+        <div style="background-color: #f8f9fa; padding: 14px; border-radius: 8px; border: 1px solid #dee2e6;">
+            <h5 style="margin-top:0; color: #ff7f0e; margin-bottom: 6px;">🥈 예측 2순위 (차선책)</h5>
+            <p style="margin: 4px 0; font-size: 16px;"><b>스코어: {score_2nd_str}</b></p>
+            <p style="font-size: 12px; color: #666; margin: 0;">확률: <b>{p2_rate:.2f}%</b> ({s2_result_str})</p>
         </div>
         """, unsafe_allow_html=True)
         
     with col3:
         st.markdown(f"""
-        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6;">
-            <h4 style="margin-top:0; color: #2ca02c;">🥉 예측 3순위 (대안책)</h4>
-            <p><b>우세 구도:</b> {dominant_str}</p>
-            <p style="font-size: 13px; color: #666;">확률 비중: <b>{dominant_prob:.1f}%</b><br>(점수 차이별 누적 분포 분석)</p>
+        <div style="background-color: #f8f9fa; padding: 14px; border-radius: 8px; border: 1px solid #dee2e6;">
+            <h5 style="margin-top:0; color: #2ca02c; margin-bottom: 6px;">🥉 예측 3순위 (대안책)</h5>
+            <p style="margin: 4px 0; font-size: 15px;"><b>구도: {dominant_str}</b></p>
+            <p style="font-size: 12px; color: #666; margin: 0;">비중: <b>{dominant_prob:.1f}%</b> (누적 분포 분석)</p>
         </div>
         """, unsafe_allow_html=True)
     
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("##### 예시표 6: 최종 통합 흐름 매트릭스 및 예상 스코어 산출 표")
     
+    # 표 내부에는 긴 텍스트를 제거하고 깔끔한 요약 데이터만 배치
     ex6_df = pd.DataFrame({
         "규칙 단계": [
             "규칙 5-1", "규칙 5-2", "규칙 5-3", "규칙 5-4",
@@ -1620,13 +1636,13 @@ with tabs[6]:
         ],
         "단계별 산출 근거 및 푸아송 확률": [
             "기하평균 공수 교차 상쇄 결합 연산",
-            "동급 A/B티어 상대 최근 5경기 전수 실전 평균",
+            "동급 A/B티어 최근 5경기 실전 평균",
             over_factor_desc,
             matrix_range,
-            f"푸아송 연산 산출 (무승부 확률 {calc_draw:.1f}%)",
-            f"[푸아송 확률 {p1_rate:.2f}%] 5-2 실전 평균과 5-3/5-4 보정값 직결 반영",
-            f"[푸아송 확률 {p2_rate:.2f}%] 1순위 제외 단일 최고 확률 스코어",
-            p3_desc,
+            f"무승부 확률 {calc_draw:.1f}%",
+            f"푸아송 확률 {p1_rate:.2f}% (5-2/5-3/5-4 직결)",
+            f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최상위)",
+            "상위 순위 제외 점수 차이별 누적 구도 분석",
         ],
     })
     
@@ -1637,9 +1653,9 @@ with tabs[6]:
         column_config={
             "규칙 단계": st.column_config.TextColumn("단계", width="small"),
             "구분 및 연산 항목": st.column_config.TextColumn("항목", width="medium"),
-            f"홈 팀 ({home_team})": st.column_config.TextColumn("홈 팀 예측", width="medium"),
-            f"원정 팀 ({away_team})": st.column_config.TextColumn("원정 팀 예측", width="medium"),
-            "단계별 산출 근거 및 푸아송 확률": st.column_config.TextColumn("산출 근거 및 세부 분포", width="large"),
+            f"홈 팀 ({home_team})": st.column_config.TextColumn("홈 팀", width="small"),
+            f"원정 팀 ({away_team})": st.column_config.TextColumn("원정 팀", width="small"),
+            "단계별 산출 근거 및 푸아송 확률": st.column_config.TextColumn("산출 근거 및 요약", width="medium"),
         }
     )
 with tabs[7]:
