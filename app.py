@@ -617,21 +617,19 @@ with tabs[2]:
         base_a_at = a_at if 'a_at' in locals() else "Tier C"
         base_a_de = a_de if 'a_de' in locals() else "Tier C"
 
-        # 5-2 표 연동을 위한 최종 체급 변수 확정 (2단계 구장 Shift 결과 반영)
+        # 5-2 표 연동을 위한 최종 체급 변수 확정
         h_current_at = s_h_at if 's_h_at' in locals() else base_h_at
         h_current_de = s_h_de if 's_h_de' in locals() else base_h_de
         a_current_at = s_a_at if 's_a_at' in locals() else base_a_at
         a_current_de = s_a_de if 's_a_de' in locals() else base_a_de
 
-        # 💡 티어 변동에 따른 색상 결정 함수 (공격: 높을수록 좋음 / 방어: 높을수록 좋음)
+        # 티어 변동에 따른 색상 결정 함수
         def get_tier_colored_html(base_tier, stadium_tier):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
             if s_val > b_val:
-                # 상향 (녹색)
                 return f"<span style='color: #2e7d32; font-weight: bold;'>{stadium_tier} 📈</span>"
             elif s_val < b_val:
-                # 하향 (빨간색)
                 return f"<span style='color: #c62828; font-weight: bold;'>{stadium_tier} 📉</span>"
             else:
                 return f"<span>{stadium_tier}</span>"
@@ -645,19 +643,13 @@ with tabs[2]:
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
             if is_attack:
-                if s_val > b_val:
-                    return "+15%", 15.0
-                elif s_val < b_val:
-                    return "-15%", -15.0
-                else:
-                    return "0%", 0.0
+                if s_val > b_val: return "+15%", 15.0
+                elif s_val < b_val: return "-15%", -15.0
+                else: return "0%", 0.0
             else:
-                if s_val < b_val:
-                    return "+15%", 15.0
-                elif s_val > b_val:
-                    return "-15%", -15.0
-                else:
-                    return "0%", 0.0
+                if s_val < b_val: return "+15%", 15.0
+                elif s_val > b_val: return "-15%", -15.0
+                else: return "0%", 0.0
 
         h_atk_shift_str, h_atk_val = get_shift_correction(base_h_at, s_h_at, is_attack=True)
         h_def_shift_str, h_def_val = get_shift_correction(base_h_de, s_h_de, is_attack=False)
@@ -667,47 +659,46 @@ with tabs[2]:
         s_h_diff = s_h_raw_s - s_h_raw_c
         s_a_diff = s_a_raw_s - s_a_raw_c
 
-    # 🏟️ 홈 팀 구장 성격 판별 배지 생성
-    venue_status_badge = (
-        "<span style='color: #c62828; font-weight: bold;'> (중립경기)</span>" 
-        if is_neutral_venue 
-        else "<span style='color: #2e7d32; font-weight: bold;'> (홈경기)</span>"
-    )
+        # 🏟️ 홈 팀 구장 성격 판별 배지 생성
+        venue_status_badge = (
+            "<span style='color: #c62828; font-weight: bold;'> (중립경기)</span>" 
+            if is_neutral_venue 
+            else "<span style='color: #2e7d32; font-weight: bold;'> (홈경기)</span>"
+        )
 
-    # 💡 요청하신 위치: 홈 팀 타이틀 뒤에 배지 즉시 출력
-    st.markdown(f"##### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증{venue_status_badge}", unsafe_allow_html=True)
+        # 홈 팀 타이틀 및 데이터프레임 출력
+        st.markdown(f"##### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증{venue_status_badge}", unsafe_allow_html=True)
+        if not s_h_df.empty:
+            st.dataframe(s_h_df, use_container_width=True, hide_index=True)
+        else:
+            st.info("📋 구장별 상세 전적 데이터 없음")
 
-    if not s_h_df.empty:
-        st.dataframe(s_h_df, use_container_width=True, hide_index=True)
-    else:
-        st.info("📋 구장별 상세 전적 데이터 없음")
-            
         st.markdown(f"""
         <div class="calc-box">
-            <b>{h_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
-            • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
-            • 보정 평균 득점: <b>{s_h_gpg:.2f}골/경기</b> / 평균 실점: <b>{s_h_cpg:.2f}골/경기</b><br>
-            • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{h_atk_color_str}</b> / 방어 <b>{h_def_color_str}</b><br>
-            • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{h_atk_shift_str}</b> / 방어 <b>{h_def_shift_str}</b>
+        <b>{h_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
+        • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
+        • 보정 평균 득점: <b>{s_h_gpg:.2f}골/경기</b> / 평균 실점: <b>{s_h_cpg:.2f}골/경기</b><br>
+        • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{h_atk_color_str}</b> / 방어 <b>{h_def_color_str}</b><br>
+        • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{h_atk_shift_str}</b> / 방어 <b>{h_def_shift_str}</b>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("---")
 
-        # --- 원정 팀 렌더링 ---
+        # 원정 팀 타이틀 및 데이터프레임 출력
         st.markdown(f"##### 원정 팀 ({a_name}) 구장별 전적 및 티어 변동 검증")
         if not s_a_df.empty:
             st.dataframe(s_a_df, use_container_width=True, hide_index=True)
         else:
             st.info("📋 구장별 상세 전적 데이터 없음")
-            
+
         st.markdown(f"""
         <div class="calc-box">
-            <b>{a_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
-            • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
-            • 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> / 평균 실점: <b>{s_a_cpg:.2f}골/경기</b><br>
-            • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{a_atk_color_str}</b> / 방어 <b>{a_def_color_str}</b><br>
-            • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> / 방어 <b>{a_def_shift_str}</b>
+        <b>{a_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
+        • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
+        • 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> / 평균 실점: <b>{s_a_cpg:.2f}골/경기</b><br>
+        • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{a_atk_color_str}</b> / 방어 <b>{a_def_color_str}</b><br>
+        • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> / 방어 <b>{a_def_shift_str}</b>
         </div>
         """, unsafe_allow_html=True)
     else:
