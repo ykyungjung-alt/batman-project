@@ -1107,7 +1107,7 @@ else:
     a_r4_def_val = 0.0
 
 # ==============================================================================
-# 💡 규칙 5번 탭 (HTML 태그 노출 오류 완전 해결 및 st.dataframe 네이티브 표 적용)
+# 💡 규칙 5번 탭 (들여쓰기 및 5-1, 5-2 표 완벽 정돈 통합 렌더링)
 # ==============================================================================
 with tabs[5]:
     st.markdown(f"#### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
@@ -1203,7 +1203,7 @@ with tabs[5]:
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 
         # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (st.dataframe 기반 네이티브 표 구현으로 태그 깨짐 원천 차단)
+        # 📊 [5-2 표] 렌더링 (A~E 등급 체급 변환 적용 및 네이티브 표 렌더링)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
@@ -1252,7 +1252,7 @@ with tabs[5]:
         home_matched_5 = get_real_matches_without_friendlies(home_raw_pool)
         away_matched_5 = get_real_matches_without_friendlies(away_raw_pool)
 
-def build_team_52_dataframe(match_list, team_label):
+        def build_team_52_dataframe(match_list, team_label):
             rows = []
             total_gf, total_ga = 0, 0
             cnt = len(match_list)
@@ -1284,19 +1284,18 @@ def build_team_52_dataframe(match_list, team_label):
                 if not m_opp:
                     m_opp = "상대 팀명 미확인"
 
-                # 💡 [핵심 변환] 시스템 원본 atk_tier / def_tier 함수를 통한 A~E 등급 체급 정식 산출
+                # 2. 상대 티어 A~E 등급 정식 변환
                 m_opp_tier = "Tier C / Tier C"
                 tier_info = m.get("opponent_tier_info", "")
                 if tier_info and "/" in tier_info:
                     try:
                         oa, od = map(float, tier_info.split("/"))
-                        at_name = atk_tier_nm(oa)  # 규칙 1번에 정의된 공격 티어 함수
-                        df_name = def_tier_nm(od)  # 규칙 1번에 정의된 방어 티어 함수
+                        at_name = atk_tier_nm(oa)
+                        df_name = def_tier_nm(od)
                         m_opp_tier = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     except:
                         pass
                 else:
-                    # 데이터 내부에 raw 수치가 있는 경우 안전 방어 변환
                     raw_tier_str = str(m.get("tier_info", ""))
                     if "/" in raw_tier_str:
                         try:
@@ -1350,7 +1349,6 @@ def build_team_52_dataframe(match_list, team_label):
         st.markdown(f"📌 **{away_team} 최근 5경기 총합:** {a_tgf}득점 / {a_tga}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골</span>", unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-
 # --- [6단계] ---
 with tabs[6]:
   st.markdown(
