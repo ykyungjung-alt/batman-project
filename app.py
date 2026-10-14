@@ -1470,28 +1470,7 @@ h_pred_2nd = f"{second_match['home_score']}골"
 a_pred_2nd = f"{second_match['away_score']}골"
 p2_rate = second_match["prob"] * 100
 
-# 5. 3순위(대안책): 모든 점수 차이별 확률 분포 분석 및 세분화 (3점차 이상 포함 확장)
-diff_probs = {}
-for item in score_probs:
-    diff = item["home_score"] - item["away_score"]  # 0: 무승부, 양수: 홈 승리 점수차, 음수: 원정 승리 점수차
-    diff_probs[diff] = diff_probs.get(diff, 0.0) + item["prob"]
-
-# 주요 점수차별 누적 확률 (%) 산출
-draw_sum_prob = diff_probs.get(0, 0.0) * 100
-h_diff_1_prob = diff_probs.get(1, 0.0) * 100
-a_diff_1_prob = diff_probs.get(-1, 0.0) * 100
-h_diff_2_prob = diff_probs.get(2, 0.0) * 100
-a_diff_2_prob = diff_probs.get(-2, 0.0) * 100
-
-# 3점차 이상 고득점 격차 누적 합산
-h_diff_3plus = sum(p for d, p in diff_probs.items() if d >= 3) * 100
-a_diff_3plus = sum(p for d, p in diff_probs.items() if d <= -3) * 100
-
-total_diff_1 = h_diff_1_prob + a_diff_1_prob
-total_diff_2 = h_diff_2_prob + a_diff_2_prob
-total_diff_3plus = h_diff_3plus + a_diff_3plus
-
-# 5. 3순위(대안책): 모든 점수 차이별 확률 분포 분석 및 세분화 (홈 결과 / 원정 확률 분리 배치)
+# 5. 3순위(대안책): 모든 점수 차이별 확률 분포 분석 및 세분화
 diff_probs = {}
 for item in score_probs:
     diff = item["home_score"] - item["away_score"]  # 0: 무승부, 양수: 홈 승리 점수차, 음수: 원정 승리 점수차
@@ -1530,7 +1509,7 @@ else:
     a_score_3rd = f"{dominant_prob:.1f}%"
     dominant_str = "무승부 공방 구도 우세"
 
-# 산출근거란: 나머지 2~3순위 및 전체 점수차별 세부 확률 분포 명시 (서식 오류 완벽 교정)
+# 산출근거란: 나머지 2~3순위 및 전체 점수차별 세부 확률 분포 명시
 h_d1_str, a_d1_str = f"+{h_diff_1_prob:.1f}%", f"+{abs(a_diff_1_prob):.1f}%"
 h_d2_str, a_d2_str = f"+{h_diff_2_prob:.1f}%", f"+{abs(a_diff_2_prob):.1f}%"
 h_d3_str, a_d3_str = f"+{h_diff_3plus:.1f}%", f"+{abs(a_diff_3plus):.1f}%"
@@ -1545,7 +1524,7 @@ p3_desc = (
 
 
 # --------------------------------------------------------------------------
-# 📊 [규칙 6번 표 (ex6_df)] 최종 렌더링 매핑
+# 📊 [규칙 6번 표 (ex6_df)] 최종 렌더링 매핑 (가로 잘림 방지 설정 포함)
 # --------------------------------------------------------------------------
 with tabs[6]:
     st.markdown(
@@ -1609,8 +1588,19 @@ with tabs[6]:
         ],
     })
     
-    # 💡 [가독성 개선] 가로로 길게 늘어지는 현상을 방지하고 세로 줄바꿈 및 HTML 렌더링이 깔끔하게 적용되도록 설정
-    st.dataframe(ex6_df, use_container_width=True, hide_index=True)
+    # 💡 가로 잘림 방지 및 세로 자동 줄바꿈 렌더링 설정
+    st.dataframe(
+        ex6_df,
+        use_container_width=True,
+        hide_index=True,
+        column_config={
+            "규칙 단계": st.column_config.TextColumn("단계", width="small"),
+            "구분 및 연산 항목": st.column_config.TextColumn("항목", width="medium"),
+            f"홈 팀 ({home_team})": st.column_config.TextColumn("홈 팀 예측", width="medium"),
+            f"원정 팀 ({away_team})": st.column_config.TextColumn("원정 팀 예측", width="medium"),
+            "단계별 산출 근거 및 푸아송 확률": st.column_config.TextColumn("산출 근거 및 세부 분포", width="large"),
+        }
+    )
 
 with tabs[7]:
   st.markdown(
