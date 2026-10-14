@@ -401,12 +401,12 @@ with tabs[1]:
 
     h_sum = recent_form.get("home_summary", {})
     a_sum = recent_form.get("away_summary", {})
-    h_gpg_base = float(h_sum.get("goals_per_game", 0))
-    h_cpg_base = float(h_sum.get("conceded_per_game", 0))
+    h_gpg_base = round(float(h_sum.get("goals_per_game", 0)), 2)
+    h_cpg_base = round(float(h_sum.get("conceded_per_game", 0)), 2)
     h_rec_base = h_sum.get("recent_record", "0전 0승 0무 0패")
     
-    a_gpg_base = float(a_sum.get("goals_per_game", 0))
-    a_cpg_base = float(a_sum.get("conceded_per_game", 0))
+    a_gpg_base = round(float(a_sum.get("goals_per_game", 0)), 2)
+    a_cpg_base = round(float(a_sum.get("conceded_per_game", 0)), 2)
     a_rec_base = a_sum.get("recent_record", "0전 0승 0무 0패")
 
     def atk_tier(g):
@@ -441,13 +441,11 @@ with tabs[1]:
             league = m.get("league", "-")
             mtime = m.get("match_time", "-")
             
-            # 💡 [정상 위치] mtime을 먼저 가져온 후 YYYY.MM.DD 형태로 정돈
             formatted_mtime = mtime
             try:
                 clean_date = mtime.split(" ")[0].replace("-", ".").replace("/", ".")
                 parts = clean_date.split(".")
                 if len(parts) == 3:
-                    # 예: 10.10.2026 (parts[0]=10(월), parts[1]=10(일), parts[2]=2026(연도))인 경우
                     if len(parts[2]) == 4 and len(parts[0]) <= 2:
                         mm = parts[0].zfill(2)
                         dd = parts[1].zfill(2)
@@ -522,8 +520,8 @@ with tabs[1]:
             })
             
         cnt = len(matches)
-        gpg = eff_scored / cnt if cnt > 0 else def_gpg
-        cpg = c_total / cnt if cnt > 0 else def_cpg
+        gpg = round(eff_scored / cnt, 2) if cnt > 0 else def_gpg
+        cpg = round(c_total / cnt, 2) if cnt > 0 else def_cpg
         rec = f"{cnt}전 {w}승 {d}무 {l}패" if cnt > 0 else def_rec
         
         return pd.DataFrame(rows), gpg, cpg, rec, raw_scored_total, raw_conceded_total
