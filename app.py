@@ -1419,7 +1419,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 스코어 순위 / 확률 정밀 연산 블록
+# 🧮 [규칙 6] 푸아송 분포 및 스코어 순위 / 확률 정밀 연산 블록 (요청 규격 반영)
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1438,11 +1438,7 @@ for h_g in range(max_k + 1):
         p_h = poisson_prob(h_final, h_g)
         p_a = poisson_prob(a_final, a_g)
         joint_prob = p_h * p_a
-        score_probs.append({
-            "home_score": h_g,
-            "away_score": a_g,
-            "prob": joint_prob
-        })
+        score_probs.append({"home_score": h_g, "away_score": a_g, "prob": joint_prob})
 
 # 2. 최종 승무패 수리 확률 산출 (%)
 calc_home_win = sum(item["prob"] for item in score_probs if item["home_score"] > item["away_score"]) * 100
@@ -1452,7 +1448,7 @@ calc_draw = sum(item["prob"] for item in score_probs if item["home_score"] == it
 # 3. 확률 순으로 스코어 정렬 (내림차순)
 sorted_scores = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
 
-# 4. 1순위(최적합)와 2순위(차선책) 스코어 선정 (기존 단일 스코어 유지)
+# 4. 1순위(최적합)와 2순위(차선책) 스코어 선정
 best_match_52 = sorted_scores[0]
 second_match = None
 for s in sorted_scores:
@@ -1466,32 +1462,24 @@ h_pred_1st = f"{best_match_52['home_score']}골"
 a_pred_1st = f"{best_match_52['away_score']}골"
 p1_rate = best_match_52["prob"] * 100
 
+# 2순위 스코어 및 확률 정보 준비
 h_pred_2nd = f"{second_match['home_score']}골"
 a_pred_2nd = f"{second_match['away_score']}골"
 p2_rate = second_match["prob"] * 100
+s2_h, s2_a = second_match['home_score'], second_match['away_score']
+if s2_h > s2_a:
+    s2_result_str = f"{s2_h - s2_a}점차 {home_team} 승리"
+elif s2_h < s2_a:
+    s2_result_str = f"{s2_a - s2_h}점차 {away_team} 승리"
+else:
+    s2_result_str = "무승부"
 
-# 5. 3순위(대안책): 점수 차이별 확률 분포 분석 및 1순위 무승부 중복 제외 세로형 세부 정렬
+# 5. 3순위(대안책): 점수 차이별 확률 분포 분석 및 대안 구도 산출
 diff_probs = {}
 for item in score_probs:
-    diff = item["home_score"] - item["away_score"]  # 0: 무승부, 양수: 홈 승리 점수차, 음수: 원정 승리 점수차
+    diff = item["home_score"] - item["away_score"]
     diff_probs[diff] = diff_probs.get(diff, 0.0) + item["prob"]
 
-# 주요 점수차별 누적 확률 (%) 산출
-draw_sum_prob = diff_probs.get(0, 0.0) * 100
-h_diff_1_prob = diff_probs.get(1, 0.0) * 100
-a_diff_1_prob = diff_probs.get(-1, 0.0) * 100
-h_diff_2_prob = diff_probs.get(2, 0.0) * 100
-a_diff_2_prob = diff_probs.get(-2, 0.0) * 100
-
-# 3점차 이상 고득점 격차 누적 합산
-h_diff_3plus = sum(p for d, p in diff_probs.items() if d >= 3) * 100
-a_diff_3plus = sum(p for d, p in diff_probs.items() if d <= -3) * 100
-
-total_diff_1 = h_diff_1_prob + a_diff_1_prob
-total_diff_2 = h_diff_2_prob + a_diff_2_prob
-total_diff_3plus = h_diff_3plus + a_diff_3plus
-
-# 가장 높은 확률 비중을 차지하는 구도 판정 (dominant_str 선언부 누락 방지)
 dominant_diff = max(diff_probs, key=diff_probs.get)
 dominant_prob = diff_probs[dominant_diff] * 100
 
@@ -1508,22 +1496,11 @@ else:
     a_score_3rd = f"{dominant_prob:.1f}%"
     dominant_str = "무승부 공방 구도 우세"
 
-# 산출근거란: 1순위 무승부 중복을 제외하고 나머지 2~3순위 세부 점수차별 우세 팀과 확률을 세로형으로 상세 정렬
-h_d1_str, a_d1_str = f"+{h_diff_1_prob:.1f}%", f"+{abs(a_diff_1_prob):.1f}%"
-h_d2_str, a_d2_str = f"+{h_diff_2_prob:.1f}%", f"+{abs(a_diff_2_prob):.1f}%"
-h_d3_str, a_d3_str = f"+{h_diff_3plus:.1f}%", f"+{abs(a_diff_3plus):.1f}%"
-
+# 💡 산출근거란: 1순위는 이미 결과란에 들어갔으므로 제외하고, 2순위와 3순위의 확률 및 승무패 결과를 줄바꿈하여 세로로 배치
 p3_desc = (
-    f"[최종 우세 구도]: {dominant_str}\n"
-    f"• 1점차 분포 ({total_diff_1:.1f}%):\n"
-    f"  - {home_team} 우세 {h_d1_str}\n"
-    f"  - {away_team} 우세 {a_d1_str}\n"
-    f"• 2점차 분포 ({total_diff_2:.1f}%):\n"
-    f"  - {home_team} 우세 {h_d2_str}\n"
-    f"  - {away_team} 우세 {a_d2_str}\n"
-    f"• 3점차 이상 ({total_diff_3plus:.1f}%):\n"
-    f"  - {home_team} 우세 {h_d3_str}\n"
-    f"  - {away_team} 우세 {a_d3_str}"
+    f"[최종 대안 구도]: {dominant_str}\n"
+    f"• 2순위 단일 예측: {p2_rate:.1f}% / {s2_result_str} ({s2_h}:{s2_a})\n"
+    f"• 3순위 대안 분포: {dominant_prob:.1f}% / {h_score_3rd}"
 )
 
 
@@ -1537,9 +1514,9 @@ with tabs[6]:
     st.markdown(
         """<div class="step-box">
         <b>📌 예상스코어 순위 산출 방법 규격:</b><br>
-        • <b>1순위 (최적합):</b> 규칙 5-2의 실전 교차 검증 결과에 가장 적합한 결과값을 최우선으로 선정합니다.<br>
-        • <b>2순위 (차선책):</b> 1순위를 제외한 푸아송 확률이 가장 높은 단일 결과값을 선정합니다.<br>
-        • <b>3순위 (대안책):</b> 모든 스코어 조합의 점수 차이별 확률 분포를 분석하여 홈 결과란에 구도, 원정 결과란에 확률, 산출근거에 세부 비중을 산출합니다.
+        • <b>1순위 (최적합):</b> 규칙 5-2 검증 결과에 가장 적합한 단일 스코어를 선정합니다.<br>
+        • <b>2순위 (차선책):</b> 1순위를 제외한 푸아송 확률이 가장 높은 단일 스코어를 선정합니다.<br>
+        • <b>3순위 (대안책):</b> 점수 차이별 확률 분포를 분석하여 홈 결과란에 우세 구도, 원정 결과란에 확률을 매핑합니다.
         </div>""",
         unsafe_allow_html=True,
     )
