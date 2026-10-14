@@ -1221,7 +1221,7 @@ with tabs[5]:
         st.markdown(table_html, unsafe_allow_html=True)
 
         # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (2단계 구장 분기 전적 변수 연동)
+        # 📊 [5-2 표] 렌더링 (match_details_v3.json 내 stadium_form 데이터 직접 연동)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
@@ -1231,28 +1231,31 @@ with tabs[5]:
         a_opp_at = h_current_at if 'h_current_at' in locals() else "Tier C"
         a_opp_de = h_current_de if 'h_current_de' in locals() else "Tier C"
 
-        # 💡 [핵심] 2단계(규칙 2번 탭)와 동일한 메타데이터 기준을 5번 탭에서도 동일하게 적용하여 구장별 전적 풀 확보
-        head_meta_52 = detailed_info.get("head_info", {}) if 'detailed_info' in locals() else {}
-        v_val = str(head_meta_52.get("stadium", "")) or str(head_meta_52.get("venue", ""))
-        h_stadium_val = str(head_meta_52.get("home_stadium", ""))
-        
-        is_neutral_52 = False
-        if v_val and h_stadium_val:
-            if v_val.strip().lower() != h_stadium_val.strip().lower():
-                is_neutral_52 = True
-
-        # 2단계 구장 분기 전적 데이터(stadium_form 또는 s_home_matches) 직접 맵핑
+        # 💡 [핵심] match_details_v3.json 구조에 맞추어 stadium_form 안의 구장별 전적을 직접 추출
         home_raw_pool = []
-        if 'stadium_form' in locals() and isinstance(stadium_form, dict):
-            home_raw_pool = stadium_form.get("away_matches", []) if is_neutral_52 else stadium_form.get("home_matches", [])
+        away_raw_pool = []
+
+        # 현재 선택된 경기 세부 딕셔너리(예: match_details_dict 또는 세부 데이터 객체) 탐색
+        target_match_data = None
+        if 'match_details_dict' in locals() and isinstance(match_details_dict, dict):
+            # 현재 선택된 match_code (예: '3068871') 키 활용
+            m_code_str = str(selected_match_code) if 'selected_match_code' in locals() else "3068871"
+            target_match_data = match_details_dict.get(m_code_str, {})
+        elif 'current_match_detail' in locals():
+            target_match_data = current_match_detail
+
+        if target_match_data:
+            meta_det = target_match_data.get("meta_details", {})
+            stadium_form_block = meta_det.get("stadium_form", {})
+            home_raw_pool = stadium_form_block.get("home_matches", [])
+            away_raw_pool = stadium_form_block.get("away_matches", [])
+
+        # 백업 안전 장치 (만약 위 경로가 안 잡힐 경우 기존 전적 풀 동원)
         if not home_raw_pool and 's_home_matches' in locals():
             home_raw_pool = s_home_matches
         if not home_raw_pool and 'h_matches' in locals():
             home_raw_pool = h_matches
 
-        away_raw_pool = []
-        if 'stadium_form' in locals() and isinstance(stadium_form, dict):
-            away_raw_pool = stadium_form.get("away_matches", [])
         if not away_raw_pool and 's_away_matches' in locals():
             away_raw_pool = s_away_matches
         if not away_raw_pool and 'a_matches' in locals():
@@ -1268,14 +1271,21 @@ with tabs[5]:
                 # INT CF, Friendly 등 친선 경기 철저 배제
                 if any(keyword in league_lower for keyword in ["친선", "friendly", "int cf", "club friendlies", "friendlies"]):
                     continue
+                
+                # match_details_v3.json의 스코어 필드는 'ft_scores' 리스트 형식임 ([득점, 실점])
+                scores_arr = fix.get("ft_scores", [])
                 score_str = str(fix.get("score", "") or fix.get("result", ""))
-                if not score_str or (":" not in score_str and "-" not in score_str):
+                if not score_str and (scores_arr and len(scores_arr) >= 2):
+                    score_str = f"{scores_arr[0]} : {scores_arr[1]}"
+                
+                if not score_str or (":" not in score_str and "-" not in score_str and not scores_arr):
                     continue
                 valid.append(fix)
             return valid[:5]
 
         home_matched_5 = get_real_matches_without_friendlies(home_raw_pool)
         away_matched_5 = get_real_matches_without_friendlies(away_raw_pool)
+  
         def build_team_52_rows(match_list, team_label):
             rows_html = ""
             total_gf, total_ga = 0, 0
