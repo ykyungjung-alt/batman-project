@@ -1086,9 +1086,21 @@ with tabs[4]:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (3~4일 이후 경기 등)")
         st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, H2H 상대전적 상성 산출 내역을 표시할 수 없습니다.")
 
-# 4단계 하단에 있는 기존 변수 할당부를 아래 코드로 교체
-global h_r4_atk_val, h_r4_def_val, a_r4_atk_val, a_r4_def_val
+# ==========================================
+# 💡 [안전 방어 장치] 규칙 4번 변수 누락 방지 초기화
+# ==========================================
+if 'home_win_rate' not in locals():
+    home_win_rate = 0.0
+if 'away_win_rate' not in locals():
+    away_win_rate = 0.0
 
+if 'h_last_fatigue' not in locals():
+    h_last_fatigue = 0
+if 'a_last_fatigue' not in locals():
+    a_last_fatigue = 0
+
+# 글로벌 변수 할당 안전 처리
+global h_r4_atk_val, h_r4_def_val, a_r4_atk_val, a_r4_def_val
 if home_win_rate >= 50.0:
     h_r4_atk_val = 10.0
     h_r4_def_val = -10.0
