@@ -1351,7 +1351,7 @@ with tabs[5]:
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 
-# ==========================================
+    # ==========================================
     # 💡 규칙 5-3: 다득점/체급차 변동성 보정 (Over Factor) 산출 및 표 렌더링
     # ==========================================
     h_tier_val = tier_ranks.get(h_current_at, 3)
@@ -1390,33 +1390,30 @@ with tabs[5]:
     table_data_53 = [
         {"구분 항목": "변동성 보정 유형 판정", f"홈 팀 ({home_team})": over_factor_desc, f"원정 팀 ({away_team})": over_factor_desc, "산출 근거 및 공식": "final = base * (1 + OverFactor)"},
         {"구분 항목": "다득점 가산 비율 (Over Factor)", f"홈 팀 ({home_team})": f"+{int(h_over_factor*100)}%", f"원정 팀 ({away_team})": f"+{int(a_over_factor*100)}%", "산출 근거 및 공식": "티어 격차 및 난타전 조건 연동"},
-        {"구분 항목": "최종 보정 기대 득실점 (final)", f"홈 팀 ({home_team})": f"보정 득점 {h_final:.2f}골", f"원정 팀 ({away_team})": f"보정 득점 {a_final:.2f}골", "산출 근거 및 공식": "base 대비 최종 가산 반영 완료 (Total: 조화합산)"}
+        {"구분 항목": "최종 보정 기대 득실점 (final)", f"홈 팀 ({home_team})": f"보정 득점 {h_final:.2f}골", f"원정 팀 ({away_team})": f"보정 득점 {a_final:.2f}골", "산출 근거 및 공식": "base 대비 최종 가산 반영 완료"}
     ]
     st.dataframe(pd.DataFrame(table_data_53), use_container_width=True, hide_index=True)
 
     # ==========================================
-    # 💡 규칙 5-4: 이원화 동적 골 범위 행렬 확정 및 표 렌더링
+    # 💡 규칙 5-4: 이원화 동적 골 범위 행렬 확정 및 표 렌더링 (양팀 분리 출력)
     # ==========================================
     if total_expected_goals < 2.2:
         poisson_zone_name = "저득점 통제 구역 (total < 2.2)"
         matrix_range = "0 ~ 3골 범위 (4×4 행렬)"
-        max_goals = 3
     elif total_expected_goals <= 3.2 and tier_diff < 2:
         poisson_zone_name = "표준 득점 구역 (2.2 ~ 3.2)"
         matrix_range = "0 ~ 4골 범위 (5×5 행렬 - 기본)"
-        max_goals = 4
     else:
         poisson_zone_name = "다득점 변동 구역 (total > 3.2 또는 격차 2단계 이상)"
         matrix_range = "0 ~ 6골 / 0 ~ 7골 동적 확장 행렬"
-        max_goals = 6
 
     st.markdown("---")
     st.markdown(f"##### 📊 [5-4 표] 이원화 동적 골 범위 행렬 확정 매트릭스 ({home_team} vs {away_team})")
     table_data_54 = [
-        {"구분 항목": "총 기대 득점 합계 (total)", "산출 수치": f"{total_expected_goals:.2f}골", "확정 구획 범주": poisson_zone_name, "푸아송 연산 행렬 범위": matrix_range}
+        {"구분 항목": "총 기대 득점 (개별 final)", f"홈 팀 ({home_team})": f"{h_final:.2f}골", f"원정 팀 ({away_team})": f"{a_final:.2f}골", "확정 구획 범주": poisson_zone_name, "푸아송 연산 행렬 범위": matrix_range},
+        {"구분 항목": "양 팀 합계 (total)", f"홈 팀 ({home_team})": f"{total_expected_goals:.2f}골", f"원정 팀 ({away_team})": f"{total_expected_goals:.2f}골", "확정 구획 범주": poisson_zone_name, "푸아송 연산 행렬 범위": matrix_range}
     ]
     st.dataframe(pd.DataFrame(table_data_54), use_container_width=True, hide_index=True)
-
 
 
 
