@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-15 00:43:02",
+    "last_updated": "2026-10-15 03:45:15",
     "match_details": {
         "3073740": {
             "match_code": "3073740",
@@ -5349,6 +5349,231 @@
                             "interval": "15 일"
                         }
                     ]
+                }
+            }
+        },
+        "3103012": {
+            "match_code": "3103012",
+            "head_info": {
+                "league": "프리미어리그",
+                "round": "",
+                "match_time_raw": "10/16/2026 2:00:00 PM",
+                "match_time_display": "2026-10-16 23:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "폴리스",
+            "away": "고릴라",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "1승 6무 3패",
+                        "goals_per_game": "0.40",
+                        "conceded_per_game": "0.60"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.00",
+                        "conceded_per_game": "1.10"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 6 (60%)",
+                        "무승부 3 (30%)",
+                        "승 1 (10%)",
+                        "1.50",
+                        "경기당 득점",
+                        "0.60"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "RWA D12026.05.01",
+                                "고릴라",
+                                "1-1",
+                                "폴리스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12026.01.03",
+                                "폴리스",
+                                "4-0",
+                                "고릴라"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12024.10.20",
+                                "폴리스",
+                                "0-0",
+                                "고릴라"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA CP2024.02.21",
+                                "폴리스",
+                                "2-1",
+                                "고릴라"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA CP2024.02.14",
+                                "고릴라",
+                                "0-2",
+                                "폴리스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12023.11.03",
+                                "폴리스",
+                                "1-0",
+                                "고릴라"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12023.01.20",
+                                "고릴라",
+                                "2-3",
+                                "폴리스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12022.11.26",
+                                "폴리스",
+                                "0-1",
+                                "고릴라"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12022.02.25",
+                                "고릴라",
+                                "1-2",
+                                "폴리스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12021.11.22",
+                                "폴리스",
+                                "0-0",
+                                "고릴라"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
+                }
+            }
+        },
+        "3101815": {
+            "match_code": "3101815",
+            "head_info": {
+                "league": "리그 1",
+                "round": "리그 1·  라운드 4",
+                "match_time_raw": "10/15/2026 3:30:00 PM",
+                "match_time_display": "2026-10-16 00:30",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "스타드 다비장",
+            "away": "아그보빌",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "9",
+                        "team": "스타드 다비장",
+                        "played": "2",
+                        "win": "0",
+                        "draw": "2",
+                        "loss": "0",
+                        "goals_for": "1",
+                        "goals_against": "1",
+                        "goal_diff": "0",
+                        "points": "2"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "6",
+                        "team": "아그보빌",
+                        "played": "2",
+                        "win": "1",
+                        "draw": "1",
+                        "loss": "0",
+                        "goals_for": "2",
+                        "goals_against": "1",
+                        "goal_diff": "1",
+                        "points": "4"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 4무 3패",
+                        "goals_per_game": "0.70",
+                        "conceded_per_game": "0.70"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 4무 2패",
+                        "goals_per_game": "0.80",
+                        "conceded_per_game": "0.70"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 2 (66.7%)",
+                        "승 1 (33.3%)",
+                        "0.33",
+                        "경기당 득점",
+                        "0.67"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ICPD D12026.10.10",
+                                "스타드 다비장",
+                                "1-1",
+                                "아그보빌"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12026.04.18",
+                                "스타드 다비장",
+                                "0-0",
+                                "아그보빌"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12025.11.19",
+                                "아그보빌",
+                                "1-0",
+                                "스타드 다비장"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         },
