@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 
 
-# 💡 날짜 고정 없이, 시스템에 존재하는 모든 상세 데이터 파일(match_details.json, v2 등)을 유연하게 통합 탐색
+# 1. 데이터 로딩 함수 정의 (전체 코드 통틀어 딱 1번만 선언)
 @st.cache_data(ttl=10)
 def load_match_data():
     if os.path.exists("data.json"):
@@ -18,14 +18,9 @@ def load_match_data():
             pass
     return {"last_updated": "안전 모드 (데이터 없음)", "daily_matches": {}}
 
-
-# 💡 [기존 1, 2번 파일 병합용] 0단계 및 기본 텍스트 산출 내역 유지용
 @st.cache_data(ttl=10)
 def load_all_match_details():
-    target_files = [
-        "match_details.json", 
-        "match_details_v2.json"
-    ]
+    target_files = ["match_details.json", "match_details_v2.json"]
     combined_details = {}
     for t_file in target_files:
         if os.path.exists(t_file):
@@ -44,8 +39,6 @@ def load_all_match_details():
                 pass
     return combined_details
 
-
-# 💡 [3번 파일 독립 발췌용] 규칙 1번·2번 상세 표 데이터 전용 (match_details_v3.json)
 @st.cache_data(ttl=10)
 def load_v3_match_details():
     v3_file = "match_details_v3.json"
@@ -58,8 +51,6 @@ def load_v3_match_details():
             pass
     return {}
 
-
-# 💡 [4번 파일 독립 발췌용] 리그 순위표 및 랭킹 데이터 전용 (match_details_v4.json)
 @st.cache_data(ttl=10)
 def load_v4_match_details():
     v4_file = "match_details_v4.json"
@@ -73,14 +64,14 @@ def load_v4_match_details():
     return {}
 
 
+# 2. 데이터 호출 및 사이드바 초기화 (여기서도 딱 1번만 실행)
 data = load_match_data()
 last_updated_time = data.get("last_updated", "알 수 없음")
 daily_matches = data.get("daily_matches", {})
 
-# 각각의 성향에 맞춘 독립 및 병합 딕셔너리 호출 선언
-all_details_dict = load_all_match_details()   # 1, 2번 병합본 (기본 시스템 유지용)
-v3_details_dict = load_v3_match_details()       # 3번 전용 (1, 2단계 표 연동용)
-v4_leagues_dict = load_v4_match_details()       # 4번 전용 (리그 순위표 데이터용)
+all_details_dict = load_all_match_details()
+v3_details_dict = load_v3_match_details()
+v4_leagues_dict = load_v4_match_details()
 
 st.markdown("<h2 style='font-size: 28px;'>⚽ 배트맨 프로젝트 통합 마스터 규격 및 분석 엔진 ⚽</h2>", unsafe_allow_html=True)
 st.markdown("구글 독스 원문 규격 100% 반영 • 생략 없는 0단계~6단계 세부 정량 표 완벽 탑재 시스템")
@@ -89,14 +80,12 @@ st.sidebar.markdown("---")
 st.sidebar.markdown(f"🕒 **데이터 갱신 시각 (KST)**\n\n`{last_updated_time}`")
 st.sidebar.subheader("🏆 실시간 수집 대진 선택")
 
-# 1. 사이드바 날짜 선택창 구성 (daily_matches에 있는 키값 활용)
 date_options = list(daily_matches.keys())
 if not date_options:
     date_options = ["오늘 (데이터 없음)"]
 
 selected_date = st.sidebar.selectbox("📅 날짜를 선택하세요:", date_options)
 
-# 2. 선택한 날짜의 경기 리스트 가져오기
 matches = daily_matches.get(selected_date, [])
 selected_match = None
 
@@ -152,13 +141,7 @@ else:
         "head_info": {},
         "meta_details": {
             "rankings": [],
-            "recent_form": {
-                "home_summary": {},
-                "away_summary": {},
-                "home_matches": [],
-                "away_matches": [],
-                "matches": []
-            },
+            "recent_form": {"home_summary": {}, "away_summary": {}, "home_matches": [], "away_matches": [], "matches": []},
             "h2h": {"summary": [], "matches": []},
             "fixtures": {"home": [], "away": []}
         }
@@ -168,7 +151,6 @@ else:
 def translate_tournament_code(code_str):
     if not code_str:
         return "기타 공식 경기"
-    
     mapping = {
         "GER D1": "독일 분데스리가", "GERC": "독일 DFB 포칼", "INT CF": "국가대표 친선경기",
         "ENG PR": "잉글랜드 프리미어리그", "ENG FAC": "잉글랜드 FA컵", "SPA D1": "스페인 라리가",
@@ -181,19 +163,16 @@ def translate_tournament_code(code_str):
         "FIFA WC": "FIFA 월드컵 본선", "WCC": "FIFA 클럽 월드컵", "FIFA CWC": "FIFA 클럽 월드컵",
         "U20 WC": "FIFA U-20 월드컵", "U17 WC": "FIFA U-17 월드컵", "W-WC": "FIFA 여자 월드컵"
     }
-    
     converted = code_str
     for k, v in mapping.items():
         if k in code_str:
             converted = code_str.replace(k, v)
             break
-            
     match_pattern = re.search(r'(.*?)(\d{4}\.\d{2}\.\d{2})', converted)
     if match_pattern:
         prefix = match_pattern.group(1).strip()
         date_part = match_pattern.group(2)
         return f"{prefix} - {date_part}"
-        
     return converted
 
 tab_titles = [
