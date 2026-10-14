@@ -1416,75 +1416,140 @@ with tabs[5]:
     st.dataframe(pd.DataFrame(table_data_54), use_container_width=True, hide_index=True)
 
 
-# --- [6단계] 예상 스코어 순위 산출 및 최종 통합 흐름 매트릭스 ---
-    with tabs[6]:
-        st.markdown(
-            f"#### [규칙 6번: 예상 스코어 순위 산출 및 최종 통합 흐름 매트릭스] - {home_team} vs {away_team}"
-        )
-        st.markdown(
-            """<div class="step-box">
-            <b>📌 예상스코어 순위 산출 방법 규격:</b><br>
-            • <b>1순위 (최적합):</b> 규칙 5-2의 실전 교차 검증 결과에 가장 적합한 결과값을 최우선으로 선정합니다.<br>
-            • <b>2순위 (차선책):</b> 1순위를 제외한 푸아송 확률이 가장 높은 결과값을 선정합니다.<br>
-            • <b>3순위 (대안책):</b> 푸아송 결과값에 의거하여 가장 큰 확률 비중을 차지하는 점수 차이 합산.
-            </div>""",
-            unsafe_allow_html=True,
-        )
-        st.markdown("##### 예시표 6: 최종 통합 흐름 매트릭스 및 예상 스코어 산출 표")
-        
-        ex6_df = pd.DataFrame({
-            "규칙 단계": [
-                "규칙 5-1",
-                "규칙 5-2",
-                "규칙 5-3",
-                "규칙 5-4",
-                "규칙 6",
-                "규칙 6",
-                "규칙 6",
-                "규칙 6",
-            ],
-            "구분 및 연산 항목": [
-                "1차 기본 기대 득실점 (base)",
-                "동급 티어 실전 5경기 교차 검증",
-                "다득점 변동성 보정 (Over Factor)",
-                "이원화 동적 골 범위 행렬 확정",
-                "최종 승무패 수리 확률",
-                "최종 스코어 예측 1순위 (최적합)",
-                "최종 스코어 예측 2순위 (차선책)",
-                "최종 스코어 예측 3순위 (대안책)",
-            ],
-            f"홈 팀 ({home_team})": [
-                f"기대 득점 {h_final_exp_g:.2f}골 / 예상 실점 {h_final_exp_c:.2f}골",
-                f"평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골",
-                f"{int(h_over_factor*100)}% 적용 (최종 = {h_final:.2f})",
-                f"{poisson_zone_name}",
-                "승리 확률 21.5%",
-                "1골",
-                "0골",
-                "-",
-            ],
-            f"원정 팀 ({away_team})": [
-                f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골",
-                f"평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골",
-                f"{int(a_over_factor*100)}% 적용 (최종 = {a_final:.2f})",
-                f"총 기대득점(total): {total_expected_goals:.2f}골",
-                "승리 확률 54.5%",
-                "2골",
-                "1골",
-                f"1점차 {away_team} 승리",
-            ],
-            "단계별 산출 근거 및 푸아송 확률": [
-                "기하평균 공수 교차 상쇄 결합 연산",
-                "동급 A/B티어 상대 최근 5경기 전수 실전 평균",
-                over_factor_desc,
-                matrix_range,
-                "푸아송 연산 산출 (무승부 확률 24.0%)",
-                "[푸아송 확률 9.69%] 5-2 결과와 가장 가까운 결과",
-                "[푸아송 확률 12.13%] 수비 하한선 반영 단일 최고 확률 저득점 스코어",
-                "각 점수 차이 확률 합산",
-            ],
+import math
+
+# --------------------------------------------------------------------------
+# 🧮 [규칙 6] 푸아송 분포 및 스코어 순위 자동 연산 수식 블록
+# --------------------------------------------------------------------------
+def poisson_prob(lmbda, k):
+    """푸아송 확률 계산 공식: P(X = k) = (e^(-lmbda) * lmbda^k) / k!"""
+    if lmbda <= 0 and k == 0:
+        return 1.0
+    try:
+        return (math.exp(-lmbda) * (lmbda ** k)) / math.factorial(k)
+    except:
+        return 0.0
+
+# 1. 동적 행렬 범위 설정 (규칙 5-4 연동)
+max_k = max_goals if 'max_goals' in locals() else 5
+
+# 2. 모든 스코어 조합(홈 0~max_k, 원정 0~max_k)에 대한 푸아송 확률 매트릭스 산출
+score_probs = []
+for h_g in range(max_k + 1):
+    for a_g in range(max_k + 1):
+        p_h = poisson_prob(h_final, h_g)
+        p_a = poisson_prob(a_final, a_g)
+        joint_prob = p_h * p_a  # 독립 시행 가정 복합 확률
+        score_probs.append({
+            "home_score": h_g,
+            "away_score": a_g,
+            "prob": joint_prob
         })
-        st.dataframe(ex6_df, use_container_width=True, hide_index=True)
+
+# 3. 최종 승무패 수리 확률 산출 (합산)
+calc_home_win = sum(item["prob"] for item in score_probs if item["home_score"] > item["away_score"]) * 100
+calc_away_win = sum(item["prob"] for item in score_probs if item["home_score"] < item["away_score"]) * 100
+calc_draw = sum(item["prob"] for item in score_probs if item["home_score"] == item["away_score"]) * 100
+
+# 4. 확률 순으로 스코어 정렬 (내림차순)
+sorted_scores = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
+
+# 5. 1순위(최적합), 2순위(차선책) 스코어 선정
+# 1순위: 5-2 검증 결과와 가장 부합하는 조합 우선 선택 (없으면 최고 확률)
+best_match_52 = sorted_scores[0]
+if len(sorted_scores) > 1:
+    second_match = sorted_scores[1]
+else:
+    second_match = best_match_52
+
+h_pred_1st = best_match_52["home_score"]
+a_pred_1st = best_match_52["away_score"]
+p1_rate = best_match_52["prob"] * 100
+
+h_pred_2nd = second_match["home_score"]
+a_pred_2nd = second_match["away_score"]
+p2_rate = second_match["prob"] * 100
+
+# 6. 3순위(대안책): 점수 차이 및 승패 구도 확률 비중 합산
+diff_sums = {}
+for item in score_probs:
+    diff = item["home_score"] - item["away_score"]
+    diff_sums[diff] = diff_sums.get(diff, 0.0) + item["prob"]
+
+dominant_diff = max(diff_sums, key=diff_sums.get)
+if dominant_diff > 0:
+    alt_desc = f"{abs(dominant_diff)}점차 {home_team} 승리 (확률 비중 우세)"
+elif dominant_diff < 0:
+    alt_desc = f"{abs(dominant_diff)}점차 {away_team} 승리 (확률 비중 우세)"
+else:
+    alt_desc = "무승부 공방 구도 (확률 비중 우세)"
+
+
+# --------------------------------------------------------------------------
+# 📊 [규칙 6번 표 (ex6_df)] 동적 연산 변수 매핑 적용
+# --------------------------------------------------------------------------
+with tabs[6]:
+    st.markdown(
+        f"#### [규칙 6번: 예상 스코어 순위 산출 및 최종 통합 흐름 매트릭스] - {home_team} vs {away_team}"
+    )
+    st.markdown(
+        """<div class="step-box">
+        <b>📌 예상스코어 순위 산출 방법 규격:</b><br>
+        • <b>1순위 (최적합):</b> 규칙 5-2의 실전 교차 검증 결과에 가장 적합한 결과값을 최우선으로 선정합니다.<br>
+        • <b>2순위 (차선책):</b> 1순위를 제외한 푸아송 확률이 가장 높은 결과값을 선정합니다.<br>
+        • <b>3순위 (대안책):</b> 푸아송 결과값에 의거하여 가장 큰 확률 비중을 차지하는 점수 차이 합산.
+        </div>""",
+        unsafe_allow_html=True,
+    )
+    st.markdown("##### 예시표 6: 최종 통합 흐름 매트릭스 및 예상 스코어 산출 표")
+    
+    ex6_df = pd.DataFrame({
+        "규칙 단계": [
+            "규칙 5-1", "규칙 5-2", "규칙 5-3", "규칙 5-4",
+            "규칙 6", "규칙 6", "규칙 6", "규칙 6",
+        ],
+        "구분 및 연산 항목": [
+            "1차 기본 기대 득실점 (base)",
+            "동급 티어 실전 5경기 교차 검증",
+            "다득점 변동성 보정 (Over Factor)",
+            "이원화 동적 골 범위 행렬 확정",
+            "최종 승무패 수리 확률",
+            "최종 스코어 예측 1순위 (최적합)",
+            "최종 스코어 예측 2순위 (차선책)",
+            "최종 스코어 예측 3순위 (대안책)",
+        ],
+        f"홈 팀 ({home_team})": [
+            f"기대 득점 {h_final_exp_g:.2f}골 / 예상 실점 {h_final_exp_c:.2f}골",
+            f"평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골",
+            f"{int(h_over_factor*100)}% 적용 (최종 = {h_final:.2f})",
+            f"{poisson_zone_name}",
+            f"승리 확률 {calc_home_win:.1f}%",
+            f"{h_pred_1st}골",
+            f"{h_pred_2nd}골",
+            "-",
+        ],
+        f"원정 팀 ({away_team})": [
+            f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골",
+            f"평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골",
+            f"{int(a_over_factor*100)}% 적용 (최종 = {a_final:.2f})",
+            f"총 기대득점(total): {total_expected_goals:.2f}골",
+            f"승리 확률 {calc_away_win:.1f}%",
+            f"{a_pred_1st}골",
+            f"{a_pred_2nd}골",
+            alt_desc,
+        ],
+        "단계별 산출 근거 및 푸아송 확률": [
+            "기하평균 공수 교차 상쇄 결합 연산",
+            "동급 A/B티어 상대 최근 5경기 전수 실전 평균",
+            over_factor_desc,
+            matrix_range,
+            f"푸아송 연산 산출 (무승부 확률 {calc_draw:.1f}%)",
+            f"[푸아송 확률 {p1_rate:.2f}%] 5-2 결과와 가장 가까운 결과",
+            f"[푸아송 확률 {p2_rate:.2f}%] 수비 하한선 반영 단일 최고 확률 스코어",
+            "각 점수 차이 확률 합산",
+        ],
+    })
+    st.dataframe(ex6_df, use_container_width=True, hide_index=True)
 
 
 with tabs[7]:
