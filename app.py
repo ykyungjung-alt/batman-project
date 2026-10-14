@@ -203,6 +203,7 @@ def translate_tournament_code(code_str):
         "ACLE": "AFC 챔피언스리그 엘리트 (ACLE)",
         "FRA D1": "프랑스 리그 1",
         "UEFA ECL": "UEFA 유로파 컨퍼런스리그",
+        "INT CF": "국제 친선경기",
         "UEFA CL": "UEFA 챔피언스리그",
         "UEFA EL": "UEFA 유로파리그",
         "AFC CL": "AFC 챔피언스리그",
