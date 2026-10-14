@@ -1470,7 +1470,7 @@ h_pred_2nd = f"{second_match['home_score']}골"
 a_pred_2nd = f"{second_match['away_score']}골"
 p2_rate = second_match["prob"] * 100
 
-# 5. 3순위(대안책): 모든 점수 차이별 확률 분포 분석 및 세분화
+# 5. 3순위(대안책): 모든 점수 차이별 확률 분포 분석 및 세분화 (3점차 이상 포함 확장)
 diff_probs = {}
 for item in score_probs:
     diff = item["home_score"] - item["away_score"]  # 0: 무승부, 양수: 홈 승리 점수차, 음수: 원정 승리 점수차
@@ -1483,32 +1483,64 @@ a_diff_1_prob = diff_probs.get(-1, 0.0) * 100
 h_diff_2_prob = diff_probs.get(2, 0.0) * 100
 a_diff_2_prob = diff_probs.get(-2, 0.0) * 100
 
+# 3점차 이상 고득점 격차 누적 합산
+h_diff_3plus = sum(p for d, p in diff_probs.items() if d >= 3) * 100
+a_diff_3plus = sum(p for d, p in diff_probs.items() if d <= -3) * 100
+
 total_diff_1 = h_diff_1_prob + a_diff_1_prob
 total_diff_2 = h_diff_2_prob + a_diff_2_prob
+total_diff_3plus = h_diff_3plus + a_diff_3plus
 
-# 결과란(3순위)에 들어갈 직관적 구도 판정
+# 5. 3순위(대안책): 모든 점수 차이별 확률 분포 분석 및 세분화 (홈 결과 / 원정 확률 분리 배치)
+diff_probs = {}
+for item in score_probs:
+    diff = item["home_score"] - item["away_score"]  # 0: 무승부, 양수: 홈 승리 점수차, 음수: 원정 승리 점수차
+    diff_probs[diff] = diff_probs.get(diff, 0.0) + item["prob"]
+
+# 주요 점수차별 누적 확률 (%) 산출
+draw_sum_prob = diff_probs.get(0, 0.0) * 100
+h_diff_1_prob = diff_probs.get(1, 0.0) * 100
+a_diff_1_prob = diff_probs.get(-1, 0.0) * 100
+h_diff_2_prob = diff_probs.get(2, 0.0) * 100
+a_diff_2_prob = diff_probs.get(-2, 0.0) * 100
+
+# 3점차 이상 고득점 격차 누적 합산
+h_diff_3plus = sum(p for d, p in diff_probs.items() if d >= 3) * 100
+a_diff_3plus = sum(p for d, p in diff_probs.items() if d <= -3) * 100
+
+total_diff_1 = h_diff_1_prob + a_diff_1_prob
+total_diff_2 = h_diff_2_prob + a_diff_2_prob
+total_diff_3plus = h_diff_3plus + a_diff_3plus
+
+# 가장 높은 확률 비중을 차지하는 구도 판정
 dominant_diff = max(diff_probs, key=diff_probs.get)
+dominant_prob = diff_probs[dominant_diff] * 100
+
+# 홈 팀 결과란에는 구도명, 원정 팀 결과란에는 해당 확률 배치
 if dominant_diff > 0:
-    h_score_3rd = f"{abs(dominant_diff)}점차 우세"
-    a_score_3rd = f"{home_team} 승리"
+    h_score_3rd = f"{abs(dominant_diff)}점차 {home_team} 승리"
+    a_score_3rd = f"{dominant_prob:.1f}%"
     dominant_str = f"{abs(dominant_diff)}점차 {home_team} 승리 구도 우세"
 elif dominant_diff < 0:
-    h_score_3rd = f"{abs(dominant_diff)}점차 우세"
-    a_score_3rd = f"{away_team} 승리"
+    h_score_3rd = f"{abs(dominant_diff)}점차 {away_team} 승리"
+    a_score_3rd = f"{dominant_prob:.1f}%"
     dominant_str = f"{abs(dominant_diff)}점차 {away_team} 승리 구도 우세"
 else:
-    h_score_3rd = "무승부 공방"
-    a_score_3rd = "무승부 구도"
+    h_score_3rd = "무승부"
+    a_score_3rd = f"{dominant_prob:.1f}%"
     dominant_str = "무승부 공방 구도 우세"
 
-# 산출근거란: 무승부 외 각 점수차 확률과 우세 팀 명시 (세로 줄바꿈 적용으로 가독성 극대화)
+# 산출근거란: 나머지 2~3순위 및 전체 점수차별 세부 확률 분포 명시 (서식 오류 완벽 교정)
+h_d1_str, a_d1_str = f"+{h_diff_1_prob:.1f}%", f"+{abs(a_diff_1_prob):.1f}%"
+h_d2_str, a_d2_str = f"+{h_diff_2_prob:.1f}%", f"+{abs(a_diff_2_prob):.1f}%"
+h_d3_str, a_d3_str = f"+{h_diff_3plus:.1f}%", f"+{abs(a_diff_3plus):.1f}%"
+
 p3_desc = (
     f"• <b>최종 우세 구도:</b> {dominant_str}<br>"
     f"• <b>무승부 확률:</b> {draw_sum_prob:.1f}%<br>"
-    f"• <b>1점차 분포:</b> {total_diff_1:.1f}% "
-    f"({home_team} +{h_diff_1_prob:.1f}% / {away_team} +{a_diff_1_prob:.1f%})<br>"
-    f"• <b>2점차 분포:</b> {total_diff_2:.1f}% "
-    f"({home_team} +{h_diff_2_prob:.1f}% / {away_team} +{a_diff_2_prob:.1f%})"
+    f"• <b>1점차 분포:</b> {total_diff_1:.1f}% ({home_team} {h_d1_str} / {away_team} {a_d1_str})<br>"
+    f"• <b>2점차 분포:</b> {total_diff_2:.1f}% ({home_team} {h_d2_str} / {away_team} {a_d2_str})<br>"
+    f"• <b>3점차 이상:</b> {total_diff_3plus:.1f}% ({home_team} {h_d3_str} / {away_team} {a_d3_str})"
 )
 
 
