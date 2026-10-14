@@ -1351,7 +1351,7 @@ with tabs[5]:
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 
-    # ==========================================
+# ==========================================
     # 💡 규칙 5-3: 다득점/체급차 변동성 보정 (Over Factor) 산출 및 표 렌더링
     # ==========================================
     h_tier_val = tier_ranks.get(h_current_at, 3)
@@ -1414,7 +1414,6 @@ with tabs[5]:
         {"구분 항목": "양 팀 합계 (total)", f"홈 팀 ({home_team})": f"{total_expected_goals:.2f}골", f"원정 팀 ({away_team})": f"{total_expected_goals:.2f}골", "확정 구획 범주": poisson_zone_name, "푸아송 연산 행렬 범위": matrix_range}
     ]
     st.dataframe(pd.DataFrame(table_data_54), use_container_width=True, hide_index=True)
-
 
 
 # --- [6단계] 예상 스코어 순위 산출 및 최종 통합 흐름 매트릭스 ---
