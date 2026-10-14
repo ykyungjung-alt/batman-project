@@ -1419,7 +1419,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 스코어 순위 / 확률 정밀 연산 블록 (1~3순위 완벽 분리 규격)
+# 🧮 [규칙 6] 푸아송 분포 및 스코어 순위 / 확률 정밀 연산 블록 (1~3순위 중복 완전 제거 규격)
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1475,14 +1475,21 @@ elif s2_h < s2_a:
 else:
     s2_result_str = "무승부"
 
-# 5. [3순위 대안책 및 점수 차이별 분석 확정]
+# 5. [3순위 대안책: 1순위 스코어 격차와 중복되지 않는 차상위 점수 차이 구도 도출]
 diff_probs = {}
 for item in score_probs:
+    # 1순위 스코어 조합은 대안 분석에서 제외하여 중복 방지
+    if item["home_score"] == best_match_52["home_score"] and item["away_score"] == best_match_52["away_score"]:
+        continue
     diff = item["home_score"] - item["away_score"]
     diff_probs[diff] = diff_probs.get(diff, 0.0) + item["prob"]
 
-dominant_diff = max(diff_probs, key=diff_probs.get)
-dominant_prob = diff_probs[dominant_diff] * 100
+if diff_probs:
+    dominant_diff = max(diff_probs, key=diff_probs.get)
+    dominant_prob = diff_probs[dominant_diff] * 100
+else:
+    dominant_diff = 0
+    dominant_prob = calc_draw
 
 if dominant_diff > 0:
     h_score_3rd = f"{abs(dominant_diff)}점차 {home_team} 승리"
@@ -1497,7 +1504,7 @@ else:
     a_score_3rd = f"{dominant_prob:.1f}%"
     dominant_str = "무승부 공방 구도 우세"
 
-# 💡 산출근거란: 1순위는 이미 결과란에 반영되었으므로 완전히 배제하고, 2순위와 3순위의 결과만 세로로 정돈
+# 💡 산출근거란: 1순위 무승부 중복을 완전히 제거하고 2순위와 3순위 대안 구도가 각각 고유하게 노출되도록 정돈
 p3_desc = (
     f"[최종 대안 구도]: {dominant_str}\n"
     f"• 2순위 단일 예측: {p2_rate:.1f}% / {s2_result_str} ({s2_h}:{s2_a})\n"
@@ -1517,7 +1524,7 @@ with tabs[6]:
         <b>📌 예상스코어 순위 산출 방법 규격:</b><br>
         • <b>1순위 (최적합):</b> 규칙 5-2 검증 결과에 가장 적합한 단일 스코어를 선정하여 표에 반영합니다.<br>
         • <b>2순위 (차선책):</b> 1순위를 제외한 푸아송 확률이 가장 높은 단일 스코어를 선정합니다.<br>
-        • <b>3순위 (대안책):</b> 점수 차이별 확률 분포를 분석하여 홈 결과란에 우세 구도, 원정 결과란에 확률을 매핑합니다.
+        • <b>3순위 (대안책):</b> 1순위 스코어를 제외한 나머지 점수 차이별 확률 분포를 분석하여 우세 구도를 매핑합니다.
         </div>""",
         unsafe_allow_html=True,
     )
