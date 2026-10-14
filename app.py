@@ -1221,7 +1221,7 @@ with tabs[5]:
         st.markdown(table_html, unsafe_allow_html=True)
 
         # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (2단계 전적 변수 s_home_matches / s_away_matches 직접 연동)
+        # 📊 [5-2 표] 렌더링 (공용 정밀 데이터 변수 h_matches / a_matches 직접 연동)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
@@ -1231,9 +1231,9 @@ with tabs[5]:
         a_opp_at = h_current_at if 'h_current_at' in locals() else "Tier C"
         a_opp_de = h_current_de if 'h_current_de' in locals() else "Tier C"
 
-        # 💡 [핵심] 2단계(규칙 2번 탭)에서 이미 생성된 구장별 전적 리스트를 그대로 가져옵니다.
-        home_raw_pool = s_home_matches if 's_home_matches' in locals() and s_home_matches else []
-        away_raw_pool = s_away_matches if 's_away_matches' in locals() and s_away_matches else []
+        # 💡 [핵심 연동] 규칙 1번 등에서 전역으로 선언된 h_matches, a_matches 정밀 경기 리스트를 직접 안전하게 가져옵니다.
+        home_raw_pool = h_matches if 'h_matches' in locals() and h_matches else []
+        away_raw_pool = a_matches if 'a_matches' in locals() and a_matches else []
 
         def get_real_matches_without_friendlies(match_list):
             if not match_list or not isinstance(match_list, list):
