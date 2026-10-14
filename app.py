@@ -1107,7 +1107,7 @@ else:
     a_r4_def_val = 0.0
 
 # ==============================================================================
-# 💡 규칙 5번 탭 (5-1 표 및 2단계 체급 연동 5-2 표 통합 렌더링)
+# 💡 규칙 5번 탭 (5-1 표 및 2단계·v3 전적 연동 5-2 표 완벽 통합 렌더링)
 # ==============================================================================
 with tabs[5]:
     st.markdown(f"#### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
@@ -1221,7 +1221,7 @@ with tabs[5]:
         st.markdown(table_html, unsafe_allow_html=True)
 
         # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (match_details_v3.json 내 stadium_form 데이터 직접 연동)
+        # 📊 [5-2 표] 렌더링 (2단계 전적 풀 및 v3 stadium_form 데이터 직접 연동)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
@@ -1231,35 +1231,21 @@ with tabs[5]:
         a_opp_at = h_current_at if 'h_current_at' in locals() else "Tier C"
         a_opp_de = h_current_de if 'h_current_de' in locals() else "Tier C"
 
-        # 💡 [핵심] match_details_v3.json 구조에 맞추어 stadium_form 안의 구장별 전적을 직접 추출
-        home_raw_pool = []
-        away_raw_pool = []
+        # 1순위: 2단계 탭에서 파생된 구장별 매치 풀 직접 연동
+        home_raw_pool = s_home_matches if 's_home_matches' in locals() and s_home_matches else []
+        away_raw_pool = s_away_matches if 's_away_matches' in locals() and s_away_matches else []
 
-        # 현재 선택된 경기 세부 딕셔너리(예: match_details_dict 또는 세부 데이터 객체) 탐색
-        target_match_data = None
-        if 'match_details_dict' in locals() and isinstance(match_details_dict, dict):
-            # 현재 선택된 match_code (예: '3068871') 키 활용
-            m_code_str = str(selected_match_code) if 'selected_match_code' in locals() else "3068871"
-            target_match_data = match_details_dict.get(m_code_str, {})
-        elif 'current_match_detail' in locals():
-            target_match_data = current_match_detail
+        # 2순위: v3_details_dict 또는 stadium_form 백업 연동
+        if not home_raw_pool or not away_raw_pool:
+            target_v3_match = v3_details_dict.get(str(match_code), {}) if 'v3_details_dict' in locals() else {}
+            if target_v3_match:
+                stadium_form_block = target_v3_match.get("meta_details", {}).get("stadium_form", {})
+                if not home_raw_pool: home_raw_pool = stadium_form_block.get("home_matches", [])
+                if not away_raw_pool: away_raw_pool = stadium_form_block.get("away_matches", [])
 
-        if target_match_data:
-            meta_det = target_match_data.get("meta_details", {})
-            stadium_form_block = meta_det.get("stadium_form", {})
-            home_raw_pool = stadium_form_block.get("home_matches", [])
-            away_raw_pool = stadium_form_block.get("away_matches", [])
-
-        # 백업 안전 장치 (만약 위 경로가 안 잡힐 경우 기존 전적 풀 동원)
-        if not home_raw_pool and 's_home_matches' in locals():
-            home_raw_pool = s_home_matches
-        if not home_raw_pool and 'h_matches' in locals():
-            home_raw_pool = h_matches
-
-        if not away_raw_pool and 's_away_matches' in locals():
-            away_raw_pool = s_away_matches
-        if not away_raw_pool and 'a_matches' in locals():
-            away_raw_pool = a_matches
+        # 3순위: 기본 10경기 전수 풀 백업
+        if not home_raw_pool and 'h_matches' in locals(): home_raw_pool = h_matches
+        if not away_raw_pool and 'a_matches' in locals(): away_raw_pool = a_matches
 
         def get_real_matches_without_friendlies(match_list):
             if not match_list or not isinstance(match_list, list):
@@ -1272,7 +1258,7 @@ with tabs[5]:
                 if any(keyword in league_lower for keyword in ["친선", "friendly", "int cf", "club friendlies", "friendlies"]):
                     continue
                 
-                # match_details_v3.json의 스코어 필드는 'ft_scores' 리스트 형식임 ([득점, 실점])
+                # 스코어 및 ft_scores 안전 추출 검증
                 scores_arr = fix.get("ft_scores", [])
                 score_str = str(fix.get("score", "") or fix.get("result", ""))
                 if not score_str and (scores_arr and len(scores_arr) >= 2):
@@ -1285,23 +1271,28 @@ with tabs[5]:
 
         home_matched_5 = get_real_matches_without_friendlies(home_raw_pool)
         away_matched_5 = get_real_matches_without_friendlies(away_raw_pool)
-  
+
         def build_team_52_rows(match_list, team_label):
             rows_html = ""
             total_gf, total_ga = 0, 0
             cnt = len(match_list)
             if cnt == 0:
                 return f"<tr><td colspan='9' style='text-align: center; color: #888;'>[{team_label}] 최근 공식 경기 전수 데이터 참조</td></tr>", 0, 0, 0.0, 0.0
+            
             for i, m in enumerate(match_list, 1):
                 m_date = str(m.get("match_time", "-")).split(" ")[0].replace("-", ".")
-                m_league = str(m.get("league", "-"))
+                raw_league = str(m.get("league", "-"))
+                m_league = translate_tournament_code(raw_league) # 정식 한글 대회명 변환 적용
+
                 m_score = str(m.get("score", "") or m.get("result", "0 : 0"))
                 scores_arr = m.get("ft_scores", [])
                 if scores_arr and len(scores_arr) >= 2:
                     m_score = f"{scores_arr[0]} : {scores_arr[1]}"
+
                 m_loc = str(m.get("location", "공식"))
                 m_opp = str(m.get("opponent", "상대 팀"))
                 m_opp_tier = str(m.get("opponent_tier_info", "유사 티어 매칭"))
+                
                 gf, ga = 0, 0
                 try:
                     parts = m_score.replace("-", ":").split(":")
@@ -1310,10 +1301,12 @@ with tabs[5]:
                         ga = int(parts[1].strip())
                 except:
                     pass
+                
                 total_gf += gf
                 total_ga += ga
                 w_l = "승" if gf > ga else ("패" if gf < ga else "무")
                 seq_txt = f"{i} (최신)" if i == 1 else (f"{i} (과거)" if i == cnt else str(i))
+                
                 rows_html += f"""
                 <tr>
                 <td>{seq_txt}</td>
