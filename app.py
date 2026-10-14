@@ -1419,7 +1419,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록
+# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (5-1 기하평균 뼈대 직결 규격)
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1428,6 +1428,10 @@ def poisson_prob(lmbda, k):
         return (math.exp(-lmbda) * (lmbda ** k)) / math.factorial(k)
     except:
         return 0.0
+
+# 💡 [핵심 연동] 규칙 5-1의 기하평균 공수 교차 상쇄 결합 결과값을 푸아송 연산의 1차 뼈대 람다로 채택
+base_h_lambda = h_final_exp_g if 'h_final_exp_g' in locals() else 1.0
+base_a_lambda = a_final_exp_g if 'a_final_exp_g' in locals() else 1.0
 
 # 1. [규칙 5-4 연동] 총 기대 득점에 따른 동적 골 범위 행렬(max_k) 확정
 total_exp_goals = h_final + a_final
@@ -1438,12 +1442,13 @@ elif total_exp_goals <= 3.2 and (tier_diff if 'tier_diff' in locals() else 0) < 
 else:
     matrix_max_k = 6
 
-# 2. 푸아송 확률 매트릭스 산출 (5-3 최종 람다 적용)
+# 2. 푸아송 확률 매트릭스 산출 (5-1 기하평균 뼈대 + 5-3 최종 람다 복합 적용)
 score_probs = []
 for h_g in range(matrix_max_k + 1):
     for a_g in range(matrix_max_k + 1):
-        p_h = poisson_prob(h_final, h_g)
-        p_a = poisson_prob(a_final, a_g)
+        # 5-1 기하평균 기대치와 5-3 최종 보정 람다를 교차 반영하여 수리 확률의 뿌리를 공고히 함
+        p_h = poisson_prob((h_final + base_h_lambda) / 2.0, h_g)
+        p_a = poisson_prob((a_final + base_a_lambda) / 2.0, a_g)
         joint_prob = p_h * p_a
         score_probs.append({"home_score": h_g, "away_score": a_g, "prob": joint_prob})
 
