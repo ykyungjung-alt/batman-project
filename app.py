@@ -1419,7 +1419,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 스코어 순위 / 확률 정밀 연산 블록 (요청 규격 반영)
+# 🧮 [규칙 6] 푸아송 분포 및 스코어 순위 / 확률 정밀 연산 블록 (1~3순위 완벽 분리 규격)
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1448,7 +1448,7 @@ calc_draw = sum(item["prob"] for item in score_probs if item["home_score"] == it
 # 3. 확률 순으로 스코어 정렬 (내림차순)
 sorted_scores = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
 
-# 4. 1순위(최적합)와 2순위(차선책) 스코어 선정
+# 4. [1순위 및 2순위 독립 단일 스코어 확정]
 best_match_52 = sorted_scores[0]
 second_match = None
 for s in sorted_scores:
@@ -1458,11 +1458,12 @@ for s in sorted_scores:
 if not second_match:
     second_match = best_match_52
 
+# 1순위 결과 (최적합)
 h_pred_1st = f"{best_match_52['home_score']}골"
 a_pred_1st = f"{best_match_52['away_score']}골"
 p1_rate = best_match_52["prob"] * 100
 
-# 2순위 스코어 및 확률 정보 준비
+# 2순위 결과 (차선책)
 h_pred_2nd = f"{second_match['home_score']}골"
 a_pred_2nd = f"{second_match['away_score']}골"
 p2_rate = second_match["prob"] * 100
@@ -1474,7 +1475,7 @@ elif s2_h < s2_a:
 else:
     s2_result_str = "무승부"
 
-# 5. 3순위(대안책): 점수 차이별 확률 분포 분석 및 대안 구도 산출
+# 5. [3순위 대안책 및 점수 차이별 분석 확정]
 diff_probs = {}
 for item in score_probs:
     diff = item["home_score"] - item["away_score"]
@@ -1496,7 +1497,7 @@ else:
     a_score_3rd = f"{dominant_prob:.1f}%"
     dominant_str = "무승부 공방 구도 우세"
 
-# 💡 산출근거란: 1순위는 이미 결과란에 들어갔으므로 제외하고, 2순위와 3순위의 확률 및 승무패 결과를 줄바꿈하여 세로로 배치
+# 💡 산출근거란: 1순위는 이미 결과란에 반영되었으므로 완전히 배제하고, 2순위와 3순위의 결과만 세로로 정돈
 p3_desc = (
     f"[최종 대안 구도]: {dominant_str}\n"
     f"• 2순위 단일 예측: {p2_rate:.1f}% / {s2_result_str} ({s2_h}:{s2_a})\n"
@@ -1514,7 +1515,7 @@ with tabs[6]:
     st.markdown(
         """<div class="step-box">
         <b>📌 예상스코어 순위 산출 방법 규격:</b><br>
-        • <b>1순위 (최적합):</b> 규칙 5-2 검증 결과에 가장 적합한 단일 스코어를 선정합니다.<br>
+        • <b>1순위 (최적합):</b> 규칙 5-2 검증 결과에 가장 적합한 단일 스코어를 선정하여 표에 반영합니다.<br>
         • <b>2순위 (차선책):</b> 1순위를 제외한 푸아송 확률이 가장 높은 단일 스코어를 선정합니다.<br>
         • <b>3순위 (대안책):</b> 점수 차이별 확률 분포를 분석하여 홈 결과란에 우세 구도, 원정 결과란에 확률을 매핑합니다.
         </div>""",
