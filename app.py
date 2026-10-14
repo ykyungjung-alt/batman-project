@@ -710,102 +710,101 @@ with tabs[3]:
     st.markdown(f"#### [규칙 3번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
-    <b>📌 규칙 3번 규격 원칙 및 요약 설명:</b><br>
-    • <b>정량 수치 모델 적용:</b> 기초 사실(Fact)을 바탕으로 하되, 분석 및 스코어 도출은 엄격한 정량 수치 모델을 적용합니다.<br>
-    • <b>부호 대칭 규격:</b> 누수(부상·징계·이적)는 공격력 음수(-), 방어력 양수(+) / 가산(복귀·입단)은 공격력 양수(+), 방어력 음수(-)를 적용합니다.<br>
-    • <b>포지션별 반감(Halved) 규칙:</b> 공격 자원의 방어 보정과 수비 자원의 공격 보정은 1/2로 반감 적용합니다.<br>
-    • <b>이동 피로도 룰:</b> 원정 경기마다 누적되며, 홈 복귀 또는 휴식 시 0%로 Reset 됩니다 (단계마다 공격 -5%, 방어 +5%).
+        <b>📌 규칙 3번 규격 원칙 및 요약 설명:</b><br>
+        • <b>정량 수치 모델 적용:</b> 기초 사실(Fact)을 바탕으로 하되, 분석 및 스코어 도출은 엄격한 정량 수치 모델을 적용합니다.<br>
+        • <b>부호 대칭 규격:</b> 누수(부상·징계·이적)는 공격력 음수(-), 방어력 양수(+) / 가산(복귀·입단)은 공격력 양수(+), 방어력 음수(-)를 적용합니다.<br>
+        • <b>포지션별 반감(Halved) 규칙:</b> 공격 자원의 방어 보정과 수비 자원의 공격 보정은 1/2로 반감 적용합니다.<br>
+        • <b>이동 피로도 룰:</b> 원정 경기마다 누적되며, 홈 복귀 또는 휴식 시 0%로 Reset 됩니다 (단계마다 공격 -5%, 방어 +5%).
     </div>
     """, unsafe_allow_html=True)
 
-# ==========================================
-# 3-1번 영역: 선수 등급 기준표 및 양팀 전력 변동 표 (하드코딩 제거 및 0% 기본값 처리)
-# ==========================================
-st.markdown("##### 선수 등급(상/중/하) 정량 판정 기준표")
-html_table = """
-<style>
-.custom-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 14px; }
-.custom-table th, .custom-table td { border: 1px solid #e0e0e0; padding: 10px 12px; text-align: left; }
-.custom-table th { background-color: #f5f5f5; font-weight: bold; }
-</style>
-<table class="custom-table">
-<thead><tr><th>전력 등급</th><th>포지션</th><th>정량적 스펙 및 평가 기준</th><th>보정 비율</th></tr></thead>
-<tbody>
-<tr><td>상 (High)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 팀 내 득점/도움 1~2위 또는 선발 출전율 80% 이상<br>• [DF/GK] 클린시트 기여 1위 / 경기당 평균 실점 1.0 이하</td><td>14%<br>(공격: -14% / 방어: +14%)</td></tr>
-<tr><td>중 (Medium)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 선발 출전율 50% ~ 79% / 핵심 주전 로테이션<br>• [DF/GK] 주전 수비수·골키퍼 / 태클·인터셉트 상위권</td><td>7%<br>(공격: -7% / 방어: +7%)</td></tr>
-<tr><td>하 (Low)</td><td>공용</td><td>• 선발 출전율 50% 미만 / 백업 및 후보 자원 (결장 시 수비/공격 수치 변화 미비)</td><td>0%</td></tr>
-</tbody>
-</table>
-"""
-st.markdown(html_table, unsafe_allow_html=True)
+    # ==========================================
+    # 3-1번 영역: 선수 등급 기준표 및 양팀 전력 변동 표 (하드코딩 제거 및 0% 기본값 처리)
+    # ==========================================
+    st.markdown("##### 선수 등급(상/중/하) 정량 판정 기준표")
+    html_table = """
+    <style>
+    .custom-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 14px; }
+    .custom-table th, .custom-table td { border: 1px solid #e0e0e0; padding: 10px 12px; text-align: left; }
+    .custom-table th { background-color: #f5f5f5; font-weight: bold; }
+    </style>
+    <table class="custom-table">
+    <thead><tr><th>전력 등급</th><th>포지션</th><th>정량적 스펙 및 평가 기준</th><th>보정 비율</th></tr></thead>
+    <tbody>
+    <tr><td>상 (High)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 팀 내 득점/도움 1~2위 또는 선발 출전율 80% 이상<br>• [DF/GK] 클린시트 기여 1위 / 경기당 평균 실점 1.0 이하</td><td>14%<br>(공격: -14% / 방어: +14%)</td></tr>
+    <tr><td>중 (Medium)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 선발 출전율 50% ~ 79% / 핵심 주전 로테이션<br>• [DF/GK] 주전 수비수·골키퍼 / 태클·인터셉트 상위권</td><td>7%<br>(공격: -7% / 방어: +7%)</td></tr>
+    <tr><td>하 (Low)</td><td>공용</td><td>• 선발 출전율 50% 미만 / 백업 및 후보 자원 (결장 시 수비/공격 수치 변화 미비)</td><td>0%</td></tr>
+    </tbody>
+    </table>
+    """
+    st.markdown(html_table, unsafe_allow_html=True)
 
-# 실데이터 기반 선수 누수/가산 데이터 추출 (없으면 0% 기본값 적용)
-h_squad_changes = []
-a_squad_changes = []
-if has_detailed_data and 'detailed_info' in locals():
-    meta_det = detailed_info.get("meta_details", {})
-    h_squad_changes = meta_det.get("home_squad_changes", [])
-    a_squad_changes = meta_det.get("away_squad_changes", [])
+    # 실데이터 기반 선수 누수/가산 데이터 추출 (없으면 0% 기본값 적용)
+    h_squad_changes = []
+    a_squad_changes = []
+    if has_detailed_data and 'detailed_info' in locals():
+        meta_det = detailed_info.get("meta_details", {})
+        h_squad_changes = meta_det.get("home_squad_changes", [])
+        a_squad_changes = meta_det.get("away_squad_changes", [])
 
-def build_squad_dataframe(changes_list, team_label):
-    if not changes_list:
-        df_empty = pd.DataFrame({
-            "선수 실명": ["-", "[총합]"],
-            "포지션": ["-", "-"],
-            "변동 유형": ["-", "-"],
-            "핵심 영향력": ["특이 전력 누수/가산 없음", f"{team_label} 최종 가중치"],
-            "시즌 누적 스탯": ["-", "-"],
-            "등급": ["-", "-"],
-            "공격 보정": ["0.0%", "0.0%"],
-            "방어 보정": ["0.0%", "0.0%"],
-            "비고": ["정상 스쿼드 가동", "최종 누적 보정치 (0%)"]
-        })
-        return df_empty, 0.0, 0.0
-    
-    rows = []
-    tot_atk, tot_def = 0.0, 0.0
-    for item in changes_list:
-        p_name = item.get("name", "-")
-        p_pos = item.get("position", "-")
-        p_type = item.get("type", "누수")
-        p_grade = item.get("grade", "중 (Medium)")
-        p_memo = item.get("memo", "-")
+    def build_squad_dataframe(changes_list, team_label):
+        if not changes_list:
+            df_empty = pd.DataFrame({
+                "선수 실명": ["-", "[총합]"],
+                "포지션": ["-", "-"],
+                "변동 유형": ["-", "-"],
+                "핵심 영향력": ["특이 전력 누수/가산 없음", f"{team_label} 최종 가중치"],
+                "시즌 누적 스탯": ["-", "-"],
+                "등급": ["-", "-"],
+                "공격 보정": ["0.0%", "0.0%"],
+                "방어 보정": ["0.0%", "0.0%"],
+                "비고": ["정상 스쿼드 가동", "최종 누적 보정치 (0%)"]
+            })
+            return df_empty, 0.0, 0.0
         
-        rate = 14.0 if "상" in p_grade else (7.0 if "중" in p_grade else 0.0)
-        if p_type == "누수":
-            atk_v = -rate
-            def_v = rate if "FW" in p_pos or "MF" in p_pos else rate / 2.0
-        else:
-            atk_v = rate
-            def_v = -rate if "DF" in p_pos or "GK" in p_pos else -rate / 2.0
+        rows = []
+        tot_atk, tot_def = 0.0, 0.0
+        for item in changes_list:
+            p_name = item.get("name", "-")
+            p_pos = item.get("position", "-")
+            p_type = item.get("type", "누수")
+            p_grade = item.get("grade", "중 (Medium)")
+            p_memo = item.get("memo", "-")
+            
+            rate = 14.0 if "상" in p_grade else (7.0 if "중" in p_grade else 0.0)
+            if p_type == "누수":
+                atk_v = -rate
+                def_v = rate if "FW" in p_pos or "MF" in p_pos else rate / 2.0
+            else:
+                atk_v = rate
+                def_v = -rate if "DF" in p_pos or "GK" in p_pos else -rate / 2.0
 
-        tot_atk += atk_v
-        tot_def += def_v
+            tot_atk += atk_v
+            tot_def += def_v
+            rows.append({
+                "선수 실명": p_name, "포지션": p_pos, "변동 유형": p_type, "핵심 영향력": p_memo,
+                "시즌 누적 스탯": item.get("stats", "-"), "등급": p_grade,
+                "공격 보정": f"{atk_v:+.1f}%", "방어 보정": f"{def_v:+.1f}%", "비고": "적용 완료"
+            })
+        
         rows.append({
-            "선수 실명": p_name, "포지션": p_pos, "변동 유형": p_type, "핵심 영향력": p_memo,
-            "시즌 누적 스탯": item.get("stats", "-"), "등급": p_grade,
-            "공격 보정": f"{atk_v:+.1f}%", "방어 보정": f"{def_v:+.1f}%", "비고": "적용 완료"
+            "선수 실명": "[총합]", "포지션": "-", "변동 유형": "-", "핵심 영향력": f"{team_label} 최종 가중치",
+            "시즌 누적 스탯": "-", "등급": "-", "공격 보정": f"{tot_atk:+.1f}%", "방어 보정": f"{tot_def:+.1f}%", "비고": "최종 누적 보정치"
         })
-    
-    rows.append({
-        "선수 실명": "[총합]", "포지션": "-", "변동 유형": "-", "핵심 영향력": f"{team_label} 최종 가중치",
-        "시즌 누적 스탯": "-", "등급": "-", "공격 보정": f"{tot_atk:+.1f}%", "방어 보정": f"{tot_def:+.1f}%", "비고": "최종 누적 보정치"
-    })
-    return pd.DataFrame(rows), tot_atk, tot_def
+        return pd.DataFrame(rows), tot_atk, tot_def
 
-st.markdown(f"##### 3-1: 구단명 - {home_team} 선수 전력 변동")
-table_3_1_home, h_r31_atk_val, h_r31_def_val = build_squad_dataframe(h_squad_changes, home_team)
-st.dataframe(table_3_1_home, use_container_width=True, hide_index=True)
+    st.markdown(f"##### 3-1: 구단명 - {home_team} 선수 전력 변동")
+    table_3_1_home, h_r31_atk_val, h_r31_def_val = build_squad_dataframe(h_squad_changes, home_team)
+    st.dataframe(table_3_1_home, use_container_width=True, hide_index=True)
 
-st.markdown(f"##### 3-1: 구단명 - {away_team} 선수 전력 변동")
-table_3_1_away, a_r31_atk_val, a_r31_def_val = build_squad_dataframe(a_squad_changes, away_team)
-st.dataframe(table_3_1_away, use_container_width=True, hide_index=True)
+    st.markdown(f"##### 3-1: 구단명 - {away_team} 선수 전력 변동")
+    table_3_1_away, a_r31_atk_val, a_r31_def_val = build_squad_dataframe(a_squad_changes, away_team)
+    st.dataframe(table_3_1_away, use_container_width=True, hide_index=True)
 
-st.markdown("---")
-# (이 아래부터 사용자님께서 작성하신 기존 규칙 3-2 타임라인 렌더링 코드가 그대로 이어지면 됩니다.)
+    st.markdown("---")
 
     # ==========================================
-    # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인
+    # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인 (전체 로직 완벽 복원)
     # ==========================================
     st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
     
@@ -986,23 +985,18 @@ st.markdown("---")
         a_fatigue_atk = -5 * a_last_fatigue
         a_fatigue_def = 5 * a_last_fatigue
 
-        global h_r31_atk_val, h_r31_def_val, a_r31_atk_val, a_r31_def_val
-        h_r31_atk_val, h_r31_def_val = -7.0, -7.0
-        a_r31_atk_val, a_r31_def_val = 10.5, 0.0
-
         st.markdown(f"""
         <div class="calc-box">
-        <b>규칙 3번 상세 산출 내역 및 보정 합산:</b><br>
-        • <b>{home_team}:</b> 중요도 상(공격력 +{h_imp_atk}%, 방어력 {h_imp_def}%), 피로누적 {h_last_fatigue}단계(공격력 {h_fatigue_atk}%, 방어력 +{h_fatigue_def}%)<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {h_imp_atk + h_fatigue_atk:+d}%, 방어력 {h_imp_def + h_fatigue_def:+d}%<br><br>
-        • <b>{away_team}:</b> 중요도 상(공격력 +{a_imp_atk}%, 방어력 {a_imp_def}%), 피로누적 {a_last_fatigue}단계(공격력 {a_fatigue_atk}%, 방어력 +{a_fatigue_def}%)<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {a_imp_atk + a_fatigue_atk:+d}%, 방어력 {a_imp_def + a_fatigue_def:+d}%
+            <b>규칙 3번 상세 산출 내역 및 보정 합산:</b><br>
+            • <b>{home_team}:</b> 중요도 상(공격력 +{h_imp_atk}%, 방어력 {h_imp_def}%), 피로누적 {h_last_fatigue}단계(공격력 {h_fatigue_atk}%, 방어력 +{h_fatigue_def}%)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {h_imp_atk + h_fatigue_atk:+d}%, 방어력 {h_imp_def + h_fatigue_def:+d}%<br><br>
+            • <b>{away_team}:</b> 중요도 상(공격력 +{a_imp_atk}%, 방어력 {a_imp_def}%), 피로누적 {a_last_fatigue}단계(공격력 {a_fatigue_atk}%, 방어력 +{a_fatigue_def}%)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {a_imp_atk + a_fatigue_atk:+d}%, 방어력 {a_imp_def + a_fatigue_def:+d}%
         </div>
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터(fixtures)가 아직 수집되지 않았습니다.")
         st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, 일정 누수 및 피로도 산출 내역을 표시할 수 없습니다.")
-
 
 # --- [4단계] --- 
 with tabs[4]:
