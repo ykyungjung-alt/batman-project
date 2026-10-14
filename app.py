@@ -1252,7 +1252,7 @@ with tabs[5]:
         home_matched_5 = get_real_matches_without_friendlies(home_raw_pool)
         away_matched_5 = get_real_matches_without_friendlies(away_raw_pool)
 
-        def build_team_52_dataframe(match_list, team_label):
+def build_team_52_dataframe(match_list, team_label):
             rows = []
             total_gf, total_ga = 0, 0
             cnt = len(match_list)
@@ -1271,7 +1271,7 @@ with tabs[5]:
 
                 m_loc = str(m.get("location", "공식"))
                 
-                # 상대 팀 이름 정밀 추출
+                # 1. 상대 팀 이름 정밀 추출
                 m_opp = ""
                 teams_str = str(m.get("teams", ""))
                 if " vs " in teams_str:
@@ -1284,10 +1284,29 @@ with tabs[5]:
                 if not m_opp:
                     m_opp = "상대 팀명 미확인"
 
-                # 상대 티어 정보 추출
-                m_opp_tier = str(m.get("opponent_tier_info", "") or m.get("tier_info", "")).strip()
-                if not m_opp_tier or m_opp_tier == "유사 티어 매칭":
-                    m_opp_tier = "Tier C / Tier C"
+                # 💡 [핵심 변환] 시스템 원본 atk_tier / def_tier 함수를 통한 A~E 등급 체급 정식 산출
+                m_opp_tier = "Tier C / Tier C"
+                tier_info = m.get("opponent_tier_info", "")
+                if tier_info and "/" in tier_info:
+                    try:
+                        oa, od = map(float, tier_info.split("/"))
+                        at_name = atk_tier_nm(oa)  # 규칙 1번에 정의된 공격 티어 함수
+                        df_name = def_tier_nm(od)  # 규칙 1번에 정의된 방어 티어 함수
+                        m_opp_tier = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
+                    except:
+                        pass
+                else:
+                    # 데이터 내부에 raw 수치가 있는 경우 안전 방어 변환
+                    raw_tier_str = str(m.get("tier_info", ""))
+                    if "/" in raw_tier_str:
+                        try:
+                            parts_t = raw_tier_str.split("/")
+                            oa, od = float(parts_t[0]), float(parts_t[1])
+                            at_name = atk_tier_nm(oa)
+                            df_name = def_tier_nm(od)
+                            m_opp_tier = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
+                        except:
+                            pass
 
                 gf, ga = 0, 0
                 try:
@@ -1309,7 +1328,7 @@ with tabs[5]:
                     "대회 명칭": m_league,
                     "장소": m_loc,
                     "상대 팀": m_opp,
-                    "상대 티어 (2단계 Shift 연동)": m_opp_tier,
+                    "상대 티어 (A~E 등급 연동)": m_opp_tier,
                     "최종 스코어": m_score,
                     "결과": w_l,
                     "비고 (득점 / 실점)": f"{gf}득점 / {ga}실점"
