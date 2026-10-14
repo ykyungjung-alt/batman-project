@@ -1221,7 +1221,7 @@ with tabs[5]:
         st.markdown(table_html, unsafe_allow_html=True)
 
         # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (2단계 체급 연동 및 데이터 누락 방어 완벽 반영)
+        # 📊 [5-2 표] 렌더링 (2단계 전적 변수 s_home_matches / s_away_matches 직접 연동)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
@@ -1231,13 +1231,19 @@ with tabs[5]:
         a_opp_at = h_current_at if 'h_current_at' in locals() else "Tier C"
         a_opp_de = h_current_de if 'h_current_de' in locals() else "Tier C"
 
-        def get_valid_5_matches(team_fixtures):
-            if not team_fixtures or not isinstance(team_fixtures, list):
+        # 💡 [핵심] 2단계(규칙 2번 탭)에서 이미 생성된 구장별 전적 리스트를 그대로 가져옵니다.
+        home_raw_pool = s_home_matches if 's_home_matches' in locals() and s_home_matches else []
+        away_raw_pool = s_away_matches if 's_away_matches' in locals() and s_away_matches else []
+
+        def get_real_matches_without_friendlies(match_list):
+            if not match_list or not isinstance(match_list, list):
                 return []
             valid = []
-            for fix in team_fixtures:
-                league_str = str(fix.get("league", ""))
-                if "친선" in league_str or "Friendly" in league_str:
+            for fix in match_list:
+                league_raw = str(fix.get("league", ""))
+                league_lower = league_raw.lower()
+                # INT CF, Friendly 등 친선 경기 철저 배제
+                if any(keyword in league_lower for keyword in ["친선", "friendly", "int cf", "club friendlies", "friendlies"]):
                     continue
                 score_str = str(fix.get("score", "") or fix.get("result", ""))
                 if not score_str or (":" not in score_str and "-" not in score_str):
@@ -1245,8 +1251,8 @@ with tabs[5]:
                 valid.append(fix)
             return valid[:5]
 
-        home_matched_5 = get_valid_5_matches(h_matches) if 'h_matches' in locals() else []
-        away_matched_5 = get_valid_5_matches(a_matches) if 'a_matches' in locals() else []
+        home_matched_5 = get_real_matches_without_friendlies(home_raw_pool)
+        away_matched_5 = get_real_matches_without_friendlies(away_raw_pool)
 
         def build_team_52_rows(match_list, team_label):
             rows_html = ""
