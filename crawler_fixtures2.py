@@ -18,13 +18,14 @@ def run_table_based_crawler_v2():
     target_matches = []
     daily_matches_input = data.get("daily_matches", {})
 
+    # 💡 [핵심] 오늘 기준 +1일(내일 날짜, 예: "10-16")을 동적으로 계산하여 4일치 데이터 중 내일 경기만 타겟팅
     kst = ZoneInfo("Asia/Seoul")
     tomorrow_dt = datetime.now(kst) + timedelta(days=1)
-    target_date_str = tomorrow_dt.strftime("%m-%d")
+    target_date_str = tomorrow_dt.strftime("%m-%d")  # 예: "10-16"
 
     for date_key, matches in daily_matches_input.items():
         if target_date_str in date_key:
-            print(f"🎯 발견한 내일 경기 블록: {date_key} (총 {len(matches)}개 경기)")
+            print(f"🎯 발견한 내일({target_date_str}) 경기 블록: {date_key} (총 {len(matches)}개 경기)")
             for m in matches:
                 m_code = m.get("match_code")
                 if m_code and m_code not in [t["match_code"] for t in target_matches]:
