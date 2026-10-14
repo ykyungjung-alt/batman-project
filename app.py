@@ -34,11 +34,8 @@ def load_all_match_details():
                     file_data = json.load(f)
                     match_dict = file_data.get("match_details", {})
                     for k, v in match_dict.items():
-                        # 키를 문자열 및 공백 제거 형태로 정규화하여 저장
                         clean_k = str(k).strip()
                         combined_details[clean_k] = v
-                        
-                        # 데이터 내부의 match_code 필드가 있다면 이 값도 키로 추가 인덱싱
                         if isinstance(v, dict):
                             m_code = str(v.get("match_code", "")).strip()
                             if m_code:
@@ -109,51 +106,36 @@ if matches:
         selected_league = st.sidebar.selectbox("리그를 선택하세요:", leagues)
         league_matches = [m for m in matches if m.get("league", "기타 리그") == selected_league]
         
-        # match_name 대신 홈/원정/시간 조합으로 안전하게 생성
         match_options = [f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" for m in league_matches]
-        
         if match_options:
             selected_match_name = st.sidebar.radio("분석할 경기를 선택하세요:", match_options, key="match_radio_selection")
-            
-            # 선택된 경기 매칭
             selected_match = next((m for m in league_matches if f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" == selected_match_name), None)
 
-# [핵심 방어 로직] 조건에 맞는 경기가 없을 때 경고 문구 출력 및 안전 정지
 if not selected_match:
     st.warning(f"⚠️ [{selected_date}] 조건에 해당하는 경기 데이터가 존재하지 않습니다. (데이터 없음)")
     st.info("💡 안내: 아직 해당 날짜에 수집된 경기 일정이나 정밀 데이터가 없습니다. 다른 날짜를 선택하시거나 데이터 갱신 후 이용해 주세요.")
     st.stop()
 
-# 정상 매칭 시 변수 지정
 home_team = selected_match.get("home", "홈팀")
 away_team = selected_match.get("away", "원정팀")
 tournament_name = selected_match.get("league", "리그")
 match_date = selected_match.get("time", "오늘")
 match_code = str(selected_match.get("match_code", ""))
 
-# ==========================================
-# 💡 [핵심 방어 장치] 통합 상세 데이터 안전 추출 및 플래그 설정 (팀 이름 매칭 폴백 추가)
-# ==========================================
-# ==========================================
-# 💡 [강력한 3단계 통합 매칭 로직] 매치코드 및 팀 이름 정밀 비교
-# ==========================================
 raw_detailed_info = None
 target_code = str(match_code).strip()
 target_home = str(home_team).strip().replace(" ", "")
 target_away = str(away_team).strip().replace(" ", "")
 
-# 1순위: 상위 딕셔너리 키로 직접 탐색
 if target_code and target_code in all_details_dict:
     raw_detailed_info = all_details_dict[target_code]
 
-# 2순위: 데이터 내부의 "match_code" 필드 값과 일치하는 항목 탐색
 if not raw_detailed_info and target_code:
     for k, v in all_details_dict.items():
         if str(v.get("match_code", "")).strip() == target_code:
             raw_detailed_info = v
             break
 
-# 3순위: 홈팀 / 원정팀 이름 정규화(공백 제거) 후 일치하는 항목 탐색 (폴백)
 if not raw_detailed_info:
     for k, v in all_details_dict.items():
         v_home = str(v.get("home", "")).strip().replace(" ", "")
@@ -183,45 +165,21 @@ else:
     }
     has_detailed_data = False
 
-# ==========================================
-# 💡 [공통 유틸리티] 대회 압축어 정식 한글 명칭 및 날짜 포맷 자동 변환 함수
-# ==========================================
 def translate_tournament_code(code_str):
     if not code_str:
         return "기타 공식 경기"
     
     mapping = {
-        # 주요 리그 및 컵대회 압축어
-        "GER D1": "독일 분데스리가",
-        "GERC": "독일 DFB 포칼",
-        "INT CF": "국가대표 친선경기",
-        "ENG PR": "잉글랜드 프리미어리그",
-        "ENG FAC": "잉글랜드 FA컵",
-        "SPA D1": "스페인 라리가",
-        "SPA D2": "스페인 라리가 2",          # 💡 스페인 2부 리그 추가
-        "SPA CUP": "스페인 코파 델 레이",       # 💡 스페인 컵대회 추가
-        "ESP D1": "스페인 라리가",
-        "ESP C": "스페인 코파 델 레이",
-        "ITA D1": "이탈리아 세리에 A",
-        "ITA Cup": "이탈리아 컵 (코파 이탈리아)",
-        "FRA C": "프랑스 쿠프 드 프랑스",
-        "KFAC": "대한민국 코리아컵 (FA컵)",
-        "ENG LC": "잉글랜드 리그컵 (카라바오컵)",
-        "ACLE": "AFC 챔피언스리그 엘리트 (ACLE)",
-        "FRA D1": "프랑스 리그 1",
-        "UEFA ECL": "UEFA 유로파 컨퍼런스리그",
-        "UEFA CL": "UEFA 챔피언스리그",
-        "UEFA EL": "UEFA 유로파리그",
-        "AFC CL": "AFC 챔피언스리그",
-        "ACQ": "AFC 아시안컵 예선",
-        "AC": "AFC 아시안컵 본선",
-        "WC": "FIFA 월드컵 본선",
-        "FIFA WC": "FIFA 월드컵 본선",
-        "WCC": "FIFA 클럽 월드컵",
-        "FIFA CWC": "FIFA 클럽 월드컵",
-        "U20 WC": "FIFA U-20 월드컵",
-        "U17 WC": "FIFA U-17 월드컵",
-        "W-WC": "FIFA 여자 월드컵"
+        "GER D1": "독일 분데스리가", "GERC": "독일 DFB 포칼", "INT CF": "국가대표 친선경기",
+        "ENG PR": "잉글랜드 프리미어리그", "ENG FAC": "잉글랜드 FA컵", "SPA D1": "스페인 라리가",
+        "SPA D2": "스페인 라리가 2", "SPA CUP": "스페인 코파 델 레이", "ESP D1": "스페인 라리가",
+        "ESP C": "스페인 코파 델 레이", "ITA D1": "이탈리아 세리에 A", "ITA Cup": "이탈리아 컵 (코파 이탈리아)",
+        "FRA C": "프랑스 쿠프 드 프랑스", "KFAC": "대한민국 코리아컵 (FA컵)", "ENG LC": "잉글랜드 리그컵 (카라바오컵)",
+        "ACLE": "AFC 챔피언스리그 엘리트 (ACLE)", "FRA D1": "프랑스 리그 1", "UEFA ECL": "UEFA 유로파 컨퍼런스리그",
+        "UEFA CL": "UEFA 챔피언스리그", "UEFA EL": "UEFA 유로파리그", "AFC CL": "AFC 챔피언스리그",
+        "ACQ": "AFC 아시안컵 예선", "AC": "AFC 아시안컵 본선", "WC": "FIFA 월드컵 본선",
+        "FIFA WC": "FIFA 월드컵 본선", "WCC": "FIFA 클럽 월드컵", "FIFA CWC": "FIFA 클럽 월드컵",
+        "U20 WC": "FIFA U-20 월드컵", "U17 WC": "FIFA U-17 월드컵", "W-WC": "FIFA 여자 월드컵"
     }
     
     converted = code_str
@@ -230,7 +188,6 @@ def translate_tournament_code(code_str):
             converted = code_str.replace(k, v)
             break
             
-    # 💡 한글/괄호/공백 뒤에 곧바로 연도(20...)가 붙어 있는 경우 사이에 ' - ' 삽입
     match_pattern = re.search(r'(.*?)(\d{4}\.\d{2}\.\d{2})', converted)
     if match_pattern:
         prefix = match_pattern.group(1).strip()
@@ -238,15 +195,11 @@ def translate_tournament_code(code_str):
         return f"{prefix} - {date_part}"
         
     return converted
+
 tab_titles = [
-    "0단계 (메타)", 
-    "규칙 1 (LIFO 7경기)", 
-    "규칙 2 (구장 Shift)", 
-    "규칙 3 (누수·피로)", 
-    "규칙 4 (H2H 상성)", 
-    "규칙 5 (최종 람다)", 
-    "규칙 6 (푸아송 예측)", 
-    "요약 리포트"
+    "0단계 (메타)", "규칙 1 (LIFO 7경기)", "규칙 2 (구장 Shift)", 
+    "규칙 3 (누수·피로)", "규칙 4 (H2H 상성)", "규칙 5 (최종 람다)", 
+    "규칙 6 (푸아송 예측)", "요약 리포트"
 ]
 tabs = st.tabs(tab_titles)
 
