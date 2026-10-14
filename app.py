@@ -1221,7 +1221,7 @@ with tabs[5]:
         st.markdown(table_html, unsafe_allow_html=True)
 
         # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (2단계 전적 풀 및 v3 stadium_form 데이터 직접 연동)
+        # 📊 [5-2 표] 렌더링 (INT CF 완벽 배제 + 상대 팀 및 티어 정상 파싱)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
@@ -1231,11 +1231,10 @@ with tabs[5]:
         a_opp_at = h_current_at if 'h_current_at' in locals() else "Tier C"
         a_opp_de = h_current_de if 'h_current_de' in locals() else "Tier C"
 
-        # 1순위: 2단계 탭에서 파생된 구장별 매치 풀 직접 연동
+        # 전적 풀 확보
         home_raw_pool = s_home_matches if 's_home_matches' in locals() and s_home_matches else []
         away_raw_pool = s_away_matches if 's_away_matches' in locals() and s_away_matches else []
 
-        # 2순위: v3_details_dict 또는 stadium_form 백업 연동
         if not home_raw_pool or not away_raw_pool:
             target_v3_match = v3_details_dict.get(str(match_code), {}) if 'v3_details_dict' in locals() else {}
             if target_v3_match:
@@ -1243,7 +1242,6 @@ with tabs[5]:
                 if not home_raw_pool: home_raw_pool = stadium_form_block.get("home_matches", [])
                 if not away_raw_pool: away_raw_pool = stadium_form_block.get("away_matches", [])
 
-        # 3순위: 기본 10경기 전수 풀 백업
         if not home_raw_pool and 'h_matches' in locals(): home_raw_pool = h_matches
         if not away_raw_pool and 'a_matches' in locals(): away_raw_pool = a_matches
 
@@ -1254,11 +1252,9 @@ with tabs[5]:
             for fix in match_list:
                 league_raw = str(fix.get("league", ""))
                 league_lower = league_raw.lower()
-                # INT CF, Friendly 등 친선 경기 철저 배제
                 if any(keyword in league_lower for keyword in ["친선", "friendly", "int cf", "club friendlies", "friendlies"]):
                     continue
                 
-                # 스코어 및 ft_scores 안전 추출 검증
                 scores_arr = fix.get("ft_scores", [])
                 score_str = str(fix.get("score", "") or fix.get("result", ""))
                 if not score_str and (scores_arr and len(scores_arr) >= 2):
@@ -1286,26 +1282,25 @@ with tabs[5]:
 
                 m_score = str(m.get("score", "") or m.get("result", "0 : 0"))
                 scores_arr = m.get("ft_scores", [])
-                if scores_arr and len(scores_arr >= 2):
+                if scores_arr and len(scores_arr) >= 2:
                     m_score = f"{scores_arr[0]} : {scores_arr[1]}"
 
                 m_loc = str(m.get("location", "공식"))
                 
-                # 💡 [핵심 보완] 상대 팀 이름 안전 추출 (opponent 키가 없으면 teams 문자열에서 파싱)
+                # 상대 팀 이름 안전 파싱
                 m_opp = str(m.get("opponent", "") or m.get("team", "")).strip()
                 if not m_opp or m_opp == "상대 팀":
                     teams_str = str(m.get("teams", ""))
                     if " vs " in teams_str:
                         t_parts = [p.strip() for p in teams_str.split("vs")]
                         if len(t_parts) >= 2:
-                            # 현재 분석 중인 팀이 아닌 쪽을 상대 팀으로 지정
                             m_opp = t_parts[1] if team_label in t_parts[0] else t_parts[0]
                     if not m_opp:
                         m_opp = "상대 팀"
 
-                # 💡 [핵심 보완] 상대 티어 정보 안전 추출
+                # 상대 티어 정보 안전 파싱
                 m_opp_tier = str(m.get("opponent_tier_info", "") or m.get("tier_info", "유사 티어 매칭"))
-                
+
                 gf, ga = 0, 0
                 try:
                     parts = m_score.replace("-", ":").split(":")
@@ -1382,6 +1377,7 @@ with tabs[5]:
         st.markdown(table_5_2_html, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+
 
 # --- [6단계] ---
 with tabs[6]:
