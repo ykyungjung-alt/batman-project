@@ -1419,7 +1419,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 스코어 순위 / 확률 정밀 연산 블록 (깔끔한 2·3순위 전용 규격)
+# 🧮 [규칙 6] 푸아송 분포 및 스코어 순위 / 확률 정밀 연산 블록 (5-2 ~ 5-4 완벽 직결 규격)
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1429,41 +1429,70 @@ def poisson_prob(lmbda, k):
     except:
         return 0.0
 
-max_k = max_goals if 'max_goals' in locals() else 5
+# 1. [규칙 5-4 연동] 총 기대 득점에 따른 동적 골 범위 행렬(max_k) 확정
+total_exp_goals = h_final + a_final
+if total_exp_goals < 2.2:
+    matrix_max_k = 3
+elif total_exp_goals <= 3.2 and (tier_diff if 'tier_diff' in locals() else 0) < 2:
+    matrix_max_k = 4
+else:
+    matrix_max_k = 6
 
-# 1. 모든 스코어 조합 푸아송 확률 매트릭스 산출
+# 2. 푸아송 확률 매트릭스 산출 (5-3 최종 람다 h_final, a_final 적용)
 score_probs = []
-for h_g in range(max_k + 1):
-    for a_g in range(max_k + 1):
+for h_g in range(matrix_max_k + 1):
+    for a_g in range(matrix_max_k + 1):
         p_h = poisson_prob(h_final, h_g)
         p_a = poisson_prob(a_final, a_g)
         joint_prob = p_h * p_a
         score_probs.append({"home_score": h_g, "away_score": a_g, "prob": joint_prob})
 
-# 2. 최종 승무패 수리 확률 산출 (%)
+# 3. 최종 승무패 수리 확률 산출 (%)
 calc_home_win = sum(item["prob"] for item in score_probs if item["home_score"] > item["away_score"]) * 100
 calc_away_win = sum(item["prob"] for item in score_probs if item["home_score"] < item["away_score"]) * 100
 calc_draw = sum(item["prob"] for item in score_probs if item["home_score"] == item["away_score"]) * 100
 
-# 3. 확률 순으로 스코어 정렬 (내림차순)
-sorted_scores = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
+# 4. [핵심 연동] 규칙 5-2 실전 평균(h_agf, a_agf)과 수비 억제력을 1순위 최적합 오차식에 직접 반영
+h_target_52 = h_agf if 'h_agf' in locals() else 1.0
+a_target_52 = a_agf if 'a_agf' in locals() else 1.0
 
-# 4. [1순위 및 2순위 독립 단일 스코어 확정]
-best_match_52 = sorted_scores[0]
+scored_candidates = []
+for item in score_probs:
+    hg, ag, prob = item["home_score"], item["away_score"], item["prob"]
+    
+    # 5-2 실전 평균 스코어와의 기하학적 거리(오차) 계산
+    v52_distance = abs(hg - h_target_52) + abs(ag - a_target_52)
+    
+    # 최적합 점수 산출: 확률이 높고(prob), 동시에 5-2 실전 평균 체급과 오차가 적을수록 우선순위 부여
+    fitness_score = v52_distance - (prob * 3.0)
+    
+    scored_candidates.append({
+        "home_score": hg,
+        "away_score": ag,
+        "prob": prob,
+        "fitness": fitness_score
+    })
+
+# 적합도(fitness)가 가장 낮은(오차가 적고 확률이 조화로운) 스코어를 1순위(최적합)로 선정
+sorted_by_fitness = sorted(scored_candidates, key=lambda x: x["fitness"])
+best_match_52 = sorted_by_fitness[0]
+
+# 5. [2순위 차선책 선정] 1순위를 제외한 단일 최고 확률 스코어
+sorted_by_prob = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
 second_match = None
-for s in sorted_scores:
+for s in sorted_by_prob:
     if not (s["home_score"] == best_match_52["home_score"] and s["away_score"] == best_match_52["away_score"]):
         second_match = s
         break
 if not second_match:
-    second_match = sorted_scores[1] if len(sorted_scores) > 1 else best_match_52
+    second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-# 1순위 결과 (최적합)
+# 1순위 결과 텍스트 매핑
 h_pred_1st = f"{best_match_52['home_score']}골"
 a_pred_1st = f"{best_match_52['away_score']}골"
 p1_rate = best_match_52["prob"] * 100
 
-# 2순위 결과 (차선책)
+# 2순위 결과 텍스트 매핑
 h_pred_2nd = f"{second_match['home_score']}골"
 a_pred_2nd = f"{second_match['away_score']}골"
 p2_rate = second_match["prob"] * 100
@@ -1475,10 +1504,9 @@ elif s2_h < s2_a:
 else:
     s2_result_str = "무승부"
 
-# 5. [3순위 대안책: 1순위와 2순위 스코어를 모두 제외한 나머지 점수 차이별 최고 확률 구도 도출]
+# 6. [3순위 대안책] 1순위 및 2순위 스코어를 제외한 나머지 점수 차이별 확률 분포 산출
 diff_probs = {}
 for item in score_probs:
-    # 1순위 및 2순위 스코어 조합은 대안 분석에서 제외하여 중복 방지
     if (item["home_score"] == best_match_52["home_score"] and item["away_score"] == best_match_52["away_score"]) or \
        (item["home_score"] == s2_h and item["away_score"] == s2_a):
         continue
@@ -1489,7 +1517,7 @@ if diff_probs:
     dominant_diff = max(diff_probs, key=diff_probs.get)
     dominant_prob = diff_probs[dominant_diff] * 100
 else:
-    dominant_diff = 1  # 예외 방지용 기본값
+    dominant_diff = 0
     dominant_prob = 10.0
 
 if dominant_diff > 0:
@@ -1502,7 +1530,6 @@ else:
     h_score_3rd = "무승부 공방"
     dominant_str = "무승부 공방 우세"
 
-# 💡 산출근거란: 불필요한 수식어("최종 대안 구도")를 완전히 제거하고 2, 3순위 내용만 세로형으로 깔끔하게 정렬
 p3_desc = (
     f"• 2순위 단일 예측: {p2_rate:.1f}% / {s2_result_str} ({s2_h}:{s2_a})\n"
     f"• 3순위 대안 분포: {dominant_prob:.1f}% / {dominant_str}"
@@ -1517,7 +1544,7 @@ with tabs[6]:
     st.markdown(
         """<div class="step-box">
         <b>📌 예상스코어 순위 산출 방법 규격:</b><br>
-        • <b>1순위 (최적합):</b> 규칙 5-2 실전 평균 및 수비 억제력(실점률) 교차 오차를 반영하여 최적 스코어를 선정합니다.<br>
+        • <b>1순위 (최적합):</b> 규칙 5-2 실전 평균 및 5-3·5-4 변동성 보정을 거친 푸아송 매트릭스에서 가장 근접한 최적 스코어를 선정합니다.<br>
         • <b>2순위 (차선책):</b> 1순위를 제외한 푸아송 확률이 가장 높은 단일 스코어를 선정합니다.<br>
         • <b>3순위 (대안책):</b> 상위 순위를 제외한 나머지 점수 차이별 확률 분포를 분석하여 대안 구도를 매핑합니다.
         </div>""",
@@ -1532,7 +1559,7 @@ with tabs[6]:
         <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6;">
             <h4 style="margin-top:0; color: #1f77b4;">🥇 예측 1순위 (최적합)</h4>
             <p><b>홈:</b> {h_pred_1st} | <b>원정:</b> {a_pred_1st}</p>
-            <p style="font-size: 13px; color: #666;">푸아송 확률: <b>{p1_rate:.2f}%</b><br>(5-2 실전 평균 및 수비 억제력 교차 연동)</p>
+            <p style="font-size: 13px; color: #666;">푸아송 확률: <b>{p1_rate:.2f}%</b><br>(5-2 실전 평균 및 5-3/5-4 연동)</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -1597,7 +1624,7 @@ with tabs[6]:
             over_factor_desc,
             matrix_range,
             f"푸아송 연산 산출 (무승부 확률 {calc_draw:.1f}%)",
-            f"[푸아송 확률 {p1_rate:.2f}%] 5-2 실전 평균 및 수비 억제력 교차 반영",
+            f"[푸아송 확률 {p1_rate:.2f}%] 5-2 실전 평균과 5-3/5-4 보정값 직결 반영",
             f"[푸아송 확률 {p2_rate:.2f}%] 1순위 제외 단일 최고 확률 스코어",
             p3_desc,
         ],
