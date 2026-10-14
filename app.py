@@ -1419,7 +1419,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (5-1 기하평균 뼈대 직결 규격)
+# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1429,7 +1429,7 @@ def poisson_prob(lmbda, k):
     except:
         return 0.0
 
-# 💡 [핵심 연동] 규칙 5-1의 기하평균 공수 교차 상쇄 결합 결과값을 푸아송 연산의 1차 뼈대 람다로 채택
+# 💡 [핵심 교정] 승무패 수리 확률 산출용 람다는 5-1 기하평균 기대 득실점(base)을 온전히 채택
 base_h_lambda = h_final_exp_g if 'h_final_exp_g' in locals() else 1.0
 base_a_lambda = a_final_exp_g if 'a_final_exp_g' in locals() else 1.0
 
@@ -1442,20 +1442,29 @@ elif total_exp_goals <= 3.2 and (tier_diff if 'tier_diff' in locals() else 0) < 
 else:
     matrix_max_k = 6
 
-# 2. 푸아송 확률 매트릭스 산출 (5-1 기하평균 뼈대 + 5-3 최종 람다 복합 적용)
+# 2. [구분 연산]
+# ① 승무패 확률 산출용 매트릭스: 5-1 기하평균 뼈대(base_h_lambda, base_a_lambda) 단독 적용
+win_loss_probs = []
+for h_g in range(matrix_max_k + 1):
+    for a_g in range(matrix_max_k + 1):
+        p_h = poisson_prob(base_h_lambda, h_g)
+        p_a = poisson_prob(base_a_lambda, a_g)
+        joint_prob = p_h * p_a
+        win_loss_probs.append({"home_score": h_g, "away_score": a_g, "prob": joint_prob})
+
+# ② 스코어 순위 산출용 매트릭스: 5-3 최종 보정 람다(h_final, a_final) 적용
 score_probs = []
 for h_g in range(matrix_max_k + 1):
     for a_g in range(matrix_max_k + 1):
-        # 5-1 기하평균 기대치와 5-3 최종 보정 람다를 교차 반영하여 수리 확률의 뿌리를 공고히 함
-        p_h = poisson_prob((h_final + base_h_lambda) / 2.0, h_g)
-        p_a = poisson_prob((a_final + base_a_lambda) / 2.0, a_g)
+        p_h = poisson_prob(h_final, h_g)
+        p_a = poisson_prob(a_final, a_g)
         joint_prob = p_h * p_a
         score_probs.append({"home_score": h_g, "away_score": a_g, "prob": joint_prob})
 
-# 3. 최종 승무패 수리 확률 산출 (%)
-calc_home_win = sum(item["prob"] for item in score_probs if item["home_score"] > item["away_score"]) * 100
-calc_away_win = sum(item["prob"] for item in score_probs if item["home_score"] < item["away_score"]) * 100
-calc_draw = sum(item["prob"] for item in score_probs if item["home_score"] == item["away_score"]) * 100
+# 3. 최종 승무패 수리 확률 산출 (%) (5-1 기하평균 뼈대 기반 집계)
+calc_home_win = sum(item["prob"] for item in win_loss_probs if item["home_score"] > item["away_score"]) * 100
+calc_away_win = sum(item["prob"] for item in win_loss_probs if item["home_score"] < item["away_score"]) * 100
+calc_draw = sum(item["prob"] for item in win_loss_probs if item["home_score"] == item["away_score"]) * 100
 
 # 4. [규칙 5-2 연동] 1순위 최적합 스코어 산출
 h_target_52 = h_agf if 'h_agf' in locals() else 1.0
@@ -1525,7 +1534,6 @@ elif dominant_diff < 0:
 else:
     h_score_3rd = "무승부 공방"
     dominant_str = "무승부 공방 우세"
-
 
 # --------------------------------------------------------------------------
 # 📊 [규칙 6번 렌더링] 승무패 확률 및 예측 순위 완전 분리 카드 레이아웃
