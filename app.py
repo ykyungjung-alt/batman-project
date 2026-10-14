@@ -1359,57 +1359,71 @@ with tabs[5]:
         st.markdown(f"##### ✈️ 원정 팀: {away_team} (2단계 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_agf, a_aga = build_team_52_dataframe(away_matched_5, away_team)
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
-        st.markdown(f"📌 **{away_team} 최근 5경기 총합:** {a_tgf}득점 / {a_tga}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골</span>", unsafe_allow_html=True)
-    else:
-         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-         st.stop()  # 👈 데이터가 없을 때 후속 연산 진행을 차단하여 NameError 방지
+        st.markdown(f"📌 **{away_team} 최근 5경기 총합:** {a_tgf} 득점 / {a_tga} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
+
+else:
+    st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+    st.stop()  # 👈 데이터가 없을 때 후속 연산 진행을 차단하여 에러 방지
 
 # ==========================================
 # 💡 규칙 5-3: 다득점/체급차 변동성 보정 (Over Factor) 산출 및 표 렌더링
 # ==========================================
+# 안전 폴백 변수 정의 (NameError 완벽 방지)
+if 'h_current_at' not in locals():
+    h_current_at = 'Tier C'
+if 'a_current_at' not in locals():
+    a_current_at = 'Tier C'
+if 'h_final_exp_g' not in locals():
+    h_final_exp_g = 1.0
+if 'a_final_exp_g' not in locals():
+    a_final_exp_g = 1.0
+if 'h_final_exp_c' not in locals():
+    h_final_exp_c = 1.0
+if 'a_final_exp_c' not in locals():
+    a_final_exp_c = 1.0
+if 'tier_ranks' not in locals():
+    tier_ranks = {'Tier A': 5, 'Tier B': 4, 'Tier C': 3, 'Tier D': 2, 'Tier E': 1}
+
 h_tier_val = tier_ranks.get(h_current_at, 3)
-# ==========================================
-    # 💡 규칙 5-3: 다득점/체급차 변동성 보정 (Over Factor) 산출 및 표 렌더링
-    # ==========================================
-    h_tier_val = tier_ranks.get(h_current_at, 3)
-    a_tier_val = tier_ranks.get(a_current_at, 3)
-    tier_diff = abs(h_tier_val - a_tier_val)
+a_tier_val = tier_ranks.get(a_current_at, 3)
+tier_diff = abs(h_tier_val - a_tier_val)
 
-    h_base = h_final_exp_g
-    a_base = a_final_exp_g
-    h_conceded_base = h_final_exp_c
-    a_conceded_base = a_final_exp_c
+h_base = h_final_exp_g
+a_base = a_final_exp_g
+h_conceded_base = h_final_exp_c
+a_conceded_base = a_final_exp_c
 
-    h_over_factor = 0.0
-    a_over_factor = 0.0
-    over_factor_desc = "0% 적용 (표준/저득점형)"
+h_over_factor = 0.0
+a_over_factor = 0.0
+over_factor_desc = "0% 적용 (표준/저득점형)"
 
-    if tier_diff >= 2:
-        if h_tier_val > a_tier_val:
-            add_rate = 0.10 + (tier_diff - 2) * 0.10
-            h_over_factor = add_rate
-            over_factor_desc = f"체급 격차형 ({tier_diff}단계 차이): 홈 팀 공격력 +{int(add_rate*100)}% 가산"
-        else:
-            add_rate = 0.10 + (tier_diff - 2) * 0.10
-            a_over_factor = add_rate
-            over_factor_desc = f"체급 격차형 ({tier_diff}단계 차이): 원정 팀 공격력 +{int(add_rate*100)}% 가산"
-    elif (h_base + a_base > 3.2) or (h_conceded_base >= 1.50 or a_conceded_base >= 1.50):
-        h_over_factor = 0.15
-        a_over_factor = 0.15
-        over_factor_desc = "동급 난타전형: 양 팀 화력 보존 및 수비 불안 반영 (+15% 가산)"
+if tier_diff >= 2:
+    if h_tier_val > a_tier_val:
+        add_rate = 0.10 + (tier_diff - 2) * 0.10
+        h_over_factor = add_rate
+        over_factor_desc = f"체급 격차형 ({tier_diff}단계 차이): 홈 팀 공격력 + {int(add_rate*100)}% 가산"
+    else:
+        add_rate = 0.10 + (tier_diff - 2) * 0.10
+        a_over_factor = add_rate
+        over_factor_desc = f"체급 격차형 ({tier_diff}단계 차이): 원정 팀 공격력 + {int(add_rate*100)}% 가산"
+elif (h_base + a_base > 3.2) or (h_conceded_base >= 1.50 or a_conceded_base >= 1.50):
+    h_over_factor = 0.15
+    a_over_factor = 0.15
+    over_factor_desc = "동급 난타전형: 양 팀 화력 보존 및 수비 불안 반영 (+15% 가산)"
 
-    h_final = h_base * (1 + h_over_factor)
-    a_final = a_base * (1 + a_over_factor)
-    total_expected_goals = h_final + a_final
+h_final = h_base * (1 + h_over_factor)
+a_final = a_base * (1 + a_over_factor)
+total_expected_goals = h_final + a_final
 
-    st.markdown("---")
-    st.markdown(f"##### 📊 [5-3 표] 다득점/체급차 변동성 보정 (Over Factor) 산출 매트릭스 ({home_team} vs {away_team})")
-    table_data_53 = [
-        {"구분 항목": "변동성 보정 유형 판정", f"홈 팀 ({home_team})": over_factor_desc, f"원정 팀 ({away_team})": over_factor_desc, "산출 근거 및 공식": "final = base * (1 + OverFactor)"},
-        {"구분 항목": "다득점 가산 비율 (Over Factor)", f"홈 팀 ({home_team})": f"+{int(h_over_factor*100)}%", f"원정 팀 ({away_team})": f"+{int(a_over_factor*100)}%", "산출 근거 및 공식": "티어 격차 및 난타전 조건 연동"},
-        {"구분 항목": "최종 보정 기대 득실점 (final)", f"홈 팀 ({home_team})": f"보정 득점 {h_final:.2f}골", f"원정 팀 ({away_team})": f"보정 득점 {a_final:.2f}골", "산출 근거 및 공식": "base 대비 최종 가산 반영 완료"}
-    ]
-    st.dataframe(pd.DataFrame(table_data_53), use_container_width=True, hide_index=True)
+st.markdown("---")
+st.markdown(f"##### 📊 [5-3 표] 다득점/체급차 변동성 보정 (Over Factor) 산출 매트릭스 ({home_team} vs {away_team})")
+
+table_data_53 = [
+    {"구분 항목": "변동성 보정 유형 판정", f"홈 팀 ({home_team})": over_factor_desc, f"원정 팀 ({away_team})": over_factor_desc, "산출 근거 및 공식": "final = base * (1 + OverFactor)"},
+    {"구분 항목": "다득점 가산 비율 (Over Factor)", f"홈 팀 ({home_team})": f"+ {int(h_over_factor*100)}%", f"원정 팀 ({away_team})": f"+ {int(a_over_factor*100)}%", "산출 근거 및 공식": "티어 격차 및 난타전 조건 연동"},
+    {"구분 항목": "최종 보정 기대 득실점 (final)", f"홈 팀 ({home_team})": f"보정 득점 {h_final:.2f} 골", f"원정 팀 ({away_team})": f"보정 득점 {a_final:.2f} 골", "산출 근거 및 공식": "base 대비 최종 가산 반영 완료"}
+]
+st.dataframe(pd.DataFrame(table_data_53), use_container_width=True, hide_index=True)
 
     # ==========================================
     # 💡 규칙 5-4: 이원화 동적 골 범위 행렬 확정 및 표 렌더링 (양팀 분리 출력)
