@@ -718,56 +718,91 @@ with tabs[3]:
     </div>
     """, unsafe_allow_html=True)
 
-    # ==========================================
-    # 3-1번 영역: 선수 등급 기준표 및 양팀 전력 변동 표 복구
-    # ==========================================
-    st.markdown("##### 선수 등급(상/중/하) 정량 판정 기준표")
-    html_table = """
-    <style>
-    .custom-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 14px; }
-    .custom-table th, .custom-table td { border: 1px solid #e0e0e0; padding: 10px 12px; text-align: left; }
-    .custom-table th { background-color: #f5f5f5; font-weight: bold; }
-    </style>
-    <table class="custom-table">
-    <thead><tr><th>전력 등급</th><th>포지션</th><th>정량적 스펙 및 평가 기준</th><th>보정 비율</th></tr></thead>
-    <tbody>
-    <tr><td>상 (High)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 팀 내 득점/도움 1~2위 또는 선발 출전율 80% 이상<br>• [DF/GK] 클린시트 기여 1위 / 경기당 평균 실점 1.0 이하</td><td>14%<br>(공격: -14% / 방어: +14%)</td></tr>
-    <tr><td>중 (Medium)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 선발 출전율 50% ~ 79% / 핵심 주전 로테이션<br>• [DF/GK] 주전 수비수·골키퍼 / 태클·인터셉트 상위권</td><td>7%<br>(공격: -7% / 방어: +7%)</td></tr>
-    <tr><td>하 (Low)</td><td>공용</td><td>• 선발 출전율 50% 미만 / 백업 및 후보 자원 (결장 시 수비/공격 수치 변화 미비)</td><td>0%</td></tr>
-    </tbody>
-    </table>
-    """
-    st.markdown(html_table, unsafe_allow_html=True)
+# ==========================================
+# 3-1번 영역: 선수 등급 기준표 및 양팀 전력 변동 표 (하드코딩 제거 및 0% 기본값 처리)
+# ==========================================
+st.markdown("##### 선수 등급(상/중/하) 정량 판정 기준표")
+html_table = """
+<style>
+.custom-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 14px; }
+.custom-table th, .custom-table td { border: 1px solid #e0e0e0; padding: 10px 12px; text-align: left; }
+.custom-table th { background-color: #f5f5f5; font-weight: bold; }
+</style>
+<table class="custom-table">
+<thead><tr><th>전력 등급</th><th>포지션</th><th>정량적 스펙 및 평가 기준</th><th>보정 비율</th></tr></thead>
+<tbody>
+<tr><td>상 (High)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 팀 내 득점/도움 1~2위 또는 선발 출전율 80% 이상<br>• [DF/GK] 클린시트 기여 1위 / 경기당 평균 실점 1.0 이하</td><td>14%<br>(공격: -14% / 방어: +14%)</td></tr>
+<tr><td>중 (Medium)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 선발 출전율 50% ~ 79% / 핵심 주전 로테이션<br>• [DF/GK] 주전 수비수·골키퍼 / 태클·인터셉트 상위권</td><td>7%<br>(공격: -7% / 방어: +7%)</td></tr>
+<tr><td>하 (Low)</td><td>공용</td><td>• 선발 출전율 50% 미만 / 백업 및 후보 자원 (결장 시 수비/공격 수치 변화 미비)</td><td>0%</td></tr>
+</tbody>
+</table>
+"""
+st.markdown(html_table, unsafe_allow_html=True)
 
-    st.markdown(f"##### 3-1: 구단명 - {home_team} 선수 전력 변동")
-    table_3_1_kor = pd.DataFrame({
-        "선수 실명": ["손흥민", "김민재", "[총합]"],
-        "포지션": ["FW", "DF", "-"],
-        "변동 유형": ["누수", "가산", "-"],
-        "핵심 영향력": ["주장 / 에이스", "핵심 수비수", f"{home_team} 최종 가중치"],
-        "시즌 누적 스탯 (수비/공격)": ["20골 10도움 (출전율 90%)", "35경기 / 클린시트 15경기 / 태클 2.4회", "-"],
-        "등급": ["상 (High)", "상 (High)", "-"],
-        "공격 보정": ["0%", "0%", "0%"],
-        "방어 보정": ["0%", "0%", "0%"],
-        "비고": ["부상 결장 (방어력 반감)", "징계 해제 복귀 (공격력 반감)", "최종 누적 보정치"]
+# 실데이터 기반 선수 누수/가산 데이터 추출 (없으면 0% 기본값 적용)
+h_squad_changes = []
+a_squad_changes = []
+if has_detailed_data and 'detailed_info' in locals():
+    meta_det = detailed_info.get("meta_details", {})
+    h_squad_changes = meta_det.get("home_squad_changes", [])
+    a_squad_changes = meta_det.get("away_squad_changes", [])
+
+def build_squad_dataframe(changes_list, team_label):
+    if not changes_list:
+        df_empty = pd.DataFrame({
+            "선수 실명": ["-", "[총합]"],
+            "포지션": ["-", "-"],
+            "변동 유형": ["-", "-"],
+            "핵심 영향력": ["특이 전력 누수/가산 없음", f"{team_label} 최종 가중치"],
+            "시즌 누적 스탯": ["-", "-"],
+            "등급": ["-", "-"],
+            "공격 보정": ["0.0%", "0.0%"],
+            "방어 보정": ["0.0%", "0.0%"],
+            "비고": ["정상 스쿼드 가동", "최종 누적 보정치 (0%)"]
+        })
+        return df_empty, 0.0, 0.0
+    
+    rows = []
+    tot_atk, tot_def = 0.0, 0.0
+    for item in changes_list:
+        p_name = item.get("name", "-")
+        p_pos = item.get("position", "-")
+        p_type = item.get("type", "누수")
+        p_grade = item.get("grade", "중 (Medium)")
+        p_memo = item.get("memo", "-")
+        
+        rate = 14.0 if "상" in p_grade else (7.0 if "중" in p_grade else 0.0)
+        if p_type == "누수":
+            atk_v = -rate
+            def_v = rate if "FW" in p_pos or "MF" in p_pos else rate / 2.0
+        else:
+            atk_v = rate
+            def_v = -rate if "DF" in p_pos or "GK" in p_pos else -rate / 2.0
+
+        tot_atk += atk_v
+        tot_def += def_v
+        rows.append({
+            "선수 실명": p_name, "포지션": p_pos, "변동 유형": p_type, "핵심 영향력": p_memo,
+            "시즌 누적 스탯": item.get("stats", "-"), "등급": p_grade,
+            "공격 보정": f"{atk_v:+.1f}%", "방어 보정": f"{def_v:+.1f}%", "비고": "적용 완료"
+        })
+    
+    rows.append({
+        "선수 실명": "[총합]", "포지션": "-", "변동 유형": "-", "핵심 영향력": f"{team_label} 최종 가중치",
+        "시즌 누적 스탯": "-", "등급": "-", "공격 보정": f"{tot_atk:+.1f}%", "방어 보정": f"{tot_def:+.1f}%", "비고": "최종 누적 보정치"
     })
-    st.dataframe(table_3_1_kor, use_container_width=True, hide_index=True)
+    return pd.DataFrame(rows), tot_atk, tot_def
 
-    st.markdown(f"##### 3-1: 구단명 - {away_team} 선수 전력 변동")
-    table_3_1_jpn = pd.DataFrame({
-        "선수 실명": ["엔도 와타루", "쿠보 타케후사", "[총합]"],
-        "포지션": ["MF", "FW", "-"],
-        "변동 유형": ["누수", "가산", "-"],
-        "핵심 영향력": ["주전 수비형 MF", "주전 윙어", f"{away_team} 최종 가중치"],
-        "시즌 누적 스탯 (수비/공격)": ["5골 3도움 / 28경기 / 인터셉트 2.1회", "12골 8도움 (출전율 89%)", "-"],
-        "등급": ["중 (Medium)", "상 (High)", "-"],
-        "공격 보정": ["0%", "0%", "0%"],
-        "방어 보정": ["0%", "0%", "0%"],
-        "비고": ["경고 누적 결장", "대표팀 차출 복귀", "최종 누적 보정치"]
-    })
-    st.dataframe(table_3_1_jpn, use_container_width=True, hide_index=True)
+st.markdown(f"##### 3-1: 구단명 - {home_team} 선수 전력 변동")
+table_3_1_home, h_r31_atk_val, h_r31_def_val = build_squad_dataframe(h_squad_changes, home_team)
+st.dataframe(table_3_1_home, use_container_width=True, hide_index=True)
 
-    st.markdown("---")
+st.markdown(f"##### 3-1: 구단명 - {away_team} 선수 전력 변동")
+table_3_1_away, a_r31_atk_val, a_r31_def_val = build_squad_dataframe(a_squad_changes, away_team)
+st.dataframe(table_3_1_away, use_container_width=True, hide_index=True)
+
+st.markdown("---")
+# (이 아래부터 사용자님께서 작성하신 기존 규칙 3-2 타임라인 렌더링 코드가 그대로 이어지면 됩니다.)
 
     # ==========================================
     # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인
