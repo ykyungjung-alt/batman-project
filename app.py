@@ -1470,7 +1470,7 @@ h_pred_2nd = f"{second_match['home_score']}골"
 a_pred_2nd = f"{second_match['away_score']}골"
 p2_rate = second_match["prob"] * 100
 
-# 5. 3순위(대안책): 점수 차이별 확률 분포 분석 (홈 결과란 / 원정 확률란 / 산출근거 분리)
+# 5. 3순위(대안책): 점수 차이별 확률 분포 분석 및 1순위 무승부 중복 제외 세로형 세부 정렬
 diff_probs = {}
 for item in score_probs:
     diff = item["home_score"] - item["away_score"]  # 0: 무승부, 양수: 홈 승리 점수차, 음수: 원정 승리 점수차
@@ -1491,11 +1491,24 @@ total_diff_1 = h_diff_1_prob + a_diff_1_prob
 total_diff_2 = h_diff_2_prob + a_diff_2_prob
 total_diff_3plus = h_diff_3plus + a_diff_3plus
 
-# 가장 높은 확률 비중을 차지하는 구도 판정
+# 가장 높은 확률 비중을 차지하는 구도 판정 (dominant_str 선언부 누락 방지)
 dominant_diff = max(diff_probs, key=diff_probs.get)
 dominant_prob = diff_probs[dominant_diff] * 100
 
-# 5. 3순위(대안책): 1순위 무승부 중복을 제외하고 나머지 세부 점수 차이별 확률을 세로형으로 상세 정렬
+if dominant_diff > 0:
+    h_score_3rd = f"{abs(dominant_diff)}점차 {home_team} 승리"
+    a_score_3rd = f"{dominant_prob:.1f}%"
+    dominant_str = f"{abs(dominant_diff)}점차 {home_team} 승리 구도 우세"
+elif dominant_diff < 0:
+    h_score_3rd = f"{abs(dominant_diff)}점차 {away_team} 승리"
+    a_score_3rd = f"{dominant_prob:.1f}%"
+    dominant_str = f"{abs(dominant_diff)}점차 {away_team} 승리 구도 우세"
+else:
+    h_score_3rd = "무승부"
+    a_score_3rd = f"{dominant_prob:.1f}%"
+    dominant_str = "무승부 공방 구도 우세"
+
+# 산출근거란: 1순위 무승부 중복을 제외하고 나머지 2~3순위 세부 점수차별 우세 팀과 확률을 세로형으로 상세 정렬
 h_d1_str, a_d1_str = f"+{h_diff_1_prob:.1f}%", f"+{abs(a_diff_1_prob):.1f}%"
 h_d2_str, a_d2_str = f"+{h_diff_2_prob:.1f}%", f"+{abs(a_diff_2_prob):.1f}%"
 h_d3_str, a_d3_str = f"+{h_diff_3plus:.1f}%", f"+{abs(a_diff_3plus):.1f}%"
