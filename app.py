@@ -1252,7 +1252,7 @@ with tabs[5]:
         home_matched_5 = get_real_matches_without_friendlies(home_raw_pool)
         away_matched_5 = get_real_matches_without_friendlies(away_raw_pool)
 
-        def build_team_52_dataframe(match_list, team_label):
+def build_team_52_dataframe(match_list, team_label):
             rows = []
             total_gf, total_ga = 0, 0
             cnt = len(match_list)
@@ -1284,7 +1284,7 @@ with tabs[5]:
                 if not m_opp:
                     m_opp = "상대 팀명 미확인"
 
-                # 2. 상대 티어 A~E 등급 정식 변환
+                # 2. 상대 티어 오직 공식 A~E 등급명으로만 정밀 변환
                 m_opp_tier = "Tier C / Tier C"
                 tier_info = m.get("opponent_tier_info", "")
                 if tier_info and "/" in tier_info:
@@ -1292,7 +1292,7 @@ with tabs[5]:
                         oa, od = map(float, tier_info.split("/"))
                         at_name = atk_tier_nm(oa)
                         df_name = def_tier_nm(od)
-                        m_opp_tier = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
+                        m_opp_tier = f"{at_name} / {df_name}"
                     except:
                         pass
                 else:
@@ -1303,7 +1303,7 @@ with tabs[5]:
                             oa, od = float(parts_t[0]), float(parts_t[1])
                             at_name = atk_tier_nm(oa)
                             df_name = def_tier_nm(od)
-                            m_opp_tier = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
+                            m_opp_tier = f"{at_name} / {df_name}"
                         except:
                             pass
 
