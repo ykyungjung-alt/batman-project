@@ -1252,7 +1252,7 @@ with tabs[5]:
         home_matched_5 = get_real_matches_without_friendlies(home_raw_pool)
         away_matched_5 = get_real_matches_without_friendlies(away_raw_pool)
 
-        def build_team_52_dataframe(match_list, team_label):
+def build_team_52_dataframe(match_list, team_label):
             rows = []
             total_gf, total_ga = 0, 0
             cnt = len(match_list)
@@ -1284,28 +1284,32 @@ with tabs[5]:
                 if not m_opp:
                     m_opp = "상대 팀명 미확인"
 
-                # 2. 상대 티어 오직 공식 A~E 등급명으로만 정밀 변환
-                m_opp_tier = "Tier C / Tier C"
+                # 2. [핵심 선행 연산] 상대 팀의 실제 득실점 평균을 먼저 계산 후 A~E 등급 부여
+                oa, od = 1.3, 1.2  # 기본 안전 폴백 값
                 tier_info = m.get("opponent_tier_info", "")
+                
                 if tier_info and "/" in tier_info:
                     try:
-                        oa, od = map(float, tier_info.split("/"))
-                        at_name = atk_tier_nm(oa)
-                        df_name = def_tier_nm(od)
-                        m_opp_tier = f"{at_name} / {df_name}"
+                        parts_o = tier_info.split("/")
+                        oa = float(parts_o[0].strip())
+                        od = float(parts_o[1].strip())
                     except:
                         pass
                 else:
+                    # 데이터 내부에 독립된 수치가 있는 경우 추가 탐색
                     raw_tier_str = str(m.get("tier_info", ""))
                     if "/" in raw_tier_str:
                         try:
                             parts_t = raw_tier_str.split("/")
-                            oa, od = float(parts_t[0]), float(parts_t[1])
-                            at_name = atk_tier_nm(oa)
-                            df_name = def_tier_nm(od)
-                            m_opp_tier = f"{at_name} / {df_name}"
+                            oa = float(parts_t[0].strip())
+                            od = float(parts_t[1].strip())
                         except:
                             pass
+
+                # 3. 규칙 1번 기준 함수로 티어 선행 계산 및 확정
+                at_name = atk_tier_nm(oa)
+                df_name = def_tier_nm(od)
+                m_opp_tier = f"{at_name} / {df_name}"
 
                 gf, ga = 0, 0
                 try:
