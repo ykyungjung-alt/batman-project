@@ -1891,7 +1891,7 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (들여쓰기 정돈된 최종 완성본)
+# 7번 탭: 요약 리포트 (match_code 기반 독립 연산 및 멀티 비교 대시보드 최종 완성본)
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
@@ -1979,7 +1979,7 @@ with tabs[7]:
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
-def compute_match_engine_by_code(m_item):
+        def compute_match_engine_by_code(m_item):
             m_code = str(m_item.get('match_code', '')).strip()
             h_name = str(m_item.get('home', '')).strip()
             a_name = str(m_item.get('away', '')).strip()
@@ -2042,7 +2042,12 @@ def compute_match_engine_by_code(m_item):
             a_lambda = max(0.2, (a_max_g + (2.0 - h_min_c)) / 2.0)
 
             def poisson_prob(lmbd, k):
-                return (math.exp(-lmbd) * (lmbd ** k)) / math.factorial(k)
+                if lmbd <= 0 and k == 0:
+                    return 1.0
+                try:
+                    return (math.exp(-lmbd) * (lmbd ** k)) / math.factorial(k)
+                except:
+                    return 0.0
 
             home_win_prob = 0.0
             draw_prob = 0.0
@@ -2085,3 +2090,23 @@ def compute_match_engine_by_code(m_item):
                 s3_str = "백중세 팽팽한 공방 구도"
 
             return hw_pct, dw_pct, aw_pct, s1_str, s1_rate, s2_str, s2_rate, s3_str
+
+        multi_summary_data = []
+        for m_item in st.session_state["multi_selected_matches"]:
+            h_name = m_item.get('home', '홈')
+            a_name = m_item.get('away', '원정')
+            league_name = m_item.get('league', '-')
+            
+            hw, dw, aw, s1_s, s1_r, s2_s, s2_r, s3_s = compute_match_engine_by_code(m_item)
+
+            multi_summary_data.append({
+                "대진 경기": f"{h_name} vs {a_name}",
+                "리그": league_name,
+                "승무패 수리 확률": f"홈 {hw:.1f}% / 무 {dw:.1f}% / 원정 {aw:.1f}%",
+                "🥇 1순위 (최적합)": f"{s1_s} ({s1_r:.2f}%)",
+                "🥈 2순위 (차선책)": f"{s2_s} ({s2_r:.2f}%)",
+                "🥉 3순위 (대안책)": s3_s
+            })
+        
+        df_multi_res = pd.DataFrame(multi_summary_data)
+        st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
