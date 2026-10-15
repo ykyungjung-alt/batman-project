@@ -1472,7 +1472,7 @@ for s in sorted_by_prob:
 if not second_match:
     second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-# 3순위 대안책을 위한 전체 매트릭스 기반 점수 차이별 확률 집계 연산 (독립 분리)
+# 3순위 대안책 및 2위/3위 점수차 구도 정밀 추출
 diff_probs = {}
 for item in score_probs:
     diff = item["home_score"] - item["away_score"]
@@ -1486,13 +1486,10 @@ else:
     dominant_prob = 10.0
 
 if dominant_diff > 0:
-    h_score_3rd = f"{abs(dominant_diff)}점차 {home_team} 승리"
     dominant_str = f"{abs(dominant_diff)}점차 {home_team} 승리 우세"
 elif dominant_diff < 0:
-    h_score_3rd = f"{abs(dominant_diff)}점차 {away_team} 승리"
     dominant_str = f"{abs(dominant_diff)}점차 {away_team} 승리 우세"
 else:
-    h_score_3rd = "무승부 공방"
     dominant_str = "무승부 공방 우세"
 
 h_pred_1st = f"{best_match_52['home_score']}골"
@@ -1505,13 +1502,21 @@ a_pred_2nd = f"{second_match['away_score']}골"
 p2_rate = second_match["prob"] * 100
 score_2nd_str = f"{second_match['home_score']} : {second_match['away_score']}"
 
-s2_h, s2_a = second_match['home_score'], second_match['away_score']
-if s2_h > s2_a:
-    s2_result_str = f"{s2_h - s2_a}점차 {home_team} 승리"
-elif s2_h < s2_a:
-    s2_result_str = f"{s2_a - s2_h}점차 {away_team} 승리"
-else:
-    s2_result_str = "무승부"
+# 전체 스코어 조합에서 1순위를 제외하고 확률 높은 순서대로 2위, 3위 구도 추출
+rank_candidates = []
+for s in sorted_by_prob:
+    hg, ag = s["home_score"], s["away_score"]
+    if not (hg == best_match_52["home_score"] and ag == best_match_52["away_score"]):
+        if hg > ag:
+            desc = f"{home_team} {hg-ag}점차승"
+        elif hg < ag:
+            desc = f"{away_team} {ag-hg}점차승"
+        else:
+            desc = "무승부"
+        rank_candidates.append({"score": f"{hg}:{ag}", "desc": desc, "prob": s["prob"] * 100})
+
+s2_info = rank_candidates[0] if len(rank_candidates) > 0 else {"desc": "-", "prob": 0.0}
+s3_info = rank_candidates[1] if len(rank_candidates) > 1 else {"desc": "-", "prob": 0.0}
 
 # --------------------------------------------------------------------------
 # 📊 [규칙 6번 렌더링]
@@ -1523,7 +1528,7 @@ with tabs[6]:
         • <b>승무패 수리 확률:</b> 푸아송 매트릭스 전수 조합을 바탕으로 최종 승/무/패 확률을 산출합니다.<br>
         • <b>1순위 (최적합):</b> 규칙 5-2 실전 평균 및 5-3·5-4 보정값을 반영한 최적 스코어를 선정합니다.<br>
         • <b>2순위 (차선책):</b> 1순위를 제외한 단일 최고 확률 스코어를 선정합니다.<br>
-        • <b>3순위 (대안책):</b> 상위 순위를 제외한 점수 차이별 확률 분포를 분석하여 대안 구도를 매핑합니다.
+        • <b>3순위 (대안책):</b> 전체 점수차 및 순위별 누적 분포를 분석하여 대안 구도를 매핑합니다.
     </div>""", unsafe_allow_html=True)
 
     st.markdown("##### 📈 최종 승무패 수리 확률 분포")
@@ -1610,8 +1615,8 @@ with tabs[6]:
         </div>
         <div class="score-box-item">
             <div class="score-box-header" style="color: #2ca02c;">🥉 예측 3순위 (대안책)</div>
-            <div class="score-box-main" style="font-size: 15px; font-weight: bold; padding: 4px 0;">{dominant_str}</div>
-            <div class="score-box-footer">비중: <b>{dominant_prob:.1f}%</b> (점수차 누적 분포)</div>
+            <div class="score-box-main" style="font-size: 15px; font-weight: bold; padding: 4px 0;">무승부</div>
+            <div class="score-box-footer">비중: <b>{calc_draw:.1f}%</b> (점수차 누적 분포)</div>
         </div>
     </div>
     """
@@ -1650,7 +1655,7 @@ with tabs[6]:
             f"승리 확률 {calc_home_win:.1f}%",
             f"{h_p1_val}골",
             f"{h_p2_val}골",
-            f"{dominant_str}"
+            "무승부"
         ],
         f"원정 팀 ({away_team})": [
             f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골",
@@ -1660,7 +1665,7 @@ with tabs[6]:
             f"승리 확률 {calc_away_win:.1f}%",
             f"{a_p1_val}골",
             f"{a_p2_val}골",
-            f"{dominant_prob:.1f}% 비중"
+            f"{calc_draw:.1f}%"
         ],
         "단계별 산출 근거 및 푸아송 확률": [
             "기하평균 공수 교차 상쇄 결합 연산",
@@ -1670,7 +1675,7 @@ with tabs[6]:
             f"무승부 확률 {calc_draw:.1f}%",
             f"푸아송 확률 {p1_rate:.2f}% (5-2/5-3/5-4 직결)",
             f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 차선 단일 조합)",
-            f"점수차 누적 분포 비중 {dominant_prob:.1f}% ({dominant_str})"
+            f"2위 {s2_info['desc']}({s2_info['prob']:.1f}%), 3위 {s3_info['desc']}({s3_info['prob']:.1f}%)"
         ]
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
