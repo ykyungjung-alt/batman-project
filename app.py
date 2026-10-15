@@ -262,11 +262,9 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        def match_country_by_code(team_str, league_str):
+        def match_country_by_league_code(league_str):
             grades = country_data.get("grades", {})
-            target_text = f"{team_str} {league_str}".upper()
-            
-            # 리그 문자열에서 첫 번째 토큰을 국가 코드(예: POR, SCO)로 추출
+            # 리그명 안에서 국가 코드 추출 (예: 'POR D1-2' 등에서 첫 단어 추출)
             league_prefix = league_str.split()[0].upper() if league_str else ""
 
             for grade_key, countries in grades.items():
@@ -275,19 +273,13 @@ with tabs[0]:
                 if isinstance(countries, list):
                     for c in countries:
                         c_code = str(c.get("code", "")).upper()
-                        c_name = str(c.get("name", "")).upper()
-                        
-                        # 1순위: 국가 코드 직접 일치 (예: POR == POR)
-                        # 2순위: 팀명이나 리그명에 국가 코드가 포함된 경우
-                        if c_code and (c_code == league_prefix or c_code in target_text or c_code in league_prefix):
-                            return c.get("name", "-"), c.get("code", "-"), c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
-                        # 3순위: 국가명 매칭
-                        if c_name and c_name in target_text:
-                            return c.get("name", "-"), c.get("code", "-"), c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                        # 리그명 내 국가 코드와 country.json의 코드가 정확히 일치하는지 비교
+                        if c_code and (c_code == league_prefix or c_code in league_prefix):
+                            return c.get("code", "-"), c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
             
             # 매칭되지 않는 경우 F등급 처리
             f_info = grades.get("F", {})
-            return "기타", league_prefix if league_prefix else "EXT", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
+            return league_prefix if league_prefix else "EXT", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
         if rankings_raw:
             rankings_list = []
@@ -295,14 +287,14 @@ with tabs[0]:
                 team_name = str(r.get("team", "-"))
                 raw_league = str(r.get("league", tournament_name))
                 
-                matched_name, matched_code, grade, atk_b, def_b = match_country_by_code(team_name, raw_league)
+                # 리그명 기반 국가코드 추출 및 등급/가중치 연동
+                matched_code, grade, atk_b, def_b = match_country_by_league_code(raw_league)
                 
                 rankings_list.append({
                     "No": idx + 1,
                     "리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
                     "팀": team_name,
-                    "국가명": matched_name,
-                    "코드": matched_code,
+                    "국가코드": matched_code,
                     "리그명": raw_league,
                     "등급": grade,
                     "공격보정": atk_b,
@@ -313,7 +305,7 @@ with tabs[0]:
                     "득실": str(r.get("goal_diff", "0")), "승점": str(r.get("points", "0"))
                 })
             df_rankings = pd.DataFrame(rankings_list)
-            st.dataframe(df_rankings[["리그순위", "팀", "국가명", "코드", "리그명", "등급", "공격보정", "수비보정", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
+            st.dataframe(df_rankings[["리그순위", "팀", "국가코드", "리그명", "등급", "공격보정", "수비보정", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
         else:
             st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
     else:
