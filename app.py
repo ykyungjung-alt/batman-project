@@ -105,21 +105,7 @@ if matches:
             selected_match_name = st.sidebar.radio("분석할 경기를 선택하세요:", match_options, key="match_radio_selection")
             selected_match = next((m for m in league_matches if f"[{m.get('time', '00:00')}] {m.get('home')} vs {m.get('away')}" == selected_match_name), None)
 
-# 💡 [핵심 연동] 7번 탭 등에서 강제 고정한 match_code가 있으면 사이드바 선택보다 우선 적용
-if "forced_match_code" not in st.session_state:
-    st.session_state["forced_match_code"] = None
-
-if st.session_state["forced_match_code"]:
-    forced_m = None
-    for d_key, d_list in daily_matches.items():
-        for m in d_list:
-            if str(m.get("match_code")) == str(st.session_state["forced_match_code"]):
-                forced_m = m
-                break
-        if forced_m:
-            break
-    if forced_m:
-        selected_match = forced_m
+# 💡 상단 메인 분석은 사이드바 선택(selected_match)을 100% 독립적으로 따르도록 오버라이드 로직 제거 완료
 
 if not selected_match:
     st.warning(f"⚠️ [{selected_date}] 조건에 해당하는 경기 데이터가 존재하지 않습니다. (데이터 없음)")
