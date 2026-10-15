@@ -1409,7 +1409,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (통합 수정본)
+# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (최종 완벽 수정본)
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1453,7 +1453,7 @@ calc_draw = sum(item["prob"] for item in win_loss_probs if item["home_score"] ==
 h_target_52 = h_agf if 'h_agf' in locals() else 1.0
 a_target_52 = a_agf if 'a_agf' in locals() else 1.0
 
-# [1순위] 규칙 5-2 결과에 가장 적합한 결과값 최우선 선정
+# [1순위] 규칙 5-2 결과에 가장 적합한 결과값 최우선 선정 (기존 로직 완벽 유지)
 scored_candidates = []
 for item in score_probs:
     hg, ag, prob = item["home_score"], item["away_score"], item["prob"]
@@ -1464,7 +1464,7 @@ for item in score_probs:
 sorted_by_fitness = sorted(scored_candidates, key=lambda x: x["fitness"])
 best_match_52 = sorted_by_fitness[0]
 
-# [2순위] 1순위를 제외한 푸아송 확률 제일 높은 단일 스코어 선정
+# [2순위] 1순위를 제외한 푸아송 확률 제일 높은 단일 스코어 선정 (기존 로직 완벽 유지)
 sorted_by_prob = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
 second_match = None
 for s in sorted_by_prob:
@@ -1474,22 +1474,40 @@ for s in sorted_by_prob:
 if not second_match:
     second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-# [3순위] 각 점수 차이별 확률 합산 후 가장 많이 차지한 점수 차이 구도 산출
+# [3순위] 각 점수 차이별 확률 합산 후 가장 많이 차지한 점수 차이 구도 및 산출근거 생성
 diff_probs = {}
 for item in score_probs:
     diff = item["home_score"] - item["away_score"]
     diff_probs[diff] = diff_probs.get(diff, 0.0) + item["prob"]
 
 sorted_diffs = sorted(diff_probs.items(), key=lambda x: x[1], reverse=True)
+
+# 1위 구도 (3순위 메인)
 top_diff_item = sorted_diffs[0] if sorted_diffs else (0, 0.1)
 d_val, d_prob_val = top_diff_item[0], top_diff_item[1] * 100
 
 if d_val > 0:
-    s3_desc = f"{home_team} {d_val}점차승"
+    s3_name = f"{home_team} {d_val}점차 승리"
 elif d_val < 0:
-    s3_desc = f"{away_team} {abs(d_val)}점차승"
+    s3_name = f"{away_team} {abs(d_val)}점차 승리"
 else:
-    s3_desc = "무승부 공방"
+    s3_name = "무승부 공방"
+
+s3_desc = f"{s3_name} ({d_prob_val:.1f}%)"
+
+# 차순위 구도들을 산출근거 문자열로 조합 (예: 2점차 승 21.3%, 무승부 13.3% 등)
+calc_basis_parts = []
+for diff_key, p_val in sorted_diffs[1:3]:
+    pct = p_val * 100
+    if diff_key > 0:
+        p_name = f"{home_team} {diff_key}점차승"
+    elif diff_key < 0:
+        p_name = f"{away_team} {abs(diff_key)}점차승"
+    else:
+        p_name = "무승부"
+    calc_basis_parts.append(f"{p_name} ({pct:.1f}%)")
+
+s3_calc_basis = ", ".join(calc_basis_parts) if calc_basis_parts else "기타 점수차 구도 분산"
 
 h_pred_1st = f"{best_match_52['home_score']}골"
 a_pred_1st = f"{best_match_52['away_score']}골"
@@ -1599,7 +1617,7 @@ with tabs[6]:
         <div class="score-box-item">
             <div class="score-box-header" style="color: #2ca02c;">🥉 예측 3순위 (대안책)</div>
             <div class="score-box-main" style="font-size: 16px;">{s3_desc}</div>
-            <div class="score-box-footer">합산 비중: <b>{d_prob_val:.2f}%</b> (점수차 총합)</div>
+            <div class="score-box-footer">합산 비중: <b>{d_prob_val:.1f}%</b> (점수차 총합)</div>
         </div>
     </div>
     """
@@ -1648,7 +1666,7 @@ with tabs[6]:
             f"승리 확률 {calc_away_win:.1f}%",
             f"{a_p1_val}골",
             f"{a_p2_val}골",
-            f"{d_prob_val:.2f}%"
+            f"{d_prob_val:.1f}%"
         ],
         "단계별 산출 근거 및 푸아송 확률": [
             "기하평균 공수 교차 상쇄 결합 연산",
@@ -1657,8 +1675,8 @@ with tabs[6]:
             matrix_range,
             f"무승부 확률 {calc_draw:.1f}%",
             f"푸아송 확률 {p1_rate:.2f}% (5-2 결과 최적합)",
-            f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최고 확률)",          # 👈 2순위 산출 근거 명확히 반영
-            f"점수차별 누적 합산 1위 ({s3_desc} {d_prob_val:.2f}%)"   # 👈 3순위 산출 근거 명확히 반영
+            f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최고 확률)",
+            f"{s3_calc_basis}"
         ]
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
