@@ -1238,7 +1238,7 @@ else:
     a_r4_def_val = 0.0
 
 # ==========================================
-# 규칙 5번 탭 전체 교체용 코드 (방어 코드 및 0점 초기화 완전 반영본)
+# 규칙 5번 탭 전체 교체용 코드 (NameError 원천 방어 및 통합 완성본)
 # ==========================================
 with tabs[5]:
     st.markdown(f"#### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
@@ -1251,6 +1251,12 @@ with tabs[5]:
     """, unsafe_allow_html=True)
 
     if has_detailed_data:
+        # 💡 [핵심 방어 코드] 규칙 1번 원천 변수가 전역/상위 스코프에 없을 경우 대비한 안전 기본값 선언
+        h_atw = h_atw if 'h_atw' in locals() else "0%"
+        h_dew = h_dew if 'h_dew' in locals() else "0%"
+        a_atw = a_atw if 'a_atw' in locals() else "0%"
+        a_dew = a_dew if 'a_dew' in locals() else "0%"
+
         # 1. 1단계 기본 기대치 안전 추출
         h_base_g = h_gpg if 'h_gpg' in locals() else 0.0
         h_base_c = h_cpg if 'h_cpg' in locals() else 0.0
@@ -1263,11 +1269,11 @@ with tabs[5]:
         a_c_atk = parse_pct(a_atk_bonus) if 'a_atk_bonus' in locals() else 0.0
         a_c_def = parse_pct(a_def_bonus) if 'a_def_bonus' in locals() else 0.0
 
-        # 3. [핵심 방어 코드] 규칙 1 변수가 없으면 무조건 "0%"로 초기화하여 NameError 원천 차단
-        h_atw_str = h_atw if 'h_atw' in locals() else "0%"
-        h_dew_str = h_dew if 'h_dew' in locals() else "0%"
-        a_atw_str = a_atw if 'a_atw' in locals() else "0%"
-        a_dew_str = a_dew if 'a_dew' in locals() else "0%"
+        # 3. 규칙 1 (7경기 LIFO 가중치) 파싱 안전 처리
+        h_atw_str = h_atw
+        h_dew_str = h_dew
+        a_atw_str = a_atw
+        a_dew_str = a_dew
 
         h_r1_atk_val = parse_pct(h_atw_str)
         h_r1_def_val = parse_pct(h_dew_str)
