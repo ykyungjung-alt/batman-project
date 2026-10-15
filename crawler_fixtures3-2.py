@@ -132,19 +132,19 @@ def run_table_based_crawler_v3_2():
             
             try:
                 driver.get(detail_url)
-                time.sleep(2.0)  # 💡 페이지 초기 로딩 대기 시간 확보
+                time.sleep(2.0)  # 페이지 초기 로딩 대기 시간 확보
                 
-                # 💡 [타임슬립 및 드롭다운 제어 강화]: '최근 20' 옵션을 확실하게 열고 선택
+                # 💡 [드롭다운 제어 수정]: 'selRecentMatch' 클릭 후 팝업 메뉴 내 'v-data="20"' 항목 클릭
                 try:
                     dropdown_btn = driver.find_element("id", "selRecentMatch")
                     if dropdown_btn:
                         driver.execute_script("arguments[0].click();", dropdown_btn)
-                        time.sleep(1.0)  # 드롭다운 메뉴 열림 대기
+                        time.sleep(1.0)  # 메뉴 열림 대기
                         
-                        option_20 = driver.find_element("xpath", "//*[@v-data='20' or contains(text(), '20')]")
+                        option_20 = driver.find_element("xpath", "//div[@id='selRecentMatchItem']//li[@v-data='20']")
                         if option_20:
                             driver.execute_script("arguments[0].click();", option_20)
-                            time.sleep(2.0)  # 💡 20개 항목 비동기 렌더링 완료 대기 (핵심 타임슬립)
+                            time.sleep(2.0)  # 20개 항목 비동기 렌더링 완료 대기
                 except Exception as drop_err:
                     print(f"  - 최근 20개 확장 드롭다운 클릭 예외 (기본값 진행): {drop_err}")
 
@@ -163,16 +163,17 @@ def run_table_based_crawler_v3_2():
                 except Exception:
                     pass
 
+                # 💡 원정팀 관련 데이터 필드 제거 및 홈팀 전적 구조만 유지
                 recent_form_data = {
                     "form_title": "최근 전적",
-                    "home_team_name": main_home, "home_matches": [], 
-                    "away_team_name": main_away, "away_matches": []
+                    "home_team_name": main_home, 
+                    "home_matches": []
                 }
                 
                 stadium_form_data = {
                     "form_title": "구장별 전적",
-                    "home_team_name": main_home, "home_matches": [], 
-                    "away_team_name": main_away, "away_matches": []
+                    "home_team_name": main_home, 
+                    "home_matches": []
                 }
                 
                 try:
@@ -232,11 +233,10 @@ def run_table_based_crawler_v3_2():
                                     target_list.append(match_info)
                                     count += 1
 
-                    # 1. 최근전적 수집 (최대 20개)
+                    # 💡 홈팀 전적 데이터(tb_home_recent)만 수집 (원정팀 tb_guest_recent 제거)
                     home_ul = detail_soup.find("ul", id="tb_home_recent")
-                    away_ul = detail_soup.find("ul", id="tb_guest_recent")
-                    if home_ul: parse_matches(home_ul, main_home, recent_form_data["home_matches"], 20)
-                    if away_ul: parse_matches(away_ul, main_away, recent_form_data["away_matches"], 20)
+                    if home_ul: 
+                        parse_matches(home_ul, main_home, recent_form_data["home_matches"], 20)
 
                 except Exception as e:
                     print(f"  - 전적 수집 예외 ({m_id}): {e}")
@@ -257,7 +257,6 @@ def run_table_based_crawler_v3_2():
                 print(f"  ⚠️ 데이터 수집 실패 (Match ID: {m_id}): {e}")
                 continue
 
-            # 💡 테스트 모드: 메인 경기 1개만 수집 후 종료
             print(f"🎯 [테스트 모드] 메인 경기 1개 수집 완료. 크롤링을 종료합니다.")
             break
 
@@ -269,7 +268,7 @@ def run_table_based_crawler_v3_2():
         with open("match_details_v3-2.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 타임슬립 대기 적용 후 최근 20개 전적 수집 완료 -> match_details_v3-2.json 저장 완료")
+        print(f"\n🎉 성공: 20개 확장 선택 및 홈팀 전적 수집 완료 -> match_details_v3-2.json 저장 완료")
 
     finally:
         driver.quit()
