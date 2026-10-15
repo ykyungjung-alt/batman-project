@@ -1979,59 +1979,60 @@ with tabs[7]:
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
-        def compute_match_engine_by_code(m_item):
+def compute_match_engine_by_code(m_item):
             m_code = str(m_item.get('match_code', '')).strip()
             h_name = str(m_item.get('home', '')).strip()
             a_name = str(m_item.get('away', '')).strip()
             
-            # 1단계: 6단계와 동일한 상세 정밀 데이터 매핑 수색
-            detail = all_details_dict.get(m_code, {}) if 'all_details_dict' in globals() else {}
-            if not detail:
-                for dk, dv in all_details_dict.items():
-                    if str(dv.get("match_code", "")).strip() == m_code:
-                        detail = dv
-                        break
-            if not detail:
-                for dk, dv in all_details_dict.items():
-                    if str(dv.get("home", "")).strip().replace(" ", "") == h_name.replace(" ", "") and \
-                       str(dv.get("away", "")).strip().replace(" ", "") == a_name.replace(" ", ""):
-                        detail = dv
-                        break
+            # 6단계가 참조하는 정밀 데이터 딕셔너리(v3_details_dict 또는 all_details_dict) 전수 탐색
+            target_detail = {}
+            source_dict_pool = []
+            if 'v3_details_dict' in globals() and v3_details_dict:
+                source_dict_pool.append(v3_details_dict)
+            if 'all_details_dict' in globals() and all_details_dict:
+                source_dict_pool.append(all_details_dict)
 
-            # 2단계: 6단계 공식에 쓰이는 기본 공수 스케일 및 누적 보정치 추출 (없으면 기본값 0)
+            for d_pool in source_dict_pool:
+                if m_code in d_pool:
+                    target_detail = d_pool[m_code]
+                    break
+                # match_code 값 키 순회 검색
+                for k, v in d_pool.items():
+                    if str(v.get("match_code", "")).strip() == m_code:
+                        target_detail = v
+                        break
+                if target_detail:
+                    break
+
+            # 기본값 설정 (6단계 기본 스케일 연동)
             h_base_g = 1.2
             h_base_c = 1.0
             a_base_g = 1.1
             a_base_c = 1.1
-            
             h_tot_atk = 0.0
             h_tot_def = 0.0
             a_tot_atk = 0.0
             a_tot_def = 0.0
 
-            if detail and isinstance(detail, dict):
-                try:
-                    meta = detail.get("meta_details", {})
-                    recent = meta.get("recent_form", {})
-                    h_sum = recent.get("home_summary", {})
-                    a_sum = recent.get("away_summary", {})
-                    if h_sum.get("goals_per_game"): h_base_g = float(h_sum.get("goals_per_game"))
-                    if h_sum.get("conceded_per_game"): h_base_c = float(h_sum.get("conceded_per_game"))
-                    if a_sum.get("goals_per_game"): a_base_g = float(a_sum.get("goals_per_game"))
-                    if a_sum.get("conceded_per_game"): a_base_c = float(a_sum.get("conceded_per_game"))
-                    
-                    # 6단계 누적 보정치(토탈 백분율) 반영 데이터가 있을 경우 연동
-                    h_tot_atk = float(detail.get("h_tot_atk_pct", 0.0))
-                    h_tot_def = float(detail.get("h_tot_def_pct", 0.0))
-                    a_tot_atk = float(detail.get("a_tot_atk_pct", 0.0))
-                    a_tot_def = float(detail.get("a_tot_def_pct", 0.0))
-                except:
-                    pass
-            else:
-                h_base_g = 1.25 + (abs(hash(h_name)) % 4) * 0.05
-                a_base_g = 1.10 + (abs(hash(a_name)) % 4) * 0.05
+            if target_detail and isinstance(target_detail, dict):
+                # 6단계와 동일한 키 구조에서 정밀 데이터 추출 시도
+                meta = target_detail.get("meta_details", {})
+                recent = meta.get("recent_form", {})
+                h_sum = recent.get("home_summary", {})
+                a_sum = recent.get("away_summary", {})
+                
+                h_base_g = float(h_sum.get("goals_per_game", target_detail.get("h_gpg", 1.2)))
+                h_base_c = float(h_sum.get("conceded_per_game", target_detail.get("h_cpg", 1.0)))
+                a_base_g = float(a_sum.get("goals_per_game", target_detail.get("a_gpg", 1.1)))
+                a_base_c = float(a_sum.get("conceded_per_game", target_detail.get("a_cpg", 1.1)))
 
-            # 3단계: 6단계와 100% 동일한 기하평균 공수 교차 상쇄 결합 연산 수행
+                # 누적 보정치 퍼센트 값 연동
+                h_tot_atk = float(target_detail.get("h_tot_atk_pct", 0.0))
+                h_tot_def = float(target_detail.get("h_tot_def_pct", 0.0))
+                a_tot_atk = float(target_detail.get("a_tot_atk_pct", 0.0))
+                a_tot_def = float(target_detail.get("a_tot_def_pct", 0.0))
+
+            # 6단계와 100% 동일한 기하평균 공수 교차 상쇄 결합 연산
             h_max_g = h_base_g * (1 + h_tot_atk / 100.0)
             h_min_c = h_base_c * (1 + h_tot_def / 100.0)
             a_max_g = a_base_g * (1 + a_tot_atk / 100.0)
