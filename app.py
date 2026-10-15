@@ -1285,12 +1285,12 @@ with tabs[5]:
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 
 # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (상대방 팀명 명시형 연동 체급 타이틀 및 매칭 규격 적용)
+        # 📊 [5-2 표] 렌더링 (상대방 팀명 명시형 연동 체급 타이틀 및 특수 룰 프로토콜 적용)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
 
-        # 홈 팀은 원정 팀(셀틱)의 연동 체급을 기준 삼고, 원정 팀은 홈 팀(벤피카)의 연동 체급을 기준 삼음
+        # 홈 팀은 원정 팀의 연동 체급을 기준 삼고, 원정 팀은 홈 팀의 연동 체급을 기준 삼음
         h_opp_at = a_current_at if 'a_current_at' in locals() else "Tier C"
         h_opp_de = a_current_de if 'a_current_de' in locals() else "Tier C"
         a_opp_at = h_current_at if 'h_current_at' in locals() else "Tier C"
@@ -1376,10 +1376,33 @@ with tabs[5]:
 
         def build_team_52_dataframe(match_list, team_label):
             rows = []
-            total_gf, total_ga = 0, 0
             cnt = len(match_list)
             if cnt == 0:
                 return pd.DataFrame([{"순서": "데이터 없음", "경기 일시": "-", "대회 명칭": "-", "장소": "-", "상대 팀": f"[{team_label}] 조건 부합 경기 없음", "상대 티어": "-", "최종 스코어": "-", "결과": "-", "비고": "0득점 / 0실점"}]), 0, 0, 0.0, 0.0
+            
+            # 💡 1차 자체 판정: 원본 득실점 평균을 먼저 산출하여 특수 룰 발동 조건(공격 A: 2.3이상 / 방어 E: 1.7이상) 검사
+            temp_gf, temp_ga = 0, 0
+            for m in match_list:
+                m_score = str(m.get("score", "") or m.get("result", "0 : 0"))
+                scores_arr = m.get("ft_scores", [])
+                if scores_arr and len(scores_arr) >= 2:
+                    m_score = f"{scores_arr[0]} : {scores_arr[1]}"
+                try:
+                    parts = m_score.replace("-", ":").split(":")
+                    if len(parts) >= 2:
+                        temp_gf += int(parts[0].strip())
+                        temp_ga += int(parts[1].strip())
+                except:
+                    pass
+            
+            raw_avg_gf = temp_gf / cnt if cnt > 0 else 0.0
+            raw_avg_ga = temp_ga / cnt if cnt > 0 else 0.0
+
+            # 발동 조건: 공격력 A티어 (2.3골 이상) 또는 방어력 E티어 (1.7실점 이상)
+            trigger_special_rule = (raw_avg_gf >= 2.3) or (raw_avg_ga >= 1.7)
+
+            # 💡 2차 본 순회: 데이터프레임 행 구성 및 특수 룰(E티어 상대 득점 50% 할인) 반영
+            total_gf, total_ga = 0.0, 0.0
             for i, m in enumerate(match_list, 1):
                 m_date = str(m.get("match_time", "-")).split(" ")[0].replace("-", ".")
                 raw_league = str(m.get("league", "-"))
@@ -1412,6 +1435,7 @@ with tabs[5]:
                 at_name = atk_tier_nm(oa)
                 df_name = def_tier_nm(od)
                 m_opp_tier = f"{at_name} / {df_name}"
+                
                 gf, ga = 0, 0
                 try:
                     parts = m_score.replace("-", ":").split(":")
@@ -1420,29 +1444,46 @@ with tabs[5]:
                         ga = int(parts[1].strip())
                 except:
                     pass
+
+                original_gf = gf
+                applied_rule = False
+
+                # 🛡️ [특수 룰 프로토콜]: 발동 조건 만족 + 상대 팀이 Tier E인 경우 해당 경기 득점 50% 할인
+                if trigger_special_rule and at_name == "Tier E":
+                    gf = gf * 0.5
+                    applied_rule = True
+
                 total_gf += gf
                 total_ga += ga
                 w_l = "승" if gf > ga else ("패" if gf < ga else "무")
                 seq_txt = f"{i} (최신)" if i == 1 else (f"{i} (과거)" if i == cnt else str(i))
+                
+                # 비고란 표기 분기
+                if applied_rule:
+                    note_str = f"{original_gf}득점 (보정 {gf:.1f}득점) / {ga}실점 [특수룰: E티어 50% 할인]"
+                else:
+                    note_str = f"{int(gf)}득점 / {ga}실점"
+
                 rows.append({
                     "순서": seq_txt, "경기 일시": m_date, "대회 명칭": m_league, "장소": m_loc, "상대 팀": m_opp,
-                    "상대 티어 (A~E 등급 연동)": m_opp_tier, "최종 스코어": m_score, "결과": w_l, "비고 (득점 / 실점)": f"{gf}득점 / {ga}실점"
+                    "상대 티어 (A~E 등급 연동)": m_opp_tier, "최종 스코어": m_score, "결과": w_l, "비고 (득점 / 실점)": note_str
                 })
+
             avg_gf = total_gf / cnt if cnt > 0 else 0.0
             avg_ga = total_ga / cnt if cnt > 0 else 0.0
             return pd.DataFrame(rows), total_gf, total_ga, avg_gf, avg_ga
 
-        # 💡 타이틀 명칭 수정: '2단계 연동 체급' 대신 '상대({상대팀명}) 연동 체급'으로 명시
+        # 💡 타이틀 명칭 유지 및 렌더링 적용
         st.markdown(f"##### 🏠 홈 팀: {home_team} (상대({away_team}) 연동 체급: 공격 {h_opp_at} / 방어 {h_opp_de})")
         h_df_52, h_tgf, h_tga, h_agf, h_aga = build_team_52_dataframe(home_matched_5, home_team)
         st.dataframe(h_df_52, use_container_width=True, hide_index=True)
-        st.markdown(f"📌 **{home_team} 최근 5경기 총합:** {h_tgf}득점 / {h_tga}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span>", unsafe_allow_html=True)
+        st.markdown(f"📌 **{home_team} 최근 5경기 총합:** {h_tgf:.1f}득점 / {h_tga:.1f}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span>", unsafe_allow_html=True)
 
         st.markdown("---")
         st.markdown(f"##### ✈️ 원정 팀: {away_team} (상대({home_team}) 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_agf, a_aga = build_team_52_dataframe(away_matched_5, away_team)
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
-        st.markdown(f"📌 **{away_team} 최근 5경기 총합:** {a_tgf} 득점 / {a_tga} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
+        st.markdown(f"📌 **{away_team} 최근 5경기 총합:** {a_tgf:.1f} 득점 / {a_tga:.1f} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
 
         # --------------------------------------------------------------------------
         # 📊 [5-3 표] 렌더링 (규칙 5번 탭 내부로 완벽히 격리)
