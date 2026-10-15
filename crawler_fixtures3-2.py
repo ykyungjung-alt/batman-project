@@ -134,6 +134,21 @@ def run_table_based_crawler_v3_2():
                 driver.get(detail_url)
                 time.sleep(1.0)
                 
+                # 💡 [핵심 수정]: 최근 전적 드롭다운을 클릭하여 '최근 20' 옵션을 활성화
+                try:
+                    dropdown_btn = driver.find_element("id", "selRecentMatch")
+                    if dropdown_btn:
+                        driver.execute_script("arguments[0].click();", dropdown_btn)
+                        time.sleep(0.5)
+                        
+                        # 팝업 리스트에서 20개 선택 옵션 클릭
+                        option_20 = driver.find_element("xpath", "//span[@v-data='20' or contains(text(), '20')]")
+                        if option_20:
+                            driver.execute_script("arguments[0].click();", option_20)
+                            time.sleep(0.8) # 데이터 로딩 대기
+                except Exception as drop_err:
+                    print(f"  - 최근 20개 드롭다운 확장 예외 (기본값으로 진행): {drop_err}")
+
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
                 head_info = {
@@ -155,6 +170,7 @@ def run_table_based_crawler_v3_2():
                     "away_team_name": main_away, "away_matches": []
                 }
                 
+                # 💡 구장별 전적 데이터 구조는 완전히 비워둠 (요청에 따라 제거)
                 stadium_form_data = {
                     "form_title": "구장별 전적",
                     "home_team_name": main_home, "home_matches": [], 
@@ -162,7 +178,7 @@ def run_table_based_crawler_v3_2():
                 }
                 
                 try:
-                    def parse_matches(container_ul, target_team, target_list, max_count=20):  # 💡 최근 경기 수 20개로 확대
+                    def parse_matches(container_ul, target_team, target_list, max_count=20):
                         if not container_ul: return
                         count = 0
                         for li in container_ul.find_all("li", class_="courselis"):
@@ -218,27 +234,11 @@ def run_table_based_crawler_v3_2():
                                     target_list.append(match_info)
                                     count += 1
 
-                    # 1. 최근전적 수집 (20개)
+                    # 1. 최근전적 수집 (최대 20개)
                     home_ul = detail_soup.find("ul", id="tb_home_recent")
                     away_ul = detail_soup.find("ul", id="tb_guest_recent")
                     if home_ul: parse_matches(home_ul, main_home, recent_form_data["home_matches"], 20)
                     if away_ul: parse_matches(away_ul, main_away, recent_form_data["away_matches"], 20)
-
-                    # 2. 구장별 전적 수집 (20개)
-                    try:
-                        checkbox = driver.find_element("id", "cbRecentFull")
-                        if checkbox and not checkbox.is_selected():
-                            driver.execute_script("arguments[0].click();", checkbox)
-                            time.sleep(0.5)
-                            
-                        stadium_soup = BeautifulSoup(driver.page_source, "html.parser")
-                        s_home_ul = stadium_soup.find("ul", id="tb_home_recent")
-                        s_away_ul = stadium_soup.find("ul", id="tb_guest_recent")
-                        
-                        if s_home_ul: parse_matches(s_home_ul, main_home, stadium_form_data["home_matches"], 20)
-                        if s_away_ul: parse_matches(s_away_ul, main_away, stadium_form_data["away_matches"], 20)
-                    except Exception as s_err:
-                        print(f"  - 구장별 전적 토글 수집 예외: {s_err}")
 
                 except Exception as e:
                     print(f"  - 전적 수집 예외 ({m_id}): {e}")
@@ -250,7 +250,7 @@ def run_table_based_crawler_v3_2():
                     "away": main_away,
                     "meta_details": {
                         "recent_form": recent_form_data,
-                        "stadium_form": stadium_form_data
+                        "stadium_form": stadium_form_data  # 빈 상태 유지
                     }
                 }
                 counter += 1
@@ -268,11 +268,10 @@ def run_table_based_crawler_v3_2():
             "match_details": match_details
         }
         
-        # 💡 저장 파일명을 match_details_v3-2.json으로 고정
         with open("match_details_v3-2.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 20경기 표본 수집 (1개 경기 테스트) 완료 -> match_details_v3-2.json 저장 완료")
+        print(f"\n🎉 성공: 최근 20개 표본 수집 (구장별 전적 제외, 1개 경기 테스트) 완료 -> match_details_v3-2.json 저장 완료")
 
     finally:
         driver.quit()
