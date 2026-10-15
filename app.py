@@ -244,7 +244,8 @@ with tabs[0]:
     | **데이터 상태 검증** | {meta_status} |
     """
     st.markdown(meta_markdown_table, unsafe_allow_html=True)
-    st.markdown("##### 📊 공식 팀 순위 및 국가별 등급·가중치 연동 현황")
+    
+    st.markdown("##### 📊 공식 팀 순위 및 국가 코드 기반 등급·가중치 연동 현황")
     
     if has_detailed_data:
         meta_details = detailed_info.get("meta_details", {})
@@ -261,29 +262,32 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        def match_country_and_weights(team_str, league_str):
+        def match_country_by_code(team_str, league_str):
             grades = country_data.get("grades", {})
             target_text = f"{team_str} {league_str}".upper()
             
-            # A~E 등급 순회하며 국가명, 코드, 리그명 매칭 검증
+            # 리그 문자열에서 첫 번째 토큰을 국가 코드(예: POR, SCO)로 추출
+            league_prefix = league_str.split()[0].upper() if league_str else ""
+
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
                 if isinstance(countries, list):
                     for c in countries:
-                        c_name = str(c.get("name", "")).upper()
                         c_code = str(c.get("code", "")).upper()
-                        c_leagues = [str(l).upper() for l in c.get("leagues", [])]
+                        c_name = str(c.get("name", "")).upper()
                         
-                        # 국가명, 코드, 또는 리그명 포함 여부 철저 검증
-                        if (c_name and c_name in target_text) or \
-                           (c_code and c_code in target_text) or \
-                           any(l in target_text or l in str(league_str).upper() for l in c_leagues):
+                        # 1순위: 국가 코드 직접 일치 (예: POR == POR)
+                        # 2순위: 팀명이나 리그명에 국가 코드가 포함된 경우
+                        if c_code and (c_code == league_prefix or c_code in target_text or c_code in league_prefix):
+                            return c.get("name", "-"), c.get("code", "-"), c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                        # 3순위: 국가명 매칭
+                        if c_name and c_name in target_text:
                             return c.get("name", "-"), c.get("code", "-"), c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
             
-            # 매칭되지 않을 경우 기본 F등급 처리
+            # 매칭되지 않는 경우 F등급 처리
             f_info = grades.get("F", {})
-            return "기타", "EXT", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
+            return "기타", league_prefix if league_prefix else "EXT", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
         if rankings_raw:
             rankings_list = []
@@ -291,8 +295,7 @@ with tabs[0]:
                 team_name = str(r.get("team", "-"))
                 raw_league = str(r.get("league", tournament_name))
                 
-                # 국가명, 코드, 리그명 조건 전면 연동
-                matched_name, matched_code, grade, atk_b, def_b = match_country_and_weights(team_name, raw_league)
+                matched_name, matched_code, grade, atk_b, def_b = match_country_by_code(team_name, raw_league)
                 
                 rankings_list.append({
                     "No": idx + 1,
