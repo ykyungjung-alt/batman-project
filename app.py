@@ -1285,10 +1285,10 @@ with tabs[5]:
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 
 # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (상대방 팀명 명시형 연동 체급 타이틀 및 특수 룰 프로토콜 적용)
+        # 📊 [5-2 표] 렌더링 (최근 7경기 교차 검증 및 특수 룰 프로토콜 적용)
         # --------------------------------------------------------------------------
         st.markdown("---")
-        st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
+        st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 7경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
 
         # 홈 팀은 원정 팀의 연동 체급을 기준 삼고, 원정 팀은 홈 팀의 연동 체급을 기준 삼음
         h_opp_at = a_current_at if 'a_current_at' in locals() else "Tier C"
@@ -1326,7 +1326,7 @@ with tabs[5]:
                 valid.append(fix)
             return valid
 
-        # 💡 상대방 연동 체급과의 유사도 및 A/E 극한 티어 우선순위 스코어링 매칭 함수
+        # 💡 상대방 연동 체급과의 유사도 및 A/E 극한 티어 우선순위 스코어링 매칭 함수 (7개로 확장)
         def filter_matched_tier_games(match_list, target_at_name, target_de_name):
             valid_pool = get_real_matches_without_friendlies(match_list)
             if not valid_pool:
@@ -1369,16 +1369,16 @@ with tabs[5]:
 
             scored_pool.sort(key=lambda x: x[0])
             sorted_matches = [item[1] for item in scored_pool]
-            return sorted_matches[:5]
+            return sorted_matches[:7]  # 💡 최근 7경기로 확장
 
-        home_matched_5 = filter_matched_tier_games(home_raw_pool, h_opp_at, h_opp_de)
-        away_matched_5 = filter_matched_tier_games(away_raw_pool, a_opp_at, a_opp_de)
+        home_matched_7 = filter_matched_tier_games(home_raw_pool, h_opp_at, h_opp_de)
+        away_matched_7 = filter_matched_tier_games(away_raw_pool, a_opp_at, a_opp_de)
 
         def build_team_52_dataframe(match_list, team_label):
             rows = []
             cnt = len(match_list)
             if cnt == 0:
-                return pd.DataFrame([{"순서": "데이터 없음", "경기 일시": "-", "대회 명칭": "-", "장소": "-", "상대 팀": f"[{team_label}] 조건 부합 경기 없음", "상대 티어": "-", "최종 스코어": "-", "결과": "-", "비고": "0득점 / 0실점"}]), 0, 0, 0.0, 0.0
+                return pd.DataFrame([{"순서": "데이터 없음", "경기 일시": "-", "대회 명칭": "-", "장소": "-", "상대 팀": f"[{team_label}] 조건 부합 경기 없음", "상대 티어": "-", "최종 스코어": "-", "결과": "-", "비고": "0득점 / 0실점"}]), 0, 0, 0.0, 0.0, False
             
             # 💡 1차 자체 판정: 원본 득실점 평균을 먼저 산출하여 특수 룰 발동 조건(공격 A: 2.3이상 / 방어 E: 1.7이상) 검사
             temp_gf, temp_ga = 0, 0
@@ -1448,7 +1448,7 @@ with tabs[5]:
                 original_gf = gf
                 applied_rule = False
 
-                # 🛡️ [특수 룰 프로토콜 보완]: 발동 조건 만족 + 상대 티어 조합 문자열(m_opp_tier)이나 방어 등급(df_name)에 'Tier E' 포함 시 득점 50% 할인
+                # 🛡️ [특수 룰 프로토콜]: 발동 조건 만족 + 상대 티어 조합 문자열(m_opp_tier)이나 방어 등급(df_name)에 'Tier E' 포함 시 득점 50% 할인
                 is_opponent_tier_e = ("Tier E" in str(m_opp_tier)) or ("Tier E" in str(df_name))
 
                 if trigger_special_rule and is_opponent_tier_e:
@@ -1473,19 +1473,24 @@ with tabs[5]:
 
             avg_gf = total_gf / cnt if cnt > 0 else 0.0
             avg_ga = total_ga / cnt if cnt > 0 else 0.0
-            return pd.DataFrame(rows), total_gf, total_ga, avg_gf, avg_ga
+            return pd.DataFrame(rows), total_gf, total_ga, avg_gf, avg_ga, trigger_special_rule
 
-        # 💡 타이틀 명칭 유지 및 렌더링 적용
+        # 💡 홈 팀 렌더링 및 발동 표시 알림 연동 (7경기 기준)
         st.markdown(f"##### 🏠 홈 팀: {home_team} (상대({away_team}) 연동 체급: 공격 {h_opp_at} / 방어 {h_opp_de})")
-        h_df_52, h_tgf, h_tga, h_agf, h_aga = build_team_52_dataframe(home_matched_5, home_team)
+        h_df_52, h_tgf, h_tga, h_agf, h_aga, h_rule_active = build_team_52_dataframe(home_matched_7, home_team)
+        if h_rule_active:
+            st.info(f"⚡ **[특수 룰 발동 안내]** {home_team} 팀은 원본 실전 평균 공격력/방어력이 기준치를 충족하여, 최근 7경기 중 **Tier E 상대전 득점력이 50% 할인 보정**되었습니다.")
         st.dataframe(h_df_52, use_container_width=True, hide_index=True)
-        st.markdown(f"📌 **{home_team} 최근 5경기 총합:** {h_tgf:.1f}득점 / {h_tga:.1f}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span>", unsafe_allow_html=True)
+        st.markdown(f"📌 **{home_team} 최근 7경기 총합:** {h_tgf:.1f}득점 / {h_tga:.1f}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span>", unsafe_allow_html=True)
 
         st.markdown("---")
+        # 💡 원정 팀 렌더링 및 발동 표시 알림 연동 (7경기 기준)
         st.markdown(f"##### ✈️ 원정 팀: {away_team} (상대({home_team}) 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
-        a_df_52, a_tgf, a_tga, a_agf, a_aga = build_team_52_dataframe(away_matched_5, away_team)
+        a_df_52, a_tgf, a_tga, a_agf, a_aga, a_rule_active = build_team_52_dataframe(away_matched_7, away_team)
+        if a_rule_active:
+            st.info(f"⚡ **[특수 룰 발동 안내]** {away_team} 팀은 원본 실전 평균 공격력/방어력이 기준치를 충족하여, 최근 7경기 중 **Tier E 상대전 득점력이 50% 할인 보정**되었습니다.")
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
-        st.markdown(f"📌 **{away_team} 최근 5경기 총합:** {a_tgf:.1f} 득점 / {a_tga:.1f} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
+        st.markdown(f"📌 **{away_team} 최근 7경기 총합:** {a_tgf:.1f} 득점 / {a_tga:.1f} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
 
         # --------------------------------------------------------------------------
         # 📊 [5-3 표] 렌더링 (규칙 5번 탭 내부로 완벽히 격리)
