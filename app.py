@@ -1263,12 +1263,13 @@ with tabs[5]:
         ]
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 
-        # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링
+# --------------------------------------------------------------------------
+        # 📊 [5-2 표] 렌더링 (상대방 팀명 명시형 연동 체급 타이틀 및 매칭 규격 적용)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 5경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
 
+        # 홈 팀은 원정 팀(셀틱)의 연동 체급을 기준 삼고, 원정 팀은 홈 팀(벤피카)의 연동 체급을 기준 삼음
         h_opp_at = a_current_at if 'a_current_at' in locals() else "Tier C"
         h_opp_de = a_current_de if 'a_current_de' in locals() else "Tier C"
         a_opp_at = h_current_at if 'h_current_at' in locals() else "Tier C"
@@ -1302,17 +1303,62 @@ with tabs[5]:
                 if not score_str or (":" not in score_str and "-" not in score_str and not scores_arr):
                     continue
                 valid.append(fix)
-            return valid[:5]
+            return valid
 
-        home_matched_5 = get_real_matches_without_friendlies(home_raw_pool)
-        away_matched_5 = get_real_matches_without_friendlies(away_raw_pool)
+        # 💡 상대방 연동 체급과의 유사도 및 A/E 극한 티어 우선순위 스코어링 매칭 함수
+        def filter_matched_tier_games(match_list, target_at_name, target_de_name):
+            valid_pool = get_real_matches_without_friendlies(match_list)
+            if not valid_pool:
+                return []
+
+            tier_score_map = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
+            t_at_val = tier_score_map.get(target_at_name, 3)
+            t_de_val = tier_score_map.get(target_de_name, 3)
+
+            scored_pool = []
+            for m in valid_pool:
+                tier_info = m.get("opponent_tier_info", "")
+                oa, od = 1.3, 1.2
+                if tier_info and "/" in tier_info:
+                    try:
+                        parts_o = tier_info.split("/")
+                        oa = float(parts_o[0].strip())
+                        od = float(parts_o[1].strip())
+                    except:
+                        pass
+                op_at_name = atk_tier_nm(oa)
+                op_de_name = def_tier_nm(od)
+                
+                op_at_val = tier_score_map.get(op_at_name, 3)
+                op_de_val = tier_score_map.get(op_de_name, 3)
+
+                diff_at = abs(t_at_val - op_at_val)
+                diff_de = abs(t_de_val - op_de_val)
+                match_score = diff_at + diff_de
+
+                # A 또는 E 극단적 티어 포함 시 특수 가산점 부여
+                has_extreme_target = (target_at_name in ["Tier A", "Tier E"] or target_de_name in ["Tier A", "Tier E"])
+                has_extreme_opp = (op_at_name in ["Tier A", "Tier E"] or op_de_name in ["Tier A", "Tier E"])
+                
+                if has_extreme_target and has_extreme_opp:
+                    if target_at_name == op_at_name or target_de_name == op_de_name:
+                        match_score -= 2.5
+
+                scored_pool.append((match_score, m))
+
+            scored_pool.sort(key=lambda x: x[0])
+            sorted_matches = [item[1] for item in scored_pool]
+            return sorted_matches[:5]
+
+        home_matched_5 = filter_matched_tier_games(home_raw_pool, h_opp_at, h_opp_de)
+        away_matched_5 = filter_matched_tier_games(away_raw_pool, a_opp_at, a_opp_de)
 
         def build_team_52_dataframe(match_list, team_label):
             rows = []
             total_gf, total_ga = 0, 0
             cnt = len(match_list)
             if cnt == 0:
-                return pd.DataFrame([{"순서": "데이터 없음", "경기 일시": "-", "대회 명칭": "-", "장소": "-", "상대 팀": f"[{team_label}] 최근 공식 경기 전수 참조", "상대 티어": "-", "최종 스코어": "-", "결과": "-", "비고": "0득점 / 0실점"}]), 0, 0, 0.0, 0.0
+                return pd.DataFrame([{"순서": "데이터 없음", "경기 일시": "-", "대회 명칭": "-", "장소": "-", "상대 팀": f"[{team_label}] 조건 부합 경기 없음", "상대 티어": "-", "최종 스코어": "-", "결과": "-", "비고": "0득점 / 0실점"}]), 0, 0, 0.0, 0.0
             for i, m in enumerate(match_list, 1):
                 m_date = str(m.get("match_time", "-")).split(" ")[0].replace("-", ".")
                 raw_league = str(m.get("league", "-"))
@@ -1365,13 +1411,14 @@ with tabs[5]:
             avg_ga = total_ga / cnt if cnt > 0 else 0.0
             return pd.DataFrame(rows), total_gf, total_ga, avg_gf, avg_ga
 
-        st.markdown(f"##### 🏠 홈 팀: {home_team} (2단계 연동 체급: 공격 {h_opp_at} / 방어 {h_opp_de})")
+        # 💡 타이틀 명칭 수정: '2단계 연동 체급' 대신 '상대({상대팀명}) 연동 체급'으로 명시
+        st.markdown(f"##### 🏠 홈 팀: {home_team} (상대({away_team}) 연동 체급: 공격 {h_opp_at} / 방어 {h_opp_de})")
         h_df_52, h_tgf, h_tga, h_agf, h_aga = build_team_52_dataframe(home_matched_5, home_team)
         st.dataframe(h_df_52, use_container_width=True, hide_index=True)
         st.markdown(f"📌 **{home_team} 최근 5경기 총합:** {h_tgf}득점 / {h_tga}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span>", unsafe_allow_html=True)
 
         st.markdown("---")
-        st.markdown(f"##### ✈️ 원정 팀: {away_team} (2단계 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
+        st.markdown(f"##### ✈️ 원정 팀: {away_team} (상대({home_team}) 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_agf, a_aga = build_team_52_dataframe(away_matched_5, away_team)
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
         st.markdown(f"📌 **{away_team} 최근 5경기 총합:** {a_tgf} 득점 / {a_tga} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
