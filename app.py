@@ -1448,8 +1448,10 @@ with tabs[5]:
                 original_gf = gf
                 applied_rule = False
 
-                # 🛡️ [특수 룰 프로토콜]: 발동 조건 만족 + 상대 팀이 Tier E인 경우 해당 경기 득점 50% 할인
-                if trigger_special_rule and at_name == "Tier E":
+                # 🛡️ [특수 룰 프로토콜 보완]: 발동 조건 만족 + 상대 티어 조합 문자열(m_opp_tier)이나 방어 등급(df_name)에 'Tier E' 포함 시 득점 50% 할인
+                is_opponent_tier_e = ("Tier E" in str(m_opp_tier)) or ("Tier E" in str(df_name))
+
+                if trigger_special_rule and is_opponent_tier_e:
                     gf = gf * 0.5
                     applied_rule = True
 
@@ -1460,7 +1462,7 @@ with tabs[5]:
                 
                 # 비고란 표기 분기
                 if applied_rule:
-                    note_str = f"{original_gf}득점 (보정 {gf:.1f}득점) / {ga}실점 [특수룰: E티어 50% 할인]"
+                    note_str = f"{original_gf}득점 (보정 {gf:.1f}득점) / {ga}실점 [특수룰: E티어 상대 50% 할인]"
                 else:
                     note_str = f"{int(gf)}득점 / {ga}실점"
 
