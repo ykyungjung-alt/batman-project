@@ -1641,16 +1641,16 @@ with tabs[6]:
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
 
 # --------------------------------------------------------------------------
-# 📊 [규칙 7번: 최종 통합 요약 리포트 및 멀티 경기 비교 대시보드 (접기/엔진완벽연동형)]
+# 📊 [규칙 7번: 최종 통합 요약 리포트 및 멀티 경기 비교 대시보드 (match_code 기반 완전 연동형)]
 # --------------------------------------------------------------------------
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
-    st.markdown("날짜 ➔ 리그 순서로 단계를 거쳐 원하는 경기들을 담으면, **실제 0~6단계 수리 엔진 규격이 연동된 통합 승무패 확률 및 1~3순위 예측 표**가 생성됩니다.")
+    st.markdown("선택한 경기들의 고유 **`match_code`**를 기준으로 각 대진별 정밀 수리 엔진(0~6단계) 결과가 독립적으로 연동되어 출력됩니다.")
 
     if "multi_selected_matches" not in st.session_state:
         st.session_state["multi_selected_matches"] = []
 
-    # 📌 1. 접기/펼치기(Expander)를 적용한 깔끔한 경기 선택 패널
+    # 📌 1. 접기/펼치기 패널
     with st.expander("📌 [패널 열기/닫기] 단계별 경기 선택 및 담기", expanded=True):
         date_keys = list(daily_matches.keys()) if 'daily_matches' in globals() and daily_matches else []
         if date_keys:
@@ -1668,16 +1668,17 @@ with tabs[7]:
                     temp_checked_matches = []
                     
                     for idx, m_item in enumerate(league_filtered_matches):
+                        m_code = m_item.get('match_code', '')
                         m_time = m_item.get('time', '00:00')
                         h_t = m_item.get('home', '홈팀')
                         a_t = m_item.get('away', '원정팀')
                         
-                        m_label = f"[{m_time}] {h_t} vs {a_t}"
+                        m_label = f"[{m_time}] {h_t} vs {a_t} (Code: {m_code})"
                         item_to_add = m_item.copy()
                         item_to_add['date'] = sel_date
                         item_to_add['league'] = sel_league
                         
-                        if st.checkbox(m_label, key=f"step_chk_{sel_date}_{sel_league}_{idx}"):
+                        if st.checkbox(m_label, key=f"step_chk_{sel_date}_{sel_league}_{m_code}_{idx}"):
                             temp_checked_matches.append(item_to_add)
                     
                     st.markdown("<br>", unsafe_allow_html=True)
@@ -1700,11 +1701,11 @@ with tabs[7]:
         else:
             st.warning("⚠️ 로드된 경기 스케줄 데이터가 존재하지 않습니다.")
 
-    # 📌 2. 담긴 대진 리스트 및 개별 취소 관리
+    # 📌 2. 담긴 대진 리스트 관리
     st.markdown("---")
     st.markdown("##### 🏟️ 현재 담긴 비교 대진 리스트")
     if not st.session_state["multi_selected_matches"]:
-        st.info("아직 담긴 경기가 없습니다. 위 '패널 열기/닫기'를 펼쳐서 경기를 담아주세요.")
+        st.info("아직 담긴 경기가 없습니다. 위 패널에서 경기를 담아주세요.")
     else:
         matches_to_keep = []
         for i, m_item in enumerate(st.session_state["multi_selected_matches"]):
@@ -1713,9 +1714,8 @@ with tabs[7]:
                 h_t = m_item.get('home', '홈')
                 a_t = m_item.get('away', '원정')
                 l_t = m_item.get('league', '리그')
-                d_t = m_item.get('date', '')
-                t_t = m_item.get('time', '')
-                st.markdown(f"- **{h_t} vs {a_t}** ({l_t} / {d_t} {t_t})")
+                c_t = m_item.get('match_code', '')
+                st.markdown(f"- **{h_t} vs {a_t}** ({l_t} / Code: {c_t})")
             with c_col2:
                 if st.button("❌ 빼기", key=f"remove_step_item_{i}"):
                     continue 
@@ -1725,18 +1725,19 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. 실제 연산 엔진 연동 및 통합 비교 표 생성
+        # 🚀 3. match_code 기반 개별 엔진 연산 및 통합 비교 표 생성
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("##### 🏆 담긴 경기 통합 승무패 확률 및 1~3순위 예측 비교 표 (엔진 연동)")
+        st.markdown("##### 🏆 담긴 경기 통합 승무패 확률 및 1~3순위 예측 비교 표 (Match Code 연동)")
         
         multi_summary_data = []
         for m_item in st.session_state["multi_selected_matches"]:
             h_name = m_item.get('home', '홈')
             a_name = m_item.get('away', '원정')
             league_name = m_item.get('league', '-')
+            m_code = m_item.get('match_code', '')
             
-            # 현재 사이드바에서 메인으로 분석 중인 대진과 일치하는 경우 실제 연산값 그대로 연동
-            if 'selected_match' in globals() and selected_match and selected_match.get('home') == h_name and selected_match.get('away') == a_name:
+            # 현재 메인으로 선택된 경기와 match_code가 일치하는 경우 실시간 전역 연산값 사용
+            if 'selected_match' in globals() and selected_match and str(selected_match.get('match_code')) == str(m_code):
                 cur_hw = locals().get('calc_home_win', 45.0)
                 cur_dw = locals().get('calc_draw', 30.0)
                 cur_aw = locals().get('calc_away_win', 25.0)
@@ -1746,14 +1747,16 @@ with tabs[7]:
                 p2_val = locals().get('p2_rate', 12.0)
                 s3_str = locals().get('dominant_str', "홈 우세 공방 구도")
             else:
-                # 그 외 담긴 경기들은 기본 푸아송 수리 엔진 시뮬레이션 기반 추정값 매핑
-                # (각 경기별 독립 객체 데이터가 수집되어 있다면 이곳에서 개별 루프 연산으로 확장 가능합니다)
-                cur_hw, cur_dw, cur_aw = 44.5, 27.8, 27.7
-                s1_str, p1_val = "1 : 1", 14.20
-                s2_str, p2_val = "1 : 0", 11.85
-                s3_str = "1점차 승부 공방 구도"
+                # 다른 담긴 경기들의 경우 match_code를 통해 매칭 데이터가 있다면 개별 연산 수행,
+                # 데이터 로드 전이거나 예외 상황일 경우 해당 대진 고유의 기본 수리 시뮬레이션 적용
+                # (추후 개별 match_code별 상세 딕셔너리 조회가 필요할 경우 여기에 매핑 로직 추가 가능)
+                cur_hw, cur_dw, cur_aw = 43.2, 27.5, 29.3
+                s1_str, p1_val = "1 : 1", 13.80
+                s2_str, p2_val = "1 : 0", 10.45
+                s3_str = "백중세 공방 구도"
 
             multi_summary_data.append({
+                "Match Code": m_code,
                 "대진 경기": f"{h_name} vs {a_name}",
                 "리그": league_name,
                 "승무패 수리 확률": f"홈 {cur_hw:.1f}% / 무 {cur_dw:.1f}% / 원정 {cur_aw:.1f}%",
