@@ -268,6 +268,17 @@ def run_crawler_v4():
         {"id": 25, "url": "https://football.scoreman123.com/league/25"},
         {"id": 15, "url": "https://football.scoreman123.com/league/15"},
         {"id": 1292, "url": "https://football.scoreman123.com/league/1292"}
+        {"id": 35, "url": "https://football.scoreman123.com/league/35"},
+        {"id": 90, "url": "https://football.scoreman123.com/league/90"},
+        {"id": 83, "url": "https://football.scoreman123.com/league/83"},
+        {"id": 23, "url": "https://football.scoreman123.com/league/23"},
+        {"id": 29, "url": "https://football.scoreman123.com/league/29"},
+        {"id": 16, "url": "https://football.scoreman123.com/league/16"},
+        {"id": 22, "url": "https://football.scoreman123.com/league/22"},
+        {"id": 27, "url": "https://football.scoreman123.com/league/27"},
+        {"id": 103, "url": "https://football.scoreman123.com/league/103"},
+        {"id": 113, "url": "https://football.scoreman123.com/league/113"},
+        {"id": 2187, "url": "https://football.scoreman123.com/league/2187"}
     ]
     all_leagues_data = {
         "updated_at": now_kst,
