@@ -1409,7 +1409,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (동적 대응)
+# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (통합 수정본)
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1472,11 +1472,26 @@ for s in sorted_by_prob:
 if not second_match:
     second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-# 점수차 누적 분포 동적 계산 (모든 대진 대응)
+# 점수차별 누적 확률 합산 그룹 정렬 (2위, 3위 대안 구도 산출용)
 diff_probs = {}
 for item in score_probs:
     diff = item["home_score"] - item["away_score"]
     diff_probs[diff] = diff_probs.get(diff, 0.0) + item["prob"]
+
+sorted_diffs = sorted(diff_probs.items(), key=lambda x: x[1], reverse=True)
+
+diff_desc_list = []
+for d_val, p_val in sorted_diffs:
+    pct = p_val * 100
+    if d_val > 0:
+        diff_desc_list.append({"type": "home_diff", "val": d_val, "desc": f"{home_team} {d_val}점차승", "prob": pct})
+    elif d_val < 0:
+        diff_desc_list.append({"type": "away_diff", "val": abs(d_val), "desc": f"{away_team} {abs(d_val)}점차승", "prob": pct})
+    else:
+        diff_desc_list.append({"type": "draw", "val": 0, "desc": "무승부 공방", "prob": pct})
+
+s2_group = diff_desc_list[1] if len(diff_desc_list) > 1 else {"desc": "-", "prob": 0.0}
+s3_group = diff_desc_list[2] if len(diff_desc_list) > 2 else {"desc": "-", "prob": 0.0}
 
 h_pred_1st = f"{best_match_52['home_score']}골"
 a_pred_1st = f"{best_match_52['away_score']}골"
@@ -1497,7 +1512,7 @@ with tabs[6]:
         <b>📌 예상스코어 순위 산출 방법 규격:</b><br>
         • <b>승무패 수리 확률:</b> 푸아송 매트릭스 전수 조합을 바탕으로 최종 승/무/패 확률을 산출합니다.<br>
         • <b>1순위 (최적합):</b> 규칙 5-2 실전 평균 및 5-3·5-4 보정값을 반영한 최적 스코어를 선정합니다.<br>
-        • <b>2순위 (차선책):</b> 1순위를 제외한 단일 최고 확률 스코어를 선정합니다.<br>
+        • <b>2순위 (차선책):</b> 점수차 누적 분포 및 상위 그룹 기준 차선 구도를 선정합니다.<br>
         • <b>3순위 (대안책):</b> 전체 점수차 및 순위별 누적 분포를 분석하여 대안 구도를 매핑합니다.
     </div>""", unsafe_allow_html=True)
 
@@ -1552,7 +1567,7 @@ with tabs[6]:
         margin-bottom: 8px;
     }}
     .score-box-main {{
-        font-size: 22px;
+        font-size: 20px;
         font-weight: bold;
         color: #111;
         margin: 10px 0;
@@ -1576,17 +1591,17 @@ with tabs[6]:
         <div class="score-box-item">
             <div class="score-box-header" style="color: #1f77b4;">🥇 예측 1순위 (최적합)</div>
             <div class="score-box-main">{score_1st_str}</div>
-            <div class="score-box-footer">확률: <b>{p1_rate:.2f}%</b> (5-2/5-3/5-4 연동)</div>
+            <div class="score-box-footer">확률: <b>{p1_rate:.2f}%</b> (단일 스코어)</div>
         </div>
         <div class="score-box-item">
             <div class="score-box-header" style="color: #ff7f0e;">🥈 예측 2순위 (차선책)</div>
-            <div class="score-box-main">{score_2nd_str}</div>
-            <div class="score-box-footer">확률: <b>{p2_rate:.2f}%</b> (차선 단일 스코어)</div>
+            <div class="score-box-main" style="font-size: 16px;">{s2_group['desc']}</div>
+            <div class="score-box-footer">확률 합산: <b>{s2_group['prob']:.2f}%</b> (점수차 누적)</div>
         </div>
         <div class="score-box-item">
             <div class="score-box-header" style="color: #2ca02c;">🥉 예측 3순위 (대안책)</div>
-            <div class="score-box-main" style="font-size: 15px; font-weight: bold; padding: 4px 0;">무승부</div>
-            <div class="score-box-footer">비중: <b>{calc_draw:.1f}%</b> (점수차 누적 분포)</div>
+            <div class="score-box-main" style="font-size: 16px;">{s3_group['desc']}</div>
+            <div class="score-box-footer">확률 합산: <b>{s3_group['prob']:.2f}%</b> (점수차 누적)</div>
         </div>
     </div>
     """
@@ -1599,11 +1614,6 @@ with tabs[6]:
         h_p1_val, a_p1_val = [s.strip() for s in score_1st_str.split(":")]
     except:
         h_p1_val, a_p1_val = "-", "-"
-        
-    try:
-        h_p2_val, a_p2_val = [s.strip() for s in score_2nd_str.split(":")]
-    except:
-        h_p2_val, a_p2_val = "-", "-"
 
     ex6_df = pd.DataFrame({
         "규칙 단계": ["규칙 5-1", "규칙 5-2", "규칙 5-3", "규칙 5-4", "규칙 6", "규칙 6", "규칙 6", "규칙 6"],
@@ -1624,8 +1634,8 @@ with tabs[6]:
             f"{poisson_zone_name}",
             f"승리 확률 {calc_home_win:.1f}%",
             f"{h_p1_val}골",
-            f"{h_p2_val}골",
-            "무승부"
+            f"{s2_group['desc']}",
+            f"{s3_group['desc']}"
         ],
         f"원정 팀 ({away_team})": [
             f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골",
@@ -1634,8 +1644,8 @@ with tabs[6]:
             f"총 기대득점(total): {total_expected_goals:.2f}골",
             f"승리 확률 {calc_away_win:.1f}%",
             f"{a_p1_val}골",
-            f"{a_p2_val}골",
-            f"{calc_draw:.1f}%"
+            f"{s2_group['prob']:.2f}%",
+            f"{s3_group['prob']:.2f}%"
         ],
         "단계별 산출 근거 및 푸아송 확률": [
             "기하평균 공수 교차 상쇄 결합 연산",
@@ -1643,9 +1653,9 @@ with tabs[6]:
             over_factor_desc,
             matrix_range,
             f"무승부 확률 {calc_draw:.1f}%",
-            f"푸아송 확률 {p1_rate:.2f}% (5-2/5-3/5-4 직결)",
-            f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 차선 단일 조합)",
-            f"점수차 누적 분포 합산 (무승부 공방 {calc_draw:.1f}% 연동)"
+            f"푸아송 확률 {p1_rate:.2f}% (단일 스코어)",
+            f"점수차 누적 분포 2위 ({s2_group['desc']} {s2_group['prob']:.2f%})",
+            f"점수차 누적 분포 3위 ({s3_group['desc']} {s3_group['prob']:.2f%})"
         ]
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
