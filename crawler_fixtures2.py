@@ -109,13 +109,18 @@ def run_table_based_crawler_v2():
                                 stadium_candidates.append(s_text)
                         if stadium_candidates:
                             head_info["stadium"] = stadium_candidates[0]
-
+                  
+                    # ------------------------------------------
+                    # 1-1. 홈팀 서브페이지 접근하여 실제 홈구장(home_stadium) 수집
+                    # ------------------------------------------
                     home_div = detail_soup.find("div", {"class": "home"})
                     if home_div and home_div.has_attr("data-url"):
                         team_summary_url = "https:" + home_div["data-url"]
+                        
                         driver.get(team_summary_url)
                         time.sleep(0.8)
                         team_soup = BeautifulSoup(driver.page_source, "html.parser")
+                        
                         info_div = team_soup.find("div", id="info")
                         if info_div:
                             stadium_li = info_div.find("li", class_="home-stadium")
@@ -125,6 +130,15 @@ def run_table_based_crawler_v2():
                                     div_tag = stadium_li.find("div")
                                     if div_tag:
                                         h_stadium_name = div_tag.get_text(strip=True)
+                                
+                                # 💡 [추가] 구단 페이지 이름과 실제 경기장 이름이 다른 경우 실시간 변환 맵핑
+                                STADIUM_NAME_MAP = {
+                                    "Estadio da Luz": "Estádio do Sport Lisboa e Benfica",
+                                    # 필요에 따라 다른 팀 구장명 예외가 생기면 여기에 추가
+                                }
+                                if h_stadium_name in STADIUM_NAME_MAP:
+                                    h_stadium_name = STADIUM_NAME_MAP[h_stadium_name]
+
                                 head_info["home_stadium"] = h_stadium_name
 
                         driver.get(detail_url)
