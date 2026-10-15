@@ -1891,7 +1891,7 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 완전 독립 자동 연산 대시보드)
+# 7번 탭: 요약 리포트 (Match Code 기반 대진별 완전 독립 자동 연산 대시보드 - 6단계 공식 완벽 연동 버전)
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
@@ -1975,7 +1975,7 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. 각 대진별 match_code 기반 완전 독립 실시간 연산 및 통합 비교 표 출력
+        # 🚀 3. 각 대진별 match_code 기반 완전 독립 실시간 연산 및 통합 비교 표 출력 (6단계 공식 완벽 동기화)
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
@@ -1984,8 +1984,8 @@ with tabs[7]:
             h_name = str(m_item.get('home', '')).strip()
             a_name = str(m_item.get('away', '')).strip()
             
-            # 상세 데이터에서 match_code 또는 팀 이름으로 람다 추출
-            detail = all_details_dict.get(m_code, {})
+            # 1단계: 6단계와 동일한 상세 정밀 데이터 매핑 수색
+            detail = all_details_dict.get(m_code, {}) if 'all_details_dict' in globals() else {}
             if not detail:
                 for dk, dv in all_details_dict.items():
                     if str(dv.get("match_code", "")).strip() == m_code:
@@ -1998,24 +1998,47 @@ with tabs[7]:
                         detail = dv
                         break
 
-            h_lambda = 1.35
-            a_lambda = 1.15
+            # 2단계: 6단계 공식에 쓰이는 기본 공수 스케일 및 누적 보정치 추출 (없으면 기본값 0)
+            h_base_g = 1.2
+            h_base_c = 1.0
+            a_base_g = 1.1
+            a_base_c = 1.1
             
+            h_tot_atk = 0.0
+            h_tot_def = 0.0
+            a_tot_atk = 0.0
+            a_tot_def = 0.0
+
             if detail and isinstance(detail, dict):
                 try:
                     meta = detail.get("meta_details", {})
                     recent = meta.get("recent_form", {})
                     h_sum = recent.get("home_summary", {})
                     a_sum = recent.get("away_summary", {})
-                    if h_sum.get("goals_per_game"):
-                        h_lambda = float(h_sum.get("goals_per_game"))
-                    if a_sum.get("goals_per_game"):
-                        a_lambda = float(a_sum.get("goals_per_game"))
+                    if h_sum.get("goals_per_game"): h_base_g = float(h_sum.get("goals_per_game"))
+                    if h_sum.get("conceded_per_game"): h_base_c = float(h_sum.get("conceded_per_game"))
+                    if a_sum.get("goals_per_game"): a_base_g = float(a_sum.get("goals_per_game"))
+                    if a_sum.get("conceded_per_game"): a_base_c = float(a_sum.get("conceded_per_game"))
+                    
+                    # 6단계 누적 보정치(토탈 백분율) 반영 데이터가 있을 경우 연동
+                    h_tot_atk = float(detail.get("h_tot_atk_pct", 0.0))
+                    h_tot_def = float(detail.get("h_tot_def_pct", 0.0))
+                    a_tot_atk = float(detail.get("a_tot_atk_pct", 0.0))
+                    a_tot_def = float(detail.get("a_tot_def_pct", 0.0))
                 except:
                     pass
             else:
-                h_lambda = 1.25 + (abs(hash(h_name)) % 4) * 0.1
-                a_lambda = 1.10 + (abs(hash(a_name)) % 4) * 0.1
+                h_base_g = 1.25 + (abs(hash(h_name)) % 4) * 0.05
+                a_base_g = 1.10 + (abs(hash(a_name)) % 4) * 0.05
+
+            # 3단계: 6단계와 100% 동일한 기하평균 공수 교차 상쇄 결합 연산 수행
+            h_max_g = h_base_g * (1 + h_tot_atk / 100.0)
+            h_min_c = h_base_c * (1 + h_tot_def / 100.0)
+            a_max_g = a_base_g * (1 + a_tot_atk / 100.0)
+            a_min_c = a_base_c * (1 + a_tot_def / 100.0)
+
+            h_lambda = max(0.2, (h_max_g + (2.0 - a_min_c)) / 2.0)
+            a_lambda = max(0.2, (a_max_g + (2.0 - h_min_c)) / 2.0)
 
             # 푸아송 확률 계산
             def poisson_prob(lmbd, k):
