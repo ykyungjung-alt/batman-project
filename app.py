@@ -1547,7 +1547,7 @@ with tabs[6]:
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("##### 🏆 최종 예상 스코어 및 순위 산출 결과 요약")
     
-# 💡 1~3순위 모두 [상단 타이틀(좌측) -> 중앙 대형 스코어/구도 -> 하단 부가 설명] 구조로 통일한 반응형 플렉스 템플릿
+    # 💡 1~3순위 카드: 타이틀(좌측) -> 대형 스코어/구도(중앙) -> 하단 설명 구조 (모바일 밀림 방지)
     summary_cards_html = f"""
     <style>
     .score-summary-wrap {{
@@ -1599,19 +1599,16 @@ with tabs[6]:
     }}
     </style>
     <div class="score-summary-wrap">
-        <!-- 1순위 카드 -->
         <div class="score-box-item">
             <div class="score-box-header" style="color: #1f77b4;">🥇 예측 1순위 (최적합)</div>
             <div class="score-box-main">{score_1st_str}</div>
             <div class="score-box-footer">확률: <b>{p1_rate:.2f}%</b> (5-2/5-3/5-4 연동)</div>
         </div>
-        <!-- 2순위 카드 -->
         <div class="score-box-item">
             <div class="score-box-header" style="color: #ff7f0e;">🥈 예측 2순위 (차선책)</div>
             <div class="score-box-main">{score_2nd_str}</div>
             <div class="score-box-footer">확률: <b>{p2_rate:.2f}%</b> ({s2_result_str})</div>
         </div>
-        <!-- 3순위 카드 -->
         <div class="score-box-item">
             <div class="score-box-header" style="color: #2ca02c;">🥉 예측 3순위 (대안책)</div>
             <div class="score-box-main" style="font-size: 15px; font-weight: bold; padding: 4px 0;">{dominant_str}</div>
@@ -1620,6 +1617,29 @@ with tabs[6]:
     </div>
     """
     st.markdown(summary_cards_html, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("##### 예시표 6: 최종 통합 흐름 매트릭스 및 예상 스코어 산출 표")
+    
+    try:
+        h_p1_val, a_p1_val = [s.strip() for s in score_1st_str.split(":")]
+    except:
+        h_p1_val, a_p1_val = "-", "-"
+        
+    try:
+        h_p2_val, a_p2_val = [s.strip() for s in score_2nd_str.split(":")]
+    except:
+        h_p2_val, a_p2_val = "-", "-"
+
+    ex6_df = pd.DataFrame({
+        "규칙 단계": ["규칙 5-1", "규칙 5-2", "규칙 5-3", "규칙 5-4", "규칙 6", "규칙 6", "규칙 6", "규칙 6"],
+        "구분 및 연산 항목": ["1차 기본 기대 득실점 (base)", "동급 티어 실전 5경기 교차 검증", "다득점 변동성 보정 (Over Factor)", "이원화 동적 골 범위 행렬 확정", "최종 승무패 수리 확률", "최종 스코어 예측 1순위 (최적합)", "최종 스코어 예측 2순위 (차선책)", "최종 스코어 예측 3순위 (대안책)"],
+        f"홈 팀 ({home_team})": [f"기대 득점 {h_final_exp_g:.2f}골 / 예상 실점 {h_final_exp_c:.2f}골", f"평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골", f"{int(h_over_factor*100)}% 적용 (최종 = {h_final:.2f})", f"{poisson_zone_name}", f"승리 확률 {calc_home_win:.1f}%", f"{h_p1_val}골", f"{h_p2_val}골", h_score_3rd],
+        f"원정 팀 ({away_team})": [f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골", f"평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골", f"{int(a_over_factor*100)}% 적용 (최종 = {a_final:.2f})", f"총 기대득점(total): {total_expected_goals:.2f}골", f"승리 확률 {calc_away_win:.1f}%", f"{a_p1_val}골", f"{a_p2_val}골", f"{dominant_prob:.1f}%"],
+        "단계별 산출 근거 및 푸아송 확률": ["기하평균 공수 교차 상쇄 결합 연산", "동급 A/B티어 최근 5경기 실전 평균", over_factor_desc, matrix_range, f"무승부 확률 {calc_draw:.1f}%", f"푸아송 확률 {p1_rate:.2f}% (5-2/5-3/5-4 직결)", f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최상위)", "상위 순위 제외 점수 차이별 누적 구도 분석"]
+    })
+    st.dataframe(ex6_df, use_container_width=True, hide_index=True)
+
 with tabs[7]:
   st.markdown(
       f"#### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 최종 요약 리포트 -"
