@@ -303,7 +303,7 @@ with tabs[0]:
                     "리그순위": rank_code_str,
                     "팀": team_name,
                     "국가코드": matched_code,
-                    "리그명": league,
+                    "리그명": league_name,
                     "등급": grade,
                     "공격보정": atk_b,
                     "수비보정": def_b,
@@ -1237,6 +1237,9 @@ else:
     a_r4_atk_val = 0.0
     a_r4_def_val = 0.0
 
+# ==========================================
+# 규칙 5번 탭 전체 교체용 코드 (통합 완성본)
+# ==========================================
 with tabs[5]:
     st.markdown(f"#### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
     st.markdown("""
@@ -1254,31 +1257,22 @@ with tabs[5]:
         a_base_g = a_gpg if 'a_gpg' in locals() else 0.0
         a_base_c = a_cpg if 'a_cpg' in locals() else 0.0
 
-        # 2. 공수 티어 및 가중치 문자열 안전 정의
-        h_at = h_at if 'h_at' in locals() else "Tier C"
-        h_atw = h_atw if 'h_atw' in locals() else "+4.0%"
-        h_de = h_de if 'h_de' in locals() else "Tier C"
-        h_dew = h_dew if 'h_dew' in locals() else "-4.0%"
-        a_at = a_at if 'a_at' in locals() else "Tier C"
-        a_atw = a_atw if 'a_atw' in locals() else "+4.0%"
-        a_de = a_de if 'a_de' in locals() else "Tier C"
-        a_dew = a_dew if 'a_dew' in locals() else "-4.0%"
+        # 2. 0단계 연동 국가/리그 티어 가중치 변수 정의
+        h_c_atk = parse_pct(h_atk_bonus) if 'h_atk_bonus' in locals() else 0.0
+        h_c_def = parse_pct(h_def_bonus) if 'h_def_bonus' in locals() else 0.0
+        a_c_atk = parse_pct(a_atk_bonus) if 'a_atk_bonus' in locals() else 0.0
+        a_c_def = parse_pct(a_def_bonus) if 'a_def_bonus' in locals() else 0.0
 
-        def parse_pct(val_str):
-            if isinstance(val_str, (int, float)):
-                return float(val_str)
-            if isinstance(val_str, str):
-                cleaned = val_str.replace('%', '').replace('+', '').strip()
-                try:
-                    return float(cleaned)
-                except:
-                    return 0.0
-            return 0.0
+        # 3. 규칙 1 (7경기 LIFO 가중치) 변수 정의
+        h_r1_atk = h_atw if 'h_atw' in locals() else "+4.0%"
+        h_r1_def = h_dew if 'h_dew' in locals() else "-4.0%"
+        a_r1_atk = a_atw if 'a_atw' in locals() else "+4.0%"
+        a_r1_def = a_dew if 'a_dew' in locals() else "-4.0%"
 
-        h_r1_atk = parse_pct(h_atw)
-        h_r1_def = parse_pct(h_dew)
-        a_r1_atk = parse_pct(a_atw)
-        a_r1_def = parse_pct(a_dew)
+        h_r1_atk_val = parse_pct(h_r1_atk)
+        h_r1_def_val = parse_pct(h_r1_def)
+        a_r1_atk_val = parse_pct(a_r1_atk)
+        a_r1_def_val = parse_pct(a_r1_def)
 
         h_r2_atk = h_atk_val if 'h_atk_val' in locals() else 0.0
         h_r2_def = h_def_val if 'h_def_val' in locals() else 0.0
@@ -1300,11 +1294,11 @@ with tabs[5]:
         a_r4_atk = a_r4_atk_val if 'a_r4_atk_val' in locals() else 0.0
         a_r4_def = a_r4_def_val if 'a_r4_def_val' in locals() else 0.0
 
-        # 최종 누적 보정치 합산
-        h_tot_atk_pct = h_r1_atk + h_r2_atk + h_r31_atk + h_r32_atk + h_r4_atk
-        h_tot_def_pct = h_r1_def + h_r2_def + h_r31_def + h_r32_def + h_r4_def
-        a_tot_atk_pct = a_r1_atk + a_r2_atk + a_r31_atk + a_r32_atk + a_r4_atk
-        a_tot_def_pct = a_r1_def + a_r2_def + a_r31_def + a_r32_def + a_r4_def
+        # 최종 누적 보정치 합산 (0단계 국가 가중치 + 규칙 1 ~ 4)
+        h_tot_atk_pct = h_c_atk + h_r1_atk_val + h_r2_atk + h_r31_atk + h_r32_atk + h_r4_atk
+        h_tot_def_pct = h_c_def + h_r1_def_val + h_r2_def + h_r31_def + h_r32_def + h_r4_def
+        a_tot_atk_pct = a_c_atk + a_r1_atk_val + a_r2_atk + a_r31_atk + a_r32_atk + a_r4_atk
+        a_tot_def_pct = a_c_def + a_r1_def_val + a_r2_def + a_r31_def + a_r32_def + a_r4_def
 
         h_max_g = h_base_g * (1 + h_tot_atk_pct / 100.0)
         h_min_c = h_base_c * (1 + h_tot_def_pct / 100.0)
@@ -1317,21 +1311,24 @@ with tabs[5]:
         a_final_exp_c = max(0.2, (a_min_c + (2.0 - h_max_g)) / 2.0)
 
         # --------------------------------------------------------------------------
-        # 📊 [5-1 표] 렌더링
+        # 📊 [5-1 표] 렌더링 (0단계 국가 가중치를 2번째 행에 정확히 배치)
         # --------------------------------------------------------------------------
         st.markdown(f"##### 📊 [5-1 표] 최종 보정 득실점 산출 매트릭스 ({home_team} vs {away_team})")
         table_data_51 = [
             {"구분 항목": "1단계: 공수 기본 기대치", f"홈 팀 ({home_team})": f"평균 득점 {h_base_g:.2f} / 평균 실점 {h_base_c:.2f}", f"원정 팀 ({away_team})": f"평균 득점 {a_base_g:.2f} / 평균 실점 {a_base_c:.2f}", "보정 및 산출 연산 근거": "대륙/국가 기본 공수 스케일 수치"},
-            {"구분 항목": "규칙 1 (7경기 LIFO 가중치)", f"홈 팀 ({home_team})": f"공격 {h_r1_atk:+.1f}% / 방어 {h_r1_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r1_atk:+.1f}% / 방어 {a_r1_def:+.1f}%", "보정 및 산출 연산 근거": "최근 10경기 상대 티어 가중치"},
+            {"구분 항목": "0단계 연동 (국가/리그 티어 가중치)", f"홈 팀 ({home_team})": f"공격 {h_c_atk:+.1f}% / 방어 {h_c_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_c_atk:+.1f}% / 방어 {a_c_def:+.1f}%", "보정 및 산출 연산 근거": "country.json 기반 국가 등급 보정"},
+            {"구분 항목": "규칙 1 (7경기 LIFO 가중치)", f"홈 팀 ({home_team})": f"공격 {h_r1_atk} / 방어 {h_r1_def}", f"원정 팀 ({away_team})": f"공격 {a_r1_atk} / 방어 {a_r1_def}", "보정 및 산출 연산 근거": "최근 10경기 상대 티어 가중치"},
             {"구분 항목": "규칙 2 (구장 환경 보정)", f"홈 팀 ({home_team})": f"공격 {h_r2_atk:+.1f}% / 방어 {h_r2_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r2_atk:+.1f}% / 방어 {a_r2_def:+.1f}%", "보정 및 산출 연산 근거": "홈/원정 구장 Shift 변동성"},
             {"구분 항목": "규칙 3-1 (선수 전력 변동)", f"홈 팀 ({home_team})": f"공격 {h_r31_atk:+.1f}% / 방어 {h_r31_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r31_atk:+.1f}% / 방어 {a_r31_def:+.1f}%", "보정 및 산출 연산 근거": "핵심 자원 누수/가산 (반감 규칙 반영)"},
             {"구분 항목": "규칙 3-2 (이동 피로도)", f"홈 팀 ({home_team})": f"공격 {h_r32_atk:+.1f}% / 방어 {h_r32_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r32_atk:+.1f}% / 방어 {a_r32_def:+.1f}%", "보정 및 산출 연산 근거": "이동 거리 및 피로도 누적 적용"},
             {"구분 항목": "규칙 4 (H2H 상성 보정)", f"홈 팀 ({home_team})": f"공격 {h_r4_atk:+.1f}% / 방어 {h_r4_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r4_atk:+.1f}% / 방어 {a_r4_def:+.1f}%", "보정 및 산출 연산 근거": "최근 10전 단방향 상성 우세 여부"},
-            {"구분 항목": "최종 누적 보정치 합계", f"홈 팀 ({home_team})": f"공격 {h_tot_atk_pct:+.1f}% / 방어 {h_tot_def_pct:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_tot_atk_pct:+.1f}% / 방어 {a_tot_def_pct:+.1f}%", "보정 및 산출 연산 근거": "규칙 1~4 보정치 최종 누적 합산"},
+            {"구분 항목": "최종 누적 보정치 합계", f"홈 팀 ({home_team})": f"공격 {h_tot_atk_pct:+.1f}% / 방어 {h_tot_def_pct:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_tot_atk_pct:+.1f}% / 방어 {a_tot_def_pct:+.1f}%", "보정 및 산출 연산 근거": "규칙 1~4 및 0단계 보정치 최종 누적 합산"},
             {"구분 항목": "1단계 화력/수비 한계 수치", f"홈 팀 ({home_team})": f"상한 득점 {h_max_g:.2f} / 하한 실점 {h_min_c:.2f}", f"원정 팀 ({away_team})": f"상한 득점 {a_max_g:.2f} / 하한 실점 {a_min_c:.2f}", "보정 및 산출 연산 근거": "자체 독자 공수 한계선 (단위: 골)"},
             {"구분 항목": "1차기본기대 득실점", f"홈 팀 ({home_team})": f"기대 득점 {h_final_exp_g:.2f}골 / 예상 실점 {h_final_exp_c:.2f}골", f"원정 팀 ({away_team})": f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골", "보정 및 산출 연산 근거": "기하평균 공수 교차 상쇄 결합 연산"}
         ]
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
+    else:
+        st.warning("⚠️ 상세 데이터가 없어 규칙 5번 산출 매트릭스를 표시할 수 없습니다.")
 
 # --------------------------------------------------------------------------
         # 📊 [5-2 표] 렌더링 (최근 7경기 교차 검증 및 특수 룰 프로토콜 적용)
