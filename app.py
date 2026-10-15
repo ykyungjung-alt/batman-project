@@ -44,15 +44,17 @@ def load_all_match_details():
 
 @st.cache_data(ttl=10)
 def load_v3_match_details():
-    v3_file = "match_details_v3.json"
-    if os.path.exists(v3_file):
-        try:
-            with open(v3_file, "r", encoding="utf-8") as f:
-                file_data = json.load(f)
-                return file_data.get("match_details", {})
-        except Exception:
-            pass
-    return {}
+    v3_files = ["match_details_v3.json", "match_details_v3-1.json"]
+    combined_v3 = {}
+    for v3_file in v3_files:
+        if os.path.exists(v3_file):
+            try:
+                with open(v3_file, "r", encoding="utf-8") as f:
+                    file_data = json.load(f)
+                    combined_v3.update(file_data.get("match_details", {}))
+            except Exception:
+                pass
+    return combined_v3
 
 @st.cache_data(ttl=10)
 def load_v4_match_details():
