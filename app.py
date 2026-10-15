@@ -1472,29 +1472,9 @@ for s in sorted_by_prob:
 if not second_match:
     second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-h_pred_1st = f"{best_match_52['home_score']}골"
-a_pred_1st = f"{best_match_52['away_score']}골"
-p1_rate = best_match_52["prob"] * 100
-score_1st_str = f"{best_match_52['home_score']} : {best_match_52['away_score']}"
-
-h_pred_2nd = f"{second_match['home_score']}골"
-a_pred_2nd = f"{second_match['away_score']}골"
-p2_rate = second_match["prob"] * 100
-score_2nd_str = f"{second_match['home_score']} : {second_match['away_score']}"
-
-s2_h, s2_a = second_match['home_score'], second_match['away_score']
-if s2_h > s2_a:
-    s2_result_str = f"{s2_h - s2_a}점차 {home_team} 승리"
-elif s2_h < s2_a:
-    s2_result_str = f"{s2_a - s2_h}점차 {away_team} 승리"
-else:
-    s2_result_str = "무승부"
-
+# 3순위 대안책을 위한 전체 매트릭스 기반 점수 차이별 확률 집계 연산
 diff_probs = {}
 for item in score_probs:
-    if (item["home_score"] == best_match_52["home_score"] and item["away_score"] == best_match_52["away_score"]) or \
-       (item["home_score"] == s2_h and item["away_score"] == s2_a):
-        continue
     diff = item["home_score"] - item["away_score"]
     diff_probs[diff] = diff_probs.get(diff, 0.0) + item["prob"]
 
@@ -1514,6 +1494,24 @@ elif dominant_diff < 0:
 else:
     h_score_3rd = "무승부 공방"
     dominant_str = "무승부 공방 우세"
+
+h_pred_1st = f"{best_match_52['home_score']}골"
+a_pred_1st = f"{best_match_52['away_score']}골"
+p1_rate = best_match_52["prob"] * 100
+score_1st_str = f"{best_match_52['home_score']} : {best_match_52['away_score']}"
+
+h_pred_2nd = f"{second_match['home_score']}골"
+a_pred_2nd = f"{second_match['away_score']}골"
+p2_rate = second_match["prob"] * 100
+score_2nd_str = f"{second_match['home_score']} : {second_match['away_score']}"
+
+s2_h, s2_a = second_match['home_score'], second_match['away_score']
+if s2_h > s2_a:
+    s2_result_str = f"{s2_h - s2_a}점차 {home_team} 승리"
+elif s2_h < s2_a:
+    s2_result_str = f"{s2_a - s2_h}점차 {away_team} 승리"
+else:
+    s2_result_str = "무승부"
 
 # --------------------------------------------------------------------------
 # 📊 [규칙 6번 렌더링]
@@ -1549,7 +1547,6 @@ with tabs[6]:
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("##### 🏆 최종 예상 스코어 및 순위 산출 결과 요약")
     
-    # 💡 1~3순위 카드: 타이틀(좌측) -> 대형 스코어/구도(중앙) -> 하단 설명 구조 (모바일 밀림 방지)
     summary_cards_html = f"""
     <style>
     .score-summary-wrap {{
@@ -1635,10 +1632,46 @@ with tabs[6]:
 
     ex6_df = pd.DataFrame({
         "규칙 단계": ["규칙 5-1", "규칙 5-2", "규칙 5-3", "규칙 5-4", "규칙 6", "규칙 6", "규칙 6", "규칙 6"],
-        "구분 및 연산 항목": ["1차 기본 기대 득실점 (base)", "동급 티어 실전 5경기 교차 검증", "다득점 변동성 보정 (Over Factor)", "이원화 동적 골 범위 행렬 확정", "최종 승무패 수리 확률", "최종 스코어 예측 1순위 (최적합)", "최종 스코어 예측 2순위 (차선책)", "최종 스코어 예측 3순위 (대안책)"],
-        f"홈 팀 ({home_team})": [f"기대 득점 {h_final_exp_g:.2f}골 / 예상 실점 {h_final_exp_c:.2f}골", f"평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골", f"{int(h_over_factor*100)}% 적용 (최종 = {h_final:.2f})", f"{poisson_zone_name}", f"승리 확률 {calc_home_win:.1f}%", f"{h_p1_val}골", f"{h_p2_val}골", h_score_3rd],
-        f"원정 팀 ({away_team})": [f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골", f"평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골", f"{int(a_over_factor*100)}% 적용 (최종 = {a_final:.2f})", f"총 기대득점(total): {total_expected_goals:.2f}골", f"승리 확률 {calc_away_win:.1f}%", f"{a_p1_val}골", f"{a_p2_val}골", f"{dominant_prob:.1f}%"],
-        "단계별 산출 근거 및 푸아송 확률": ["기하평균 공수 교차 상쇄 결합 연산", "동급 A/B티어 최근 5경기 실전 평균", over_factor_desc, matrix_range, f"무승부 확률 {calc_draw:.1f}%", f"푸아송 확률 {p1_rate:.2f}% (5-2/5-3/5-4 직결)", f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최상위)", "상위 순위 제외 점수 차이별 누적 구도 분석"]
+        "구분 및 연산 항목": [
+            "1차 기본 기대 득실점 (base)", 
+            "동급 티어 실전 5경기 교차 검증", 
+            "다득점 변동성 보정 (Over Factor)", 
+            "이원화 동적 골 범위 행렬 확정", 
+            "최종 승무패 수리 확률", 
+            "최종 스코어 예측 1순위 (최적합)", 
+            "최종 스코어 예측 2순위 (차선책)", 
+            "최종 스코어 예측 3순위 (대안책)"
+        ],
+        f"홈 팀 ({home_team})": [
+            f"기대 득점 {h_final_exp_g:.2f}골 / 예상 실점 {h_final_exp_c:.2f}골",
+            f"평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골",
+            f"{int(h_over_factor*100)}% 적용 (최종 = {h_final:.2f})",
+            f"{poisson_zone_name}",
+            f"승리 확률 {calc_home_win:.1f}%",
+            f"{h_p1_val}골",
+            f"{h_p2_val}골",
+            h_score_3rd
+        ],
+        f"원정 팀 ({away_team})": [
+            f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골",
+            f"평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골",
+            f"{int(a_over_factor*100)}% 적용 (최종 = {a_final:.2f})",
+            f"총 기대득점(total): {total_expected_goals:.2f}골",
+            f"승리 확률 {calc_away_win:.1f}%",
+            f"{a_p1_val}골",
+            f"{a_p2_val}골",
+            f"{dominant_prob:.1f}%"
+        ],
+        "단계별 산출 근거 및 푸아송 확률": [
+            "기하평균 공수 교차 상쇄 결합 연산",
+            "동급 A/B티어 최근 5경기 실전 평균",
+            over_factor_desc,
+            matrix_range,
+            f"무승부 확률 {calc_draw:.1f}%",
+            f"푸아송 확률 {p1_rate:.2f}% (5-2/5-3/5-4 직결)",
+            f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최상위)",
+            f"2위: {s2_result_str} / 3위: {h_score_3rd}"  # 👈 산출 근거 칸에 2순위와 3순위의 연산 결과(몇 점차 승리 / 무승부)만 깔끔하게 반영
+        ]
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
 
