@@ -727,13 +727,14 @@ with tabs[3]:
 
     st.markdown("---")
 
-    # ==========================================
+# ==========================================
     # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인 & 팀별 리그 순위표 연동 (최적화 버전)
     # ==========================================
     st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
 
     def get_team_standing_info(target_team_name):
         target_clean = str(target_team_name).strip().replace(" ", "")
+        matched_standings = []
         for l_id, l_data in v4_leagues_dict.items():
             standings = l_data.get("standings", [])
             league_name = l_data.get("league_name", "해외 리그")
@@ -754,7 +755,7 @@ with tabs[3]:
                         "일반": "일반 리그"
                     }
                     kor_label = label_mapping.get(raw_label, raw_label)
-                    return {
+                    matched_standings.append({
                         "league_name": league_name,
                         "rank": str(row.get("rank", "-")),
                         "team": row.get("team", target_team_name),
@@ -765,30 +766,45 @@ with tabs[3]:
                         "패": str(row.get("패", "0")),
                         "득실": str(row.get("득실", "0")),
                         "승점": str(row.get("승점", "-"))
-                    }
-        return None
+                    })
+        return matched_standings
 
-    def determine_match_importance(standing_info, league_raw_name):
+    def determine_match_importance(standing_info_list, league_raw_name):
         league_str = str(league_raw_name)
         if any(k in league_str for k in ["친선", "CF", "탈락", "탈락확정", "강등확정"]):
             return "중요도하", -10.0, 10.0
-        if not standing_info:
+        if not standing_info_list:
             return "중요도중", 5.0, -5.0
-        label = str(standing_info.get("tag_label", ""))
-        if any(k in label for k in ["탈락", "탈락확정", "강등확정"]):
-            return "중요도하", -10.0, 10.0
-        if any(k in label for k in ["진출권", "플레이오프", "승격", "우승", "qualifying", "play-offs", "Playoff"]) or any(k in league_str for k in ["챔피언스", "유로파", "결승", "컵", "ACL", "CL"]):
-            return "중요도상", 15.0, -15.0
+        
+        # 소속된 리그들 중 가장 중요한 라벨(진출권/우승/플레이오프 등)을 우선 반영
+        for standing_info in standing_info_list:
+            label = str(standing_info.get("tag_label", ""))
+            if any(k in label for k in ["탈락", "탈락확정", "강등확정"]):
+                return "중요도하", -10.0, 10.0
+            if any(k in label for k in ["진출권", "플레이오프", "승격", "우승", "qualifying", "play-offs", "Playoff"]) or any(k in league_str for k in ["챔피언스", "유로파", "결승", "컵", "ACL", "CL"]):
+                return "중요도상", 15.0, -15.0
         return "중요도중", 5.0, -5.0
 
-    home_standing = get_team_standing_info(home_team)
-    away_standing = get_team_standing_info(away_team)
+    home_standings_list = get_team_standing_info(home_team)
+    away_standings_list = get_team_standing_info(away_team)
 
     standing_display_rows = []
-    if home_standing:
-        standing_display_rows.append({"구분": f"홈 팀 ({home_team})", "소속 리그": home_standing["league_name"], "순위": f"{home_standing['rank']}위", "중요도 라벨": home_standing["tag_label"], "경기수": home_standing["경기수"], "승": home_standing["승"], "무": home_standing["무"], "패": home_standing["패"], "득실": home_standing["득실"], "승점": home_standing["승점"]})
-    if away_standing:
-        standing_display_rows.append({"구분": f"원정 팀 ({away_team})", "소속 리그": away_standing["league_name"], "순위": f"{away_standing['rank']}위", "중요도 라벨": away_standing["tag_label"], "경기수": away_standing["경기수"], "승": away_standing["승"], "무": away_standing["무"], "패": away_standing["패"], "득실": away_standing["득실"], "승점": away_standing["승점"]})
+    for hs in home_standings_list:
+        standing_display_rows.append({
+            "구분": f"홈 팀 ({home_team})", 
+            "소속 리그": hs["league_name"], 
+            "순위": f"{hs['rank']}위", 
+            "중요도 라벨": hs["tag_label"], 
+            "경기수": hs["경기수"], "승": hs["승"], "무": hs["무"], "패": hs["패"], "득실": hs["득실"], "승점": hs["승점"]
+        })
+    for as_info in away_standings_list:
+        standing_display_rows.append({
+            "구분": f"원정 팀 ({away_team})", 
+            "소속 리그": as_info["league_name"], 
+            "순위": f"{as_info['rank']}위", 
+            "중요도 라벨": as_info["tag_label"], 
+            "경기수": as_info["경기수"], "승": as_info["승"], "무": as_info["무"], "패": as_info["패"], "득실": as_info["득실"], "승점": as_info["승점"]
+        })
 
     if standing_display_rows:
         st.markdown("##### 📌 양팀 실시간 리그 순위 및 중요도 판단 지표 (match_details_v4 연동)")
@@ -801,7 +817,7 @@ with tabs[3]:
         raw_home_fixes = list(fixtures_info.get("home", []))
         raw_away_fixes = list(fixtures_info.get("away", []))
 
-        def parse_timeline_strictly_isolated(fix_list, recent_list, target_team_name, base_match_date, is_home_team, standing_info):
+        def parse_timeline_strictly_isolated(fix_list, recent_list, target_team_name, base_match_date, is_home_team, standing_info_list):
             base_dt = None
             try:
                 base_clean = base_match_date.split(" ")[0].replace(".", "-").replace("/", "-")
@@ -861,7 +877,7 @@ with tabs[3]:
                     if t_clean_name not in valid_t_list[0].replace(" ", ""):
                         opponent_n = valid_t_list[0]
 
-                imp_lbl, _, _ = determine_match_importance(standing_info, league_raw_str)
+                imp_lbl, _, _ = determine_match_importance(standing_info_list, league_raw_str)
                 date_s = m_time_str.split(" ")[0].replace("-", ".").replace("/", ".")
                 row_formatted_desc = f"{date_s} / vs {opponent_n}<br>{league_title} / {imp_lbl} / {loc_kind}"
                 return {"desc": row_formatted_desc, "loc_type": loc_kind, "diff_days": d_diff_val}
@@ -902,16 +918,16 @@ with tabs[3]:
         isolated_home_recent = list(h_matches) if 'h_matches' in locals() and isinstance(h_matches, list) else []
         isolated_away_recent = list(a_matches) if 'a_matches' in locals() and isinstance(a_matches, list) else []
         
-        home_p7, home_p4, home_f4, home_f7, h_last_fatigue = parse_timeline_strictly_isolated(raw_home_fixes, isolated_home_recent, home_team, match_date, True, home_standing)
-        away_p7, away_p4, away_f4, away_f7, a_last_fatigue = parse_timeline_strictly_isolated(raw_away_fixes, isolated_away_recent, away_team, match_date, False, away_standing)
+        home_p7, home_p4, home_f4, home_f7, h_last_fatigue = parse_timeline_strictly_isolated(raw_home_fixes, isolated_home_recent, home_team, match_date, True, home_standings_list)
+        away_p7, away_p4, away_f4, away_f7, a_last_fatigue = parse_timeline_strictly_isolated(raw_away_fixes, isolated_away_recent, away_team, match_date, False, away_standings_list)
 
         h_fut_c1 = home_f4[0] if home_f4 else "휴식"
         h_fut_c2 = home_f7[0] if home_f7 else "휴식"
         a_fut_c1 = away_f4[0] if away_f4 else "휴식"
         a_fut_c2 = away_f7[0] if away_f7 else "휴식"
 
-        h_imp_label, h_imp_atk, h_imp_def = determine_match_importance(home_standing, tournament_display)
-        a_imp_label, a_imp_atk, a_imp_def = determine_match_importance(away_standing, tournament_display)
+        h_imp_label, h_imp_atk, h_imp_def = determine_match_importance(home_standings_list, tournament_display)
+        a_imp_label, a_imp_atk, a_imp_def = determine_match_importance(away_standings_list, tournament_display)
 
         date_str_short = match_date.split()[0].replace("-", ".").replace("/", ".")
         home_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / {h_imp_label} / 홈"
