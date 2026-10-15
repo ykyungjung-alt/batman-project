@@ -271,7 +271,7 @@ with tabs[0]:
 
 
 # ==========================================
-# 💡 규칙 1번 탭 (v3 데이터 전용 단독 연동 및 10경기 전수 + E티어 50% 할인)
+# 💡 규칙 1번 탭 (v3 데이터 전용 단독 연동 및 조건부 E티어 50% 할인 적용)
 # ==========================================
 with tabs[1]:
     st.markdown(f"#### [규칙 1번: 종합 최근 10경기 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
@@ -280,7 +280,7 @@ with tabs[1]:
             <b>📌 규격 원칙 및 요약 설명:</b><br>
             • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 10개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여합니다.<br>
             • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 공식 경기만을 채택합니다.<br>
-            • <b>특수 룰 (E티어 50% 할인):</b> 상대 공수 체급이 E티어일 경우, 해당 경기 득점력에 50% 할인(0.5 곱셈) 프로토콜을 적용합니다.
+            • <b>특수 룰 조건부 발동 (E티어 50% 할인):</b> 현재 팀의 공격력이 A티어이거나 방어력이 E티어일 때만 발동하며, 발동 시 E티어 상대 경기 득점에 50% 할인(0.5 곱셈)을 적용합니다. 미발동 시 보정 없음(유지)으로 처리합니다.
         </div>
         """, unsafe_allow_html=True,
     )
@@ -350,7 +350,35 @@ with tabs[1]:
     def atk_tier_nm(g): return atk_tier(g)[0]
     def def_tier_nm(c): return def_tier(c)[0]
 
-    def local_make_df(matches, tname, def_gpg, def_cpg, def_rec):
+    # 💡 1차 임시 산출 결과로 발동 여부(is_triggered)를 먼저 판단하기 위한 헬퍼 함수
+    def check_trigger_status(matches, tname, def_gpg, def_cpg):
+        if not matches:
+            return atk_tier_nm(def_gpg) == "Tier A" or def_tier_nm(def_cpg) == "Tier E"
+        raw_s = 0.0
+        raw_c = 0.0
+        for m in matches:
+            scores = m.get("ft_scores", ["0", "0"])
+            try:
+                s1, s2 = int(scores[0]), int(scores[1])
+            except:
+                s1 = s2 = 0
+            teams = m.get("teams", "")
+            sc, cc = s1, s2
+            if " vs " in teams:
+                t1, t2 = teams.split(" vs ")
+                if tname in t1: sc, cc = s1, s2
+                elif tname in t2: sc, cc = s2, s1
+            raw_s += sc
+            raw_c += cc
+        cnt = len(matches)
+        tmp_gpg = raw_s / cnt if cnt > 0 else def_gpg
+        tmp_cpg = raw_c / cnt if cnt > 0 else def_cpg
+        return (atk_tier_nm(tmp_gpg) == "Tier A") or (def_tier_nm(tmp_cpg) == "Tier E")
+
+    h_is_triggered = check_trigger_status(h_matches, h_name, h_gpg_base, h_cpg_base)
+    a_is_triggered = check_trigger_status(a_matches, a_name, a_gpg_base, a_cpg_base)
+
+    def local_make_df(matches, tname, def_gpg, def_cpg, def_rec, is_triggered=False):
         if not matches:
             return pd.DataFrame(), def_gpg, def_cpg, def_rec, 0.0, 0.0
             
@@ -420,9 +448,13 @@ with tabs[1]:
                     at_name = atk_tier_nm(oa)
                     df_name = def_tier_nm(od)
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
-                    if at_name == "Tier E" or df_name == "Tier E":
+                    
+                    # 💡 기획 반영: 발동 조건(is_triggered)이 충족되고 상대방이 E티어일 때만 50% 할인 적용, 아니면 유지
+                    if is_triggered and (at_name == "Tier E" or df_name == "Tier E"):
                         mult = 0.5
-                        tier_str += " ⚠️ (E티어 50% 할인)"
+                        tier_str += " ⚠️ (발동: E티어 50% 할인)"
+                    else:
+                        tier_str += " (보정 없음 / 유지)"
                 except:
                     pass
                     
@@ -431,7 +463,7 @@ with tabs[1]:
             c_total += cc
             
             seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
-            score_display = f"{s1} : {s2}" + (f" (할인: {app_sc:.1f})" if mult < 1.0 else "")
+            score_display = f"{s1} : {s2}" + (f" (할인: {app_sc:.1f})" if mult < 1.0 else " (유지)")
             
             rows.append({
                 "LIFO 순서": seq,
@@ -450,8 +482,8 @@ with tabs[1]:
         
         return pd.DataFrame(rows), gpg, cpg, rec, raw_scored_total, raw_conceded_total
 
-    h_df, h_gpg, h_cpg, h_rec, h_raw_s, h_raw_c = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base)
-    a_df, a_gpg, a_cpg, a_rec, a_raw_s, a_raw_c = local_make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base)
+    h_df, h_gpg, h_cpg, h_rec, h_raw_s, h_raw_c = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base, is_triggered=h_is_triggered)
+    a_df, a_gpg, a_cpg, a_rec, a_raw_s, a_raw_c = local_make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base, is_triggered=a_is_triggered)
 
     h_at, h_atw = atk_tier(h_gpg)
     h_de, h_dew = def_tier(h_cpg)
@@ -472,7 +504,7 @@ with tabs[1]:
         <b>{h_name} 규칙 1번 상세 산출 내역</b><br>
         • 최근 전적: <b>{h_rec}</b> (총 득점: <b>{h_raw_s:.1f}골</b> / 총 실점: <b>{h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if h_goal_diff >= 0 else '#c62828'};">{h_goal_diff:+.1f}</b>)<br>
         • 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> / 평균 실점: <b>{h_cpg:.2f}골/경기</b><br>
-        • 공격 티어: <b>{h_at} ({h_atw})</b> | 방어 티어: <b>{h_de} ({h_dew})</b>
+        • 공격 티어: <b>{h_at} ({h_atw})</b> | 방어 티어: <b>{h_de} ({h_dew})</b> | 특수룰 발동여부: <b>{'발동됨' if h_is_triggered else '미발동 (유지)'}</b>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("---")
@@ -488,7 +520,7 @@ with tabs[1]:
         <b>{a_name} 규칙 1번 상세 산출 내역</b><br>
         • 최근 전적: <b>{a_rec}</b> (총 득점: <b>{a_raw_s:.1f}골</b> / 총 실점: <b>{a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if a_goal_diff >= 0 else '#c62828'};">{a_goal_diff:+.1f}</b>)<br>
         • 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> / 평균 실점: <b>{a_cpg:.2f}골/경기</b><br>
-        • 공격 티어: <b>{a_at} ({a_atw})</b> | 방어 티어: <b>{a_de} ({a_dew})</b>
+        • 공격 티어: <b>{a_at} ({a_atw})</b> | 방어 티어: <b>{a_de} ({a_dew})</b> | 특수룰 발동여부: <b>{'발동됨' if a_is_triggered else '미발동 (유지)'}</b>
     </div>""", unsafe_allow_html=True)
 
 
@@ -505,11 +537,9 @@ with tabs[2]:
     </div>
     """, unsafe_allow_html=True)
 
-    # 💡 [핵심 해결] tier_ranks 딕셔너리를 함수 호출 전에 미리 안전하게 정의합니다.
     tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
 
     if has_detailed_data:
-        # 0단계 메타데이터에서 구장 정보 안전 추출
         head_meta = detailed_info.get("head_info", {}) if 'detailed_info' in locals() else {}
         venue_val = str(head_meta.get("stadium", "")) or str(head_meta.get("venue", ""))
         home_stadium_val = str(head_meta.get("home_stadium", ""))
@@ -519,7 +549,6 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        # 중립구장 판정 시 원정 경기 데이터 대체 분기 적용
         if is_neutral_venue and stadium_form.get("away_matches"):
             s_home_matches = stadium_form.get("away_matches", [])[:20]
         else:
@@ -527,28 +556,24 @@ with tabs[2]:
 
         s_away_matches = stadium_form.get("away_matches", [])[:20]
 
-        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패")
-        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패")
+        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=h_is_triggered)
+        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=a_is_triggered)
 
-        # 구장 전적 기반 공수 티어 산출
         s_h_at, s_h_atw = atk_tier(s_h_gpg)
         s_h_de, s_h_dew = def_tier(s_h_cpg)
         s_a_at, s_a_atw = atk_tier(s_a_gpg)
         s_a_de, s_a_dew = def_tier(s_a_cpg)
 
-        # 1단계 종합 티어 가져오기
         base_h_at = h_at if 'h_at' in locals() else "Tier C"
         base_h_de = h_de if 'h_de' in locals() else "Tier C"
         base_a_at = a_at if 'a_at' in locals() else "Tier C"
         base_a_de = a_de if 'a_de' in locals() else "Tier C"
 
-        # 5-2 표 연동을 위한 최종 체급 변수 확정
         h_current_at = s_h_at if 's_h_at' in locals() else base_h_at
         h_current_de = s_h_de if 's_h_de' in locals() else base_h_de
         a_current_at = s_a_at if 's_a_at' in locals() else base_a_at
         a_current_de = s_a_de if 's_a_de' in locals() else base_a_de
 
-        # 티어 변동에 따른 색상 결정 함수
         def get_tier_colored_html(base_tier, stadium_tier):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
@@ -584,14 +609,12 @@ with tabs[2]:
         s_h_diff = s_h_raw_s - s_h_raw_c
         s_a_diff = s_a_raw_s - s_a_raw_c
 
-        # 🏟️ 홈 팀 구장 성격 판별 배지 생성
         venue_status_badge = (
             "<span style='color: #c62828; font-weight: bold;'> (중립경기)</span>" 
             if is_neutral_venue 
             else "<span style='color: #2e7d32; font-weight: bold;'> (홈경기)</span>"
         )
 
-        # 홈 팀 타이틀 및 데이터프레임 출력
         st.markdown(f"##### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증{venue_status_badge}", unsafe_allow_html=True)
         if not s_h_df.empty:
             st.dataframe(s_h_df, use_container_width=True, hide_index=True)
@@ -610,7 +633,6 @@ with tabs[2]:
 
         st.markdown("---")
 
-        # 원정 팀 타이틀 및 데이터프레임 출력
         st.markdown(f"##### 원정 팀 ({a_name}) 구장별 전적 및 티어 변동 검증")
         if not s_a_df.empty:
             st.dataframe(s_a_df, use_container_width=True, hide_index=True)
