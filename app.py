@@ -1409,7 +1409,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (에러 완벽 해결본)
+# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (통합 수정본)
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1453,7 +1453,7 @@ calc_draw = sum(item["prob"] for item in win_loss_probs if item["home_score"] ==
 h_target_52 = h_agf if 'h_agf' in locals() else 1.0
 a_target_52 = a_agf if 'a_agf' in locals() else 1.0
 
-# [1순위] 규칙 5-2 결과에 가장 적합한 결과값 최우선 선정 (기존 로직 완벽 유지)
+# [1순위] 규칙 5-2 결과에 가장 적합한 결과값 최우선 선정
 scored_candidates = []
 for item in score_probs:
     hg, ag, prob = item["home_score"], item["away_score"], item["prob"]
@@ -1464,7 +1464,7 @@ for item in score_probs:
 sorted_by_fitness = sorted(scored_candidates, key=lambda x: x["fitness"])
 best_match_52 = sorted_by_fitness[0]
 
-# [2순위] 1순위를 제외한 푸아송 확률 제일 높은 단일 스코어 선정 (기존 로직 완벽 유지)
+# [2순위] 1순위를 제외한 푸아송 확률 제일 높은 단일 스코어 선정
 sorted_by_prob = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
 second_match = None
 for s in sorted_by_prob:
@@ -1474,7 +1474,7 @@ for s in sorted_by_prob:
 if not second_match:
     second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-# [3순위] 각 점수 차이별 푸아송 확률 합산 후 가장 많이 차지한 점수 차이 구도 산출
+# [3순위] 각 점수 차이별 확률 합산 후 가장 많이 차지한 점수 차이 구도 산출
 diff_probs = {}
 for item in score_probs:
     diff = item["home_score"] - item["away_score"]
@@ -1657,8 +1657,8 @@ with tabs[6]:
             matrix_range,
             f"무승부 확률 {calc_draw:.1f}%",
             f"푸아송 확률 {p1_rate:.2f}% (5-2 결과 최적합)",
-            f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최고 확률)",
-            f"점수차별 누적 합산 1위 ({s3_desc} {d_prob_val:.2f}%)"
+            f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최고 확률)",          # 👈 2순위 산출 근거 명확히 반영
+            f"점수차별 누적 합산 1위 ({s3_desc} {d_prob_val:.2f}%)"   # 👈 3순위 산출 근거 명확히 반영
         ]
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
