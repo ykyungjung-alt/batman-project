@@ -1,0 +1,40 @@
+name: Match Details Crawler V3-1
+
+on:
+  schedule:
+    - cron: '5 */3 * * *' # 정각보다 5분 뒤에 실행하여 데이터 충돌 방지
+  workflow_dispatch:
+  
+jobs:
+  run-crawler-v3-1:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Crawler V3-1
+      run: |
+        python crawler_fixtures3-1.py
+
+    - name: Commit and push generated match details v3-1
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add match_details_v3.json
+        git commit -m "Auto-update match details v3-1 [skip ci]" || exit 0
+        
+        # 💡 원격 저장소 최신 내역을 먼저 Rebase하여 동시 푸시 충돌 방지
+        git pull --rebase origin main || echo "No remote changes to pull"
+        
+        git push
