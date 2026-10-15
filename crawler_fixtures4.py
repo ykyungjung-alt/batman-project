@@ -267,7 +267,7 @@ def run_crawler_v4():
         {"id": 12, "url": "https://football.scoreman123.com/league/12"},
         {"id": 25, "url": "https://football.scoreman123.com/league/25"},
         {"id": 15, "url": "https://football.scoreman123.com/league/15"},
-        {"id": 1292, "url": "https://football.scoreman123.com/league/1292"}
+        {"id": 1292, "url": "https://football.scoreman123.com/league/1292"},
         {"id": 35, "url": "https://football.scoreman123.com/league/35"},
         {"id": 90, "url": "https://football.scoreman123.com/league/90"},
         {"id": 83, "url": "https://football.scoreman123.com/league/83"},
