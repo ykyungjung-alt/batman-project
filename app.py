@@ -303,7 +303,7 @@ with tabs[0]:
                     "리그순위": rank_code_str,
                     "팀": team_name,
                     "국가코드": matched_code,
-                    "리그명": league,
+                    "리그명": league_name,
                     "등급": grade,
                     "공격보정": atk_b,
                     "수비보정": def_b,
