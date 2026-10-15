@@ -1597,8 +1597,10 @@ if has_detailed_data:
             {"구분 항목": "양 팀 합계 (total)", f"홈 팀 ({home_team})": f"{total_expected_goals:.2f}골", f"원정 팀 ({away_team})": f"{total_expected_goals:.2f}골", "확정 구획 범주": poisson_zone_name, "푸아송 연산 행렬 범위": matrix_range}
         ]
         st.dataframe(pd.DataFrame(table_data_54), use_container_width=True, hide_index=True)
-    else:
+        else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+
+
 # --------------------------------------------------------------------------
 # 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (최종 완벽 수정본)
 # --------------------------------------------------------------------------
