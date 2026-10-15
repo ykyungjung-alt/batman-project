@@ -1238,7 +1238,7 @@ else:
     a_r4_def_val = 0.0
 
 # ==========================================
-# 규칙 5번 탭 전체 교체용 코드 (NameError 및 에러 완전 차단 버전)
+# 규칙 5번 탭 전체 교체용 코드 (방어 코드 및 0점 초기화 완전 반영본)
 # ==========================================
 with tabs[5]:
     st.markdown(f"#### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
@@ -1257,13 +1257,13 @@ with tabs[5]:
         a_base_g = a_gpg if 'a_gpg' in locals() else 0.0
         a_base_c = a_cpg if 'a_cpg' in locals() else 0.0
 
-        # 2. 0단계 연동 국가/리그 티어 가중치 변수 정의 (기본값 0.0)
+        # 2. 0단계 연동 국가/리그 티어 가중치 방어 정의
         h_c_atk = parse_pct(h_atk_bonus) if 'h_atk_bonus' in locals() else 0.0
         h_c_def = parse_pct(h_def_bonus) if 'h_def_bonus' in locals() else 0.0
         a_c_atk = parse_pct(a_atk_bonus) if 'a_atk_bonus' in locals() else 0.0
         a_c_def = parse_pct(a_def_bonus) if 'a_def_bonus' in locals() else 0.0
 
-        # 3. 규칙 1 (7경기 LIFO 가중치) 변수 안전 정의 (기본값 "0%")
+        # 3. [핵심 방어 코드] 규칙 1 변수가 없으면 무조건 "0%"로 초기화하여 NameError 원천 차단
         h_atw_str = h_atw if 'h_atw' in locals() else "0%"
         h_dew_str = h_dew if 'h_dew' in locals() else "0%"
         a_atw_str = a_atw if 'a_atw' in locals() else "0%"
@@ -1274,7 +1274,7 @@ with tabs[5]:
         a_r1_atk_val = parse_pct(a_atw_str)
         a_r1_def_val = parse_pct(a_dew_str)
 
-        # 4. 규칙 2 ~ 규칙 4 변수 안전 정의 (기본값 0.0)
+        # 4. 규칙 2 ~ 규칙 4 변수 안전 정의 (데이터 부재 시 0.0 보장)
         h_r2_atk = h_atk_val if 'h_atk_val' in locals() else 0.0
         h_r2_def = h_def_val if 'h_def_val' in locals() else 0.0
         a_r2_atk = a_atk_val if 'a_atk_val' in locals() else 0.0
@@ -1297,7 +1297,7 @@ with tabs[5]:
         a_r4_atk = a_r4_atk_val if 'a_r4_atk_val' in locals() else 0.0
         a_r4_def = a_r4_def_val if 'a_r4_def_val' in locals() else 0.0
 
-        # 최종 누적 보정치 합산 (데이터 부재 시 0% 처리로 왜곡 방지)
+        # 최종 누적 보정치 합산 (데이터 부재 시 0%로 안전 수렴)
         h_tot_atk_pct = h_c_atk + h_r1_atk_val + h_r2_atk + h_r31_atk + h_r32_atk + h_r4_atk
         h_tot_def_pct = h_c_def + h_r1_def_val + h_r2_def + h_r31_def + h_r32_def + h_r4_def
         a_tot_atk_pct = a_c_atk + a_r1_atk_val + a_r2_atk + a_r31_atk + a_r32_atk + a_r4_atk
