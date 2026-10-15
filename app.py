@@ -858,38 +858,44 @@ with tabs[3]:
                 league_name = translate_tournament_code(league_raw)
                 teams_str = fix.get("teams", "")
                 
-                # 💡 [핵심 정제] teams 문자열에 섞인 날짜 패턴 및 불필요한 간격 텍스트 정규식 제거
                 import re
                 cleaned_teams = re.sub(r'\d{1,2}\.\d{1,2}\s+\d{4}', '', teams_str)
                 cleaned_teams = re.sub(r'\d+\s*일|시작전', '', cleaned_teams)
                 
                 parts = [p.strip() for p in cleaned_teams.split("vs") if p.strip()]
+                target_clean = target_team_name.replace(" ", "")
+                
                 opp_name = "상대미상"
                 loc_type = "원정"
                 
-                if len(parts) >= 2:
-                    target_clean = target_team_name.replace(" ", "")
-                    valid_parts = [p for p in parts if len(p) > 0 and not p.isdigit()]
+                valid_teams = []
+                for p in parts:
+                    p_clean = p.replace(" ", "")
+                    if not re.search(r'\d', p) and len(p_clean) > 0:
+                        valid_teams.append(p)
+
+                if len(valid_teams) >= 2:
+                    team_a = valid_teams[0]
+                    team_b = valid_teams[1]
+                    a_clean = team_a.replace(" ", "")
+                    b_clean = team_b.replace(" ", "")
                     
-                    opponent_candidates = []
-                    for p in valid_parts:
-                        p_clean = p.replace(" ", "")
-                        if target_clean not in p_clean:
-                            opponent_candidates.append(p)
-                            
-                    if opponent_candidates:
-                        opp_name = opponent_candidates[0]
-                    else:
-                        opp_name = valid_parts[-1] if valid_parts else "상대미상"
-                        
-                    if valid_parts and target_clean in valid_parts[0].replace(" ", ""):
+                    if target_clean in a_clean:
+                        opp_name = team_b
                         loc_type = "홈"
-                    else:
+                    elif target_clean in b_clean:
+                        opp_name = team_a
                         loc_type = "원정"
-                elif len(parts) == 1:
-                    opp_name = parts[0]
+                    else:
+                        opp_name = team_b
+                        loc_type = "원정"
+                elif len(valid_teams) == 1:
+                    if target_clean not in valid_teams[0].replace(" ", ""):
+                        opp_name = valid_teams[0]
+                    else:
+                        opp_name = "상대미상"
                 else:
-                    opp_name = teams_str if teams_str else "상대미상"
+                    opp_name = "상대미상"
 
                 imp_label, _, _ = determine_match_importance(standing_info, league_raw)
 
@@ -904,26 +910,36 @@ with tabs[3]:
             past_7d_list = []
             past_4d_list = []
 
-            # 💡 [핵심 보완] 원정 경기 간격이 벌어지거나(휴식) 홈 경기일 때 피로도 리셋 처리
+            # 💡 [정밀 반영] 원정 복귀(이동) 및 홈휴식(리셋) 판정 로직
             prev_diff_d = None
+            prev_loc_type = None
+
             for diff_d, fix in chrono_past:
                 abs_diff = abs(diff_d)
                 if abs_diff <= 7:
                     details = parse_fix_details(fix)
+                    curr_loc_type = details["loc_type"]
                     
                     if prev_diff_d is not None:
                         day_gap = abs(diff_d - prev_diff_d)
-                        if day_gap >= 3 or details["loc_type"] == "홈":
+                        # 1) 충분한 휴식 기간(4일 이상)이 있으면 피로도 리셋
+                        if day_gap >= 4:
+                            running_fatigue = 0
+                        # 2) 홈 경기에서 홈 경기로 이어지면(홈 ➔ 홈) 온전한 휴식으로 보아 리셋
+                        elif prev_loc_type == "홈" and curr_loc_type == "홈":
                             running_fatigue = 0
 
-                    if details["loc_type"] == "원정":
+                    # 3) 원정 경기가 이어지거나 원정에서 홈으로 복귀하는 이동 동선일 때 피로도 누적 (+1)
+                    if curr_loc_type == "원정" or (prev_loc_type == "원정" and curr_loc_type == "홈"):
                         running_fatigue += 1
                     else:
-                        running_fatigue = 0
+                        if prev_loc_type == "홈" and curr_loc_type == "홈":
+                            running_fatigue = 0
                     
                     prev_diff_d = diff_d
+                    prev_loc_type = curr_loc_type
                     
-                    item = {"desc": details["desc"], "fatigue_level": running_fatigue, "loc_type": details["loc_type"], "diff_days": diff_d}
+                    item = {"desc": details["desc"], "fatigue_level": running_fatigue, "loc_type": curr_loc_type, "diff_days": diff_d}
                     processed_past.append(item)
 
                     if 4 < abs_diff <= 7:
@@ -941,7 +957,7 @@ with tabs[3]:
                 current_match_fatigue = last_past_fatigue + 1
             else:
                 if processed_past and processed_past[-1]["loc_type"] == "원정":
-                    current_match_fatigue = 1
+                    current_match_fatigue = last_past_fatigue + 1  # 원정 ➔ 홈 복귀 이동 반영
                 else:
                     current_match_fatigue = 0
 
