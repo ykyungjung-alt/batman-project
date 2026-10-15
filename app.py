@@ -1502,7 +1502,7 @@ a_pred_2nd = f"{second_match['away_score']}골"
 p2_rate = second_match["prob"] * 100
 score_2nd_str = f"{second_match['home_score']} : {second_match['away_score']}"
 
-# 전체 스코어 조합에서 1순위를 제외하고 확률 높은 순서대로 2위, 3위 구도 추출
+# 전체 스코어 조합에서 1순위를 제외하고 확률 높은 순서대로 2위 순위 정보 추출
 rank_candidates = []
 for s in sorted_by_prob:
     hg, ag = s["home_score"], s["away_score"]
@@ -1516,7 +1516,6 @@ for s in sorted_by_prob:
         rank_candidates.append({"score": f"{hg}:{ag}", "desc": desc, "prob": s["prob"] * 100})
 
 s2_info = rank_candidates[0] if len(rank_candidates) > 0 else {"desc": "-", "prob": 0.0}
-s3_info = rank_candidates[1] if len(rank_candidates) > 1 else {"desc": "-", "prob": 0.0}
 
 # --------------------------------------------------------------------------
 # 📊 [규칙 6번 렌더링]
@@ -1675,7 +1674,7 @@ with tabs[6]:
             f"무승부 확률 {calc_draw:.1f}%",
             f"푸아송 확률 {p1_rate:.2f}% (5-2/5-3/5-4 직결)",
             f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 차선 단일 조합)",
-            f"2위 {s2_info['desc']}({s2_info['prob']:.1f}%), 3위 {s3_info['desc']}({s3_info['prob']:.1f}%)"
+            f"점수차 누적 분포 합산 (무승부 공방 {calc_draw:.1f}% 연동)"
         ]
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
