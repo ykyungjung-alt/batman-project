@@ -1409,7 +1409,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (완벽 고정본)
+# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (에러 완벽 해결본)
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1474,7 +1474,7 @@ for s in sorted_by_prob:
 if not second_match:
     second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-# [3순위] 각 점수 차이별 푸아송 확률 합산 후 가장 높은 비중 차지한 점수 차이 구도 산출
+# [3순위] 각 점수 차이별 푸아송 확률 합산 후 가장 많이 차지한 점수 차이 구도 산출
 diff_probs = {}
 for item in score_probs:
     diff = item["home_score"] - item["away_score"]
@@ -1658,7 +1658,7 @@ with tabs[6]:
             f"무승부 확률 {calc_draw:.1f}%",
             f"푸아송 확률 {p1_rate:.2f}% (5-2 결과 최적합)",
             f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최고 확률)",
-            f"점수차별 누적 합산 1위 ({s3_desc} {d_prob_val:.2f%})"
+            f"점수차별 누적 합산 1위 ({s3_desc} {d_prob_val:.2f}%)"
         ]
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
