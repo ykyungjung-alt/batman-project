@@ -872,10 +872,13 @@ with tabs[5]:
 
     if has_detailed_data:
         def parse_pct_safe(val):
-            if not val: return 0.0
-            try: return float(str(val).replace('%', '').replace('+', '').strip())
-            : except: return 0.0
-
+            if not val:
+                return 0.0
+            try:
+                return float(str(val).replace('%', '').replace('+', '').strip())
+            except:
+                return 0.0
+     
         h_base_g = h_gpg if 'h_gpg' in locals() else 1.2
         h_base_c = h_cpg if 'h_cpg' in locals() else 1.0
         a_base_g = a_gpg if 'a_gpg' in locals() else 1.1
