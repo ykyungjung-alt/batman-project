@@ -1604,7 +1604,7 @@ with tabs[5]:
         ]
         st.dataframe(pd.DataFrame(table_data_54), use_container_width=True, hide_index=True)
 
-    else:
+        else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
         st.stop()
 
