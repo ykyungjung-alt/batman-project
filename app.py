@@ -798,7 +798,6 @@ if has_detailed_data:
     meta_details = detailed_info.get("meta_details", {})
     fixtures_info = meta_details.get("fixtures", {})
     
-    # 홈/원정 데이터 원본 리스트 복제 격리
     raw_home_fixes = list(fixtures_info.get("home", []))
     raw_away_fixes = list(fixtures_info.get("away", []))
 
@@ -838,7 +837,7 @@ if has_detailed_data:
         past_arr = sorted(past_arr, key=lambda x: x[0], reverse=True)
         future_arr = sorted(future_arr, key=lambda x: x[0])
 
-        def parse_single_fixture(f_item):
+        def parse_single_fixture(f_item, d_diff_val):
             m_time_str = str(f_item.get("match_time", ""))
             league_raw_str = str(f_item.get("league", ""))
             league_title = translate_tournament_code(league_raw_str)
@@ -865,51 +864,41 @@ if has_detailed_data:
             imp_lbl, _, _ = determine_match_importance(standing_info, league_raw_str)
             date_s = m_time_str.split(" ")[0].replace("-", ".").replace("/", ".")
             row_formatted_desc = f"{date_s} / vs {opponent_n}<br>{league_title} / {imp_lbl} / {loc_kind}"
-            return {"desc": row_formatted_desc, "loc_type": loc_kind, "diff_days": d_diff}
+            return {"desc": row_formatted_desc, "loc_type": loc_kind, "diff_days": d_diff_val}
 
-        history_processed = []
-        current_fatigue_acc = 0
         chrono_sorted_past = sorted(past_arr, key=lambda x: x[0])
         past_7d_collected, past_4d_collected = [], []
 
         for d_d, f_item in chrono_sorted_past:
             abs_d_val = abs(d_d)
-            if abs_d_val <= 7:
-                det = parse_single_fixture(f_item)
-                c_loc = det["loc_type"]
-                
-                if c_loc == "원정":
-                    current_fatigue_acc += 1
-                else:
-                    current_fatigue_acc = 0
-                
-                history_processed.append({"desc": det["desc"], "fatigue_level": current_fatigue_acc, "loc_type": c_loc})
-
-                if 4 < abs_d_val <= 7:
-                    past_7d_collected.append(det["desc"])
-                elif 1 <= abs_d_val <= 4:
-                    past_4d_collected.append(det["desc"])
+            if 4 < abs_d_val <= 7:
+                past_7d_collected.append(parse_single_fixture(f_item, d_d)["desc"])
+            elif 1 <= abs_d_val <= 4:
+                past_4d_collected.append(parse_single_fixture(f_item, d_d)["desc"])
 
         cell_7d = past_7d_collected[0] if past_7d_collected else "휴식"
         cell_4d = past_4d_collected[0] if past_4d_collected else "휴식"
-        
-        if cell_4d == "휴식":
-            current_fatigue_acc = 0
 
-        final_past_fatigue_val = current_fatigue_acc
+        current_fatigue_acc = 0
+        if cell_4d != "휴식":
+            if "원정" in cell_4d:
+                current_fatigue_acc += 1
+            if cell_7d != "휴식" and "원정" in cell_7d:
+                current_fatigue_acc += 1
+
         my_loc_type = "홈" if is_home_team else "원정"
-        
-        if my_loc_type == "원정":
-            final_match_fatigue_stage = final_past_fatigue_val + 1
+        if current_fatigue_acc > 0 and my_loc_type == "원정":
+            final_match_fatigue_stage = current_fatigue_acc + 1
+        elif current_fatigue_acc > 0:
+            final_match_fatigue_stage = current_fatigue_acc
         else:
-            final_match_fatigue_stage = final_past_fatigue_val
+            final_match_fatigue_stage = 1 if my_loc_type == "원정" else 0
 
-        future_4d_list = [parse_single_fixture(f)["desc"] for d, f in future_arr if 0 < d <= 4]
-        future_7d_list = [parse_single_fixture(f)["desc"] for d, f in future_arr if 4 < d <= 7]
+        future_4d_list = [parse_single_fixture(f, d)["desc"] for d, f in future_arr if 0 < d <= 4]
+        future_7d_list = [parse_single_fixture(f, d)["desc"] for d, f in future_arr if 4 < d <= 7]
 
         return cell_7d, cell_4d, future_4d_list, future_7d_list, final_match_fatigue_stage
 
-    # 홈 팀과 원정 팀 변수를 완전히 별도로 분리 생성하여 오염 방지
     isolated_home_recent = list(h_matches) if 'h_matches' in locals() and isinstance(h_matches, list) else []
     isolated_away_recent = list(a_matches) if 'a_matches' in locals() and isinstance(a_matches, list) else []
     
