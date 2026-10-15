@@ -1644,14 +1644,14 @@ with tabs[6]:
 # 📊 [규칙 7번: 최종 통합 요약 리포트 및 멀티 경기 비교 대시보드]
 # --------------------------------------------------------------------------
 with tabs[7]:
-    st.markdown(f"### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 최종 요약 리포트")
+    st.markdown(f"#### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 최종 요약 리포트")
     st.markdown("규칙 0번부터 6번까지의 전체 정량 연산 지표를 통합 요약하거나, **여러 경기를 동시에 담아 한눈에 비교**할 수 있는 멀티 대시보드입니다.")
     
     # 💡 멀티 비교 모드 전환 토글 또는 섹션 분리
     view_mode = st.radio("📊 요약 보기 모드 선택", ["단일 경기 심층 요약 (현재 대진)", "🔥 멀티 경기 일괄 비교 대시보드 (신규)"], horizontal=True)
     
     if view_mode == "단일 경기 심층 요약 (현재 대진)":
-        st.markdown(f"#### [단일 요약] - {home_team} vs {away_team}")
+        st.markdown(f"##### [단일 요약] - {home_team} vs {away_team}")
         st.markdown("[별도 요약 섹션] 규칙 0번부터 6번까지의 전체 정량 연산 지표를 통합 요약한 마스터 표입니다.")
         
         # 기존 단일 요약 마스터 표
@@ -1756,7 +1756,7 @@ with tabs[7]:
             for i, m_item in enumerate(st.session_state["multi_selected_matches"]):
                 c_col1, c_col2 = st.columns([5, 1])
                 with c_col1:
-                    st.markdown(- **{m_item.get('home_team')} vs {m_item.get('away_team')}** ({m_item.get('league')} / {m_item.get('date')} {m_item.get('time')})")
+                    st.markdown(f"- **{m_item.get('home_team')} vs {m_item.get('away_team')}** ({m_item.get('league')} / {m_item.get('date')} {m_item.get('time')})")
                 with c_col2:
                     if st.button("❌ 빼기", key=f"remove_multi_{i}"):
                         continue # 제외 대상
