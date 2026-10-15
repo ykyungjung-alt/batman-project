@@ -785,18 +785,16 @@ with tabs[3]:
                 parts = [p.strip() for p in teams_str.split("vs")]
                 opp_name = "상대미상"
                 loc_type = "원정"
-                if len(parts) >= 3:
-                    team_a = parts[1]
-                    team_b = parts[2]
-                    if target_team_name in team_a:
+                if len(parts) >= 2:
+                    team_a = parts[0]
+                    team_b = parts[1]
+                    # target_team_name이 team_a에 포함되어 있으면 상대는 team_b, 아니면 team_a
+                    if target_team_name.replace(" ", "") in team_a.replace(" ", ""):
                         opp_name = team_b
                         loc_type = "홈" if team_a == target_team_name else "원정"
                     else:
-                        opp_name = team_a if target_team_name not in team_b else team_b
+                        opp_name = team_a
                         loc_type = "원정"
-                else:
-                    opp_name = team_a if target_team_name not in team_b else team_b
-                    loc_type = "원정"
 
                 importance_label = "중요도중"
                 if any(k in league_name for k in ["챔피언스", "유로파", "결승", "컵", "강등", "예선"]):
