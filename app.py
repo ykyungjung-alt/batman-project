@@ -533,7 +533,7 @@ with tabs[2]:
     st.markdown("""
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
-    • <b>구장별 전적(Stadium Form) 분석:</b> 홈팀의 홈 경기 구장 및 원정팀의 원정 경기 구장 데이터를 독립적으로 추출합니다.<br>
+    • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를, 중립경기일 때는 1단계와 동일하게 최근 전적 중 '원정 경기' 조건으로 최대 10개까지 추출합니다.<br>
     • <b>0단계 구장 판정 연동:</b> 홈구장 일치 여부에 따라 홈경기(초록색) 또는 중립경기(빨간색) 상태를 명시하고 원정 데이터를 분기 적용합니다.
     </div>
     """, unsafe_allow_html=True)
@@ -550,12 +550,34 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        if is_neutral_venue and stadium_form.get("away_matches"):
-            s_home_matches = stadium_form.get("away_matches", [])[:20]
-        else:
-            s_home_matches = stadium_form.get("home_matches", [])[:20]
+        # 💡 [핵심 규격 반영] 중립 구장일 경우 홈 팀도 최근 전적/원정 성격 풀에서 원정 경기만 골라 최대 10개 추출
+        if is_neutral_venue:
+            recent_all_pool = stadium_form.get("recent_matches", []) if "recent_matches" in stadium_form else []
+            if not recent_all_pool and 'h_matches' in locals():
+                recent_all_pool = h_matches
+            
+            # 홈 팀의 최근 전적 중 원정(Away) 성격의 경기만 필터링 (최대 10개)
+            neutral_home_away_matches = []
+            for m in recent_all_pool:
+                teams_str = str(m.get("teams", ""))
+                # 홈 팀이 vs 뒤에 오거나 원정으로 표기된 경기 필터링
+                if " vs " in teams_str:
+                    t_parts = [p.strip() for p in teams_str.split("vs")]
+                    if len(t_parts) >= 2 and h_name not in t_parts[0]:
+                        neutral_home_away_matches.append(m)
+                elif m.get("location") == "원정" or m.get("venue_type") == "away":
+                    neutral_home_away_matches.append(m)
+            
+            # 만약 별도 필터링된 풀이 부족하면 stadium_form의 away_matches 또는 일반 원정 풀 활용
+            if not neutral_home_away_matches:
+                neutral_home_away_matches = stadium_form.get("away_matches", [])
 
-        s_away_matches = stadium_form.get("away_matches", [])[:20]
+            s_home_matches = neutral_home_away_matches[:10]
+        else:
+            s_home_matches = stadium_form.get("home_matches", [])[:10]
+
+        # 원정 팀은 항상 원정 경기 기준 최대 10개
+        s_away_matches = stadium_form.get("away_matches", [])[:10]
 
         s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=h_is_triggered)
         s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=a_is_triggered)
@@ -651,7 +673,6 @@ with tabs[2]:
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"#### [규칙 3번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
