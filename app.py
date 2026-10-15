@@ -1546,25 +1546,51 @@ with tabs[6]:
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("##### 🏆 최종 예상 스코어 및 순위 산출 결과 요약")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.markdown(f"""<div style="background-color: #f8f9fa; padding: 14px; border-radius: 8px; border: 1px solid #dee2e6;">
-            <h5 style="margin-top:0; color: #1f77b4; margin-bottom: 6px;">🥇 예측 1순위 (최적합)</h5>
+    
+    # 💡 모바일 반응형 플렉스박스 적용 (화면이 좁으면 세로 정렬, 넓으면 가로 3분할)
+    summary_cards_html = f"""
+    <style>
+    .score-summary-container {{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 8px;
+        margin-bottom: 16px;
+    }}
+    .score-card {{
+        flex: 1 1 200px;
+        background-color: #f8f9fa;
+        padding: 14px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        box-sizing: border-box;
+        text-align: left;
+    }}
+    @media (max-width: 768px) {{
+        .score-card {{
+            flex: 1 1 100%;
+        }}
+    }}
+    </style>
+    <div class="score-summary-container">
+        <div class="score-card">
+            <h5 style="margin-top:0; color: #1f77b4; margin-bottom: 6px; font-size: 15px;">🥇 예측 1순위 (최적합)</h5>
             <p style="margin: 4px 0; font-size: 16px;"><b>스코어: {score_1st_str}</b></p>
             <p style="font-size: 12px; color: #666; margin: 0;">확률: <b>{p1_rate:.2f}%</b> (5-2/5-3/5-4 연동)</p>
-        </div>""", unsafe_allow_html=True)
-    with col2:
-        st.markdown(f"""<div style="background-color: #f8f9fa; padding: 14px; border-radius: 8px; border: 1px solid #dee2e6;">
-            <h5 style="margin-top:0; color: #ff7f0e; margin-bottom: 6px;">🥈 예측 2순위 (차선책)</h5>
+        </div>
+        <div class="score-card">
+            <h5 style="margin-top:0; color: #ff7f0e; margin-bottom: 6px; font-size: 15px;">🥈 예측 2순위 (차선책)</h5>
             <p style="margin: 4px 0; font-size: 16px;"><b>스코어: {score_2nd_str}</b></p>
             <p style="font-size: 12px; color: #666; margin: 0;">확률: <b>{p2_rate:.2f}%</b> ({s2_result_str})</p>
-        </div>""", unsafe_allow_html=True)
-    with col3:
-        st.markdown(f"""<div style="background-color: #f8f9fa; padding: 14px; border-radius: 8px; border: 1px solid #dee2e6;">
-            <h5 style="margin-top:0; color: #2ca02c; margin-bottom: 6px;">🥉 예측 3순위 (대안책)</h5>
+        </div>
+        <div class="score-card">
+            <h5 style="margin-top:0; color: #2ca02c; margin-bottom: 6px; font-size: 15px;">🥉 예측 3순위 (대안책)</h5>
             <p style="margin: 4px 0; font-size: 15px;"><b>구도: {dominant_str}</b></p>
             <p style="font-size: 12px; color: #666; margin: 0;">비중: <b>{dominant_prob:.1f}%</b> (누적 분포 분석)</p>
-        </div>""", unsafe_allow_html=True)
+        </div>
+    </div>
+    """
+    st.markdown(summary_cards_html, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("##### 예시표 6: 최종 통합 흐름 매트릭스 및 예상 스코어 산출 표")
