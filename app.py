@@ -1891,7 +1891,7 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 완전 독립 자동 연산 대시보드 - 6단계 공식 완벽 연동 버전)
+# 7번 탭: 요약 리포트 (들여쓰기 정돈된 최종 완성본)
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
@@ -1975,16 +1975,15 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. 각 대진별 match_code 기반 완전 독립 실시간 연산 및 통합 비교 표 출력 (6단계 공식 완벽 동기화)
+        # 🚀 3. 각 대진별 match_code 기반 완전 독립 실시간 연산 및 통합 비교 표 출력
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
-def compute_match_engine_by_code(m_item):
+        def compute_match_engine_by_code(m_item):
             m_code = str(m_item.get('match_code', '')).strip()
             h_name = str(m_item.get('home', '')).strip()
             a_name = str(m_item.get('away', '')).strip()
             
-            # 6단계가 참조하는 정밀 데이터 딕셔너리(v3_details_dict 또는 all_details_dict) 전수 탐색
             target_detail = {}
             source_dict_pool = []
             if 'v3_details_dict' in globals() and v3_details_dict:
@@ -1996,7 +1995,6 @@ def compute_match_engine_by_code(m_item):
                 if m_code in d_pool:
                     target_detail = d_pool[m_code]
                     break
-                # match_code 값 키 순회 검색
                 for k, v in d_pool.items():
                     if str(v.get("match_code", "")).strip() == m_code:
                         target_detail = v
@@ -2004,7 +2002,6 @@ def compute_match_engine_by_code(m_item):
                 if target_detail:
                     break
 
-            # 기본값 설정 (6단계 기본 스케일 연동)
             h_base_g = 1.2
             h_base_c = 1.0
             a_base_g = 1.1
@@ -2015,7 +2012,6 @@ def compute_match_engine_by_code(m_item):
             a_tot_def = 0.0
 
             if target_detail and isinstance(target_detail, dict):
-                # 6단계와 동일한 키 구조에서 정밀 데이터 추출 시도
                 meta = target_detail.get("meta_details", {})
                 recent = meta.get("recent_form", {})
                 h_sum = recent.get("home_summary", {})
@@ -2026,13 +2022,11 @@ def compute_match_engine_by_code(m_item):
                 a_base_g = float(a_sum.get("goals_per_game", target_detail.get("a_gpg", 1.1)))
                 a_base_c = float(a_sum.get("conceded_per_game", target_detail.get("a_cpg", 1.1)))
 
-                # 누적 보정치 퍼센트 값 연동
                 h_tot_atk = float(target_detail.get("h_tot_atk_pct", 0.0))
                 h_tot_def = float(target_detail.get("h_tot_def_pct", 0.0))
                 a_tot_atk = float(target_detail.get("a_tot_atk_pct", 0.0))
                 a_tot_def = float(target_detail.get("a_tot_def_pct", 0.0))
 
-            # 6단계와 100% 동일한 기하평균 공수 교차 상쇄 결합 연산
             h_max_g = h_base_g * (1 + h_tot_atk / 100.0)
             h_min_c = h_base_c * (1 + h_tot_def / 100.0)
             a_max_g = a_base_g * (1 + a_tot_atk / 100.0)
@@ -2041,7 +2035,6 @@ def compute_match_engine_by_code(m_item):
             h_lambda = max(0.2, (h_max_g + (2.0 - a_min_c)) / 2.0)
             a_lambda = max(0.2, (a_max_g + (2.0 - h_min_c)) / 2.0)
 
-            # 푸아송 확률 계산
             def poisson_prob(lmbd, k):
                 return (math.exp(-lmbd) * (lmbd ** k)) / math.factorial(k)
 
