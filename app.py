@@ -861,29 +861,37 @@ if has_detailed_data:
             imp_label, _, _ = determine_match_importance(standing_info, league_raw)
             date_short = match_time.split(" ")[0].replace("-", ".").replace("/", ".")
             row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {imp_label} / {loc_type}"
-            return {"desc": row_desc, "loc_type": loc_type, "diff_days": diff_days}
+            
+            parsed_dt = None
+            try:
+                parsed_dt = datetime.strptime(match_time.split(" ")[0].replace(".", "-").replace("/", "-")[:10], "%Y-%m-%d")
+            except Exception:
+                pass
+            return {"desc": row_desc, "loc_type": loc_type, "diff_days": diff_days, "dt": parsed_dt}
 
         processed_past = []
         running_fatigue = 0
         chrono_past = sorted(past_fixtures, key=lambda x: x[0])
         past_7d_list, past_4d_list = [], []
-        prev_loc = None
+        prev_dt = None
 
         for diff_d, fix in chrono_past:
             abs_diff = abs(diff_d)
             if abs_diff <= 7:
                 details = parse_fix_details(fix)
                 curr_loc = details["loc_type"]
+                curr_dt = details["dt"]
+                
+                # 4일 이상 간격(휴식)이 오면 피로도 0으로 리셋
+                if prev_dt is not None and curr_dt is not None:
+                    gap_days = (curr_dt - prev_dt).days
+                    if gap_days >= 4:
+                        running_fatigue = 0
                 
                 if curr_loc == "원정":
                     running_fatigue += 1
-                else:
-                    if prev_loc == "홈":
-                        running_fatigue = 0
-                    else:
-                        running_fatigue = 0
                 
-                prev_loc = curr_loc
+                prev_dt = curr_dt
                 processed_past.append({"desc": details["desc"], "fatigue_level": running_fatigue, "loc_type": curr_loc})
 
                 if 4 < abs_diff <= 7:
@@ -896,16 +904,10 @@ if has_detailed_data:
         last_past_fatigue = processed_past[-1]["fatigue_level"] if processed_past else 0
 
         current_loc_type = "홈" if is_home_team else "원정"
-        if processed_past:
-            last_match = processed_past[-1]
-            if last_match["loc_type"] == "홈" and current_loc_type == "홈":
-                current_match_fatigue = 0
-            elif current_loc_type == "원정":
-                current_match_fatigue = last_past_fatigue + 1
-            else:
-                current_match_fatigue = last_past_fatigue
+        if current_loc_type == "원정":
+            current_match_fatigue = last_past_fatigue + 1
         else:
-            current_match_fatigue = 1 if current_loc_type == "원정" else 0
+            current_match_fatigue = last_past_fatigue
 
         future_4d = [parse_fix_details(f)["desc"] for d, f in future_fixtures if 0 < d <= 4]
         future_7d = [parse_fix_details(f)["desc"] for d, f in future_fixtures if 4 < d <= 7]
@@ -989,7 +991,6 @@ if has_detailed_data:
 else:
     st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터(fixtures)가 아직 수집되지 않았습니다.")
     st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, 일정 누수 및 피로도 산출 내역을 표시할 수 없습니다.")
-
 # --- [4단계] --- 
 with tabs[4]:
     st.markdown(f"#### [규칙 4번: 역대 공식 맞대결 상성 전수 로그 및 단방향 10% 룰] - {home_team} vs {away_team}")
