@@ -34,7 +34,6 @@ jobs:
         git add match_details_v3.json
         git commit -m "Auto-update match details v3 [skip ci]" || exit 0
         
-        # 💡 원격 저장소 최신 내역을 먼저 Rebase하여 동시 푸시 충돌 방지
-        git pull --rebase origin main || echo "No remote changes to pull"
-        
+        # 💡 원격 변경 사항을 가져올 때 충돌 시 로컬(현재 방금 크롤링한 것) 데이터를 우선하도록 설정
+        git pull --rebase -X theirs origin main || echo "No remote changes to pull"
         git push
