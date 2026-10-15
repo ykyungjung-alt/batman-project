@@ -172,6 +172,20 @@ def run_table_based_crawler_v3():
                                 league_div = li.find("div", class_="team")
                                 time_span = li.find("span", {"name": "timeData"})
                                 
+                                # 💡 날짜 포맷 변환 (MM.DD YYYY -> YYYY.MM.DD)
+                                raw_t_str = time_span.get_text(strip=True) if time_span else ""
+                                match_time_val = raw_t_str
+                                try:
+                                    parts = raw_t_str.split()
+                                    if len(parts) >= 2:
+                                        d_part = parts[0].replace("-", ".").replace("/", ".")
+                                        y_part = parts[1]
+                                        d_tokens = d_part.split(".")
+                                        if len(d_tokens) == 2:
+                                            match_time_val = f"{y_part}.{d_tokens[0].zfill(2)}.{d_tokens[1].zfill(2)}"
+                                except Exception:
+                                    pass
+                                
                                 team_spans = li.find_all("span")
                                 teams_text = ""
                                 span_texts = [s.get_text(strip=True) for s in team_spans if s.get_text(strip=True) and not s.has_attr("name")]
@@ -197,10 +211,10 @@ def run_table_based_crawler_v3():
 
                                 match_info = {
                                     "league": league_div.get_text(strip=True) if league_div else "",
-                                    "match_time": time_span.get_text(strip=True) if time_span else "",
+                                    "match_time": match_time_val,  # 💡 변환된 연.월.일 형식 반영
                                     "teams": teams_text,
                                     "ft_scores": ft_scores,
-                                    "opponent_tier_info": opponent_tier_info  # 💡 순수 골득실 수치(예: "2.20/2.10")만 저장
+                                    "opponent_tier_info": opponent_tier_info
                                 }
                                 if match_info["ft_scores"] and match_info not in target_list:
                                     target_list.append(match_info)
@@ -243,22 +257,4 @@ def run_table_based_crawler_v3():
                 }
                 counter += 1
 
-            except Exception as e:
-                print(f"  ⚠️ 데이터 수집 실패 (Match ID: {m_id}): {e}")
-                continue
-
-        output_data = {
-            "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
-            "match_details": match_details
-        }
-        
-        with open("match_details_v3.json", "w", encoding="utf-8") as f:
-            json.dump(output_data, f, ensure_ascii=False, indent=4)
-            
-        print(f"\n🎉 성공: 골득실 수치 중심 크롤링 완료 -> match_details_v3.json 저장 완료")
-
-    finally:
-        driver.quit()
-
-if __name__ == "__main__":
-    run_table_based_crawler_v3()
+            except
