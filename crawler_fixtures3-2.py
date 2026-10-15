@@ -14,7 +14,7 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
     sub_url = f"https://www.scoreman123.com/match/data-{sub_m_id}"
     try:
         driver.get(sub_url)
-        time.sleep(0.3)
+        time.sleep(0.5)  # 서브 페이지 로딩 대기
         soup = BeautifulSoup(driver.page_source, "html.parser")
         
         sub_home, sub_away = "", ""
@@ -132,22 +132,21 @@ def run_table_based_crawler_v3_2():
             
             try:
                 driver.get(detail_url)
-                time.sleep(1.0)
+                time.sleep(2.0)  # 💡 페이지 초기 로딩 대기 시간 확보
                 
-                # 💡 [핵심 수정]: 최근 전적 드롭다운을 클릭하여 '최근 20' 옵션을 활성화
+                # 💡 [타임슬립 및 드롭다운 제어 강화]: '최근 20' 옵션을 확실하게 열고 선택
                 try:
                     dropdown_btn = driver.find_element("id", "selRecentMatch")
                     if dropdown_btn:
                         driver.execute_script("arguments[0].click();", dropdown_btn)
-                        time.sleep(0.5)
+                        time.sleep(1.0)  # 드롭다운 메뉴 열림 대기
                         
-                        # 팝업 리스트에서 20개 선택 옵션 클릭
-                        option_20 = driver.find_element("xpath", "//span[@v-data='20' or contains(text(), '20')]")
+                        option_20 = driver.find_element("xpath", "//*[@v-data='20' or contains(text(), '20')]")
                         if option_20:
                             driver.execute_script("arguments[0].click();", option_20)
-                            time.sleep(0.8) # 데이터 로딩 대기
+                            time.sleep(2.0)  # 💡 20개 항목 비동기 렌더링 완료 대기 (핵심 타임슬립)
                 except Exception as drop_err:
-                    print(f"  - 최근 20개 드롭다운 확장 예외 (기본값으로 진행): {drop_err}")
+                    print(f"  - 최근 20개 확장 드롭다운 클릭 예외 (기본값 진행): {drop_err}")
 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
@@ -170,7 +169,6 @@ def run_table_based_crawler_v3_2():
                     "away_team_name": main_away, "away_matches": []
                 }
                 
-                # 💡 구장별 전적 데이터 구조는 완전히 비워둠 (요청에 따라 제거)
                 stadium_form_data = {
                     "form_title": "구장별 전적",
                     "home_team_name": main_home, "home_matches": [], 
@@ -221,7 +219,7 @@ def run_table_based_crawler_v3_2():
                                 if sub_m_id:
                                     opponent_tier_info = fetch_opponent_stats_fast(driver, sub_m_id, target_team)
                                     driver.get(detail_url)
-                                    time.sleep(0.2)
+                                    time.sleep(0.5)  # 메인 페이지 복귀 후 대기
 
                                 match_info = {
                                     "league": league_div.get_text(strip=True) if league_div else "",
@@ -250,7 +248,7 @@ def run_table_based_crawler_v3_2():
                     "away": main_away,
                     "meta_details": {
                         "recent_form": recent_form_data,
-                        "stadium_form": stadium_form_data  # 빈 상태 유지
+                        "stadium_form": stadium_form_data
                     }
                 }
                 counter += 1
@@ -259,7 +257,7 @@ def run_table_based_crawler_v3_2():
                 print(f"  ⚠️ 데이터 수집 실패 (Match ID: {m_id}): {e}")
                 continue
 
-            # 💡 테스트용: 메인 경기 1개만 수집 후 즉시 종료
+            # 💡 테스트 모드: 메인 경기 1개만 수집 후 종료
             print(f"🎯 [테스트 모드] 메인 경기 1개 수집 완료. 크롤링을 종료합니다.")
             break
 
@@ -271,7 +269,7 @@ def run_table_based_crawler_v3_2():
         with open("match_details_v3-2.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 최근 20개 표본 수집 (구장별 전적 제외, 1개 경기 테스트) 완료 -> match_details_v3-2.json 저장 완료")
+        print(f"\n🎉 성공: 타임슬립 대기 적용 후 최근 20개 전적 수집 완료 -> match_details_v3-2.json 저장 완료")
 
     finally:
         driver.quit()
