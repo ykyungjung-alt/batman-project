@@ -291,33 +291,26 @@ with tabs[0]:
 
         if rankings_raw:
             rankings_list = []
-            
-            # 💡 홈팀과 원정팀 보정치를 확실하게 담을 전역 변수 초기화
-            global h_atk_bonus, h_def_bonus, a_atk_bonus, a_def_bonus
-            h_atk_bonus, h_def_bonus = "+0%", "-0%"
-            a_atk_bonus, a_def_bonus = "+0%", "-0%"
-
-            clean_home_target = str(home_team).strip().replace(" ", "")
-            clean_away_target = str(away_team).strip().replace(" ", "")
-
             for idx, r in enumerate(rankings_raw):
                 team_name = str(r.get("team", "-"))
-                rank_code_str = str(r.get("rank", ""))
+                rank_code_str = str(r.get("rank", ""))  # 예: "POR D1-2"
                 
+                # rank 데이터를 활용해 country.json과 완벽 매칭 실행
                 matched_code, clean_league, grade, atk_b, def_b = match_with_country_json_exact(rank_code_str, team_name)
                 
-                # 💡 현재 행의 팀 이름이 홈팀 또는 원정팀과 일치하면 해당 보정치를 확실하게 대입
-                clean_row_team = team_name.strip().replace(" ", "")
-                if clean_home_target in clean_row_team or clean_row_team in clean_home_target:
-                    h_atk_bonus, h_def_bonus = atk_b, def_b
-                elif clean_away_target in clean_row_team or clean_row_team in clean_away_target:
-                    a_atk_bonus, a_def_bonus = atk_b, def_b
-
                 rankings_list.append({
-                    "No": idx + 1, "리그순위": rank_code_str, "팀": team_name, "국가코드": matched_code,
-                    "리그명": league_name, "등급": grade, "공격보정": atk_b, "수비보정": def_b,
-                    "경기": str(r.get("played", "0")), "승": str(r.get("win", "0")), "무승부": str(r.get("draw", "0")), "패": str(r.get("loss", "0")),
-                    "득점": str(r.get("goals_for", "0")), "실점": str(r.get("goals_against", "0")), "득실": str(r.get("goal_diff", "0")), "승점": str(r.get("points", "0"))
+                    "No": idx + 1,
+                    "리그순위": rank_code_str,
+                    "팀": team_name,
+                    "국가코드": matched_code,
+                    "리그명": league_name,
+                    "등급": grade,
+                    "공격보정": atk_b,
+                    "수비보정": def_b,
+                    "경기": str(r.get("played", "0")), "승": str(r.get("win", "0")),
+                    "무승부": str(r.get("draw", "0")), "패": str(r.get("loss", "0")),
+                    "득점": str(r.get("goals_for", "0")), "실점": str(r.get("goals_against", "0")),
+                    "득실": str(r.get("goal_diff", "0")), "승점": str(r.get("points", "0"))
                 })
             df_rankings = pd.DataFrame(rankings_list)
             st.dataframe(df_rankings[["리그순위", "팀", "국가코드", "리그명", "등급", "공격보정", "수비보정", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
@@ -1245,61 +1238,43 @@ else:
     a_r4_def_val = 0.0
 
 # ==========================================
-# 1. 안전 파싱 함수 전역 사전 정의 (함수 누락 방지)
-# ==========================================
-def parse_pct(val_str):
-    if not val_str:
-        return 0.0
-    try:
-        cleaned = str(val_str).replace('%', '').replace('+', '').strip()
-        return float(cleaned)
-    except:
-        return 0.0
-
-
-# ==========================================
-# 2. 규칙 5번 탭 최종 정상 교체용 코드
+# 규칙 5번 탭 전체 교체용 코드 (NameError 및 에러 완전 차단 버전)
 # ==========================================
 with tabs[5]:
     st.markdown(f"#### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
         <b>📌 규격 원칙 및 요약 설명:</b><br>
-        • 1단계 공수 기본 기대치부터 규칙 1~4까지의 모든 보정치를 누적 합산합니다.<br>
+        • 1단계 공수 기본 기대치부터 규칙 1~4까지의 모든 보정치(LIFO, 구장 Shift, 선수 전력, 이동 피로도, H2H 상성)를 누적 합산합니다.<br>
         • 최종 누적 보정치와 독자 공수 한계선을 바탕으로 기하평균 공수 교차 상쇄 결합 연산을 수행하여 최종 1차 기본 기대 득실점을 도출합니다.
     </div>
     """, unsafe_allow_html=True)
 
-    # 💡 빠져있던 안전 파싱 함수 정의 (NameError 방지 원천 해결)
-    def parse_pct(val):
-        if not val:
-            return 0.0
-        try:
-            return float(str(val).replace('%', '').replace('+', '').strip())
-        except:
-            return 0.0
-
     if has_detailed_data:
-        h_atw_str = h_atw if 'h_atw' in locals() else "0%"
-        h_dew_str = h_dew if 'h_dew' in locals() else "0%"
-        a_atw_str = a_atw if 'a_atw' in locals() else "0%"
-        a_dew_str = a_dew if 'a_dew' in locals() else "0%"
-
+        # 1. 1단계 기본 기대치 안전 추출
         h_base_g = h_gpg if 'h_gpg' in locals() else 0.0
         h_base_c = h_cpg if 'h_cpg' in locals() else 0.0
         a_base_g = a_gpg if 'a_gpg' in locals() else 0.0
         a_base_c = a_cpg if 'a_cpg' in locals() else 0.0
 
+        # 2. 0단계 연동 국가/리그 티어 가중치 변수 정의 (기본값 0.0)
         h_c_atk = parse_pct(h_atk_bonus) if 'h_atk_bonus' in locals() else 0.0
         h_c_def = parse_pct(h_def_bonus) if 'h_def_bonus' in locals() else 0.0
         a_c_atk = parse_pct(a_atk_bonus) if 'a_atk_bonus' in locals() else 0.0
         a_c_def = parse_pct(a_def_bonus) if 'a_def_bonus' in locals() else 0.0
+
+        # 3. 규칙 1 (7경기 LIFO 가중치) 변수 안전 정의 (기본값 "0%")
+        h_atw_str = h_atw if 'h_atw' in locals() else "0%"
+        h_dew_str = h_dew if 'h_dew' in locals() else "0%"
+        a_atw_str = a_atw if 'a_atw' in locals() else "0%"
+        a_dew_str = a_dew if 'a_dew' in locals() else "0%"
 
         h_r1_atk_val = parse_pct(h_atw_str)
         h_r1_def_val = parse_pct(h_dew_str)
         a_r1_atk_val = parse_pct(a_atw_str)
         a_r1_def_val = parse_pct(a_dew_str)
 
+        # 4. 규칙 2 ~ 규칙 4 변수 안전 정의 (기본값 0.0)
         h_r2_atk = h_atk_val if 'h_atk_val' in locals() else 0.0
         h_r2_def = h_def_val if 'h_def_val' in locals() else 0.0
         a_r2_atk = a_atk_val if 'a_atk_val' in locals() else 0.0
@@ -1322,6 +1297,7 @@ with tabs[5]:
         a_r4_atk = a_r4_atk_val if 'a_r4_atk_val' in locals() else 0.0
         a_r4_def = a_r4_def_val if 'a_r4_def_val' in locals() else 0.0
 
+        # 최종 누적 보정치 합산 (데이터 부재 시 0% 처리로 왜곡 방지)
         h_tot_atk_pct = h_c_atk + h_r1_atk_val + h_r2_atk + h_r31_atk + h_r32_atk + h_r4_atk
         h_tot_def_pct = h_c_def + h_r1_def_val + h_r2_def + h_r31_def + h_r32_def + h_r4_def
         a_tot_atk_pct = a_c_atk + a_r1_atk_val + a_r2_atk + a_r31_atk + a_r32_atk + a_r4_atk
@@ -1546,8 +1522,6 @@ with tabs[5]:
         st.markdown("---")
         st.markdown(f"##### ✈️ 원정 팀: {away_team} (상대({home_team}) 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_agf, a_aga, a_rule_active = build_team_52_dataframe(away_matched_7, away_team)
-        if h_rule_active: # (참고: a_rule_active 오타 방지용)
-            pass
         if a_rule_active:
             st.info(f"⚡ **[특수 룰 발동 안내]** {away_team} 팀은 원본 실전 평균 공격력/방어력이 기준치를 충족하여, 최근 7경기 중 **Tier E 상대전 득점력이 50% 할인 보정**되었습니다.")
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
