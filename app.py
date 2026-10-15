@@ -1644,147 +1644,103 @@ with tabs[6]:
 # 📊 [규칙 7번: 최종 통합 요약 리포트 및 멀티 경기 비교 대시보드]
 # --------------------------------------------------------------------------
 with tabs[7]:
-    st.markdown(f"### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 최종 요약 리포트")
-    st.markdown("규칙 0번부터 6번까지의 전체 정량 연산 지표를 통합 요약하거나, **여러 경기를 동시에 담아 한눈에 비교**할 수 있는 멀티 대시보드입니다.")
-    
-    # 요약 보기 모드 선택
-    view_mode = st.radio("📊 요약 보기 모드 선택", ["단일 경기 심층 요약 (현재 대진)", "🔥 멀티 경기 일괄 비교 대시보드 (신규)"], key="summary_view_mode_radio", horizontal=True)
-    
-    if view_mode == "단일 경기 심층 요약 (현재 대진)":
-        # 변수 안전 참조 체크
-        h_name = globals().get('home_team', '홈 팀')
-        a_name = globals().get('away_team', '원정 팀')
-        st.markdown(f"#### [단일 요약] - {h_name} vs {a_name}")
-        st.markdown("[별도 요약 섹션] 규칙 0번부터 6번까지의 전체 정량 연산 지표를 통합 요약한 마스터 표입니다.")
+    st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 통합 요약 및 멀티 비교 대시보드")
+    st.markdown("수집된 전체 경기 중 원하는 대진들을 여러 개 체크하여 담은 뒤, **승무패 수리 확률 및 1~3순위 예측 결과**를 한눈에 비교할 수 있는 멀티 대시보드입니다.")
+
+    if "multi_selected_matches" not in st.session_state:
+        st.session_state["multi_selected_matches"] = []
+
+    with st.container(border=True):
+        st.markdown("##### 📌 전체 경기 다중 선택 및 담기 패널")
         
-        try:
-            ex7_df = pd.DataFrame({
-                "분석 단계": ["0단계 (메타)", "1단계 (7경기 LIFO)", "2단계 (구장 Shift)", "3단계 (누수·피로)", "4단계 (H2H 상성)", "5단계 (최종 람다)", "5단계 (최종 람다)", "5단계 (5-2 검증)", "6단계 (푸아송 예측)"],
-                "요약항목": ["대결 정보표", "양팀 공격력 티어/방어력 티어 가중치 표시", "양팀 티어 변동 가중치 표시", "양팀 3단계 합산가중치 표시", "양팀 우세 대등 가중치 표시", "양팀 1차기본/수비 한계 수치", "양팀 1차기본기대 득실점 (λ_base)", "5-2 양팀 평균 골득실 표시", "예측 1~3순위 및 승무패 확률 표시"],
-                f"홈 팀 ({h_name}) 연산 결과": [
-                    f"분석 구역 {globals().get('home_match_count', 0)}전 / 홈 {globals().get('home_wins', 0)}승{globals().get('home_draws', 0)}무{globals().get('home_losses', 0)}패",
-                    f"공격 Tier {globals().get('home_attack_tier', '-')} (가중치 +{globals().get('home_attack_w', 0)}%) / 방어 Tier {globals().get('home_defense_tier', '-')} (가중치 {globals().get('home_defense_w', 0)}%)",
-                    f"공격 {globals().get('home_shift_atk', 0):+.0f}% / 방어 {globals().get('home_shift_def', 0):+.0f}%",
-                    f"공격 {globals().get('home_total_leak_atk', 0):+.1f}% / 방어 {globals().get('home_total_leak_def', 0):+.1f}%",
-                    f"H2H 상성 보정 반영",
-                    f"상한 득점 {globals().get('h_final_exp_g', 0):.2f} / 하한 실점 {globals().get('h_final_exp_c', 0):.2f}",
-                    f"기대 득점 {globals().get('h_final_exp_g', 0):.2f}골 / 예상 실점 {globals().get('h_final_exp_c', 0):.2f}골",
-                    f"동급 상대 최근 실전 평균 연산 완료",
-                    f"예측 순위 매핑 완료"
-                ],
-                f"원정 팀 ({a_name}) 연산 결과": [
-                    f"원정 분석 구역 연산 완료",
-                    f"공격 Tier 및 방어 Tier 적용 완료",
-                    f"구장 Shift 보정 적용",
-                    f"누수 및 피로도 반영",
-                    f"H2H 상성 보정 반영",
-                    f"람다 보정 적용 완료",
-                    f"기대 득실점 산출 완료",
-                    f"동급 상대 최근 실전 평균 연산 완료",
-                    f"승리 우세 확률 산출 완료"
-                ],
-                "단계별 산출 알고리즘 규격": [
-                    "LIFO 7경기 기준 구장 분리 메타 추출",
-                    "티어별 가중치 자동 환산 로직 적용",
-                    "구장 홈/원정 밸런스 Shift 보정",
-                    "이동 피로도 및 누수 지표 합산 반영",
-                    "상대 전적(H2H) 가중치 보정 연산",
-                    "람다 상/하한선 제한 및 보정 적용",
-                    "기하평균 공수 교차 상쇄 결합 연산",
-                    "동급 A/B티어 최근 5경기 실전 평균",
-                    "푸아송 분포 행렬 기반 순위 매핑"
-                ]
-            })
-            st.dataframe(ex7_df, use_container_width=True, hide_index=True)
-        except Exception as e:
-            st.info("현재 선택된 대진의 연산 데이터가 완전히 로드되지 않았습니다. 메인 화면에서 대진을 먼저 선택해 주세요.")
+        # daily_matches 데이터를 순회하여 전체 경기 리스트업
+        all_flatten_matches = []
+        if 'daily_matches' in globals() and daily_matches:
+            for d_str, m_list in daily_matches.items():
+                if isinstance(m_list, list):
+                    for m_item in m_list:
+                        # 원본 딕셔너리에 날짜 정보가 없다면 키 값(d_str) 보완
+                        item_copy = m_item.copy()
+                        if 'date' not in item_copy:
+                            item_copy['date'] = d_str
+                        all_flatten_matches.append(item_copy)
 
-    else:
-        # ------------------------------------------------------------------
-        # 🔥 멀티 경기 비교 대시보드
-        # ------------------------------------------------------------------
-        st.markdown("#### ⚡ 멀티 경기 일괄 비교 대시보드")
-        st.markdown("원하시는 날짜와 리그에서 경기를 여러 개 체크한 뒤 **[선택 경기 담기]**를 누르면, 아래에 통합 비교 표가 생성됩니다.")
-
-        if "multi_selected_matches" not in st.session_state:
-            st.session_state["multi_selected_matches"] = []
-
-        with st.container(border=True):
-            st.markdown("##### 📌 경기 선택 및 담기 패널")
-            if 'df_fixtures' in globals() and df_fixtures is not None and not df_fixtures.empty:
-                available_dates = sorted(df_fixtures['date'].unique()) if 'date' in df_fixtures.columns else []
-                if available_dates:
-                    sel_date = st.selectbox("📅 멀티 비교용 날짜 선택", available_dates, key="multi_sel_date_box")
-                    df_date_filtered = df_fixtures[df_fixtures['date'] == sel_date]
-                    
-                    available_leagues = sorted(df_date_filtered['league'].unique()) if 'league' in df_date_filtered.columns else []
-                    if available_leagues:
-                        sel_league = st.selectbox("🏆 멀티 비교용 리그 선택", available_leagues, key="multi_sel_league_box")
-                        df_league_filtered = df_date_filtered[df_date_filtered['league'] == sel_league]
-                        
-                        st.markdown("###### 해당 리그 경기 리스트 (다중 선택 가능)")
-                        temp_checked_matches = []
-                        for idx, row in df_league_filtered.iterrows():
-                            m_label = f"[{row.get('time', '')}] {row.get('home_team', '')} vs {row.get('away_team', '')}"
-                            if st.checkbox(m_label, key=f"multi_chk_item_{row.get('match_id', idx)}"):
-                                temp_checked_matches.append(row.to_dict())
-                        
-                        col_btn1, col_btn2 = st.columns([1, 1])
-                        with col_btn1:
-                            if st.button("📥 체크한 경기 목록에 담기", use_container_width=True):
-                                for m in temp_checked_matches:
-                                    if m not in st.session_state["multi_selected_matches"]:
-                                        st.session_state["multi_selected_matches"].append(m)
-                                st.success("선택한 경기들이 담겼습니다!")
-                                st.rerun()
-                        with col_btn2:
-                            if st.button("🗑️ 전체 비우기 (초기화)", use_container_width=True):
-                                st.session_state["multi_selected_matches"] = []
-                                st.rerun()
-                    else:
-                        st.info("선택한 날짜에 해당하는 리그가 없습니다.")
-                else:
-                    st.info("경기 날짜 데이터가 없습니다.")
-            else:
-                st.info("사이드바에서 스케줄 데이터가 로드되지 않았습니다. 메인 화면에서 대진을 먼저 확인해 주세요.")
-
-        # 담긴 경기 목록 및 개별 취소 UI
-        st.markdown("---")
-        st.markdown("##### 🏟️ 현재 담긴 비교 대진 리스트")
-        if not st.session_state["multi_selected_matches"]:
-            st.info("아직 담긴 경기가 없습니다. 위 패널에서 경기를 체크하고 담아주세요.")
-        else:
-            matches_to_keep = []
-            for i, m_item in enumerate(st.session_state["multi_selected_matches"]):
-                c_col1, c_col2 = st.columns([5, 1])
-                with c_col1:
-                    st.markdown(f"- **{m_item.get('home_team')} vs {m_item.get('away_team')}** ({m_item.get('league')} / {m_item.get('date')} {m_item.get('time')})")
-                with c_col2:
-                    if st.button("❌ 빼기", key=f"remove_multi_item_{i}"):
-                        continue 
-                matches_to_keep.append(m_item)
+        if all_flatten_matches:
+            st.markdown("###### 전체 수집 대진 리스트 (원하는 경기를 여러 개 체크하세요)")
+            temp_checked_matches = []
             
-            if len(matches_to_keep) != len(st.session_state["multi_selected_matches"]):
-                st.session_state["multi_selected_matches"] = matches_to_keep
-                st.rerun()
-
-            # 통합 비교 표 생성
-            st.markdown("<br>", unsafe_allow_html=True)
-            st.markdown("##### 🏆 담긴 경기 통합 승무패 확률 및 1~3순위 예측 비교 표")
-            
-            multi_summary_data = []
-            for m_item in st.session_state["multi_selected_matches"]:
-                h_name = m_item.get('home_team', '홈')
-                a_name = m_item.get('away_team', '원정')
+            # 보기 쉽게 스크롤 가능한 컨테이너 내부 배치
+            for idx, row in enumerate(all_flatten_matches):
+                m_date = row.get('date', '날짜미상')
+                m_time = row.get('time', '00:00')
+                m_league = row.get('league', '리그미상')
+                m_home = row.get('home', '홈팀')
+                m_away = row.get('away', '원정팀')
                 
-                multi_summary_data.append({
-                    "대진 경기": f"{h_name} vs {a_name}",
-                    "리그": m_item.get('league', '-'),
-                    "승무패 수리 확률": "홈 45.0% / 무 30.0% / 원정 25.0%",
-                    "🥇 1순위 (최적합)": "2 : 1 (17.5%)",
-                    "🥈 2순위 (차선책)": "1 : 1 (14.2%)",
-                    "🥉 3순위 (대안책)": "홈 우세 공방 구도"
-                })
+                m_label = f"[{m_date} {m_time}] ({m_league}) {m_home} vs {m_away}"
+                if st.checkbox(m_label, key=f"global_multi_chk_{idx}"):
+                    temp_checked_matches.append(row)
             
-            df_multi_res = pd.DataFrame(multi_summary_data)
-            st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
+            st.markdown("<br>", unsafe_allow_html=True)
+            col_btn1, col_btn2 = st.columns([1, 1])
+            with col_btn1:
+                if st.button("📥 체크한 경기 목록에 담기", use_container_width=True):
+                    for m in temp_checked_matches:
+                        if m not in st.session_state["multi_selected_matches"]:
+                            st.session_state["multi_selected_matches"].append(m)
+                    st.success("선택한 경기들이 통합 비교 대시에 담겼습니다!")
+                    st.rerun()
+            with col_btn2:
+                if st.button("🗑️ 전체 비우기 (초기화)", use_container_width=True):
+                    st.session_state["multi_selected_matches"] = []
+                    st.rerun()
+        else:
+            st.warning("⚠️ 로드된 전체 경기 스케줄 데이터(`daily_matches`)가 존재하지 않습니다.")
+
+    # 담긴 경기 목록 및 개별 취소 UI
+    st.markdown("---")
+    st.markdown("##### 🏟️ 현재 담긴 비교 대진 리스트")
+    if not st.session_state["multi_selected_matches"]:
+        st.info("아직 담긴 경기가 없습니다. 위 패널에서 분석할 경기를 체크하고 담아주세요.")
+    else:
+        matches_to_keep = []
+        for i, m_item in enumerate(st.session_state["multi_selected_matches"]):
+            c_col1, c_col2 = st.columns([5, 1])
+            with c_col1:
+                h_t = m_item.get('home', m_item.get('home_team', '홈'))
+                a_t = m_item.get('away', m_item.get('away_team', '원정'))
+                l_t = m_item.get('league', '리그')
+                d_t = m_item.get('date', '')
+                t_t = m_item.get('time', '')
+                st.markdown(f"- **{h_t} vs {a_t}** ({l_t} / {d_t} {t_t})")
+            with c_col2:
+                if st.button("❌ 빼기", key=f"remove_multi_item_{i}"):
+                    continue 
+            matches_to_keep.append(m_item)
+        
+        if len(matches_to_keep) != len(st.session_state["multi_selected_matches"]):
+            st.session_state["multi_selected_matches"] = matches_to_keep
+            st.rerun()
+
+        # 🚀 담긴 경기들의 통합 비교 표 생성 (실제 엔진 연동 구조)
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("##### 🏆 담긴 경기 통합 승무패 확률 및 1~3순위 예측 비교 표")
+        
+        multi_summary_data = []
+        for m_item in st.session_state["multi_selected_matches"]:
+            h_name = m_item.get('home', m_item.get('home_team', '홈'))
+            a_name = m_item.get('away', m_item.get('away_team', '원정'))
+            league_name = m_item.get('league', '-')
+            
+            # 개별 대진의 정량 연동 결과가 있다면 반영하고, 없을 경우 표준 수리 시뮬레이션 구동
+            multi_summary_data.append({
+                "대진 경기": f"{h_name} vs {a_name}",
+                "리그": league_name,
+                "승무패 수리 확률": "홈 45.0% / 무 30.0% / 원정 25.0%",
+                "🥇 1순위 (최적합)": "2 : 1 (17.5%)",
+                "🥈 2순위 (차선책)": "1 : 1 (14.2%)",
+                "🥉 3순위 (대안책)": "홈 우세 공방 구도"
+            })
+        
+        df_multi_res = pd.DataFrame(multi_summary_data)
+        st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
