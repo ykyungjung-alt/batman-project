@@ -1250,7 +1250,7 @@ with tabs[5]:
     </div>
     """, unsafe_allow_html=True)
 
-    if has_detailed_data:
+if has_detailed_data:
         # 1. 1단계 기본 기대치 안전 추출
         h_base_g = h_gpg if 'h_gpg' in locals() else 0.0
         h_base_c = h_cpg if 'h_cpg' in locals() else 0.0
@@ -1263,16 +1263,21 @@ with tabs[5]:
         a_c_atk = parse_pct(a_atk_bonus) if 'a_atk_bonus' in locals() else 0.0
         a_c_def = parse_pct(a_def_bonus) if 'a_def_bonus' in locals() else 0.0
 
-        # 3. 규칙 1 (7경기 LIFO 가중치) 변수 안전 정의
-        h_atw_str = h_atw if 'h_atw' in locals() else "+4.0%"
-        h_dew_str = h_dew if 'h_dew' in locals() else "-4.0%"
-        a_atw_str = a_atw if 'a_atw' in locals() else "+4.0%"
-        a_dew_str = a_dew if 'a_dew' in locals() else "-4.0%"
+        # 3. [NameError 방지] 규칙 1 변수 안전 초기화
+        h_atw = h_atw if 'h_atw' in locals() else "+4.0%"
+        h_dew = h_dew if 'h_dew' in locals() else "-4.0%"
+        a_atw = a_atw if 'a_atw' in locals() else "+4.0%"
+        a_dew = a_dew if 'a_dew' in locals() else "-4.0%"
 
-        h_r1_atk_val = parse_pct(h_atw_str)
-        h_r1_def_val = parse_pct(h_dew_str)
-        a_r1_atk_val = parse_pct(a_atw_str)
-        a_r1_def_val = parse_pct(a_dew_str)
+        h_r1_atk = h_atw
+        h_r1_def = h_dew
+        a_r1_atk = a_atw
+        a_r1_def = a_dew
+
+        h_r1_atk_val = parse_pct(h_r1_atk)
+        h_r1_def_val = parse_pct(h_r1_def)
+        a_r1_atk_val = parse_pct(a_r1_atk)
+        a_r1_def_val = parse_pct(a_r1_def)
 
         # 4. 규칙 2 ~ 규칙 4 변수 안전 정의
         h_r2_atk = h_atk_val if 'h_atk_val' in locals() else 0.0
