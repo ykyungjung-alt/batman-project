@@ -11,6 +11,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+
 # ==========================================
 # 🧩 개별 독립 파싱 모듈
 # ==========================================
@@ -92,7 +93,6 @@ def parse_standings(soup, color_to_label, default_standings):
     parsed_standings = []
     seen_teams = set()
     
-    # ✅ 수정: 여러 가능한 선택자를 순서대로 시도
     selectors_to_try = [
         'ul#standingList li.standis',
         'ul#standingList li',
@@ -113,12 +113,18 @@ def parse_standings(soup, color_to_label, default_standings):
             break
     
     if not standing_rows:
-        # 디버깅용: 실제 존재하는 li 요소 클래스명 출력
         all_lis = soup.select('#standingPlates li, ul li')
         sample_classes = list(set([li.get('class','') for li in all_lis[:10]]))
         return default_standings, f"[모듈 에러] 모든 선택자 실패. 시도한 마지막: {used_selector}, 발견된 샘플 클래스: {sample_classes}"
     
     for row in standing_rows:
+        # ✅ 그룹 타이틀 행(예: League Round A 등) 및 타이틀 헤더 행은 무조건 건너뜀
+        row_classes = row.get("class", [])
+        if isinstance(row_classes, str):
+            row_classes = [row_classes]
+        if any(cls in row_classes for cls in ["group", "title", "gray"]):
+            continue
+
         style_attr = row.get("style", "")
         tag_color = ""
         if "--tagcolor:" in style_attr:
@@ -126,7 +132,6 @@ def parse_standings(soup, color_to_label, default_standings):
                 tag_color = style_attr.split("--tagcolor:")[1].split(";")[0].strip().upper()
             except:
                 pass
-        # 배경색 스타일에서도 추출 시도
         if not tag_color and "background-color:" in style_attr:
             try:
                 tag_color = style_attr.split("background-color:")[1].split(";")[0].strip().upper()
@@ -170,10 +175,8 @@ def parse_standings(soup, color_to_label, default_standings):
             return elem.get_text(strip=True)
 
         stat_values = []
-        # 팀 이름 외 숫자 통계 추출
         all_cells = row.find_all("span") + row.find_all("td")
         for cell in all_cells:
-            # 순위/팀이름 요소는 제외
             if cell.find_parent("span", class_="team") or cell.find_parent("span", class_="rank"):
                 continue
             ccls = cell.get("class", [])
@@ -186,7 +189,6 @@ def parse_standings(soup, color_to_label, default_standings):
                 if val.isdigit() or (val.startswith(('+','-')) and val[1:].isdigit()):
                     stat_values.append(val)
 
-        # 최소 6개 통계(경기,승,무,패,득실,승점) 확인
         if len(stat_values) >= 6:
             p_val = stat_values[0]
             w_val = stat_values[1]
@@ -209,7 +211,6 @@ def parse_standings(soup, color_to_label, default_standings):
                     "득실": gd_val,
                     "승점": pts_val
                 })
-        # 대체: 통계가 적은 경우에도 시도
         elif len(stat_values) >= 4:
             if team_val not in seen_teams:
                 seen_teams.add(team_val)
@@ -247,12 +248,14 @@ def run_crawler_v4():
                 existing_leagues = loaded_json.get("leagues", {})
         except Exception as e:
             print(f"ℹ️ [불러오기 실패] 기존 JSON 파일 로드 실패: {e}")
+            
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
+    
     target_leagues = [
         {"id": 34, "url": "https://football.scoreman123.com/league/34"},
         {"id": 39, "url": "https://football.scoreman123.com/league/39"},
@@ -280,10 +283,12 @@ def run_crawler_v4():
         {"id": 113, "url": "https://football.scoreman123.com/league/113"},
         {"id": 2187, "url": "https://football.scoreman123.com/league/2187"}
     ]
+    
     all_leagues_data = {
         "updated_at": now_kst,
         "leagues": {}
     }
+    
     driver = None
     try:
         service = Service(ChromeDriverManager().install())
@@ -291,6 +296,7 @@ def run_crawler_v4():
     except Exception as e:
         print(f"❌ [코드 에러] 드라이버 초기화 실패: {e}")
         return
+        
     try:
         for league in target_leagues:
             league_id = league["id"]
@@ -318,12 +324,10 @@ def run_crawler_v4():
                 all_leagues_data["leagues"][str(league_id)] = league_match_data
                 continue
 
-            # ✅ 수정: 내부 리스트 요소가 보일 때까지 더 오래 기다림
             try:
                 WebDriverWait(driver, 20).until(
                     lambda d: d.find_element(By.CSS_SELECTOR, "#standingPlates").is_displayed()
                 )
-                # 추가 대기: 동적 내용 렌더링 완료를 위해
                 time.sleep(2.5)
             except Exception as wait_err:
                 league_match_data["standings_error"] = f"[대기 오류] 순위표 영역이 보이지 않음: {str(wait_err)}"
@@ -333,19 +337,18 @@ def run_crawler_v4():
                     EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingType span[data-st-type='1']"))
                 )
                 driver.execute_script("arguments[0].click();", total_btn)
-                time.sleep(1.5)  # ✅ 대기 시간 늘림
+                time.sleep(1.5)
                 result_btn = WebDriverWait(driver, 10).until(
                     EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingHF span[data-st-hf='0']"))
                 )
                 driver.execute_script("arguments[0].click();", result_btn)
-                time.sleep(2)  # ✅ 탭 전환 후 데이터 갱신 대기
+                time.sleep(2)
             except Exception as tab_err:
                 print(f"  ⚠️ [조건 불일치] 필수 탭 제어 중 예외 발생: {tab_err} — 계속 진행")
 
-            # ✅ 디버깅: 실제 HTML 일부 저장 (처음 실행 시 확인용)
             soup = BeautifulSoup(driver.page_source, 'html.parser')
             with open(f"debug_html_{league_id}.html", "w", encoding="utf-8") as f:
-                f.write(soup.prettify()[:20000])  # 앞부분만 저장
+                f.write(soup.prettify()[:20000])
 
             name_res, name_err = parse_league_name(soup, league_match_data["league_name"])
             league_match_data["league_name"] = name_res
@@ -378,10 +381,10 @@ def run_crawler_v4():
     finally:
         if driver:
             driver.quit()
+            
     with open("match_details_v4.json", "w", encoding="utf-8") as f:
         json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
     print("🎉 match_details_v4.json 저장 완료")
-    print("ℹ️ 디버깅용 HTML 파일: debug_html_리그ID.html 로 저장됨")
 
 if __name__ == "__main__":
     run_crawler_v4()
