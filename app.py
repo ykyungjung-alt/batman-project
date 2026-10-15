@@ -797,10 +797,12 @@ if standing_display_rows:
 if has_detailed_data:
     meta_details = detailed_info.get("meta_details", {})
     fixtures_info = meta_details.get("fixtures", {})
-    home_fixtures = fixtures_info.get("home", [])
-    away_fixtures = fixtures_info.get("away", [])
+    
+    # 💡 홈/원정 데이터 완전 독립 분리 추출
+    home_fixtures = list(fixtures_info.get("home", []))
+    away_fixtures = list(fixtures_info.get("away", []))
 
-    def parse_timeline_with_exact_recent(fix_list, recent_matches_list, target_team_name, base_match_date, is_home_team, standing_info):
+    def parse_timeline_independent(fix_list, recent_list, target_team_name, base_match_date, is_home_team, standing_info):
         base_dt = None
         try:
             base_clean = base_match_date.split(" ")[0].replace(".", "-").replace("/", "-")
@@ -809,16 +811,18 @@ if has_detailed_data:
             base_dt = datetime.now()
 
         all_candidates = []
-        seen_dates = set()
-        for fix in fix_list + recent_matches_list:
-            m_time = fix.get("match_time", "")
-            if m_time and m_time not in seen_dates:
+        seen_keys = set()
+        for fix in list(fix_list) + list(recent_list):
+            m_time = str(fix.get("match_time", ""))
+            m_teams = str(fix.get("teams", ""))
+            uniq_key = f"{m_time}_{m_teams}"
+            if uniq_key not in seen_keys:
                 all_candidates.append(fix)
-                seen_dates.add(m_time)
+                seen_keys.add(uniq_key)
 
         past_fixtures, future_fixtures = [], []
         for fix in all_candidates:
-            match_time = fix.get("match_time", "")
+            match_time = str(fix.get("match_time", ""))
             try:
                 curr_clean = match_time.split(" ")[0].replace(".", "-").replace("/", "-")
                 curr_dt = datetime.strptime(curr_clean[:10], "%Y-%m-%d")
@@ -835,15 +839,15 @@ if has_detailed_data:
         future_fixtures = sorted(future_fixtures, key=lambda x: x[0])
 
         def parse_fix_details(fix):
-            match_time = fix.get("match_time", "")
-            league_raw = fix.get("league", "")
+            match_time = str(fix.get("match_time", ""))
+            league_raw = str(fix.get("league", ""))
             league_name = translate_tournament_code(league_raw)
-            teams_str = fix.get("teams", "")
+            teams_str = str(fix.get("teams", ""))
             
             cleaned_teams = re.sub(r'\d{1,2}\.\d{1,2}\s+\d{4}', '', teams_str)
             cleaned_teams = re.sub(r'\d+\s*일|시작전', '', cleaned_teams)
             parts = [p.strip() for p in cleaned_teams.split("vs") if p.strip()]
-            target_clean = target_team_name.replace(" ", "")
+            target_clean = str(target_team_name).replace(" ", "")
             
             opp_name, loc_type = "상대미상", "원정"
             valid_teams = [p for p in parts if not re.search(r'\d', p) and p.replace(" ", "")]
@@ -904,11 +908,12 @@ if has_detailed_data:
 
         return p_cell_7d, p_cell_4d, future_4d, future_7d, current_match_fatigue
 
-    home_recent_list = h_matches if 'h_matches' in locals() else []
-    away_recent_list = a_matches if 'a_matches' in locals() else []
+    # 홈 팀과 원정 팀을 각각 독립된 변수 풀로 완전히 분리하여 호출
+    home_recent_list = list(h_matches) if 'h_matches' in locals() and isinstance(h_matches, list) else []
+    away_recent_list = list(a_matches) if 'a_matches' in locals() and isinstance(a_matches, list) else []
     
-    home_p7, home_p4, home_f4, home_f7, h_last_fatigue = parse_timeline_with_exact_recent(home_fixtures, home_recent_list, home_team, match_date, True, home_standing)
-    away_p7, away_p4, away_f4, away_f7, a_last_fatigue = parse_timeline_with_exact_recent(away_fixtures, away_recent_list, away_team, match_date, False, away_standing)
+    home_p7, home_p4, home_f4, home_f7, h_last_fatigue = parse_timeline_independent(home_fixtures, home_recent_list, home_team, match_date, True, home_standing)
+    away_p7, away_p4, away_f4, away_f7, a_last_fatigue = parse_timeline_independent(away_fixtures, away_recent_list, away_team, match_date, False, away_standing)
 
     h_fut_c1 = home_f4[0] if home_f4 else "휴식"
     h_fut_c2 = home_f7[0] if home_f7 else "휴식"
