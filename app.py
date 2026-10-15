@@ -798,11 +798,11 @@ if has_detailed_data:
     meta_details = detailed_info.get("meta_details", {})
     fixtures_info = meta_details.get("fixtures", {})
     
-    # 💡 홈/원정 데이터 완전 독립 분리 추출
-    home_fixtures = list(fixtures_info.get("home", []))
-    away_fixtures = list(fixtures_info.get("away", []))
+    # 홈/원정 데이터 원본 리스트 복제 격리
+    raw_home_fixes = list(fixtures_info.get("home", []))
+    raw_away_fixes = list(fixtures_info.get("away", []))
 
-    def parse_timeline_independent(fix_list, recent_list, target_team_name, base_match_date, is_home_team, standing_info):
+    def parse_timeline_strictly_isolated(fix_list, recent_list, target_team_name, base_match_date, is_home_team, standing_info):
         base_dt = None
         try:
             base_clean = base_match_date.split(" ")[0].replace(".", "-").replace("/", "-")
@@ -810,110 +810,111 @@ if has_detailed_data:
         except Exception:
             base_dt = datetime.now()
 
-        all_candidates = []
-        seen_keys = set()
-        for fix in list(fix_list) + list(recent_list):
-            m_time = str(fix.get("match_time", ""))
-            m_teams = str(fix.get("teams", ""))
-            uniq_key = f"{m_time}_{m_teams}"
-            if uniq_key not in seen_keys:
-                all_candidates.append(fix)
-                seen_keys.add(uniq_key)
+        combined_pool = []
+        seen_identifiers = set()
+        for f in list(fix_list) + list(recent_list):
+            m_t = str(f.get("match_time", ""))
+            m_tm = str(f.get("teams", ""))
+            uid = f"{m_t}_{m_tm}"
+            if uid not in seen_identifiers:
+                combined_pool.append(f)
+                seen_identifiers.add(uid)
 
-        past_fixtures, future_fixtures = [], []
-        for fix in all_candidates:
-            match_time = str(fix.get("match_time", ""))
+        past_arr, future_arr = [], []
+        for f in combined_pool:
+            m_time_str = str(f.get("match_time", ""))
             try:
-                curr_clean = match_time.split(" ")[0].replace(".", "-").replace("/", "-")
-                curr_dt = datetime.strptime(curr_clean[:10], "%Y-%m-%d")
+                c_clean = m_time_str.split(" ")[0].replace(".", "-").replace("/", "-")
+                c_dt = datetime.strptime(c_clean[:10], "%Y-%m-%d")
             except Exception:
                 continue
-            if base_dt and curr_dt:
-                diff_days = (curr_dt - base_dt).days
-                if diff_days < 0:
-                    past_fixtures.append((diff_days, fix))
-                elif diff_days > 0:
-                    future_fixtures.append((diff_days, fix))
+            if base_dt and c_dt:
+                d_diff = (c_dt - base_dt).days
+                if d_diff < 0:
+                    past_arr.append((d_diff, f))
+                elif d_diff > 0:
+                    future_arr.append((d_diff, f))
 
-        past_fixtures = sorted(past_fixtures, key=lambda x: x[0], reverse=True)
-        future_fixtures = sorted(future_fixtures, key=lambda x: x[0])
+        past_arr = sorted(past_arr, key=lambda x: x[0], reverse=True)
+        future_arr = sorted(future_arr, key=lambda x: x[0])
 
-        def parse_fix_details(fix):
-            match_time = str(fix.get("match_time", ""))
-            league_raw = str(fix.get("league", ""))
-            league_name = translate_tournament_code(league_raw)
-            teams_str = str(fix.get("teams", ""))
+        def parse_single_fixture(f_item):
+            m_time_str = str(f_item.get("match_time", ""))
+            league_raw_str = str(f_item.get("league", ""))
+            league_title = translate_tournament_code(league_raw_str)
+            teams_raw_str = str(f_item.get("teams", ""))
             
-            cleaned_teams = re.sub(r'\d{1,2}\.\d{1,2}\s+\d{4}', '', teams_str)
-            cleaned_teams = re.sub(r'\d+\s*일|시작전', '', cleaned_teams)
-            parts = [p.strip() for p in cleaned_teams.split("vs") if p.strip()]
-            target_clean = str(target_team_name).replace(" ", "")
+            cleaned_t = re.sub(r'\d{1,2}\.\d{1,2}\s+\d{4}', '', teams_raw_str)
+            cleaned_t = re.sub(r'\d+\s*일|시작전', '', cleaned_t)
+            p_list = [p.strip() for p in cleaned_t.split("vs") if p.strip()]
+            t_clean_name = str(target_team_name).replace(" ", "")
             
-            opp_name, loc_type = "상대미상", "원정"
-            valid_teams = [p for p in parts if not re.search(r'\d', p) and p.replace(" ", "")]
+            opponent_n, loc_kind = "상대미상", "원정"
+            valid_t_list = [p for p in p_list if not re.search(r'\d', p) and p.replace(" ", "")]
 
-            if len(valid_teams) >= 2:
-                team_a, team_b = valid_teams[0], valid_teams[1]
-                if target_clean in team_a.replace(" ", ""):
-                    opp_name, loc_type = team_b, "홈"
+            if len(valid_t_list) >= 2:
+                t_a, t_b = valid_t_list[0], valid_t_list[1]
+                if t_clean_name in t_a.replace(" ", ""):
+                    opponent_n, loc_kind = t_b, "홈"
                 else:
-                    opp_name, loc_type = team_a, "원정"
-            elif len(valid_teams) == 1:
-                if target_clean not in valid_teams[0].replace(" ", ""):
-                    opp_name = valid_teams[0]
+                    opponent_n, loc_kind = t_a, "원정"
+            elif len(valid_t_list) == 1:
+                if t_clean_name not in valid_t_list[0].replace(" ", ""):
+                    opponent_n = valid_t_list[0]
 
-            imp_label, _, _ = determine_match_importance(standing_info, league_raw)
-            date_short = match_time.split(" ")[0].replace("-", ".").replace("/", ".")
-            row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {imp_label} / {loc_type}"
-            return {"desc": row_desc, "loc_type": loc_type, "diff_days": diff_days}
+            imp_lbl, _, _ = determine_match_importance(standing_info, league_raw_str)
+            date_s = m_time_str.split(" ")[0].replace("-", ".").replace("/", ".")
+            row_formatted_desc = f"{date_s} / vs {opponent_n}<br>{league_title} / {imp_lbl} / {loc_kind}"
+            return {"desc": row_formatted_desc, "loc_type": loc_kind, "diff_days": d_diff}
 
-        processed_past = []
-        running_fatigue = 0
-        chrono_past = sorted(past_fixtures, key=lambda x: x[0])
-        past_7d_list, past_4d_list = [], []
+        history_processed = []
+        current_fatigue_acc = 0
+        chrono_sorted_past = sorted(past_arr, key=lambda x: x[0])
+        past_7d_collected, past_4d_collected = [], []
 
-        for diff_d, fix in chrono_past:
-            abs_diff = abs(diff_d)
-            if abs_diff <= 7:
-                details = parse_fix_details(fix)
-                curr_loc = details["loc_type"]
+        for d_d, f_item in chrono_sorted_past:
+            abs_d_val = abs(d_d)
+            if abs_d_val <= 7:
+                det = parse_single_fixture(f_item)
+                c_loc = det["loc_type"]
                 
-                if curr_loc == "원정":
-                    running_fatigue += 1
+                if c_loc == "원정":
+                    current_fatigue_acc += 1
                 else:
-                    running_fatigue = 0
+                    current_fatigue_acc = 0
                 
-                processed_past.append({"desc": details["desc"], "fatigue_level": running_fatigue, "loc_type": curr_loc})
+                history_processed.append({"desc": det["desc"], "fatigue_level": current_fatigue_acc, "loc_type": c_loc})
 
-                if 4 < abs_diff <= 7:
-                    past_7d_list.append(details["desc"])
-                elif 1 <= abs_diff <= 4:
-                    past_4d_list.append(details["desc"])
+                if 4 < abs_d_val <= 7:
+                    past_7d_collected.append(det["desc"])
+                elif 1 <= abs_d_val <= 4:
+                    past_4d_collected.append(det["desc"])
 
-        p_cell_7d = past_7d_list[0] if past_7d_list else "휴식"
-        p_cell_4d = past_4d_list[0] if past_4d_list else "휴식"
+        cell_7d = past_7d_collected[0] if past_7d_collected else "휴식"
+        cell_4d = past_4d_collected[0] if past_4d_collected else "휴식"
         
-        if p_cell_4d == "휴식":
-            running_fatigue = 0
+        if cell_4d == "휴식":
+            current_fatigue_acc = 0
 
-        last_past_fatigue = running_fatigue
-        current_loc_type = "홈" if is_home_team else "원정"
-        if current_loc_type == "원정":
-            current_match_fatigue = last_past_fatigue + 1
+        final_past_fatigue_val = current_fatigue_acc
+        my_loc_type = "홈" if is_home_team else "원정"
+        
+        if my_loc_type == "원정":
+            final_match_fatigue_stage = final_past_fatigue_val + 1
         else:
-            current_match_fatigue = last_past_fatigue
+            final_match_fatigue_stage = final_past_fatigue_val
 
-        future_4d = [parse_fix_details(f)["desc"] for d, f in future_fixtures if 0 < d <= 4]
-        future_7d = [parse_fix_details(f)["desc"] for d, f in future_fixtures if 4 < d <= 7]
+        future_4d_list = [parse_single_fixture(f)["desc"] for d, f in future_arr if 0 < d <= 4]
+        future_7d_list = [parse_single_fixture(f)["desc"] for d, f in future_arr if 4 < d <= 7]
 
-        return p_cell_7d, p_cell_4d, future_4d, future_7d, current_match_fatigue
+        return cell_7d, cell_4d, future_4d_list, future_7d_list, final_match_fatigue_stage
 
-    # 홈 팀과 원정 팀을 각각 독립된 변수 풀로 완전히 분리하여 호출
-    home_recent_list = list(h_matches) if 'h_matches' in locals() and isinstance(h_matches, list) else []
-    away_recent_list = list(a_matches) if 'a_matches' in locals() and isinstance(a_matches, list) else []
+    # 홈 팀과 원정 팀 변수를 완전히 별도로 분리 생성하여 오염 방지
+    isolated_home_recent = list(h_matches) if 'h_matches' in locals() and isinstance(h_matches, list) else []
+    isolated_away_recent = list(a_matches) if 'a_matches' in locals() and isinstance(a_matches, list) else []
     
-    home_p7, home_p4, home_f4, home_f7, h_last_fatigue = parse_timeline_independent(home_fixtures, home_recent_list, home_team, match_date, True, home_standing)
-    away_p7, away_p4, away_f4, away_f7, a_last_fatigue = parse_timeline_independent(away_fixtures, away_recent_list, away_team, match_date, False, away_standing)
+    home_p7, home_p4, home_f4, home_f7, h_last_fatigue = parse_timeline_strictly_isolated(raw_home_fixes, isolated_home_recent, home_team, match_date, True, home_standing)
+    away_p7, away_p4, away_f4, away_f7, a_last_fatigue = parse_timeline_strictly_isolated(raw_away_fixes, isolated_away_recent, away_team, match_date, False, away_standing)
 
     h_fut_c1 = home_f4[0] if home_f4 else "휴식"
     h_fut_c2 = home_f7[0] if home_f7 else "휴식"
