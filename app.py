@@ -726,7 +726,7 @@ with tabs[3]:
     st.markdown("---")
 
 # ==========================================
-    # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인 (4일/7일 대칭 구조 적용)
+    # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인 (홈 복귀 및 원정 이동 누적 규격 반영)
     # ==========================================
     st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
     
@@ -736,7 +736,7 @@ with tabs[3]:
         home_fixtures = fixtures_info.get("home", [])
         away_fixtures = fixtures_info.get("away", [])
 
-        def parse_timeline_with_exact_recent(fix_list, recent_matches_list, target_team_name, base_match_date):
+        def parse_timeline_with_exact_recent(fix_list, recent_matches_list, target_team_name, base_match_date, is_home_team):
             base_dt = None
             try:
                 base_clean = base_match_date.split(" ")[0].replace(".", "-").replace("/", "-")
@@ -814,7 +814,7 @@ with tabs[3]:
             chrono_past = sorted(past_fixtures, key=lambda x: x[0])
             for diff_d, fix in chrono_past:
                 abs_diff = abs(diff_d)
-                if abs_diff <= 4:  # 💡 4일 이내 과거로 확장
+                if abs_diff <= 4:
                     details = parse_fix_details(fix)
                     if details["loc_type"] == "원정":
                         running_fatigue += 1
@@ -828,6 +828,18 @@ with tabs[3]:
                 h_past_cell = processed_past[-1]["desc"]
                 last_past_fatigue = processed_past[-1]["fatigue_level"]
 
+            # 💡 [규칙 반영 완벽 수정] 오늘 경기 구장 및 복귀/원정 이동 피로도 최종 판정
+            current_loc_type = "홈" if is_home_team else "원정"
+            if current_loc_type == "원정":
+                # 오늘 경기가 원정이면 과거 휴식 상태였어도 원정 이동으로 기본 +1 (연속 원정이면 누적)
+                current_match_fatigue = last_past_fatigue + 1
+            else:
+                # 오늘 경기가 홈이어도, 직전 과거 경기가 원정이었다면 홈 복귀 이동으로 피로도 1단계 부여 (휴식이거나 홈이었으면 0단계)
+                if processed_past and processed_past[-1]["loc_type"] == "원정":
+                    current_match_fatigue = 1
+                else:
+                    current_match_fatigue = 0
+
             # 💡 향후 4일 이내 / 향후 7일 이내 분류
             future_4d = []
             future_7d = []
@@ -838,13 +850,13 @@ with tabs[3]:
                 elif 4 < diff_d <= 7:
                     future_7d.append(details["desc"])
 
-            return h_past_cell, future_4d, future_7d, last_past_fatigue
+            return h_past_cell, future_4d, future_7d, current_match_fatigue
 
         home_recent_list = h_matches if 'h_matches' in locals() else []
         away_recent_list = a_matches if 'a_matches' in locals() else []
         
-        home_past_desc, home_f4, home_f7, h_last_fatigue = parse_timeline_with_exact_recent(home_fixtures, home_recent_list, home_team, match_date)
-        away_past_desc, away_f4, away_f7, a_last_fatigue = parse_timeline_with_exact_recent(away_fixtures, away_recent_list, away_team, match_date)
+        home_past_desc, home_f4, home_f7, h_last_fatigue = parse_timeline_with_exact_recent(home_fixtures, home_recent_list, home_team, match_date, is_home_team=True)
+        away_past_desc, away_f4, away_f7, a_last_fatigue = parse_timeline_with_exact_recent(away_fixtures, away_recent_list, away_team, match_date, is_home_team=False)
 
         h_fut_c1 = home_f4[0] if len(home_f4) > 0 else "휴식"
         h_fut_c2 = home_f7[0] if len(home_f7) > 0 else "휴식"
@@ -920,7 +932,6 @@ with tabs[3]:
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터(fixtures)가 아직 수집되지 않았습니다.")
         st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, 일정 누수 및 피로도 산출 내역을 표시할 수 없습니다.")
-
 # --- [4단계] --- 
 with tabs[4]:
     st.markdown(f"#### [규칙 4번: 역대 공식 맞대결 상성 전수 로그 및 단방향 10% 룰] - {home_team} vs {away_team}")
