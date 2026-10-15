@@ -244,30 +244,77 @@ with tabs[0]:
     | **데이터 상태 검증** | {meta_status} |
     """
     st.markdown(meta_markdown_table, unsafe_allow_html=True)
-    st.markdown("##### 📊 공식 팀 순위 및 조건별 전적표 현황")
+    st.markdown("##### 📊 공식 팀 순위 및 국가별 등급·가중치 연동 현황")
     
     if has_detailed_data:
         meta_details = detailed_info.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
+        
+        # country.json 로드 함수
+        @st.cache_data
+        def load_country_data():
+            import json, os
+            if os.path.exists("country.json"):
+                with open("country.json", "r", encoding="utf-8") as f:
+                    return json.load(f)
+            return {}
+
+        country_data = load_country_data()
+
+        def match_country_and_weights(team_str, league_str):
+            grades = country_data.get("grades", {})
+            target_text = f"{team_str} {league_str}".upper()
+            
+            # A~E 등급 순회하며 국가명, 코드, 리그명 매칭 검증
+            for grade_key, countries in grades.items():
+                if grade_key == "F":
+                    continue
+                if isinstance(countries, list):
+                    for c in countries:
+                        c_name = str(c.get("name", "")).upper()
+                        c_code = str(c.get("code", "")).upper()
+                        c_leagues = [str(l).upper() for l in c.get("leagues", [])]
+                        
+                        # 국가명, 코드, 또는 리그명 포함 여부 철저 검증
+                        if (c_name and c_name in target_text) or \
+                           (c_code and c_code in target_text) or \
+                           any(l in target_text or l in str(league_str).upper() for l in c_leagues):
+                            return c.get("name", "-"), c.get("code", "-"), c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+            
+            # 매칭되지 않을 경우 기본 F등급 처리
+            f_info = grades.get("F", {})
+            return "기타", "EXT", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
+
         if rankings_raw:
             rankings_list = []
             for idx, r in enumerate(rankings_raw):
+                team_name = str(r.get("team", "-"))
+                raw_league = str(r.get("league", tournament_name))
+                
+                # 국가명, 코드, 리그명 조건 전면 연동
+                matched_name, matched_code, grade, atk_b, def_b = match_country_and_weights(team_name, raw_league)
+                
                 rankings_list.append({
                     "No": idx + 1,
                     "리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
-                    "팀": str(r.get("team", "-")),
+                    "팀": team_name,
+                    "국가명": matched_name,
+                    "코드": matched_code,
+                    "리그명": raw_league,
+                    "등급": grade,
+                    "공격보정": atk_b,
+                    "수비보정": def_b,
                     "경기": str(r.get("played", "0")), "승": str(r.get("win", "0")),
                     "무승부": str(r.get("draw", "0")), "패": str(r.get("loss", "0")),
                     "득점": str(r.get("goals_for", "0")), "실점": str(r.get("goals_against", "0")),
                     "득실": str(r.get("goal_diff", "0")), "승점": str(r.get("points", "0"))
                 })
             df_rankings = pd.DataFrame(rankings_list)
-            st.dataframe(df_rankings[["리그순위", "팀", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
+            st.dataframe(df_rankings[["리그순위", "팀", "국가명", "코드", "리그명", "등급", "공격보정", "수비보정", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
         else:
             st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-
 
 
 # ==========================================
