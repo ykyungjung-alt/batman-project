@@ -1238,7 +1238,20 @@ else:
     a_r4_def_val = 0.0
 
 # ==========================================
-# 규칙 5번 탭 전체 교체용 코드 (NameError 원천 방어 및 완벽 통합본)
+# 1. 안전 파싱 함수 전역 사전 정의 (함수 누락 방지)
+# ==========================================
+def parse_pct(val_str):
+    if not val_str:
+        return 0.0
+    try:
+        cleaned = str(val_str).replace('%', '').replace('+', '').strip()
+        return float(cleaned)
+    except:
+        return 0.0
+
+
+# ==========================================
+# 2. 규칙 5번 탭 전체 교체용 최종 안전 완성본
 # ==========================================
 with tabs[5]:
     st.markdown(f"#### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
@@ -1251,17 +1264,11 @@ with tabs[5]:
     """, unsafe_allow_html=True)
 
     if has_detailed_data:
-        # 💡 [원천 방어 코드] 규칙 1번 변수가 상위 스코프에 없을 경우 NameError를 막기 위한 사전 기본값 선언
-        h_atw = h_atw if 'h_atw' in locals() else "0%"
-        h_dew = h_dew if 'h_dew' in locals() else "0%"
-        a_atw = a_atw if 'a_atw' in locals() else "0%"
-        a_dew = a_dew if 'a_dew' in locals() else "0%"
-
-        # 문자열 스트링 매핑 변수 정의 (5-1 표 렌더링 시 참조용)
-        h_atw_str = h_atw
-        h_dew_str = h_dew
-        a_atw_str = a_atw
-        a_dew_str = a_dew
+        # 💡 [완벽 방어] 상위 탭 데이터 유무와 상관없이 NameError 원천 차단
+        h_atw_str = h_atw if 'h_atw' in locals() else "0%"
+        h_dew_str = h_dew if 'h_dew' in locals() else "0%"
+        a_atw_str = a_atw if 'a_atw' in locals() else "0%"
+        a_dew_str = a_dew if 'a_dew' in locals() else "0%"
 
         # 1. 1단계 기본 기대치 안전 추출
         h_base_g = h_gpg if 'h_gpg' in locals() else 0.0
@@ -1529,6 +1536,8 @@ with tabs[5]:
         st.markdown("---")
         st.markdown(f"##### ✈️ 원정 팀: {away_team} (상대({home_team}) 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_agf, a_aga, a_rule_active = build_team_52_dataframe(away_matched_7, away_team)
+        if h_rule_active: # (참고: a_rule_active 오타 방지용)
+            pass
         if a_rule_active:
             st.info(f"⚡ **[특수 룰 발동 안내]** {away_team} 팀은 원본 실전 평균 공격력/방어력이 기준치를 충족하여, 최근 7경기 중 **Tier E 상대전 득점력이 50% 할인 보정**되었습니다.")
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
