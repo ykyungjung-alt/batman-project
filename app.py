@@ -1238,7 +1238,7 @@ else:
     a_r4_def_val = 0.0
 
 # ==========================================
-# 규칙 5번 탭 전체 교체용 코드 (에러 방지 완전 통합본)
+# 규칙 5번 탭 전체 교체용 코드 (NameError 완전 해결 버전)
 # ==========================================
 with tabs[5]:
     st.markdown(f"#### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
@@ -1263,16 +1263,21 @@ with tabs[5]:
         a_c_atk = parse_pct(a_atk_bonus) if 'a_atk_bonus' in locals() else 0.0
         a_c_def = parse_pct(a_def_bonus) if 'a_def_bonus' in locals() else 0.0
 
-        # 3. 규칙 1 (7경기 LIFO 가중치) 변수 정의
-        h_r1_atk = h_atw if 'h_atw' in locals() else "+4.0%"
-        h_r1_def = h_dew if 'h_dew' in locals() else "-4.0%"
-        a_r1_atk = a_atw if 'a_atw' in locals() else "+4.0%"
-        a_r1_def = a_dew if 'a_dew' in locals() else "-4.0%"
+        # 3. 규칙 1 (7경기 LIFO 가중치) 변수 안전 정의 (에러 원인인 변수 미선언 문제 원천 차단)
+        if 'h_atw' not in locals(): h_atw = "+4.0%"
+        if 'h_dew' not in locals(): h_dew = "-4.0%"
+        if 'a_atw' not in locals(): a_atw = "+4.0%"
+        if 'a_dew' not in locals(): a_dew = "-4.0%"
+
+        h_r1_atk = h_atw
+        h_r1_def = h_dew
+        a_r1_atk = a_atw
+        a_r1_def = a_dew
 
         h_r1_atk_val = parse_pct(h_r1_atk)
         h_r1_def_val = parse_pct(h_r1_def)
-        a_r1_atk_val = parse_pct(a_r1_atk)
-        a_r1_def_val = parse_pct(a_r1_def)
+        a_r1_atk_val = parse_pct(a_atw)
+        a_r1_def_val = parse_pct(a_dew)
 
         h_r2_atk = h_atk_val if 'h_atk_val' in locals() else 0.0
         h_r2_def = h_def_val if 'h_def_val' in locals() else 0.0
@@ -1591,7 +1596,6 @@ with tabs[5]:
         st.dataframe(pd.DataFrame(table_data_54), use_container_width=True, hide_index=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-        st.stop()
 
 # --------------------------------------------------------------------------
 # 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (최종 완벽 수정본)
