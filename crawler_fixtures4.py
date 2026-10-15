@@ -89,7 +89,7 @@ def parse_standing_legends(soup, default_legends):
         return default_legends, fallback_map, f"[코드 에러] 범례 파싱 예외 발생: {str(e)}"
 
 def parse_standings(soup, color_to_label, default_standings):
-    """💡 여러 선택자를 시도하는 순위표 파싱으로 개선"""
+    """💡 고정된 인덱스 기반으로 0 및 통계 데이터를 누락 없이 정확히 파싱"""
     parsed_standings = []
     seen_teams = set()
     
@@ -118,7 +118,7 @@ def parse_standings(soup, color_to_label, default_standings):
         return default_standings, f"[모듈 에러] 모든 선택자 실패. 시도한 마지막: {used_selector}, 발견된 샘플 클래스: {sample_classes}"
     
     for row in standing_rows:
-        # ✅ 그룹 타이틀 행(예: League Round A 등) 및 타이틀 헤더 행은 무조건 건너뜀
+        # 그룹 타이틀 및 헤더 행 제외
         row_classes = row.get("class", [])
         if isinstance(row_classes, str):
             row_classes = [row_classes]
@@ -174,28 +174,46 @@ def parse_standings(soup, color_to_label, default_standings):
                         return txt
             return elem.get_text(strip=True)
 
+        # ✅ 수정 포인트: 무작위 append 대신, 셀들을 순서대로 가져와서 유효한 숫자/기호('0' 포함)만 추출
+        raw_cells = row.find_all("span") + row.find_all("td")
         stat_values = []
-        all_cells = row.find_all("span") + row.find_all("td")
-        for cell in all_cells:
+        
+        for cell in raw_cells:
+            # 팀명이나 순위 컨테이너 내부의 셀은 통계에서 제외
             if cell.find_parent("span", class_="team") or cell.find_parent("span", class_="rank"):
                 continue
             ccls = cell.get("class", [])
             if isinstance(ccls, str):
                 ccls = [ccls]
-            if any(x in ccls for x in ["rank", "team", "name"]):
-                continue
+            if any(x in ccls for x in ["rank", "team", "name", "key"]):
+                # key 클래스는 승점 열일 수 있으므로 텍스트가 숫자인지 확인 후 허용
+                pass
+            
             val = extract_deep_text(cell)
-            if val and val != rank_val and val != team_val and val not in stat_values:
-                if val.isdigit() or (val.startswith(('+','-')) and val[1:].isdigit()):
-                    stat_values.append(val)
+            # 숫자들이나 득실점의 부호 포함 문자열 판정 (0도 허용)
+            if val and val != rank_val and val != team_val:
+                if val.isdigit() or val == "-" or (val.startswith(('+','-')) and val[1:].isdigit()):
+                    # 중복으로 잡히는 부모/자식 텍스트 방지
+                    if val not in stat_values[-2:]: 
+                        stat_values.append(val)
 
-        if len(stat_values) >= 6:
+        # 승점 열이 맨 뒤에 별도 클래스(key blue 등)로 존재하여 따로 잡히는 경우 보정
+        key_elem = row.select_one("span.key, .key")
+        pts_val = "-"
+        if key_elem:
+            pts_val = extract_deep_text(key_elem)
+
+        # 최소 통계 확보 및 인덱스 1:1 고정 매핑
+        if len(stat_values) >= 5:
             p_val = stat_values[0]
             w_val = stat_values[1]
             d_val = stat_values[2]
             l_val = stat_values[3]
             gd_val = stat_values[4]
-            pts_val = stat_values[5]
+            # stat_values에 승점까지 포함되어 들어온 경우 처리
+            if len(stat_values) >= 6 and pts_val == "-":
+                pts_val = stat_values[5]
+
             if team_val not in seen_teams:
                 seen_teams.add(team_val)
                 tag_label = color_to_label.get(tag_color, "일반")
@@ -210,22 +228,6 @@ def parse_standings(soup, color_to_label, default_standings):
                     "패": l_val,
                     "득실": gd_val,
                     "승점": pts_val
-                })
-        elif len(stat_values) >= 4:
-            if team_val not in seen_teams:
-                seen_teams.add(team_val)
-                tag_label = color_to_label.get(tag_color, "일반")
-                parsed_standings.append({
-                    "rank": rank_val,
-                    "team": team_val,
-                    "tag_color": tag_color,
-                    "tag_label": tag_label,
-                    "경기수": stat_values[0] if len(stat_values)>0 else "-",
-                    "승": stat_values[1] if len(stat_values)>1 else "-",
-                    "무": stat_values[2] if len(stat_values)>2 else "-",
-                    "패": stat_values[3] if len(stat_values)>3 else "-",
-                    "득실": stat_values[4] if len(stat_values)>4 else "-",
-                    "승점": stat_values[5] if len(stat_values)>5 else "-"
                 })
 
     if parsed_standings:
