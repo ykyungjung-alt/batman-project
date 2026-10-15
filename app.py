@@ -726,7 +726,7 @@ with tabs[3]:
     st.markdown("---")
 
 # ==========================================
-    # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인 (홈 복귀 및 원정 이동 누적 규격 반영)
+    # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인 (과거 7일/4일 & 미래 4일/7일 대칭 구조 및 피로도 누적 완벽 반영)
     # ==========================================
     st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
     
@@ -808,39 +808,48 @@ with tabs[3]:
                 row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {importance_label} / {loc_type}"
                 return {"desc": row_desc, "loc_type": loc_type, "diff_days": diff_days}
 
-            # 💡 과거 4일 이내 피로도 누적 연산
+            # 💡 과거 전체 기간(-7일 이내) 피로도 누적 연산 수행
             processed_past = []
             running_fatigue = 0
             chrono_past = sorted(past_fixtures, key=lambda x: x[0])
+            
+            past_7d_list = []
+            past_4d_list = []
+
             for diff_d, fix in chrono_past:
                 abs_diff = abs(diff_d)
-                if abs_diff <= 4:
+                if abs_diff <= 7:
                     details = parse_fix_details(fix)
                     if details["loc_type"] == "원정":
                         running_fatigue += 1
                     else:
                         running_fatigue = 0
-                    processed_past.append({"desc": details["desc"], "fatigue_level": running_fatigue, "loc_type": details["loc_type"]})
+                    
+                    item = {"desc": details["desc"], "fatigue_level": running_fatigue, "loc_type": details["loc_type"], "diff_days": diff_d}
+                    processed_past.append(item)
 
-            h_past_cell = "휴식"
-            last_past_fatigue = 0
-            if processed_past:
-                h_past_cell = processed_past[-1]["desc"]
-                last_past_fatigue = processed_past[-1]["fatigue_level"]
+                    # 구간 분류 (-7 ~ -5일은 7일 이내 구간, -4 ~ -1일은 4일 이내 구간)
+                    if 4 < abs_diff <= 7:
+                        past_7d_list.append(details["desc"])
+                    elif 1 <= abs_diff <= 4:
+                        past_4d_list.append(details["desc"])
 
-            # 💡 [규칙 반영 완벽 수정] 오늘 경기 구장 및 복귀/원정 이동 피로도 최종 판정
+            p_cell_7d = past_7d_list[0] if len(past_7d_list) > 0 else "휴식"
+            p_cell_4d = past_4d_list[0] if len(past_4d_list) > 0 else "휴식"
+            
+            last_past_fatigue = processed_past[-1]["fatigue_level"] if processed_past else 0
+
+            # 💡 [규칙 반영] 오늘 경기 구장 및 복귀/원정 이동 피로도 최종 판정
             current_loc_type = "홈" if is_home_team else "원정"
             if current_loc_type == "원정":
-                # 오늘 경기가 원정이면 과거 휴식 상태였어도 원정 이동으로 기본 +1 (연속 원정이면 누적)
                 current_match_fatigue = last_past_fatigue + 1
             else:
-                # 오늘 경기가 홈이어도, 직전 과거 경기가 원정이었다면 홈 복귀 이동으로 피로도 1단계 부여 (휴식이거나 홈이었으면 0단계)
                 if processed_past and processed_past[-1]["loc_type"] == "원정":
                     current_match_fatigue = 1
                 else:
                     current_match_fatigue = 0
 
-            # 💡 향후 4일 이내 / 향후 7일 이내 분류
+            # 💡 향후 일정 분류 (향후 4일 이내 / 향후 7일 이내)
             future_4d = []
             future_7d = []
             for diff_d, fix in future_fixtures:
@@ -850,13 +859,13 @@ with tabs[3]:
                 elif 4 < diff_d <= 7:
                     future_7d.append(details["desc"])
 
-            return h_past_cell, future_4d, future_7d, current_match_fatigue
+            return p_cell_7d, p_cell_4d, future_4d, future_7d, current_match_fatigue
 
         home_recent_list = h_matches if 'h_matches' in locals() else []
         away_recent_list = a_matches if 'a_matches' in locals() else []
         
-        home_past_desc, home_f4, home_f7, h_last_fatigue = parse_timeline_with_exact_recent(home_fixtures, home_recent_list, home_team, match_date, is_home_team=True)
-        away_past_desc, away_f4, away_f7, a_last_fatigue = parse_timeline_with_exact_recent(away_fixtures, away_recent_list, away_team, match_date, is_home_team=False)
+        home_p7, home_p4, home_f4, home_f7, h_last_fatigue = parse_timeline_with_exact_recent(home_fixtures, home_recent_list, home_team, match_date, is_home_team=True)
+        away_p7, away_p4, away_f4, away_f7, a_last_fatigue = parse_timeline_with_exact_recent(away_fixtures, away_recent_list, away_team, match_date, is_home_team=False)
 
         h_fut_c1 = home_f4[0] if len(home_f4) > 0 else "휴식"
         h_fut_c2 = home_f7[0] if len(home_f7) > 0 else "휴식"
@@ -873,7 +882,7 @@ with tabs[3]:
         timeline_table_html = f"""
         <style>
         .custom-timeline-wrap {{width: 100%; overflow-x: auto; margin-top: 10px; margin-bottom: 20px; border: 1px solid #e0e0e0; border-radius: 6px;}}
-        .custom-timeline-table {{width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; background-color: white; min-width: 800px;}}
+        .custom-timeline-table {{width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; background-color: white; min-width: 900px;}}
         .custom-timeline-table th, .custom-timeline-table td {{border: 1px solid #e0e0e0; padding: 10px 8px; vertical-align: middle; white-space: nowrap;}}
         .custom-timeline-table th {{background-color: #f5f5f5; font-weight: bold; color: #333;}}
         .custom-timeline-table tr:hover {{background-color: #fafafa;}}
@@ -883,6 +892,7 @@ with tabs[3]:
         <thead>
         <tr>
         <th>팀명</th>
+        <th>7일이내(과거)</th>
         <th>4일이내(과거)</th>
         <th style="background-color: #e3f2fd;">해당 경기</th>
         <th>향후 4일이내</th>
@@ -893,7 +903,8 @@ with tabs[3]:
         <tbody>
         <tr>
         <td style="font-weight: bold; background-color: #fafafa;">홈 팀<br>({home_team})</td>
-        <td>{home_past_desc}</td>
+        <td>{home_p7}</td>
+        <td>{home_p4}</td>
         <td style="background-color: #f7fbff; font-weight: bold;">{home_match_cell}</td>
         <td>{h_fut_c1}</td>
         <td>{h_fut_c2}</td>
@@ -901,7 +912,8 @@ with tabs[3]:
         </tr>
         <tr>
         <td style="font-weight: bold; background-color: #fafafa;">원정 팀<br>({away_team})</td>
-        <td>{away_past_desc}</td>
+        <td>{away_p7}</td>
+        <td>{away_p4}</td>
         <td style="background-color: #f7fbff; font-weight: bold;">{away_match_cell}</td>
         <td>{a_fut_c1}</td>
         <td>{a_fut_c2}</td>
