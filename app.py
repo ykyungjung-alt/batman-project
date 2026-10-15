@@ -289,28 +289,35 @@ with tabs[0]:
             fallback_code = extracted_code if extracted_code else "EXT"
             return fallback_code, rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
-        if rankings_raw:
+if rankings_raw:
             rankings_list = []
+            
+            # 💡 홈팀과 원정팀 보정치를 확실하게 담을 전역 변수 초기화
+            global h_atk_bonus, h_def_bonus, a_atk_bonus, a_def_bonus
+            h_atk_bonus, h_def_bonus = "+0%", "-0%"
+            a_atk_bonus, a_def_bonus = "+0%", "-0%"
+
+            clean_home_target = str(home_team).strip().replace(" ", "")
+            clean_away_target = str(away_team).strip().replace(" ", "")
+
             for idx, r in enumerate(rankings_raw):
                 team_name = str(r.get("team", "-"))
-                rank_code_str = str(r.get("rank", ""))  # 예: "POR D1-2"
+                rank_code_str = str(r.get("rank", ""))
                 
-                # rank 데이터를 활용해 country.json과 완벽 매칭 실행
                 matched_code, clean_league, grade, atk_b, def_b = match_with_country_json_exact(rank_code_str, team_name)
                 
+                # 💡 현재 행의 팀 이름이 홈팀 또는 원정팀과 일치하면 해당 보정치를 확실하게 대입
+                clean_row_team = team_name.strip().replace(" ", "")
+                if clean_home_target in clean_row_team or clean_row_team in clean_home_target:
+                    h_atk_bonus, h_def_bonus = atk_b, def_b
+                elif clean_away_target in clean_row_team or clean_row_team in clean_away_target:
+                    a_atk_bonus, a_def_bonus = atk_b, def_b
+
                 rankings_list.append({
-                    "No": idx + 1,
-                    "리그순위": rank_code_str,
-                    "팀": team_name,
-                    "국가코드": matched_code,
-                    "리그명": league_name,
-                    "등급": grade,
-                    "공격보정": atk_b,
-                    "수비보정": def_b,
-                    "경기": str(r.get("played", "0")), "승": str(r.get("win", "0")),
-                    "무승부": str(r.get("draw", "0")), "패": str(r.get("loss", "0")),
-                    "득점": str(r.get("goals_for", "0")), "실점": str(r.get("goals_against", "0")),
-                    "득실": str(r.get("goal_diff", "0")), "승점": str(r.get("points", "0"))
+                    "No": idx + 1, "리그순위": rank_code_str, "팀": team_name, "국가코드": matched_code,
+                    "리그명": league_name, "등급": grade, "공격보정": atk_b, "수비보정": def_b,
+                    "경기": str(r.get("played", "0")), "승": str(r.get("win", "0")), "무승부": str(r.get("draw", "0")), "패": str(r.get("loss", "0")),
+                    "득점": str(r.get("goals_for", "0")), "실점": str(r.get("goals_against", "0")), "득실": str(r.get("goal_diff", "0")), "승점": str(r.get("points", "0"))
                 })
             df_rankings = pd.DataFrame(rankings_list)
             st.dataframe(df_rankings[["리그순위", "팀", "국가코드", "리그명", "등급", "공격보정", "수비보정", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
