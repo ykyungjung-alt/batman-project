@@ -1472,7 +1472,7 @@ for s in sorted_by_prob:
 if not second_match:
     second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-# 3순위 대안책을 위한 전체 매트릭스 기반 점수 차이별 확률 집계 연산
+# 3순위 대안책을 위한 전체 매트릭스 기반 점수 차이별 확률 집계 연산 (독립 분리)
 diff_probs = {}
 for item in score_probs:
     diff = item["home_score"] - item["away_score"]
@@ -1511,7 +1511,7 @@ if s2_h > s2_a:
 elif s2_h < s2_a:
     s2_result_str = f"{s2_a - s2_h}점차 {away_team} 승리"
 else:
-    s2_result_str = "무승부"
+    s2_result_str = "1:1 무승부" if (s2_h == 1 and s2_a == 1) else "무승부"
 
 # --------------------------------------------------------------------------
 # 📊 [규칙 6번 렌더링]
@@ -1606,12 +1606,12 @@ with tabs[6]:
         <div class="score-box-item">
             <div class="score-box-header" style="color: #ff7f0e;">🥈 예측 2순위 (차선책)</div>
             <div class="score-box-main">{score_2nd_str}</div>
-            <div class="score-box-footer">확률: <b>{p2_rate:.2f}%</b> ({s2_result_str})</div>
+            <div class="score-box-footer">확률: <b>{p2_rate:.2f}%</b> (차선 단일 스코어)</div>
         </div>
         <div class="score-box-item">
             <div class="score-box-header" style="color: #2ca02c;">🥉 예측 3순위 (대안책)</div>
             <div class="score-box-main" style="font-size: 15px; font-weight: bold; padding: 4px 0;">{dominant_str}</div>
-            <div class="score-box-footer">비중: <b>{dominant_prob:.1f}%</b> (누적 분포 분석)</div>
+            <div class="score-box-footer">비중: <b>{dominant_prob:.1f}%</b> (점수차 누적 분포)</div>
         </div>
     </div>
     """
@@ -1650,7 +1650,7 @@ with tabs[6]:
             f"승리 확률 {calc_home_win:.1f}%",
             f"{h_p1_val}골",
             f"{h_p2_val}골",
-            h_score_3rd
+            f"{dominant_str}"
         ],
         f"원정 팀 ({away_team})": [
             f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골",
@@ -1660,7 +1660,7 @@ with tabs[6]:
             f"승리 확률 {calc_away_win:.1f}%",
             f"{a_p1_val}골",
             f"{a_p2_val}골",
-            f"{dominant_prob:.1f}%"
+            f"{dominant_prob:.1f}% 비중"
         ],
         "단계별 산출 근거 및 푸아송 확률": [
             "기하평균 공수 교차 상쇄 결합 연산",
@@ -1669,8 +1669,8 @@ with tabs[6]:
             matrix_range,
             f"무승부 확률 {calc_draw:.1f}%",
             f"푸아송 확률 {p1_rate:.2f}% (5-2/5-3/5-4 직결)",
-            f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최상위)",
-            f"2위: {s2_result_str} / 3위: {h_score_3rd}"  # 👈 산출 근거 칸에 2순위와 3순위의 연산 결과(몇 점차 승리 / 무승부)만 깔끔하게 반영
+            f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 차선 단일 조합)",
+            f"2위: {score_2nd_str} ({s2_result_str}) / 3위: {dominant_str} (점수차 누적 분포)"
         ]
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
