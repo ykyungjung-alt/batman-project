@@ -48,14 +48,13 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
                 opp_goals = away_goals if is_target_home else home_goals
                 opp_conceded = away_conceded if is_target_home else home_conceded
                 
-                # 💡 티어 판정 로직을 완전히 제거하고 순수 골득실 수치만 반환
                 return f"{opp_goals}/{opp_conceded}"
     except Exception:
         pass
     
     return "0.00/0.00"
 
-def run_table_based_crawler_v3():
+def run_table_based_crawler_v3_1():
     if not os.path.exists("data.json"):
         print("❌ data.json 파일이 존재하지 않습니다.")
         return
@@ -68,10 +67,11 @@ def run_table_based_crawler_v3():
     
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst)
-    limit_kst = now_kst + timedelta(hours=24)
+    start_kst = now_kst + timedelta(hours=24)   # 💡 24시간 이후부터
+    limit_kst = now_kst + timedelta(hours=48)  # 💡 48시간까지
     
-    print(f"🕒 [V3] 실행 시간(KST): {now_kst.strftime('%Y-%m-%d %H:%M')}")
-    print(f"🎯 [V3] 수집 대상 타임라인 (~24시간 후): {limit_kst.strftime('%Y-%m-%d %H:%M')}")
+    print(f"🕒 [V3-1] 실행 시간(KST): {now_kst.strftime('%Y-%m-%d %H:%M')}")
+    print(f"🎯 [V3-1] 수집 대상 타임라인 (24시간~48시간 후): {start_kst.strftime('%Y-%m-%d %H:%M')} ~ {limit_kst.strftime('%Y-%m-%d %H:%M')}")
 
     current_year = now_kst.year
 
@@ -99,7 +99,8 @@ def run_table_based_crawler_v3():
                 if match_dt < now_kst - timedelta(days=15) and m_part == 1:
                     match_dt = datetime(current_year + 1, m_part, d_part, hour_val, min_val, tzinfo=kst)
 
-                if now_kst <= match_dt <= limit_kst:
+                # 💡 24시간 초과 ~ 48시간 이하 구간 설정
+                if start_kst < match_dt <= limit_kst:
                     m_code = m.get("match_code")
                     if m_code and m_code not in [t["match_code"] for t in target_matches]:
                         target_matches.append({
@@ -111,7 +112,7 @@ def run_table_based_crawler_v3():
             except Exception:
                 continue
 
-    print(f"🎯 [V3] 24시간 이내 조건에 일치하는 총 {len(target_matches)}개 메인 경기 크롤링 시작")
+    print(f"🎯 [V3-1] 24~48시간 조건에 일치하는 총 {len(target_matches)}개 메인 경기 크롤링 시작")
 
     options = Options()
     options.add_argument("--headless")
@@ -172,6 +173,19 @@ def run_table_based_crawler_v3():
                                 league_div = li.find("div", class_="team")
                                 time_span = li.find("span", {"name": "timeData"})
                                 
+                                raw_t_str = time_span.get_text(strip=True) if time_span else ""
+                                match_time_val = raw_t_str
+                                try:
+                                    parts = raw_t_str.split()
+                                    if len(parts) >= 2:
+                                        d_part = parts[0].replace("-", ".").replace("/", ".")
+                                        y_part = parts[1]
+                                        d_tokens = d_part.split(".")
+                                        if len(d_tokens) == 2:
+                                            match_time_val = f"{y_part}.{d_tokens[0].zfill(2)}.{d_tokens[1].zfill(2)}"
+                                except Exception:
+                                    pass
+                                
                                 team_spans = li.find_all("span")
                                 teams_text = ""
                                 span_texts = [s.get_text(strip=True) for s in team_spans if s.get_text(strip=True) and not s.has_attr("name")]
@@ -197,10 +211,10 @@ def run_table_based_crawler_v3():
 
                                 match_info = {
                                     "league": league_div.get_text(strip=True) if league_div else "",
-                                    "match_time": time_span.get_text(strip=True) if time_span else "",
+                                    "match_time": match_time_val,
                                     "teams": teams_text,
                                     "ft_scores": ft_scores,
-                                    "opponent_tier_info": opponent_tier_info  # 💡 순수 골득실 수치(예: "2.20/2.10")만 저장
+                                    "opponent_tier_info": opponent_tier_info
                                 }
                                 if match_info["ft_scores"] and match_info not in target_list:
                                     target_list.append(match_info)
@@ -252,13 +266,14 @@ def run_table_based_crawler_v3():
             "match_details": match_details
         }
         
-        with open("match_details_v3.json", "w", encoding="utf-8") as f:
+        # 💡 저장소 이름 분리
+        with open("match_details_v3-1.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 골득실 수치 중심 크롤링 완료 -> match_details_v3.json 저장 완료")
+        print(f"\n🎉 성공: 24~48시간 구간 크롤링 완료 -> match_details_v3-1.json 저장 완료")
 
     finally:
         driver.quit()
 
 if __name__ == "__main__":
-    run_table_based_crawler_v3()
+    run_table_based_crawler_v3_1()
