@@ -1644,77 +1644,86 @@ with tabs[6]:
 # 📊 [규칙 7번: 최종 통합 요약 리포트 및 멀티 경기 비교 대시보드]
 # --------------------------------------------------------------------------
 with tabs[7]:
-    st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 통합 요약 및 멀티 비교 대시보드")
-    st.markdown("수집된 전체 경기 중 원하는 대진들을 여러 개 체크하여 담은 뒤, **승무패 수리 확률 및 1~3순위 예측 결과**를 한눈에 비교할 수 있는 멀티 대시보드입니다.")
+    st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
+    st.markdown("날짜와 리그를 순서대로 선택한 뒤, 원하는 경기들을 여러 개 체크하여 담고 통합 승무패 확률 및 1~3순위 예측을 비교할 수 있습니다.")
 
     if "multi_selected_matches" not in st.session_state:
         st.session_state["multi_selected_matches"] = []
 
     with st.container(border=True):
-        st.markdown("##### 📌 전체 경기 다중 선택 및 담기 패널")
+        st.markdown("##### 📌 단계별 경기 선택 및 담기 패널")
         
-        # daily_matches 데이터를 순회하여 전체 경기 리스트업
-        all_flatten_matches = []
-        if 'daily_matches' in globals() and daily_matches:
-            for d_str, m_list in daily_matches.items():
-                if isinstance(m_list, list):
-                    for m_item in m_list:
-                        # 원본 딕셔너리에 날짜 정보가 없다면 키 값(d_str) 보완
-                        item_copy = m_item.copy()
-                        if 'date' not in item_copy:
-                            item_copy['date'] = d_str
-                        all_flatten_matches.append(item_copy)
-
-        if all_flatten_matches:
-            st.markdown("###### 전체 수집 대진 리스트 (원하는 경기를 여러 개 체크하세요)")
-            temp_checked_matches = []
+        # 1단계: 날짜 선택
+        date_keys = list(daily_matches.keys()) if 'daily_matches' in globals() and daily_matches else []
+        if date_keys:
+            sel_date = st.selectbox("📅 1단계: 날짜를 선택하세요", date_keys, key="multi_tab_date_sel")
+            matches_on_date = daily_matches.get(sel_date, [])
             
-            # 보기 쉽게 스크롤 가능한 컨테이너 내부 배치
-            for idx, row in enumerate(all_flatten_matches):
-                m_date = row.get('date', '날짜미상')
-                m_time = row.get('time', '00:00')
-                m_league = row.get('league', '리그미상')
-                m_home = row.get('home', '홈팀')
-                m_away = row.get('away', '원정팀')
+            if matches_on_date:
+                # 2단계: 해당 날짜의 리그 리스트 추출 및 선택
+                available_leagues = sorted(list(set(m.get("league", "기타 리그") for m in matches_on_date)))
+                sel_league = st.selectbox("🏆 2단계: 리그를 선택하세요", available_leagues, key="multi_tab_league_sel")
                 
-                m_label = f"[{m_date} {m_time}] ({m_league}) {m_home} vs {m_away}"
-                if st.checkbox(m_label, key=f"global_multi_chk_{idx}"):
-                    temp_checked_matches.append(row)
-            
-            st.markdown("<br>", unsafe_allow_html=True)
-            col_btn1, col_btn2 = st.columns([1, 1])
-            with col_btn1:
-                if st.button("📥 체크한 경기 목록에 담기", use_container_width=True):
-                    for m in temp_checked_matches:
-                        if m not in st.session_state["multi_selected_matches"]:
-                            st.session_state["multi_selected_matches"].append(m)
-                    st.success("선택한 경기들이 통합 비교 대시에 담겼습니다!")
-                    st.rerun()
-            with col_btn2:
-                if st.button("🗑️ 전체 비우기 (초기화)", use_container_width=True):
-                    st.session_state["multi_selected_matches"] = []
-                    st.rerun()
+                # 선택된 리그에 속한 경기들 필터링
+                league_filtered_matches = [m for m in matches_on_date if m.get("league", "기타 리그") == sel_league]
+                
+                if league_filtered_matches:
+                    st.markdown(f"###### ⚽ [{sel_date} / {sel_league}] 분석할 경기를 여러 개 체크하세요")
+                    temp_checked_matches = []
+                    
+                    for idx, m_item in enumerate(league_filtered_matches):
+                        m_time = m_item.get('time', '00:00')
+                        h_t = m_item.get('home', '홈팀')
+                        a_t = m_item.get('away', '원정팀')
+                        
+                        m_label = f"[{m_time}] {h_t} vs {a_t}"
+                        # 날짜, 리그 정보를 딕셔너리에 함께 포함하여 보관
+                        item_to_add = m_item.copy()
+                        item_to_add['date'] = sel_date
+                        item_to_add['league'] = sel_league
+                        
+                        if st.checkbox(m_label, key=f"step_chk_{sel_date}_{sel_league}_{idx}"):
+                            temp_checked_matches.append(item_to_add)
+                    
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    col_b1, col_b2 = st.columns([1, 1])
+                    with col_b1:
+                        if st.button("📥 체크한 경기 목록에 담기", use_container_width=True):
+                            for m in temp_checked_matches:
+                                # 중복 담기 방지
+                                if m not in st.session_state["multi_selected_matches"]:
+                                    st.session_state["multi_selected_matches"].append(m)
+                            st.success("선택한 경기들이 비교 대시에 담겼습니다!")
+                            st.rerun()
+                    with col_b2:
+                        if st.button("🗑️ 전체 비우기 (초기화)", use_container_width=True):
+                            st.session_state["multi_selected_matches"] = []
+                            st.rerun()
+                else:
+                    st.info("해당 리그에 속한 경기 데이터가 없습니다.")
+            else:
+                st.info("선택한 날짜에 등록된 경기 일정이 없습니다.")
         else:
-            st.warning("⚠️ 로드된 전체 경기 스케줄 데이터(`daily_matches`)가 존재하지 않습니다.")
+            st.warning("⚠️ 로드된 경기 스케줄 데이터가 존재하지 않습니다.")
 
-    # 담긴 경기 목록 및 개별 취소 UI
+    # 3단계: 담긴 경기 목록 확인 및 통합 비교 표 출력
     st.markdown("---")
     st.markdown("##### 🏟️ 현재 담긴 비교 대진 리스트")
     if not st.session_state["multi_selected_matches"]:
-        st.info("아직 담긴 경기가 없습니다. 위 패널에서 분석할 경기를 체크하고 담아주세요.")
+        st.info("아직 담긴 경기가 없습니다. 위 단계별 패널에서 날짜와 리그를 골라 경기를 담아주세요.")
     else:
         matches_to_keep = []
         for i, m_item in enumerate(st.session_state["multi_selected_matches"]):
             c_col1, c_col2 = st.columns([5, 1])
             with c_col1:
-                h_t = m_item.get('home', m_item.get('home_team', '홈'))
-                a_t = m_item.get('away', m_item.get('away_team', '원정'))
+                h_t = m_item.get('home', '홈')
+                a_t = m_item.get('away', '원정')
                 l_t = m_item.get('league', '리그')
                 d_t = m_item.get('date', '')
                 t_t = m_item.get('time', '')
                 st.markdown(f"- **{h_t} vs {a_t}** ({l_t} / {d_t} {t_t})")
             with c_col2:
-                if st.button("❌ 빼기", key=f"remove_multi_item_{i}"):
+                if st.button("❌ 빼기", key=f"remove_step_item_{i}"):
                     continue 
             matches_to_keep.append(m_item)
         
@@ -1722,17 +1731,16 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 담긴 경기들의 통합 비교 표 생성 (실제 엔진 연동 구조)
+        # 🚀 담긴 경기들의 통합 비교 표 생성
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 통합 승무패 확률 및 1~3순위 예측 비교 표")
         
         multi_summary_data = []
         for m_item in st.session_state["multi_selected_matches"]:
-            h_name = m_item.get('home', m_item.get('home_team', '홈'))
-            a_name = m_item.get('away', m_item.get('away_team', '원정'))
+            h_name = m_item.get('home', '홈')
+            a_name = m_item.get('away', '원정')
             league_name = m_item.get('league', '-')
             
-            # 개별 대진의 정량 연동 결과가 있다면 반영하고, 없을 경우 표준 수리 시뮬레이션 구동
             multi_summary_data.append({
                 "대진 경기": f"{h_name} vs {a_name}",
                 "리그": league_name,
