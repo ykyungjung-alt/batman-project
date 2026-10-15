@@ -245,7 +245,7 @@ with tabs[0]:
     """
     st.markdown(meta_markdown_table, unsafe_allow_html=True)
     
-    st.markdown("##### 📊 공식 팀 순위 및 국가 코드 기반 등급·가중치 연동 현황")
+    st.markdown("##### 📊 공식 팀 순위 및 country.json 기반 등급·가중치 연동 현황")
     
     if has_detailed_data:
         meta_details = detailed_info.get("meta_details", {})
@@ -262,18 +262,18 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        def match_country_by_league_string(league_val):
+        def match_with_country_json_exact(rank_val, team_val):
             grades = country_data.get("grades", {})
+            rank_str = str(rank_val).strip()
             
-            # 💡 핵심: 'POR D1-2', 'SCO PR-1' 같은 문자열에서 공백 전의 첫 단어(국가 코드)만 정밀 추출
+            # 💡 rank 값(예: "POR D1-2", "SCO PR-1")의 띄어쓰기 앞부분(국가 코드)을 정확히 추출
             extracted_code = ""
-            if league_val:
-                clean_val = str(league_val).strip()
-                parts = clean_val.split()
+            if rank_str and rank_str != "-":
+                parts = rank_str.split()
                 if parts:
                     extracted_code = parts[0].upper()
 
-            # country.json 순회하며 국가 코드 일치 여부 확인
+            # country.json의 각 등급별 국가 목록을 순회하며 정확한 코드 대조
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
@@ -281,28 +281,29 @@ with tabs[0]:
                     for c in countries:
                         c_code = str(c.get("code", "")).upper()
                         if c_code and c_code == extracted_code:
-                            return c.get("code", "-"), c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
-            
-            # 매칭 실패 시 기본 F등급 처리
+                            # 국가코드, 원본 rank 문자열(리그명 대용), 등급, 공격보정, 수비보정 반환
+                            return c.get("code", "-"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+
+            # country.json 매칭 실패 시 F등급 처리
             f_info = grades.get("F", {})
-            return extracted_code if extracted_code else "EXT", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
+            fallback_code = extracted_code if extracted_code else "EXT"
+            return fallback_code, rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
         if rankings_raw:
             rankings_list = []
             for idx, r in enumerate(rankings_raw):
                 team_name = str(r.get("team", "-"))
-                # 순위표 내 실제 리그 코드 문자열 (예: POR D1-2) 추출
-                raw_league_code = str(r.get("league", ""))
+                rank_code_str = str(r.get("rank", ""))  # 예: "POR D1-2"
                 
-                # 추출된 코드로 국가 매칭 및 가중치 계산
-                matched_code, grade, atk_b, def_b = match_country_by_league_string(raw_league_code)
+                # rank 데이터를 활용해 country.json과 완벽 매칭 실행
+                matched_code, clean_league, grade, atk_b, def_b = match_with_country_json_exact(rank_code_str, team_name)
                 
                 rankings_list.append({
                     "No": idx + 1,
-                    "리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
+                    "리그순위": rank_code_str,
                     "팀": team_name,
                     "국가코드": matched_code,
-                    "리그명": raw_league_code,
+                    "리그명": league,
                     "등급": grade,
                     "공격보정": atk_b,
                     "수비보정": def_b,
@@ -317,7 +318,6 @@ with tabs[0]:
             st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-
 
 # ==========================================
 # 💡 규칙 1번 탭 (v3 데이터 전용 단독 연동 및 조건부 E티어 득실점 50% 할인 적용)
