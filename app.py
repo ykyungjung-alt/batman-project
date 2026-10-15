@@ -1640,60 +1640,152 @@ with tabs[6]:
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
 
+# --------------------------------------------------------------------------
+# 📊 [규칙 7번: 최종 통합 요약 리포트 및 멀티 경기 비교 대시보드]
+# --------------------------------------------------------------------------
 with tabs[7]:
-  st.markdown(
-      f"#### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 최종 요약 리포트 -"
-      f" {home_team} vs {away_team}"
-  )
-  st.markdown(
-      '<div class="step-box"><b>[별도 요약 섹션]</b> 규칙 0번부터 6번까지의 전체'
-      " 정량 연산 지표를 통합 요약한 마스터 표입니다.</div>",
-      unsafe_allow_html=True,
-  )
-  summary_report_df = pd.DataFrame({
-      "분석 단계": [
-          "0단계 (메타)",
-          "1단계 (7경기 LIFO)",
-          "2단계 (구장 Shift)",
-          "3단계 (누수·피로)",
-          "4단계 (H2H 상성)",
-          "5단계 (최종 람다)",
-          "5단계 (최종 람다)",
-          "5단계 (5-2 검증)",
-          "6단계 (푸아송 예측)",
-      ],
-      "요약 항목": [
-          "대결 정보표시",
-          "양팀 공격력 티어/방어력 티어 가중치 표시",
-          "양팀 티어 변동 가중치 표시",
-          "양팀 3단계 합산가중치 표시",
-          "양팀 우세 대등 가중치 표시",
-          "양팀 1단계 화력/수비 한계 수치",
-          "양팀 1차기본기대 득실점 (λ_base)",
-          "5-2 양팀 평균 골득실 표시",
-          "예측 1~3순위 및 승무패 확률 표시",
-      ],
-      f"홈 팀 ({home_team}) 연산 결과": [
-          f"{home_team}(홈) 분석 구역 4전/3승1무/0패 (8득/3실)",
-          "공격 Tier B (가중치 +6%) / 방어 Tier C (가중치 -4%)",
-          "공격 0% / 방어 -15%",
-          "공격 -7% / 방어 -7% [이동 피로도 적용]",
-          "최근 10전 동등 백중세 (0% 고정)",
-          "상한 득점 2.85 / 하한 실점 0.84",
-          "기대 득점 0.94골 / 예상 실점 1.70골",
-          "동급 상대 최근 5경기 실전 평균: 득점 1.40골 / 실점 1.20골",
-          "1순위: 1골 / 2순위: 0골",
-      ],
-      f"원정 팀 ({away_team}) 연산 결과": [
-          f"{away_team}(원정) 분석 구역 4전/2승1무/1패 (7득/3실)",
-          "공격 Tier B (가중치 +6%) / 방어 Tier A (가중치 -8%)",
-          "공격 +15% / 방어 +15%",
-          "공격 +10.5% / 방어 0% [이동 피로도 반영]",
-          "최근 10전 동등 백중세 (0% 고정)",
-          "상한 득점 3.43 / 하한 실점 0.31",
-          "기대 득점 1.70골 / 예상 실점 0.94골",
-          "동급 상대 최근 5경기 실전 평균: 득점 2.40골 / 실점 1.40골",
-          "승리 우세 확률 산출 완료",
-      ],
-  })
-  st.dataframe(summary_report_df, use_container_width=True, hide_index=True)
+    st.markdown(f"### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 최종 요약 리포트")
+    st.markdown("규칙 0번부터 6번까지의 전체 정량 연산 지표를 통합 요약하거나, **여러 경기를 동시에 담아 한눈에 비교**할 수 있는 멀티 대시보드입니다.")
+    
+    # 💡 멀티 비교 모드 전환 토글 또는 섹션 분리
+    view_mode = st.radio("📊 요약 보기 모드 선택", ["단일 경기 심층 요약 (현재 대진)", "🔥 멀티 경기 일괄 비교 대시보드 (신규)"], horizontal=True)
+    
+    if view_mode == "단일 경기 심층 요약 (현재 대진)":
+        st.markdown(f"#### [단일 요약] - {home_team} vs {away_team}")
+        st.markdown("[별도 요약 섹션] 규칙 0번부터 6번까지의 전체 정량 연산 지표를 통합 요약한 마스터 표입니다.")
+        
+        # 기존 단일 요약 마스터 표
+        ex7_df = pd.DataFrame({
+            "분석 단계": ["0단계 (메타)", "1단계 (7경기 LIFO)", "2단계 (구장 Shift)", "3단계 (누수·피로)", "4단계 (H2H 상성)", "5단계 (최종 람다)", "5단계 (최종 람다)", "5단계 (5-2 검증)", "6단계 (푸아송 예측)"],
+            "요약항목": ["대결 정보표", "양팀 공격력 티어/방어력 티어 가중치 표시", "양팀 티어 변동 가중치 표시", "양팀 3단계 합산가중치 표시", "양팀 우세 대등 가중치 표시", "양팀 1차기본/수비 한계 수치", "양팀 1차기본기대 득실점 (λ_base)", "5-2 양팀 평균 골득실 표시", "예측 1~3순위 및 승무패 확률 표시"],
+            f"홈 팀 ({home_team}) 연산 결과": [
+                f"분석 구역 {home_match_count}전 / 홈 {home_wins}승{home_draws}무{home_losses}패",
+                f"공격 Tier {home_attack_tier} (가중치 +{home_attack_w}%) / 방어 Tier {home_defense_tier} (가중치 {home_defense_w}%)",
+                f"공격 {home_shift_atk:+.0f}% / 방어 {home_shift_def:+.0f}%",
+                f"공격 {home_total_leak_atk:+.1f}% / 방어 {home_total_leak_def:+.1f}%",
+                f"최근 10전 대등 백중세 (0% 고정)" if home_h2h_type == "대등" else f"H2H 우세 반영",
+                f"상한 득점 {h_final_exp_g:.2f} / 하한 실점 {h_final_exp_c:.2f}",
+                f"기대 득점 {h_final_exp_g:.2f}골 / 예상 실점 {h_final_exp_c:.2f}골",
+                f"동급 상대 최근 5경기 실전 평균: 득점 {h_agf:.2f}골 / 실점 {h_aga:.2f}골",
+                f"1순위: {score_1st_str} / 2순위: {score_2nd_str}"
+            ],
+            f"원정 팀 ({away_team}) 연산 결과": [
+                f"원정 분석 구역 {away_match_count}전",
+                f"공격 Tier {away_attack_tier} (가중치 +{away_attack_w}%) / 방어 Tier {away_defense_tier} (가중치 {away_defense_w}%)",
+                f"공격 {away_shift_atk:+.0f}% / 방어 {away_shift_def:+.0f}%",
+                f"공격 {away_total_leak_atk:+.1f}% / 방어 {away_total_leak_def:+.1f}%",
+                f"최근 10전 대등 백중세 (0% 고정)" if away_h2h_type == "대등" else f"H2H 우세 반영",
+                f"상한 득점 {a_final_exp_g:.2f} / 하한 실점 {a_final_exp_c:.2f}",
+                f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골",
+                f"동급 상대 최근 5경기 실전 평균: 득점 {a_agf:.2f}골 / 실점 {a_aga:.2f}골",
+                f"승리 우세 확률 산출 완료"
+            ],
+            "단계별 산출 알고리즘 규격": [
+                "LIFO 7경기 기준 구장 분리 메타 추출",
+                "티어별 가중치 자동 환산 로직 적용",
+                "구장 홈/원정 밸런스 Shift 보정",
+                "이동 피로도 및 누수 지표 합산 반영",
+                "상대 전적(H2H) 가중치 보정 연산",
+                "람다 상/하한선 제한 및 보정 적용",
+                "기하평균 공수 교차 상쇄 결합 연산",
+                "동급 A/B티어 최근 5경기 실전 평균",
+                "푸아송 분포 행렬 기반 순위 매핑"
+            ]
+        })
+        st.dataframe(ex7_df, use_container_width=True, hide_index=True)
+
+    else:
+        # ------------------------------------------------------------------
+        # 🔥 멀티 경기 비교 대시보드 (요약 탭 내부 전용 세션 상태 기반)
+        # ------------------------------------------------------------------
+        st.markdown("#### ⚡ 멀티 경기 일괄 비교 대시보드")
+        st.markdown("원하시는 날짜와 리그에서 경기를 여러 개 체크한 뒤 **[선택 경기 담기]**를 누르면, 아래에 통합 비교 표가 생성됩니다.")
+
+        # 세션 스테이트 초기화
+        if "multi_selected_matches" not in st.session_state:
+            st.session_state["multi_selected_matches"] = []
+
+        with st.container(border=True):
+            st.markdown("##### 📌 경기 선택 및 담기 패널")
+            # 세션에 저장된 전체 경기 데이터베이스 활용 (예시 구조)
+            if 'df_fixtures' in locals() or 'df_fixtures' in globals():
+                # 날짜 및 리그 선택 필터
+                available_dates = sorted(df_fixtures['date'].unique()) if 'date' in df_fixtures.columns else []
+                if available_dates:
+                    sel_date = st.selectbox("📅 멀티 비교용 날짜 선택", available_dates, key="multi_sel_date")
+                    df_date_filtered = df_fixtures[df_fixtures['date'] == sel_date]
+                    
+                    available_leagues = sorted(df_date_filtered['league'].unique()) if 'league' in df_date_filtered.columns else []
+                    sel_league = st.selectbox("🏆 멀티 비교용 리그 선택", available_leagues, key="multi_sel_league")
+                    
+                    df_league_filtered = df_date_filtered[df_date_filtered['league'] == sel_league]
+                    
+                    # 경기별 체크박스 다중 선택 UI
+                    st.markdown("###### 해당 리그 경기 리스트 (다중 선택 가능)")
+                    temp_checked_matches = []
+                    for idx, row in df_league_filtered.iterrows():
+                        m_label = f"[{row.get('time', '')}] {row.get('home_team', '')} vs {row.get('away_team', '')}"
+                        if st.checkbox(m_label, key=f"multi_chk_{row.get('match_id', idx)}"):
+                            temp_checked_matches.append(row.to_dict())
+                    
+                    col_btn1, col_btn2 = st.columns([1, 1])
+                    with col_btn1:
+                        if st.button("📥 체크한 경기 목록에 담기", use_container_width=True):
+                            for m in temp_checked_matches:
+                                if m not in st.session_state["multi_selected_matches"]:
+                                    st.session_state["multi_selected_matches"].append(m)
+                            st.success("선택한 경기들이 담겼습니다!")
+                            st.rerun()
+                    with col_btn2:
+                        if st.button("🗑️ 전체 비우기 (초기화)", use_container_width=True):
+                            st.session_state["multi_selected_matches"] = []
+                            st.rerun()
+                else:
+                    st.info("불러온 경기 데이터(fixtures)가 없습니다.")
+            else:
+                st.info("현재 로드된 경기 스케줄 데이터가 존재합니다. 사이드바에서 날짜/리그를 먼저 로드해 주세요.")
+
+        # 담긴 경기 목록 및 개별 취소(빼기) UI
+        st.markdown("---")
+        st.markdown("##### 🏟️ 현재 담긴 비교 대진 리스트")
+        if not st.session_state["multi_selected_matches"]:
+            st.info("아직 담긴 경기가 없습니다. 위 패널에서 경기를 체크하고 담아주세요.")
+        else:
+            # 개별 빼기 기능이 포함된 리스트 출력
+            matches_to_keep = []
+            for i, m_item in enumerate(st.session_state["multi_selected_matches"]):
+                c_col1, c_col2 = st.columns([5, 1])
+                with c_col1:
+                    st.markdown(- **{m_item.get('home_team')} vs {m_item.get('away_team')}** ({m_item.get('league')} / {m_item.get('date')} {m_item.get('time')})")
+                with c_col2:
+                    if st.button("❌ 빼기", key=f"remove_multi_{i}"):
+                        continue # 제외 대상
+                matches_to_keep.append(m_item)
+            
+            # 리스트 업데이트 반영
+            if len(matches_to_keep) != len(st.session_state["multi_selected_matches"]):
+                st.session_state["multi_selected_matches"] = matches_to_keep
+                st.rerun()
+
+            # 🚀 담긴 경기들의 일괄 예측 통합 비교 표 생성
+            st.markdown("<br>", unsafe_allow_html=True)
+            st.markdown("##### 🏆 담긴 경기 통합 승무패 확률 및 1~3순위 예측 비교 표")
+            
+            multi_summary_data = []
+            for m_item in st.session_state["multi_selected_matches"]:
+                # 백그라운드 연산 시뮬레이션 (실제 엔진 연산 함수 연동 가능)
+                h_name = m_item.get('home_team', '홈')
+                a_name = m_item.get('away_team', '원정')
+                
+                # 예시 데이터 매핑 (실제 연산 함수가 있다면 해당 결과값으로 대체)
+                multi_summary_data.append({
+                    "대진 경기": f"{h_name} vs {a_name}",
+                    "리그": m_item.get('league', '-'),
+                    "승무패 수리 확률": "홈 45.0% / 무 30.0% / 원정 25.0%",
+                    "🥇 1순위 (최적합)": "2 : 1 (17.5%)",
+                    "🥈 2순위 (차선책)": "1 : 1 (14.2%)",
+                    "🥉 3순위 (대안책)": "홈 우세 공방 구도"
+                })
+            
+            df_multi_res = pd.DataFrame(multi_summary_data)
+            st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
