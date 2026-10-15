@@ -726,7 +726,7 @@ with tabs[3]:
     st.markdown("---")
 
 # ==========================================
-    # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인 & 팀별 리그 순위표 연동 (완벽 정비 버전)
+    # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인 & 팀별 리그 순위표 연동 (정밀 정비 버전)
     # ==========================================
     st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
     
@@ -771,7 +771,6 @@ with tabs[3]:
     def determine_match_importance(standing_info, league_raw_name):
         league_str = str(league_raw_name)
         
-        # [중요도 하] 친선 경기 또는 명시적인 탈락/강등 확정 키워드
         low_keywords = ["친선", "CF", "탈락", "탈락확정", "강등확정"]
         if any(k in league_str for k in low_keywords):
             return "중요도하", -10.0, 10.0
@@ -783,16 +782,13 @@ with tabs[3]:
         if any(k in label for k in ["탈락", "탈락확정", "강등확정"]):
             return "중요도하", -10.0, 10.0
             
-        # [중요도 상] 진출권, 플레이오프, 승격, 우승 등 핵심 타이틀 경쟁권
         high_keywords = ["진출권", "플레이오프", "승격", "우승", "qualifying", "play-offs", "Playoff"]
         if any(k in label for k in high_keywords):
             return "중요도상", 15.0, -15.0
             
-        # 대륙대항전 (챔피언스리그, ACL 등)
         if any(k in league_str for k in ["챔피언스", "유로파", "결승", "컵", "ACL", "CL"]):
             return "중요도상", 15.0, -15.0
             
-        # [중요도 중] 그 외 일반 리그 경기
         return "중요도중", 5.0, -5.0
 
     home_standing = get_team_standing_info(home_team)
@@ -862,30 +858,39 @@ with tabs[3]:
                 league_name = translate_tournament_code(league_raw)
                 teams_str = fix.get("teams", "")
                 
-                # 💡 [핵심 수정] 타겟 팀 이름이 양쪽 어디에 있든 무조건 상대 팀 이름(opp_name)만 추출
-                parts = [p.strip() for p in teams_str.split("vs")]
+                # 💡 [핵심 정제] teams 문자열에 섞인 날짜 패턴 및 불필요한 간격 텍스트 정규식 제거
+                import re
+                cleaned_teams = re.sub(r'\d{1,2}\.\d{1,2}\s+\d{4}', '', teams_str)
+                cleaned_teams = re.sub(r'\d+\s*일|시작전', '', cleaned_teams)
+                
+                parts = [p.strip() for p in cleaned_teams.split("vs") if p.strip()]
                 opp_name = "상대미상"
                 loc_type = "원정"
                 
                 if len(parts) >= 2:
-                    team_a = parts[0]
-                    team_b = parts[1]
                     target_clean = target_team_name.replace(" ", "")
-                    a_clean = team_a.replace(" ", "")
-                    b_clean = team_b.replace(" ", "")
+                    valid_parts = [p for p in parts if len(p) > 0 and not p.isdigit()]
                     
-                    if target_clean in a_clean:
-                        opp_name = team_b
-                        loc_type = "홈" if a_clean == target_clean else "원정"
-                    elif target_clean in b_clean:
-                        opp_name = team_a
-                        loc_type = "원정"
+                    opponent_candidates = []
+                    for p in valid_parts:
+                        p_clean = p.replace(" ", "")
+                        if target_clean not in p_clean:
+                            opponent_candidates.append(p)
+                            
+                    if opponent_candidates:
+                        opp_name = opponent_candidates[0]
                     else:
-                        opp_name = team_b
+                        opp_name = valid_parts[-1] if valid_parts else "상대미상"
+                        
+                    if valid_parts and target_clean in valid_parts[0].replace(" ", ""):
+                        loc_type = "홈"
+                    else:
+                        loc_type = "원정"
+                elif len(parts) == 1:
+                    opp_name = parts[0]
                 else:
                     opp_name = teams_str if teams_str else "상대미상"
 
-                # 개별 경기 중요도 판정
                 imp_label, _, _ = determine_match_importance(standing_info, league_raw)
 
                 date_short = match_time.split(" ")[0].replace("-", ".").replace("/", ".") if "-" in match_time or "/" in match_time else match_time
@@ -899,14 +904,24 @@ with tabs[3]:
             past_7d_list = []
             past_4d_list = []
 
+            # 💡 [핵심 보완] 원정 경기 간격이 벌어지거나(휴식) 홈 경기일 때 피로도 리셋 처리
+            prev_diff_d = None
             for diff_d, fix in chrono_past:
                 abs_diff = abs(diff_d)
                 if abs_diff <= 7:
                     details = parse_fix_details(fix)
+                    
+                    if prev_diff_d is not None:
+                        day_gap = abs(diff_d - prev_diff_d)
+                        if day_gap >= 3 or details["loc_type"] == "홈":
+                            running_fatigue = 0
+
                     if details["loc_type"] == "원정":
                         running_fatigue += 1
                     else:
                         running_fatigue = 0
+                    
+                    prev_diff_d = diff_d
                     
                     item = {"desc": details["desc"], "fatigue_level": running_fatigue, "loc_type": details["loc_type"], "diff_days": diff_d}
                     processed_past.append(item)
@@ -953,7 +968,6 @@ with tabs[3]:
         a_fut_c1 = away_f4[0] if len(away_f4) > 0 else "휴식"
         a_fut_c2 = away_f7[0] if len(away_f7) > 0 else "휴식"
 
-        # 홈/원정 해당 경기 중요도 자동 판정 적용
         h_imp_label, h_imp_atk, h_imp_def = determine_match_importance(home_standing, tournament_display)
         a_imp_label, a_imp_atk, a_imp_def = determine_match_importance(away_standing, tournament_display)
 
@@ -1026,7 +1040,6 @@ with tabs[3]:
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터(fixtures)가 아직 수집되지 않았습니다.")
         st.info("💡 크롤러 대상 기간에 포함되지 않은 경기이므로, 일정 누수 및 피로도 산출 내역을 표시할 수 없습니다.")
-
 
 # --- [4단계] --- 
 with tabs[4]:
