@@ -1409,7 +1409,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록
+# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (동적 대응)
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1472,25 +1472,11 @@ for s in sorted_by_prob:
 if not second_match:
     second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-# 3순위 대안책 및 2위/3위 점수차 구도 정밀 추출
+# 점수차 누적 분포 동적 계산 (모든 대진 대응)
 diff_probs = {}
 for item in score_probs:
     diff = item["home_score"] - item["away_score"]
     diff_probs[diff] = diff_probs.get(diff, 0.0) + item["prob"]
-
-if diff_probs:
-    dominant_diff = max(diff_probs, key=diff_probs.get)
-    dominant_prob = diff_probs[dominant_diff] * 100
-else:
-    dominant_diff = 0
-    dominant_prob = 10.0
-
-if dominant_diff > 0:
-    dominant_str = f"{abs(dominant_diff)}점차 {home_team} 승리 우세"
-elif dominant_diff < 0:
-    dominant_str = f"{abs(dominant_diff)}점차 {away_team} 승리 우세"
-else:
-    dominant_str = "무승부 공방 우세"
 
 h_pred_1st = f"{best_match_52['home_score']}골"
 a_pred_1st = f"{best_match_52['away_score']}골"
@@ -1502,23 +1488,8 @@ a_pred_2nd = f"{second_match['away_score']}골"
 p2_rate = second_match["prob"] * 100
 score_2nd_str = f"{second_match['home_score']} : {second_match['away_score']}"
 
-# 전체 스코어 조합에서 1순위를 제외하고 확률 높은 순서대로 2위 순위 정보 추출
-rank_candidates = []
-for s in sorted_by_prob:
-    hg, ag = s["home_score"], s["away_score"]
-    if not (hg == best_match_52["home_score"] and ag == best_match_52["away_score"]):
-        if hg > ag:
-            desc = f"{home_team} {hg-ag}점차승"
-        elif hg < ag:
-            desc = f"{away_team} {ag-hg}점차승"
-        else:
-            desc = "무승부"
-        rank_candidates.append({"score": f"{hg}:{ag}", "desc": desc, "prob": s["prob"] * 100})
-
-s2_info = rank_candidates[0] if len(rank_candidates) > 0 else {"desc": "-", "prob": 0.0}
-
 # --------------------------------------------------------------------------
-# 📊 [규칙 6번 렌더링]
+# 📊 [규칙 6번 렌더링 - 동적 대진 데이터 반영]
 # --------------------------------------------------------------------------
 with tabs[6]:
     st.markdown(f"#### [규칙 6번: 예상 스코어 순위 산출 및 최종 통합 흐름 매트릭스] - {home_team} vs {away_team}")
