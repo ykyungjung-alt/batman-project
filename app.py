@@ -271,7 +271,7 @@ with tabs[0]:
 
 
 # ==========================================
-# 💡 규칙 1번 탭 (v3 데이터 전용 단독 연동 및 조건부 E티어 50% 할인 적용)
+# 💡 규칙 1번 탭 (v3 데이터 전용 단독 연동 및 조건부 E티어 득실점 50% 할인 적용)
 # ==========================================
 with tabs[1]:
     st.markdown(f"#### [규칙 1번: 종합 최근 10경기 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
@@ -280,7 +280,7 @@ with tabs[1]:
             <b>📌 규격 원칙 및 요약 설명:</b><br>
             • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 10개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여합니다.<br>
             • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 공식 경기만을 채택합니다.<br>
-            • <b>특수 룰 조건부 발동 (E티어 50% 할인):</b> 현재 팀의 공격력이 A티어이거나 방어력이 E티어일 때만 발동하며, 발동 시 E티어 상대 경기 득점에 50% 할인(0.5 곱셈)을 적용합니다. 미발동 시 보정 없음(유지)으로 처리합니다.
+            • <b>특수 룰 조건부 발동 (E티어 득실점 50% 할인):</b> 현재 팀의 공격력이 A티어이거나 방어력이 E티어일 때만 발동하며, 발동 시 E티어 상대 경기 득점과 실점에 각각 50% 할인(0.5 곱셈)을 적용합니다. 미발동 시 보정 없음(유지)으로 처리합니다.
         </div>
         """, unsafe_allow_html=True,
     )
@@ -350,7 +350,7 @@ with tabs[1]:
     def atk_tier_nm(g): return atk_tier(g)[0]
     def def_tier_nm(c): return def_tier(c)[0]
 
-    # 💡 1차 임시 산출 결과로 발동 여부(is_triggered)를 먼저 판단하기 위한 헬퍼 함수
+    # 1차 임시 산출 결과로 발동 여부(is_triggered) 선행 판단 헬퍼 함수
     def check_trigger_status(matches, tname, def_gpg, def_cpg):
         if not matches:
             return atk_tier_nm(def_gpg) == "Tier A" or def_tier_nm(def_cpg) == "Tier E"
@@ -384,7 +384,7 @@ with tabs[1]:
             
         rows = []
         eff_scored = 0.0
-        c_total = 0
+        eff_conceded = 0.0
         raw_scored_total = 0.0
         raw_conceded_total = 0.0
         w = d = l = 0
@@ -449,21 +449,22 @@ with tabs[1]:
                     df_name = def_tier_nm(od)
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
-                    # 💡 기획 반영: 발동 조건(is_triggered)이 충족되고 상대방이 E티어일 때만 50% 할인 적용, 아니면 유지
+                    # 💡 기획 반영: 발동 조건 충족 및 상대방이 E티어일 때 득점과 실점 모두 50% 할인 적용
                     if is_triggered and (at_name == "Tier E" or df_name == "Tier E"):
                         mult = 0.5
-                        tier_str += " ⚠️ (발동: E티어 50% 할인)"
+                        tier_str += " ⚠️ (발동: E티어 득실점 50% 할인)"
                     else:
                         tier_str += " (보정 없음 / 유지)"
                 except:
                     pass
                     
             app_sc = sc * mult
+            app_cc = cc * mult
             eff_scored += app_sc
-            c_total += cc
+            eff_conceded += app_cc
             
             seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
-            score_display = f"{s1} : {s2}" + (f" (할인: {app_sc:.1f})" if mult < 1.0 else " (유지)")
+            score_display = f"{s1} : {s2}" + (f" (할인 득실: {app_sc:.1f} : {app_cc:.1f})" if mult < 1.0 else " (유지)")
             
             rows.append({
                 "LIFO 순서": seq,
@@ -477,7 +478,7 @@ with tabs[1]:
             
         cnt = len(matches)
         gpg = round(eff_scored / cnt, 2) if cnt > 0 else def_gpg
-        cpg = round(c_total / cnt, 2) if cnt > 0 else def_cpg
+        cpg = round(eff_conceded / cnt, 2) if cnt > 0 else def_cpg
         rec = f"{cnt}전 {w}승 {d}무 {l}패" if cnt > 0 else def_rec
         
         return pd.DataFrame(rows), gpg, cpg, rec, raw_scored_total, raw_conceded_total
@@ -503,8 +504,8 @@ with tabs[1]:
     st.markdown(f"""<div class="calc-box">
         <b>{h_name} 규칙 1번 상세 산출 내역</b><br>
         • 최근 전적: <b>{h_rec}</b> (총 득점: <b>{h_raw_s:.1f}골</b> / 총 실점: <b>{h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if h_goal_diff >= 0 else '#c62828'};">{h_goal_diff:+.1f}</b>)<br>
-        • 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> / 평균 실점: <b>{h_cpg:.2f}골/경기</b><br>
-        • 공격 티어: <b>{h_at} ({h_atw})</b> | 방어 티어: <b>{h_de} ({h_dew})</b> | 특수룰 발동여부: <b>{'발동됨' if h_is_triggered else '미발동 (유지)'}</b>
+        • 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> / 보정 평균 실점: <b>{h_cpg:.2f}골/경기</b><br>
+        • 공격 티어: <b>{h_at} ({h_atw})</b> | 방어 티어: <b>{h_de} ({h_dew})</b> | 특수룰 발동여부: <b>{'발동됨 (득실점 50% 할인 적용)' if h_is_triggered else '미발동 (유지)'}</b>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("---")
@@ -519,8 +520,8 @@ with tabs[1]:
     st.markdown(f"""<div class="calc-box">
         <b>{a_name} 규칙 1번 상세 산출 내역</b><br>
         • 최근 전적: <b>{a_rec}</b> (총 득점: <b>{a_raw_s:.1f}골</b> / 총 실점: <b>{a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if a_goal_diff >= 0 else '#c62828'};">{a_goal_diff:+.1f}</b>)<br>
-        • 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> / 평균 실점: <b>{a_cpg:.2f}골/경기</b><br>
-        • 공격 티어: <b>{a_at} ({a_atw})</b> | 방어 티어: <b>{a_de} ({a_dew})</b> | 특수룰 발동여부: <b>{'발동됨' if a_is_triggered else '미발동 (유지)'}</b>
+        • 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> / 보정 평균 실점: <b>{a_cpg:.2f}골/경기</b><br>
+        • 공격 티어: <b>{a_at} ({a_atw})</b> | 방어 티어: <b>{a_de} ({a_dew})</b> | 특수룰 발동여부: <b>{'발동됨 (득실점 50% 할인 적용)' if a_is_triggered else '미발동 (유지)'}</b>
     </div>""", unsafe_allow_html=True)
 
 
@@ -625,7 +626,7 @@ with tabs[2]:
         <div class="calc-box">
         <b>{h_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
         • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
-        • 보정 평균 득점: <b>{s_h_gpg:.2f}골/경기</b> / 평균 실점: <b>{s_h_cpg:.2f}골/경기</b><br>
+        • 보정 평균 득점: <b>{s_h_gpg:.2f}골/경기</b> / 보정 평균 실점: <b>{s_h_cpg:.2f}골/경기</b><br>
         • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{h_atk_color_str}</b> / 방어 <b>{h_def_color_str}</b><br>
         • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{h_atk_shift_str}</b> / 방어 <b>{h_def_shift_str}</b>
         </div>
@@ -643,7 +644,7 @@ with tabs[2]:
         <div class="calc-box">
         <b>{a_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
         • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
-        • 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> / 평균 실점: <b>{s_a_cpg:.2f}골/경기</b><br>
+        • 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> / 보정 평균 실점: <b>{s_a_cpg:.2f}골/경기</b><br>
         • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{a_atk_color_str}</b> / 방어 <b>{a_def_color_str}</b><br>
         • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> / 방어 <b>{a_def_shift_str}</b>
         </div>
