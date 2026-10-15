@@ -1269,6 +1269,7 @@ with tabs[5]:
         a_r1_atk = a_atw if 'a_atw' in locals() else "+4.0%"
         a_r1_def = a_dew if 'a_dew' in locals() else "-4.0%"
 
+        # 변수가 정의된 이후에 파싱 함수 실행
         h_r1_atk_val = parse_pct(h_r1_atk)
         h_r1_def_val = parse_pct(h_r1_def)
         a_r1_atk_val = parse_pct(a_r1_atk)
