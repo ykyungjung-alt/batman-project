@@ -776,13 +776,18 @@ with tabs[3]:
         if not standing_info_list:
             return "중요도중", 5.0, -5.0
         
-        # 소속된 리그들 중 가장 중요한 라벨(진출권/우승/플레이오프 등)을 우선 반영
+        # 💡 [핵심 수정] 현재 경기 대회명과 일치하는 소속 리그 라벨만 우선 매칭하여 엉뚱한 타 대회(자국 리그 등) 진출권 버프 오적용 방지
         for standing_info in standing_info_list:
-            label = str(standing_info.get("tag_label", ""))
-            if any(k in label for k in ["탈락", "탈락확정", "강등확정"]):
-                return "중요도하", -10.0, 10.0
-            if any(k in label for k in ["진출권", "플레이오프", "승격", "우승", "qualifying", "play-offs", "Playoff"]) or any(k in league_str for k in ["챔피언스", "유로파", "결승", "컵", "ACL", "CL"]):
-                return "중요도상", 15.0, -15.0
+            l_name = str(standing_info.get("league_name", ""))
+            # 현재 경기 리그명(예: 유로파리그, 챔피언스리그, 분데스리가 등)과 순위표의 소속 리그명이 서로 연관/일치하는지 검사
+            if l_name in league_str or league_str in l_name or any(k in league_str and k in l_name for k in ["챔피언스", "유로파", "컨퍼런스", "분데스리가", "프리미어", "라리가", "세리에", "리그"]):
+                label = str(standing_info.get("tag_label", ""))
+                if any(k in label for k in ["탈락", "탈락확정", "강등확정"]):
+                    return "중요도하", -10.0, 10.0
+                if any(k in label for k in ["진출권", "플레이오프", "승격", "우승", "qualifying", "play-offs", "Playoff"]) or any(k in league_str for k in ["챔피언스", "유로파", "결승", "컵", "ACL", "CL"]):
+                    return "중요도상", 15.0, -15.0
+
+        # 만약 직접 일치하는 소속 리그 라벨이 없다면 기본 중요도(중) 부여
         return "중요도중", 5.0, -5.0
 
     home_standings_list = get_team_standing_info(home_team)
