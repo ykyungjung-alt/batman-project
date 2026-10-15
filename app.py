@@ -245,7 +245,7 @@ with tabs[0]:
     """
     st.markdown(meta_markdown_table, unsafe_allow_html=True)
     
-    st.markdown("##### 📊 공식 팀 순위 및 국가 코드 기반 등급·가중치 연동 현황")
+    st.markdown("##### 📊 공식 팀 순위 및 country.json 기반 등급·가중치 연동 현황")
     
     if has_detailed_data:
         meta_details = detailed_info.get("meta_details", {})
@@ -262,47 +262,57 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        def match_country_by_league_string(league_val):
+        def match_with_country_json_safely(team_val, league_val):
             grades = country_data.get("grades", {})
+            league_str = str(league_val).strip()
             
-            # 💡 핵심: 'POR D1-2', 'SCO PR-1' 같은 문자열에서 공백 전의 첫 단어(국가 코드)만 정밀 추출
+            # 💡 띄어쓰기 또는 하이픈('-'), 슬래시('/') 기준 앞부분의 국가 코드 추출 (예: 'POR D1-2' -> 'POR')
             extracted_code = ""
-            if league_val:
-                clean_val = str(league_val).strip()
-                parts = clean_val.split()
+            if league_str and league_str != "-":
+                import re
+                parts = re.split(r'[\s\-/]+', league_str)
                 if parts:
                     extracted_code = parts[0].upper()
 
-            # country.json 순회하며 국가 코드 일치 여부 확인
+            # country.json 안의 모든 국가(A~E등급)를 순회하며 추출된 코드와 대조
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
                 if isinstance(countries, list):
                     for c in countries:
                         c_code = str(c.get("code", "")).upper()
+                        c_leagues = [str(l).upper() for l in c.get("leagues", [])]
+                        
+                        # 1. 추출된 코드와 country.json의 국가 코드(code)가 정확히 일치하는 경우
                         if c_code and c_code == extracted_code:
-                            return c.get("code", "-"), c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
-            
-            # 매칭 실패 시 기본 F등급 처리
+                            return c.get("code", "-"), league_str if league_str else c_code, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                        
+                        # 2. 혹은 country.json 내 등록된 개별 리그 목록(leagues)의 접두사와 일치하는 경우
+                        for l_item in c_leagues:
+                            l_prefix = l_item.split()[0].upper() if l_item else ""
+                            if l_prefix and l_prefix == extracted_code:
+                                return c.get("code", "-"), league_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+
+            # country.json 매칭 실패 시 기본 F등급 처리
             f_info = grades.get("F", {})
-            return extracted_code if extracted_code else "EXT", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
+            fallback_code = extracted_code if extracted_code else "EXT"
+            return fallback_code, league_str if league_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
         if rankings_raw:
             rankings_list = []
             for idx, r in enumerate(rankings_raw):
                 team_name = str(r.get("team", "-"))
-                # 순위표 내 실제 리그 코드 문자열 (예: POR D1-2) 추출
-                raw_league_code = str(r.get("league", ""))
+                raw_league = str(r.get("league", ""))
                 
-                # 추출된 코드로 국가 매칭 및 가중치 계산
-                matched_code, grade, atk_b, def_b = match_country_by_league_string(raw_league_code)
+                # country.json 순회 대조 매칭 실행
+                matched_code, clean_league, grade, atk_b, def_b = match_with_country_json_safely(team_name, raw_league)
                 
                 rankings_list.append({
                     "No": idx + 1,
                     "리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
                     "팀": team_name,
                     "국가코드": matched_code,
-                    "리그명": raw_league_code,
+                    "리그명": clean_league,
                     "등급": grade,
                     "공격보정": atk_b,
                     "수비보정": def_b,
