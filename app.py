@@ -861,49 +861,29 @@ if has_detailed_data:
             imp_label, _, _ = determine_match_importance(standing_info, league_raw)
             date_short = match_time.split(" ")[0].replace("-", ".").replace("/", ".")
             row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {imp_label} / {loc_type}"
-            
-            parsed_dt = None
-            try:
-                parsed_dt = datetime.strptime(match_time.split(" ")[0].replace(".", "-").replace("/", "-")[:10], "%Y-%m-%d")
-            except Exception:
-                pass
-            return {"desc": row_desc, "loc_type": loc_type, "diff_days": diff_days, "dt": parsed_dt}
+            return {"desc": row_desc, "loc_type": loc_type, "diff_days": diff_days}
 
         processed_past = []
         running_fatigue = 0
         chrono_past = sorted(past_fixtures, key=lambda x: x[0])
         past_7d_list, past_4d_list = [], []
         prev_loc = None
-        prev_dt = None
 
         for diff_d, fix in chrono_past:
             abs_diff = abs(diff_d)
             if abs_diff <= 7:
                 details = parse_fix_details(fix)
                 curr_loc = details["loc_type"]
-                curr_dt = details["dt"]
-                
-                # 엄격한 이동/피로도 규칙 적용:
-                # 1. 경기 간격이 4일 이상이면 (휴식) 피로도 0 리셋
-                # 2. 홈에서 홈으로 이어지면(홈 -> 홈) 리셋
-                # 3. 원정 다음 휴식 시 리셋 (간격 4일 이상에 포함)
-                # 4. 원정 -> 홈 -> 원정 등 이동이 수반되는 동선은 누적
-                if prev_dt is not None and curr_dt is not None:
-                    gap_days = (curr_dt - prev_dt).days
-                    if gap_days >= 4:
-                        running_fatigue = 0
-                    elif prev_loc == "홈" and curr_loc == "홈":
-                        running_fatigue = 0
                 
                 if curr_loc == "원정":
                     running_fatigue += 1
                 else:
-                    # 홈 경기로 진입할 때 홈-홈이 아니면(원정 -> 홈) 리셋 또는 관리
-                    if prev_loc == "원정":
-                        running_fatigue = max(0, running_fatigue - 1) # 홈 복귀 시 완화 또는 유지 정책에 맞춰 조정 가능
+                    if prev_loc == "홈":
+                        running_fatigue = 0
+                    else:
+                        running_fatigue = 0
                 
                 prev_loc = curr_loc
-                prev_dt = curr_dt
                 processed_past.append({"desc": details["desc"], "fatigue_level": running_fatigue, "loc_type": curr_loc})
 
                 if 4 < abs_diff <= 7:
@@ -916,8 +896,6 @@ if has_detailed_data:
         last_past_fatigue = processed_past[-1]["fatigue_level"] if processed_past else 0
 
         current_loc_type = "홈" if is_home_team else "원정"
-        
-        # 해당 경기 시점 피로도 산출
         if processed_past:
             last_match = processed_past[-1]
             if last_match["loc_type"] == "홈" and current_loc_type == "홈":
