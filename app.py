@@ -262,54 +262,45 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        def match_with_country_json_safely(team_val, league_val):
+        def match_with_country_json_exact(rank_val, team_val):
             grades = country_data.get("grades", {})
-            league_str = str(league_val).strip()
+            rank_str = str(rank_val).strip()
             
-            # 💡 띄어쓰기 또는 하이픈('-'), 슬래시('/') 기준 앞부분의 국가 코드 추출 (예: 'POR D1-2' -> 'POR')
+            # 💡 rank 값(예: "POR D1-2", "SCO PR-1")의 띄어쓰기 앞부분(국가 코드)을 정확히 추출
             extracted_code = ""
-            if league_str and league_str != "-":
-                import re
-                parts = re.split(r'[\s\-/]+', league_str)
+            if rank_str and rank_str != "-":
+                parts = rank_str.split()
                 if parts:
                     extracted_code = parts[0].upper()
 
-            # country.json 안의 모든 국가(A~E등급)를 순회하며 추출된 코드와 대조
+            # country.json의 각 등급별 국가 목록을 순회하며 정확한 코드 대조
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
                 if isinstance(countries, list):
                     for c in countries:
                         c_code = str(c.get("code", "")).upper()
-                        c_leagues = [str(l).upper() for l in c.get("leagues", [])]
-                        
-                        # 1. 추출된 코드와 country.json의 국가 코드(code)가 정확히 일치하는 경우
                         if c_code and c_code == extracted_code:
-                            return c.get("code", "-"), league_str if league_str else c_code, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
-                        
-                        # 2. 혹은 country.json 내 등록된 개별 리그 목록(leagues)의 접두사와 일치하는 경우
-                        for l_item in c_leagues:
-                            l_prefix = l_item.split()[0].upper() if l_item else ""
-                            if l_prefix and l_prefix == extracted_code:
-                                return c.get("code", "-"), league_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                            # 국가코드, 원본 rank 문자열(리그명 대용), 등급, 공격보정, 수비보정 반환
+                            return c.get("code", "-"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
-            # country.json 매칭 실패 시 기본 F등급 처리
+            # country.json 매칭 실패 시 F등급 처리
             f_info = grades.get("F", {})
             fallback_code = extracted_code if extracted_code else "EXT"
-            return fallback_code, league_str if league_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
+            return fallback_code, rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
         if rankings_raw:
             rankings_list = []
             for idx, r in enumerate(rankings_raw):
                 team_name = str(r.get("team", "-"))
-                raw_league = str(r.get("league", ""))
+                rank_code_str = str(r.get("rank", ""))  # 예: "POR D1-2"
                 
-                # country.json 순회 대조 매칭 실행
-                matched_code, clean_league, grade, atk_b, def_b = match_with_country_json_safely(team_name, raw_league)
+                # rank 데이터를 활용해 country.json과 완벽 매칭 실행
+                matched_code, clean_league, grade, atk_b, def_b = match_with_country_json_exact(rank_code_str, team_name)
                 
                 rankings_list.append({
                     "No": idx + 1,
-                    "리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
+                    "리그순위": rank_code_str,
                     "팀": team_name,
                     "국가코드": matched_code,
                     "리그명": clean_league,
@@ -327,7 +318,6 @@ with tabs[0]:
             st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-
 
 # ==========================================
 # 💡 규칙 1번 탭 (v3 데이터 전용 단독 연동 및 조건부 E티어 득실점 50% 할인 적용)
