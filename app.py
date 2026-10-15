@@ -1891,7 +1891,7 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (match_code 기반 독립 연산 및 멀티 비교 대시보드 최종 완성본)
+# 7번 탭: 요약 리포트 (기존 연동 데이터 원복 완성본)
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
@@ -1975,79 +1975,40 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. 각 대진별 match_code 기반 완전 독립 실시간 연산 및 통합 비교 표 출력
+        # 🚀 3. 각 대진별 고유 데이터 연동 원본 독립 엔진
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
         def compute_match_engine_by_code(m_item):
             m_code = str(m_item.get('match_code', '')).strip()
-            h_name = str(m_item.get('home', '')).strip()
-            a_name = str(m_item.get('away', '')).strip()
             
+            # 기존에 정상 연동되던 방식대로 상세 딕셔너리에서 match_code 기준으로 데이터를 정확히 탐색
             target_detail = {}
-            source_dict_pool = []
-            if 'v3_details_dict' in globals() and v3_details_dict:
-                source_dict_pool.append(v3_details_dict)
-            if 'all_details_dict' in globals() and all_details_dict:
-                source_dict_pool.append(all_details_dict)
+            if 'v3_details_dict' in globals() and v3_details_dict and m_code in v3_details_dict:
+                target_detail = v3_details_dict[m_code]
+            elif 'all_details_dict' in globals() and all_details_dict and m_code in all_details_dict:
+                target_detail = all_details_dict[m_code]
 
-            for d_pool in source_dict_pool:
-                if m_code in d_pool:
-                    target_detail = d_pool[m_code]
-                    break
-                for k, v in d_pool.items():
-                    if str(v.get("match_code", "")).strip() == m_code:
-                        target_detail = v
-                        break
-                    v_home = str(v.get("home", "")).strip().replace(" ", "")
-                    v_away = str(v.get("away", "")).strip().replace(" ", "")
-                    if v_home == h_name.replace(" ", "") and v_away == a_name.replace(" ", ""):
-                        target_detail = v
-                        break
-                if target_detail:
-                    break
-
-            # 기본값 설정
-            h_base_g = 1.2
-            h_base_c = 1.0
-            a_base_g = 1.1
-            a_base_c = 1.1
-            h_tot_atk = 0.0
-            h_tot_def = 0.0
-            a_tot_atk = 0.0
-            a_tot_def = 0.0
+            # 기존 연동된 세부 요약 데이터에서 람다 추출
+            h_lambda = 1.35
+            a_lambda = 1.15
 
             if target_detail and isinstance(target_detail, dict):
-                meta = target_detail.get("meta_details", {})
-                recent = meta.get("recent_form", {})
-                h_sum = recent.get("home_summary", {})
-                a_sum = recent.get("away_summary", {})
-                
-                h_base_g = float(h_sum.get("goals_per_game", target_detail.get("h_gpg", 1.2)))
-                h_base_c = float(h_sum.get("conceded_per_game", target_detail.get("h_cpg", 1.0)))
-                a_base_g = float(a_sum.get("goals_per_game", target_detail.get("a_gpg", 1.1)))
-                a_base_c = float(a_sum.get("conceded_per_game", target_detail.get("a_cpg", 1.1)))
-
-                h_tot_atk = float(target_detail.get("h_tot_atk_pct", 0.0))
-                h_tot_def = float(target_detail.get("h_tot_def_pct", 0.0))
-                a_tot_atk = float(target_detail.get("a_tot_atk_pct", 0.0))
-                a_tot_def = float(target_detail.get("a_tot_def_pct", 0.0))
-
-            h_max_g = h_base_g * (1 + h_tot_atk / 100.0)
-            h_min_c = h_base_c * (1 + h_tot_def / 100.0)
-            a_max_g = a_base_g * (1 + a_tot_atk / 100.0)
-            a_min_c = a_base_c * (1 + a_tot_def / 100.0)
-
-            h_lambda = max(0.2, (h_max_g + (2.0 - a_min_c)) / 2.0)
-            a_lambda = max(0.2, (a_max_g + (2.0 - h_min_c)) / 2.0)
+                try:
+                    meta = target_detail.get("meta_details", {})
+                    recent = meta.get("recent_form", {})
+                    h_sum = recent.get("home_summary", {})
+                    a_sum = recent.get("away_summary", {})
+                    
+                    if h_sum.get("goals_per_game"):
+                        h_lambda = float(h_sum.get("goals_per_game"))
+                    if a_sum.get("goals_per_game"):
+                        a_lambda = float(a_sum.get("goals_per_game"))
+                except:
+                    pass
 
             def poisson_prob(lmbd, k):
-                if lmbd <= 0 and k == 0:
-                    return 1.0
-                try:
-                    return (math.exp(-lmbd) * (lmbd ** k)) / math.factorial(k)
-                except:
-                    return 0.0
+                return (math.exp(-lmbd) * (lmbd ** k)) / math.factorial(k)
 
             home_win_prob = 0.0
             draw_prob = 0.0
