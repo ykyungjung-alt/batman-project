@@ -1238,7 +1238,7 @@ else:
     a_r4_def_val = 0.0
 
 # ==========================================
-# 규칙 5번 탭 전체 교체용 코드 (오류 수정 완료 버전)
+# 규칙 5번 탭 전체 교체용 코드 (에러 방지 완전 통합본)
 # ==========================================
 with tabs[5]:
     st.markdown(f"#### [규칙 5번: 최종 보정 및 1차 기본 기대 득실점 산출] - {home_team} vs {away_team}")
@@ -1269,7 +1269,6 @@ with tabs[5]:
         a_r1_atk = a_atw if 'a_atw' in locals() else "+4.0%"
         a_r1_def = a_dew if 'a_dew' in locals() else "-4.0%"
 
-        # 변수가 정의된 이후에 파싱 함수 실행
         h_r1_atk_val = parse_pct(h_r1_atk)
         h_r1_def_val = parse_pct(h_r1_def)
         a_r1_atk_val = parse_pct(a_r1_atk)
@@ -1330,7 +1329,7 @@ with tabs[5]:
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 
         # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (최근 7경기 교차 검증 및 특수 룰 프로토콜 적용)
+        # 📊 [5-2 표] 렌더링
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 7경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
@@ -1592,6 +1591,7 @@ with tabs[5]:
         st.dataframe(pd.DataFrame(table_data_54), use_container_width=True, hide_index=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+        st.stop()
 
 # --------------------------------------------------------------------------
 # 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (최종 완벽 수정본)
