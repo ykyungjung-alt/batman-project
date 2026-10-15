@@ -1,432 +1,230 @@
 {
-    "last_updated": "2026-10-16 03:54:27",
+    "last_updated": "2026-10-16 04:05:56",
     "match_details": {
-        "3073719": {
-            "match_code": "3073719",
+        "3101568": {
+            "match_code": "3101568",
             "head_info": {
-                "league": "유로파리그",
+                "league": "CAF 챔피언스리그",
                 "round": ""
             },
-            "home": "벤피카",
-            "away": "셀틱",
+            "home": "EL Merriekh Bentiu",
+            "away": "피라미드",
             "meta_details": {
                 "recent_form": {
                     "form_title": "최근 전적",
-                    "home_team_name": "벤피카",
+                    "home_team_name": "EL Merriekh Bentiu",
                     "home_matches": [
                         {
-                            "league": "POR D1",
-                            "match_time": "2026.10.11",
-                            "teams": "벤피카 vs 비토리아 기마랑이스",
+                            "league": "CAF CL",
+                            "match_time": "2026.09.12",
+                            "teams": "Heegan vs EL Merriekh Bentiu",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.20/1.10"
+                        },
+                        {
+                            "league": "CAF CL",
+                            "match_time": "2026.09.05",
+                            "teams": "EL Merriekh Bentiu vs Heegan",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.00/2.67"
+                        },
+                        {
+                            "league": "EGY D2",
+                            "match_time": "2026.04.14",
+                            "teams": "Shabab Al Obour vs EL Merriekh Bentiu",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.00/0.00"
+                        },
+                        {
+                            "league": "EGY D2",
+                            "match_time": "2026.02.03",
+                            "teams": "Ra SC vs EL Merriekh Bentiu",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.40/0.90"
+                        },
+                        {
+                            "league": "EGY D2",
+                            "match_time": "2025.11.18",
+                            "teams": "Nejmet Sinai FC vs EL Merriekh Bentiu",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.00/0.00"
+                        },
+                        {
+                            "league": "CAF Cup",
+                            "match_time": "2025.09.28",
+                            "teams": "아잠 vs EL Merriekh Bentiu",
                             "ft_scores": [
                                 "2",
                                 "0"
                             ],
-                            "opponent_tier_info": "0.90/0.90"
+                            "opponent_tier_info": "1.40/1.00"
                         },
                         {
-                            "league": "POR D1",
-                            "match_time": "2026.09.20",
-                            "teams": "FC 포르투 vs 벤피카",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "3.00/0.70"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.09.16",
-                            "teams": "AC 밀란 vs 벤피카",
+                            "league": "CAF Cup",
+                            "match_time": "2025.09.20",
+                            "teams": "EL Merriekh Bentiu vs 아잠",
                             "ft_scores": [
                                 "0",
                                 "2"
                             ],
-                            "opponent_tier_info": "3.40/0.80"
+                            "opponent_tier_info": "2.20/1.00"
                         },
                         {
-                            "league": "POR D1",
-                            "match_time": "2026.09.13",
-                            "teams": "벤피카 vs 길 비센테",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/1.00"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.09.09",
-                            "teams": "모레이렌세 vs 벤피카",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "3.70/0.80"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.09.05",
-                            "teams": "마리티무 vs 벤피카",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "3.50/1.00"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.08.31",
-                            "teams": "벤피카 vs 에스토릴",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.80/1.30"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.08.27",
-                            "teams": "오르후스 vs 벤피카",
+                            "league": "EGY D2",
+                            "match_time": "2025.02.27",
+                            "teams": "South Sinai vs EL Merriekh Bentiu",
                             "ft_scores": [
                                 "1",
                                 "3"
                             ],
-                            "opponent_tier_info": "3.30/1.00"
+                            "opponent_tier_info": "1.20/0.80"
                         },
                         {
-                            "league": "UEFA EL",
-                            "match_time": "2026.08.20",
-                            "teams": "벤피카 vs 오르후스",
+                            "league": "EGY D2",
+                            "match_time": "2025.02.20",
+                            "teams": "EL Merriekh Bentiu vs Nejmet Sinai FC",
                             "ft_scores": [
                                 "3",
-                                "1"
+                                "2"
                             ],
-                            "opponent_tier_info": "1.70/1.60"
+                            "opponent_tier_info": "0.30/1.40"
                         },
                         {
-                            "league": "POR D1",
-                            "match_time": "2026.08.17",
-                            "teams": "카사 피아 vs 벤피카",
+                            "league": "EGY D2",
+                            "match_time": "2025.01.30",
+                            "teams": "El Shams vs EL Merriekh Bentiu",
                             "ft_scores": [
                                 "0",
-                                "7"
+                                "2"
                             ],
-                            "opponent_tier_info": "2.80/1.20"
+                            "opponent_tier_info": "0.90/1.40"
                         }
                     ],
-                    "away_team_name": "셀틱",
+                    "away_team_name": "피라미드",
                     "away_matches": [
                         {
-                            "league": "SCO PR",
-                            "match_time": "2026.10.11",
-                            "teams": "마더웰 vs 셀틱",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.70/1.30"
-                        },
-                        {
-                            "league": "SCO PR",
-                            "match_time": "2026.09.20",
-                            "teams": "셀틱 vs 레인저스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.60/0.60"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.09.17",
-                            "teams": "셀틱 vs 페렌크바로스",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "2.30/0.60"
-                        },
-                        {
-                            "league": "SCO LC",
-                            "match_time": "2026.09.13",
-                            "teams": "레인저스 vs 셀틱",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.40/0.90"
-                        },
-                        {
-                            "league": "SCO PR",
-                            "match_time": "2026.09.09",
-                            "teams": "세인트존스턴 vs 셀틱",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.40/1.00"
-                        },
-                        {
-                            "league": "SCO PR",
-                            "match_time": "2026.09.05",
-                            "teams": "세인트 미렌 vs 셀틱",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.30/1.30"
-                        },
-                        {
-                            "league": "SCO PR",
-                            "match_time": "2026.09.02",
-                            "teams": "셀틱 vs 애버딘",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.10/1.20"
-                        },
-                        {
-                            "league": "SCO PR",
-                            "match_time": "2026.08.29",
-                            "teams": "셀틱 vs 폴커크",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.30"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.08.25",
-                            "teams": "LASK vs 셀틱",
+                            "league": "EGY D1",
+                            "match_time": "2026.10.12",
+                            "teams": "피라미드 vs 세라미카 클레오파트라",
                             "ft_scores": [
                                 "4",
                                 "1"
                             ],
-                            "opponent_tier_info": "2.40/1.10"
+                            "opponent_tier_info": "1.40/0.70"
                         },
                         {
-                            "league": "UEFA CL",
-                            "match_time": "2026.08.19",
-                            "teams": "셀틱 vs LASK",
+                            "league": "EGY LC",
+                            "match_time": "2026.10.07",
+                            "teams": "피라미드 vs 알 카나",
                             "ft_scores": [
                                 "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "0.90/1.10"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.09.17",
+                            "teams": "엔피 vs 피라미드",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.20/0.50"
+                        },
+                        {
+                            "league": "CAF CL",
+                            "match_time": "2026.09.13",
+                            "teams": "피라미드 vs 고르 마히아",
+                            "ft_scores": [
+                                "5",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.10/1.10"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.09.09",
+                            "teams": "피라미드 vs 엘 구나",
+                            "ft_scores": [
+                                "1",
                                 "0"
                             ],
-                            "opponent_tier_info": "3.00/0.70"
+                            "opponent_tier_info": "1.00/1.10"
+                        },
+                        {
+                            "league": "CAF CL",
+                            "match_time": "2026.09.06",
+                            "teams": "고르 마히아 vs 피라미드",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.00/0.80"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.08.31",
+                            "teams": "알 마스리 vs 피라미드",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.20/0.80"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.08.27",
+                            "teams": "피라미드 vs 아부 키르 세마드",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.30/0.30"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.08.22",
+                            "teams": "가즐 엘 말라 vs 피라미드",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.80/1.00"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.08",
+                            "teams": "리제스포르 vs 피라미드",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.10/0.80"
                         }
                     ]
                 },
                 "stadium_form": {
                     "form_title": "구장별 전적",
-                    "home_team_name": "벤피카",
-                    "home_matches": [
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.10.11",
-                            "teams": "벤피카 vs 비토리아 기마랑이스",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.90/0.90"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.09.13",
-                            "teams": "벤피카 vs 길 비센테",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/1.00"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.08.31",
-                            "teams": "벤피카 vs 에스토릴",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.80/1.30"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.08.20",
-                            "teams": "벤피카 vs 오르후스",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.70/1.60"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.08.09",
-                            "teams": "벤피카 vs 아카데미코 비제우",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.30/0.90"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.08.06",
-                            "teams": "벤피카 vs 하츠",
-                            "ft_scores": [
-                                "6",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.20/1.60"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.07.30",
-                            "teams": "벤피카 vs 장트 갈렌",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.00/1.60"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.24",
-                            "teams": "벤피카 vs Os 벨레넨스스",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.10/1.00"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.17",
-                            "teams": "벤피카 vs 비야레알",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.10/1.30"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.11",
-                            "teams": "벤피카 vs 플라멩고 RJ",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.60/0.80"
-                        }
-                    ],
-                    "away_team_name": "셀틱",
-                    "away_matches": [
-                        {
-                            "league": "SCO PR",
-                            "match_time": "2026.10.11",
-                            "teams": "마더웰 vs 셀틱",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.70/1.30"
-                        },
-                        {
-                            "league": "SCO LC",
-                            "match_time": "2026.09.13",
-                            "teams": "레인저스 vs 셀틱",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.40/0.90"
-                        },
-                        {
-                            "league": "SCO PR",
-                            "match_time": "2026.09.09",
-                            "teams": "세인트존스턴 vs 셀틱",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.40/1.00"
-                        },
-                        {
-                            "league": "SCO PR",
-                            "match_time": "2026.09.05",
-                            "teams": "세인트 미렌 vs 셀틱",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.30/1.30"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.08.25",
-                            "teams": "LASK vs 셀틱",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.40/1.10"
-                        },
-                        {
-                            "league": "SCO LC",
-                            "match_time": "2026.08.15",
-                            "teams": "던디 Utd vs 셀틱",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "2.30/1.40"
-                        },
-                        {
-                            "league": "SCO PR",
-                            "match_time": "2026.08.09",
-                            "teams": "킬마녹 vs 셀틱",
-                            "ft_scores": [
-                                "1",
-                                "5"
-                            ],
-                            "opponent_tier_info": "2.00/1.40"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.14",
-                            "teams": "스포르팅 vs 셀틱",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.30/1.10"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.07",
-                            "teams": "쉘본 vs 셀틱",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.20/1.20"
-                        },
-                        {
-                            "league": "SCO PR",
-                            "match_time": "2026.05.13",
-                            "teams": "마더웰 vs 셀틱",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.80/1.00"
-                        }
-                    ]
+                    "home_team_name": "EL Merriekh Bentiu",
+                    "home_matches": [],
+                    "away_team_name": "피라미드",
+                    "away_matches": []
                 }
             }
         }
