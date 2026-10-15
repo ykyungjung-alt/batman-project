@@ -289,7 +289,7 @@ with tabs[0]:
             fallback_code = extracted_code if extracted_code else "EXT"
             return fallback_code, rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
-if rankings_raw:
+        if rankings_raw:
             rankings_list = []
             
             # 💡 홈팀과 원정팀 보정치를 확실하게 담을 전역 변수 초기화
