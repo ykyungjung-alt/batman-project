@@ -33,7 +33,7 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
                 for v in stats_div.find_all("div", class_="vote"):
                     ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "p2"])
                     if len(ext_els) >= 3:
-                        left_val = ext_els[0].get_text(strip=True)
+                        left_val = ext_els[0].get_text(strip=Target=True) if hasattr(ext_els[0], 'get_text') else ext_els[0].get_text(strip=True)
                         label = ext_els[1].get_text(strip=True)
                         right_val = ext_els[2].get_text(strip=True)
                         
@@ -134,25 +134,13 @@ def run_table_based_crawler_v3_2():
                 driver.get(detail_url)
                 time.sleep(2.0)  # 페이지 초기 로딩 대기 시간 확보
                 
-                # 💡 [드롭다운 제어 수정]: 'selRecentMatch' 클릭 후 팝업 메뉴 내 'v-data="20"' 항목 클릭
-                try:
-                    dropdown_btn = driver.find_element("id", "selRecentMatch")
-                    if dropdown_btn:
-                        driver.execute_script("arguments[0].click();", dropdown_btn)
-                        time.sleep(1.0)  # 메뉴 열림 대기
-                        
-                        option_20 = driver.find_element("xpath", "//div[@id='selRecentMatchItem']//li[@v-data='20']")
-                        if option_20:
-                            driver.execute_script("arguments[0].click();", option_20)
-                            time.sleep(2.0)  # 20개 항목 비동기 렌더링 완료 대기
-                except Exception as drop_err:
-                    print(f"  - 최근 20개 확장 드롭다운 클릭 예외 (기본값 진행): {drop_err}")
-
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
                 head_info = {
                     "league": target["league"],
-                    "round": ""
+                    "round": "",
+                    "stadium": "",
+                    "home_stadium": ""
                 }
                 
                 try:
@@ -163,7 +151,83 @@ def run_table_based_crawler_v3_2():
                 except Exception:
                     pass
 
-                # 💡 원정팀 관련 데이터 필드 제거 및 홈팀 전적 구조만 유지
+                # 1. 실제 경기장(stadium) 수집
+                try:
+                    other_info_div = detail_soup.find("div", {"id": "otherInfo"})
+                    if other_info_div:
+                        spans = other_info_div.find_all("span")
+                        stadium_candidates = []
+                        for s in spans:
+                            s_text = s.get_text(strip=True)
+                            if not s_text or "생중계" in s_text: continue
+                            if any(w in s_text for w in ["°C", "°F", "비", "맑음", "구름", "이슬비", "눈", "흐림", "Clear", "Rain", "Cloud", "Snow"]):
+                                continue
+                            else:
+                                stadium_candidates.append(s_text)
+                        if stadium_candidates:
+                            head_info["stadium"] = stadium_candidates[0]
+                except Exception:
+                    pass
+
+                # 2. 홈팀 서브페이지에서 고유 홈구장(home_stadium) 수집
+                try:
+                    home_div = detail_soup.find("div", {"class": "home"})
+                    if home_div and home_div.has_attr("data-url"):
+                        team_summary_url = "https:" + home_div["data-url"]
+                        driver.get(team_summary_url)
+                        time.sleep(0.8)
+                        team_soup = BeautifulSoup(driver.page_source, "html.parser")
+                        info_div = team_soup.find("div", id="info")
+                        if info_div:
+                            stadium_li = info_div.find("li", class_="home-stadium")
+                            if stadium_li:
+                                h_stadium_name = stadium_li.get("explain", "").strip()
+                                if not h_stadium_name:
+                                    div_tag = stadium_li.find("div")
+                                    if div_tag: h_stadium_name = div_tag.get_text(strip=True)
+                                head_info["home_stadium"] = h_stadium_name
+                        
+                        # 메인 상세 페이지로 복귀
+                        driver.get(detail_url)
+                        time.sleep(1.5)
+                except Exception as e:
+                    print(f"  - 홈구장 파싱 예외: {e}")
+                    driver.get(detail_url)
+                    time.sleep(1.5)
+
+                # 💡 [핵심 판별 로직]: 실제 구장 이름과 홈구장 이름이 다를 경우(중립 구장 등) 판별
+                actual_stadium = head_info["stadium"].strip().lower()
+                home_stadium_val = head_info["home_stadium"].strip().lower()
+                
+                # 구장 정보가 둘 다 존재할 때 완전히 일치하지 않으면 중립/특수 경기(20개 수집 대상)로 판단
+                is_neutral_or_special = False
+                if actual_stadium and home_stadium_val:
+                    if actual_stadium != home_stadium_val:
+                        is_neutral_or_special = True
+
+                target_count = 10  # 기본값 10개
+
+                if is_neutral_or_special:
+                    print(f"  🔍 [중립/특수 구장 감지] ({head_info['home_stadium']} vs {head_info['stadium']}) -> 최근 20개 전적 수집을 시도합니다.")
+                    target_count = 20
+                    try:
+                        dropdown_btn = driver.find_element("id", "selRecentMatch")
+                        if dropdown_btn:
+                            driver.execute_script("arguments[0].click();", dropdown_btn)
+                            time.sleep(1.0)  # 메뉴 열림 대기
+                            
+                            option_20 = driver.find_element("xpath", "//div[@id='selRecentMatchItem']//li[@v-data='20']")
+                            if option_20:
+                                driver.execute_script("arguments[0].click();", option_20)
+                                time.sleep(2.0)  # 20개 항목 비동기 렌더링 대기
+                    except Exception as drop_err:
+                        print(f"  - 최근 20개 확장 드롭다운 클릭 예외 (기본값 유지): {drop_err}")
+                else:
+                    print(f"  🏠 [정식 홈구장 경기] -> 기본 10개 전적을 수집합니다.")
+
+                # 드롭다운 선택 후 갱신된 소스 파싱
+                detail_soup = BeautifulSoup(driver.page_source, "html.parser")
+
                 recent_form_data = {
                     "form_title": "최근 전적",
                     "home_team_name": main_home, 
@@ -177,7 +241,7 @@ def run_table_based_crawler_v3_2():
                 }
                 
                 try:
-                    def parse_matches(container_ul, target_team, target_list, max_count=20):
+                    def parse_matches(container_ul, target_team, target_list, max_count):
                         if not container_ul: return
                         count = 0
                         for li in container_ul.find_all("li", class_="courselis"):
@@ -220,7 +284,7 @@ def run_table_based_crawler_v3_2():
                                 if sub_m_id:
                                     opponent_tier_info = fetch_opponent_stats_fast(driver, sub_m_id, target_team)
                                     driver.get(detail_url)
-                                    time.sleep(0.5)  # 메인 페이지 복귀 후 대기
+                                    time.sleep(0.5)
 
                                 match_info = {
                                     "league": league_div.get_text(strip=True) if league_div else "",
@@ -233,10 +297,10 @@ def run_table_based_crawler_v3_2():
                                     target_list.append(match_info)
                                     count += 1
 
-                    # 💡 홈팀 전적 데이터(tb_home_recent)만 수집 (원정팀 tb_guest_recent 제거)
+                    # 홈팀 전적 데이터(tb_home_recent)만 판별된 개수(10개 혹은 20개)만큼 수집
                     home_ul = detail_soup.find("ul", id="tb_home_recent")
                     if home_ul: 
-                        parse_matches(home_ul, main_home, recent_form_data["home_matches"], 20)
+                        parse_matches(home_ul, main_home, recent_form_data["home_matches"], target_count)
 
                 except Exception as e:
                     print(f"  - 전적 수집 예외 ({m_id}): {e}")
@@ -268,10 +332,13 @@ def run_table_based_crawler_v3_2():
         with open("match_details_v3-2.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 20개 확장 선택 및 홈팀 전적 수집 완료 -> match_details_v3-2.json 저장 완료")
+        print(f"\n🎉 성공: 구장 일치 여부 판별 및 전적 수집 완료 -> match_details_v3-2.json 저장 완료")
 
     finally:
         driver.quit()
+
+if __name__ == "__main__":
+    run_table_based_crawler_v3_2()
 
 if __name__ == "__main__":
     run_table_based_crawler_v3_2()
