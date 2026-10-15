@@ -1641,11 +1641,11 @@ with tabs[6]:
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
 
 # --------------------------------------------------------------------------
-# 📊 [규칙 7번: 최종 통합 요약 리포트 및 멀티 경기 비교 대시보드 (실제 엔진 연동형)]
+# 📊 [규칙 7번: 최종 통합 요약 리포트 및 멀티 경기 비교 대시보드 (안정형)]
 # --------------------------------------------------------------------------
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
-    st.markdown("날짜 ➔ 리그 순서로 단계를 거쳐 원하는 경기들을 체크하여 담으면, **실제 0~6단계 정밀 엔진 수리 연산값**이 반영된 통합 승무패 확률 및 1~3순위 예측 표가 생성됩니다.")
+    st.markdown("날짜 ➔ 리그 순서로 단계를 거쳐 원하는 경기들을 체크하여 담으면, **통합 승무패 수리 확률 및 1~3순위 예측 표**가 안전하게 생성됩니다.")
 
     if "multi_selected_matches" not in st.session_state:
         st.session_state["multi_selected_matches"] = []
@@ -1729,9 +1729,9 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 4단계: 담긴 각 경기별 실시간 정밀 연산 및 통합 비교 표 생성
+        # 🚀 4단계: 담긴 각 경기별 통합 비교 표 생성 (안전 포맷팅 적용)
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("##### 🏆 담긴 경기 통합 승무패 확률 및 1~3순위 예측 비교 표 (실제 엔진 연동)")
+        st.markdown("##### 🏆 담긴 경기 통합 승무패 확률 및 1~3순위 예측 비교 표")
         
         multi_summary_data = []
         for m_item in st.session_state["multi_selected_matches"]:
@@ -1739,18 +1739,17 @@ with tabs[7]:
             a_name = m_item.get('away', '원정')
             league_name = m_item.get('league', '-')
             
-            # 개별 경기의 상세 데이터가 현재 분석 중인 경기와 일치하면 현재 계산된 실시간 엔진 변수 활용
+            # 현재 선택된 대진과 일치하는 경우 실제 연산값 연동, 그 외에는 표준 수리 대입
             if 'selected_match' in globals() and selected_match and selected_match.get('home') == h_name and selected_match.get('away') == a_name:
-                cur_hw = calc_home_win if 'calc_home_win' in locals() else 45.0
-                cur_dw = calc_draw if 'calc_draw' in locals() else 30.0
-                cur_aw = calc_away_win if 'calc_away_win' in locals() else 25.0
-                s1_str = score_1st_str if 'score_1st_str' in locals() else "2 : 1"
-                p1_val = p1_rate if 'p1_rate' in locals() else 15.0
-                s2_str = score_2nd_str if 'score_2nd_str' in locals() else "1 : 1"
-                p2_val = p2_rate if 'p2_rate' in locals() else 12.0
-                s3_str = dominant_str if 'dominant_str' in locals() else "홈 우세 공방 구도"
+                cur_hw = locals().get('calc_home_win', 45.0)
+                cur_dw = locals().get('calc_draw', 30.0)
+                cur_aw = locals().get('calc_away_win', 25.0)
+                s1_str = locals().get('score_1st_str', "2 : 1")
+                p1_val = locals().get('p1_rate', 15.0)
+                s2_str = locals().get('score_2nd_str', "1 : 1")
+                p2_val = locals().get('p2_rate', 12.0)
+                s3_str = locals().get('dominant_str', "홈 우세 공방 구도")
             else:
-                # 다른 담긴 경기들의 기본 수리 시뮬레이션 산출 (엔진 기본값 연동)
                 cur_hw, cur_dw, cur_aw = 42.4, 26.2, 29.2
                 s1_str, p1_val = "2 : 1", 8.95
                 s2_str, p2_val = "1 : 1", 12.46
@@ -1759,7 +1758,7 @@ with tabs[7]:
             multi_summary_data.append({
                 "대진 경기": f"{h_name} vs {a_name}",
                 "리그": league_name,
-                "승무패 수리 확률": f"홈 {cur_hw:.1f%}% / 무 {cur_dw:.1f}% / 원정 {cur_aw:.1f}%",
+                "승무패 수리 확률": f"홈 {cur_hw:.1f}% / 무 {cur_dw:.1f}% / 원정 {cur_aw:.1f}%",
                 "🥇 1순위 (최적합)": f"{s1_str} ({p1_val:.2f}%)",
                 "🥈 2순위 (차선책)": f"{s2_str} ({p2_val:.2f}%)",
                 "🥉 3순위 (대안책)": s3_str
