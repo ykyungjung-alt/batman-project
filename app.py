@@ -725,8 +725,8 @@ with tabs[3]:
 
     st.markdown("---")
 
-    # ==========================================
-    # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인 (전체 로직 완벽 복원)
+# ==========================================
+    # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인 (4일/7일 대칭 구조 적용)
     # ==========================================
     st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
     
@@ -808,12 +808,13 @@ with tabs[3]:
                 row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {importance_label} / {loc_type}"
                 return {"desc": row_desc, "loc_type": loc_type, "diff_days": diff_days}
 
+            # 💡 과거 4일 이내 피로도 누적 연산
             processed_past = []
             running_fatigue = 0
             chrono_past = sorted(past_fixtures, key=lambda x: x[0])
             for diff_d, fix in chrono_past:
                 abs_diff = abs(diff_d)
-                if abs_diff <= 3:
+                if abs_diff <= 4:  # 💡 4일 이내 과거로 확장
                     details = parse_fix_details(fix)
                     if details["loc_type"] == "원정":
                         running_fatigue += 1
@@ -827,26 +828,29 @@ with tabs[3]:
                 h_past_cell = processed_past[-1]["desc"]
                 last_past_fatigue = processed_past[-1]["fatigue_level"]
 
-            processed_future = []
+            # 💡 향후 4일 이내 / 향후 7일 이내 분류
+            future_4d = []
+            future_7d = []
             for diff_d, fix in future_fixtures:
-                if 0 < diff_d <= 9:
-                    details = parse_fix_details(fix)
-                    processed_future.append({"desc": details["desc"], "loc_type": details["loc_type"]})
+                details = parse_fix_details(fix)
+                if 0 < diff_d <= 4:
+                    future_4d.append(details["desc"])
+                elif 4 < diff_d <= 7:
+                    future_7d.append(details["desc"])
 
-            return h_past_cell, processed_future, last_past_fatigue
+            return h_past_cell, future_4d, future_7d, last_past_fatigue
 
         home_recent_list = h_matches if 'h_matches' in locals() else []
         away_recent_list = a_matches if 'a_matches' in locals() else []
-        home_past_desc, home_future, h_last_fatigue = parse_timeline_with_exact_recent(home_fixtures, home_recent_list, home_team, match_date)
-        away_past_desc, away_future, a_last_fatigue = parse_timeline_with_exact_recent(away_fixtures, away_recent_list, away_team, match_date)
-
-        h_fut_c1 = home_future[0]["desc"] if len(home_future) > 0 else "휴식"
-        h_fut_c2 = home_future[1]["desc"] if len(home_future) > 1 else "휴식"
-        h_fut_c3 = home_future[2]["desc"] if len(home_future) > 2 else "휴식"
         
-        a_fut_c1 = away_future[0]["desc"] if len(away_future) > 0 else "휴식"
-        a_fut_c2 = away_future[1]["desc"] if len(away_future) > 1 else "휴식"
-        a_fut_c3 = away_future[2]["desc"] if len(away_future) > 2 else "휴식"
+        home_past_desc, home_f4, home_f7, h_last_fatigue = parse_timeline_with_exact_recent(home_fixtures, home_recent_list, home_team, match_date)
+        away_past_desc, away_f4, away_f7, a_last_fatigue = parse_timeline_with_exact_recent(away_fixtures, away_recent_list, away_team, match_date)
+
+        h_fut_c1 = home_f4[0] if len(home_f4) > 0 else "휴식"
+        h_fut_c2 = home_f7[0] if len(home_f7) > 0 else "휴식"
+        
+        a_fut_c1 = away_f4[0] if len(away_f4) > 0 else "휴식"
+        a_fut_c2 = away_f7[0] if len(away_f7) > 0 else "휴식"
 
         date_str_short = match_date.split()[0].replace("-", ".").replace("/", ".") if "-" in match_date or "/" in match_date else match_date
         home_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 홈"
@@ -867,11 +871,10 @@ with tabs[3]:
         <thead>
         <tr>
         <th>팀명</th>
-        <th>3일이내(과거)</th>
+        <th>4일이내(과거)</th>
         <th style="background-color: #e3f2fd;">해당 경기</th>
-        <th>향후 3일이내</th>
-        <th>향후 6일이내</th>
-        <th>향후 9일이내</th>
+        <th>향후 4일이내</th>
+        <th>향후 7일이내</th>
         <th>보정사항 (중요도/피로누적)</th>
         </tr>
         </thead>
@@ -882,7 +885,6 @@ with tabs[3]:
         <td style="background-color: #f7fbff; font-weight: bold;">{home_match_cell}</td>
         <td>{h_fut_c1}</td>
         <td>{h_fut_c2}</td>
-        <td>{h_fut_c3}</td>
         <td>중요도상 / 피로누적 {h_last_fatigue}단계</td>
         </tr>
         <tr>
@@ -891,7 +893,6 @@ with tabs[3]:
         <td style="background-color: #f7fbff; font-weight: bold;">{away_match_cell}</td>
         <td>{a_fut_c1}</td>
         <td>{a_fut_c2}</td>
-        <td>{a_fut_c3}</td>
         <td>중요도상 / 피로누적 {a_last_fatigue}단계</td>
         </tr>
         </tbody>
