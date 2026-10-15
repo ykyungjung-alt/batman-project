@@ -1409,7 +1409,7 @@ with tabs[5]:
 import math
 
 # --------------------------------------------------------------------------
-# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (통합 수정본)
+# 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (에러 수정본)
 # --------------------------------------------------------------------------
 def poisson_prob(lmbda, k):
     if lmbda <= 0 and k == 0:
@@ -1654,8 +1654,8 @@ with tabs[6]:
             matrix_range,
             f"무승부 확률 {calc_draw:.1f}%",
             f"푸아송 확률 {p1_rate:.2f}% (단일 스코어)",
-            f"점수차 누적 분포 2위 ({s2_group['desc']} {s2_group['prob']:.2f%})",
-            f"점수차 누적 분포 3위 ({s3_group['desc']} {s3_group['prob']:.2f%})"
+            f"점수차 누적 분포 2위 ({s2_group['desc']} {s2_group['prob']:.2f}%)",
+            f"점수차 누적 분포 3위 ({s3_group['desc']} {s3_group['prob']:.2f}%)"
         ]
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
