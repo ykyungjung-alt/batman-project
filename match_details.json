@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-15 15:43:54",
+    "last_updated": "2026-10-15 18:38:24",
     "match_details": {
         "3069048": {
             "match_code": "3069048",
@@ -664,7 +664,7 @@
                 "match_time_display": "2026-10-15 20:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "이슬비,  29°C"
+                "weather": "지역성 천둥,  28°C"
             },
             "home": "마지야",
             "away": "TC 스포츠클럽",
@@ -768,91 +768,6 @@
                 "fixtures": {
                     "home": [],
                     "away": []
-                }
-            }
-        },
-        "3089021": {
-            "match_code": "3089021",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 8",
-                "match_time_raw": "10/15/2026 8:00:00 AM",
-                "match_time_display": "2026-10-15 17:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": "흐림,  3°C"
-            },
-            "home": "Amtat FC",
-            "away": "Ulaangom City",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "8",
-                        "team": "Amtat FC",
-                        "played": "6",
-                        "win": "1",
-                        "draw": "0",
-                        "loss": "5",
-                        "goals_for": "5",
-                        "goals_against": "31",
-                        "goal_diff": "-26",
-                        "points": "3"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "9",
-                        "team": "Ulaangom City",
-                        "played": "6",
-                        "win": "0",
-                        "draw": "0",
-                        "loss": "6",
-                        "goals_for": "4",
-                        "goals_against": "26",
-                        "goal_diff": "-22",
-                        "points": "0"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "1승 0무 5패",
-                        "goals_per_game": "0.83",
-                        "conceded_per_game": "5.17"
-                    },
-                    "away_summary": {
-                        "recent_record": "2승 1무 7패",
-                        "goals_per_game": "1.50",
-                        "conceded_per_game": "4.40"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [],
-                    "matches": []
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-19 05:00:00",
-                            "teams": "10.19 2026 vs Amtat FC vs Khovd Western vs 4 일",
-                            "interval": "시작전"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-19 08:00:00",
-                            "teams": "10.19 2026 vs Ulaangom City vs 허브드 vs 4 일",
-                            "interval": "시작전"
-                        }
-                    ]
                 }
             }
         },
@@ -1055,7 +970,7 @@
                 "match_time_display": "2026-10-15 22:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  26°C"
+                "weather": "흐림,  26°C"
             },
             "home": "익스프레스 FC",
             "away": "UPDF",
@@ -1225,7 +1140,7 @@
                 "match_time_display": "2026-10-15 22:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "흐림,  29°C"
+                "weather": "흐림,  28°C"
             },
             "home": "카타카",
             "away": "바이퍼스",
