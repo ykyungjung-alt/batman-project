@@ -1670,7 +1670,7 @@ with tabs[6]:
             f"무승부 확률 {calc_draw:.1f}%",
             f"푸아송 확률 {p1_rate:.2f}% (5-2/5-3/5-4 직결)",
             f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 차선 단일 조합)",
-            f"2위: {score_2nd_str} ({s2_result_str}) / 3위: {dominant_str} (점수차 누적 분포)"
+            f"점수차 누적 분포 비중 {dominant_prob:.1f}% ({dominant_str})"
         ]
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
