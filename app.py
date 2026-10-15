@@ -262,40 +262,47 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        def match_country_by_league_code(league_str):
+        def match_country_by_league_string(league_val):
             grades = country_data.get("grades", {})
-            # 리그명 안에서 국가 코드 추출 (예: 'POR D1-2' 등에서 첫 단어 추출)
-            league_prefix = league_str.split()[0].upper() if league_str else ""
+            
+            # 💡 핵심: 'POR D1-2', 'SCO PR-1' 같은 문자열에서 공백 전의 첫 단어(국가 코드)만 정밀 추출
+            extracted_code = ""
+            if league_val:
+                clean_val = str(league_val).strip()
+                parts = clean_val.split()
+                if parts:
+                    extracted_code = parts[0].upper()
 
+            # country.json 순회하며 국가 코드 일치 여부 확인
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
                 if isinstance(countries, list):
                     for c in countries:
                         c_code = str(c.get("code", "")).upper()
-                        # 리그명 내 국가 코드와 country.json의 코드가 정확히 일치하는지 비교
-                        if c_code and (c_code == league_prefix or c_code in league_prefix):
+                        if c_code and c_code == extracted_code:
                             return c.get("code", "-"), c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
             
-            # 매칭되지 않는 경우 F등급 처리
+            # 매칭 실패 시 기본 F등급 처리
             f_info = grades.get("F", {})
-            return league_prefix if league_prefix else "EXT", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
+            return extracted_code if extracted_code else "EXT", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
         if rankings_raw:
             rankings_list = []
             for idx, r in enumerate(rankings_raw):
                 team_name = str(r.get("team", "-"))
-                raw_league = str(r.get("league", tournament_name))
+                # 순위표 내 실제 리그 코드 문자열 (예: POR D1-2) 추출
+                raw_league_code = str(r.get("league", ""))
                 
-                # 리그명 기반 국가코드 추출 및 등급/가중치 연동
-                matched_code, grade, atk_b, def_b = match_country_by_league_code(raw_league)
+                # 추출된 코드로 국가 매칭 및 가중치 계산
+                matched_code, grade, atk_b, def_b = match_country_by_league_string(raw_league_code)
                 
                 rankings_list.append({
                     "No": idx + 1,
                     "리그순위": str(r.get("rank", "-")) if r.get("rank") is not None and str(r.get("rank")).strip() != "" else "-",
                     "팀": team_name,
                     "국가코드": matched_code,
-                    "리그명": raw_league,
+                    "리그명": raw_league_code,
                     "등급": grade,
                     "공격보정": atk_b,
                     "수비보정": def_b,
@@ -1881,8 +1888,7 @@ with tabs[6]:
 # ==========================================
 # 0단계 ~ 6단계 탭 영역 (기존 로직 그대로 유지)
 # ==========================================
-with tabs[0]:
-    st.markdown("#### [0단계: 대진 정보 및 팀순위 정보]")
+
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
