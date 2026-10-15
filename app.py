@@ -740,7 +740,6 @@ with tabs[3]:
                 row_team = str(row.get("team", "")).strip().replace(" ", "")
                 if target_clean in row_team or row_team in target_clean:
                     raw_label = str(row.get("tag_label", "일반"))
-                    # 영문 라벨 한글 직관적 변환 매핑
                     label_mapping = {
                         "UEFA CL qualifying": "UEFA 챔피언스리그 진출권",
                         "UEFA EL qualifying": "UEFA 유로파리그 진출권",
@@ -768,10 +767,38 @@ with tabs[3]:
                     }
         return None
 
+    # 💡 2. 경기 중요도 및 가중치 자동 판정 함수 (상 15%, 중 5%, 하 -10%)
+    def determine_match_importance(standing_info, league_raw_name):
+        league_str = str(league_raw_name)
+        
+        # [중요도 하] 친선 경기 또는 명시적인 탈락/강등 확정 키워드
+        low_keywords = ["친선", "CF", "탈락", "탈락확정", "강등확정"]
+        if any(k in league_str for k in low_keywords):
+            return "중요도하", -10.0, 10.0
+
+        if not standing_info:
+            return "중요도중", 5.0, -5.0
+            
+        label = str(standing_info.get("tag_label", ""))
+        if any(k in label for k in ["탈락", "탈락확정", "강등확정"]):
+            return "중요도하", -10.0, 10.0
+            
+        # [중요도 상] 진출권, 플레이오프, 승격, 우승 등 핵심 타이틀 경쟁권
+        high_keywords = ["진출권", "플레이오프", "승격", "우승", "qualifying", "play-offs", "Playoff"]
+        if any(k in label for k in high_keywords):
+            return "중요도상", 15.0, -15.0
+            
+        # 대륙대항전 (챔피언스리그, ACL 등)
+        if any(k in league_str for k in ["챔피언스", "유로파", "결승", "컵", "ACL", "CL"]):
+            return "중요도상", 15.0, -15.0
+            
+        # [중요도 중] 그 외 일반 리그 경기
+        return "중요도중", 5.0, -5.0
+
     home_standing = get_team_standing_info(home_team)
     away_standing = get_team_standing_info(away_team)
 
-    # 💡 2. 팀별 랭킹 요약표 렌더링 (중요도 판단 근거 데이터)
+    # 💡 3. 팀별 랭킹 요약표 렌더링
     standing_display_rows = []
     if home_standing:
         standing_display_rows.append({"구분": f"홈 팀 ({home_team})", "소속 리그": home_standing["league_name"], "순위": f"{home_standing['rank']}위", "중요도 라벨": home_standing["tag_label"], "경기수": home_standing["경기수"], "승": home_standing["승"], "무": home_standing["무"], "패": home_standing["패"], "득실": home_standing["득실"], "승점": home_standing["승점"]})
@@ -788,7 +815,7 @@ with tabs[3]:
         home_fixtures = fixtures_info.get("home", [])
         away_fixtures = fixtures_info.get("away", [])
 
-        def parse_timeline_with_exact_recent(fix_list, recent_matches_list, target_team_name, base_match_date, is_home_team):
+        def parse_timeline_with_exact_recent(fix_list, recent_matches_list, target_team_name, base_match_date, is_home_team, standing_info):
             base_dt = None
             try:
                 base_clean = base_match_date.split(" ")[0].replace(".", "-").replace("/", "-")
@@ -835,7 +862,7 @@ with tabs[3]:
                 league_name = translate_tournament_code(league_raw)
                 teams_str = fix.get("teams", "")
                 
-                # 💡 [핵심 수정] 타겟 팀 이름을 정확히 분기하여 상대 팀 이름(opp_name)만 깔끔하게 추출
+                # 💡 [핵심 수정] 타겟 팀 이름이 양쪽 어디에 있든 무조건 상대 팀 이름(opp_name)만 추출
                 parts = [p.strip() for p in teams_str.split("vs")]
                 opp_name = "상대미상"
                 loc_type = "원정"
@@ -854,19 +881,15 @@ with tabs[3]:
                         opp_name = team_a
                         loc_type = "원정"
                     else:
-                        # 문자열 매칭 실패 시 두 번째 파츠를 상대방으로 가정
                         opp_name = team_b
                 else:
                     opp_name = teams_str if teams_str else "상대미상"
 
-                importance_label = "중요도중"
-                if any(k in league_name for k in ["챔피언스", "유로파", "결승", "컵", "강등", "예선"]):
-                    importance_label = "중요도상"
-                elif "친선" in league_name:
-                    importance_label = "중요도하"
+                # 개별 경기 중요도 판정
+                imp_label, _, _ = determine_match_importance(standing_info, league_raw)
 
                 date_short = match_time.split(" ")[0].replace("-", ".").replace("/", ".") if "-" in match_time or "/" in match_time else match_time
-                row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {importance_label} / {loc_type}"
+                row_desc = f"{date_short} / vs {opp_name}<br>{league_name} / {imp_label} / {loc_type}"
                 return {"desc": row_desc, "loc_type": loc_type, "diff_days": diff_days}
 
             processed_past = []
@@ -921,8 +944,8 @@ with tabs[3]:
         home_recent_list = h_matches if 'h_matches' in locals() else []
         away_recent_list = a_matches if 'a_matches' in locals() else []
         
-        home_p7, home_p4, home_f4, home_f7, h_last_fatigue = parse_timeline_with_exact_recent(home_fixtures, home_recent_list, home_team, match_date, is_home_team=True)
-        away_p7, away_p4, away_f4, away_f7, a_last_fatigue = parse_timeline_with_exact_recent(away_fixtures, away_recent_list, away_team, match_date, is_home_team=False)
+        home_p7, home_p4, home_f4, home_f7, h_last_fatigue = parse_timeline_with_exact_recent(home_fixtures, home_recent_list, home_team, match_date, is_home_team=True, standing_info=home_standing)
+        away_p7, away_p4, away_f4, away_f7, a_last_fatigue = parse_timeline_with_exact_recent(away_fixtures, away_recent_list, away_team, match_date, is_home_team=False, standing_info=away_standing)
 
         h_fut_c1 = home_f4[0] if len(home_f4) > 0 else "휴식"
         h_fut_c2 = home_f7[0] if len(home_f7) > 0 else "휴식"
@@ -930,9 +953,13 @@ with tabs[3]:
         a_fut_c1 = away_f4[0] if len(away_f4) > 0 else "휴식"
         a_fut_c2 = away_f7[0] if len(away_f7) > 0 else "휴식"
 
+        # 홈/원정 해당 경기 중요도 자동 판정 적용
+        h_imp_label, h_imp_atk, h_imp_def = determine_match_importance(home_standing, tournament_display)
+        a_imp_label, a_imp_atk, a_imp_def = determine_match_importance(away_standing, tournament_display)
+
         date_str_short = match_date.split()[0].replace("-", ".").replace("/", ".") if "-" in match_date or "/" in match_date else match_date
-        home_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 홈"
-        away_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / 중요도상 / 원정"
+        home_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / {h_imp_label} / 홈"
+        away_match_cell = f"{date_str_short} / {home_team} vs {away_team}<br>{tournament_display} / {a_imp_label} / 원정"
 
         st.markdown(f"##### 표 3-2: {home_team} vs {away_team} 일정 및 피로도·중요도 매트릭스")
         
@@ -965,7 +992,7 @@ with tabs[3]:
         <td style="background-color: #f7fbff; font-weight: bold;">{home_match_cell}</td>
         <td>{h_fut_c1}</td>
         <td>{h_fut_c2}</td>
-        <td>중요도상 / 피로누적 {h_last_fatigue}단계</td>
+        <td>{h_imp_label} / 피로누적 {h_last_fatigue}단계</td>
         </tr>
         <tr>
         <td style="font-weight: bold; background-color: #fafafa;">원정 팀<br>({away_team})</td>
@@ -974,7 +1001,7 @@ with tabs[3]:
         <td style="background-color: #f7fbff; font-weight: bold;">{away_match_cell}</td>
         <td>{a_fut_c1}</td>
         <td>{a_fut_c2}</td>
-        <td>중요도상 / 피로누적 {a_last_fatigue}단계</td>
+        <td>{a_imp_label} / 피로누적 {a_last_fatigue}단계</td>
         </tr>
         </tbody>
         </table>
@@ -982,20 +1009,18 @@ with tabs[3]:
         """
         st.markdown(timeline_table_html, unsafe_allow_html=True)
 
-        h_imp_atk, h_imp_def = 10, -10
         h_fatigue_atk = -5 * h_last_fatigue
         h_fatigue_def = 5 * h_last_fatigue
-        a_imp_atk, a_imp_def = 10, -10
         a_fatigue_atk = -5 * a_last_fatigue
         a_fatigue_def = 5 * a_last_fatigue
 
         st.markdown(f"""
         <div class="calc-box">
             <b>규칙 3번 상세 산출 내역 및 보정 합산:</b><br>
-            • <b>{home_team}:</b> 중요도 상(공격력 +{h_imp_atk}%, 방어력 {h_imp_def}%), 피로누적 {h_last_fatigue}단계(공격력 {h_fatigue_atk}%, 방어력 +{h_fatigue_def}%)<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {h_imp_atk + h_fatigue_atk:+d}%, 방어력 {h_imp_def + h_fatigue_def:+d}%<br><br>
-            • <b>{away_team}:</b> 중요도 상(공격력 +{a_imp_atk}%, 방어력 {a_imp_def}%), 피로누적 {a_last_fatigue}단계(공격력 {a_fatigue_atk}%, 방어력 +{a_fatigue_def}%)<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {a_imp_atk + a_fatigue_atk:+d}%, 방어력 {a_imp_def + a_fatigue_def:+d}%
+            • <b>{home_team}:</b> {h_imp_label}(공격력 {h_imp_atk:+g}%, 방어력 {h_imp_def:+g}%), 피로누적 {h_last_fatigue}단계(공격력 {h_fatigue_atk}%, 방어력 +{h_fatigue_def}%)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {h_imp_atk + h_fatigue_atk:+g}%, 방어력 {h_imp_def + h_fatigue_def:+g}%<br><br>
+            • <b>{away_team}:</b> {a_imp_label}(공격력 {a_imp_atk:+g}%, 방어력 {a_imp_def:+g}%), 피로누적 {a_last_fatigue}단계(공격력 {a_fatigue_atk}%, 방어력 +{a_fatigue_def}%)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격력 {a_imp_atk + a_fatigue_atk:+g}%, 방어력 {a_imp_def + a_fatigue_def:+g}%
         </div>
         """, unsafe_allow_html=True)
     else:
