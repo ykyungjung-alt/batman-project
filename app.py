@@ -1979,7 +1979,7 @@ with tabs[7]:
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
-        def compute_match_engine_by_code(m_item):
+def compute_match_engine_by_code(m_item):
             m_code = str(m_item.get('match_code', '')).strip()
             h_name = str(m_item.get('home', '')).strip()
             a_name = str(m_item.get('away', '')).strip()
@@ -1999,9 +1999,15 @@ with tabs[7]:
                     if str(v.get("match_code", "")).strip() == m_code:
                         target_detail = v
                         break
+                    v_home = str(v.get("home", "")).strip().replace(" ", "")
+                    v_away = str(v.get("away", "")).strip().replace(" ", "")
+                    if v_home == h_name.replace(" ", "") and v_away == a_name.replace(" ", ""):
+                        target_detail = v
+                        break
                 if target_detail:
                     break
 
+            # 기본값 설정
             h_base_g = 1.2
             h_base_c = 1.0
             a_base_g = 1.1
@@ -2079,23 +2085,3 @@ with tabs[7]:
                 s3_str = "백중세 팽팽한 공방 구도"
 
             return hw_pct, dw_pct, aw_pct, s1_str, s1_rate, s2_str, s2_rate, s3_str
-
-        multi_summary_data = []
-        for m_item in st.session_state["multi_selected_matches"]:
-            h_name = m_item.get('home', '홈')
-            a_name = m_item.get('away', '원정')
-            league_name = m_item.get('league', '-')
-            
-            hw, dw, aw, s1_s, s1_r, s2_s, s2_r, s3_s = compute_match_engine_by_code(m_item)
-
-            multi_summary_data.append({
-                "대진 경기": f"{h_name} vs {a_name}",
-                "리그": league_name,
-                "승무패 수리 확률": f"홈 {hw:.1f}% / 무 {dw:.1f}% / 원정 {aw:.1f}%",
-                "🥇 1순위 (최적합)": f"{s1_s} ({s1_r:.2f}%)",
-                "🥈 2순위 (차선책)": f"{s2_s} ({s2_r:.2f}%)",
-                "🥉 3순위 (대안책)": s3_s
-            })
-        
-        df_multi_res = pd.DataFrame(multi_summary_data)
-        st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
