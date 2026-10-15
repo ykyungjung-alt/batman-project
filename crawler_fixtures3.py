@@ -257,4 +257,22 @@ def run_table_based_crawler_v3():
                 }
                 counter += 1
 
-            except
+            except Exception as e:
+                print(f"  ⚠️ 데이터 수집 실패 (Match ID: {m_id}): {e}")
+                continue
+
+        output_data = {
+            "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
+            "match_details": match_details
+        }
+        
+        with open("match_details_v3.json", "w", encoding="utf-8") as f:
+            json.dump(output_data, f, ensure_ascii=False, indent=4)
+            
+        print(f"\n🎉 성공: 골득실 수치 중심 크롤링 완료 -> match_details_v3.json 저장 완료")
+
+    finally:
+        driver.quit()
+
+if __name__ == "__main__":
+    run_table_based_crawler_v3()
