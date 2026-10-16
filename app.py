@@ -2030,11 +2030,11 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 최종 안정화 버전
+# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - v3-2 및 중립 판정 완벽 연동 버전
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
-    st.markdown("0~6단계 화면에서 사용하는 **모든 딕셔너리(`v3_details_dict`, `all_details_dict`, `v4_leagues_dict`, `country.json`)** 데이터가 엔진(`engine.py`)으로 빠짐없이 주입되어 실시간 연동됩니다.")
+    st.markdown("0~6단계 화면에서 사용하는 **모든 딕셔너리(`v3_details_dict`, `v3_2_details_dict`, `all_details_dict`, `v4_leagues_dict`, `country.json`)** 데이터가 엔진(`engine.py`)으로 빠짐없이 주입되어 실시간 연동됩니다.")
 
     # 🚀 백엔드 엔진 임포트
     try:
@@ -2075,7 +2075,7 @@ with tabs[7]:
                         item_to_add['date'] = sel_date
                         item_to_add['league'] = sel_league
                         
-                        if st.checkbox(m_label, key=f"step_chk_{sel_date}_{sel_league}_{m_code}_{idx}"):
+                        if st.checkbox(m_label, key=f"step_chk_{sel_date}_{sel_league}_{m_code}_{idx}```py"):
                             temp_checked_matches.append(item_to_add)
                     
                     st.markdown("<br>", unsafe_allow_html=True)
@@ -2122,9 +2122,9 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. 대진별 독립 수리 엔진 연산 및 통합 비교 표
+        # 🚀 3. 대진별 독립 수리 엔진 연산 및 통합 비교 표 (v3-2 및 중립 구장 판정 근거 완벽 연동)
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
+        st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표 (v3-2 중립 연동)")
 
         multi_summary_data = []
         engine_results_store = {} 
@@ -2149,6 +2149,9 @@ with tabs[7]:
             }
 
             source_candidates = []
+            # 💡 [핵심 연동] v3_details, all_details 외에 중립 경기용 v3_2_details_dict까지 후보군에 전격 포함
+            if m_code and 'v3_2_details_dict' in locals() and m_code in v3_2_details_dict:
+                source_candidates.append(v3_2_details_dict[m_code])
             if m_code and m_code in v3_details_dict:
                 source_candidates.append(v3_details_dict[m_code])
             if m_code and m_code in all_details_dict:
@@ -2156,7 +2159,12 @@ with tabs[7]:
             
             clean_h = h_name.replace(" ", "").lower()
             clean_a = a_name.replace(" ", "").lower()
-            for dict_obj in [v3_details_dict, all_details_dict]:
+            
+            # v3-2 딕셔너리도 팀명 대조 후보군에 추가
+            dicts_to_search = [v3_2_details_dict] if 'v3_2_details_dict' in locals() else []
+            dicts_to_search.extend([v3_details_dict, all_details_dict])
+            
+            for dict_obj in dicts_to_search:
                 for k, v in dict_obj.items():
                     v_home = str(v.get("home", "")).strip().replace(" ", "").lower()
                     v_away = str(v.get("away", "")).strip().replace(" ", "").lower()
@@ -2204,7 +2212,7 @@ with tabs[7]:
                     if key_name in src:
                         merged_target_detail[key_name] = src[key_name]
 
-            # 💡 [필수 방어 코드] 대진별 독립 루프 내에서 stadium_form 안전 정의 (NameError 원천 방지)
+            # 💡 [핵심 방어 코드] 독립 루프 내 stadium_form 안전 정의 및 구장 판정 근거 확보
             stadium_form = merged_target_detail.get("meta_details", {}).get("stadium_form", {"home_matches": [], "away_matches": []})
 
             match_key = f"{h_name} vs {a_name}"
