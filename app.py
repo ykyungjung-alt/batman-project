@@ -1959,7 +1959,7 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 단계별 가중치 디버그 뷰 탑재 완성
+# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 안전장치 빨간색 표기 및 디버그 뷰 완성
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
@@ -2182,11 +2182,22 @@ with tabs[7]:
         st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
 
         # ==================================================================
-        # 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기 (단계별 가중치 표기 탑재)
+        # 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기 (안전장치 빨간색 강조 탑재)
         # ==================================================================
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기")
         st.markdown("각 대진별로 수집된 메타 데이터와 적용된 규칙별 보정치 가중치를 펼쳐서 오차 원인을 정밀하게 진단하세요.")
+
+        def format_weight_val(v):
+            try:
+                f_v = float(v)
+            except:
+                f_v = 0.0
+            # 💡 안전장치로 인해 0.0%인 항목은 빨간색 강조 표시
+            if f_v == 0.0:
+                return ":red[+0.0% (안전장치 미적용)]"
+            else:
+                return f"**{f_v:+.1f}%**"
 
         for m_item in st.session_state["multi_selected_matches"]:
             h_name = str(m_item.get('home', '홈')).strip()
@@ -2218,21 +2229,21 @@ with tabs[7]:
                     w_col1, w_col2 = st.columns(2)
                     with w_col1:
                         st.markdown("**🏠 홈팀 단계별 보정 백분율**")
-                        st.markdown(f"- **0단계 (Country 등급):** `{debug_res.get('h_step0_atk', 0.0):+.1f}%`")
-                        st.markdown(f"- **규칙 1 (LIFO 티어):** `{debug_res.get('h_r1_atk', 0.0):+.1f}%`")
-                        st.markdown(f"- **규칙 2 (구장 Shift):** `{debug_res.get('h_r2_atk', 0.0):+.1f}%`")
-                        st.markdown(f"- **규칙 3 (누수·피로·중요도):** `{debug_res.get('h_r3_tot_atk', 0.0):+.1f}%`")
-                        st.markdown(f"- **규칙 4 (H2H 상성):** `{debug_res.get('h_r4_atk', 0.0):+.1f}%`")
-                        st.markdown(f"- **총 누적 공격 보정:** `**{debug_res.get('h_tot_atk_pct', 0.0):+.1f}%**`")
+                        st.markdown(f"- **0단계 (Country 등급):** {format_weight_val(debug_res.get('h_step0_atk', 0.0))}")
+                        st.markdown(f"- **규칙 1 (LIFO 티어):** {format_weight_val(debug_res.get('h_r1_atk', 0.0))}")
+                        st.markdown(f"- **규칙 2 (구장 Shift):** {format_weight_val(debug_res.get('h_r2_atk', 0.0))}")
+                        st.markdown(f"- **규칙 3 (누수·피로·중요도):** {format_weight_val(debug_res.get('h_r3_tot_atk', 0.0))}")
+                        st.markdown(f"- **규칙 4 (H2H 상성):** {format_weight_val(debug_res.get('h_r4_atk', 0.0))}")
+                        st.markdown(f"- **총 누적 공격 보정:** {format_weight_val(debug_res.get('h_tot_atk_pct', 0.0))}")
                     
                     with w_col2:
                         st.markdown("**✈️ 원정팀 단계별 보정 백분율**")
-                        st.markdown(f"- **0단계 (Country 등급):** `{debug_res.get('a_step0_atk', 0.0):+.1f}%`")
-                        st.markdown(f"- **규칙 1 (LIFO 티어):** `{debug_res.get('a_r1_atk', 0.0):+.1f}%`")
-                        st.markdown(f"- **규칙 2 (구장 Shift):** `{debug_res.get('a_r2_atk', 0.0):+.1f}%`")
-                        st.markdown(f"- **규칙 3 (누수·피로·중요도):** `{debug_res.get('a_r3_tot_atk', 0.0):+.1f}%`")
-                        st.markdown(f"- **규칙 4 (H2H 상성):** `{debug_res.get('a_r4_atk', 0.0):+.1f}%`")
-                        st.markdown(f"- **총 누적 공격 보정:** `**{debug_res.get('a_tot_atk_pct', 0.0):+.1f}%**`")
+                        st.markdown(f"- **0단계 (Country 등급):** {format_weight_val(debug_res.get('a_step0_atk', 0.0))}")
+                        st.markdown(f"- **규칙 1 (LIFO 티어):** {format_weight_val(debug_res.get('a_r1_atk', 0.0))}")
+                        st.markdown(f"- **규칙 2 (구장 Shift):** {format_weight_val(debug_res.get('a_r2_atk', 0.0))}")
+                        st.markdown(f"- **규칙 3 (누수·피로·중요도):** {format_weight_val(debug_res.get('a_r3_tot_atk', 0.0))}")
+                        st.markdown(f"- **규칙 4 (H2H 상성):** {format_weight_val(debug_res.get('a_r4_atk', 0.0))}")
+                        st.markdown(f"- **총 누적 공격 보정:** {format_weight_val(debug_res.get('a_tot_atk_pct', 0.0))}")
 
                     st.markdown("---")
                     st.markdown("###### 📊 원본 메타 데이터 수집 현황 (오차 진단용)")
