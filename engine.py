@@ -1,30 +1,117 @@
 import math
+import os
+import json
 import re
 
-def compute_match_prediction_master(target_detail, home_name, away_name, country_data=None):
+def parse_pct(val_str):
+    """퍼센트 문자열 및 숫자를 안전한 float 가중치 값으로 변환"""
+    if isinstance(val_str, (int, float)):
+        return float(val_str)
+    if isinstance(val_str, str):
+        cleaned = val_str.replace('%', '').replace('+', '').strip()
+        try:
+            return float(cleaned)
+        except:
+            return 0.0
+    return 0.0
+
+def load_country_data_for_engine():
+    """engine 내부에서 country.json을 안전하게 로드"""
+    if os.path.exists("country.json"):
+        try:
+            with open("country.json", "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            pass
+    return {}
+
+def resolve_country_and_grade(rank_val, team_val, current_league_name="", country_data=None):
     """
-    [배트맨 프로젝트 순수 계산 엔진]
-    - 화면 렌더링(Streamlit) 없이 오직 0~6단계 정량 수치 연산 및 푸아송 예측만 수행
-    - 7단계 멀티 대시보드 및 단일 분석에서 공용으로 호출 가능
+    [0단계 핵심 연동] 순위표 정보(리그순위 코드, 팀명, 리그명)를 바탕으로 
+    country.json에서 국가 코드, 등급 및 공수 보정치를 정밀 대조·추출하는 함수
+    (데이터 없거나 매칭 실패 시 F등급 / 0% 안전장치 적용)
+    """
+    if not country_data:
+        country_data = load_country_data_for_engine()
+        
+    grades = country_data.get("grades", {})
+    rank_str = str(rank_val).strip()
+    team_str = str(team_val).strip().lower()
+    clean_league = str(current_league_name).strip().replace(" ", "").lower()
+
+    extracted_code = ""
+    if rank_str and rank_str != "-":
+        token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
+        if token:
+            extracted_code = token
+
+    for grade_key, countries in grades.items():
+        if grade_key == "F":
+            continue
+        if isinstance(countries, list):
+            for c in countries:
+                c_name = str(c.get("name", "")).strip().lower()
+                c_code = str(c.get("code", "")).strip().upper()
+                kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
+                leagues_list = [str(l).lower() for l in c.get("leagues", [])]
+
+                match_by_code = c_code and (c_code == extracted_code or c_code in rank_str.upper())
+                match_by_name = c_name and (c_name in team_str or c_name in clean_league)
+                match_by_kor_league = kor_league and (kor_league in clean_league or clean_league in kor_league)
+                match_by_eng_league = any(l.split()[0] in clean_league for l in leagues_list if l)
+
+                if match_by_code or match_by_name or match_by_kor_league or match_by_eng_league:
+                    return c.get("grade", "E"), parse_pct(c.get("attack_bonus", "+3%")), parse_pct(c.get("defense_bonus", "-3%"))
+
+    # 안전장치: 매칭 실패 또는 F등급일 경우 가중치 무조건 0% 고정
+    return "F", 0.0, 0.0
+
+def compute_match_prediction_master(target_detail, home_name, away_name, league_name=""):
+    """
+    [배트맨 프로젝트 순수 마스터 계산 엔진]
+    - 0단계(country.json 등급 가중치)부터 1~4단계 보정, 5~6단계 푸아송 예측까지 완벽 통합 수행
+    - 화면 렌더링 없이 오직 정량 연산 결과 딕셔너리를 반환
     """
     if not target_detail or not isinstance(target_detail, dict):
         return {"status": False, "msg": "상세 정량 데이터 없음"}
 
     try:
+        # 0. 0단계 등급 및 공수 가중치 추출 (rankings 데이터 활용)
+        meta_details = target_detail.get("meta_details", {})
+        rankings_raw = meta_details.get("rankings", [])
+        
+        h_step0_atk, h_step0_def = 0.0, 0.0
+        a_step0_atk, a_step0_def = 0.0, 0.0
+        
+        clean_home_target = str(home_name).strip().replace(" ", "")
+        clean_away_target = str(away_name).strip().replace(" ", "")
+        
+        if rankings_raw:
+            for r in rankings_raw:
+                r_team = str(r.get("team", "-"))
+                r_code = str(r.get("rank", ""))
+                grade, atk_val, def_val = resolve_country_and_grade(r_code, r_team, league_name)
+                
+                clean_row_team = r_team.strip().replace(" ", "")
+                if clean_home_target in clean_row_team or clean_row_team in clean_home_target:
+                    h_step0_atk, h_step0_def = atk_val, def_val
+                elif clean_away_target in clean_row_team or clean_row_team in clean_away_target:
+                    a_step0_atk, a_step0_def = atk_val, def_val
+
         # 1. 1단계 기본 기대치 (LIFO 득실)
-        h_sum = target_detail.get("meta_details", {}).get("recent_form", {}).get("home_summary", {})
-        a_sum = target_detail.get("meta_details", {}).get("recent_form", {}).get("away_summary", {})
+        h_sum = meta_details.get("recent_form", {}).get("home_summary", {})
+        a_sum = meta_details.get("recent_form", {}).get("away_summary", {})
         
         h_base_g = float(target_detail.get("h_gpg", h_sum.get("goals_per_game", 1.2)))
         h_base_c = float(target_detail.get("h_cpg", h_sum.get("conceded_per_game", 1.1)))
         a_base_g = float(target_detail.get("a_gpg", a_sum.get("goals_per_game", 1.1)))
         a_base_c = float(target_detail.get("a_cpg", a_sum.get("conceded_per_game", 1.2)))
 
-        # 2. 누적 보정치 추출 (v3/상세 데이터 내부에 산출된 값 또는 기본값)
-        h_tot_atk_pct = float(target_detail.get("h_tot_atk_pct", 0.0))
-        h_tot_def_pct = float(target_detail.get("h_tot_def_pct", 0.0))
-        a_tot_atk_pct = float(target_detail.get("a_tot_atk_pct", 0.0))
-        a_tot_def_pct = float(target_detail.get("a_tot_def_pct", 0.0))
+        # 2. 누적 보정치 추출 (v3/상세 데이터 내부에 산출된 값 또는 기본값에 0단계 가중치 합산 반영)
+        h_tot_atk_pct = h_step0_atk + float(target_detail.get("h_tot_atk_pct", 0.0))
+        h_tot_def_pct = h_step0_def + float(target_detail.get("h_tot_def_pct", 0.0))
+        a_tot_atk_pct = a_step0_atk + float(target_detail.get("a_tot_atk_pct", 0.0))
+        a_tot_def_pct = a_step0_def + float(target_detail.get("a_tot_def_pct", 0.0))
 
         # 실전 평균 득실 (5-2 검증용)
         h_agf = float(target_detail.get("h_agf", h_base_g))
