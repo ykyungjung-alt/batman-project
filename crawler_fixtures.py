@@ -132,6 +132,8 @@ def run_table_based_crawler():
                                 # 💡 [추가] 구단 페이지 이름과 실제 경기장 이름이 다른 경우 실시간 변환 맵핑
                                 STADIUM_NAME_MAP = {
                                     "Estadio da Luz": "Estádio do Sport Lisboa e Benfica",
+                                    "El Madrigal": "Estadio de la Cerámica",
+                                    "Estadio de la Cerámica": "Estadio de la Cerámica",
                                     # 필요에 따라 다른 팀 구장명 예외가 생기면 여기에 추가
                                 }
                                 if h_stadium_name in STADIUM_NAME_MAP:
