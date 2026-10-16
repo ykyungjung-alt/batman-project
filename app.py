@@ -1959,7 +1959,7 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 전체 딕셔너리 완벽 연동 완성
+# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 단계별 가중치 디버그 뷰 탑재 완성
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
@@ -2064,7 +2064,6 @@ with tabs[7]:
             league_name = m_item.get('league', '-')
             m_code = str(m_item.get('match_code', '')).strip()
             
-            # 💡 [핵심] 0~6단계와 완전히 동일하게 v3, v2, 일반 상세 딕셔너리 및 메타 데이터를 총동원하여 통합 구성
             merged_target_detail = {
                 "head_info": {},
                 "meta_details": {
@@ -2078,14 +2077,12 @@ with tabs[7]:
                 }
             }
 
-            # 데이터 원천 소스들(all_details_dict, v3_details_dict)에서 대진 일치하는 항목 전부 취합
             source_candidates = []
             if m_code and m_code in v3_details_dict:
                 source_candidates.append(v3_details_dict[m_code])
             if m_code and m_code in all_details_dict:
                 source_candidates.append(all_details_dict[m_code])
             
-            # 팀명 일치 후보도 탐색
             clean_h = h_name.replace(" ", "").lower()
             clean_a = a_name.replace(" ", "").lower()
             for dict_obj in [v3_details_dict, all_details_dict]:
@@ -2096,7 +2093,6 @@ with tabs[7]:
                         if v not in source_candidates:
                             source_candidates.append(v)
 
-            # 모든 후보 딕셔너리의 정보를 머지(Merge)하여 누락 방지
             for src in source_candidates:
                 if isinstance(src.get("head_info"), dict):
                     merged_target_detail["head_info"].update(src["head_info"])
@@ -2133,7 +2129,6 @@ with tabs[7]:
                     if src_meta.get("away_squad_changes"):
                         merged_target_detail["meta_details"]["away_squad_changes"] = src_meta["away_squad_changes"]
 
-                # 기본 득실점 계수 복사
                 for key_name in ["h_gpg", "h_cpg", "a_gpg", "a_cpg", "h_agf", "a_agf"]:
                     if key_name in src:
                         merged_target_detail[key_name] = src[key_name]
@@ -2187,11 +2182,11 @@ with tabs[7]:
         st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
 
         # ==================================================================
-        # 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기
+        # 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기 (단계별 가중치 표기 탑재)
         # ==================================================================
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기")
-        st.markdown("각 대진별로 수집된 메타 데이터와 적용된 보정치 가중치를 펼쳐서 오차 원인을 정밀하게 진단하세요.")
+        st.markdown("각 대진별로 수집된 메타 데이터와 적용된 규칙별 보정치 가중치를 펼쳐서 오차 원인을 정밀하게 진단하세요.")
 
         for m_item in st.session_state["multi_selected_matches"]:
             h_name = str(m_item.get('home', '홈')).strip()
@@ -2218,6 +2213,27 @@ with tabs[7]:
                         st.markdown(f"- **최종 승무패 확률:** 원정 승률 **{debug_res.get('away_win_pct', 0):.1f}%**")
                         st.markdown(f"- **예측 2순위 스코어:** `{debug_res.get('score_2nd')}` ({debug_res.get('p2_rate', 0):.1f}%)")
                     
+                    st.markdown("---")
+                    st.markdown("###### 🎛️ [항목별 세부 가중치 산출 내역]")
+                    w_col1, w_col2 = st.columns(2)
+                    with w_col1:
+                        st.markdown("**🏠 홈팀 단계별 보정 백분율**")
+                        st.markdown(f"- **0단계 (Country 등급):** `{debug_res.get('h_step0_atk', 0.0):+.1f}%`")
+                        st.markdown(f"- **규칙 1 (LIFO 티어):** `{debug_res.get('h_r1_atk', 0.0):+.1f}%`")
+                        st.markdown(f"- **규칙 2 (구장 Shift):** `{debug_res.get('h_r2_atk', 0.0):+.1f}%`")
+                        st.markdown(f"- **규칙 3 (누수·피로·중요도):** `{debug_res.get('h_r3_tot_atk', 0.0):+.1f}%`")
+                        st.markdown(f"- **규칙 4 (H2H 상성):** `{debug_res.get('h_r4_atk', 0.0):+.1f}%`")
+                        st.markdown(f"- **총 누적 공격 보정:** `**{debug_res.get('h_tot_atk_pct', 0.0):+.1f}%**`")
+                    
+                    with w_col2:
+                        st.markdown("**✈️ 원정팀 단계별 보정 백분율**")
+                        st.markdown(f"- **0단계 (Country 등급):** `{debug_res.get('a_step0_atk', 0.0):+.1f}%`")
+                        st.markdown(f"- **규칙 1 (LIFO 티어):** `{debug_res.get('a_r1_atk', 0.0):+.1f}%`")
+                        st.markdown(f"- **규칙 2 (구장 Shift):** `{debug_res.get('a_r2_atk', 0.0):+.1f}%`")
+                        st.markdown(f"- **규칙 3 (누수·피로·중요도):** `{debug_res.get('a_r3_tot_atk', 0.0):+.1f}%`")
+                        st.markdown(f"- **규칙 4 (H2H 상성):** `{debug_res.get('a_r4_atk', 0.0):+.1f}%`")
+                        st.markdown(f"- **총 누적 공격 보정:** `**{debug_res.get('a_tot_atk_pct', 0.0):+.1f}%**`")
+
                     st.markdown("---")
                     st.markdown("###### 📊 원본 메타 데이터 수집 현황 (오차 진단용)")
                     m_dbg_col1, m_dbg_col2, m_dbg_col3, m_dbg_col4 = st.columns(4)
