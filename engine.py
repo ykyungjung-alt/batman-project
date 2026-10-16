@@ -212,10 +212,77 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_a_at, a_r1_atk = get_atk_tier(a_base_g)
         base_a_de, a_r1_def = get_def_tier(a_base_c)
 
-        # [규칙 2번] 구장별(Stadium Form) Shift 보정 연산
-        stadium_form = meta_details.get("stadium_form", {})
-        s_home_matches = stadium_form.get("home_matches", [])[:10]
+        # [규칙 2번] 구장별(Stadium Form) Shift 보정 연산 (중립 시 v3-2 참조 규격 연동)
+        head_info = target_detail.get("head_info", {})
+        venue_val = str(head_info.get("stadium", "")) or str(head_info.get("venue", ""))
+        home_stadium_val = str(head_info.get("home_stadium", ""))
+        
+        is_neutral_venue = False
+        if venue_val and home_stadium_val:
+            if venue_val.strip().lower() != home_stadium_val.strip().lower():
+                is_neutral_venue = True
+
+        # v3-2 딕셔너리 로드 (엔진 내부 독립 처리용)
+        v3_2_details_dict = {}
+        if os.path.exists("match_details_v3-2.json"):
+            try:
+                with open("match_details_v3-2.json", "r", encoding="utf-8") as f:
+                    v3_2_data = json.load(f)
+                    v3_2_details_dict = v3_2_data.get("match_details", {})
+            except:
+                pass
+
+        target_v3_2_meta = None
+        if is_neutral_venue:
+            target_code = str(target_detail.get("match_code", "")).strip()
+            target_home = str(home_name).strip().replace(" ", "")
+            target_away = str(away_name).strip().replace(" ", "")
+
+            if target_code and target_code in v3_2_details_dict:
+                target_v3_2_meta = v3_2_details_dict[target_code].get("meta_details", {})
+            else:
+                for k, v in v3_2_details_dict.items():
+                    v_home = str(v.get("home", "")).strip().replace(" ", "")
+                    v_away = str(v.get("away", "")).strip().replace(" ", "")
+                    if v_home == target_home and v_away == target_away:
+                        target_v3_2_meta = v.get("meta_details", {})
+                        break
+
+        # 1. 홈팀 전적 추출 (중립일 때 3-2 우선 탐색, 없거나 비어있으면 기존 3번 딕셔너리에서 폴백)
+        s_home_matches = []
+        if is_neutral_venue:
+            active_stadium_form = None
+            if target_v3_2_meta and "stadium_form" in target_v3_2_meta:
+                active_stadium_form = target_v3_2_meta["stadium_form"]
+            
+            recent_all_pool = []
+            if active_stadium_form and active_stadium_form.get("home_matches"):
+                recent_all_pool = active_stadium_form.get("home_matches", [])
+            else:
+                recent_all_pool = stadium_form.get("recent_matches", []) if "recent_matches" in stadium_form else []
+                if not recent_all_pool and 'h_matches' in locals():
+                    recent_all_pool = h_matches
+
+            neutral_home_away_matches = []
+            for m in recent_all_pool:
+                teams_str = str(m.get("teams", ""))
+                if " vs " in teams_str:
+                    t_parts = [p.strip() for p in teams_str.split("vs")]
+                    if len(t_parts) >= 2 and home_name not in t_parts[0]:
+                        neutral_home_away_matches.append(m)
+                elif m.get("location") == "원정" or m.get("venue_type") == "away":
+                    neutral_home_away_matches.append(m)
+            
+            if not neutral_home_away_matches:
+                neutral_home_away_matches = stadium_form.get("away_matches", [])
+
+            s_home_matches = neutral_home_away_matches[:10]
+        else:
+            s_home_matches = stadium_form.get("home_matches", [])[:10]
+
+        # 2. 원정팀 전적 추출 (3-2에 원정팀 데이터가 없으므로 기존 3번 딕셔너리의 원정 폼 고정 사용)
         s_away_matches = stadium_form.get("away_matches", [])[:10]
+
         if not s_home_matches: s_home_matches = h_matches[:10]
         if not s_away_matches: s_away_matches = a_matches[:10]
 
@@ -245,7 +312,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
-# [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 화면 연동 일치화
+        # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 화면 연동 일치화
         h_squad_changes = meta_details.get("home_squad_changes", [])
         a_squad_changes = meta_details.get("away_squad_changes", [])
 
