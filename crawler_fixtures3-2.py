@@ -140,9 +140,7 @@ def run_table_based_crawler_v3_2():
                 
                 head_info = {
                     "league": target["league"],
-                    "round": "",
-                    "stadium": "",
-                    "home_stadium": "-"
+                    "round": ""
                 }
                 
                 try:
