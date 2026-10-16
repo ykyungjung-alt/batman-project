@@ -2030,7 +2030,7 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 최종 클린업 버전
+# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 최종 안정화 버전
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
@@ -2122,7 +2122,7 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. 0~6단계 통합 병합 및 독립 수리 엔진 구동
+        # 🚀 3. 대진별 독립 수리 엔진 연산 및 통합 비교 표
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
@@ -2204,7 +2204,7 @@ with tabs[7]:
                     if key_name in src:
                         merged_target_detail[key_name] = src[key_name]
 
-            # 💡 [필수 방어 코드] 독립 루프 내 stadium_form 안전 정의
+            # 💡 [필수 방어 코드] 대진별 독립 루프 내에서 stadium_form 안전 정의 (NameError 원천 방지)
             stadium_form = merged_target_detail.get("meta_details", {}).get("stadium_form", {"home_matches": [], "away_matches": []})
 
             match_key = f"{h_name} vs {a_name}"
