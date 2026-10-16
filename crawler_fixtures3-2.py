@@ -33,7 +33,7 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
                 for v in stats_div.find_all("div", class_="vote"):
                     ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "p2"])
                     if len(ext_els) >= 3:
-                        left_val = ext_els[0].get_text(strip=Target=True) if hasattr(ext_els[0], 'get_text') else ext_els[0].get_text(strip=True)
+                        left_val = ext_els[0].get_text(strip=True)
                         label = ext_els[1].get_text(strip=True)
                         right_val = ext_els[2].get_text(strip=True)
                         
@@ -67,10 +67,11 @@ def run_table_based_crawler_v3_2():
     
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst)
-    limit_kst = now_kst + timedelta(hours=24)
+    # 💡 [변경] 수집 타임라인을 48시간(2일치)으로 확장
+    limit_kst = now_kst + timedelta(hours=48)
     
     print(f"🕒 [V3-2] 실행 시간(KST): {now_kst.strftime('%Y-%m-%d %H:%M')}")
-    print(f"🎯 [V3-2] 수집 대상 타임라인 (~24시간 후): {limit_kst.strftime('%Y-%m-%d %H:%M')}")
+    print(f"🎯 [V3-2] 수집 대상 타임라인 (~48시간(2일) 후): {limit_kst.strftime('%Y-%m-%d %H:%M')}")
 
     current_year = now_kst.year
 
@@ -98,6 +99,7 @@ def run_table_based_crawler_v3_2():
                 if match_dt < now_kst - timedelta(days=15) and m_part == 1:
                     match_dt = datetime(current_year + 1, m_part, d_part, hour_val, min_val, tzinfo=kst)
 
+                # 48시간 이내 경기 필터링
                 if now_kst <= match_dt <= limit_kst:
                     m_code = m.get("match_code")
                     if m_code and m_code not in [t["match_code"] for t in target_matches]:
@@ -110,7 +112,7 @@ def run_table_based_crawler_v3_2():
             except Exception:
                 continue
 
-    print(f"🎯 [V3-2] 24시간 이내 조건에 일치하는 총 {len(target_matches)}개 메인 경기 중 테스트를 위해 **1개만** 수집합니다.")
+    print(f"🎯 [V3-2] 48시간 이내 조건에 일치하는 총 {len(target_matches)}개 메인 경기를 전수 수집합니다.")
 
     options = Options()
     options.add_argument("--headless")
@@ -199,7 +201,6 @@ def run_table_based_crawler_v3_2():
                 actual_stadium = head_info["stadium"].strip().lower()
                 home_stadium_val = head_info["home_stadium"].strip().lower()
                 
-                # 구장 정보가 둘 다 존재할 때 완전히 일치하지 않으면 중립/특수 경기(20개 수집 대상)로 판단
                 is_neutral_or_special = False
                 if actual_stadium and home_stadium_val:
                     if actual_stadium != home_stadium_val:
@@ -208,7 +209,7 @@ def run_table_based_crawler_v3_2():
                 target_count = 10  # 기본값 10개
 
                 if is_neutral_or_special:
-                    print(f"  🔍 [중립/특수 구장 감지] ({head_info['home_stadium']} vs {head_info['stadium']}) -> 최근 20개 전적 수집을 시도합니다.")
+                    print(f"  🔍 [{counter}/{len(target_matches)}] [중립/특수 구장 감지] ({head_info['home_stadium']} vs {head_info['stadium']}) -> 최근 20개 전적 수집을 시도합니다.")
                     target_count = 20
                     try:
                         dropdown_btn = driver.find_element("id", "selRecentMatch")
@@ -223,7 +224,7 @@ def run_table_based_crawler_v3_2():
                     except Exception as drop_err:
                         print(f"  - 최근 20개 확장 드롭다운 클릭 예외 (기본값 유지): {drop_err}")
                 else:
-                    print(f"  🏠 [정식 홈구장 경기] -> 기본 10개 전적을 수집합니다.")
+                    print(f"  🏠 [{counter}/{len(target_matches)}] [정식 홈구장 경기] ({main_home} vs {main_away}) -> 기본 10개 전적을 수집합니다.")
 
                 # 드롭다운 선택 후 갱신된 소스 파싱
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
@@ -297,7 +298,7 @@ def run_table_based_crawler_v3_2():
                                     target_list.append(match_info)
                                     count += 1
 
-                    # 홈팀 전적 데이터(tb_home_recent)만 판별된 개수(10개 혹은 20개)만큼 수집
+                    # 홈팀 전적 데이터 수집
                     home_ul = detail_soup.find("ul", id="tb_home_recent")
                     if home_ul: 
                         parse_matches(home_ul, main_home, recent_form_data["home_matches"], target_count)
@@ -321,9 +322,6 @@ def run_table_based_crawler_v3_2():
                 print(f"  ⚠️ 데이터 수집 실패 (Match ID: {m_id}): {e}")
                 continue
 
-            print(f"🎯 [테스트 모드] 메인 경기 1개 수집 완료. 크롤링을 종료합니다.")
-            break
-
         output_data = {
             "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
             "match_details": match_details
@@ -332,13 +330,10 @@ def run_table_based_crawler_v3_2():
         with open("match_details_v3-2.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 구장 일치 여부 판별 및 전적 수집 완료 -> match_details_v3-2.json 저장 완료")
+        print(f"\n🎉 성공: 48시간 이내 모든 대진 전수 수집 완료 -> match_details_v3-2.json 저장 완료")
 
     finally:
         driver.quit()
-
-if __name__ == "__main__":
-    run_table_based_crawler_v3_2()
 
 if __name__ == "__main__":
     run_table_based_crawler_v3_2()
