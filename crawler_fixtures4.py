@@ -118,6 +118,7 @@ def parse_standings(soup, color_to_label, default_standings):
         return default_standings, f"[모듈 에러] 모든 선택자 실패. 시도한 마지막: {used_selector}, 발견된 샘플 클래스: {sample_classes}"
     
     for row in standing_rows:
+        # 그룹 타이틀 및 헤더 행 제외
         row_classes = row.get("class", [])
         if isinstance(row_classes, str):
             row_classes = [row_classes]
@@ -173,6 +174,7 @@ def parse_standings(soup, color_to_label, default_standings):
                         return txt
             return elem.get_text(strip=True)
 
+        # 💡 유효한 스탯 데이터를 순서대로 안전하게 추출
         raw_cells = row.find_all("span") + row.find_all("td")
         stat_values = []
         
@@ -252,5 +254,220 @@ def run_crawler_v4():
     options.add_argument("--disable-gpu")
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     
-    # 💡 기존 목록 + 새로 요청하신 ID가 모두 통합된 수집 대상 리그 목록
-    target_leagues =
+    # 💡 기존 목록 + 새로 요청하신 ID 중 중복을 제외하고 추가된 전체 수집 대상 리그 목록
+    target_leagues = [
+        {"id": 34, "url": "https://football.scoreman123.com/league/34"},
+        {"id": 39, "url": "https://football.scoreman123.com/league/39"},
+        {"id": 40, "url": "https://football.scoreman123.com/league/40"},
+        {"id": 36, "url": "https://football.scoreman123.com/league/36"},
+        {"id": 37, "url": "https://football.scoreman123.com/league/37"},
+        {"id": 31, "url": "https://football.scoreman123.com/league/31"},
+        {"id": 33, "url": "https://football.scoreman123.com/league/33"},
+        {"id": 8, "url": "https://football.scoreman123.com/league/8"},
+        {"id": 9, "url": "https://football.scoreman123.com/league/9"},
+        {"id": 11, "url": "https://football.scoreman123.com/league/11"},
+        {"id": 12, "url": "https://football.scoreman123.com/league/12"},
+        {"id": 25, "url": "https://football.scoreman123.com/league/25"},
+        {"id": 15, "url": "https://football.scoreman123.com/league/15"},
+        {"id": 1292, "url": "https://football.scoreman123.com/league/1292"},
+        {"id": 35, "url": "https://football.scoreman123.com/league/35"},
+        {"id": 90, "url": "https://football.scoreman123.com/league/90"},
+        {"id": 83, "url": "https://football.scoreman123.com/league/83"},
+        {"id": 23, "url": "https://football.scoreman123.com/league/23"},
+        {"id": 29, "url": "https://football.scoreman123.com/league/29"},
+        {"id": 16, "url": "https://football.scoreman123.com/league/16"},
+        {"id": 22, "url": "https://football.scoreman123.com/league/22"},
+        {"id": 27, "url": "https://football.scoreman123.com/league/27"},
+        {"id": 103, "url": "https://football.scoreman123.com/league/103"},
+        {"id": 113, "url": "https://football.scoreman123.com/league/113"},
+        {"id": 2187, "url": "https://football.scoreman123.com/league/2187"},
+        # 새로 추가된 신규 리그 ID 목록
+        {"id": 146, "url": "https://football.scoreman123.com/league/146"},
+        {"id": 142, "url": "https://football.scoreman123.com/league/142"},
+        {"id": 2254, "url": "https://football.scoreman123.com/league/2254"},
+        {"id": 693, "url": "https://football.scoreman123.com/league/693"},
+        {"id": 203, "url": "https://football.scoreman123.com/league/203"},
+        {"id": 17, "url": "https://football.scoreman123.com/league/17"},
+        {"id": 1592, "url": "https://football.scoreman123.com/league/1592"},
+        {"id": 138, "url": "https://football.scoreman123.com/league/138"},
+        {"id": 26, "url": "https://football.scoreman123.com/league/26"},
+        {"id": 122, "url": "https://football.scoreman123.com/league/122"},
+        {"id": 218, "url": "https://football.scoreman123.com/league/218"},
+        {"id": 123, "url": "https://football.scoreman123.com/league/123"},
+        {"id": 1428, "url": "https://football.scoreman123.com/league/1428"},
+        {"id": 3, "url": "https://football.scoreman123.com/league/3"},
+        {"id": 27, "url": "https://football.scoreman123.com/league/27"},
+        {"id": 1, "url": "https://football.scoreman123.com/league/1"},
+        {"id": 139, "url": "https://football.scoreman123.com/league/139"},
+        {"id": 165, "url": "https://football.scoreman123.com/league/165"},
+        {"id": 10, "url": "https://football.scoreman123.com/league/10"},
+        {"id": 6, "url": "https://football.scoreman123.com/league/6"},
+        {"id": 119, "url": "https://football.scoreman123.com/league/119"},
+        {"id": 116, "url": "https://football.scoreman123.com/league/116"},
+        {"id": 137, "url": "https://football.scoreman123.com/league/137"},
+        {"id": 32, "url": "https://football.scoreman123.com/league/32"},
+        {"id": 124, "url": "https://football.scoreman123.com/league/124"},
+        {"id": 132, "url": "https://football.scoreman123.com/league/132"},
+        {"id": 381, "url": "https://football.scoreman123.com/league/381"},
+        {"id": 214, "url": "https://football.scoreman123.com/league/214"},
+        {"id": 230, "url": "https://football.scoreman123.com/league/230"},
+        {"id": 136, "url": "https://football.scoreman123.com/league/136"},
+        {"id": 30, "url": "https://football.scoreman123.com/league/30"},
+        {"id": 133, "url": "https://football.scoreman123.com/league/133"},
+        {"id": 131, "url": "https://football.scoreman123.com/league/131"},
+        {"id": 247, "url": "https://football.scoreman123.com/league/247"},
+        {"id": 159, "url": "https://football.scoreman123.com/league/159"},
+        {"id": 129, "url": "https://football.scoreman123.com/league/129"},
+        {"id": 352, "url": "https://football.scoreman123.com/league/352"},
+        {"id": 353, "url": "https://football.scoreman123.com/league/353"},
+        {"id": 389, "url": "https://football.scoreman123.com/league/389"},
+        {"id": 469, "url": "https://football.scoreman123.com/league/469"},
+        {"id": 392, "url": "https://football.scoreman123.com/league/392"},
+        {"id": 514, "url": "https://football.scoreman123.com/league/514"},
+        {"id": 576, "url": "https://football.scoreman123.com/league/576"},
+        {"id": 563, "url": "https://football.scoreman123.com/league/563"},
+        {"id": 2, "url": "https://football.scoreman123.com/league/2"},
+        {"id": 4, "url": "https://football.scoreman123.com/league/4"},
+        {"id": 240, "url": "https://football.scoreman123.com/league/240"},
+        {"id": 21, "url": "https://football.scoreman123.com/league/21"},
+        {"id": 415, "url": "https://football.scoreman123.com/league/415"},
+        {"id": 140, "url": "https://football.scoreman123.com/league/140"},
+        {"id": 118, "url": "https://football.scoreman123.com/league/118"},
+        {"id": 60, "url": "https://football.scoreman123.com/league/60"},
+        {"id": 242, "url": "https://football.scoreman123.com/league/242"},
+        {"id": 25, "url": "https://football.scoreman123.com/league/25"},
+        {"id": 284, "url": "https://football.scoreman123.com/league/284"},
+        {"id": 194, "url": "https://football.scoreman123.com/league/194"},
+        {"id": 273, "url": "https://football.scoreman123.com/league/273"},
+        {"id": 193, "url": "https://football.scoreman123.com/league/193"},
+        {"id": 279, "url": "https://football.scoreman123.com/league/279"},
+        {"id": 292, "url": "https://football.scoreman123.com/league/292"},
+        {"id": 301, "url": "https://football.scoreman123.com/league/301"},
+        {"id": 313, "url": "https://football.scoreman123.com/league/313"},
+        {"id": 318, "url": "https://football.scoreman123.com/league/318"},
+        {"id": 321, "url": "https://football.scoreman123.com/league/321"},
+        {"id": 326, "url": "https://football.scoreman123.com/league/326"},
+        {"id": 465, "url": "https://football.scoreman123.com/league/465"},
+        {"id": 332, "url": "https://football.scoreman123.com/league/332"},
+        {"id": 309, "url": "https://football.scoreman123.com/league/309"},
+        {"id": 460, "url": "https://football.scoreman123.com/league/460"},
+        {"id": 593, "url": "https://football.scoreman123.com/league/593"},
+        {"id": 596, "url": "https://football.scoreman123.com/league/596"},
+        {"id": 700, "url": "https://football.scoreman123.com/league/700"},
+        {"id": 391, "url": "https://football.scoreman123.com/league/391"},
+        {"id": 577, "url": "https://football.scoreman123.com/league/577"},
+        {"id": 1122, "url": "https://football.scoreman123.com/league/1122"},
+        {"id": 1367, "url": "https://football.scoreman123.com/league/1367"},
+        {"id": 579, "url": "https://football.scoreman123.com/league/579"},
+        {"id": 766, "url": "https://football.scoreman123.com/league/766"},
+        {"id": 1409, "url": "https://football.scoreman123.com/league/1409"},
+        {"id": 1451, "url": "https://football.scoreman123.com/league/1451"},
+        {"id": 1456, "url": "https://football.scoreman123.com/league/1456"},
+        {"id": 1750, "url": "https://football.scoreman123.com/league/1750"},
+        {"id": 1494, "url": "https://football.scoreman123.com/league/1494"}
+    ]
+    
+    all_leagues_data = {
+        "updated_at": now_kst,
+        "leagues": {}
+    }
+    
+    driver = None
+    try:
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=options)
+    except Exception as e:
+        print(f"❌ [코드 에러] 드라이버 초기화 실패: {e}")
+        return
+        
+    try:
+        for league in target_leagues:
+            league_id = league["id"]
+            url = league["url"]
+            print(f"🔄 [수집 중] 리그 ID {league_id} ({url})")
+            prev_data = existing_leagues.get(str(league_id), {})
+            
+            league_match_data = {
+                "league_id": league_id,
+                "league_name": prev_data.get("league_name", f"리그 ID {league_id}"),
+                "league_name_error": None,
+                "active_round": prev_data.get("active_round", f"1/{46 if league_id == 39 else 38}"),
+                "active_round_error": None,
+                "total_rounds": prev_data.get("total_rounds", 46 if league_id == 39 else 38),
+                "standing_legends": prev_data.get("standing_legends", []),
+                "standing_legends_error": None,
+                "standings": prev_data.get("standings", []),
+                "standings_error": None
+            }
+            try:
+                driver.get(url)
+            except Exception as net_err:
+                league_match_data["standings_error"] = f"[주소 오류] URL 접속에 실패했습니다: {str(net_err)}"
+                print(f"⚠️ {league_match_data['standings_error']}")
+                all_leagues_data["leagues"][str(league_id)] = league_match_data
+                continue
+
+            try:
+                WebDriverWait(driver, 20).until(
+                    lambda d: d.find_element(By.CSS_SELECTOR, "#standingPlates").is_displayed()
+                )
+                time.sleep(2.5)
+            except Exception as wait_err:
+                league_match_data["standings_error"] = f"[대기 오류] 순위표 영역이 보이지 않음: {str(wait_err)}"
+
+            try:
+                total_btn = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingType span[data-st-type='1']"))
+                )
+                driver.execute_script("arguments[0].click();", total_btn)
+                time.sleep(1.5)
+                result_btn = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, "#standingHF span[data-st-hf='0']"))
+                )
+                driver.execute_script("arguments[0].click();", result_btn)
+                time.sleep(2)
+            except Exception as tab_err:
+                print(f"  ⚠️ [조건 불일치] 필수 탭 제어 중 예외 발생: {tab_err} — 계속 진행")
+
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+            with open(f"debug_html_{league_id}.html", "w", encoding="utf-8") as f:
+                f.write(soup.prettify()[:20000])
+
+            name_res, name_err = parse_league_name(soup, league_match_data["league_name"])
+            league_match_data["league_name"] = name_res
+            league_match_data["league_name_error"] = name_err
+            
+            round_res, total_cnt, round_err = parse_active_round(
+                soup, league_id, league_match_data["active_round"], league_match_data["total_rounds"]
+            )
+            league_match_data["active_round"] = round_res
+            league_match_data["total_rounds"] = total_cnt
+            league_match_data["active_round_error"] = round_err
+            
+            legends_res, color_map, legend_err = parse_standing_legends(
+                soup, league_match_data["standing_legends"]
+            )
+            league_match_data["standing_legends"] = legends_res
+            league_match_data["standing_legends_error"] = legend_err
+            
+            standings_res, standings_err = parse_standings(
+                soup, color_map, league_match_data["standings"]
+            )
+            league_match_data["standings"] = standings_res
+            league_match_data["standings_error"] = standings_err
+            print(f"✅ 수집 완료: {league_match_data['league_name']} (순위 팀: {len(league_match_data['standings'])}개)")
+            if standings_err:
+                print(f"   → 경고: {standings_err}")
+            all_leagues_data["leagues"][str(league_id)] = league_match_data
+    except Exception as e:
+        print(f"❌ [크롤링 실행 중 예외 발생]: {e}")
+    finally:
+        if driver:
+            driver.quit()
+            
+    with open("match_details_v4.json", "w", encoding="utf-8") as f:
+        json.dump(all_leagues_data, f, ensure_ascii=False, indent=4)
+    print("🎉 match_details_v4.json 저장 완료")
+
+if __name__ == "__main__":
+    run_crawler_v4()
