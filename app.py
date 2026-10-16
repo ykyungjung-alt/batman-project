@@ -1271,7 +1271,7 @@ with tabs[5]:
     """, unsafe_allow_html=True)
 
     if has_detailed_data:
-        # 1. 0단계 연동 가중치 안전 추출 (세션에 없거나 정보가 없으면 '0%' 기본 방어)
+        # 1. 0단계 연동 가중치 안전 추출 (정보 없으면 0% 방어)
         h_grade_val = st.session_state.get("h_grade", "F")
         h_atk_bonus_str = st.session_state.get("h_atk_bonus", "0%")
         h_def_bonus_str = st.session_state.get("h_def_bonus", "0%")
@@ -1291,7 +1291,6 @@ with tabs[5]:
                     return 0.0
             return 0.0
 
-        # 0단계 등급 보정 퍼센트값 파싱 (정보 없으면 0.0% 보장)
         h_step0_atk = parse_pct(h_atk_bonus_str) if h_grade_val != "F" else 0.0
         h_step0_def = parse_pct(h_def_bonus_str) if h_grade_val != "F" else 0.0
         a_step0_atk = parse_pct(a_atk_bonus_str) if a_grade_val != "F" else 0.0
@@ -1303,7 +1302,7 @@ with tabs[5]:
         a_base_g = a_gpg if 'a_gpg' in locals() else 0.0
         a_base_c = a_cpg if 'a_cpg' in locals() else 0.0
 
-        # 3. 규칙별 보정치 안전 정의 (에러 방지 0.0 처리)
+        # 3. 규칙별 보정치 안전 정의 (정보 없을 시 0.0% 방어)
         h_atw = h_atw if 'h_atw' in locals() else "0%"
         h_dew = h_dew if 'h_dew' in locals() else "0%"
         a_atw = a_atw if 'a_atw' in locals() else "0%"
@@ -1324,21 +1323,37 @@ with tabs[5]:
         a_r31_atk = a_r31_atk_val if 'a_r31_atk_val' in locals() else 0.0
         a_r31_def = a_r31_def_val if 'a_r31_def_val' in locals() else 0.0
 
-        h_r32_atk = (-5 * h_last_fatigue) if 'h_last_fatigue' in locals() else 0.0
-        h_r32_def = (5 * h_last_fatigue) if 'h_last_fatigue' in locals() else 0.0
-        a_r32_atk = (-5 * a_last_fatigue) if 'a_last_fatigue' in locals() else 0.0
-        a_r32_def = (5 * a_last_fatigue) if 'a_last_fatigue' in locals() else 0.0
+        # 💡 [3-2 연동 핵심] 규칙 3-2 일정 중요도 가중치 안전 추출 (정보 없으면 0.0% 방어)
+        h_imp_atk_val = h_imp_atk if 'h_imp_atk' in locals() else 0.0
+        h_imp_def_val = h_imp_def if 'h_imp_def' in locals() else 0.0
+        a_imp_atk_val = a_imp_atk if 'a_imp_atk' in locals() else 0.0
+        a_imp_def_val = a_imp_def if 'a_imp_def' in locals() else 0.0
+
+        # 💡 [3-2 연동 핵심] 규칙 3-2 이동 피로도 가중치 안전 추출 (정보 없으면 0% 방어)
+        h_fatigue_stage = h_last_fatigue if 'h_last_fatigue' in locals() else 0
+        a_fatigue_stage = a_last_fatigue if 'a_last_fatigue' in locals() else 0
+
+        h_r32_atk = (-5 * h_fatigue_stage)
+        h_r32_def = (5 * h_fatigue_stage)
+        a_r32_atk = (-5 * a_fatigue_stage)
+        a_r32_def = (5 * a_fatigue_stage)
+
+        # 💡 [규칙 3번 최종 통합 합산] 3-1 전력누수 + 3-2 중요도 + 3-2 이동피로도
+        h_r3_tot_atk = h_r31_atk + h_imp_atk_val + h_r32_atk
+        h_r3_tot_def = h_r31_def + h_imp_def_val + h_r32_def
+        a_r3_tot_atk = a_r31_atk + a_imp_atk_val + a_r32_atk
+        a_r3_tot_def = a_r31_def + a_imp_def_val + a_r32_def
 
         h_r4_atk = h_r4_atk_val if 'h_r4_atk_val' in locals() else 0.0
         h_r4_def = h_r4_def_val if 'h_r4_def_val' in locals() else 0.0
         a_r4_atk = a_r4_atk_val if 'a_r4_atk_val' in locals() else 0.0
         a_r4_def = a_r4_def_val if 'a_r4_def_val' in locals() else 0.0
 
-        # 최종 누적 보정치 합산 (0단계 연동분 포함)
-        h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r31_atk + h_r32_atk + h_r4_atk
-        h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r31_def + h_r32_def + h_r4_def
-        a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r31_atk + a_r32_atk + a_r4_atk
-        a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r31_def + a_r32_def + a_r4_def
+        # 최종 누적 보정치 합산 (0단계 및 규칙 1~4 통합)
+        h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r3_tot_atk + h_r4_atk
+        h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r3_tot_def + h_r4_def
+        a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk
+        a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def
 
         h_max_g = h_base_g * (1 + h_tot_atk_pct / 100.0)
         h_min_c = h_base_c * (1 + h_tot_def_pct / 100.0)
@@ -1351,7 +1366,7 @@ with tabs[5]:
         a_final_exp_c = max(0.2, (a_min_c + (2.0 - h_max_g)) / 2.0)
 
         # --------------------------------------------------------------------------
-        # 📊 [5-1 표] 렌더링 (0단계 연동 항목 추가)
+        # 📊 [5-1 표] 렌더링 (규칙 3-2 중요도 및 이동 피로도 항목 정밀 분리 반영)
         # --------------------------------------------------------------------------
         st.markdown(f"##### 📊 [5-1 표] 최종 보정 득실점 산출 매트릭스 ({home_team} vs {away_team})")
         table_data_51 = [
@@ -1359,14 +1374,17 @@ with tabs[5]:
             {"구분 항목": "0단계 (country.json 등급 연동)", f"홈 팀 ({home_team})": f"공격 {h_step0_atk:+.1f}% / 방어 {h_step0_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_step0_atk:+.1f}% / 방어 {a_step0_def:+.1f}%", "보정 및 산출 연산 근거": "리그 순위표 등급별 공수 보정치 (정보 없을 시 0%)"},
             {"구분 항목": "규칙 1 (7경기 LIFO 가중치)", f"홈 팀 ({home_team})": f"공격 {h_r1_atk:+.1f}% / 방어 {h_r1_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r1_atk:+.1f}% / 방어 {a_r1_def:+.1f}%", "보정 및 산출 연산 근거": "최근 10경기 상대 티어 가중치"},
             {"구분 항목": "규칙 2 (구장 환경 보정)", f"홈 팀 ({home_team})": f"공격 {h_r2_atk:+.1f}% / 방어 {h_r2_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r2_atk:+.1f}% / 방어 {a_r2_def:+.1f}%", "보정 및 산출 연산 근거": "홈/원정 구장 Shift 변동성"},
-            {"구분 항목": "규칙 3-1 (선수 전력 변동)", f"홈 팀 ({home_team})": f"공격 {h_r31_atk:+.1f}% / 방어 {h_r31_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r31_atk:+.1f}% / 방어 {a_r31_def:+.1f}%", "보정 및 산출 연산 근거": "핵심 자원 누수/가산 (반감 규칙 반영)"},
-            {"구분 항목": "규칙 3-2 (이동 피로도)", f"홈 팀 ({home_team})": f"공격 {h_r32_atk:+.1f}% / 방어 {h_r32_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r32_atk:+.1f}% / 방어 {a_r32_def:+.1f}%", "보정 및 산출 연산 근거": "이동 거리 및 피로도 누적 적용"},
+            {"구분 항목": "규칙 3-1 (선수 전력 누수)", f"홈 팀 ({home_team})": f"공격 {h_r31_atk:+.1f}% / 방어 {h_r31_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r31_atk:+.1f}% / 방어 {a_r31_def:+.1f}%", "보정 및 산출 연산 근거": "핵심 자원 누수/가산 (반감 규칙 반영)"},
+            {"구분 항목": "규칙 3-2 (일정 중요도 판단)", f"홈 팀 ({home_team})": f"공격 {h_imp_atk_val:+.1f}% / 방어 {h_imp_def_val:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_imp_atk_val:+.1f}% / 방어 {a_imp_def_val:+.1f}%", "보정 및 산출 연산 근거": "진출권/강등권 태그 기반 중요도 (정보 없을 시 0%)"},
+            {"구분 항목": "규칙 3-2 (이동 피로도 누적)", f"홈 팀 ({home_team})": f"공격 {h_r32_atk:+.1f}% / 방어 {h_r32_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r32_atk:+.1f}% / 방어 {a_r32_def:+.1f}%", "보정 및 산출 연산 근거": "원정 이동 거리 및 연전 피로도 (단계별 5%)"},
             {"구분 항목": "규칙 4 (H2H 상성 보정)", f"홈 팀 ({home_team})": f"공격 {h_r4_atk:+.1f}% / 방어 {h_r4_def:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_r4_atk:+.1f}% / 방어 {a_r4_def:+.1f}%", "보정 및 산출 연산 근거": "최근 10전 단방향 상성 우세 여부"},
             {"구분 항목": "최종 누적 보정치 합계", f"홈 팀 ({home_team})": f"공격 {h_tot_atk_pct:+.1f}% / 방어 {h_tot_def_pct:+.1f}%", f"원정 팀 ({away_team})": f"공격 {a_tot_atk_pct:+.1f}% / 방어 {a_tot_def_pct:+.1f}%", "보정 및 산출 연산 근거": "0단계 및 규칙 1~4 보정치 최종 누적 합산"},
             {"구분 항목": "1단계 화력/수비 한계 수치", f"홈 팀 ({home_team})": f"상한 득점 {h_max_g:.2f} / 하한 실점 {h_min_c:.2f}", f"원정 팀 ({away_team})": f"상한 득점 {a_max_g:.2f} / 하한 실점 {a_min_c:.2f}", "보정 및 산출 연산 근거": "자체 독자 공수 한계선 (단위: 골)"},
             {"구분 항목": "1차기본기대 득실점", f"홈 팀 ({home_team})": f"기대 득점 {h_final_exp_g:.2f}골 / 예상 실점 {h_final_exp_c:.2f}골", f"원정 팀 ({away_team})": f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골", "보정 및 산출 연산 근거": "기하평균 공수 교차 상쇄 결합 연산"}
         ]
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
+    else:
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (가중치 0% 처리)")
 
 # --------------------------------------------------------------------------
         # 📊 [5-2 표] 렌더링 (최근 7경기 교차 검증 및 특수 룰 프로토콜 적용)
