@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-16 12:31:05",
+    "last_updated": "2026-10-16 14:43:50",
     "match_details": {
         "3018835": {
             "match_code": "3018835",
@@ -34971,109 +34971,6 @@
                     "home_matches": [
                         {
                             "league": "MAL D1",
-                            "match_time": "2026.10.11",
-                            "teams": "슬리에마 vs 그지라",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.60/1.90"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.09.20",
-                            "teams": "발잔 vs 슬리에마",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.60/1.40"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.09.13",
-                            "teams": "모스타 vs 슬리에마",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.40/1.40"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.09.06",
-                            "teams": "슬리에마 vs 버커카라",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/0.80"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.08.30",
-                            "teams": "버즈버가 vs 슬리에마",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.30/1.40"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.08.21",
-                            "teams": "플로리아나 vs 슬리에마",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/1.30"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.08.16",
-                            "teams": "슬리에마 vs 하이버니언스",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.00/1.80"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "슬리에마 vs 버즈버가",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.10/0.90"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.31",
-                            "teams": "슬리에마 vs 자바르",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.10/1.10"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.25",
-                            "teams": "버커카라 vs 슬리에마",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.10/1.10"
-                        }
-                    ],
-                    "away_team_name": "볼레타",
-                    "away_matches": [
-                        {
-                            "league": "MAL D1",
                             "match_time": "2026.10.10",
                             "teams": "버커카라 vs 볼레타",
                             "ft_scores": [
@@ -35172,12 +35069,9 @@
                             ],
                             "opponent_tier_info": "1.10/1.10"
                         }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "슬리에마",
-                    "home_matches": [
+                    ],
+                    "away_team_name": "볼레타",
+                    "away_matches": [
                         {
                             "league": "MAL D1",
                             "match_time": "2026.10.11",
@@ -35190,6 +35084,26 @@
                         },
                         {
                             "league": "MAL D1",
+                            "match_time": "2026.09.20",
+                            "teams": "발잔 vs 슬리에마",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.60/1.40"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.09.13",
+                            "teams": "모스타 vs 슬리에마",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.40/1.40"
+                        },
+                        {
+                            "league": "MAL D1",
                             "match_time": "2026.09.06",
                             "teams": "슬리에마 vs 버커카라",
                             "ft_scores": [
@@ -35197,6 +35111,26 @@
                                 "1"
                             ],
                             "opponent_tier_info": "1.30/0.80"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.08.30",
+                            "teams": "버즈버가 vs 슬리에마",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.30/1.40"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.08.21",
+                            "teams": "플로리아나 vs 슬리에마",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.40/1.30"
                         },
                         {
                             "league": "MAL D1",
@@ -35230,156 +35164,202 @@
                         },
                         {
                             "league": "INT CF",
-                            "match_time": "2026.07.18",
-                            "teams": "슬리에마 vs 볼레타",
+                            "match_time": "2026.07.25",
+                            "teams": "버커카라 vs 슬리에마",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.10/1.10"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "슬리에마",
+                    "home_matches": [
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.09.13",
+                            "teams": "볼레타 vs 발잔",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.40/0.70"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.08.28",
+                            "teams": "볼레타 vs 마르삭슬로크",
                             "ft_scores": [
                                 "1",
                                 "2"
                             ],
-                            "opponent_tier_info": "1.20/1.10"
+                            "opponent_tier_info": "0.70/1.20"
                         },
                         {
                             "league": "MAL D1",
-                            "match_time": "2026.04.14",
-                            "teams": "슬리에마 vs 버커카라",
+                            "match_time": "2026.08.16",
+                            "teams": "볼레타 vs 자바르",
                             "ft_scores": [
-                                "1",
-                                "0"
+                                "4",
+                                "2"
                             ],
-                            "opponent_tier_info": "0.90/1.30"
+                            "opponent_tier_info": "1.10/1.30"
                         },
                         {
-                            "league": "MAL D1",
-                            "match_time": "2026.04.10",
-                            "teams": "슬리에마 vs 하이버니언스",
+                            "league": "UEFA ECL",
+                            "match_time": "2026.07.30",
+                            "teams": "볼레타 vs 라코브",
                             "ft_scores": [
-                                "1",
-                                "1"
+                                "0",
+                                "4"
                             ],
-                            "opponent_tier_info": "1.00/1.70"
+                            "opponent_tier_info": "2.10/1.40"
                         },
                         {
-                            "league": "MAL D1",
-                            "match_time": "2026.03.14",
-                            "teams": "슬리에마 vs 그지라",
+                            "league": "MAL Cup",
+                            "match_time": "2026.05.23",
+                            "teams": "볼레타 vs 그지라",
                             "ft_scores": [
                                 "2",
                                 "1"
                             ],
-                            "opponent_tier_info": "1.30/1.30"
+                            "opponent_tier_info": "0.90/1.00"
                         },
                         {
                             "league": "MAL D1",
-                            "match_time": "2026.03.07",
-                            "teams": "슬리에마 vs 플로리아나",
+                            "match_time": "2026.05.15",
+                            "teams": "볼레타 vs 함룬",
                             "ft_scores": [
                                 "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.70/1.20"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.05.02",
+                            "teams": "볼레타 vs 함룬",
+                            "ft_scores": [
+                                "2",
                                 "1"
                             ],
-                            "opponent_tier_info": "1.70/0.50"
+                            "opponent_tier_info": "1.80/0.90"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.04.12",
+                            "teams": "볼레타 vs 그지라",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.30/1.50"
                         }
                     ],
                     "away_team_name": "볼레타",
                     "away_matches": [
                         {
                             "league": "MAL D1",
-                            "match_time": "2026.10.10",
-                            "teams": "버커카라 vs 볼레타",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.00/1.40"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.09.19",
-                            "teams": "버즈버가 vs 볼레타",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.90/1.50"
-                        },
-                        {
-                            "league": "MAL SC",
-                            "match_time": "2026.09.07",
-                            "teams": "플로리아나 vs 볼레타",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.70/1.60"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.09.02",
-                            "teams": "하이버니언스 vs 볼레타",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.50/1.60"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.08.23",
-                            "teams": "그지라 vs 볼레타",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.30/1.60"
-                        },
-                        {
-                            "league": "UEFA ECL",
-                            "match_time": "2026.07.23",
-                            "teams": "라코브 vs 볼레타",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.10/1.10"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.18",
-                            "teams": "슬리에마 vs 볼레타",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.20/1.10"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.11",
-                            "teams": "발잔 vs 볼레타",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.10/1.10"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.05.09",
-                            "teams": "플로리아나 vs 볼레타",
+                            "match_time": "2026.09.20",
+                            "teams": "발잔 vs 슬리에마",
                             "ft_scores": [
                                 "0",
                                 "0"
                             ],
-                            "opponent_tier_info": "1.40/1.10"
+                            "opponent_tier_info": "1.60/1.40"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.09.13",
+                            "teams": "모스타 vs 슬리에마",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.40/1.40"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.08.30",
+                            "teams": "버즈버가 vs 슬리에마",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.30/1.40"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.08.21",
+                            "teams": "플로리아나 vs 슬리에마",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.40/1.30"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.25",
+                            "teams": "버커카라 vs 슬리에마",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.10/1.10"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.04.30",
+                            "teams": "타르시엔 vs 슬리에마",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.10/0.90"
                         },
                         {
                             "league": "MAL D1",
                             "match_time": "2026.04.26",
-                            "teams": "마르삭슬로크 vs 볼레타",
+                            "teams": "자바르 vs 슬리에마",
                             "ft_scores": [
                                 "1",
-                                "0"
+                                "1"
                             ],
-                            "opponent_tier_info": "1.20/1.00"
+                            "opponent_tier_info": "1.10/0.80"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.04.19",
+                            "teams": "모스타 vs 슬리에마",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.00/0.70"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.02.28",
+                            "teams": "타르시엔 vs 슬리에마",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.70/0.90"
+                        },
+                        {
+                            "league": "MAL D1",
+                            "match_time": "2026.02.21",
+                            "teams": "볼레타 vs 슬리에마",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.70/1.00"
                         }
                     ]
                 }
