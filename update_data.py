@@ -32,7 +32,6 @@ EXCLUDED_KEYWORDS = [
 
 EXCLUDED_LEAGUES = [
     "리가 프레미어 세리에 A",
-    "세리에A",
     "세리에 A 베타노",
     "타이리그 1",
     "프로리그 1",
