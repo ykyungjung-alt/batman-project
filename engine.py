@@ -166,7 +166,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         return {"status": False, "msg": "상세 정량 데이터 없음"}
 
     try:
-meta_details = target_detail.get("meta_details", {})
+        meta_details = target_detail.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
         
         # [0단계] country.json 등급 및 공수 보정치 추출
