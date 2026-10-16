@@ -166,10 +166,10 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         return {"status": False, "msg": "상세 정량 데이터 없음"}
 
     try:
-        meta_details = target_detail.get("meta_details", {})
+meta_details = target_detail.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
         
-        # [0단계] country.json 등급 및 공수 보정치 추출 (안전장치 0%)
+        # [0단계] country.json 등급 및 공수 보정치 추출
         h_step0_atk, h_step0_def = 0.0, 0.0
         a_step0_atk, a_step0_def = 0.0, 0.0
         
@@ -188,7 +188,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 elif clean_away_target in clean_row_team or clean_row_team in clean_away_target:
                     a_step0_atk, a_step0_def = atk_val, def_val
 
-        # [규칙 1번] LIFO 10경기 전수 조사 및 E티어 득실점 50% 할인 룰 적용
+        # [규칙 1번] 최근 경기(LIFO) 풀 안전 추출 및 E티어 할인 룰 적용
         recent_form = meta_details.get("recent_form", {})
         h_matches = recent_form.get("home_matches", [])
         a_matches = recent_form.get("away_matches", [])
@@ -212,36 +212,12 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_a_at, a_r1_atk = get_atk_tier(a_base_g)
         base_a_de, a_r1_def = get_def_tier(a_base_c)
 
-        # [규칙 2번] 구장별 Shift 보정 및 중립 구장 분기 연산
+        # [규칙 2번] 구장별(Stadium Form) Shift 보정 연산
         stadium_form = meta_details.get("stadium_form", {})
-        head_meta = target_detail.get("head_info", {})
-        venue_val = str(head_meta.get("stadium", "")) or str(head_meta.get("venue", ""))
-        home_stadium_val = str(head_meta.get("home_stadium", ""))
-        
-        is_neutral_venue = False
-        if venue_val and home_stadium_val:
-            if venue_val.strip().lower() != home_stadium_val.strip().lower():
-                is_neutral_venue = True
-
-        if is_neutral_venue:
-            recent_all_pool = stadium_form.get("recent_matches", [])
-            if not recent_all_pool: recent_all_pool = h_matches
-            neutral_home_away_matches = []
-            for m in recent_all_pool:
-                teams_str = str(m.get("teams", ""))
-                if " vs " in teams_str:
-                    t_parts = [p.strip() for p in teams_str.split("vs")]
-                    if len(t_parts) >= 2 and home_name not in t_parts[0]:
-                        neutral_home_away_matches.append(m)
-                elif m.get("location") == "원정" or m.get("venue_type") == "away":
-                    neutral_home_away_matches.append(m)
-            if not neutral_home_away_matches:
-                neutral_home_away_matches = stadium_form.get("away_matches", [])
-            s_home_matches = neutral_home_away_matches[:10]
-        else:
-            s_home_matches = stadium_form.get("home_matches", [])[:10]
-
+        s_home_matches = stadium_form.get("home_matches", [])[:10]
         s_away_matches = stadium_form.get("away_matches", [])[:10]
+        if not s_home_matches: s_home_matches = h_matches[:10]
+        if not s_away_matches: s_away_matches = a_matches[:10]
 
         s_h_g, s_h_c = compute_adjusted_stats_with_discount(s_home_matches, home_name, h_base_g, h_base_c, h_is_triggered)
         s_a_g, s_a_c = compute_adjusted_stats_with_discount(s_away_matches, away_name, a_base_g, a_base_c, a_is_triggered)
@@ -269,7 +245,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
-        # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 연산 (안전장치 0%)
+        # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 연산
         h_squad_changes = meta_details.get("home_squad_changes", [])
         a_squad_changes = meta_details.get("away_squad_changes", [])
 
@@ -295,10 +271,11 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_r31_atk, h_r31_def = calc_squad_weights(h_squad_changes)
         a_r31_atk, a_r31_def = calc_squad_weights(a_squad_changes)
 
-        h_imp_atk, h_imp_def = 5.0, -5.0
-        a_imp_atk, a_imp_def = 5.0, -5.0
-        h_fatigue_stage = 0
-        a_fatigue_stage = 0
+        # 3-2 중요도 및 이동 피로도 안전 방어 (데이터 없을 시 0.0)
+        h_imp_atk, h_imp_def = target_detail.get("h_imp_atk", 5.0), target_detail.get("h_imp_def", -5.0)
+        a_imp_atk, a_imp_def = target_detail.get("a_imp_atk", 5.0), target_detail.get("a_imp_def", -5.0)
+        h_fatigue_stage = target_detail.get("h_fatigue_stage", 0)
+        a_fatigue_stage = target_detail.get("a_fatigue_stage", 0)
 
         h_r32_atk = (-5 * h_fatigue_stage)
         h_r32_def = (5 * h_fatigue_stage)
@@ -310,7 +287,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r3_tot_atk = a_r31_atk + a_imp_atk + a_r32_atk
         a_r3_tot_def = a_r31_def + a_imp_def + a_r32_def
 
-        # [규칙 4번] 역대 맞대결 H2H 상성 및 단방향 10% 룰 (안전장치 0%)
+        # [규칙 4번] 맞대결 H2H 상성 및 단방향 10% 룰
         h2h_info = meta_details.get("h2h", {})
         h2h_matches = h2h_info.get("matches", [])
         home_wins = 0
@@ -347,6 +324,10 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 h_r4_atk, h_r4_def = 10.0, -10.0
             elif away_win_rate >= 50.0:
                 a_r4_atk, a_r4_def = 10.0, -10.0
+
+        # [규칙 5-2 연동 및 5단계 최종 합산]
+        h_agf = float(target_detail.get("h_agf", h_base_g))
+        a_agf = float(target_detail.get("a_agf", a_base_g))
 
         # [규칙 5단계] 최종 누적 보정 합산 및 화력 한계선 / 기하평균 교차 연산
         h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r3_tot_atk + h_r4_atk + float(target_detail.get("h_tot_atk_pct", 0.0))
