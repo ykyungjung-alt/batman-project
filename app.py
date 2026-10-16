@@ -1323,22 +1323,22 @@ with tabs[5]:
         a_r31_atk = a_r31_atk_val if 'a_r31_atk_val' in locals() else 0.0
         a_r31_def = a_r31_def_val if 'a_r31_def_val' in locals() else 0.0
 
-        # 💡 [3-2 연동 핵심] 규칙 3-2 일정 중요도 가중치 안전 추출 (정보 없으면 0.0% 방어)
+        # 💡 [규칙 3-2 중요도 가중치 연동 코드]
         h_imp_atk_val = h_imp_atk if 'h_imp_atk' in locals() else 0.0
         h_imp_def_val = h_imp_def if 'h_imp_def' in locals() else 0.0
         a_imp_atk_val = a_imp_atk if 'a_imp_atk' in locals() else 0.0
         a_imp_def_val = a_imp_def if 'a_imp_def' in locals() else 0.0
 
-        # 💡 [3-2 연동 핵심] 규칙 3-2 이동 피로도 가중치 안전 추출 (정보 없으면 0% 방어)
+        # 이동 피로도 단계 가중치 연동
         h_fatigue_stage = h_last_fatigue if 'h_last_fatigue' in locals() else 0
         a_fatigue_stage = a_last_fatigue if 'a_last_fatigue' in locals() else 0
-
+        
         h_r32_atk = (-5 * h_fatigue_stage)
         h_r32_def = (5 * h_fatigue_stage)
         a_r32_atk = (-5 * a_fatigue_stage)
         a_r32_def = (5 * a_fatigue_stage)
 
-        # 💡 [규칙 3번 최종 통합 합산] 3-1 전력누수 + 3-2 중요도 + 3-2 이동피로도
+        # 규칙 3번 전체 통합 합산 (3-1 전력누수 + 3-2 중요도 + 3-2 이동피로도)
         h_r3_tot_atk = h_r31_atk + h_imp_atk_val + h_r32_atk
         h_r3_tot_def = h_r31_def + h_imp_def_val + h_r32_def
         a_r3_tot_atk = a_r31_atk + a_imp_atk_val + a_r32_atk
