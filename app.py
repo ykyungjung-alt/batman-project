@@ -263,18 +263,19 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        # 💡 [리그순위 코드 파싱 및 country.json 정밀 대조 함수]
+# 💡 [리그순위 코드 파싱 및 country.json 정밀 대조 함수 - 띄어쓰기/하이픈 완벽 차단 규격]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
             team_str = str(team_val).strip().lower()
             clean_league = str(current_league_name).strip().replace(" ", "").lower()
 
-            # 1. 공백이나 하이픈(-) 앞쪽까지만 국가 코드/약자 추출 (예: "ESP D1-1" ➔ "ESP")
+            # 💡 1. 띄어쓰기나 하이픈(-) 앞쪽까지만 국가 코드/리그 코드 추출 (예: "HOL D1-1" ➔ "HOL")
             extracted_code = ""
             if rank_str and rank_str != "-":
+                # 공백이나 하이픈을 기준으로 첫 번째 토큰만 강력하게 추출
                 token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
-                if token:
+                if token and not token.isdigit():  # 순위 숫자(예: "10")인 경우는 코드로 쓰지 않음
                     extracted_code = token
 
             # 2. country.json 내부 데이터와 전수 대조
@@ -283,30 +284,29 @@ with tabs[0]:
                     continue
                 if isinstance(countries, list):
                     for c in countries:
-                        c_name = str(c.get("name", "")).strip().lower()          # 예: "스페인"
-                        c_code = str(c.get("code", "")).strip().upper()          # 예: "ESP"
-                        kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower() # 예: "라리가"
-                        leagues_list = [str(l).lower() for l in c.get("leagues", [])]
+                        c_name = str(c.get("name", "")).strip().lower()                 # 예: "네덜란드", "스페인"
+                        c_code = str(c.get("code", "")).strip().upper()                 # 예: "NED", "ESP"
+                        kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower() # 예: "에레디비시"
+                        leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])] # 예: ["HOL D1", "HOL D2"]
 
-                        # 조건 1: 추출된 국가 코드가 country.json의 code와 일치하는 경우
-                        match_by_code = c_code and (c_code == extracted_code or c_code in rank_str.upper())
+                        # 조건 A: 추출된 코드(extracted_code)가 country.json의 code와 일치하거나 leagues 목록에 포함되는 경우
+                        match_by_code = c_code and (c_code == extracted_code or any(extracted_code in l for l in leagues_list))
                         
-                        # 조건 2: 순위표 팀명 또는 현재 리그명에 국가명("스페인")이 포함된 경우
-                        match_by_name = c_name and (c_name in team_str or c_name in clean_league)
-                        
-                        # 조건 3: 현재 경기 리그명에 한글 리그명("라리가")이 포함된 경우
+                        # 조건 B: 현재 경기 리그명에 한글 리그명("에레디비시", "라리가")이 포함된 경우
                         match_by_kor_league = kor_league and (kor_league in clean_league or clean_league in kor_league)
                         
-                        # 조건 4: 영어 공식 리그 코드(예: "ESP D1")가 일치하는 경우
-                        match_by_eng_league = any(l.split()[0] in clean_league for l in leagues_list if l)
+                        # 조건 C: 영어 공식 리그 코드의 앞부분(예: "HOL")이 현재 리그명이나 랭크 문자열에 포함되는 경우
+                        match_by_eng_league = any(l.split()[0].lower() in clean_league for l in c.get("leagues", []) if l)
+                        
+                        # 조건 D: 팀명이나 리그명에 국가명("네덜란드", "스페인")이 포함된 경우
+                        match_by_name = c_name and (c_name in clean_league or c_name in team_str)
 
-                        if match_by_code or match_by_name or match_by_kor_league or match_by_eng_league:
-                            return c.get("code", "-"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                        if match_by_code or match_by_kor_league or match_by_eng_league or match_by_name:
+                            return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
-            # 매칭 실패 시 F등급(마이너 국가) 폴백 처리
+            # 3. 매칭 실패 시 F등급(마이너 국가) 폴백 처리
             f_info = grades.get("F", {})
-            fallback_code = extracted_code if extracted_code else "EXT"
-            return fallback_code, rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
+            return "EXT", rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
         if rankings_raw:
             rankings_list = []
