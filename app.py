@@ -2204,6 +2204,9 @@ with tabs[7]:
                     if key_name in src:
                         merged_target_detail[key_name] = src[key_name]
 
+            # 💡 [필수 방어 코드] 반복문 내부에 stadium_form 변수 명시적 정의로 에러 원천 차단
+            stadium_form = merged_target_detail.get("meta_details", {}).get("stadium_form", {"home_matches": [], "away_matches": []})
+
             match_key = f"{h_name} vs {a_name}"
 
             if engine_available and source_candidates:
