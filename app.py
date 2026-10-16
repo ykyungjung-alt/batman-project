@@ -1101,7 +1101,7 @@ with tabs[3]:
         h_fa, h_fd = -5 * h_last_fatigue, 5 * h_last_fatigue
         a_fa, a_fd = -5 * a_last_fatigue, 5 * a_last_fatigue
 
-st.markdown(f"""
+        st.markdown(f"""
         <div class="calc-box">
             <b>규칙 3번 상세 산출 내역 및 보정 합산:</b><br>
             • <b>{home_team}:</b> {h_imp_label}(공격 {h_imp_atk:+g}%, 방어 {h_imp_def:+g}%), 피로누적 {h_last_fatigue}단계(공격 {h_fa}%, 방어 +{h_fd}%)<br>
