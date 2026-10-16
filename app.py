@@ -288,12 +288,12 @@ with tabs[0]:
         if rankings_raw:
             rankings_list = []
             
-            # 💡 세션 상태 초기화 (하위 규칙 탭 연동용)
-            st.session_state["h_grade"], st.session_state["h_atk_bonus"], st.session_state["h_def_bonus"] = "F", "0%", "0%"
-            st.session_state["a_grade"], st.session_state["a_atk_bonus"], st.session_state["a_def_bonus"] = "F", "0%", "0%"
-
             clean_home_target = str(home_team).strip().replace(" ", "")
             clean_away_target = str(away_team).strip().replace(" ", "")
+
+            # 기본값 F등급 및 0% 세팅
+            h_grade, h_atk_b, h_def_b = "F", "0%", "0%"
+            a_grade, a_atk_b, a_def_b = "F", "0%", "0%"
 
             for idx, r in enumerate(rankings_raw):
                 team_name = str(r.get("team", "-"))
@@ -303,13 +303,9 @@ with tabs[0]:
                 
                 clean_row_team = team_name.strip().replace(" ", "")
                 if clean_home_target in clean_row_team or clean_row_team in clean_home_target:
-                    st.session_state["h_grade"] = grade
-                    st.session_state["h_atk_bonus"] = atk_b
-                    st.session_state["h_def_bonus"] = def_b
+                    h_grade, h_atk_b, h_def_b = grade, atk_b, def_b
                 elif clean_away_target in clean_row_team or clean_row_team in clean_away_target:
-                    st.session_state["a_grade"] = grade
-                    st.session_state["a_atk_bonus"] = atk_b
-                    st.session_state["a_def_bonus"] = def_b
+                    a_grade, a_atk_b, a_def_b = grade, atk_b, def_b
 
                 rankings_list.append({
                     "No": idx + 1,
@@ -325,12 +321,27 @@ with tabs[0]:
                     "득점": str(r.get("goals_for", "0")), "실점": str(r.get("goals_against", "0")),
                     "득실": str(r.get("goal_diff", "0")), "승점": str(r.get("points", "0"))
                 })
+
+            # 세션 상태에 최종 확정 값 주입 (못 찾거나 F등급이면 0% 처리)
+            st.session_state["h_grade"] = h_grade
+            st.session_state["h_atk_bonus"] = h_atk_b if h_grade != "F" else "0%"
+            st.session_state["h_def_bonus"] = h_def_b if h_grade != "F" else "0%"
+
+            st.session_state["a_grade"] = a_grade
+            st.session_state["a_atk_bonus"] = a_atk_b if a_grade != "F" else "0%"
+            st.session_state["a_def_bonus"] = a_def_b if a_grade != "F" else "0%"
+
             df_rankings = pd.DataFrame(rankings_list)
             st.dataframe(df_rankings[["리그순위", "팀", "국가코드", "리그명", "등급", "공격보정", "수비보정", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
         else:
-            st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다.")
+            # 순위표 데이터 자체가 없을 때도 0%로 세션 방어
+            st.session_state["h_grade"], st.session_state["h_atk_bonus"], st.session_state["h_def_bonus"] = "F", "0%", "0%"
+            st.session_state["a_grade"], st.session_state["a_atk_bonus"], st.session_state["a_def_bonus"] = "F", "0%", "0%"
+            st.info("💡 해당 경기에 수집된 순위 및 전적표 데이터(rankings)가 존재하지 않습니다. (가중치 0% 처리)")
     else:
-        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+        st.session_state["h_grade"], st.session_state["h_atk_bonus"], st.session_state["h_def_bonus"] = "F", "0%", "0%"
+        st.session_state["a_grade"], st.session_state["a_atk_bonus"], st.session_state["a_def_bonus"] = "F", "0%", "0%"
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (가중치 0% 처리)")
 # ==========================================
 # 💡 규칙 1번 탭 (v3 데이터 전용 단독 연동 및 조건부 E티어 득실점 50% 할인 적용)
 # ==========================================
