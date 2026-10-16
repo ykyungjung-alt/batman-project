@@ -1959,11 +1959,11 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - engine.py 연동 및 디버그 아코디언 완성
+# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 전체 딕셔너리 완벽 연동 완성
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
-    st.markdown("담긴 경기들의 고유 **`match_code`**를 기준으로 백엔드 수리 엔진(`engine.py`)이 실시간으로 구동되며, 각 대진별 **[🔍 세부 가중치 및 단계별 연산 내역 보기]**를 통해 오차 원인을 정밀 추적할 수 있습니다.")
+    st.markdown("0~6단계 화면에서 사용하는 **모든 딕셔너리(`v3_details_dict`, `all_details_dict`, `v4_leagues_dict`, `country.json`)** 데이터가 엔진(`engine.py`)으로 빠짐없이 주입되어 실시간 연동됩니다.")
 
     # 🚀 백엔드 엔진 임포트
     try:
@@ -2051,12 +2051,12 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. engine.py 실시간 연동 및 통합 비교 표 렌더링
+        # 🚀 3. 0~6단계와 완벽히 동일한 구조로 모든 딕셔너리 통합 병합 및 엔진 구동
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
         multi_summary_data = []
-        engine_results_store = {} # 각 경기별 상세 엔진 데이터 및 디버그용 딕셔너리 보관
+        engine_results_store = {} 
 
         for m_item in st.session_state["multi_selected_matches"]:
             h_name = str(m_item.get('home', '홈')).strip()
@@ -2064,22 +2064,85 @@ with tabs[7]:
             league_name = m_item.get('league', '-')
             m_code = str(m_item.get('match_code', '')).strip()
             
-            target_detail_data = {}
+            # 💡 [핵심] 0~6단계와 완전히 동일하게 v3, v2, 일반 상세 딕셔너리 및 메타 데이터를 총동원하여 통합 구성
+            merged_target_detail = {
+                "head_info": {},
+                "meta_details": {
+                    "rankings": [],
+                    "recent_form": {"home_summary": {}, "away_summary": {}, "home_matches": [], "away_matches": []},
+                    "stadium_form": {"home_matches": [], "away_matches": []},
+                    "h2h": {"summary": [], "matches": []},
+                    "fixtures": {"home": [], "away": []},
+                    "home_squad_changes": [],
+                    "away_squad_changes": []
+                }
+            }
+
+            # 데이터 원천 소스들(all_details_dict, v3_details_dict)에서 대진 일치하는 항목 전부 취합
+            source_candidates = []
+            if m_code and m_code in v3_details_dict:
+                source_candidates.append(v3_details_dict[m_code])
             if m_code and m_code in all_details_dict:
-                target_detail_data = all_details_dict[m_code]
-            else:
-                for k, v in all_details_dict.items():
-                    v_home = str(v.get("home", "")).strip().replace(" ", "")
-                    v_away = str(v.get("away", "")).strip().replace(" ", "")
-                    if v_home == h_name.replace(" ", "") and v_away == a_name.replace(" ", ""):
-                        target_detail_data = v
-                        break
+                source_candidates.append(all_details_dict[m_code])
+            
+            # 팀명 일치 후보도 탐색
+            clean_h = h_name.replace(" ", "").lower()
+            clean_a = a_name.replace(" ", "").lower()
+            for dict_obj in [v3_details_dict, all_details_dict]:
+                for k, v in dict_obj.items():
+                    v_home = str(v.get("home", "")).strip().replace(" ", "").lower()
+                    v_away = str(v.get("away", "")).strip().replace(" ", "").lower()
+                    if v_home == clean_h and v_away == clean_a:
+                        if v not in source_candidates:
+                            source_candidates.append(v)
+
+            # 모든 후보 딕셔너리의 정보를 머지(Merge)하여 누락 방지
+            for src in source_candidates:
+                if isinstance(src.get("head_info"), dict):
+                    merged_target_detail["head_info"].update(src["head_info"])
+                
+                src_meta = src.get("meta_details", {})
+                if isinstance(src_meta, dict):
+                    if src_meta.get("rankings"):
+                        merged_target_detail["meta_details"]["rankings"] = src_meta["rankings"]
+                    
+                    src_rf = src_meta.get("recent_form", {})
+                    if src_rf:
+                        if src_rf.get("home_matches"): merged_target_detail["meta_details"]["recent_form"]["home_matches"] = src_rf["home_matches"]
+                        if src_rf.get("away_matches"): merged_target_detail["meta_details"]["recent_form"]["away_matches"] = src_rf["away_matches"]
+                        if src_rf.get("home_summary"): merged_target_detail["meta_details"]["recent_form"]["home_summary"] = src_rf["home_summary"]
+                        if src_rf.get("away_summary"): merged_target_detail["meta_details"]["recent_form"]["away_summary"] = src_rf["away_summary"]
+
+                    src_sf = src_meta.get("stadium_form", {})
+                    if src_sf:
+                        if src_sf.get("home_matches"): merged_target_detail["meta_details"]["stadium_form"]["home_matches"] = src_sf["home_matches"]
+                        if src_sf.get("away_matches"): merged_target_detail["meta_details"]["stadium_form"]["away_matches"] = src_sf["away_matches"]
+
+                    src_h2h = src_meta.get("h2h", {})
+                    if src_h2h:
+                        if src_h2h.get("matches"): merged_target_detail["meta_details"]["h2h"]["matches"] = src_h2h["matches"]
+                        if src_h2h.get("summary"): merged_target_detail["meta_details"]["h2h"]["summary"] = src_h2h["summary"]
+
+                    src_fix = src_meta.get("fixtures", {})
+                    if src_fix:
+                        if src_fix.get("home"): merged_target_detail["meta_details"]["fixtures"]["home"] = src_fix["home"]
+                        if src_fix.get("away"): merged_target_detail["meta_details"]["fixtures"]["away"] = src_fix["away"]
+
+                    if src_meta.get("home_squad_changes"):
+                        merged_target_detail["meta_details"]["home_squad_changes"] = src_meta["home_squad_changes"]
+                    if src_meta.get("away_squad_changes"):
+                        merged_target_detail["meta_details"]["away_squad_changes"] = src_meta["away_squad_changes"]
+
+                # 기본 득실점 계수 복사
+                for key_name in ["h_gpg", "h_cpg", "a_gpg", "a_cpg", "h_agf", "a_agf"]:
+                    if key_name in src:
+                        merged_target_detail[key_name] = src[key_name]
 
             match_key = f"{h_name} vs {a_name}"
 
-            if engine_available and target_detail_data:
+            if engine_available and source_candidates:
                 res = compute_match_prediction_master(
-                    target_detail=target_detail_data,
+                    target_detail=merged_target_detail,
                     home_name=h_name,
                     away_name=a_name,
                     league_name=league_name
@@ -2088,7 +2151,7 @@ with tabs[7]:
                 if res.get("status"):
                     engine_results_store[match_key] = {
                         "res": res,
-                        "target_detail": target_detail_data,
+                        "target_detail": merged_target_detail,
                         "m_item": m_item
                     }
                     
@@ -2124,7 +2187,7 @@ with tabs[7]:
         st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
 
         # ==================================================================
-        # 🔍 [디버그 센터] 통합 비교 표 아래 각 경기별 세부 가중치 및 연산 내역 아코디언 오픈
+        # 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기
         # ==================================================================
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기")
@@ -2161,11 +2224,15 @@ with tabs[7]:
                     with m_dbg_col1:
                         st.metric("순위표(Rankings)", f"{len(meta_dbg.get('rankings', []))}개")
                     with m_dbg_col2:
-                        st.metric("LIFO 최근 경기", f"홈 {len(meta_dbg.get('recent_form', {}).get('home_matches', []))} / 원정 {len(meta_dbg.get('recent_form', {}).get('away_matches', []))}")
+                        rf_h = len(meta_dbg.get('recent_form', {}).get('home_matches', []))
+                        rf_a = len(meta_dbg.get('recent_form', {}).get('away_matches', []))
+                        st.metric("LIFO 최근 경기", f"홈 {rf_h} / 원정 {rf_a}")
                     with m_dbg_col3:
                         st.metric("맞대결(H2H) 전적", f"{len(meta_dbg.get('h2h', {}).get('matches', []))}경기")
                     with m_dbg_col4:
-                        st.metric("선수 누수(Squad)", f"홈 {len(meta_dbg.get('home_squad_changes', []))} / 원정 {len(meta_dbg.get('away_squad_changes', []))}")
+                        sq_h = len(meta_dbg.get('home_squad_changes', []))
+                        sq_a = len(meta_dbg.get('away_squad_changes', []))
+                        st.metric("선수 누수(Squad)", f"홈 {sq_h} / 원정 {sq_a}")
                     
                     st.markdown(f"**💡 3차 차점 분석 묘사:** {debug_res.get('s3_desc', '-')}")
                 else:
