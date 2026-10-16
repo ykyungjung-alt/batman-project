@@ -346,11 +346,21 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             elif away_win_rate >= 50.0:
                 a_r4_atk, a_r4_def = 10.0, -10.0
 
+        # ==============================================================================
+        # 🎯 [0~4단계 통합 누적 합산 규격] 공격력 및 방어력 보정치 전 단계 완벽 결속
+        # ==============================================================================
+        h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r3_tot_atk + h_r4_atk
+        h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r3_tot_def + h_r4_def  # 👈 방어력 누락분 완전 결속
+
+        a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk
+        a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def  # 👈 방어력 누락분 완전 결속
+
+        
         # [규칙 5-2 연동 및 5단계 최종 합산]
         h_agf = float(target_detail.get("h_agf", h_base_g))
         a_agf = float(target_detail.get("a_agf", a_base_g))
 
-# [규칙 5번] 최종 보정 및 1차 기본 기대 득실점 산출 (단일 화면과 완벽 동기화)
+        # [규칙 5번] 최종 보정 및 1차 기본 기대 득실점 산출 (단일 화면과 완벽 동기화)
         h_agf = float(target_detail.get("h_agf", h_base_g))
         a_agf = float(target_detail.get("a_agf", a_base_g))
 
