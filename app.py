@@ -262,40 +262,47 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        # 💡 [순위표 정보 기반 country.json 역추적 및 국가 코드 부여 함수]
-        def match_with_country_json_from_rankings(rank_val, team_val, current_league_name=""):
+        # 💡 [리그순위 코드 파싱 및 country.json 정밀 대조 함수]
+        def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
             team_str = str(team_val).strip().lower()
-            clean_current_league = str(current_league_name).strip().replace(" ", "").lower()
-            
+            clean_league = str(current_league_name).strip().replace(" ", "").lower()
+
+            # 1. 공백이나 하이픈(-) 앞쪽까지만 국가 코드/약자 추출 (예: "ESP D1-1" ➔ "ESP")
             extracted_code = ""
             if rank_str and rank_str != "-":
-                parts = rank_str.split()
-                if parts:
-                    extracted_code = parts[0].upper()
+                token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
+                if token:
+                    extracted_code = token
 
-            # 1단계: country.json 내부의 국가명(name), 국가코드(code), 리그명(league_kor_name), 리그코드(leagues)를 순위표 정보와 전수 대조
+            # 2. country.json 내부 데이터와 전수 대조
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
                 if isinstance(countries, list):
                     for c in countries:
-                        c_name = str(c.get("name", "")).strip().lower()
-                        c_code = str(c.get("code", "")).strip().upper()
-                        kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
+                        c_name = str(c.get("name", "")).strip().lower()          # 예: "스페인"
+                        c_code = str(c.get("code", "")).strip().upper()          # 예: "ESP"
+                        kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower() # 예: "라리가"
                         leagues_list = [str(l).lower() for l in c.get("leagues", [])]
 
-                        # 조건 검사: 팀명/순위표 문자열에 국가명이 포함되어 있거나, 코드가 일치하거나, 한글/영어 리그명이 매칭되는 경우
-                        is_name_matched = c_name and (c_name in team_str or team_str in c_name)
-                        is_code_matched = c_code and (c_code == extracted_code or c_code in rank_str.upper() or c_code in clean_current_league.upper())
-                        is_kor_league_matched = kor_league and (kor_league in clean_current_league or clean_current_league in kor_league)
-                        is_eng_league_matched = any(l.split()[0] in clean_current_league for l in leagues_list if l)
+                        # 조건 1: 추출된 국가 코드가 country.json의 code와 일치하는 경우
+                        match_by_code = c_code and (c_code == extracted_code or c_code in rank_str.upper())
+                        
+                        # 조건 2: 순위표 팀명 또는 현재 리그명에 국가명("스페인")이 포함된 경우
+                        match_by_name = c_name and (c_name in team_str or c_name in clean_league)
+                        
+                        # 조건 3: 현재 경기 리그명에 한글 리그명("라리가")이 포함된 경우
+                        match_by_kor_league = kor_league and (kor_league in clean_league or clean_league in kor_league)
+                        
+                        # 조건 4: 영어 공식 리그 코드(예: "ESP D1")가 일치하는 경우
+                        match_by_eng_league = any(l.split()[0] in clean_league for l in leagues_list if l)
 
-                        if is_name_matched or is_code_matched or is_kor_league_matched or is_eng_league_matched:
+                        if match_by_code or match_by_name or match_by_kor_league or match_by_eng_league:
                             return c.get("code", "-"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
-            # 매칭 실패 시 F등급 폴백
+            # 매칭 실패 시 F등급(마이너 국가) 폴백 처리
             f_info = grades.get("F", {})
             fallback_code = extracted_code if extracted_code else "EXT"
             return fallback_code, rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
@@ -314,8 +321,8 @@ with tabs[0]:
                 team_name = str(r.get("team", "-"))
                 rank_code_str = str(r.get("rank", ""))  
                 
-                # 💡 순위표 정보(팀명, 순위, 리그명)를 가지고 country.json에서 국가 코드를 찾아냄
-                matched_code, clean_league, grade, atk_b, def_b = match_with_country_json_from_rankings(rank_code_str, team_name, league_name)
+                # 💡 순위표 정보(리그순위 코드, 팀명, 현재 리그명)를 가지고 country.json에서 국가 코드 및 등급 탐색
+                matched_code, clean_rank_str, grade, atk_b, def_b = resolve_country_and_grade_from_rankings(rank_code_str, team_name, league_name)
                 
                 clean_row_team = team_name.strip().replace(" ", "")
                 if clean_home_target in clean_row_team or clean_row_team in clean_home_target:
