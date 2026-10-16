@@ -262,7 +262,8 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        def match_with_country_json_exact(rank_val, team_val):
+        # 💡 [한글 리그명 키워드 참조 연동 지원 함수]
+        def match_with_country_json_exact(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
             
@@ -272,6 +273,7 @@ with tabs[0]:
                 if parts:
                     extracted_code = parts[0].upper()
 
+            # 1차: 국가 코드(code) 기반 정확한 매칭 검사
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
@@ -281,6 +283,23 @@ with tabs[0]:
                         if c_code and c_code == extracted_code:
                             return c.get("code", "-"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
+            # 2차 [한글 리그명 키워드 참조 연동]: country.json의 league_kor_name과 현재 경기 리그명 상호 비교
+            clean_current_league = str(current_league_name).strip().replace(" ", "").lower()
+            if clean_current_league:
+                for grade_key, countries in grades.items():
+                    if grade_key == "F":
+                        continue
+                    if isinstance(countries, list):
+                        for c in countries:
+                            kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
+                            if kor_league:
+                                base_kor = kor_league.replace("1", "").replace("2", "").replace("a", "").replace("b", "")
+                                base_cur = clean_current_league.replace("1", "").replace("2", "").replace("a", "").replace("b", "")
+                                
+                                if kor_league in clean_current_league or clean_current_league in kor_league or (base_kor and base_kor in base_cur):
+                                    return c.get("code", "-"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+
+            # 매칭 실패 시 F등급 폴백
             f_info = grades.get("F", {})
             fallback_code = extracted_code if extracted_code else "EXT"
             return fallback_code, rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
@@ -299,7 +318,8 @@ with tabs[0]:
                 team_name = str(r.get("team", "-"))
                 rank_code_str = str(r.get("rank", ""))  
                 
-                matched_code, clean_league, grade, atk_b, def_b = match_with_country_json_exact(rank_code_str, team_name)
+                # league_name 인자를 함께 전달하여 한글 리그명 키워드 매칭 수행
+                matched_code, clean_league, grade, atk_b, def_b = match_with_country_json_exact(rank_code_str, team_name, league_name)
                 
                 clean_row_team = team_name.strip().replace(" ", "")
                 if clean_home_target in clean_row_team or clean_row_team in clean_home_target:
