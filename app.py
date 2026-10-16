@@ -1101,13 +1101,13 @@ with tabs[3]:
         h_fa, h_fd = -5 * h_last_fatigue, 5 * h_last_fatigue
         a_fa, a_fd = -5 * a_last_fatigue, 5 * a_last_fatigue
 
-        st.markdown(f"""
+st.markdown(f"""
         <div class="calc-box">
             <b>규칙 3번 상세 산출 내역 및 보정 합산:</b><br>
             • <b>{home_team}:</b> {h_imp_label}(공격 {h_imp_atk:+g}%, 방어 {h_imp_def:+g}%), 피로누적 {h_last_fatigue}단계(공격 {h_fa}%, 방어 +{h_fd}%)<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격 {h_imp_atk + h_fa:+g}%, 방어 {h_imp_def + h_fd:+g}%<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격 {h_tot_calc_atk:+g}%, 방어 {h_tot_calc_def:+g}%<br><br>
             • <b>{away_team}:</b> {a_imp_label}(공격 {a_imp_atk:+g}%, 방어 {a_imp_def:+g}%), 피로누적 {a_last_fatigue}단계(공격 {a_fa}%, 방어 +{a_fd}%)<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격 {a_imp_atk + a_fa:+g}%, 방어 {a_imp_def + a_fd:+g}%
+            &nbsp;&nbsp;&nbsp;&nbsp;➔ <b>총 가중치:</b> 공격 {a_tot_calc_atk:+g}%, 방어 {a_tot_calc_def:+g}%
         </div>
         """, unsafe_allow_html=True)
     else:
