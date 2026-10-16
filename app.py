@@ -1101,6 +1101,11 @@ with tabs[3]:
         h_fa, h_fd = -5 * h_last_fatigue, 5 * h_last_fatigue
         a_fa, a_fd = -5 * a_last_fatigue, 5 * a_last_fatigue
 
+        h_tot_calc_atk = h_imp_atk + h_fa
+        h_tot_calc_def = h_imp_def + h_fd
+        a_tot_calc_atk = a_imp_atk + a_fa
+        a_tot_calc_def = a_imp_def + a_fd
+
         st.markdown(f"""
         <div class="calc-box">
             <b>규칙 3번 상세 산출 내역 및 보정 합산:</b><br>
