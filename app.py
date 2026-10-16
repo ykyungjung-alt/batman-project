@@ -2252,8 +2252,8 @@ with tabs[7]:
         df_multi_res = pd.DataFrame(multi_summary_data)
         st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
 
-# ==================================================================
-        # 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기 (안전장치 빨간색 강조 탑재)
+        # ==================================================================
+        # 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기 (공격/방어 통합 표기)
         # ==================================================================
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기")
@@ -2264,7 +2264,6 @@ with tabs[7]:
                 f_v = float(v)
             except:
                 f_v = 0.0
-            # 💡 안전장치로 인해 0.0%인 항목은 빨간색 강조 표시
             if f_v == 0.0:
                 return ":red[+0.0%]"
             else:
@@ -2299,7 +2298,6 @@ with tabs[7]:
                     st.markdown("###### 🎛️ [항목별 세부 가중치 산출 내역 (공격 / 방어)]")
                     w_col1, w_col2 = st.columns(2)
                     
-                    # 💡 홈팀 공격/방어 가중치 출력
                     with w_col1:
                         st.markdown("**🏠 홈팀 단계별 보정 백분율**")
                         st.markdown(f"- **0단계 (Country):** {format_weight_val(debug_res.get('h_step0_atk', 0.0))} / {format_weight_val(debug_res.get('h_step0_def', 0.0))}")
@@ -2309,7 +2307,6 @@ with tabs[7]:
                         st.markdown(f"- **규칙 4 (H2H 상성):** {format_weight_val(debug_res.get('h_r4_atk', 0.0))} / {format_weight_val(debug_res.get('h_r4_def', 0.0))}")
                         st.markdown(f"- **총 누적 보정치:** {format_weight_val(debug_res.get('h_tot_atk_pct', 0.0))} / {format_weight_val(debug_res.get('h_tot_def_pct', 0.0))}")
                     
-                    # 💡 원정팀 공격/방어 가중치 출력
                     with w_col2:
                         st.markdown("**✈️ 원정팀 단계별 보정 백분율**")
                         st.markdown(f"- **0단계 (Country):** {format_weight_val(debug_res.get('a_step0_atk', 0.0))} / {format_weight_val(debug_res.get('a_step0_def', 0.0))}")
