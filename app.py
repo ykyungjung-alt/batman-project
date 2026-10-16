@@ -1959,11 +1959,11 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 완전 독립 자동 연산 대시보드)
+# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드)
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
-    st.markdown("담긴 경기들의 고유 **`match_code`**를 기준으로 각 대진별 정밀 수리 엔진이 **완전 독립적으로 자동 구동**되어 실시간 승무패 확률과 예측 스코어가 표에 산출됩니다.")
+    st.markdown("담긴 경기들의 고유 **`match_code`**를 기준으로 각 대진별 정밀 수리 엔진이 연산될 준비를 하는 멀티 비교 대시보드입니다.")
 
     if "multi_selected_matches" not in st.session_state:
         st.session_state["multi_selected_matches"] = []
@@ -2043,81 +2043,26 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. 각 대진별 match_code 기반 완전 독립 실시간 연산 및 통합 비교 표 출력 (공용 엔진 연동)
+        # 🚀 3. 안전장치 적용 및 engine.py 연동 준비 구간
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
         multi_summary_data = []
         for m_item in st.session_state["multi_selected_matches"]:
-            match_code = str(m_item.get('match_code', '')).strip()
             h_name = str(m_item.get('home', '홈')).strip()
             a_name = str(m_item.get('away', '원정')).strip()
             league_name = m_item.get('league', '-')
             
-            # v3 또는 상세 데이터에서 해당 경기의 정량 값 추출
-            target_detail = v3_details_dict.get(match_code, {})
-            if not target_detail:
-                # match_code로 못 찾으면 대화명으로 탐색
-                for dk, dv in v3_details_dict.items():
-                    if isinstance(dv, dict):
-                        if str(dv.get("home", "")).strip().replace(" ", "") == h_name.replace(" ", "") and \
-                           str(dv.get("away", "")).strip().replace(" ", "") == a_name.replace(" ", ""):
-                            target_detail = dv
-                            break
-
-            if not target_detail:
-                # 데이터가 없을 때 방어 행 추가
-                multi_summary_data.append({
-                    "대진 경기": f"{h_name} vs {a_name}",
-                    "리그": league_name,
-                    "상태": "⚠️ 상세 정량 데이터 없음",
-                    "승무패 수리 확률": "-",
-                    "🥇 1순위 (최적합)": "-",
-                    "🥈 2순위 (차선책)": "-",
-                    "🥉 3순위 (대안책)": "분석 대기 중"
-                })
-                continue
-
-            # 단일 화면과 동일하게 기본 기대치 및 보정치 추출 (없을 시 안전 기본값)
-            h_base_g = float(target_detail.get("h_gpg", 1.2))
-            h_base_c = float(target_detail.get("h_cpg", 1.1))
-            a_base_g = float(target_detail.get("a_gpg", 1.1))
-            a_base_c = float(target_detail.get("a_cpg", 1.2))
-            
-            h_tot_atk_pct = float(target_detail.get("h_tot_atk_pct", 0.0))
-            h_tot_def_pct = float(target_detail.get("h_tot_def_pct", 0.0))
-            a_tot_atk_pct = float(target_detail.get("a_tot_atk_pct", 0.0))
-            a_tot_def_pct = float(target_detail.get("a_tot_def_pct", 0.0))
-            
-            h_agf = float(target_detail.get("h_agf", 1.2))
-            a_agf = float(target_detail.get("a_agf", 1.1))
-            h_current_at = target_detail.get("h_current_at", "Tier C")
-            a_current_at = target_detail.get("a_current_at", "Tier C")
-
-            # 💡 상단에 만들어둔 공용 엔진 함수 호출! (0~6단계 정밀 규격 100% 동일 적용)
-            res = compute_match_prediction_engine(
-                h_name, a_name, h_base_g, h_base_c, a_base_g, a_base_c,
-                h_tot_atk_pct, h_tot_def_pct, a_tot_atk_pct, a_tot_def_pct,
-                h_agf, a_agf, h_current_at, a_current_at
-            )
-
-            if res.get("status"):
-                multi_summary_data.append({
-                    "대진 경기": f"{h_name} vs {a_name}",
-                    "리그": league_name,
-                    "상태": "✅ 분석 완료",
-                    "승무패 수리 확률": f"홈 {res['home_win_pct']:.1f}% / 무 {res['draw_pct']:.1f}% / 원정 {res['away_win_pct']:.1f}%",
-                    "🥇 1순위 (최적합)": f"{res['score_1st']} ({res['p1_rate']:.2f}%)",
-                    "🥈 2순위 (차선책)": f"{res['score_2nd']} ({res['p2_rate']:.2f}%)",
-                    "🥉 3순위 (대안책)": res['s3_desc']
-                })
-            else:
-                multi_summary_data.append({
-                    "대진 경기": f"{h_name} vs {a_name}",
-                    "리그": league_name,
-                    "상태": "❌ 연산 예외 발생",
-                    "승무패 수리 확률": "-", "🥇 1순위 (최적합)": "-", "🥈 2순위 (차선책)": "-", "🥉 3순위 (대안책)": "연산 오류"
-                })
+            # 🛡️ 안전장치: engine.py 모듈 연동 전까지 데이터 없음 안내 상태 출력
+            multi_summary_data.append({
+                "대진 경기": f"{h_name} vs {a_name}",
+                "리그": league_name,
+                "상태": "⚙️ engine.py 연동 대기 중",
+                "승무패 수리 확률": "데이터 연산 준비 중",
+                "🥇 1순위 (최적합)": "-",
+                "🥈 2순위 (차선책)": "-",
+                "🥉 3순위 (대안책)": "추후 연동 예정"
+            })
         
         df_multi_res = pd.DataFrame(multi_summary_data)
         st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
