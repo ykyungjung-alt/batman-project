@@ -44,7 +44,7 @@ def load_all_match_details():
 
 @st.cache_data(ttl=10)
 def load_v3_match_details():
-    v3_files = ["match_details_v3.json", "match_details_v3-1.json", "match_details_v3-2.json"]
+    v3_files = ["match_details_v3.json", "match_details_v3-1.json"]
     combined_v3 = {}
     for v3_file in v3_files:
         if os.path.exists(v3_file):
