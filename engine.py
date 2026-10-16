@@ -26,6 +26,42 @@ def load_country_data_for_engine():
             pass
     return {}
 
+def resolve_country_and_grade(rank_val, team_val, current_league_name="", country_data=None):
+    """[0단계] country.json 기반 등급 및 공수 보정치 정밀 대조 (정보 없을 시 F등급 / 0% 방어)"""
+    if not country_data:
+        country_data = load_country_data_for_engine()
+        
+    grades = country_data.get("grades", {})
+    rank_str = str(rank_val).strip()
+    team_str = str(team_val).strip().lower()
+    clean_league = str(current_league_name).strip().replace(" ", "").lower()
+
+    extracted_code = ""
+    if rank_str and rank_str != "-":
+        token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
+        if token:
+            extracted_code = token
+
+    for grade_key, countries in grades.items():
+        if grade_key == "F":
+            continue
+        if isinstance(countries, list):
+            for c in countries:
+                c_name = str(c.get("name", "")).strip().lower()
+                c_code = str(c.get("code", "")).strip().upper()
+                kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
+                leagues_list = [str(l).lower() for l in c.get("leagues", [])]
+
+                match_by_code = c_code and (c_code == extracted_code or c_code in rank_str.upper())
+                match_by_name = c_name and (c_name in team_str or c_name in clean_league)
+                match_by_kor_league = kor_league and (kor_league in clean_league or clean_league in kor_league)
+                match_by_eng_league = any(l.split()[0] in clean_league for l in leagues_list if l)
+
+                if match_by_code or match_by_name or match_by_kor_league or match_by_eng_league:
+                    return c.get("grade", "E"), parse_pct(c.get("attack_bonus", "+3%")), parse_pct(c.get("defense_bonus", "-3%"))
+
+    return "F", 0.0, 0.0
+
 
 # --------------------------------------------------------------------------
 # ⚽ [공통 티어 및 특수 룰 유틸리티] (규칙 1, 2, 5-2 공통 적용)
@@ -123,7 +159,7 @@ def compute_adjusted_stats_with_discount(matches, tname, base_gpg, base_cpg, is_
 
 
 # --------------------------------------------------------------------------
-# 🚀 [마스터 계산 엔진] 단계별 순수 정량 연산 함수
+# 🚀 [마스터 계산 엔진] 순수 백엔드 정량 연산 함수 (0~6단계 통합)
 # --------------------------------------------------------------------------
 def compute_match_prediction_master(target_detail, home_name, away_name, league_name=""):
     if not target_detail or not isinstance(target_detail, dict):
@@ -133,55 +169,26 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         meta_details = target_detail.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
         
-        # ==================================================================
-        # [0단계] country.json 기반 등급 및 공수 보정치 추출
-        # ==================================================================
+        # [0단계] country.json 등급 및 공수 보정치 추출 (안전장치 0%)
         h_step0_atk, h_step0_def = 0.0, 0.0
         a_step0_atk, a_step0_def = 0.0, 0.0
         
         clean_home_target = str(home_name).strip().replace(" ", "")
         clean_away_target = str(away_name).strip().replace(" ", "")
         
-        country_data = load_country_data_for_engine()
-        grades = country_data.get("grades", {})
-
         if rankings_raw:
             for r in rankings_raw:
                 r_team = str(r.get("team", "-"))
                 r_code = str(r.get("rank", ""))
+                grade, atk_val, def_val = resolve_country_and_grade(r_code, r_team, league_name)
                 
-                # 0단계 정밀 대조 로직 내장
-                matched_grade = "F"
-                atk_val, def_val = 0.0, 0.0
-                rank_str = str(r_code).strip()
-                extracted_code = re.split(r'[\s\-]+', rank_str)[0].strip().upper() if rank_str and rank_str != "-" else ""
-
-                for grade_key, countries in grades.items():
-                    if grade_key == "F": continue
-                    if isinstance(countries, list):
-                        for c in countries:
-                            c_name = str(c.get("name", "")).strip().lower()
-                            c_code = str(c.get("code", "")).strip().upper()
-                            kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
-                            leagues_list = [str(l).lower() for l in c.get("leagues", [])]
-
-                            if (c_code and (c_code == extracted_code or c_code in rank_str.upper())) or \
-                               (c_name and (c_name in r_team.lower() or c_name in league_name.lower())) or \
-                               (kor_league and kor_league in league_name.lower()):
-                                matched_grade = c.get("grade", "E")
-                                atk_val = parse_pct(c.get("attack_bonus", "+3%"))
-                                def_val = parse_pct(c.get("defense_bonus", "-3%"))
-                                break
-
                 clean_row_team = r_team.strip().replace(" ", "")
                 if clean_home_target in clean_row_team or clean_row_team in clean_home_target:
                     h_step0_atk, h_step0_def = atk_val, def_val
                 elif clean_away_target in clean_row_team or clean_row_team in clean_away_target:
                     a_step0_atk, a_step0_def = atk_val, def_val
 
-        # ==================================================================
         # [규칙 1번] LIFO 10경기 전수 조사 및 E티어 득실점 50% 할인 룰 적용
-        # ==================================================================
         recent_form = meta_details.get("recent_form", {})
         h_matches = recent_form.get("home_matches", [])
         a_matches = recent_form.get("away_matches", [])
@@ -205,9 +212,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_a_at, a_r1_atk = get_atk_tier(a_base_g)
         base_a_de, a_r1_def = get_def_tier(a_base_c)
 
-        # ==================================================================
         # [규칙 2번] 구장별 Shift 보정 및 중립 구장 분기 연산
-        # ==================================================================
         stadium_form = meta_details.get("stadium_form", {})
         head_meta = target_detail.get("head_info", {})
         venue_val = str(head_meta.get("stadium", "")) or str(head_meta.get("venue", ""))
@@ -264,13 +269,90 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
-        # ==================================================================
+        # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 연산 (안전장치 0%)
+        h_squad_changes = meta_details.get("home_squad_changes", [])
+        a_squad_changes = meta_details.get("away_squad_changes", [])
+
+        def calc_squad_weights(changes_list):
+            if not changes_list or not isinstance(changes_list, list):
+                return 0.0, 0.0
+            tot_atk, tot_def = 0.0, 0.0
+            for item in changes_list:
+                p_pos = item.get("position", "-")
+                p_type = item.get("type", "누수")
+                p_grade = item.get("grade", "중 (Medium)")
+                rate = 14.0 if "상" in p_grade else (7.0 if "중" in p_grade else 0.0)
+                if p_type == "누수":
+                    atk_v = -rate
+                    def_v = rate if "FW" in p_pos or "MF" in p_pos else rate / 2.0
+                else:
+                    atk_v = rate
+                    def_v = -rate if "DF" in p_pos or "GK" in p_pos else -rate / 2.0
+                tot_atk += atk_v
+                tot_def += def_v
+            return tot_atk, tot_def
+
+        h_r31_atk, h_r31_def = calc_squad_weights(h_squad_changes)
+        a_r31_atk, a_r31_def = calc_squad_weights(a_squad_changes)
+
+        h_imp_atk, h_imp_def = 5.0, -5.0
+        a_imp_atk, a_imp_def = 5.0, -5.0
+        h_fatigue_stage = 0
+        a_fatigue_stage = 0
+
+        h_r32_atk = (-5 * h_fatigue_stage)
+        h_r32_def = (5 * h_fatigue_stage)
+        a_r32_atk = (-5 * a_fatigue_stage)
+        a_r32_def = (5 * a_fatigue_stage)
+
+        h_r3_tot_atk = h_r31_atk + h_imp_atk + h_r32_atk
+        h_r3_tot_def = h_r31_def + h_imp_def + h_r32_def
+        a_r3_tot_atk = a_r31_atk + a_imp_atk + a_r32_atk
+        a_r3_tot_def = a_r31_def + a_imp_def + a_r32_def
+
+        # [규칙 4번] 역대 맞대결 H2H 상성 및 단방향 10% 룰 (안전장치 0%)
+        h2h_info = meta_details.get("h2h", {})
+        h2h_matches = h2h_info.get("matches", [])
+        home_wins = 0
+        away_wins = 0
+        total_games = len(h2h_matches) if isinstance(h2h_matches, list) else 0
+
+        if total_games > 0:
+            for m in h2h_matches:
+                row_cols = m.get("row_data", [])
+                if len(row_cols) >= 4:
+                    h_team_name = row_cols[1]
+                    score_str = row_cols[2]
+                    try:
+                        scores = score_str.replace("：", "-").split("-")
+                        h_score = int(scores[0].strip())
+                        a_score = int(scores[1].strip())
+                        if h_team_name == home_name:
+                            if h_score > a_score: home_wins += 1
+                            elif h_score < a_score: away_wins += 1
+                        else:
+                            if h_score > a_score: away_wins += 1
+                            elif h_score < a_score: home_wins += 1
+                    except:
+                        pass
+
+        home_win_rate = (home_wins / total_games * 100) if total_games > 0 else 0.0
+        away_win_rate = (away_wins / total_games * 100) if total_games > 0 else 0.0
+
+        h_r4_atk, h_r4_def = 0.0, 0.0
+        a_r4_atk, a_r4_def = 0.0, 0.0
+
+        if total_games >= 5:
+            if home_win_rate >= 50.0:
+                h_r4_atk, h_r4_def = 10.0, -10.0
+            elif away_win_rate >= 50.0:
+                a_r4_atk, a_r4_def = 10.0, -10.0
+
         # [규칙 5단계] 최종 누적 보정 합산 및 화력 한계선 / 기하평균 교차 연산
-        # ==================================================================
-        h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + float(target_detail.get("h_tot_atk_pct", 0.0))
-        h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + float(target_detail.get("h_tot_def_pct", 0.0))
-        a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + float(target_detail.get("a_tot_atk_pct", 0.0))
-        a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + float(target_detail.get("a_tot_def_pct", 0.0))
+        h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r3_tot_atk + h_r4_atk + float(target_detail.get("h_tot_atk_pct", 0.0))
+        h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r3_tot_def + h_r4_def + float(target_detail.get("h_tot_def_pct", 0.0))
+        a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk + float(target_detail.get("a_tot_atk_pct", 0.0))
+        a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def + float(target_detail.get("a_tot_def_pct", 0.0))
 
         h_agf = float(target_detail.get("h_agf", h_base_g))
         a_agf = float(target_detail.get("a_agf", a_base_g))
@@ -304,9 +386,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_final = a_final_exp_g * (1 + a_over_factor)
         total_expected_goals = h_final + a_final
 
-        # ==================================================================
         # [규칙 6단계] 푸아송 분포 및 승무패 확률 / 스코어 순위 산출
-        # ==================================================================
         if total_expected_goals < 2.2: matrix_max_k = 3
         elif total_expected_goals <= 3.2 and tier_diff < 2: matrix_max_k = 4
         else: matrix_max_k = 6
