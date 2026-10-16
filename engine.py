@@ -245,7 +245,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
-        # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 화면 연동 일치화
+# [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 화면 연동 일치화
         h_squad_changes = meta_details.get("home_squad_changes", [])
         a_squad_changes = meta_details.get("away_squad_changes", [])
 
@@ -350,14 +350,14 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_agf = float(target_detail.get("h_agf", h_base_g))
         a_agf = float(target_detail.get("a_agf", a_base_g))
 
-        # [규칙 5단계] 최종 누적 보정 합산 및 화력 한계선 / 기하평균 교차 연산
+# [규칙 5번] 최종 보정 및 1차 기본 기대 득실점 산출 (단일 화면과 완벽 동기화)
+        h_agf = float(target_detail.get("h_agf", h_base_g))
+        a_agf = float(target_detail.get("a_agf", a_base_g))
+
         h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r3_tot_atk + h_r4_atk + float(target_detail.get("h_tot_atk_pct", 0.0))
         h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r3_tot_def + h_r4_def + float(target_detail.get("h_tot_def_pct", 0.0))
         a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk + float(target_detail.get("a_tot_atk_pct", 0.0))
         a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def + float(target_detail.get("a_tot_def_pct", 0.0))
-
-        h_agf = float(target_detail.get("h_agf", h_base_g))
-        a_agf = float(target_detail.get("a_agf", a_base_g))
 
         h_max_g = h_base_g * (1 + h_tot_atk_pct / 100.0)
         h_min_c = h_base_c * (1 + h_tot_def_pct / 100.0)
@@ -373,13 +373,16 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_tier_val = tier_ranks.get(base_a_at, 3)
         tier_diff = abs(h_tier_val - a_tier_val)
 
+        # 5-3 오버 팩터(Over Factor) 변동성 보정 반영
         h_over_factor = 0.0
         a_over_factor = 0.0
 
         if tier_diff >= 2:
             add_rate = 0.10 + (tier_diff - 2) * 0.10
-            if h_tier_val > a_tier_val: h_over_factor = add_rate
-            else: a_over_factor = add_rate
+            if h_tier_val > a_tier_val: 
+                h_over_factor = add_rate
+            else: 
+                a_over_factor = add_rate
         elif (h_final_exp_g + a_final_exp_g > 3.2) or (h_final_exp_c >= 1.50 or a_final_exp_c >= 1.50):
             h_over_factor = 0.15
             a_over_factor = 0.15
@@ -388,23 +391,34 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_final = a_final_exp_g * (1 + a_over_factor)
         total_expected_goals = h_final + a_final
 
-        # [규칙 6단계] 푸아송 분포 및 승무패 확률 / 스코어 순위 산출
-        if total_expected_goals < 2.2: matrix_max_k = 3
-        elif total_expected_goals <= 3.2 and tier_diff < 2: matrix_max_k = 4
-        else: matrix_max_k = 6
+        # [규칙 6단계] 푸아송 분포 및 승무패 확률 / 스코어 순위 산출 (단일 화면 렌더링 수식과 100% 일치)
+        if total_expected_goals < 2.2: 
+            matrix_max_k = 3
+        elif total_expected_goals <= 3.2 and tier_diff < 2: 
+            matrix_max_k = 4
+        else: 
+            matrix_max_k = 6
+
+        def poisson_prob(lmbda, k):
+            if lmbda <= 0 and k == 0:
+                return 1.0
+            try:
+                return (math.exp(-lmbda) * (lmbda ** k)) / math.factorial(k)
+            except:
+                return 0.0
 
         win_loss_probs = []
         for h_g in range(matrix_max_k + 1):
             for a_g in range(matrix_max_k + 1):
-                p_h = (math.exp(-h_final_exp_g) * (h_final_exp_g ** h_g)) / math.factorial(h_g)
-                p_a = (math.exp(-a_final_exp_g) * (a_final_exp_g ** a_g)) / math.factorial(a_g)
+                p_h = poisson_prob(h_final_exp_g, h_g)
+                p_a = poisson_prob(a_final_exp_g, a_g)
                 win_loss_probs.append({"home_score": h_g, "away_score": a_g, "prob": p_h * p_a})
 
         score_probs = []
         for h_g in range(matrix_max_k + 1):
             for a_g in range(matrix_max_k + 1):
-                p_h = (math.exp(-h_final) * (h_final ** h_g)) / math.factorial(h_g)
-                p_a = (math.exp(-a_final) * (a_final ** a_g)) / math.factorial(a_g)
+                p_h = poisson_prob(h_final, h_g)
+                p_a = poisson_prob(a_final, a_g)
                 score_probs.append({"home_score": h_g, "away_score": a_g, "prob": p_h * p_a})
 
         calc_home_win = sum(item["prob"] for item in win_loss_probs if item["home_score"] > item["away_score"]) * 100
@@ -418,23 +432,33 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             fitness_score = v52_distance - (prob * 3.0)
             scored_candidates.append({"home_score": hg, "away_score": ag, "prob": prob, "fitness": fitness_score})
 
-        best_match_52 = sorted(scored_candidates, key=lambda x: x["fitness"])[0]
+        sorted_by_fitness = sorted(scored_candidates, key=lambda x: x["fitness"])
+        best_match_52 = sorted_by_fitness[0]
 
         sorted_by_prob = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
-        second_match = next((s for s in sorted_by_prob if not (s["home_score"] == best_match_52["home_score"] and s["away_score"] == best_match_52["away_score"])), sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52)
+        second_match = None
+        for s in sorted_by_prob:
+            if not (s["home_score"] == best_match_52["home_score"] and s["away_score"] == best_match_52["away_score"]):
+                second_match = s
+                break
+        if not second_match:
+            second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
         diff_probs = {}
         for item in score_probs:
             diff = item["home_score"] - item["away_score"]
             diff_probs[diff] = diff_probs.get(diff, 0.0) + item["prob"]
         sorted_diffs = sorted(diff_probs.items(), key=lambda x: x[1], reverse=True)
-        d_val, d_prob_val = (sorted_diffs[0] if sorted_diffs else (0, 0.1))
-        d_prob_pct = d_prob_val * 100
+        top_diff_item = sorted_diffs[0] if sorted_diffs else (0, 0.1)
+        d_val, d_prob_val = top_diff_item[0], top_diff_item[1] * 100
 
-        if d_val > 0: s3_name = f"{home_name} {d_val}점차 승리"
-        elif d_val < 0: s3_name = f"{away_name} {abs(d_val)}점차 승리"
-        else: s3_name = "무승부 공방"
-        s3_desc = f"{s3_name} ({d_prob_pct:.1f}%)"
+        if d_val > 0: 
+            s3_name = f"{home_name} {d_val}점차 승리"
+        elif d_val < 0: 
+            s3_name = f"{away_name} {abs(d_val)}점차 승리"
+        else: 
+            s3_name = "무승부 공방"
+        s3_desc = f"{s3_name} ({d_prob_val:.1f}%)"
 
         return {
             "status": True,
