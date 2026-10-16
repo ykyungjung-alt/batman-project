@@ -2204,7 +2204,7 @@ with tabs[7]:
                     if key_name in src:
                         merged_target_detail[key_name] = src[key_name]
 
-            # 💡 [필수 방어 코드] 반복문 내부에 stadium_form 변수 명시적 정의로 에러 원천 차단
+            # 💡 [필수 방어 코드] 7번 탭 반복문 안에서 stadium_form 변수가 없어서 나던 에러 완벽 차단
             stadium_form = merged_target_detail.get("meta_details", {}).get("stadium_form", {"home_matches": [], "away_matches": []})
 
             match_key = f"{h_name} vs {a_name}"
