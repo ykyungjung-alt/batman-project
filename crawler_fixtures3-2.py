@@ -138,6 +138,7 @@ def run_table_based_crawler_v3_2():
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
+                # 💡 구장 키값을 제외한 원래 규격 유지
                 head_info = {
                     "league": target["league"],
                     "round": ""
@@ -151,7 +152,7 @@ def run_table_based_crawler_v3_2():
                 except Exception:
                     pass
 
-                # 1. 실제 경기장(stadium) 수집
+                # 1. 실제 경기장(stadium) 수집 (중립 판별용 내부 변수)
                 actual_stadium_name = ""
                 try:
                     other_info_div = detail_soup.find("div", {"id": "otherInfo"})
@@ -170,7 +171,7 @@ def run_table_based_crawler_v3_2():
                 except Exception:
                     pass
 
-                # 2. 홈팀 서브페이지에서 고유 홈구장(home_stadium) 수집
+                # 2. 홈팀 서브페이지에서 고유 홈구장(home_stadium) 수집 (중립 판별용 내부 변수)
                 h_stadium_name = "-"
                 try:
                     home_div = detail_soup.find("div", {"class": "home"})
@@ -198,13 +199,9 @@ def run_table_based_crawler_v3_2():
                     driver.get(detail_url)
                     time.sleep(1.5)
 
-                # head_info에 구장 정보 최종 할당
-                head_info["stadium"] = actual_stadium_name
-                head_info["home_stadium"] = h_stadium_name
-
-                # 💡 [핵심 판별 로직]: 실제 구장 이름과 홈구장 이름이 다를 경우(중립 구장 등) 판별
-                actual_stadium = head_info["stadium"].strip().lower()
-                home_stadium_val = head_info["home_stadium"].strip().lower()
+                # 💡 [핵심 판별 로직]: 실제 구장 이름과 홈구장 이름 비교 (JSON 저장소에는 미포함)
+                actual_stadium = actual_stadium_name.strip().lower()
+                home_stadium_val = h_stadium_name.strip().lower()
                 
                 is_neutral_or_special = False
                 if actual_stadium and home_stadium_val and home_stadium_val != "-":
@@ -214,7 +211,7 @@ def run_table_based_crawler_v3_2():
                 target_count = 10  # 기본값 10개
 
                 if is_neutral_or_special:
-                    print(f"  🔍 [{counter}/{len(target_matches)}] [중립/특수 구장 감지] ({head_info['home_stadium']} vs {head_info['stadium']}) -> 최근 20개 전적 수집을 시도합니다.")
+                    print(f"  🔍 [{counter}/{len(target_matches)}] [중립/특수 구장 감지] ({h_stadium_name} vs {actual_stadium_name}) -> 최근 20개 전적 수집을 시도합니다.")
                     target_count = 20
                     try:
                         dropdown_btn = driver.find_element("id", "selRecentMatch")
