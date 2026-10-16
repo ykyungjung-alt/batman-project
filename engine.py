@@ -245,7 +245,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
-        # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 완벽 연동
+        # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 화면 연동 일치화
         h_squad_changes = meta_details.get("home_squad_changes", [])
         a_squad_changes = meta_details.get("away_squad_changes", [])
 
@@ -271,13 +271,29 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_r31_atk, h_r31_def = calc_squad_weights(h_squad_changes)
         a_r31_atk, a_r31_def = calc_squad_weights(a_squad_changes)
 
-        # 3-2 일정 중요도 가중치 (타임라인 매트릭스 연동 값 우선 수신, 없으면 0.0 방어)
-        h_imp_atk = float(target_detail.get("h_imp_atk", 0.0))
-        h_imp_def = float(target_detail.get("h_imp_def", 0.0))
-        a_imp_atk = float(target_detail.get("a_imp_atk", 0.0))
-        a_imp_def = float(target_detail.get("a_imp_def", 0.0))
+        # 💡 [핵심 연동] 화면(tabs[3])과 동일하게 룰 기반 중요도 가중치 추출 (target_detail에 사전 계산값이 없으면 직접 판정)
+        h_imp_atk = float(target_detail.get("h_imp_atk", 5.0))
+        h_imp_def = float(target_detail.get("h_imp_def", -5.0))
+        a_imp_atk = float(target_detail.get("a_imp_atk", 5.0))
+        a_imp_def = float(target_detail.get("a_imp_def", -5.0))
 
-        # 3-2 이동 피로도 단계 가중치 연동 (단계당 공격 -5%, 방어 +5%)
+        # 만약 target_detail에 뷰어용 중요도 값이 명시되어 있지 않다면 메타의 순위표 태그 기반으로 보정치 재산정
+        home_tag = str(target_detail.get("home_tag_label", ""))
+        away_tag = str(target_detail.get("away_tag_label", ""))
+
+        def get_importance_weights(tag_str):
+            if any(k in tag_str for k in ["탈락", "탈락확정", "강등확정"]):
+                return -10.0, 10.0
+            elif any(k in tag_str for k in ["진출권", "플레이오프", "승격", "우승", "qualifying", "play-offs", "Playoff"]):
+                return 15.0, -15.0
+            return 5.0, -5.0
+
+        if home_tag:
+            _, h_imp_atk, h_imp_def = ("커스텀",) + get_importance_weights(home_tag)
+        if away_tag:
+            _, a_imp_atk, a_imp_def = ("커스텀",) + get_importance_weights(away_tag)
+
+        # 이동 피로도 단계 가중치 연동 (단계당 공격 -5%, 방어 +5%)
         h_fatigue_stage = int(target_detail.get("h_fatigue_stage", 0))
         a_fatigue_stage = int(target_detail.get("a_fatigue_stage", 0))
 
