@@ -66,11 +66,106 @@ def resolve_country_and_grade(rank_val, team_val, current_league_name="", countr
     # 안전장치: 매칭 실패 또는 F등급일 경우 가중치 무조건 0% 고정
     return "F", 0.0, 0.0
 
+# --------------------------------------------------------------------------
+# 💡 [규칙 1번 전용 보조 함수] 티어 산정 및 E티어 득실점 50% 할인 특수 룰 연동
+# --------------------------------------------------------------------------
+def get_atk_tier(g):
+    if g >= 2.3: return "Tier A", 12.0
+    elif g >= 1.7: return "Tier B", 9.0
+    elif g >= 1.1: return "Tier C", 6.0
+    elif g >= 0.5: return "Tier D", 3.0
+    else: return "Tier E", 0.0
+
+def get_def_tier(c):
+    if c < 0.5: return "Tier A", -12.0
+    elif c < 0.9: return "Tier B", -9.0
+    elif c < 1.3: return "Tier C", -6.0
+    elif c < 1.7: return "Tier D", -3.0
+    else: return "Tier E", 0.0
+
+def check_rule1_trigger(matches, tname, base_gpg, base_cpg):
+    """규칙 1번 특수 룰(E티어 득실점 50% 할인) 발동 여부 선행 판정"""
+    at_nm, _ = get_atk_tier(base_gpg)
+    df_nm, _ = get_def_tier(base_cpg)
+    if not matches:
+        return at_nm == "Tier A" or df_nm == "Tier E"
+    
+    raw_s, raw_c = 0.0, 0.0
+    for m in matches:
+        scores = m.get("ft_scores", ["0", "0"])
+        try:
+            s1, s2 = int(scores[0]), int(scores[1])
+        except:
+            s1 = s2 = 0
+        teams = m.get("teams", "")
+        sc, cc = s1, s2
+        if " vs " in teams:
+            t1, t2 = teams.split(" vs ")
+            if tname in t1: sc, cc = s1, s2
+            elif tname in t2: sc, cc = s2, s1
+        raw_s += sc
+        raw_c += cc
+        
+    cnt = len(matches)
+    tmp_gpg = raw_s / cnt if cnt > 0 else base_gpg
+    tmp_cpg = raw_c / cnt if cnt > 0 else base_cpg
+    
+    at_nm_tmp, _ = get_atk_tier(tmp_gpg)
+    df_nm_tmp, _ = get_def_tier(tmp_cpg)
+    return (at_nm_tmp == "Tier A") or (df_nm_tmp == "Tier E")
+
+def process_rule1_lifo_stats(matches, tname, base_gpg, base_cpg, is_triggered=False):
+    """LIFO 10경기 전수 조사 및 E티어 상대 득실점 50% 할인(0.5배) 반영 보정 평균 산출"""
+    if not matches:
+        return base_gpg, base_cpg
+        
+    eff_scored = 0.0
+    eff_conceded = 0.0
+    
+    for m in matches:
+        teams = m.get("teams", "-")
+        scores = m.get("ft_scores", ["0", "0"])
+        try:
+            s1, s2 = int(scores[0]), int(scores[1])
+        except:
+            s1 = s2 = 0
+            
+        sc, cc = 0, 0
+        pair = teams.split(" vs ")
+        if len(pair) == 2:
+            t1, t2 = pair[0].strip(), pair[1].strip()
+            if tname in t1: sc, cc = s1, s2
+            elif tname in t2: sc, cc = s2, s1
+            else: sc, cc = s1, s2
+        else:
+            sc, cc = s1, s2
+            
+        mult = 1.0
+        tier_info = m.get("opponent_tier_info", "")
+        if tier_info and "/" in tier_info:
+            try:
+                oa, od = map(float, tier_info.split("/"))
+                at_name, _ = get_atk_tier(oa)
+                df_name, _ = get_def_tier(od)
+                if is_triggered and (at_name == "Tier E" or df_name == "Tier E"):
+                    mult = 0.5
+            except:
+                pass
+                
+        eff_scored += (sc * mult)
+        eff_conceded += (cc * mult)
+        
+    cnt = len(matches)
+    gpg = round(eff_scored / cnt, 2) if cnt > 0 else base_gpg
+    cpg = round(eff_conceded / cnt, 2) if cnt > 0 else base_cpg
+    return gpg, cpg
+
+
 def compute_match_prediction_master(target_detail, home_name, away_name, league_name=""):
     """
     [배트맨 프로젝트 순수 마스터 계산 엔진]
-    - 0단계(country.json 등급 가중치)부터 1~4단계 보정, 5~6단계 푸아송 예측까지 완벽 통합 수행
-    - 화면 렌더링 없이 오직 정량 연산 결과 딕셔너리를 반환
+    - 0단계(country.json 등급 가중치) + 규칙 1(LIFO 10경기 및 E티어 50% 할인) 연동
+    - 1~4단계 보정 및 5~6단계 푸아송 예측까지 완벽 통합 수행
     """
     if not target_detail or not isinstance(target_detail, dict):
         return {"status": False, "msg": "상세 정량 데이터 없음"}
@@ -98,28 +193,43 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 elif clean_away_target in clean_row_team or clean_row_team in clean_away_target:
                     a_step0_atk, a_step0_def = atk_val, def_val
 
-        # 1. 1단계 기본 기대치 (LIFO 득실)
-        h_sum = meta_details.get("recent_form", {}).get("home_summary", {})
-        a_sum = meta_details.get("recent_form", {}).get("away_summary", {})
-        
-        h_base_g = float(target_detail.get("h_gpg", h_sum.get("goals_per_game", 1.2)))
-        h_base_c = float(target_detail.get("h_cpg", h_sum.get("conceded_per_game", 1.1)))
-        a_base_g = float(target_detail.get("a_gpg", a_sum.get("goals_per_game", 1.1)))
-        a_base_c = float(target_detail.get("a_cpg", a_sum.get("conceded_per_game", 1.2)))
+        # 1. 규칙 1번 (LIFO 10경기 전수 조사 및 E티어 득실점 50% 할인 룰 적용)
+        recent_form = meta_details.get("recent_form", {})
+        h_matches = recent_form.get("home_matches", [])
+        a_matches = recent_form.get("away_matches", [])
 
-        # 2. 누적 보정치 추출 (v3/상세 데이터 내부에 산출된 값 또는 기본값에 0단계 가중치 합산 반영)
-        h_tot_atk_pct = h_step0_atk + float(target_detail.get("h_tot_atk_pct", 0.0))
-        h_tot_def_pct = h_step0_def + float(target_detail.get("h_tot_def_pct", 0.0))
-        a_tot_atk_pct = a_step0_atk + float(target_detail.get("a_tot_atk_pct", 0.0))
-        a_tot_def_pct = a_step0_def + float(target_detail.get("a_tot_def_pct", 0.0))
+        h_sum = recent_form.get("home_summary", {})
+        a_sum = recent_form.get("away_summary", {})
+        
+        h_gpg_base = float(target_detail.get("h_gpg", h_sum.get("goals_per_game", 1.2)))
+        h_cpg_base = float(target_detail.get("h_cpg", h_sum.get("conceded_per_game", 1.1)))
+        a_gpg_base = float(target_detail.get("a_gpg", a_sum.get("goals_per_game", 1.1)))
+        a_cpg_base = float(target_detail.get("a_cpg", a_sum.get("conceded_per_game", 1.2)))
+
+        h_is_triggered = check_rule1_trigger(h_matches, home_name, h_gpg_base, h_cpg_base)
+        a_is_triggered = check_rule1_trigger(a_matches, away_name, a_gpg_base, a_cpg_base)
+
+        h_base_g, h_base_c = process_rule1_lifo_stats(h_matches, home_name, h_gpg_base, h_cpg_base, h_is_triggered)
+        a_base_g, a_base_c = process_rule1_lifo_stats(a_matches, away_name, a_gpg_base, a_cpg_base, a_is_triggered)
+
+        _, h_r1_atk = get_atk_tier(h_base_g)
+        _, h_r1_def = get_def_tier(h_base_c)
+        _, a_r1_atk = get_atk_tier(a_base_g)
+        _, a_r1_def = get_def_tier(a_base_c)
+
+        # 2. 누적 보정치 합산 (0단계 + 규칙 1번 가중치 + v3 내부에 산출된 후속 보정치 통합)
+        h_tot_atk_pct = h_step0_atk + h_r1_atk + float(target_detail.get("h_tot_atk_pct", 0.0))
+        h_tot_def_pct = h_step0_def + h_r1_def + float(target_detail.get("h_tot_def_pct", 0.0))
+        a_tot_atk_pct = a_step0_atk + a_r1_atk + float(target_detail.get("a_tot_atk_pct", 0.0))
+        a_tot_def_pct = a_step0_def + a_r1_def + float(target_detail.get("a_tot_def_pct", 0.0))
 
         # 실전 평균 득실 (5-2 검증용)
         h_agf = float(target_detail.get("h_agf", h_base_g))
         a_agf = float(target_detail.get("a_agf", a_base_g))
 
         # 티어 정보
-        h_current_at = target_detail.get("h_current_at", "Tier C")
-        a_current_at = target_detail.get("a_current_at", "Tier C")
+        h_current_at, _ = get_atk_tier(h_base_g)
+        a_current_at, _ = get_atk_tier(a_base_g)
 
         # 3. 5단계: 화력 한계선 및 기하평균 교차 상쇄 연산
         h_max_g = h_base_g * (1 + h_tot_atk_pct / 100.0)
