@@ -2030,7 +2030,7 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 최종 안정화 및 v3-2 완벽 연동 버전
+# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 3-2 폴백 방어 및 안정화 버전
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
@@ -2122,9 +2122,9 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. 대진별 독립 수리 엔진 연산 및 통합 비교 표 (v3-2 및 중립 구장 판정 연동)
+        # 🚀 3. 대진별 독립 수리 엔진 연산 및 통합 비교 표 (v3-2 안전 폴백 적용)
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표 (v3-2 중립 연동)")
+        st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표 (v3-2 안전 폴백 연동)")
 
         multi_summary_data = []
         engine_results_store = {} 
@@ -2149,9 +2149,14 @@ with tabs[7]:
             }
 
             source_candidates = []
-            # 💡 [핵심 연동] v3_2_details_dict (중립 경기용) 우선 포함
-            if m_code and 'v3_2_details_dict' in locals() and m_code in v3_2_details_dict:
-                source_candidates.append(v3_2_details_dict[m_code])
+            
+            # 💡 [안전 폴백 로직] 3-2 데이터를 우선 조회하되, stadium_form이 비어있으면 3번/일반 딕셔너리로 우회
+            v3_2_data = v3_2_details_dict.get(m_code, {}) if 'v3_2_details_dict' in locals() else {}
+            v3_2_sf = v3_2_data.get("meta_details", {}).get("stadium_form", {}).get("home_matches", [])
+            
+            if m_code and v3_2_data and len(v3_2_sf) > 0:
+                source_candidates.append(v3_2_data)
+            
             if m_code and m_code in v3_details_dict:
                 source_candidates.append(v3_details_dict[m_code])
             if m_code and m_code in all_details_dict:
@@ -2160,8 +2165,7 @@ with tabs[7]:
             clean_h = h_name.replace(" ", "").lower()
             clean_a = a_name.replace(" ", "").lower()
             
-            dicts_to_search = [v3_2_details_dict] if 'v3_2_details_dict' in locals() else []
-            dicts_to_search.extend([v3_details_dict, all_details_dict])
+            dicts_to_search = [v3_details_dict, all_details_dict]
             
             for dict_obj in dicts_to_search:
                 for k, v in dict_obj.items():
@@ -2188,9 +2192,8 @@ with tabs[7]:
                         if src_rf.get("away_summary"): merged_target_detail["meta_details"]["recent_form"]["away_summary"] = src_rf["away_summary"]
 
                     src_sf = src_meta.get("stadium_form", {})
-                    if src_sf:
-                        if src_sf.get("home_matches"): merged_target_detail["meta_details"]["stadium_form"]["home_matches"] = src_sf["home_matches"]
-                        if src_sf.get("away_matches"): merged_target_detail["meta_details"]["stadium_form"]["away_matches"] = src_sf["away_matches"]
+                    if src_sf and src_sf.get("home_matches"):  # 데이터가 비어있지 않은 경우에만 병합
+                        merged_target_detail["meta_details"]["stadium_form"] = src_sf
 
                     src_h2h = src_meta.get("h2h", {})
                     if src_h2h:
@@ -2211,7 +2214,7 @@ with tabs[7]:
                     if key_name in src:
                         merged_target_detail[key_name] = src[key_name]
 
-            # 💡 [필수 방어 코드] 7번 탭 독립 루프 내에서 stadium_form 및 중립 구장 판정 근거 명시적 정의
+            # 💡 [필수 방어 코드] stadium_form 및 중립 구장 판정 근거 명시적 정의
             head_meta = merged_target_detail.get("head_info", {})
             venue_val = str(head_meta.get("stadium", "")) or str(head_meta.get("venue", ""))
             home_stadium_val = str(head_meta.get("home_stadium", ""))
@@ -2271,7 +2274,7 @@ with tabs[7]:
         st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
 
         # ==================================================================
-        # 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기 (공격/방어 통합 표기)
+        # 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기
         # ==================================================================
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기")
