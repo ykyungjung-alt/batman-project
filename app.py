@@ -2160,110 +2160,81 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. 각 대진별 match_code 기반 완전 독립 실시간 연산 및 통합 비교 표 출력
+        # 🚀 3. 각 대진별 match_code 기반 완전 독립 실시간 연산 및 통합 비교 표 출력 (공용 엔진 연동)
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
-        def compute_match_engine_by_code(m_item):
-            m_code = str(m_item.get('match_code', '')).strip()
-            h_name = str(m_item.get('home', '')).strip()
-            a_name = str(m_item.get('away', '')).strip()
-            
-            # 상세 데이터에서 match_code 또는 팀 이름으로 람다 추출
-            detail = all_details_dict.get(m_code, {})
-            if not detail:
-                for dk, dv in all_details_dict.items():
-                    if str(dv.get("match_code", "")).strip() == m_code:
-                        detail = dv
-                        break
-            if not detail:
-                for dk, dv in all_details_dict.items():
-                    if str(dv.get("home", "")).strip().replace(" ", "") == h_name.replace(" ", "") and \
-                       str(dv.get("away", "")).strip().replace(" ", "") == a_name.replace(" ", ""):
-                        detail = dv
-                        break
-
-            h_lambda = 1.35
-            a_lambda = 1.15
-            
-            if detail and isinstance(detail, dict):
-                try:
-                    meta = detail.get("meta_details", {})
-                    recent = meta.get("recent_form", {})
-                    h_sum = recent.get("home_summary", {})
-                    a_sum = recent.get("away_summary", {})
-                    if h_sum.get("goals_per_game"):
-                        h_lambda = float(h_sum.get("goals_per_game"))
-                    if a_sum.get("goals_per_game"):
-                        a_lambda = float(a_sum.get("goals_per_game"))
-                except:
-                    pass
-            else:
-                h_lambda = 1.25 + (abs(hash(h_name)) % 4) * 0.1
-                a_lambda = 1.10 + (abs(hash(a_name)) % 4) * 0.1
-
-            # 푸아송 확률 계산
-            def poisson_prob(lmbd, k):
-                return (math.exp(-lmbd) * (lmbd ** k)) / math.factorial(k)
-
-            home_win_prob = 0.0
-            draw_prob = 0.0
-            away_win_prob = 0.0
-            score_probs = {}
-
-            for h_g in range(5):
-                for a_g in range(5):
-                    p = poisson_prob(h_lambda, h_g) * poisson_prob(a_lambda, a_g)
-                    score_probs[(h_g, a_g)] = p
-                    if h_g > a_g:
-                        home_win_prob += p
-                    elif h_g == a_g:
-                        draw_prob += p
-                    else:
-                        away_win_prob += p
-
-            total_p = home_win_prob + draw_prob + away_win_prob
-            if total_p > 0:
-                hw_pct = (home_win_prob / total_p) * 100
-                dw_pct = (draw_prob / total_p) * 100
-                aw_pct = (away_win_prob / total_p) * 100
-            else:
-                hw_pct, dw_pct, aw_pct = 40.0, 30.0, 30.0
-
-            sorted_scores = sorted(score_probs.items(), key=lambda x: x[1], reverse=True)
-            s1_item = sorted_scores[0] if len(sorted_scores) > 0 else ((1, 1), 0.1)
-            s2_item = sorted_scores[1] if len(sorted_scores) > 1 else ((1, 0), 0.08)
-
-            s1_str = f"{s1_item[0][0]} : {s1_item[0][1]}"
-            s1_rate = s1_item[1] * 100
-            s2_str = f"{s2_item[0][0]} : {s2_item[0][1]}"
-            s2_rate = s2_item[1] * 100
-
-            if hw_pct > aw_pct + 5:
-                s3_str = "홈 우세 공방 구도"
-            elif aw_pct > hw_pct + 5:
-                s3_str = "원정 우세 공방 구도"
-            else:
-                s3_str = "백중세 팽팽한 공방 구도"
-
-            return hw_pct, dw_pct, aw_pct, s1_str, s1_rate, s2_str, s2_rate, s3_str
-
         multi_summary_data = []
         for m_item in st.session_state["multi_selected_matches"]:
-            h_name = m_item.get('home', '홈')
-            a_name = m_item.get('away', '원정')
+            match_code = str(m_item.get('match_code', '')).strip()
+            h_name = str(m_item.get('home', '홈')).strip()
+            a_name = str(m_item.get('away', '원정')).strip()
             league_name = m_item.get('league', '-')
             
-            hw, dw, aw, s1_s, s1_r, s2_s, s2_r, s3_s = compute_match_engine_by_code(m_item)
+            # v3 또는 상세 데이터에서 해당 경기의 정량 값 추출
+            target_detail = v3_details_dict.get(match_code, {})
+            if not target_detail:
+                # match_code로 못 찾으면 대화명으로 탐색
+                for dk, dv in v3_details_dict.items():
+                    if isinstance(dv, dict):
+                        if str(dv.get("home", "")).strip().replace(" ", "") == h_name.replace(" ", "") and \
+                           str(dv.get("away", "")).strip().replace(" ", "") == a_name.replace(" ", ""):
+                            target_detail = dv
+                            break
 
-            multi_summary_data.append({
-                "대진 경기": f"{h_name} vs {a_name}",
-                "리그": league_name,
-                "승무패 수리 확률": f"홈 {hw:.1f}% / 무 {dw:.1f}% / 원정 {aw:.1f}%",
-                "🥇 1순위 (최적합)": f"{s1_s} ({s1_r:.2f}%)",
-                "🥈 2순위 (차선책)": f"{s2_s} ({s2_r:.2f}%)",
-                "🥉 3순위 (대안책)": s3_s
-            })
+            if not target_detail:
+                # 데이터가 없을 때 방어 행 추가
+                multi_summary_data.append({
+                    "대진 경기": f"{h_name} vs {a_name}",
+                    "리그": league_name,
+                    "상태": "⚠️ 상세 정량 데이터 없음",
+                    "승무패 수리 확률": "-",
+                    "🥇 1순위 (최적합)": "-",
+                    "🥈 2순위 (차선책)": "-",
+                    "🥉 3순위 (대안책)": "분석 대기 중"
+                })
+                continue
+
+            # 단일 화면과 동일하게 기본 기대치 및 보정치 추출 (없을 시 안전 기본값)
+            h_base_g = float(target_detail.get("h_gpg", 1.2))
+            h_base_c = float(target_detail.get("h_cpg", 1.1))
+            a_base_g = float(target_detail.get("a_gpg", 1.1))
+            a_base_c = float(target_detail.get("a_cpg", 1.2))
+            
+            h_tot_atk_pct = float(target_detail.get("h_tot_atk_pct", 0.0))
+            h_tot_def_pct = float(target_detail.get("h_tot_def_pct", 0.0))
+            a_tot_atk_pct = float(target_detail.get("a_tot_atk_pct", 0.0))
+            a_tot_def_pct = float(target_detail.get("a_tot_def_pct", 0.0))
+            
+            h_agf = float(target_detail.get("h_agf", 1.2))
+            a_agf = float(target_detail.get("a_agf", 1.1))
+            h_current_at = target_detail.get("h_current_at", "Tier C")
+            a_current_at = target_detail.get("a_current_at", "Tier C")
+
+            # 💡 상단에 만들어둔 공용 엔진 함수 호출! (0~6단계 정밀 규격 100% 동일 적용)
+            res = compute_match_prediction_engine(
+                h_name, a_name, h_base_g, h_base_c, a_base_g, a_base_c,
+                h_tot_atk_pct, h_tot_def_pct, a_tot_atk_pct, a_tot_def_pct,
+                h_agf, a_agf, h_current_at, a_current_at
+            )
+
+            if res.get("status"):
+                multi_summary_data.append({
+                    "대진 경기": f"{h_name} vs {a_name}",
+                    "리그": league_name,
+                    "상태": "✅ 분석 완료",
+                    "승무패 수리 확률": f"홈 {res['home_win_pct']:.1f}% / 무 {res['draw_pct']:.1f}% / 원정 {res['away_win_pct']:.1f}%",
+                    "🥇 1순위 (최적합)": f"{res['score_1st']} ({res['p1_rate']:.2f}%)",
+                    "🥈 2순위 (차선책)": f"{res['score_2nd']} ({res['p2_rate']:.2f}%)",
+                    "🥉 3순위 (대안책)": res['s3_desc']
+                })
+            else:
+                multi_summary_data.append({
+                    "대진 경기": f"{h_name} vs {a_name}",
+                    "리그": league_name,
+                    "상태": "❌ 연산 예외 발생",
+                    "승무패 수리 확률": "-", "🥇 1순위 (최적합)": "-", "🥈 2순위 (차선책)": "-", "🥉 3순위 (대안책)": "연산 오류"
+                })
         
         df_multi_res = pd.DataFrame(multi_summary_data)
         st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
