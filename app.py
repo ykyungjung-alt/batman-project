@@ -1959,11 +1959,11 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - engine.py 연동 완료
+# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - engine.py 연동 및 디버그 아코디언 완성
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
-    st.markdown("담긴 경기들의 고유 **`match_code`**를 기준으로 백엔드 수리 엔진(`engine.py`)이 실시간으로 구동되어 대진별 예측 결과가 통합 비교됩니다.")
+    st.markdown("담긴 경기들의 고유 **`match_code`**를 기준으로 백엔드 수리 엔진(`engine.py`)이 실시간으로 구동되며, 각 대진별 **[🔍 세부 가중치 및 단계별 연산 내역 보기]**를 통해 오차 원인을 정밀 추적할 수 있습니다.")
 
     # 🚀 백엔드 엔진 임포트
     try:
@@ -2056,13 +2056,14 @@ with tabs[7]:
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
         multi_summary_data = []
+        engine_results_store = {} # 각 경기별 상세 엔진 데이터 및 디버그용 딕셔너리 보관
+
         for m_item in st.session_state["multi_selected_matches"]:
             h_name = str(m_item.get('home', '홈')).strip()
             a_name = str(m_item.get('away', '원정')).strip()
             league_name = m_item.get('league', '-')
             m_code = str(m_item.get('match_code', '')).strip()
             
-            # 해당 대진의 상세 정밀 데이터(detailed_info) 탐색
             target_detail_data = {}
             if m_code and m_code in all_details_dict:
                 target_detail_data = all_details_dict[m_code]
@@ -2074,7 +2075,8 @@ with tabs[7]:
                         target_detail_data = v
                         break
 
-            # 엔진 구동 및 결과 수신
+            match_key = f"{h_name} vs {a_name}"
+
             if engine_available and target_detail_data:
                 res = compute_match_prediction_master(
                     target_detail=target_detail_data,
@@ -2084,6 +2086,12 @@ with tabs[7]:
                 )
                 
                 if res.get("status"):
+                    engine_results_store[match_key] = {
+                        "res": res,
+                        "target_detail": target_detail_data,
+                        "m_item": m_item
+                    }
+                    
                     h_win = res.get("home_win_pct", 0.0)
                     draw = res.get("draw_pct", 0.0)
                     a_win = res.get("away_win_pct", 0.0)
@@ -2103,7 +2111,7 @@ with tabs[7]:
                 status_lbl = "⚠️ 정밀 데이터 미수집"
 
             multi_summary_data.append({
-                "대진 경기": f"{h_name} vs {a_name}",
+                "대진 경기": match_key,
                 "리그": league_name,
                 "상태": status_lbl,
                 "승무패 수리 확률": prob_str,
@@ -2114,3 +2122,51 @@ with tabs[7]:
         
         df_multi_res = pd.DataFrame(multi_summary_data)
         st.dataframe(df_multi_res, use_container_width=True, hide_index=True)
+
+        # ==================================================================
+        # 🔍 [디버그 센터] 통합 비교 표 아래 각 경기별 세부 가중치 및 연산 내역 아코디언 오픈
+        # ==================================================================
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("##### 🔍 [디버그 센터] 경기별 세부 가중치 및 0~6단계 연산 내역 상세보기")
+        st.markdown("각 대진별로 수집된 메타 데이터와 적용된 보정치 가중치를 펼쳐서 오차 원인을 정밀하게 진단하세요.")
+
+        for m_item in st.session_state["multi_selected_matches"]:
+            h_name = str(m_item.get('home', '홈')).strip()
+            a_name = str(m_item.get('away', '원정')).strip()
+            match_key = f"{h_name} vs {a_name}"
+            
+            with st.expander(f"📌 [상세보기] {match_key} 세부 가중치 및 연산 로그", expanded=False):
+                if match_key in engine_results_store:
+                    store_data = engine_results_store[match_key]
+                    debug_res = store_data["res"]
+                    raw_detail = store_data["target_detail"]
+                    meta_dbg = raw_detail.get("meta_details", {})
+                    
+                    col_d1, col_d2 = st.columns(2)
+                    with col_d1:
+                        st.markdown("###### 🏠 홈팀 연산 요약 및 가중치")
+                        st.markdown(f"- **기본 기대 득실 (GPG/CPG):** {raw_detail.get('h_gpg', 1.2)} / {raw_detail.get('h_cpg', 1.1)}")
+                        st.markdown(f"- **최종 승무패 확률:** 홈 승률 **{debug_res.get('home_win_pct', 0):.1f}%**")
+                        st.markdown(f"- **예측 1순위 스코어:** `{debug_res.get('score_1st')}` ({debug_res.get('p1_rate', 0):.1f}%)")
+                    
+                    with col_d2:
+                        st.markdown("###### ✈️ 원정팀 연산 요약 및 가중치")
+                        st.markdown(f"- **기본 기대 득실 (GPG/CPG):** {raw_detail.get('a_gpg', 1.1)} / {raw_detail.get('a_cpg', 1.2)}")
+                        st.markdown(f"- **최종 승무패 확률:** 원정 승률 **{debug_res.get('away_win_pct', 0):.1f}%**")
+                        st.markdown(f"- **예측 2순위 스코어:** `{debug_res.get('score_2nd')}` ({debug_res.get('p2_rate', 0):.1f}%)")
+                    
+                    st.markdown("---")
+                    st.markdown("###### 📊 원본 메타 데이터 수집 현황 (오차 진단용)")
+                    m_dbg_col1, m_dbg_col2, m_dbg_col3, m_dbg_col4 = st.columns(4)
+                    with m_dbg_col1:
+                        st.metric("순위표(Rankings)", f"{len(meta_dbg.get('rankings', []))}개")
+                    with m_dbg_col2:
+                        st.metric("LIFO 최근 경기", f"홈 {len(meta_dbg.get('recent_form', {}).get('home_matches', []))} / 원정 {len(meta_dbg.get('recent_form', {}).get('away_matches', []))}")
+                    with m_dbg_col3:
+                        st.metric("맞대결(H2H) 전적", f"{len(meta_dbg.get('h2h', {}).get('matches', []))}경기")
+                    with m_dbg_col4:
+                        st.metric("선수 누수(Squad)", f"홈 {len(meta_dbg.get('home_squad_changes', []))} / 원정 {len(meta_dbg.get('away_squad_changes', []))}")
+                    
+                    st.markdown(f"**💡 3차 차점 분석 묘사:** {debug_res.get('s3_desc', '-')}")
+                else:
+                    st.warning("⚠️ 해당 대진의 연산 결과 데이터가 존재하지 않습니다. (정밀 데이터 미수집 상태)")
