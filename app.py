@@ -1959,11 +1959,19 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드)
+# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - engine.py 연동 완료
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
-    st.markdown("담긴 경기들의 고유 **`match_code`**를 기준으로 각 대진별 정밀 수리 엔진이 연산될 준비를 하는 멀티 비교 대시보드입니다.")
+    st.markdown("담긴 경기들의 고유 **`match_code`**를 기준으로 백엔드 수리 엔진(`engine.py`)이 실시간으로 구동되어 대진별 예측 결과가 통합 비교됩니다.")
+
+    # 🚀 백엔드 엔진 임포트
+    try:
+        from engine import compute_match_prediction_master
+        engine_available = True
+    except Exception as e:
+        engine_available = False
+        st.error(f"⚠️ engine.py 모듈을 불러오는 중 오류가 발생했습니다: {e}")
 
     if "multi_selected_matches" not in st.session_state:
         st.session_state["multi_selected_matches"] = []
@@ -2043,7 +2051,7 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. 안전장치 적용 및 engine.py 연동 준비 구간
+        # 🚀 3. engine.py 실시간 연동 및 통합 비교 표 렌더링
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
@@ -2052,16 +2060,56 @@ with tabs[7]:
             h_name = str(m_item.get('home', '홈')).strip()
             a_name = str(m_item.get('away', '원정')).strip()
             league_name = m_item.get('league', '-')
+            m_code = str(m_item.get('match_code', '')).strip()
             
-            # 🛡️ 안전장치: engine.py 모듈 연동 전까지 데이터 없음 안내 상태 출력
+            # 해당 대진의 상세 정밀 데이터(detailed_info) 탐색
+            target_detail_data = {}
+            if m_code and m_code in all_details_dict:
+                target_detail_data = all_details_dict[m_code]
+            else:
+                for k, v in all_details_dict.items():
+                    v_home = str(v.get("home", "")).strip().replace(" ", "")
+                    v_away = str(v.get("away", "")).strip().replace(" ", "")
+                    if v_home == h_name.replace(" ", "") and v_away == a_name.replace(" ", ""):
+                        target_detail_data = v
+                        break
+
+            # 엔진 구동 및 결과 수신
+            if engine_available and target_detail_data:
+                res = compute_match_prediction_master(
+                    target_detail=target_detail_data,
+                    home_name=h_name,
+                    away_name=a_name,
+                    league_name=league_name
+                )
+                
+                if res.get("status"):
+                    h_win = res.get("home_win_pct", 0.0)
+                    draw = res.get("draw_pct", 0.0)
+                    a_win = res.get("away_win_pct", 0.0)
+                    prob_str = f"홈 {h_win:.1f}% / 무 {draw:.1f}% / 원정 {a_win:.1f}%"
+                    
+                    s1 = f"{res.get('score_1st')} ({res.get('p1_rate'):.1f}%)"
+                    s2 = f"{res.get('score_2nd')} ({res.get('p2_rate'):.1f}%)"
+                    s3 = res.get("s3_desc", "-")
+                    status_lbl = "✅ 연산 완료"
+                else:
+                    prob_str = "-"
+                    s1, s2, s3 = "-", "-", "-"
+                    status_lbl = f"⚠️ 연산 실패 ({res.get('msg', '데이터 부족')})"
+            else:
+                prob_str = "-"
+                s1, s2, s3 = "-", "-", "-"
+                status_lbl = "⚠️ 정밀 데이터 미수집"
+
             multi_summary_data.append({
                 "대진 경기": f"{h_name} vs {a_name}",
                 "리그": league_name,
-                "상태": "⚙️ engine.py 연동 대기 중",
-                "승무패 수리 확률": "데이터 연산 준비 중",
-                "🥇 1순위 (최적합)": "-",
-                "🥈 2순위 (차선책)": "-",
-                "🥉 3순위 (대안책)": "추후 연동 예정"
+                "상태": status_lbl,
+                "승무패 수리 확률": prob_str,
+                "🥇 1순위 (최적합)": s1,
+                "🥈 2순위 (차선책)": s2,
+                "🥉 3순위 (대안책)": s3
             })
         
         df_multi_res = pd.DataFrame(multi_summary_data)
