@@ -245,7 +245,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
-        # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 연산
+        # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 완벽 연동
         h_squad_changes = meta_details.get("home_squad_changes", [])
         a_squad_changes = meta_details.get("away_squad_changes", [])
 
@@ -254,16 +254,16 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 return 0.0, 0.0
             tot_atk, tot_def = 0.0, 0.0
             for item in changes_list:
-                p_pos = item.get("position", "-")
-                p_type = item.get("type", "누수")
-                p_grade = item.get("grade", "중 (Medium)")
+                p_pos = str(item.get("position", "-"))
+                p_type = str(item.get("type", "누수"))
+                p_grade = str(item.get("grade", "중 (Medium)"))
                 rate = 14.0 if "상" in p_grade else (7.0 if "중" in p_grade else 0.0)
-                if p_type == "누수":
+                if "누수" in p_type:
                     atk_v = -rate
-                    def_v = rate if "FW" in p_pos or "MF" in p_pos else rate / 2.0
+                    def_v = rate if ("FW" in p_pos or "MF" in p_pos) else rate / 2.0
                 else:
                     atk_v = rate
-                    def_v = -rate if "DF" in p_pos or "GK" in p_pos else -rate / 2.0
+                    def_v = -rate if ("DF" in p_pos or "GK" in p_pos) else -rate / 2.0
                 tot_atk += atk_v
                 tot_def += def_v
             return tot_atk, tot_def
@@ -271,17 +271,22 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_r31_atk, h_r31_def = calc_squad_weights(h_squad_changes)
         a_r31_atk, a_r31_def = calc_squad_weights(a_squad_changes)
 
-        # 3-2 중요도 및 이동 피로도 안전 방어 (데이터 없을 시 0.0)
-        h_imp_atk, h_imp_def = target_detail.get("h_imp_atk", 5.0), target_detail.get("h_imp_def", -5.0)
-        a_imp_atk, a_imp_def = target_detail.get("a_imp_atk", 5.0), target_detail.get("a_imp_def", -5.0)
-        h_fatigue_stage = target_detail.get("h_fatigue_stage", 0)
-        a_fatigue_stage = target_detail.get("a_fatigue_stage", 0)
+        # 3-2 일정 중요도 가중치 (타임라인 매트릭스 연동 값 우선 수신, 없으면 0.0 방어)
+        h_imp_atk = float(target_detail.get("h_imp_atk", 0.0))
+        h_imp_def = float(target_detail.get("h_imp_def", 0.0))
+        a_imp_atk = float(target_detail.get("a_imp_atk", 0.0))
+        a_imp_def = float(target_detail.get("a_imp_def", 0.0))
 
-        h_r32_atk = (-5 * h_fatigue_stage)
-        h_r32_def = (5 * h_fatigue_stage)
-        a_r32_atk = (-5 * a_fatigue_stage)
-        a_r32_def = (5 * a_fatigue_stage)
+        # 3-2 이동 피로도 단계 가중치 연동 (단계당 공격 -5%, 방어 +5%)
+        h_fatigue_stage = int(target_detail.get("h_fatigue_stage", 0))
+        a_fatigue_stage = int(target_detail.get("a_fatigue_stage", 0))
 
+        h_r32_atk = (-5.0 * h_fatigue_stage)
+        h_r32_def = (5.0 * h_fatigue_stage)
+        a_r32_atk = (-5.0 * a_fatigue_stage)
+        a_r32_def = (5.0 * a_fatigue_stage)
+
+        # 규칙 3번 최종 통합 합산
         h_r3_tot_atk = h_r31_atk + h_imp_atk + h_r32_atk
         h_r3_tot_def = h_r31_def + h_imp_def + h_r32_def
         a_r3_tot_atk = a_r31_atk + a_imp_atk + a_r32_atk
