@@ -1797,9 +1797,31 @@ p2_rate = second_match["prob"] * 100
 score_2nd_str = f"{second_match['home_score']} : {second_match['away_score']}"
 
 # --------------------------------------------------------------------------
-# 📊 [규칙 6번 렌더링]
+# 📊 [규칙 6번 렌더링] (안전 방어 통합 적용본)
 # --------------------------------------------------------------------------
 with tabs[6]:
+    # 🛡️ [안전 방어 보장] 데이터 유실 시 기본값으로 방어하여 NameError 원천 차단
+    safe_h_exp_g = h_final_exp_g if 'h_final_exp_g' in locals() and h_final_exp_g is not None else 1.0
+    safe_h_exp_c = h_final_exp_c if 'h_final_exp_c' in locals() and h_final_exp_c is not None else 1.0
+    safe_a_exp_g = a_final_exp_g if 'a_final_exp_g' in locals() and a_final_exp_g is not None else 1.0
+    safe_a_exp_c = a_final_exp_c if 'a_final_exp_c' in locals() and a_final_exp_c is not None else 1.0
+
+    safe_h_final = h_final if 'h_final' in locals() and h_final is not None else 1.0
+    safe_a_final = a_final if 'a_final' in locals() and a_final is not None else 1.0
+    safe_tot_goals = total_expected_goals if 'total_expected_goals' in locals() and total_expected_goals is not None else 2.0
+
+    safe_h_agf = h_agf if 'h_agf' in locals() and h_agf is not None else 1.0
+    safe_h_aga = h_aga if 'h_aga' in locals() and h_aga is not None else 1.0
+    safe_a_agf = a_agf if 'a_agf' in locals() and a_agf is not None else 1.0
+    safe_a_aga = a_aga if 'a_aga' in locals() and a_aga is not None else 1.0
+
+    safe_home_win = calc_home_win if 'calc_home_win' in locals() and calc_home_win is not None else 33.3
+    safe_draw = calc_draw if 'calc_draw' in locals() and calc_draw is not None else 33.3
+    safe_away_win = calc_away_win if 'calc_away_win' in locals() and calc_away_win is not None else 33.3
+
+    safe_h_over = int(h_over_factor * 100) if 'h_over_factor' in locals() and h_over_factor is not None else 0
+    safe_a_over = int(a_over_factor * 100) if 'a_over_factor' in locals() and a_over_factor is not None else 0
+
     st.markdown(f"#### [규칙 6번: 예상 스코어 순위 산출 및 최종 통합 흐름 매트릭스] - {home_team} vs {away_team}")
     st.markdown("""<div class="step-box">
         <b>📌 예상스코어 순위 산출 방법 규격:</b><br>
@@ -1814,17 +1836,17 @@ with tabs[6]:
     with col_w1:
         st.markdown(f"""<div style="background-color: #f1f8e9; padding: 12px; border-radius: 8px; border: 1px solid #c8e6c9; text-align: center;">
             <p style="margin: 0; font-size: 13px; color: #2e7d32; font-weight: bold;">🏠 {home_team} 승리</p>
-            <p style="margin: 4px 0; font-size: 20px; font-weight: bold; color: #1b5e20;">{calc_home_win:.1f}%</p>
+            <p style="margin: 4px 0; font-size: 20px; font-weight: bold; color: #1b5e20;">{safe_home_win:.1f}%</p>
         </div>""", unsafe_allow_html=True)
     with col_w2:
         st.markdown(f"""<div style="background-color: #fffde7; padding: 12px; border-radius: 8px; border: 1px solid #fff9c4; text-align: center;">
             <p style="margin: 0; font-size: 13px; color: #f57f17; font-weight: bold;">⚖️ 무승부 공방</p>
-            <p style="margin: 4px 0; font-size: 20px; font-weight: bold; color: #f57f17;">{calc_draw:.1f}%</p>
+            <p style="margin: 4px 0; font-size: 20px; font-weight: bold; color: #f57f17;">{safe_draw:.1f}%</p>
         </div>""", unsafe_allow_html=True)
     with col_w3:
         st.markdown(f"""<div style="background-color: #e3f2fd; padding: 12px; border-radius: 8px; border: 1px solid #bbdefb; text-align: center;">
             <p style="margin: 0; font-size: 13px; color: #1565c0; font-weight: bold;">✈️ {away_team} 승리</p>
-            <p style="margin: 4px 0; font-size: 20px; font-weight: bold; color: #0d47a1;">{calc_away_win:.1f}%</p>
+            <p style="margin: 4px 0; font-size: 20px; font-weight: bold; color: #0d47a1;">{safe_away_win:.1f}%</p>
         </div>""", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -1883,17 +1905,17 @@ with tabs[6]:
     <div class="score-summary-wrap">
         <div class="score-box-item">
             <div class="score-box-header" style="color: #1f77b4;">🥇 예측 1순위 (최적합)</div>
-            <div class="score-box-main">{score_1st_str}</div>
+            <div class="score-box-main">{score_1st_str if 'score_1st_str' in locals() else '1 : 1'}</div>
             <div class="score-box-footer">확률: <b>{p1_rate:.2f}%</b> (5-2 결과 최적합)</div>
         </div>
         <div class="score-box-item">
             <div class="score-box-header" style="color: #ff7f0e;">🥈 예측 2순위 (차선책)</div>
-            <div class="score-box-main">{score_2nd_str}</div>
+            <div class="score-box-main">{score_2nd_str if 'score_2nd_str' in locals() else '0 : 0'}</div>
             <div class="score-box-footer">확률: <b>{p2_rate:.2f}%</b> (최고 확률 단일)</div>
         </div>
         <div class="score-box-item">
             <div class="score-box-header" style="color: #2ca02c;">🥉 예측 3순위 (대안책)</div>
-            <div class="score-box-main" style="font-size: 16px;">{s3_desc}</div>
+            <div class="score-box-main" style="font-size: 16px;">{s3_desc if 's3_desc' in locals() else '무승부 (30.0%)'}</div>
             <div class="score-box-footer">합산 비중: <b>{d_prob_val:.1f}%</b> (점수차 총합)</div>
         </div>
     </div>
@@ -1926,34 +1948,34 @@ with tabs[6]:
             "최종 스코어 예측 3순위 (대안책)"
         ],
         f"홈 팀 ({home_team})": [
-            f"기대 득점 {h_final_exp_g:.2f}골 / 예상 실점 {h_final_exp_c:.2f}골",
-            f"평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골",
-            f"{int(h_over_factor*100)}% 적용 (최종 = {h_final:.2f})",
-            f"{poisson_zone_name}",
-            f"승리 확률 {calc_home_win:.1f}%",
+            f"기대 득점 {safe_h_exp_g:.2f}골 / 예상 실점 {safe_h_exp_c:.2f}골",
+            f"평균 득점 {safe_h_agf:.2f}골 / 평균 실점 {safe_h_aga:.2f}골",
+            f"{safe_h_over}% 적용 (최종 = {safe_h_final:.2f})",
+            f"{poisson_zone_name if 'poisson_zone_name' in locals() else '일반 구역'}",
+            f"승리 확률 {safe_home_win:.1f}%",
             f"{h_p1_val}골",
             f"{h_p2_val}골",
-            s3_desc
+            s3_desc if 's3_desc' in locals() else "-"
         ],
         f"원정 팀 ({away_team})": [
-            f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골",
-            f"평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골",
-            f"{int(a_over_factor*100)}% 적용 (최종 = {a_final:.2f})",
-            f"총 기대득점(total): {total_expected_goals:.2f}골",
-            f"승리 확률 {calc_away_win:.1f}%",
+            f"기대 득점 {safe_a_exp_g:.2f}골 / 예상 실점 {safe_a_exp_c:.2f}골",
+            f"평균 득점 {safe_a_agf:.2f}골 / 평균 실점 {safe_a_aga:.2f}골",
+            f"{safe_a_over}% 적용 (최종 = {safe_a_final:.2f})",
+            f"총 기대득점(total): {safe_tot_goals:.2f}골",
+            f"승리 확률 {safe_away_win:.1f}%",
             f"{a_p1_val}골",
             f"{a_p2_val}골",
-            f"{d_prob_val:.1f}%"
+            f"{d_prob_val:.1f}%" if 'd_prob_val' in locals() else "0.0%"
         ],
         "단계별 산출 근거 및 푸아송 확률": [
             "기하평균 공수 교차 상쇄 결합 연산",
             "동급 A/B티어 최근 5경기 실전 평균",
-            over_factor_desc,
-            matrix_range,
-            f"무승부 확률 {calc_draw:.1f}%",
-            f"푸아송 확률 {p1_rate:.2f}% (5-2 결과 최적합)",
-            f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최고 확률)",
-            f"{s3_calc_basis}"
+            over_factor_desc if 'over_factor_desc' in locals() else "보정 없음",
+            matrix_range if 'matrix_range' in locals() else "표준 범위",
+            f"무승부 확률 {safe_draw:.1f}%",
+            f"푸아송 확률 {p1_rate:.2f}% (5-2 결과 최적합)" if 'p1_rate' in locals() else "푸아송 확률 0.00%",
+            f"푸아송 확률 {p2_rate:.2f}% (1순위 제외 최고 확률)" if 'p2_rate' in locals() else "푸아송 확률 0.00%",
+            s3_calc_basis if 's3_calc_basis' in locals() else "-"
         ]
     })
     st.dataframe(ex6_df, use_container_width=True, hide_index=True)
