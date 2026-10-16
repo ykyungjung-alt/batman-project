@@ -1691,10 +1691,15 @@ def poisson_prob(lmbda, k):
     except:
         return 0.0
 
-base_h_lambda = h_final_exp_g if 'h_final_exp_g' in locals() else 1.0
-base_a_lambda = a_final_exp_g if 'a_final_exp_g' in locals() else 1.0
+base_h_lambda = h_final_exp_g if 'h_final_exp_g' in locals() and h_final_exp_g is not None else 1.0
+base_a_lambda = a_final_exp_g if 'a_final_exp_g' in locals() and a_final_exp_g is not None else 1.0
 
-total_exp_goals = h_final + a_final
+# 💡 안전 방어: h_final과 a_final이 누락되었을 경우 기본값 1.0으로 방어
+safe_h_final = float(h_final) if 'h_final' in locals() and h_final is not None else 1.0
+safe_a_final = float(a_final) if 'a_final' in locals() and a_final is not None else 1.0
+
+total_exp_goals = safe_h_final + safe_a_final
+
 if total_exp_goals < 2.2:
     matrix_max_k = 3
 elif total_exp_goals <= 3.2 and (tier_diff if 'tier_diff' in locals() else 0) < 2:
@@ -1713,8 +1718,8 @@ for h_g in range(matrix_max_k + 1):
 score_probs = []
 for h_g in range(matrix_max_k + 1):
     for a_g in range(matrix_max_k + 1):
-        p_h = poisson_prob(h_final, h_g)
-        p_a = poisson_prob(a_final, a_g)
+        p_h = poisson_prob(safe_h_final, h_g)
+        p_a = poisson_prob(safe_a_final, a_g)
         joint_prob = p_h * p_a
         score_probs.append({"home_score": h_g, "away_score": a_g, "prob": joint_prob})
 
@@ -1722,8 +1727,8 @@ calc_home_win = sum(item["prob"] for item in win_loss_probs if item["home_score"
 calc_away_win = sum(item["prob"] for item in win_loss_probs if item["home_score"] < item["away_score"]) * 100
 calc_draw = sum(item["prob"] for item in win_loss_probs if item["home_score"] == item["away_score"]) * 100
 
-h_target_52 = h_agf if 'h_agf' in locals() else 1.0
-a_target_52 = a_agf if 'a_agf' in locals() else 1.0
+h_target_52 = h_agf if 'h_agf' in locals() and h_agf is not None else 1.0
+a_target_52 = a_agf if 'a_agf' in locals() and a_agf is not None else 1.0
 
 # [1순위] 규칙 5-2 결과에 가장 적합한 결과값 최우선 선정 (기존 로직 완벽 유지)
 scored_candidates = []
