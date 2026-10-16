@@ -637,14 +637,14 @@ with tabs[1]:
 
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (0단계 구장 판별 연동 및 v3-2 중립 딕셔너리 참조 통합본)
+# 💡 규칙 2번 탭 (0단계 구장 판별 연동 및 홈팀 중립 시 v3-2 우선 탐색 후 폴백 규격)
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
-    • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를, 중립경기일 때는 match_details_v3-2.json 독립 딕셔너리의 상세 전적 데이터를 우선 참조하여 원정 성격의 전적을 추출합니다.<br>
+    • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를 사용하며, 중립경기일 때는 match_details_v3-2.json(v3_2_details_dict)에서 홈팀 전적을 우선 탐색하고 데이터가 없으면 기존 3번 딕셔너리 폼으로 안전하게 폴백합니다. 원정팀은 항상 기본 원정 폼을 고정 사용합니다.<br>
     • <b>0단계 구장 판정 연동:</b> 홈구장 일치 여부에 따라 홈경기(초록색) 또는 중립경기(빨간색) 상태를 명시하고 원정 데이터를 분기 적용합니다.
     </div>
     """, unsafe_allow_html=True)
@@ -661,7 +661,7 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        # 💡 [핵심 연동] 중립 경기 판정 시 match_details_v3-2.json(v3_2_details_dict)에서 해당 경기 데이터 탐색
+        # 중립 경기일 때 match_details_v3-2.json에서 해당 경기 메타데이터 우선 탐색
         target_v3_2_meta = None
         if is_neutral_venue:
             target_code = str(match_code).strip() if 'match_code' in locals() else ""
@@ -680,16 +680,23 @@ with tabs[2]:
                         target_v3_2_meta = v.get("meta_details", {})
                         break
 
-        # 중립 경기이고 v3-2 전적 데이터가 존재할 경우 우선 활용, 아니면 기본 stadium_form 활용
-        active_stadium_form = stadium_form
-        if is_neutral_venue and target_v3_2_meta and "stadium_form" in target_v3_2_meta:
-            active_stadium_form = target_v3_2_meta["stadium_form"]
-
+        # 1. 홈팀 전적 추출 (중립일 때 3-2 우선 탐색, 없거나 비어있으면 기존 3번 딕셔너리에서 폴백)
+        s_home_matches = []
         if is_neutral_venue:
-            recent_all_pool = active_stadium_form.get("recent_matches", []) if "recent_matches" in active_stadium_form else []
-            if not recent_all_pool and 'h_matches' in locals():
-                recent_all_pool = h_matches
+            active_stadium_form = None
+            if target_v3_2_meta and "stadium_form" in target_v3_2_meta:
+                active_stadium_form = target_v3_2_meta["stadium_form"]
             
+            recent_all_pool = []
+            if active_stadium_form and active_stadium_form.get("home_matches"):
+                recent_all_pool = active_stadium_form.get("home_matches", [])
+            else:
+                # 3-2에 데이터가 없으면 아쉬운대로 기존 3번 딕셔너리(stadium_form 또는 h_matches)에서 폴백
+                recent_all_pool = stadium_form.get("recent_matches", []) if "recent_matches" in stadium_form else []
+                if not recent_all_pool and 'h_matches' in locals():
+                    recent_all_pool = h_matches
+
+            # 홈팀의 원정/중립 성격 경기 필터링 (최대 10개)
             neutral_home_away_matches = []
             for m in recent_all_pool:
                 teams_str = str(m.get("teams", ""))
@@ -701,13 +708,14 @@ with tabs[2]:
                     neutral_home_away_matches.append(m)
             
             if not neutral_home_away_matches:
-                neutral_home_away_matches = active_stadium_form.get("away_matches", [])
+                neutral_home_away_matches = stadium_form.get("away_matches", [])
 
             s_home_matches = neutral_home_away_matches[:10]
         else:
+            # 일반 홈경기일 때는 기존 3번 딕셔너리의 홈구장 전적 사용
             s_home_matches = stadium_form.get("home_matches", [])[:10]
 
-        # 원정 팀은 항상 원정 경기 기준 최대 10개
+        # 2. 원정팀 전적 추출 (3-2에 원정팀 데이터가 아예 없으므로 항상 기존 3번 딕셔너리의 원정 폼 고정 사용)
         s_away_matches = stadium_form.get("away_matches", [])[:10]
 
         s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=h_is_triggered)
