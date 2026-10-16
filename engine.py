@@ -460,7 +460,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             s3_name = "무승부 공방"
         s3_desc = f"{s3_name} ({d_prob_val:.1f}%)"
 
-        return {
+return {
             "status": True,
             "home_win_pct": calc_home_win,
             "draw_pct": calc_draw,
@@ -469,7 +469,22 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "p1_rate": best_match_52["prob"] * 100,
             "score_2nd": f"{second_match['home_score']} : {second_match['away_score']}",
             "p2_rate": second_match["prob"] * 100,
-            "s3_desc": s3_desc
+            "s3_desc": s3_desc,
+            
+            # 💡 [7단계 디버그 센터 연동용 단계별 보정치 안전 송신]
+            "h_step0_atk": h_step0_atk,
+            "h_r1_atk": h_r1_atk,
+            "h_r2_atk": h_r2_atk,
+            "h_r3_tot_atk": h_r3_tot_atk,
+            "h_r4_atk": h_r4_atk,
+            "h_tot_atk_pct": h_tot_atk_pct,
+            
+            "a_step0_atk": a_step0_atk,
+            "a_r1_atk": a_r1_atk,
+            "a_r2_atk": a_r2_atk,
+            "a_r3_tot_atk": a_r3_tot_atk,
+            "a_r4_atk": a_r4_atk,
+            "a_tot_atk_pct": a_tot_atk_pct
         }
 
     except Exception as e:
