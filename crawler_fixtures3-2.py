@@ -67,7 +67,7 @@ def run_table_based_crawler_v3_2():
     
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst)
-    # 💡 [변경] 수집 타임라인을 48시간(2일치)으로 확장
+    # 💡 수집 타임라인을 48시간(2일치)으로 확장
     limit_kst = now_kst + timedelta(hours=48)
     
     print(f"🕒 [V3-2] 실행 시간(KST): {now_kst.strftime('%Y-%m-%d %H:%M')}")
@@ -142,7 +142,7 @@ def run_table_based_crawler_v3_2():
                     "league": target["league"],
                     "round": "",
                     "stadium": "",
-                    "home_stadium": ""
+                    "home_stadium": "-"
                 }
                 
                 try:
@@ -154,6 +154,7 @@ def run_table_based_crawler_v3_2():
                     pass
 
                 # 1. 실제 경기장(stadium) 수집
+                actual_stadium_name = ""
                 try:
                     other_info_div = detail_soup.find("div", {"id": "otherInfo"})
                     if other_info_div:
@@ -167,11 +168,12 @@ def run_table_based_crawler_v3_2():
                             else:
                                 stadium_candidates.append(s_text)
                         if stadium_candidates:
-                            head_info["stadium"] = stadium_candidates[0]
+                            actual_stadium_name = stadium_candidates[0]
                 except Exception:
                     pass
 
                 # 2. 홈팀 서브페이지에서 고유 홈구장(home_stadium) 수집
+                h_stadium_name = "-"
                 try:
                     home_div = detail_soup.find("div", {"class": "home"})
                     if home_div and home_div.has_attr("data-url"):
@@ -183,11 +185,12 @@ def run_table_based_crawler_v3_2():
                         if info_div:
                             stadium_li = info_div.find("li", class_="home-stadium")
                             if stadium_li:
-                                h_stadium_name = stadium_li.get("explain", "").strip()
-                                if not h_stadium_name:
+                                temp_name = stadium_li.get("explain", "").strip()
+                                if not temp_name:
                                     div_tag = stadium_li.find("div")
-                                    if div_tag: h_stadium_name = div_tag.get_text(strip=True)
-                                head_info["home_stadium"] = h_stadium_name
+                                    if div_tag: temp_name = div_tag.get_text(strip=True)
+                                if temp_name:
+                                    h_stadium_name = temp_name
                         
                         # 메인 상세 페이지로 복귀
                         driver.get(detail_url)
@@ -197,12 +200,16 @@ def run_table_based_crawler_v3_2():
                     driver.get(detail_url)
                     time.sleep(1.5)
 
+                # head_info에 구장 정보 최종 할당
+                head_info["stadium"] = actual_stadium_name
+                head_info["home_stadium"] = h_stadium_name
+
                 # 💡 [핵심 판별 로직]: 실제 구장 이름과 홈구장 이름이 다를 경우(중립 구장 등) 판별
                 actual_stadium = head_info["stadium"].strip().lower()
                 home_stadium_val = head_info["home_stadium"].strip().lower()
                 
                 is_neutral_or_special = False
-                if actual_stadium and home_stadium_val:
+                if actual_stadium and home_stadium_val and home_stadium_val != "-":
                     if actual_stadium != home_stadium_val:
                         is_neutral_or_special = True
 
