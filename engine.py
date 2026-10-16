@@ -460,7 +460,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             s3_name = "무승부 공방"
         s3_desc = f"{s3_name} ({d_prob_val:.1f}%)"
 
-return {
+        return {
             "status": True,
             "home_win_pct": calc_home_win,
             "draw_pct": calc_draw,
