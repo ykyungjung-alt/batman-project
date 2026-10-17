@@ -443,7 +443,17 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_final = a_final_exp_g * (1 + a_over_factor)
         total_expected_goals = h_final + a_final
 
-# [규칙 6단계] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 (app.py 100% 일치 규격)
+# --------------------------------------------------------------------------
+        # 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (안전 완벽 방어 버전)
+        # --------------------------------------------------------------------------
+        def poisson_prob(lmbda, k):
+            if lmbda <= 0 and k == 0:
+                return 1.0
+            try:
+                return (math.exp(-lmbda) * (lmbda ** k)) / math.factorial(k)
+            except:
+                return 0.0
+
         base_h_lambda = h_final_exp_g if 'h_final_exp_g' in locals() and h_final_exp_g is not None else 1.0
         base_a_lambda = a_final_exp_g if 'a_final_exp_g' in locals() and a_final_exp_g is not None else 1.0
 
@@ -458,14 +468,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             matrix_max_k = 4
         else:
             matrix_max_k = 6
-
-        def poisson_prob(lmbda, k):
-            if lmbda <= 0 and k == 0:
-                return 1.0
-            try:
-                return (math.exp(-lmbda) * (lmbda ** k)) / math.factorial(k)
-            except:
-                return 0.0
 
         win_loss_probs = []
         for h_g in range(matrix_max_k + 1):
@@ -511,14 +513,13 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         if not second_match:
             second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-        # [3순위] 각 점수 차이별 확률 합산 후 가장 많이 차지한 점수 차이 구도 및 산출근거 생성
+        # [3순위] 각 점수 차이별 확률 합산 후 가장 많이 차지한 점수 차이 구도
         diff_probs = {}
         for item in score_probs:
             diff = item["home_score"] - item["away_score"]
             diff_probs[diff] = diff_probs.get(diff, 0.0) + item["prob"]
 
         sorted_diffs = sorted(diff_probs.items(), key=lambda x: x[1], reverse=True)
-
         top_diff_item = sorted_diffs[0] if sorted_diffs else (0, 0.1)
         d_val, d_prob_val = top_diff_item[0], top_diff_item[1] * 100
 
@@ -542,20 +543,32 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "p2_rate": second_match["prob"] * 100,
             "s3_desc": s3_desc,
             
-            # 💡 [디버그 센터 연동용 단계별 공수 보정치 송신 세트]
-            "h_step0_atk": h_step0_atk, "h_step0_def": h_step0_def,
-            "h_r1_atk": h_r1_atk, "h_r1_def": h_r1_def,
-            "h_r2_atk": h_r2_atk, "h_r2_def": h_r2_def,
-            "h_r3_tot_atk": h_r3_tot_atk, "h_r3_tot_def": h_r3_tot_def,
-            "h_r4_atk": h_r4_atk, "h_r4_def": h_r4_def,
-            "h_tot_atk_pct": h_tot_atk_pct, "h_tot_def_pct": h_tot_def_pct,
+            # 💡 [디버그 센터 연동용 단계별 공수 보정치 안전 송신 세트]
+            "h_step0_atk": h_step0_atk if 'h_step0_atk' in locals() else 0.0,
+            "h_step0_def": h_step0_def if 'h_step0_def' in locals() else 0.0,
+            "h_r1_atk": h_r1_atk if 'h_r1_atk' in locals() else 0.0,
+            "h_r1_def": h_r1_def if 'h_r1_def' in locals() else 0.0,
+            "h_r2_atk": h_r2_atk if 'h_r2_atk' in locals() else 0.0,
+            "h_r2_def": h_r2_def if 'h_r2_def' in locals() else 0.0,
+            "h_r3_tot_atk": h_r3_tot_atk if 'h_r3_tot_atk' in locals() else 0.0,
+            "h_r3_tot_def": h_r3_tot_def if 'h_r3_tot_def' in locals() else 0.0,
+            "h_r4_atk": h_r4_atk if 'h_r4_atk' in locals() else 0.0,
+            "h_r4_def": h_r4_def if 'h_r4_def' in locals() else 0.0,
+            "h_tot_atk_pct": h_tot_atk_pct if 'h_tot_atk_pct' in locals() else 0.0,
+            "h_tot_def_pct": h_tot_def_pct if 'h_tot_def_pct' in locals() else 0.0,
             
-            "a_step0_atk": a_step0_atk, "a_step0_def": a_step0_def,
-            "a_r1_atk": a_r1_atk, "a_r1_def": a_r1_def,
-            "a_r2_atk": a_r2_atk, "a_r2_def": a_r2_def,
-            "a_r3_tot_atk": a_r3_tot_atk, "a_r3_tot_def": a_r3_tot_def,
-            "a_r4_atk": a_r4_atk, "a_r4_def": a_r4_def,
-            "a_tot_atk_pct": a_tot_atk_pct, "a_tot_def_pct": a_tot_def_pct
+            "a_step0_atk": a_step0_atk if 'a_step0_atk' in locals() else 0.0,
+            "a_step0_def": a_step0_def if 'a_step0_def' in locals() else 0.0,
+            "a_r1_atk": a_r1_atk if 'a_r1_atk' in locals() else 0.0,
+            "a_r1_def": a_r1_def if 'a_r1_def' in locals() else 0.0,
+            "a_r2_atk": a_r2_atk if 'a_r2_atk' in locals() else 0.0,
+            "a_r2_def": a_r2_def if 'a_r2_def' in locals() else 0.0,
+            "a_r3_tot_atk": a_r3_tot_atk if 'a_r3_tot_atk' in locals() else 0.0,
+            "a_r3_tot_def": a_r3_tot_def if 'a_r3_tot_def' in locals() else 0.0,
+            "a_r4_atk": a_r4_atk if 'a_r4_atk' in locals() else 0.0,
+            "a_r4_def": a_r4_def if 'a_r4_def' in locals() else 0.0,
+            "a_tot_atk_pct": a_tot_atk_pct if 'a_tot_atk_pct' in locals() else 0.0,
+            "a_tot_def_pct": a_tot_def_pct if 'a_tot_def_pct' in locals() else 0.0
         }
 
     except Exception as e:
