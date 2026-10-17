@@ -383,8 +383,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             elif away_win_rate >= 50.0:
                 a_r4_atk, a_r4_def = 10.0, -10.0
 
-        # ==============================================================================
-        # 🎯 [0~4단계 통합 누적 합산 규격] 공격력 및 방어력 보정치 전 단계 완벽 결속
+# ==============================================================================
+        # 🎯 [0~5단계 통합 누적 합산 규격] 공격력 및 방어력 보정치 전 단계 완벽 결속
         # ==============================================================================
         h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r3_tot_atk + h_r4_atk
         h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r3_tot_def + h_r4_def  # 👈 방어력 누락분 완전 결속
@@ -392,25 +392,11 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk
         a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def  # 👈 방어력 누락분 완전 결속
 
-        
         # 💡 [규칙 5-2 연동] 대시보드 5-2 표의 실전 평균 득실 데이터를 엔진 내부에 안전하게 수용
-        # (만약 target_detail 내에 5-2 평균값이 전달되지 않았다면 LIFO나 기본 GPG/CPG로 폴백 방어)
         h_agf = float(target_detail.get("h_agf", h_base_g))
         a_agf = float(target_detail.get("a_agf", a_base_g))
         
-        # 최종 람다(Lambda) 및 기대 득실 산정 시 5-2 결과값 정밀 반영
-        h_final = (h_gpg_adjusted + h_agf) / 2.0
-        a_final = (a_gpg_adjusted + a_agf) / 2.0
-      
         # [규칙 5번] 최종 보정 및 1차 기본 기대 득실점 산출 (단일 화면과 완벽 동기화)
-        h_agf = float(target_detail.get("h_agf", h_base_g))
-        a_agf = float(target_detail.get("a_agf", a_base_g))
-
-        h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r3_tot_atk + h_r4_atk + float(target_detail.get("h_tot_atk_pct", 0.0))
-        h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r3_tot_def + h_r4_def + float(target_detail.get("h_tot_def_pct", 0.0))
-        a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk + float(target_detail.get("a_tot_atk_pct", 0.0))
-        a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def + float(target_detail.get("a_tot_def_pct", 0.0))
-
         h_max_g = h_base_g * (1 + h_tot_atk_pct / 100.0)
         h_min_c = h_base_c * (1 + h_tot_def_pct / 100.0)
         a_max_g = a_base_g * (1 + a_tot_atk_pct / 100.0)
@@ -439,8 +425,9 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             h_over_factor = 0.15
             a_over_factor = 0.15
 
-        h_final = h_final_exp_g * (1 + h_over_factor)
-        a_final = a_final_exp_g * (1 + a_over_factor)
+        # 💡 최종 람다 산정 시 5-2 실전 평균(h_agf, a_agf)과 오버 팩터 정밀 결합
+        h_final = max(0.2, ((h_final_exp_g * (1 + h_over_factor)) + h_agf) / 2.0)
+        a_final = max(0.2, ((a_final_exp_g * (1 + a_over_factor)) + a_agf) / 2.0)
         total_expected_goals = h_final + a_final
 
 # --------------------------------------------------------------------------
