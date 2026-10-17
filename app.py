@@ -262,7 +262,7 @@ with tabs[0]:
     """
     st.markdown(meta_markdown_table, unsafe_allow_html=True)
     
-    st.markdown("##### 📊 공식 팀 순위 및 country.json 기반 등급·가중치 연동 현황")
+st.markdown("##### 📊 공식 팀 순위 및 country.json 기반 등급·가중치 연동 현황")
     
     if has_detailed_data:
         meta_details = detailed_info.get("meta_details", {})
@@ -279,48 +279,37 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-# 💡 [리그순위 코드 파싱 및 country.json 정밀 대조 함수 - 띄어쓰기/하이픈 완벽 차단 규격]
+        # 💡 [리그순위 코드 파싱 및 country.json 정밀 대조 함수 - 띄어쓰기/하이픈 완벽 차단 규격]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
             team_str = str(team_val).strip().lower()
             clean_league = str(current_league_name).strip().replace(" ", "").lower()
 
-            # 💡 1. 띄어쓰기나 하이픈(-) 앞쪽까지만 국가 코드/리그 코드 추출 (예: "HOL D1-1" ➔ "HOL")
             extracted_code = ""
             if rank_str and rank_str != "-":
-                # 공백이나 하이픈을 기준으로 첫 번째 토큰만 강력하게 추출
                 token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
-                if token and not token.isdigit():  # 순위 숫자(예: "10")인 경우는 코드로 쓰지 않음
+                if token and not token.isdigit():
                     extracted_code = token
 
-            # 2. country.json 내부 데이터와 전수 대조
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
                 if isinstance(countries, list):
                     for c in countries:
-                        c_name = str(c.get("name", "")).strip().lower()                 # 예: "네덜란드", "스페인"
-                        c_code = str(c.get("code", "")).strip().upper()                 # 예: "NED", "ESP"
-                        kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower() # 예: "에레디비시"
-                        leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])] # 예: ["HOL D1", "HOL D2"]
+                        c_name = str(c.get("name", "")).strip().lower()
+                        c_code = str(c.get("code", "")).strip().upper()
+                        kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
+                        leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
 
-                        # 조건 A: 추출된 코드(extracted_code)가 country.json의 code와 일치하거나 leagues 목록에 포함되는 경우
                         match_by_code = c_code and (c_code == extracted_code or any(extracted_code in l for l in leagues_list))
-                        
-                        # 조건 B: 현재 경기 리그명에 한글 리그명("에레디비시", "라리가")이 포함된 경우
                         match_by_kor_league = kor_league and (kor_league in clean_league or clean_league in kor_league)
-                        
-                        # 조건 C: 영어 공식 리그 코드의 앞부분(예: "HOL")이 현재 리그명이나 랭크 문자열에 포함되는 경우
                         match_by_eng_league = any(l.split()[0].lower() in clean_league for l in c.get("leagues", []) if l)
-                        
-                        # 조건 D: 팀명이나 리그명에 국가명("네덜란드", "스페인")이 포함된 경우
                         match_by_name = c_name and (c_name in clean_league or c_name in team_str)
 
                         if match_by_code or match_by_kor_league or match_by_eng_league or match_by_name:
                             return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
-            # 3. 매칭 실패 시 F등급(마이너 국가) 폴백 처리
             f_info = grades.get("F", {})
             return "EXT", rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
@@ -333,19 +322,26 @@ with tabs[0]:
             # 기본값 F등급 및 0% 세팅
             h_grade, h_atk_b, h_def_b = "F", "0%", "0%"
             a_grade, a_atk_b, a_def_b = "F", "0%", "0%"
+            
+            # 💡 [방어 1] 중복 매칭 방지용 플래그 장착
+            found_home = False
+            found_away = False
 
             for idx, r in enumerate(rankings_raw):
                 team_name = str(r.get("team", "-"))
                 rank_code_str = str(r.get("rank", ""))  
                 
-                # 💡 순위표 정보(리그순위 코드, 팀명, 현재 리그명)를 가지고 country.json에서 국가 코드 및 등급 탐색
                 matched_code, clean_rank_str, grade, atk_b, def_b = resolve_country_and_grade_from_rankings(rank_code_str, team_name, league_name)
                 
                 clean_row_team = team_name.strip().replace(" ", "")
-                if clean_home_target in clean_row_team or clean_row_team in clean_home_target:
+                
+                # 💡 [방어 2] 홈/원정 각각 최초 1회만 정확히 매칭하고 이후 덮어쓰기 원천 차단
+                if not found_home and (clean_home_target in clean_row_team or clean_row_team in clean_home_target):
                     h_grade, h_atk_b, h_def_b = grade, atk_b, def_b
-                elif clean_away_target in clean_row_team or clean_row_team in clean_away_target:
+                    found_home = True
+                elif not found_away and (clean_away_target in clean_row_team or clean_row_team in clean_away_target):
                     a_grade, a_atk_b, a_def_b = grade, atk_b, def_b
+                    found_away = True
 
                 rankings_list.append({
                     "No": idx + 1,
@@ -362,14 +358,14 @@ with tabs[0]:
                     "득실": str(r.get("goal_diff", "0")), "승점": str(r.get("points", "0"))
                 })
 
-            # 세션 상태에 최종 확정 값 주입
+            # 💡 [방어 3] 세션 상태에 최종 확정 값 주입 (불필요한 F등급 삼항 연산 제거로 보정치 누락 완전 방어)
             st.session_state["h_grade"] = h_grade
-            st.session_state["h_atk_bonus"] = h_atk_b if h_grade != "F" else "0%"
-            st.session_state["h_def_bonus"] = h_def_b if h_grade != "F" else "0%"
+            st.session_state["h_atk_bonus"] = h_atk_b
+            st.session_state["h_def_bonus"] = h_def_b
 
             st.session_state["a_grade"] = a_grade
-            st.session_state["a_atk_bonus"] = a_atk_b if a_grade != "F" else "0%"
-            st.session_state["a_def_bonus"] = a_def_b if a_grade != "F" else "0%"
+            st.session_state["a_atk_bonus"] = a_atk_b
+            st.session_state["a_def_bonus"] = a_def_b
 
             df_rankings = pd.DataFrame(rankings_list)
             st.dataframe(df_rankings[["리그순위", "팀", "국가코드", "리그명", "등급", "공격보정", "수비보정", "경기", "승", "무승부", "패", "득점", "실점", "득실", "승점"]], use_container_width=True, hide_index=True)
