@@ -212,7 +212,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_a_at, a_r1_atk = get_atk_tier(a_base_g)
         base_a_de, a_r1_def = get_def_tier(a_base_c)
 
-# [규칙 2번] 구장별(Stadium Form) Shift 보정 연산 (기본 3번 딕셔너리 기반 단독 연동)
+# [규칙 2번] 구장별(Stadium Form) Shift 보정 연산 (기본 3번 및 기존 규격 단독 연동)
         head_info = target_detail.get("head_info", {})
         venue_val = str(head_info.get("stadium", ""))
         home_stadium_val = str(head_info.get("home_stadium", ""))
@@ -222,7 +222,10 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        # 1. 홈팀 전적 추출 (중립 여부에 따라 구장별 폼 또는 원정 폼 활용)
+        # 메타 데이터에서 stadium_form 안전하게 가져오기
+        stadium_form = target_detail.get("meta_details", {}).get("stadium_form", {"home_matches": [], "away_matches": []})
+
+        # 1. 홈팀 전적 추출
         s_home_matches = []
         if is_neutral_venue:
             recent_all_pool = stadium_form.get("recent_matches", []) if "recent_matches" in stadium_form else []
@@ -249,8 +252,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         # 2. 원정팀 전적 추출
         s_away_matches = stadium_form.get("away_matches", [])[:10]
 
-        if not s_home_matches: s_home_matches = h_matches[:10]
-        if not s_away_matches: s_away_matches = a_matches[:10]
+        if not s_home_matches and 'h_matches' in locals(): s_home_matches = h_matches[:10]
+        if not s_away_matches and 'a_matches' in locals(): s_away_matches = a_matches[:10]
 
         s_h_g, s_h_c = compute_adjusted_stats_with_discount(s_home_matches, home_name, h_base_g, h_base_c, h_is_triggered)
         s_a_g, s_a_c = compute_adjusted_stats_with_discount(s_away_matches, away_name, a_base_g, a_base_c, a_is_triggered)
@@ -277,6 +280,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_r2_def = calc_shift(base_h_de, s_h_de, False)
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
+   
+        
         # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 화면 연동 일치화
         h_squad_changes = meta_details.get("home_squad_changes", [])
         a_squad_changes = meta_details.get("away_squad_changes", [])
