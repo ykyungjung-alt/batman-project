@@ -393,10 +393,15 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def  # 👈 방어력 누락분 완전 결속
 
         
-        # [규칙 5-2 연동 및 5단계 최종 합산]
+        # 💡 [규칙 5-2 연동] 대시보드 5-2 표의 실전 평균 득실 데이터를 엔진 내부에 안전하게 수용
+        # (만약 target_detail 내에 5-2 평균값이 전달되지 않았다면 LIFO나 기본 GPG/CPG로 폴백 방어)
         h_agf = float(target_detail.get("h_agf", h_base_g))
         a_agf = float(target_detail.get("a_agf", a_base_g))
-
+        
+        # 최종 람다(Lambda) 및 기대 득실 산정 시 5-2 결과값 정밀 반영
+        h_final = (h_gpg_adjusted + h_agf) / 2.0
+        a_final = (a_gpg_adjusted + a_agf) / 2.0
+      
         # [규칙 5번] 최종 보정 및 1차 기본 기대 득실점 산출 (단일 화면과 완벽 동기화)
         h_agf = float(target_detail.get("h_agf", h_base_g))
         a_agf = float(target_detail.get("a_agf", a_base_g))
