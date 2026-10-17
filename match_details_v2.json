@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-18 00:32:29",
+    "last_updated": "2026-10-18 03:35:10",
     "match_details": {
         "3018833": {
             "match_code": "3018833",
@@ -5819,13 +5819,118 @@
                 }
             }
         },
-        "3103211": {
-            "match_code": "3103211",
+        "3103215": {
+            "match_code": "3103215",
             "head_info": {
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 6",
                 "match_time_raw": "10/18/2026 8:00:00 PM",
                 "match_time_display": "2026-10-19 05:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "Tru-Juice FC",
+            "away": "험블 라이온즈",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "5",
+                        "team": "Tru-Juice FC",
+                        "played": "5",
+                        "win": "2",
+                        "draw": "2",
+                        "loss": "1",
+                        "goals_for": "6",
+                        "goals_against": "3",
+                        "goal_diff": "3",
+                        "points": "8"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "14",
+                        "team": "험블 라이온즈",
+                        "played": "5",
+                        "win": "0",
+                        "draw": "2",
+                        "loss": "3",
+                        "goals_for": "2",
+                        "goals_against": "13",
+                        "goal_diff": "-11",
+                        "points": "2"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 2무 1패",
+                        "goals_per_game": "1.20",
+                        "conceded_per_game": "0.60"
+                    },
+                    "away_summary": {
+                        "recent_record": "0승 3무 7패",
+                        "goals_per_game": "0.40",
+                        "conceded_per_game": "2.20"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-25 20:30:00",
+                            "teams": "10.25 2026 vs 트레저 비치 vs Tru-Juice FC vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-01 20:30:00",
+                            "teams": "11.01 2026 vs Tru-Juice FC vs 채플턴 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-08 20:00:00",
+                            "teams": "11.08 2026 vs 포트모어 vs Tru-Juice FC vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-25 20:30:00",
+                            "teams": "10.25 2026 vs 험블 라이온즈 vs 라싱 유나이티드 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-01 20:30:00",
+                            "teams": "11.01 2026 vs 던베홀덴 vs 험블 라이온즈 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-08 20:30:00",
+                            "teams": "11.08 2026 vs 험블 라이온즈 vs 카발리어 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3103211": {
+            "match_code": "3103211",
+            "head_info": {
+                "league": "프리미어리그",
+                "round": "프리미어리그·  라운드 6",
+                "match_time_raw": "10/18/2026 8:30:00 PM",
+                "match_time_display": "2026-10-19 05:30",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -5956,13 +6061,206 @@
                 }
             }
         },
+        "3103212": {
+            "match_code": "3103212",
+            "head_info": {
+                "league": "프리미어리그",
+                "round": "프리미어리그·  라운드 6",
+                "match_time_raw": "10/18/2026 8:30:00 PM",
+                "match_time_display": "2026-10-19 05:30",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "몰린스",
+            "away": "카발리어",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "12",
+                        "team": "몰린스",
+                        "played": "5",
+                        "win": "1",
+                        "draw": "0",
+                        "loss": "4",
+                        "goals_for": "4",
+                        "goals_against": "12",
+                        "goal_diff": "-8",
+                        "points": "3"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "6",
+                        "team": "카발리어",
+                        "played": "4",
+                        "win": "2",
+                        "draw": "1",
+                        "loss": "1",
+                        "goals_for": "7",
+                        "goals_against": "7",
+                        "goal_diff": "0",
+                        "points": "7"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 0무 6패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "2.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "3승 4무 3패",
+                        "goals_per_game": "1.00",
+                        "conceded_per_game": "1.20"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (10%)",
+                        "무승부 0 (0%)",
+                        "승 9 (90%)",
+                        "0.80",
+                        "경기당 득점",
+                        "3.10"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JAM D12026.04.05",
+                                "카발리어",
+                                "2-0",
+                                "몰린스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12026.03.05",
+                                "카발리어",
+                                "2-1",
+                                "몰린스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12025.12.11",
+                                "몰린스",
+                                "1-0",
+                                "카발리어"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12025.05.04",
+                                "카발리어",
+                                "4-3",
+                                "몰린스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12025.02.16",
+                                "몰린스",
+                                "0-3",
+                                "카발리어"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12024.12.08",
+                                "카발리어",
+                                "5-1",
+                                "몰린스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12024.04.07",
+                                "카발리어",
+                                "6-0",
+                                "몰린스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12024.01.04",
+                                "몰린스",
+                                "0-3",
+                                "카발리어"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12023.05.01",
+                                "카발리어",
+                                "4-2",
+                                "몰린스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JAM D12023.01.30",
+                                "몰린스",
+                                "0-2",
+                                "카발리어"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-26 22:05:00",
+                            "teams": "10.26 2026 vs 아넷 가든스 vs 몰린스 vs 8 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-02 22:05:00",
+                            "teams": "11.02 2026 vs 몰린스 vs 마운트 플레전트 vs 15 일",
+                            "interval": "15 일"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-08 20:00:00",
+                            "teams": "11.08 2026 vs 몬테고 바이 vs 몰린스 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-25 20:30:00",
+                            "teams": "10.25 2026 vs 카발리어 vs 티볼리 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-03 01:00:00",
+                            "teams": "11.03 2026 vs 워터하우스 vs 카발리어 vs 15 일",
+                            "interval": "15 일"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-08 20:30:00",
+                            "teams": "11.08 2026 vs 험블 라이온즈 vs 카발리어 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
         "3103213": {
             "match_code": "3103213",
             "head_info": {
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 6",
-                "match_time_raw": "10/18/2026 8:00:00 PM",
-                "match_time_display": "2026-10-19 05:00",
+                "match_time_raw": "10/18/2026 8:30:00 PM",
+                "match_time_display": "2026-10-19 05:30",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -6154,8 +6452,8 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 6",
-                "match_time_raw": "10/18/2026 8:00:00 PM",
-                "match_time_display": "2026-10-19 05:00",
+                "match_time_raw": "10/18/2026 8:30:00 PM",
+                "match_time_display": "2026-10-19 05:30",
                 "stadium": "",
                 "home_stadium": "-",
                 "weather": ""
@@ -6334,111 +6632,6 @@
                             "league": "프리미어리그",
                             "match_time": "2026-11-08 20:30:00",
                             "teams": "11.08 2026 vs 트레저 비치 vs 던베홀덴 vs 21 일",
-                            "interval": "21 일"
-                        }
-                    ]
-                }
-            }
-        },
-        "3103215": {
-            "match_code": "3103215",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 6",
-                "match_time_raw": "10/18/2026 8:00:00 PM",
-                "match_time_display": "2026-10-19 05:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "Tru-Juice FC",
-            "away": "험블 라이온즈",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "5",
-                        "team": "Tru-Juice FC",
-                        "played": "5",
-                        "win": "2",
-                        "draw": "2",
-                        "loss": "1",
-                        "goals_for": "6",
-                        "goals_against": "3",
-                        "goal_diff": "3",
-                        "points": "8"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "14",
-                        "team": "험블 라이온즈",
-                        "played": "5",
-                        "win": "0",
-                        "draw": "2",
-                        "loss": "3",
-                        "goals_for": "2",
-                        "goals_against": "13",
-                        "goal_diff": "-11",
-                        "points": "2"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "2승 2무 1패",
-                        "goals_per_game": "1.20",
-                        "conceded_per_game": "0.60"
-                    },
-                    "away_summary": {
-                        "recent_record": "0승 3무 7패",
-                        "goals_per_game": "0.40",
-                        "conceded_per_game": "2.20"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [],
-                    "matches": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-25 20:30:00",
-                            "teams": "10.25 2026 vs 트레저 비치 vs Tru-Juice FC vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-01 20:30:00",
-                            "teams": "11.01 2026 vs Tru-Juice FC vs 채플턴 vs 14 일",
-                            "interval": "14 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-08 20:00:00",
-                            "teams": "11.08 2026 vs 포트모어 vs Tru-Juice FC vs 21 일",
-                            "interval": "21 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-25 20:30:00",
-                            "teams": "10.25 2026 vs 험블 라이온즈 vs 라싱 유나이티드 vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-01 20:30:00",
-                            "teams": "11.01 2026 vs 던베홀덴 vs 험블 라이온즈 vs 14 일",
-                            "interval": "14 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-08 20:30:00",
-                            "teams": "11.08 2026 vs 험블 라이온즈 vs 카발리어 vs 21 일",
                             "interval": "21 일"
                         }
                     ]
