@@ -438,7 +438,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_final = a_final_exp_g * (1 + a_over_factor)
         total_expected_goals = h_final + a_final
 
-        # [규칙 6단계] 푸아송 분포 및 승무패 확률 / 스코어 순위 산출 (단일 화면 렌더링 수식과 100% 일치)
+# [규칙 6단계] 푸아송 분포 및 승무패 확률 / 스코어 순위 산출 (요청하신 마스터 규격 반영)
         if total_expected_goals < 2.2: 
             matrix_max_k = 3
         elif total_expected_goals <= 3.2 and tier_diff < 2: 
@@ -472,6 +472,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         calc_away_win = sum(item["prob"] for item in win_loss_probs if item["home_score"] < item["away_score"]) * 100
         calc_draw = sum(item["prob"] for item in win_loss_probs if item["home_score"] == item["away_score"]) * 100
 
+        # 💡 [1순위 선정] 규칙 5-2 결과(피트니스 거리 및 확률 복합 최적합)에 가장 부합하는 스코어
         scored_candidates = []
         for item in score_probs:
             hg, ag, prob = item["home_score"], item["away_score"], item["prob"]
@@ -482,6 +483,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         sorted_by_fitness = sorted(scored_candidates, key=lambda x: x["fitness"])
         best_match_52 = sorted_by_fitness[0]
 
+        # 💡 [2순위 선정] 1순위로 선정된 스코어를 제외한 푸아송 확률이 가장 높은 스코어
         sorted_by_prob = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
         second_match = None
         for s in sorted_by_prob:
@@ -491,6 +493,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         if not second_match:
             second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
+        # 💡 [3순위 선정] 점수 차이별 푸아송 확률 합산 결과 도출 (예: 홈 1점차 승리 등)
         diff_probs = {}
         for item in score_probs:
             diff = item["home_score"] - item["away_score"]
@@ -518,32 +521,32 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "p2_rate": second_match["prob"] * 100,
             "s3_desc": s3_desc,
             
-# 💡 [7단계 디버그 센터 연동용 단계별 보정치 안전 송신 (공격/수비 완벽 세트)]
+            # 💡 [디버그 센터 연동용 단계별 보정치 안전 송신]
             "h_step0_atk": h_step0_atk,
-            "h_step0_def": h_step0_def,  # 추가
+            "h_step0_def": h_step0_def,
             "h_r1_atk": h_r1_atk,
-            "h_r1_def": h_r1_def,        # 추가
+            "h_r1_def": h_r1_def,
             "h_r2_atk": h_r2_atk,
-            "h_r2_def": h_r2_def,        # 추가
+            "h_r2_def": h_r2_def,
             "h_r3_tot_atk": h_r3_tot_atk,
-            "h_r3_tot_def": h_r3_tot_def,  # 추가
+            "h_r3_tot_def": h_r3_tot_def,
             "h_r4_atk": h_r4_atk,
-            "h_r4_def": h_r4_def,        # 추가
+            "h_r4_def": h_r4_def,
             "h_tot_atk_pct": h_tot_atk_pct,
-            "h_tot_def_pct": h_tot_def_pct,  # 추가
+            "h_tot_def_pct": h_tot_def_pct,
             
             "a_step0_atk": a_step0_atk,
-            "a_step0_def": a_step0_def,  # 추가
+            "a_step0_def": a_step0_def,
             "a_r1_atk": a_r1_atk,
-            "a_r1_def": a_r1_def,        # 추가
+            "a_r1_def": a_r1_def,
             "a_r2_atk": a_r2_atk,
-            "a_r2_def": a_r2_def,        # 추가
+            "a_r2_def": a_r2_def,
             "a_r3_tot_atk": a_r3_tot_atk,
-            "a_r3_tot_def": a_r3_tot_def,  # 추가
+            "a_r3_tot_def": a_r3_tot_def,
             "a_r4_atk": a_r4_atk,
-            "a_r4_def": a_r4_def,        # 추가
+            "a_r4_def": a_r4_def,
             "a_tot_atk_pct": a_tot_atk_pct,
-            "a_tot_def_pct": a_tot_def_pct   # 추가
+            "a_tot_def_pct": a_tot_def_pct
         }
 
     except Exception as e:
