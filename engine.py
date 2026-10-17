@@ -212,53 +212,22 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_a_at, a_r1_atk = get_atk_tier(a_base_g)
         base_a_de, a_r1_def = get_def_tier(a_base_c)
 
-# [규칙 2번] 구장별(Stadium Form) Shift 보정 연산 (기본 3번 기준, 중립/특수 시 v3-2 연동)
+# [규칙 2번] 구장별(Stadium Form) Shift 보정 연산 (기본 3번 딕셔너리 기반 단독 연동)
         head_info = target_detail.get("head_info", {})
+        venue_val = str(head_info.get("stadium", ""))
+        home_stadium_val = str(head_info.get("home_stadium", ""))
         
-        # v3-2 딕셔너리 사전 로드
-        v3_2_details_dict = {}
-        if os.path.exists("match_details_v3-2.json"):
-            try:
-                with open("match_details_v3-2.json", "r", encoding="utf-8") as f:
-                    v3_2_data = json.load(f)
-                    v3_2_details_dict = v3_2_data.get("match_details", {})
-            except:
-                pass
-
-        target_code = str(target_detail.get("match_code", "")).strip()
-        target_home = str(home_name).strip().replace(" ", "")
-        target_away = str(away_name).strip().replace(" ", "")
-
-        # 1. 중립/특수 구장 판별 (match_details_v3-2.json에 해당 경기가 수집되어 있다면 중립/확장 대상으로 간주)
         is_neutral_venue = False
-        target_v3_2_meta = None
+        if venue_val and home_stadium_val and home_stadium_val != "-":
+            if venue_val.strip().lower() != home_stadium_val.strip().lower():
+                is_neutral_venue = True
 
-        if target_code and target_code in v3_2_details_dict:
-            target_v3_2_meta = v3_2_details_dict[target_code].get("meta_details", {})
-            is_neutral_venue = True
-        else:
-            for k, v in v3_2_details_dict.items():
-                v_home = str(v.get("home", "")).strip().replace(" ", "")
-                v_away = str(v.get("away", "")).strip().replace(" ", "")
-                if v_home == target_home and v_away == target_away:
-                    target_v3_2_meta = v.get("meta_details", {})
-                    is_neutral_venue = True
-                    break
-
-        # 2. 홈팀 전적 추출 (평소엔 3번 데이터 사용, 중립일 때만 v3-2 풀 우선 탐색 후 폴백)
+        # 1. 홈팀 전적 추출 (중립 여부에 따라 구장별 폼 또는 원정 폼 활용)
         s_home_matches = []
         if is_neutral_venue:
-            active_stadium_form = None
-            if target_v3_2_meta and "stadium_form" in target_v3_2_meta:
-                active_stadium_form = target_v3_2_meta["stadium_form"]
-            
-            recent_all_pool = []
-            if active_stadium_form and active_stadium_form.get("home_matches"):
-                recent_all_pool = active_stadium_form.get("home_matches", [])
-            else:
-                recent_all_pool = stadium_form.get("recent_matches", []) if "recent_matches" in stadium_form else []
-                if not recent_all_pool and 'h_matches' in locals():
-                    recent_all_pool = h_matches
+            recent_all_pool = stadium_form.get("recent_matches", []) if "recent_matches" in stadium_form else []
+            if not recent_all_pool and 'h_matches' in locals():
+                recent_all_pool = h_matches
 
             neutral_home_away_matches = []
             for m in recent_all_pool:
@@ -275,10 +244,9 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
             s_home_matches = neutral_home_away_matches[:10]
         else:
-            # 일반 경기는 기존 3번 딕셔너리의 구장별 전적(stadium_form) 우선 사용
             s_home_matches = stadium_form.get("home_matches", [])[:10]
 
-        # 3. 원정팀 전적 추출 (기존 3번 딕셔너리의 원정 폼 고정 사용)
+        # 2. 원정팀 전적 추출
         s_away_matches = stadium_form.get("away_matches", [])[:10]
 
         if not s_home_matches: s_home_matches = h_matches[:10]
@@ -309,7 +277,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_r2_def = calc_shift(base_h_de, s_h_de, False)
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
-
         # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 화면 연동 일치화
         h_squad_changes = meta_details.get("home_squad_changes", [])
         a_squad_changes = meta_details.get("away_squad_changes", [])
