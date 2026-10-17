@@ -438,12 +438,20 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_final = a_final_exp_g * (1 + a_over_factor)
         total_expected_goals = h_final + a_final
 
-# [규칙 6단계] 푸아송 분포 및 승무패 확률 / 스코어 순위 산출 (요청하신 마스터 규격 반영)
-        if total_expected_goals < 2.2: 
+# [규칙 6단계] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 (app.py 100% 일치 규격)
+        base_h_lambda = h_final_exp_g if 'h_final_exp_g' in locals() and h_final_exp_g is not None else 1.0
+        base_a_lambda = a_final_exp_g if 'a_final_exp_g' in locals() and a_final_exp_g is not None else 1.0
+
+        safe_h_final = float(h_final) if 'h_final' in locals() and h_final is not None else 1.0
+        safe_a_final = float(a_final) if 'a_final' in locals() and a_final is not None else 1.0
+
+        total_exp_goals = safe_h_final + safe_a_final
+
+        if total_exp_goals < 2.2:
             matrix_max_k = 3
-        elif total_expected_goals <= 3.2 and tier_diff < 2: 
+        elif total_exp_goals <= 3.2 and (tier_diff if 'tier_diff' in locals() else 0) < 2:
             matrix_max_k = 4
-        else: 
+        else:
             matrix_max_k = 6
 
         def poisson_prob(lmbda, k):
@@ -457,33 +465,38 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         win_loss_probs = []
         for h_g in range(matrix_max_k + 1):
             for a_g in range(matrix_max_k + 1):
-                p_h = poisson_prob(h_final_exp_g, h_g)
-                p_a = poisson_prob(a_final_exp_g, a_g)
-                win_loss_probs.append({"home_score": h_g, "away_score": a_g, "prob": p_h * p_a})
+                p_h = poisson_prob(base_h_lambda, h_g)
+                p_a = poisson_prob(base_a_lambda, a_g)
+                joint_prob = p_h * p_a
+                win_loss_probs.append({"home_score": h_g, "away_score": a_g, "prob": joint_prob})
 
         score_probs = []
         for h_g in range(matrix_max_k + 1):
             for a_g in range(matrix_max_k + 1):
-                p_h = poisson_prob(h_final, h_g)
-                p_a = poisson_prob(a_final, a_g)
-                score_probs.append({"home_score": h_g, "away_score": a_g, "prob": p_h * p_a})
+                p_h = poisson_prob(safe_h_final, h_g)
+                p_a = poisson_prob(safe_a_final, a_g)
+                joint_prob = p_h * p_a
+                score_probs.append({"home_score": h_g, "away_score": a_g, "prob": joint_prob})
 
         calc_home_win = sum(item["prob"] for item in win_loss_probs if item["home_score"] > item["away_score"]) * 100
         calc_away_win = sum(item["prob"] for item in win_loss_probs if item["home_score"] < item["away_score"]) * 100
         calc_draw = sum(item["prob"] for item in win_loss_probs if item["home_score"] == item["away_score"]) * 100
 
-        # 💡 [1순위 선정] 규칙 5-2 결과(피트니스 거리 및 확률 복합 최적합)에 가장 부합하는 스코어
+        h_target_52 = h_agf if 'h_agf' in locals() and h_agf is not None else 1.0
+        a_target_52 = a_agf if 'a_agf' in locals() and a_agf is not None else 1.0
+
+        # [1순위] 규칙 5-2 결과에 가장 적합한 결과값 최우선 선정
         scored_candidates = []
         for item in score_probs:
             hg, ag, prob = item["home_score"], item["away_score"], item["prob"]
-            v52_distance = abs(hg - h_agf) + abs(ag - a_agf)
+            v52_distance = abs(hg - h_target_52) + abs(ag - a_target_52)
             fitness_score = v52_distance - (prob * 3.0)
             scored_candidates.append({"home_score": hg, "away_score": ag, "prob": prob, "fitness": fitness_score})
 
         sorted_by_fitness = sorted(scored_candidates, key=lambda x: x["fitness"])
         best_match_52 = sorted_by_fitness[0]
 
-        # 💡 [2순위 선정] 1순위로 선정된 스코어를 제외한 푸아송 확률이 가장 높은 스코어
+        # [2순위] 1순위를 제외한 푸아송 확률 제일 높은 단일 스코어 선정
         sorted_by_prob = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
         second_match = None
         for s in sorted_by_prob:
@@ -493,21 +506,24 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         if not second_match:
             second_match = sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52
 
-        # 💡 [3순위 선정] 점수 차이별 푸아송 확률 합산 결과 도출 (예: 홈 1점차 승리 등)
+        # [3순위] 각 점수 차이별 확률 합산 후 가장 많이 차지한 점수 차이 구도 및 산출근거 생성
         diff_probs = {}
         for item in score_probs:
             diff = item["home_score"] - item["away_score"]
             diff_probs[diff] = diff_probs.get(diff, 0.0) + item["prob"]
+
         sorted_diffs = sorted(diff_probs.items(), key=lambda x: x[1], reverse=True)
+
         top_diff_item = sorted_diffs[0] if sorted_diffs else (0, 0.1)
         d_val, d_prob_val = top_diff_item[0], top_diff_item[1] * 100
 
-        if d_val > 0: 
+        if d_val > 0:
             s3_name = f"{home_name} {d_val}점차 승리"
-        elif d_val < 0: 
+        elif d_val < 0:
             s3_name = f"{away_name} {abs(d_val)}점차 승리"
-        else: 
+        else:
             s3_name = "무승부 공방"
+
         s3_desc = f"{s3_name} ({d_prob_val:.1f}%)"
 
         return {
@@ -521,32 +537,20 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "p2_rate": second_match["prob"] * 100,
             "s3_desc": s3_desc,
             
-            # 💡 [디버그 센터 연동용 단계별 보정치 안전 송신]
-            "h_step0_atk": h_step0_atk,
-            "h_step0_def": h_step0_def,
-            "h_r1_atk": h_r1_atk,
-            "h_r1_def": h_r1_def,
-            "h_r2_atk": h_r2_atk,
-            "h_r2_def": h_r2_def,
-            "h_r3_tot_atk": h_r3_tot_atk,
-            "h_r3_tot_def": h_r3_tot_def,
-            "h_r4_atk": h_r4_atk,
-            "h_r4_def": h_r4_def,
-            "h_tot_atk_pct": h_tot_atk_pct,
-            "h_tot_def_pct": h_tot_def_pct,
+            # 💡 [디버그 센터 연동용 단계별 공수 보정치 송신 세트]
+            "h_step0_atk": h_step0_atk, "h_step0_def": h_step0_def,
+            "h_r1_atk": h_r1_atk, "h_r1_def": h_r1_def,
+            "h_r2_atk": h_r2_atk, "h_r2_def": h_r2_def,
+            "h_r3_tot_atk": h_r3_tot_atk, "h_r3_tot_def": h_r3_tot_def,
+            "h_r4_atk": h_r4_atk, "h_r4_def": h_r4_def,
+            "h_tot_atk_pct": h_tot_atk_pct, "h_tot_def_pct": h_tot_def_pct,
             
-            "a_step0_atk": a_step0_atk,
-            "a_step0_def": a_step0_def,
-            "a_r1_atk": a_r1_atk,
-            "a_r1_def": a_r1_def,
-            "a_r2_atk": a_r2_atk,
-            "a_r2_def": a_r2_def,
-            "a_r3_tot_atk": a_r3_tot_atk,
-            "a_r3_tot_def": a_r3_tot_def,
-            "a_r4_atk": a_r4_atk,
-            "a_r4_def": a_r4_def,
-            "a_tot_atk_pct": a_tot_atk_pct,
-            "a_tot_def_pct": a_tot_def_pct
+            "a_step0_atk": a_step0_atk, "a_step0_def": a_step0_def,
+            "a_r1_atk": a_r1_atk, "a_r1_def": a_r1_def,
+            "a_r2_atk": a_r2_atk, "a_r2_def": a_r2_def,
+            "a_r3_tot_atk": a_r3_tot_atk, "a_r3_tot_def": a_r3_tot_def,
+            "a_r4_atk": a_r4_atk, "a_r4_def": a_r4_def,
+            "a_tot_atk_pct": a_tot_atk_pct, "a_tot_def_pct": a_tot_def_pct
         }
 
     except Exception as e:
