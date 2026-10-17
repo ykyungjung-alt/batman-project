@@ -431,7 +431,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         total_expected_goals = h_final + a_final
 
 # --------------------------------------------------------------------------
-        # 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 블록 (안전 완벽 방어 버전)
+        # 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 (5-2 최적합 1순위 강제 고정)
         # --------------------------------------------------------------------------
         def poisson_prob(lmbda, k):
             if lmbda <= 0 and k == 0:
@@ -476,10 +476,11 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         calc_away_win = sum(item["prob"] for item in win_loss_probs if item["home_score"] < item["away_score"]) * 100
         calc_draw = sum(item["prob"] for item in win_loss_probs if item["home_score"] == item["away_score"]) * 100
 
-        h_target_52 = h_agf if 'h_agf' in locals() and h_agf is not None else 1.0
-        a_target_52 = a_agf if 'a_agf' in locals() and a_agf is not None else 1.0
+        # 💡 [핵심] 5-2 표의 실전 평균 득실 값(h_agf, a_agf)을 명확하게 타겟으로 설정
+        h_target_52 = float(h_agf) if 'h_agf' in locals() and h_agf is not None else 1.0
+        a_target_52 = float(a_agf) if 'a_agf' in locals() and a_agf is not None else 1.0
 
-        # [1순위] 규칙 5-2 결과에 가장 적합한 결과값 최우선 선정
+        # [1순위] 규칙 5-2 결과에 가장 적합한 결과값 최우선 선정 (피트니스 거리 공식 적용)
         scored_candidates = []
         for item in score_probs:
             hg, ag, prob = item["home_score"], item["away_score"], item["prob"]
