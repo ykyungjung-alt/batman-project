@@ -279,13 +279,14 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        # 💡 [리그순위 코드 파싱 및 country.json 정밀 대조 함수 - 띄어쓰기/하이픈 완벽 차단 규격]
+# 💡 [리그순위 코드 파싱 및 country.json 정밀 대조 함수 - 공백/하이픈 앞부분 엄격 분리 규격]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
             team_str = str(team_val).strip().lower()
             clean_league = str(current_league_name).strip().replace(" ", "").lower()
 
+            # 💡 공백이나 하이픈을 기준으로 맨 앞 단어(첫 번째 토큰)만 강력하게 추출 (예: "ESP D1" -> "ESP")
             extracted_code = ""
             if rank_str and rank_str != "-":
                 token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
@@ -302,12 +303,12 @@ with tabs[0]:
                         kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
                         leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
 
-                        match_by_code = c_code and (c_code == extracted_code or any(extracted_code in l for l in leagues_list))
+                        # 추출된 코드와 country.json의 코드 또는 리그 목록의 첫 번째 토큰 대조
+                        match_by_code = c_code and (c_code == extracted_code or any(extracted_code in l.split()[0] for l in leagues_list if l))
                         match_by_kor_league = kor_league and (kor_league in clean_league or clean_league in kor_league)
                         match_by_eng_league = any(l.split()[0].lower() in clean_league for l in c.get("leagues", []) if l)
-                        match_by_name = c_name and (c_name in clean_league or c_name in team_str)
 
-                        if match_by_code or match_by_kor_league or match_by_eng_league or match_by_name:
+                        if match_by_code or match_by_kor_league or match_by_eng_league:
                             return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
             f_info = grades.get("F", {})
