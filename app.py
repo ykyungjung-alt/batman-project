@@ -279,22 +279,28 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-# 💡 [국가 및 등급 정밀 대조 함수 - 띄어쓰기/하이픈 전까지만 엄격 탐색 규격]
+# 💡 [국가 및 등급 정밀 대조 함수 - '리그 1' 글자 겹치기 오탐지 완벽 해결 규격]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
             team_str = str(team_val).strip().lower()
             clean_league = str(current_league_name).strip().replace(" ", "").lower()
 
-            # 💡 [핵심] 띄어쓰기나 하이픈(-)이 나오기 전의 첫 번째 단어만 강력하게 추출 (예: "NGA PR-1" -> "NGA", "FRA D1" -> "FRA")
+            # 💡 [최우선 방어] 리그명이나 랭크 코드에 'K리그' 또는 'KOR'이 포함되어 있으면 프랑스('리그 1') 오탐지를 원천 차단하고 대한민국(KOR) 고정
+            if "k리그" in clean_league or "kor" in rank_str.upper():
+                for c in grades.get("C", []):
+                    if c.get("code") == "KOR":
+                        return c.get("code", "KOR"), rank_str, c.get("grade", "C"), c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
+                return "KOR", rank_str, "C", "+9%", "-9%"
+
+            # 2. 띄어쓰기나 하이픈(-) 앞쪽의 국가/리그 코드 추출 (예: "NGA PR-1" -> "NGA")
             extracted_code = ""
             if rank_str and rank_str != "-":
-                # 정규식으로 공백(\s) 또는 하이픈(-)을 기준으로 분리하여 첫 번째 토큰만 획득
                 token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
-                if token and not token.isdigit():  # 숫자인 경우(예: 순위 "10")는 코드로 취급 안 함
+                if token and not token.isdigit():
                     extracted_code = token
 
-            # 1. 추출된 순수 코드(extracted_code)가 있으면 country.json의 국가 코드(c_code)와 1차 정밀 대조
+            # 3. 추출된 코드가 있으면 country.json의 국가 코드와 대조
             if extracted_code:
                 for grade_key, countries in grades.items():
                     if grade_key == "F":
@@ -303,12 +309,10 @@ with tabs[0]:
                         for c in countries:
                             c_code = str(c.get("code", "")).strip().upper()
                             leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
-                            
-                            # 국가 코드와 일치하거나, 리그 목록의 첫 단어와 일치하는 경우
                             if c_code == extracted_code or any(extracted_code == l.split()[0] for l in leagues_list if l):
                                 return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
-            # 2. 코드가 없거나 매칭 실패 시 현재 리그명(current_league_name)으로 대조 (단, 글자 겹침 방지를 위해 정확한 매칭 검사)
+            # 4. 일반 해외 리그명 대조 (프랑스 등)
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
@@ -317,16 +321,16 @@ with tabs[0]:
                         kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
                         c_name = str(c.get("name", "")).strip().lower()
                         
+                        # 정확히 일치하거나 독립된 단어일 때만 매칭 허용 (글자 겹침 방지)
                         match_kor = kor_league and (kor_league == clean_league or f" {kor_league} " in f" {clean_league} ")
                         match_name = c_name and (c_name in clean_league or c_name in team_str)
 
                         if match_kor or match_name:
                             return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
-            # 3. 모든 매칭 실패 시 안전하게 F등급 폴백 처리
+            # 5. 매칭 실패 시 F등급 폴백 처리
             f_info = grades.get("F", {})
             return "EXT", rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
-
         if rankings_raw:
             rankings_list = []
             
