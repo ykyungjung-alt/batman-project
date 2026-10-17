@@ -518,20 +518,32 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "p2_rate": second_match["prob"] * 100,
             "s3_desc": s3_desc,
             
-            # 💡 [7단계 디버그 센터 연동용 단계별 보정치 안전 송신]
+# 💡 [7단계 디버그 센터 연동용 단계별 보정치 안전 송신 (공격/수비 완벽 세트)]
             "h_step0_atk": h_step0_atk,
+            "h_step0_def": h_step0_def,  # 추가
             "h_r1_atk": h_r1_atk,
+            "h_r1_def": h_r1_def,        # 추가
             "h_r2_atk": h_r2_atk,
+            "h_r2_def": h_r2_def,        # 추가
             "h_r3_tot_atk": h_r3_tot_atk,
+            "h_r3_tot_def": h_r3_tot_def,  # 추가
             "h_r4_atk": h_r4_atk,
+            "h_r4_def": h_r4_def,        # 추가
             "h_tot_atk_pct": h_tot_atk_pct,
+            "h_tot_def_pct": h_tot_def_pct,  # 추가
             
             "a_step0_atk": a_step0_atk,
+            "a_step0_def": a_step0_def,  # 추가
             "a_r1_atk": a_r1_atk,
+            "a_r1_def": a_r1_def,        # 추가
             "a_r2_atk": a_r2_atk,
+            "a_r2_def": a_r2_def,        # 추가
             "a_r3_tot_atk": a_r3_tot_atk,
+            "a_r3_tot_def": a_r3_tot_def,  # 추가
             "a_r4_atk": a_r4_atk,
-            "a_tot_atk_pct": a_tot_atk_pct
+            "a_r4_def": a_r4_def,        # 추가
+            "a_tot_atk_pct": a_tot_atk_pct,
+            "a_tot_def_pct": a_tot_def_pct   # 추가
         }
 
     except Exception as e:
