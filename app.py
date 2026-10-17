@@ -2030,11 +2030,11 @@ with tabs[6]:
     # (생략 없이 기존 0단계 코드 유지)
 
 # ==========================================
-# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 3-2 폴백 방어 및 안정화 버전
+# 7번 탭: 요약 리포트 (Match Code 기반 대진별 멀티 비교 대시보드) - 3-2 완전 제거 및 순정 원복 버전
 # ==========================================
 with tabs[7]:
     st.markdown("### 📋 [규칙 7] 배트맨 프로젝트 마스터 규격 멀티 경기 비교 대시보드")
-    st.markdown("0~6단계 화면에서 사용하는 **모든 딕셔너리(`v3_details_dict`, `v3_2_details_dict`, `all_details_dict`, `v4_leagues_dict`, `country.json`)** 데이터가 엔진(`engine.py`)으로 빠짐없이 주입되어 실시간 연동됩니다.")
+    st.markdown("0~6단계 화면에서 사용하는 **모든 기본 딕셔너리(`v3_details_dict`, `all_details_dict`, `country.json`)** 데이터가 엔진(`engine.py`)으로 주입되어 실시간 연동됩니다.")
 
     # 🚀 백엔드 엔진 임포트
     try:
@@ -2122,9 +2122,9 @@ with tabs[7]:
             st.session_state["multi_selected_matches"] = matches_to_keep
             st.rerun()
 
-        # 🚀 3. 대진별 독립 수리 엔진 연산 및 통합 비교 표 (v3-2 안전 폴백 적용)
+        # 🚀 3. 대진별 독립 수리 엔진 연산 및 통합 비교 표 (기본 3번 및 v3 기준)
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표 (v3-2 안전 폴백 연동)")
+        st.markdown("##### 🏆 담긴 경기 대진별 독립 수리 엔진 연산 및 통합 비교 표")
 
         multi_summary_data = []
         engine_results_store = {} 
@@ -2149,13 +2149,6 @@ with tabs[7]:
             }
 
             source_candidates = []
-            
-            # 💡 [안전 폴백 로직] 3-2 데이터를 우선 조회하되, stadium_form이 비어있으면 3번/일반 딕셔너리로 우회
-            v3_2_data = v3_2_details_dict.get(m_code, {}) if 'v3_2_details_dict' in locals() else {}
-            v3_2_sf = v3_2_data.get("meta_details", {}).get("stadium_form", {}).get("home_matches", [])
-            
-            if m_code and v3_2_data and len(v3_2_sf) > 0:
-                source_candidates.append(v3_2_data)
             
             if m_code and m_code in v3_details_dict:
                 source_candidates.append(v3_details_dict[m_code])
@@ -2192,7 +2185,7 @@ with tabs[7]:
                         if src_rf.get("away_summary"): merged_target_detail["meta_details"]["recent_form"]["away_summary"] = src_rf["away_summary"]
 
                     src_sf = src_meta.get("stadium_form", {})
-                    if src_sf and src_sf.get("home_matches"):  # 데이터가 비어있지 않은 경우에만 병합
+                    if src_sf:
                         merged_target_detail["meta_details"]["stadium_form"] = src_sf
 
                     src_h2h = src_meta.get("h2h", {})
@@ -2213,17 +2206,6 @@ with tabs[7]:
                 for key_name in ["h_gpg", "h_cpg", "a_gpg", "a_cpg", "h_agf", "a_agf"]:
                     if key_name in src:
                         merged_target_detail[key_name] = src[key_name]
-
-            # 💡 [필수 방어 코드] stadium_form 및 중립 구장 판정 근거 명시적 정의
-            head_meta = merged_target_detail.get("head_info", {})
-            venue_val = str(head_meta.get("stadium", "")) or str(head_meta.get("venue", ""))
-            home_stadium_val = str(head_meta.get("home_stadium", ""))
-            is_neutral_venue = False
-            if venue_val and home_stadium_val:
-                if venue_val.strip().lower() != home_stadium_val.strip().lower():
-                    is_neutral_venue = True
-
-            stadium_form = merged_target_detail.get("meta_details", {}).get("stadium_form", {"home_matches": [], "away_matches": []})
 
             match_key = f"{h_name} vs {a_name}"
 
