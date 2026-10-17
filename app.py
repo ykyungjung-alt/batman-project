@@ -262,7 +262,7 @@ with tabs[0]:
     """
     st.markdown(meta_markdown_table, unsafe_allow_html=True)
     
-st.markdown("##### 📊 공식 팀 순위 및 country.json 기반 등급·가중치 연동 현황")
+    st.markdown("##### 📊 공식 팀 순위 및 country.json 기반 등급·가중치 연동 현황")
     
     if has_detailed_data:
         meta_details = detailed_info.get("meta_details", {})
