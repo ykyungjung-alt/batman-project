@@ -212,17 +212,10 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_a_at, a_r1_atk = get_atk_tier(a_base_g)
         base_a_de, a_r1_def = get_def_tier(a_base_c)
 
-        # [규칙 2번] 구장별(Stadium Form) Shift 보정 연산 (중립 시 v3-2 참조 규격 연동)
+# [규칙 2번] 구장별(Stadium Form) Shift 보정 연산 (기본 3번 기준, 중립/특수 시 v3-2 연동)
         head_info = target_detail.get("head_info", {})
-        venue_val = str(head_info.get("stadium", "")) or str(head_info.get("venue", ""))
-        home_stadium_val = str(head_info.get("home_stadium", ""))
         
-        is_neutral_venue = False
-        if venue_val and home_stadium_val:
-            if venue_val.strip().lower() != home_stadium_val.strip().lower():
-                is_neutral_venue = True
-
-        # v3-2 딕셔너리 로드 (엔진 내부 독립 처리용)
+        # v3-2 딕셔너리 사전 로드
         v3_2_details_dict = {}
         if os.path.exists("match_details_v3-2.json"):
             try:
@@ -232,23 +225,27 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             except:
                 pass
 
+        target_code = str(target_detail.get("match_code", "")).strip()
+        target_home = str(home_name).strip().replace(" ", "")
+        target_away = str(away_name).strip().replace(" ", "")
+
+        # 1. 중립/특수 구장 판별 (match_details_v3-2.json에 해당 경기가 수집되어 있다면 중립/확장 대상으로 간주)
+        is_neutral_venue = False
         target_v3_2_meta = None
-        if is_neutral_venue:
-            target_code = str(target_detail.get("match_code", "")).strip()
-            target_home = str(home_name).strip().replace(" ", "")
-            target_away = str(away_name).strip().replace(" ", "")
 
-            if target_code and target_code in v3_2_details_dict:
-                target_v3_2_meta = v3_2_details_dict[target_code].get("meta_details", {})
-            else:
-                for k, v in v3_2_details_dict.items():
-                    v_home = str(v.get("home", "")).strip().replace(" ", "")
-                    v_away = str(v.get("away", "")).strip().replace(" ", "")
-                    if v_home == target_home and v_away == target_away:
-                        target_v3_2_meta = v.get("meta_details", {})
-                        break
+        if target_code and target_code in v3_2_details_dict:
+            target_v3_2_meta = v3_2_details_dict[target_code].get("meta_details", {})
+            is_neutral_venue = True
+        else:
+            for k, v in v3_2_details_dict.items():
+                v_home = str(v.get("home", "")).strip().replace(" ", "")
+                v_away = str(v.get("away", "")).strip().replace(" ", "")
+                if v_home == target_home and v_away == target_away:
+                    target_v3_2_meta = v.get("meta_details", {})
+                    is_neutral_venue = True
+                    break
 
-        # 1. 홈팀 전적 추출 (중립일 때 3-2 우선 탐색, 없거나 비어있으면 기존 3번 딕셔너리에서 폴백)
+        # 2. 홈팀 전적 추출 (평소엔 3번 데이터 사용, 중립일 때만 v3-2 풀 우선 탐색 후 폴백)
         s_home_matches = []
         if is_neutral_venue:
             active_stadium_form = None
@@ -278,9 +275,10 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
             s_home_matches = neutral_home_away_matches[:10]
         else:
+            # 일반 경기는 기존 3번 딕셔너리의 구장별 전적(stadium_form) 우선 사용
             s_home_matches = stadium_form.get("home_matches", [])[:10]
 
-        # 2. 원정팀 전적 추출 (3-2에 원정팀 데이터가 없으므로 기존 3번 딕셔너리의 원정 폼 고정 사용)
+        # 3. 원정팀 전적 추출 (기존 3번 딕셔너리의 원정 폼 고정 사용)
         s_away_matches = stadium_form.get("away_matches", [])[:10]
 
         if not s_home_matches: s_home_matches = h_matches[:10]
