@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-18 06:33:10",
+    "last_updated": "2026-10-18 09:47:18",
     "match_details": {
         "3018831": {
             "match_code": "3018831",
@@ -398,7 +398,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "12",
+                        "rank": "13",
                         "team": "크리스탈팰리스",
                         "played": "6",
                         "win": "2",
@@ -6473,6 +6473,181 @@
                 }
             }
         },
+        "3100510": {
+            "match_code": "3100510",
+            "head_info": {
+                "league": "프리미어리그",
+                "round": "프리미어리그·  라운드 2",
+                "match_time_raw": "10/18/2026 12:00:00 PM",
+                "match_time_display": "2026-10-18 21:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "메찰",
+            "away": "에디오피아 니그드 뱅크",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "6",
+                        "team": "메찰",
+                        "played": "1",
+                        "win": "1",
+                        "draw": "0",
+                        "loss": "0",
+                        "goals_for": "1",
+                        "goals_against": "0",
+                        "goal_diff": "1",
+                        "points": "3"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "5",
+                        "team": "에디오피아 니그드 뱅크",
+                        "played": "1",
+                        "win": "1",
+                        "draw": "0",
+                        "loss": "0",
+                        "goals_for": "1",
+                        "goals_against": "0",
+                        "goal_diff": "1",
+                        "points": "3"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 4무 3패",
+                        "goals_per_game": "0.90",
+                        "conceded_per_game": "0.90"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.10",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 4 (57.1%)",
+                        "무승부 3 (42.9%)",
+                        "승 0 (0%)",
+                        "1.29",
+                        "경기당 득점",
+                        "0.29",
+                        "핸디캡：5승 0무 1패",
+                        "언오버：0오버 2무 4언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ETH PR2026.03.03",
+                                "에디오피아 니그드 뱅크",
+                                "0-2",
+                                "메찰"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ETH PR2025.10.28",
+                                "메찰",
+                                "3-1",
+                                "에디오피아 니그드 뱅크"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ETH PR2025.05.02",
+                                "에디오피아 니그드 뱅크",
+                                "0-0",
+                                "메찰"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ETH PR2024.10.31",
+                                "메찰",
+                                "1-0",
+                                "에디오피아 니그드 뱅크"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ETH PR2024.03.15",
+                                "에디오피아 니그드 뱅크",
+                                "0-2",
+                                "메찰"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ETH PR2023.10.21",
+                                "메찰",
+                                "1-1",
+                                "에디오피아 니그드 뱅크"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ETH PR2017.01.04",
+                                "에디오피아 니그드 뱅크",
+                                "0-0",
+                                "메찰"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-22 13:00:00",
+                            "teams": "10.22 2026 vs Gamo Chencha vs 메찰 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-27 12:00:00",
+                            "teams": "10.27 2026 vs 에디오피안 인슈어런스 vs 메찰 vs 9 일",
+                            "interval": "9 일"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-01 15:00:00",
+                            "teams": "11.01 2026 vs 시다마 번나 vs 메찰 vs 14 일",
+                            "interval": "14 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-22 12:00:00",
+                            "teams": "10.22 2026 vs 아와사 vs 에디오피아 니그드 뱅크 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-25 13:00:00",
+                            "teams": "10.25 2026 vs Gamo Chencha vs 에디오피아 니그드 뱅크 vs 7 일",
+                            "interval": "7 일"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-02 12:00:00",
+                            "teams": "11.02 2026 vs 에디오피아 니그드 뱅크 vs 에디오피안 인슈어런스 vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ]
+                }
+            }
+        },
         "3088814": {
             "match_code": "3088814",
             "head_info": {
@@ -6669,6 +6844,167 @@
                             "interval": "35 일"
                         }
                     ]
+                }
+            }
+        },
+        "3089022": {
+            "match_code": "3089022",
+            "head_info": {
+                "league": "프리미어리그",
+                "round": "프리미어리그·  라운드 9",
+                "match_time_raw": "10/18/2026 5:00:00 AM",
+                "match_time_display": "2026-10-18 14:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "FC 울란바토르",
+            "away": "Central Stallions",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "2",
+                        "team": "FC 울란바토르",
+                        "played": "7",
+                        "win": "6",
+                        "draw": "1",
+                        "loss": "0",
+                        "goals_for": "37",
+                        "goals_against": "4",
+                        "goal_diff": "33",
+                        "points": "19"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "1",
+                        "team": "Central Stallions",
+                        "played": "7",
+                        "win": "7",
+                        "draw": "0",
+                        "loss": "0",
+                        "goals_for": "29",
+                        "goals_against": "7",
+                        "goal_diff": "22",
+                        "points": "21"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "7승 1무 2패",
+                        "goals_per_game": "4.40",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "8승 1무 1패",
+                        "goals_per_game": "3.20",
+                        "conceded_per_game": "1.20"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 4 (40%)",
+                        "무승부 1 (10%)",
+                        "승 5 (50%)",
+                        "2.30",
+                        "경기당 득점",
+                        "1.50",
+                        "핸디캡：2승 0무 3패",
+                        "언오버：1오버 0무 4언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "MGL PL2026.06.30",
+                                "FC 울란바토르",
+                                "2-3",
+                                "Central Stallions"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MGL PL2026.06.21",
+                                "Central Stallions",
+                                "0-3",
+                                "FC 울란바토르"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MGL PL2026.06.17",
+                                "Central Stallions",
+                                "1-0",
+                                "FC 울란바토르"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MGL PL2025.11.02",
+                                "FC 울란바토르",
+                                "1-1",
+                                "Central Stallions"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MGL PL2025.07.09",
+                                "Central Stallions",
+                                "0-3",
+                                "FC 울란바토르"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MGL PL2025.04.19",
+                                "FC 울란바토르",
+                                "0-3",
+                                "Central Stallions"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MGL PL2024.10.04",
+                                "Central Stallions",
+                                "1-11",
+                                "FC 울란바토르"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MGL PL2024.06.16",
+                                "FC 울란바토르",
+                                "1-2",
+                                "Central Stallions"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MGL PL2024.04.18",
+                                "Central Stallions",
+                                "1-2",
+                                "FC 울란바토르"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MGL PL2023.10.01",
+                                "FC 울란바토르",
+                                "0-3",
+                                "Central Stallions"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         }
