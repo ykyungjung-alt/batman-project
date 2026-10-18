@@ -1,372 +1,6 @@
 {
-    "last_updated": "2026-10-19 00:55:15",
+    "last_updated": "2026-10-19 03:47:45",
     "match_details": {
-        "3018833": {
-            "match_code": "3018833",
-            "head_info": {
-                "league": "분데스리가",
-                "round": ""
-            },
-            "home": "묀헨글라트바흐",
-            "away": "호펜하임",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "묀헨글라트바흐",
-                    "home_matches": [
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.10.11",
-                            "teams": "쾰른 vs 묀헨글라트바흐",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.80/1.90"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.10.03",
-                            "teams": "장크트 파울리 vs 묀헨글라트바흐",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.90/1.90"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.09.24",
-                            "teams": "지겐 vs 묀헨글라트바흐",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "3.20/1.90"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.09.19",
-                            "teams": "묀헨글라트바흐 vs 마인츠",
-                            "ft_scores": [
-                                "3",
-                                "4"
-                            ],
-                            "opponent_tier_info": "3.20/0.80"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.09.12",
-                            "teams": "프라이부르크 vs 묀헨글라트바흐",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "3.90/1.20"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.09.05",
-                            "teams": "묀헨글라트바흐 vs 엘버스베르크",
-                            "ft_scores": [
-                                "3",
-                                "4"
-                            ],
-                            "opponent_tier_info": "2.70/1.00"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.08.29",
-                            "teams": "RB 라이프치히 vs 묀헨글라트바흐",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "3.80/0.80"
-                        },
-                        {
-                            "league": "GERC",
-                            "match_time": "2026.08.23",
-                            "teams": "쇼트 마인츠 vs 묀헨글라트바흐",
-                            "ft_scores": [
-                                "0",
-                                "5"
-                            ],
-                            "opponent_tier_info": "3.30/0.80"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.15",
-                            "teams": "묀헨글라트바흐 vs 아스톤 빌라",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.50/1.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.12",
-                            "teams": "펠베르트 vs 묀헨글라트바흐",
-                            "ft_scores": [
-                                "0",
-                                "8"
-                            ],
-                            "opponent_tier_info": "2.40/0.90"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "묀헨글라트바흐",
-                    "home_matches": []
-                }
-            }
-        },
-        "3003917": {
-            "match_code": "3003917",
-            "head_info": {
-                "league": "잉글랜드 프리미어리그",
-                "round": ""
-            },
-            "home": "노팅엄",
-            "away": "아스널",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "노팅엄",
-                    "home_matches": [
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.10.11",
-                            "teams": "크리스탈팰리스 vs 노팅엄",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.80/1.00"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.09.19",
-                            "teams": "노팅엄 vs 코번트리",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.20/1.90"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.09.12",
-                            "teams": "아스톤 빌라 vs 노팅엄",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "0.90/1.30"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.09.05",
-                            "teams": "노팅엄 vs 토트넘",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.70/1.10"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.08.29",
-                            "teams": "리버풀 vs 노팅엄",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.00/1.70"
-                        },
-                        {
-                            "league": "ENG LC",
-                            "match_time": "2026.08.25",
-                            "teams": "노팅엄 vs 리즈",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.70/1.00"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.08.22",
-                            "teams": "노팅엄 vs 리즈",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.90/1.10"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.16",
-                            "teams": "노팅엄 vs 브레스트",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/2.10"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.12",
-                            "teams": "노팅엄 vs 레버쿠젠",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.70/1.00"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "바르셀로나 vs 노팅엄",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.50/2.00"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "노팅엄",
-                    "home_matches": []
-                }
-            }
-        },
-        "3013727": {
-            "match_code": "3013727",
-            "head_info": {
-                "league": "라리가",
-                "round": ""
-            },
-            "home": "말라가",
-            "away": "레알소시에다드",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "말라가",
-                    "home_matches": [
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.09",
-                            "teams": "말라가 vs 에스파뇰",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.60/1.80"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.20",
-                            "teams": "헤타페 vs 말라가",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.20/1.90"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.17",
-                            "teams": "말라가 vs 비야레알",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.40/1.80"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.13",
-                            "teams": "셀타비고 vs 말라가",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.50/1.90"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.06",
-                            "teams": "말라가 vs 레반테",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.50/1.30"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.30",
-                            "teams": "레알 마드리드 vs 말라가",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.60/1.60"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.24",
-                            "teams": "말라가 vs 데포르티보",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/0.70"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.19",
-                            "teams": "AT 마드리드 vs 말라가",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.80/1.30"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.12",
-                            "teams": "말라가 vs 풀럼",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "0.80/1.10"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.07",
-                            "teams": "세우타 vs 말라가",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.00/1.10"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "말라가",
-                    "home_matches": []
-                }
-            }
-        },
         "3013729": {
             "match_code": "3013729",
             "head_info": {
@@ -485,128 +119,6 @@
                 "stadium_form": {
                     "form_title": "구장별 전적",
                     "home_team_name": "레알 마드리드",
-                    "home_matches": []
-                }
-            }
-        },
-        "2993824": {
-            "match_code": "2993824",
-            "head_info": {
-                "league": "세리에 A",
-                "round": ""
-            },
-            "home": "AC 밀란",
-            "away": "아탈란타",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "AC 밀란",
-                    "home_matches": [
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.10.15",
-                            "teams": "잘츠부르크 vs AC 밀란",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "1.60/1.30"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.11",
-                            "teams": "사수올로 vs AC 밀란",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.70/1.40"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.20",
-                            "teams": "AC 밀란 vs 레체",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/1.40"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.09.16",
-                            "teams": "AC 밀란 vs 벤피카",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "3.40/0.80"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.12",
-                            "teams": "라치오 vs AC 밀란",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.70/1.60"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.06",
-                            "teams": "유벤투스 vs AC 밀란",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.60/1.70"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.28",
-                            "teams": "AC 밀란 vs 베네치아",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.90/1.40"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.23",
-                            "teams": "토리노 vs AC 밀란",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.30/1.60"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.15",
-                            "teams": "맨체스터 유나이티드 vs AC 밀란",
-                            "ft_scores": [
-                                "2",
-                                "4"
-                            ],
-                            "opponent_tier_info": "0.90/1.70"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "첼시 vs AC 밀란",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.90/1.50"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "AC 밀란",
                     "home_matches": []
                 }
             }
@@ -855,250 +367,6 @@
                 }
             }
         },
-        "3014130": {
-            "match_code": "3014130",
-            "head_info": {
-                "league": "라리가2",
-                "round": ""
-            },
-            "home": "바야돌리드",
-            "away": "엘덴세",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "바야돌리드",
-                    "home_matches": [
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.10.12",
-                            "teams": "바야돌리드 vs 알바세테",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.60/1.70"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.10.04",
-                            "teams": "라스팔마스 vs 바야돌리드",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.30/1.20"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.09.27",
-                            "teams": "바야돌리드 vs 코르도바",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.50/2.10"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.09.20",
-                            "teams": "세우타 vs 바야돌리드",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/1.10"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.09.13",
-                            "teams": "바야돌리드 vs R. 오비에도",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.50/0.50"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.09.05",
-                            "teams": "바야돌리드 vs FC 안도라",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.50/1.20"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.08.30",
-                            "teams": "카디스 vs 바야돌리드",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.20/1.40"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.08.23",
-                            "teams": "에이바르 vs 바야돌리드",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/1.30"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.08.15",
-                            "teams": "마요르카 vs 바야돌리드",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.50/1.30"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "히혼 vs 바야돌리드",
-                            "ft_scores": [
-                                "2",
-                                "4"
-                            ],
-                            "opponent_tier_info": "1.20/1.10"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "바야돌리드",
-                    "home_matches": []
-                }
-            }
-        },
-        "3014131": {
-            "match_code": "3014131",
-            "head_info": {
-                "league": "라리가2",
-                "round": ""
-            },
-            "home": "지로나",
-            "away": "FC 안도라",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "지로나",
-                    "home_matches": [
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.10.12",
-                            "teams": "테네리페 vs 지로나",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.70/1.10"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.10.04",
-                            "teams": "지로나 vs 마요르카",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.60/0.60"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.09.25",
-                            "teams": "지로나 vs 알바세테",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.80/1.50"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.09.19",
-                            "teams": "카디스 vs 지로나",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.70/1.80"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.09.12",
-                            "teams": "지로나 vs 카스테욘",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.30/1.10"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.09.05",
-                            "teams": "히혼 vs 지로나",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.70/1.70"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.08.29",
-                            "teams": "지로나 vs 라스팔마스",
-                            "ft_scores": [
-                                "5",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.40/1.10"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.08.21",
-                            "teams": "코르도바 vs 지로나",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.20/1.50"
-                        },
-                        {
-                            "league": "SPA D2",
-                            "match_time": "2026.08.16",
-                            "teams": "지로나 vs 레가네스",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.00/0.80"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "힘나스틱 vs 지로나",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.20/1.50"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "지로나",
-                    "home_matches": []
-                }
-            }
-        },
         "3014121": {
             "match_code": "3014121",
             "head_info": {
@@ -1221,250 +489,6 @@
                 }
             }
         },
-        "2996172": {
-            "match_code": "2996172",
-            "head_info": {
-                "league": "에레디비시",
-                "round": ""
-            },
-            "home": "네이메헌",
-            "away": "시타르트",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "네이메헌",
-                    "home_matches": [
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.10.15",
-                            "teams": "네이메헌 vs 레브스키 소피아",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.60/1.10"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.10.10",
-                            "teams": "아약스 vs 네이메헌",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/2.30"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.09.20",
-                            "teams": "네이메헌 vs 고 어헤드 이글스",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.10/1.80"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.09.17",
-                            "teams": "유벤투스 vs 네이메헌",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.30/1.90"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.09.12",
-                            "teams": "캄뷔르 vs 네이메헌",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/1.80"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.09.08",
-                            "teams": "네이메헌 vs 엑셀시오르",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "3.10/1.20"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.09.05",
-                            "teams": "네이메헌 vs 페예노르트",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "2.70/1.00"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.08.29",
-                            "teams": "즈볼레 vs 네이메헌",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.80/1.40"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.08.25",
-                            "teams": "보되 vs 네이메헌",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.00/1.40"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.08.19",
-                            "teams": "네이메헌 vs 보되",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "2.80/0.70"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "네이메헌",
-                    "home_matches": []
-                }
-            }
-        },
-        "2996177": {
-            "match_code": "2996177",
-            "head_info": {
-                "league": "에레디비시",
-                "round": ""
-            },
-            "home": "트벤테",
-            "away": "위트레흐트",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "트벤테",
-                    "home_matches": [
-                        {
-                            "league": "UEFA ECL",
-                            "match_time": "2026.10.15",
-                            "teams": "트벤테 vs 튠",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.60/2.50"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.10.10",
-                            "teams": "시타르트 vs 트벤테",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.70/1.10"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.10.02",
-                            "teams": "트벤테 vs 베르더 브레멘",
-                            "ft_scores": [
-                                "7",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.10/1.30"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.09.20",
-                            "teams": "트벤테 vs PSV 아인트호벤",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.70/1.50"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.09.12",
-                            "teams": "트벤테 vs 덴 하그",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.10/1.80"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.09.09",
-                            "teams": "트벤테 vs 텔스타",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.80/2.00"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.09.06",
-                            "teams": "흐로닝언 vs 트벤테",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.40/1.20"
-                        },
-                        {
-                            "league": "HOL D1",
-                            "match_time": "2026.08.30",
-                            "teams": "캄뷔르 vs 트벤테",
-                            "ft_scores": [
-                                "1",
-                                "4"
-                            ],
-                            "opponent_tier_info": "2.10/1.30"
-                        },
-                        {
-                            "league": "UEFA ECL",
-                            "match_time": "2026.08.27",
-                            "teams": "카라바흐 vs 트벤테",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.90/1.40"
-                        },
-                        {
-                            "league": "UEFA ECL",
-                            "match_time": "2026.08.20",
-                            "teams": "트벤테 vs 카라바흐",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.70/0.90"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "트벤테",
-                    "home_matches": []
-                }
-            }
-        },
         "3059472": {
             "match_code": "3059472",
             "head_info": {
@@ -1583,860 +607,6 @@
                 "stadium_form": {
                     "form_title": "구장별 전적",
                     "home_team_name": "엘 구나",
-                    "home_matches": []
-                }
-            }
-        },
-        "3101582": {
-            "match_code": "3101582",
-            "head_info": {
-                "league": "CAF 챔피언스리그",
-                "round": ""
-            },
-            "home": "퉁게스",
-            "away": "콜롱브",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "퉁게스",
-                    "home_matches": [
-                        {
-                            "league": "CAF CL",
-                            "match_time": "2026.09.13",
-                            "teams": "퉁게스 vs Canchungo",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.00/1.00"
-                        },
-                        {
-                            "league": "CAF CL",
-                            "match_time": "2026.09.05",
-                            "teams": "Canchungo vs 퉁게스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.70/0.20"
-                        },
-                        {
-                            "league": "SEN D1",
-                            "match_time": "2026.06.04",
-                            "teams": "게디어웨이 vs 퉁게스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.70/0.20"
-                        },
-                        {
-                            "league": "SEN D1",
-                            "match_time": "2026.05.22",
-                            "teams": "다카르 SC vs 퉁게스",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.90/0.20"
-                        },
-                        {
-                            "league": "SEN D1",
-                            "match_time": "2026.05.17",
-                            "teams": "퉁게스 vs 음부르",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.80/0.50"
-                        },
-                        {
-                            "league": "SEN D1",
-                            "match_time": "2026.05.13",
-                            "teams": "월리 다안 vs 퉁게스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.80/0.40"
-                        },
-                        {
-                            "league": "SEN D1",
-                            "match_time": "2026.05.10",
-                            "teams": "퉁게스 vs AJEL",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.40/0.60"
-                        },
-                        {
-                            "league": "SEN D1",
-                            "match_time": "2026.05.03",
-                            "teams": "우아캄 vs 퉁게스",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.00/0.60"
-                        },
-                        {
-                            "league": "SEN D1",
-                            "match_time": "2026.04.25",
-                            "teams": "퉁게스 vs ASC HLM",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.80/0.60"
-                        },
-                        {
-                            "league": "SEN D1",
-                            "match_time": "2026.04.19",
-                            "teams": "AS 캠버린 vs 퉁게스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.90/0.70"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "퉁게스",
-                    "home_matches": []
-                }
-            }
-        },
-        "3099256": {
-            "match_code": "3099256",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": ""
-            },
-            "home": "알-아흘리 마나마",
-            "away": "알 칼리디야",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "알-아흘리 마나마",
-                    "home_matches": [
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.10.10",
-                            "teams": "마나마 클럽 vs 알-아흘리 마나마",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.10/1.20"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.09.12",
-                            "teams": "알-아흘리 마나마 vs 알-이티파크",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.30/0.80"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.09.05",
-                            "teams": "알 하드 vs 알-아흘리 마나마",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.20/1.20"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.08.28",
-                            "teams": "알 무하라크 vs 알-아흘리 마나마",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.20/1.10"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.05.15",
-                            "teams": "알-부다이야 vs 알-아흘리 마나마",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.10/1.10"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.05.11",
-                            "teams": "알-아흘리 마나마 vs 알 하드",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.10/0.80"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.05.05",
-                            "teams": "시트라 vs 알-아흘리 마나마",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.00/1.00"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.04.29",
-                            "teams": "알-아흘리 마나마 vs 알 리파",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.60/1.40"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.04.17",
-                            "teams": "바레인 SC vs 알-아흘리 마나마",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "0.80/1.00"
-                        },
-                        {
-                            "league": "BHR Cup",
-                            "match_time": "2026.04.11",
-                            "teams": "알 무하라크 vs 알-아흘리 마나마",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.00/1.10"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "알-아흘리 마나마",
-                    "home_matches": []
-                }
-            }
-        },
-        "3099257": {
-            "match_code": "3099257",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": ""
-            },
-            "home": "알 무하라크",
-            "away": "말키아",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "알 무하라크",
-                    "home_matches": [
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.10.14",
-                            "teams": "알 무하라크 vs 시리안",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.00/0.70"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.10.09",
-                            "teams": "알 칼리디야 vs 알 무하라크",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.20/0.80"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.09.15",
-                            "teams": "아르카닥 vs 알 무하라크",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/0.80"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.09.10",
-                            "teams": "알 무하라크 vs 마나마 클럽",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.30/1.70"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.09.04",
-                            "teams": "알-이티파크 vs 알 무하라크",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/0.70"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.08.28",
-                            "teams": "알 무하라크 vs 알-아흘리 마나마",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.20/1.10"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.12",
-                            "teams": "알 무하라크 vs 무아이다르 SC",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.30/2.30"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.06",
-                            "teams": "ZED vs 알 무하라크",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.60/0.80"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.05.16",
-                            "teams": "알 무하라크 vs 아알리 클럽",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.00/0.80"
-                        },
-                        {
-                            "league": "BHR D1",
-                            "match_time": "2026.05.11",
-                            "teams": "알 칼리디야 vs 알 무하라크",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.30/0.70"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "알 무하라크",
-                    "home_matches": []
-                }
-            }
-        },
-        "3024564": {
-            "match_code": "3024564",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": ""
-            },
-            "home": "노아",
-            "away": "퓨닉 예레반",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "노아",
-                    "home_matches": [
-                        {
-                            "league": "ARM D1",
-                            "match_time": "2026.10.11",
-                            "teams": "Sardarapat vs 노아",
-                            "ft_scores": [
-                                "1",
-                                "5"
-                            ],
-                            "opponent_tier_info": "2.30/1.10"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.10.02",
-                            "teams": "노아 vs 디나모 바투미",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.10/0.80"
-                        },
-                        {
-                            "league": "ARM D1",
-                            "match_time": "2026.09.18",
-                            "teams": "노아 vs 반",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.70/2.50"
-                        },
-                        {
-                            "league": "ARM D1",
-                            "match_time": "2026.09.12",
-                            "teams": "우라르투 vs 노아",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "2.20/1.10"
-                        },
-                        {
-                            "league": "ARM D1",
-                            "match_time": "2026.09.04",
-                            "teams": "노아 vs FC 간자사르",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "0.80/2.30"
-                        },
-                        {
-                            "league": "ARM D1",
-                            "match_time": "2026.08.30",
-                            "teams": "노아 vs 아라라트 예레반",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.30/2.20"
-                        },
-                        {
-                            "league": "ARM D1",
-                            "match_time": "2026.08.23",
-                            "teams": "BKMA vs 노아",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.90/1.00"
-                        },
-                        {
-                            "league": "ARM D1",
-                            "match_time": "2026.08.17",
-                            "teams": "노아 vs 알라쉬커트",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.70/0.90"
-                        },
-                        {
-                            "league": "UEFA ECL",
-                            "match_time": "2026.08.13",
-                            "teams": "시옹 vs 노아",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.00/0.90"
-                        },
-                        {
-                            "league": "ARM D1",
-                            "match_time": "2026.08.09",
-                            "teams": "시라크 지움리 vs 노아",
-                            "ft_scores": [
-                                "3",
-                                "4"
-                            ],
-                            "opponent_tier_info": "1.60/0.80"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "노아",
-                    "home_matches": []
-                }
-            }
-        },
-        "3021637": {
-            "match_code": "3021637",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": ""
-            },
-            "home": "플로리아나",
-            "away": "모스타",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "플로리아나",
-                    "home_matches": [
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.10.11",
-                            "teams": "플로리아나 vs 발잔",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/0.70"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.09.20",
-                            "teams": "하이버니언스 vs 플로리아나",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "1.70/1.60"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.09.12",
-                            "teams": "플로리아나 vs 마르삭슬로크",
-                            "ft_scores": [
-                                "2",
-                                "5"
-                            ],
-                            "opponent_tier_info": "0.60/1.10"
-                        },
-                        {
-                            "league": "MAL SC",
-                            "match_time": "2026.09.07",
-                            "teams": "플로리아나 vs 볼레타",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.70/1.60"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.09.02",
-                            "teams": "플로리아나 vs 그지라",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.50/1.60"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.08.29",
-                            "teams": "함룬 vs 플로리아나",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.20"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.08.21",
-                            "teams": "플로리아나 vs 슬리에마",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/1.30"
-                        },
-                        {
-                            "league": "MAL D1",
-                            "match_time": "2026.08.14",
-                            "teams": "버즈버가 vs 플로리아나",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.40/1.30"
-                        },
-                        {
-                            "league": "UEFA ECL",
-                            "match_time": "2026.07.28",
-                            "teams": "드리타 vs 플로리아나",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.20"
-                        },
-                        {
-                            "league": "UEFA ECL",
-                            "match_time": "2026.07.21",
-                            "teams": "플로리아나 vs 드리타",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.10/1.70"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "플로리아나",
-                    "home_matches": []
-                }
-            }
-        },
-        "3089025": {
-            "match_code": "3089025",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": ""
-            },
-            "home": "Ulaangom City",
-            "away": "허브드",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "Ulaangom City",
-                    "home_matches": [
-                        {
-                            "league": "MGL PL",
-                            "match_time": "2026.10.15",
-                            "teams": "Amtat FC vs Ulaangom City",
-                            "ft_scores": [
-                                "4",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.50/4.40"
-                        },
-                        {
-                            "league": "MGL PL",
-                            "match_time": "2026.10.05",
-                            "teams": "FC 울란바토르 vs Ulaangom City",
-                            "ft_scores": [
-                                "8",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.00/3.80"
-                        },
-                        {
-                            "league": "MGL PL",
-                            "match_time": "2026.09.30",
-                            "teams": "Ulaangom City vs 헌터스",
-                            "ft_scores": [
-                                "2",
-                                "4"
-                            ],
-                            "opponent_tier_info": "4.60/1.80"
-                        },
-                        {
-                            "league": "MGL PL",
-                            "match_time": "2026.09.26",
-                            "teams": "Central Stallions vs Ulaangom City",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.90/3.30"
-                        },
-                        {
-                            "league": "MGL PL",
-                            "match_time": "2026.09.20",
-                            "teams": "Ulaangom City vs 데렌",
-                            "ft_scores": [
-                                "0",
-                                "5"
-                            ],
-                            "opponent_tier_info": "2.20/1.00"
-                        },
-                        {
-                            "league": "MGL PL",
-                            "match_time": "2026.09.16",
-                            "teams": "Khovd Western vs Ulaangom City",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.90/4.10"
-                        },
-                        {
-                            "league": "MGL PL",
-                            "match_time": "2026.09.13",
-                            "teams": "Ulaangom City vs 칸쿤스-에르침",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/4.00"
-                        },
-                        {
-                            "league": "MGL PL",
-                            "match_time": "2026.07.04",
-                            "teams": "Ulaangom City vs 헌터스",
-                            "ft_scores": [
-                                "1",
-                                "11"
-                            ],
-                            "opponent_tier_info": "4.50/1.40"
-                        },
-                        {
-                            "league": "MGL PL",
-                            "match_time": "2026.07.01",
-                            "teams": "Khovd Western vs Ulaangom City",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.90/4.70"
-                        },
-                        {
-                            "league": "MGL PL",
-                            "match_time": "2026.06.28",
-                            "teams": "Ulaangom City vs 허브드",
-                            "ft_scores": [
-                                "3",
-                                "3"
-                            ],
-                            "opponent_tier_info": "0.90/5.70"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "Ulaangom City",
-                    "home_matches": []
-                }
-            }
-        },
-        "3103858": {
-            "match_code": "3103858",
-            "head_info": {
-                "league": "국제 친선경기",
-                "round": ""
-            },
-            "home": "핀란드 U16 여",
-            "away": "스웨덴 U16 여",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "핀란드 U16 여",
-                    "home_matches": [
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2026.10.16",
-                            "teams": "핀란드 U16 여 vs 스웨덴 U16 여",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.10/2.40"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2026.08.08",
-                            "teams": "핀란드 U16 여 vs 스웨덴 U16 여",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.10/2.30"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2026.08.05",
-                            "teams": "덴마크 U16 여 vs 핀란드 U16 여",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.90/1.20"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2026.08.02",
-                            "teams": "노르웨이 U16 여 vs 핀란드 U16 여",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.80/1.20"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2026.05.27",
-                            "teams": "핀란드 U16 여 vs 아이슬란드 U16 여",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.50/1.30"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2026.05.24",
-                            "teams": "핀란드 U16 여 vs 헝가리 (WU-16)",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.90/1.20"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2026.05.22",
-                            "teams": "핀란드 U16 여 vs 아일랜드 (WU-16)",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.50/1.60"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2026.03.30",
-                            "teams": "핀란드 U16 여 vs 덴마크 U16 여",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.40/1.70"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2026.03.27",
-                            "teams": "핀란드 U16 여 vs 덴마크 U16 여",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "2.40/1.50"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2025.10.18",
-                            "teams": "핀란드 U16 여 vs 스웨덴 U16 여",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.40/2.20"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "핀란드 U16 여",
                     "home_matches": []
                 }
             }
@@ -4881,6 +3051,250 @@
                 }
             }
         },
+        "3073151": {
+            "match_code": "3073151",
+            "head_info": {
+                "league": "챔피언스리그",
+                "round": ""
+            },
+            "home": "사바 바쿠",
+            "away": "도르트문트",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "사바 바쿠",
+                    "home_matches": [
+                        {
+                            "league": "AZE D1",
+                            "match_time": "2026.10.17",
+                            "teams": "가발라 vs 사바 바쿠",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "2.00/0.90"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.13",
+                            "teams": "사바 바쿠 vs 슬라비아 프라하",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.40/0.90"
+                        },
+                        {
+                            "league": "AZE D1",
+                            "match_time": "2026.10.09",
+                            "teams": "네프트치 바쿠 vs 사바 바쿠",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.30/1.10"
+                        },
+                        {
+                            "league": "AZE D1",
+                            "match_time": "2026.09.19",
+                            "teams": "사바 바쿠 vs 이미슐리 FK",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.70/1.40"
+                        },
+                        {
+                            "league": "AZE D1",
+                            "match_time": "2026.09.14",
+                            "teams": "사파 바쿠 vs 사바 바쿠",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.00/1.00"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.10",
+                            "teams": "맨체스터 유나이티드 vs 사바 바쿠",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.20/0.70"
+                        },
+                        {
+                            "league": "AZE D1",
+                            "match_time": "2026.09.05",
+                            "teams": "사바 바쿠 vs 지라",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.80/0.90"
+                        },
+                        {
+                            "league": "AZE D1",
+                            "match_time": "2026.08.31",
+                            "teams": "아라즈 vs 사바 바쿠",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.90/1.10"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.08.25",
+                            "teams": "사바 바쿠 vs 브엘세바",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.50/1.70"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.08.19",
+                            "teams": "브엘세바 vs 사바 바쿠",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.80/0.90"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "사바 바쿠",
+                    "home_matches": []
+                }
+            }
+        },
+        "3073197": {
+            "match_code": "3073197",
+            "head_info": {
+                "league": "챔피언스리그",
+                "round": ""
+            },
+            "home": "페네르바체",
+            "away": "슬라비아 프라하",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "페네르바체",
+                    "home_matches": [
+                        {
+                            "league": "TUR D1",
+                            "match_time": "2026.10.17",
+                            "teams": "페네르바체 vs 알라냐스포르",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.80/0.90"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.14",
+                            "teams": "아스톤 빌라 vs 페네르바체",
+                            "ft_scores": [
+                                "6",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.40/0.70"
+                        },
+                        {
+                            "league": "TUR D1",
+                            "match_time": "2026.10.10",
+                            "teams": "리제스포르 vs 페네르바체",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.20/0.90"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.10.03",
+                            "teams": "투란 vs 페네르바체",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.10/0.90"
+                        },
+                        {
+                            "league": "TUR D1",
+                            "match_time": "2026.09.20",
+                            "teams": "페네르바체 vs 에유프스포르",
+                            "ft_scores": [
+                                "8",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.70/1.10"
+                        },
+                        {
+                            "league": "TUR D1",
+                            "match_time": "2026.09.14",
+                            "teams": "가지안테프 vs 페네르바체",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.60/1.00"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.10",
+                            "teams": "페네르바체 vs AS 로마",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.40/1.40"
+                        },
+                        {
+                            "league": "TUR D1",
+                            "match_time": "2026.09.05",
+                            "teams": "페네르바체 vs 베식타스",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.70/0.70"
+                        },
+                        {
+                            "league": "TUR D1",
+                            "match_time": "2026.08.30",
+                            "teams": "삼순스포르 vs 페네르바체",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.90/0.80"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.08.26",
+                            "teams": "리옹 vs 페네르바체",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.20/0.70"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "페네르바체",
+                    "home_matches": []
+                }
+            }
+        },
         "3059476": {
             "match_code": "3059476",
             "head_info": {
@@ -4999,6 +3413,922 @@
                 "stadium_form": {
                     "form_title": "구장별 전적",
                     "home_team_name": "와디 데글라",
+                    "home_matches": []
+                }
+            }
+        },
+        "3059477": {
+            "match_code": "3059477",
+            "head_info": {
+                "league": "프리미어리그",
+                "round": ""
+            },
+            "home": "엘 가이쉬",
+            "away": "피라미드",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "엘 가이쉬",
+                    "home_matches": [
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.10.13",
+                            "teams": "이집트 국립은행 vs 엘 가이쉬",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.80/1.00"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.09.14",
+                            "teams": "엘 가이쉬 vs 스무하",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.20/1.40"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.09.07",
+                            "teams": "알 카나 vs 엘 가이쉬",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.70/0.80"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.09.01",
+                            "teams": "엘 가이쉬 vs ZED",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.90/0.90"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.08.26",
+                            "teams": "페트로젯 vs 엘 가이쉬",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "0.50/0.90"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.08.22",
+                            "teams": "엘 가이쉬 vs 아랍 콘트락터스",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.20/0.80"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.05.28",
+                            "teams": "엘 가이쉬 vs 와디 데글라",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.50/0.90"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.05.22",
+                            "teams": "엘 구나 vs 엘 가이쉬",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.60/0.50"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.05.18",
+                            "teams": "엘 가이쉬 vs 파르코",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.50/1.00"
+                        },
+                        {
+                            "league": "EGY D1",
+                            "match_time": "2026.05.13",
+                            "teams": "알 이티하드 vs 엘 가이쉬",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.80/0.80"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "엘 가이쉬",
+                    "home_matches": []
+                }
+            }
+        },
+        "3062693": {
+            "match_code": "3062693",
+            "head_info": {
+                "league": "프리미어리그 컵",
+                "round": ""
+            },
+            "home": "밀월 U21",
+            "away": "셰필드U U21",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "밀월 U21",
+                    "home_matches": [
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.10.09",
+                            "teams": "밀월 U21 vs 웨스트햄 U21",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.50/1.30"
+                        },
+                        {
+                            "league": "ENG U21D2",
+                            "match_time": "2026.09.29",
+                            "teams": "찰튼 U21 vs 밀월 U21",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.20/2.00"
+                        },
+                        {
+                            "league": "ENG U21D2",
+                            "match_time": "2026.09.15",
+                            "teams": "밀월 U21 vs 볼턴 원더러스 FC (U21)",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.20/1.80"
+                        },
+                        {
+                            "league": "ENG U21D2",
+                            "match_time": "2026.09.01",
+                            "teams": "플릿우드 U21 vs 밀월 U21",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.40/2.10"
+                        },
+                        {
+                            "league": "ENG U21D2",
+                            "match_time": "2026.08.25",
+                            "teams": "밀월 U21 vs 허더스필드 U21",
+                            "ft_scores": [
+                                "2",
+                                "4"
+                            ],
+                            "opponent_tier_info": "2.30/1.00"
+                        },
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.08.14",
+                            "teams": "브라이튼 U21 vs 밀월 U21",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.30/1.80"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.14",
+                            "teams": "혼처치 vs 밀월 U21",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.30/1.90"
+                        },
+                        {
+                            "league": "ENG U21D2",
+                            "match_time": "2026.04.13",
+                            "teams": "코번트리 U21 vs 밀월 U21",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.10/1.90"
+                        },
+                        {
+                            "league": "ENG U21D2",
+                            "match_time": "2026.03.31",
+                            "teams": "밀월 U21 vs 셰필드 웬즈데이 U21",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.40/3.10"
+                        },
+                        {
+                            "league": "ENG U21D2",
+                            "match_time": "2026.03.24",
+                            "teams": "플릿우드 U21 vs 밀월 U21",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.10/1.70"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "밀월 U21",
+                    "home_matches": []
+                }
+            }
+        },
+        "3103470": {
+            "match_code": "3103470",
+            "head_info": {
+                "league": "리그 1",
+                "round": ""
+            },
+            "home": "OFC Adiake",
+            "away": "촐로고",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "OFC Adiake",
+                    "home_matches": [
+                        {
+                            "league": "ICPD D1",
+                            "match_time": "2026.10.15",
+                            "teams": "아그보빌 vs OFC Adiake",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.33/1.33"
+                        },
+                        {
+                            "league": "ICPD D1",
+                            "match_time": "2026.10.13",
+                            "teams": "OFC Adiake vs 조만",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "0.70/1.00"
+                        },
+                        {
+                            "league": "ICPD D1",
+                            "match_time": "2026.09.27",
+                            "teams": "OFC Adiake vs SOL",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.30/1.40"
+                        },
+                        {
+                            "league": "ICL-2",
+                            "match_time": "2025.09.20",
+                            "teams": "JAC d'Angre vs OFC Adiake",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "0.00/0.00"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "OFC Adiake",
+                    "home_matches": []
+                }
+            }
+        },
+        "3065018": {
+            "match_code": "3065018",
+            "head_info": {
+                "league": "프리미어리그 인터내셔널컵",
+                "round": ""
+            },
+            "home": "웨스트햄 U21",
+            "away": "모나코 II",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "웨스트햄 U21",
+                    "home_matches": [
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.10.16",
+                            "teams": "노르위치 U21 vs 웨스트햄 U21",
+                            "ft_scores": [
+                                "4",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.60/1.20"
+                        },
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.10.13",
+                            "teams": "브레인트리 vs 웨스트햄 U21",
+                            "ft_scores": [
+                                "2",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.40/1.10"
+                        },
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.10.09",
+                            "teams": "밀월 U21 vs 웨스트햄 U21",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.50/1.30"
+                        },
+                        {
+                            "league": "PLI CUP",
+                            "match_time": "2026.09.23",
+                            "teams": "웨스트햄 U21 vs 발렌시아 B",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.30/1.30"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.09.18",
+                            "teams": "레스터 U21 vs 웨스트햄 U21",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.50/1.80"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.09.14",
+                            "teams": "웨스트햄 U21 vs 리버풀 U21",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.50/2.00"
+                        },
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.09.08",
+                            "teams": "올더숏 vs 웨스트햄 U21",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.40/2.20"
+                        },
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.09.04",
+                            "teams": "웨스트햄 U21 vs 브라이튼 U21",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.70/0.90"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.08.31",
+                            "teams": "첼시 U21 vs 웨스트햄 U21",
+                            "ft_scores": [
+                                "5",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.50/2.00"
+                        },
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.08.25",
+                            "teams": "셰필드U U21 vs 웨스트햄 U21",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.50/1.90"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "웨스트햄 U21",
+                    "home_matches": []
+                }
+            }
+        },
+        "3065030": {
+            "match_code": "3065030",
+            "head_info": {
+                "league": "프리미어리그 인터내셔널컵",
+                "round": ""
+            },
+            "home": "에버턴 U21",
+            "away": "묀헨글라트바흐 II",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "에버턴 U21",
+                    "home_matches": [
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.10.16",
+                            "teams": "에버턴 U21 vs 미들스브로 U21",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.60/1.70"
+                        },
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.10.13",
+                            "teams": "솔리헐 vs 에버턴 U21",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.10/1.40"
+                        },
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.09.23",
+                            "teams": "보어햄 vs 에버턴 U21",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.40/1.50"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.09.19",
+                            "teams": "레딩 U21 vs 에버턴 U21",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.60/1.70"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.09.13",
+                            "teams": "브렌트포드 U21 vs 에버턴 U21",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.20/2.10"
+                        },
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.09.08",
+                            "teams": "하틀리풀 vs 에버턴 U21",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.20/2.20"
+                        },
+                        {
+                            "league": "PLI CUP",
+                            "match_time": "2026.09.02",
+                            "teams": "에버턴 U21 vs AC 밀란 U23",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.40/1.50"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.08.28",
+                            "teams": "에버턴 U21 vs 사우샘프턴 U21",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.80/1.40"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.08.21",
+                            "teams": "에버턴 U21 vs 리버풀 U21",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.40/1.90"
+                        },
+                        {
+                            "league": "EFL Trophy",
+                            "match_time": "2026.08.18",
+                            "teams": "스톡포트 vs 에버턴 U21",
+                            "ft_scores": [
+                                "6",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.80/2.10"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "에버턴 U21",
+                    "home_matches": []
+                }
+            }
+        },
+        "3065031": {
+            "match_code": "3065031",
+            "head_info": {
+                "league": "프리미어리그 인터내셔널컵",
+                "round": ""
+            },
+            "home": "스토크시티 U21",
+            "away": "노르드샤엘란트 U21",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "스토크시티 U21",
+                    "home_matches": [
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.10.16",
+                            "teams": "스토크시티 U21 vs 첼시 U21",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.00/1.50"
+                        },
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.10.13",
+                            "teams": "핼리팩스 vs 스토크시티 U21",
+                            "ft_scores": [
+                                "4",
+                                "2"
+                            ],
+                            "opponent_tier_info": "0.90/2.30"
+                        },
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.10.09",
+                            "teams": "스토크시티 U21 vs 찰튼 U21",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.40/1.50"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.09.21",
+                            "teams": "본머스 U21 vs 스토크시티 U21",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.80/2.20"
+                        },
+                        {
+                            "league": "PLI CUP",
+                            "match_time": "2026.09.16",
+                            "teams": "스토크시티 U21 vs 묀헨글라트바흐 II",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.00/1.30"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.09.11",
+                            "teams": "스토크시티 U21 vs 울버햄튼 U21",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.80/1.70"
+                        },
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.09.08",
+                            "teams": "윌드스톤 vs 스토크시티 U21",
+                            "ft_scores": [
+                                "6",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.60/1.80"
+                        },
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.09.04",
+                            "teams": "스톡포트 U21 vs 스토크시티 U21",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.90/1.60"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.08.28",
+                            "teams": "노르위치 U21 vs 스토크시티 U21",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.00/2.20"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.08.21",
+                            "teams": "스토크시티 U21 vs 브렌트포드 U21",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.40/1.30"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "스토크시티 U21",
+                    "home_matches": []
+                }
+            }
+        },
+        "3065061": {
+            "match_code": "3065061",
+            "head_info": {
+                "league": "프리미어리그 인터내셔널컵",
+                "round": ""
+            },
+            "home": "입스위치 U21",
+            "away": "안더레흐트 2",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "입스위치 U21",
+                    "home_matches": [
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.10.13",
+                            "teams": "워싱 vs 입스위치 U21",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.60/3.20"
+                        },
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.10.09",
+                            "teams": "입스위치 U21 vs 웨스트브롬 U21",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.80/2.10"
+                        },
+                        {
+                            "league": "EFL Trophy",
+                            "match_time": "2026.10.06",
+                            "teams": "피터버러 vs 입스위치 U21",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.80/3.60"
+                        },
+                        {
+                            "league": "EFL Trophy",
+                            "match_time": "2026.09.22",
+                            "teams": "루턴 vs 입스위치 U21",
+                            "ft_scores": [
+                                "6",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.10/3.00"
+                        },
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.09.15",
+                            "teams": "브롬리 U21 vs 입스위치 U21",
+                            "ft_scores": [
+                                "2",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.70/2.80"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.09.11",
+                            "teams": "선덜랜드 U21 vs 입스위치 U21",
+                            "ft_scores": [
+                                "4",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.50/2.70"
+                        },
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.09.08",
+                            "teams": "혼처치 vs 입스위치 U21",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.60/2.40"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.08.28",
+                            "teams": "입스위치 U21 vs 블랙번 U21",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.80/2.50"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.08.24",
+                            "teams": "맨체스터 유나이티드 U21 vs 입스위치 U21",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.60/2.10"
+                        },
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.08.18",
+                            "teams": "브레인트리 vs 입스위치 U21",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.90/2.30"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "입스위치 U21",
+                    "home_matches": []
+                }
+            }
+        },
+        "3103316": {
+            "match_code": "3103316",
+            "head_info": {
+                "league": "프리미어리그 인터내셔널컵",
+                "round": ""
+            },
+            "home": "사우샘프턴 U21",
+            "away": "유벤투스 U21",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "사우샘프턴 U21",
+                    "home_matches": [
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.10.13",
+                            "teams": "보스턴 vs 사우샘프턴 U21",
+                            "ft_scores": [
+                                "5",
+                                "6"
+                            ],
+                            "opponent_tier_info": "2.10/1.30"
+                        },
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.10.09",
+                            "teams": "사우샘프턴 U21 vs QPR U21",
+                            "ft_scores": [
+                                "5",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.80/2.70"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.09.18",
+                            "teams": "울버햄튼 U21 vs 사우샘프턴 U21",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.00/1.60"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.09.12",
+                            "teams": "사우샘프턴 U21 vs 본머스 U21",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.00/1.30"
+                        },
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.09.08",
+                            "teams": "워킹 vs 사우샘프턴 U21",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.80/1.30"
+                        },
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.09.04",
+                            "teams": "볼턴 원더러스 FC (U21) vs 사우샘프턴 U21",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.80/1.40"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.08.28",
+                            "teams": "에버턴 U21 vs 사우샘프턴 U21",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.80/1.40"
+                        },
+                        {
+                            "league": "ENG U21",
+                            "match_time": "2026.08.21",
+                            "teams": "웨스트햄 U21 vs 사우샘프턴 U21",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.00/1.60"
+                        },
+                        {
+                            "league": "ENL Cup",
+                            "match_time": "2026.08.18",
+                            "teams": "트루로 vs 사우샘프턴 U21",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.10/1.50"
+                        },
+                        {
+                            "league": "ENG U21LC",
+                            "match_time": "2026.08.14",
+                            "teams": "사우샘프턴 U21 vs 블랙번 U21",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.80/2.30"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "사우샘프턴 U21",
                     "home_matches": []
                 }
             }
