@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-10-18 09:37:46",
+    "updated_at": "2026-10-18 12:26:58",
     "leagues": {
         "34": {
             "league_id": 34,
@@ -14813,18 +14813,30 @@
                 },
                 {
                     "rank": "2",
+                    "team": "로사리오 센트랄",
+                    "tag_color": "",
+                    "tag_label": "일반",
+                    "경기수": "13",
+                    "승": "7",
+                    "무": "4",
+                    "패": "9",
+                    "득실": "25",
+                    "승점": "25"
+                },
+                {
+                    "rank": "3",
                     "team": "아르헨티노스 주니어스",
                     "tag_color": "",
                     "tag_label": "일반",
                     "경기수": "13",
                     "승": "7",
                     "무": "4",
-                    "패": "6",
-                    "득실": "25",
+                    "패": "2",
+                    "득실": "6",
                     "승점": "25"
                 },
                 {
-                    "rank": "3",
+                    "rank": "4",
                     "team": "보카 주니어스",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -14836,7 +14848,7 @@
                     "승점": "24"
                 },
                 {
-                    "rank": "4",
+                    "rank": "5",
                     "team": "데펜사",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -14848,31 +14860,31 @@
                     "승점": "24"
                 },
                 {
-                    "rank": "5",
+                    "rank": "6",
+                    "team": "벨레즈 살스필드",
+                    "tag_color": "",
+                    "tag_label": "일반",
+                    "경기수": "13",
+                    "승": "1",
+                    "무": "5",
+                    "패": "24",
+                    "득실": "0",
+                    "승점": "24"
+                },
+                {
+                    "rank": "7",
                     "team": "라누스",
                     "tag_color": "",
                     "tag_label": "일반",
                     "경기수": "13",
-                    "승": "7",
-                    "무": "2",
-                    "패": "4",
-                    "득실": "7",
+                    "승": "2",
+                    "무": "4",
+                    "패": "23",
+                    "득실": "0",
                     "승점": "23"
                 },
                 {
-                    "rank": "6",
-                    "team": "로사리오 센트랄",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "12",
-                    "승": "4",
-                    "무": "2",
-                    "패": "8",
-                    "득실": "22",
-                    "승점": "22"
-                },
-                {
-                    "rank": "7",
+                    "rank": "8",
                     "team": "벨그라노",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -14880,11 +14892,11 @@
                     "승": "6",
                     "무": "4",
                     "패": "2",
-                    "득실": "22",
+                    "득실": "7",
                     "승점": "22"
                 },
                 {
-                    "rank": "8",
+                    "rank": "9",
                     "team": "힘나시아 L.P.",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -14894,18 +14906,6 @@
                     "패": "3",
                     "득실": "1",
                     "승점": "22"
-                },
-                {
-                    "rank": "9",
-                    "team": "벨레즈 살스필드",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "12",
-                    "승": "5",
-                    "무": "6",
-                    "패": "1",
-                    "득실": "4",
-                    "승점": "21"
                 },
                 {
                     "rank": "10",
@@ -14924,11 +14924,11 @@
                     "team": "힘나시아 멘도사",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "12",
+                    "경기수": "13",
                     "승": "6",
                     "무": "2",
-                    "패": "4",
-                    "득실": "3",
+                    "패": "5",
+                    "득실": "2",
                     "승점": "20"
                 },
                 {
@@ -15020,11 +15020,11 @@
                     "team": "Atl. 투쿠만",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "12",
+                    "경기수": "13",
                     "승": "3",
                     "무": "5",
-                    "패": "4",
-                    "득실": "0",
+                    "패": "-1",
+                    "득실": "14",
                     "승점": "14"
                 },
                 {
@@ -15191,6 +15191,18 @@
             "standings": [
                 {
                     "rank": "1",
+                    "team": "팔메이라스",
+                    "tag_color": "#FF9966",
+                    "tag_label": "LIBC qualifying",
+                    "경기수": "31",
+                    "승": "19",
+                    "무": "9",
+                    "패": "3",
+                    "득실": "32",
+                    "승점": "66"
+                },
+                {
+                    "rank": "2",
                     "team": "플라멩고 RJ",
                     "tag_color": "#FF9966",
                     "tag_label": "LIBC qualifying",
@@ -15202,27 +15214,15 @@
                     "승점": "64"
                 },
                 {
-                    "rank": "2",
-                    "team": "팔메이라스",
-                    "tag_color": "#FF9966",
-                    "tag_label": "LIBC qualifying",
-                    "경기수": "30",
-                    "승": "18",
-                    "무": "9",
-                    "패": "3",
-                    "득실": "30",
-                    "승점": "63"
-                },
-                {
                     "rank": "3",
                     "team": "아틀레티코-PR",
                     "tag_color": "#FF9966",
                     "tag_label": "LIBC qualifying",
-                    "경기수": "30",
+                    "경기수": "31",
                     "승": "15",
                     "무": "8",
-                    "패": "7",
-                    "득실": "14",
+                    "패": "12",
+                    "득실": "53",
                     "승점": "53"
                 },
                 {
@@ -15275,18 +15275,30 @@
                 },
                 {
                     "rank": "8",
-                    "team": "산투스",
+                    "team": "상파울루",
                     "tag_color": "#00CCFF",
                     "tag_label": "CON CSA qualifying",
-                    "경기수": "30",
-                    "승": "11",
-                    "무": "9",
-                    "패": "10",
+                    "경기수": "31",
+                    "승": "12",
+                    "무": "6",
+                    "패": "13",
                     "득실": "1",
                     "승점": "42"
                 },
                 {
                     "rank": "9",
+                    "team": "산투스",
+                    "tag_color": "#00CCFF",
+                    "tag_label": "CON CSA qualifying",
+                    "경기수": "30",
+                    "승": "11",
+                    "무": "10",
+                    "패": "1",
+                    "득실": "42",
+                    "승점": "42"
+                },
+                {
+                    "rank": "10",
                     "team": "브라간티노",
                     "tag_color": "#00CCFF",
                     "tag_label": "CON CSA qualifying",
@@ -15296,18 +15308,6 @@
                     "패": "12",
                     "득실": "3",
                     "승점": "40"
-                },
-                {
-                    "rank": "10",
-                    "team": "상파울루",
-                    "tag_color": "#00CCFF",
-                    "tag_label": "CON CSA qualifying",
-                    "경기수": "30",
-                    "승": "11",
-                    "무": "6",
-                    "패": "13",
-                    "득실": "0",
-                    "승점": "39"
                 },
                 {
                     "rank": "11",
@@ -15362,11 +15362,11 @@
                     "team": "바스코",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "29",
+                    "경기수": "30",
                     "승": "9",
                     "무": "8",
-                    "패": "12",
-                    "득실": "-6",
+                    "패": "13",
+                    "득실": "-7",
                     "승점": "35"
                 },
                 {
@@ -15690,12 +15690,12 @@
                     "team": "인터 마이애미",
                     "tag_color": "#00CCFF",
                     "tag_label": "Play Offs: 1/8-finals",
-                    "경기수": "29",
-                    "승": "14",
+                    "경기수": "30",
+                    "승": "15",
                     "무": "10",
                     "패": "5",
-                    "득실": "20",
-                    "승점": "52"
+                    "득실": "22",
+                    "승점": "55"
                 },
                 {
                     "rank": "2",
@@ -15714,12 +15714,12 @@
                     "team": "뉴잉글랜드 레볼루션",
                     "tag_color": "#00CCFF",
                     "tag_label": "Play Offs: 1/8-finals",
-                    "경기수": "29",
-                    "승": "15",
+                    "경기수": "30",
+                    "승": "16",
                     "무": "4",
                     "패": "10",
-                    "득실": "7",
-                    "승점": "49"
+                    "득실": "8",
+                    "승점": "52"
                 },
                 {
                     "rank": "3",
@@ -15738,11 +15738,11 @@
                     "team": "시카고 파이어",
                     "tag_color": "#00CCFF",
                     "tag_label": "Play Offs: 1/8-finals",
-                    "경기수": "29",
+                    "경기수": "30",
                     "승": "14",
                     "무": "6",
-                    "패": "9",
-                    "득실": "48",
+                    "패": "10",
+                    "득실": "8",
                     "승점": "48"
                 },
                 {
@@ -15798,24 +15798,24 @@
                     "team": "LA FC",
                     "tag_color": "#00CCFF",
                     "tag_label": "Play Offs: 1/8-finals",
-                    "경기수": "30",
+                    "경기수": "31",
                     "승": "12",
-                    "무": "9",
-                    "패": "15",
-                    "득실": "45",
-                    "승점": "45"
+                    "무": "10",
+                    "패": "9",
+                    "득실": "15",
+                    "승점": "46"
                 },
                 {
                     "rank": "7",
                     "team": "올랜도 시티",
                     "tag_color": "#00CCFF",
                     "tag_label": "Play Offs: 1/8-finals",
-                    "경기수": "29",
-                    "승": "11",
+                    "경기수": "30",
+                    "승": "12",
                     "무": "5",
                     "패": "13",
-                    "득실": "-15",
-                    "승점": "38"
+                    "득실": "-12",
+                    "승점": "41"
                 },
                 {
                     "rank": "7",
@@ -15834,11 +15834,11 @@
                     "team": "뉴욕 레드불스",
                     "tag_color": "#FC9B0A",
                     "tag_label": "Playoffs: playoffs",
-                    "경기수": "29",
+                    "경기수": "30",
                     "승": "10",
                     "무": "6",
-                    "패": "13",
-                    "득실": "-15",
+                    "패": "14",
+                    "득실": "-17",
                     "승점": "36"
                 },
                 {
@@ -15879,15 +15879,15 @@
                 },
                 {
                     "rank": "10",
-                    "team": "뉴욕 시티",
+                    "team": "토론토 FC",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "29",
+                    "경기수": "30",
                     "승": "8",
-                    "무": "9",
-                    "패": "12",
-                    "득실": "2",
-                    "승점": "33"
+                    "무": "12",
+                    "패": "-9",
+                    "득실": "36",
+                    "승점": "36"
                 },
                 {
                     "rank": "10",
@@ -15903,15 +15903,15 @@
                 },
                 {
                     "rank": "11",
-                    "team": "토론토 FC",
+                    "team": "뉴욕 시티",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "29",
-                    "승": "7",
-                    "무": "12",
-                    "패": "10",
-                    "득실": "-11",
-                    "승점": "33"
+                    "경기수": "30",
+                    "승": "8",
+                    "무": "10",
+                    "패": "12",
+                    "득실": "2",
+                    "승점": "34"
                 },
                 {
                     "rank": "11",
@@ -15930,10 +15930,10 @@
                     "team": "DC 유나이티드",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "28",
+                    "경기수": "29",
                     "승": "7",
-                    "무": "9",
-                    "패": "-11",
+                    "무": "10",
+                    "패": "-14",
                     "득실": "33",
                     "승점": "33"
                 },
@@ -15978,11 +15978,11 @@
                     "team": "애틀랜타 유나이티드",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "29",
+                    "경기수": "30",
                     "승": "8",
                     "무": "6",
-                    "패": "15",
-                    "득실": "-12",
+                    "패": "16",
+                    "득실": "-14",
                     "승점": "30"
                 },
                 {
@@ -16303,11 +16303,11 @@
                 },
                 {
                     "rank": "4",
-                    "team": "케레타로",
+                    "team": "과달라하라 치바스",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
-                    "경기수": "10",
-                    "승": "6",
+                    "경기수": "12",
+                    "승": "5",
                     "무": "2",
                     "패": "7",
                     "득실": "20",
@@ -16315,15 +16315,15 @@
                 },
                 {
                     "rank": "5",
-                    "team": "과달라하라 치바스",
+                    "team": "케레타로",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
                     "경기수": "11",
-                    "승": "4",
+                    "승": "6",
                     "무": "2",
-                    "패": "7",
-                    "득실": "19",
-                    "승점": "19"
+                    "패": "3",
+                    "득실": "2",
+                    "승점": "20"
                 },
                 {
                     "rank": "6",
@@ -16351,6 +16351,18 @@
                 },
                 {
                     "rank": "8",
+                    "team": "산토스 라구나",
+                    "tag_color": "#FC9B0A",
+                    "tag_label": "Playoffs: playoffs",
+                    "경기수": "12",
+                    "승": "5",
+                    "무": "1",
+                    "패": "6",
+                    "득실": "1",
+                    "승점": "16"
+                },
+                {
+                    "rank": "9",
                     "team": "클럽 티후아나",
                     "tag_color": "#FC9B0A",
                     "tag_label": "Playoffs: playoffs",
@@ -16362,7 +16374,7 @@
                     "승점": "16"
                 },
                 {
-                    "rank": "9",
+                    "rank": "10",
                     "team": "U.N.A.M.- 퓨마스",
                     "tag_color": "#FC9B0A",
                     "tag_label": "Playoffs: playoffs",
@@ -16374,10 +16386,10 @@
                     "승점": "16"
                 },
                 {
-                    "rank": "10",
+                    "rank": "11",
                     "team": "푸에블라",
-                    "tag_color": "#FC9B0A",
-                    "tag_label": "Playoffs: playoffs",
+                    "tag_color": "",
+                    "tag_label": "일반",
                     "경기수": "12",
                     "승": "4",
                     "무": "-1",
@@ -16386,7 +16398,7 @@
                     "승점": "16"
                 },
                 {
-                    "rank": "11",
+                    "rank": "12",
                     "team": "몬테레이",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -16398,7 +16410,19 @@
                     "승점": "14"
                 },
                 {
-                    "rank": "12",
+                    "rank": "13",
+                    "team": "U.A.N.L.- 티그레스",
+                    "tag_color": "",
+                    "tag_label": "일반",
+                    "경기수": "12",
+                    "승": "3",
+                    "무": "5",
+                    "패": "4",
+                    "득실": "-2",
+                    "승점": "14"
+                },
+                {
+                    "rank": "14",
                     "team": "파추카",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -16407,30 +16431,6 @@
                     "무": "4",
                     "패": "13",
                     "득실": "0",
-                    "승점": "13"
-                },
-                {
-                    "rank": "13",
-                    "team": "U.A.N.L.- 티그레스",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "11",
-                    "승": "3",
-                    "무": "4",
-                    "패": "-2",
-                    "득실": "0",
-                    "승점": "13"
-                },
-                {
-                    "rank": "14",
-                    "team": "산토스 라구나",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "11",
-                    "승": "4",
-                    "무": "1",
-                    "패": "6",
-                    "득실": "-4",
                     "승점": "13"
                 },
                 {
@@ -16933,30 +16933,42 @@
                 },
                 {
                     "rank": "3",
-                    "team": "데포르티보 가르실라소",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "11",
-                    "승": "7",
-                    "무": "1",
-                    "패": "11",
-                    "득실": "22",
-                    "승점": "22"
-                },
-                {
-                    "rank": "4",
                     "team": "후안 파블로 II",
                     "tag_color": "",
                     "tag_label": "일반",
                     "경기수": "12",
                     "승": "6",
+                    "무": "4",
+                    "패": "2",
+                    "득실": "10",
+                    "승점": "22"
+                },
+                {
+                    "rank": "4",
+                    "team": "FBC 멜가르",
+                    "tag_color": "",
+                    "tag_label": "일반",
+                    "경기수": "12",
+                    "승": "6",
                     "무": "2",
-                    "패": "10",
+                    "패": "9",
                     "득실": "22",
                     "승점": "22"
                 },
                 {
                     "rank": "5",
+                    "team": "데포르티보 가르실라소",
+                    "tag_color": "",
+                    "tag_label": "일반",
+                    "경기수": "12",
+                    "승": "7",
+                    "무": "1",
+                    "패": "4",
+                    "득실": "9",
+                    "승점": "22"
+                },
+                {
+                    "rank": "6",
                     "team": "알리안자 Atl.",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -16964,32 +16976,20 @@
                     "승": "7",
                     "무": "1",
                     "패": "3",
-                    "득실": "22",
+                    "득실": "5",
                     "승점": "22"
                 },
                 {
-                    "rank": "6",
+                    "rank": "7",
                     "team": "U. 데 데포르테스",
                     "tag_color": "",
                     "tag_label": "일반",
                     "경기수": "11",
-                    "승": "3",
-                    "무": "2",
-                    "패": "3",
-                    "득실": "21",
-                    "승점": "21"
-                },
-                {
-                    "rank": "7",
-                    "team": "FBC 멜가르",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "11",
-                    "승": "5",
-                    "무": "4",
+                    "승": "6",
+                    "무": "3",
                     "패": "2",
-                    "득실": "19",
-                    "승점": "19"
+                    "득실": "3",
+                    "승점": "21"
                 },
                 {
                     "rank": "8",
@@ -17892,7 +17892,7 @@
                     "승점": "2"
                 }
             ],
-            "standings_error": null
+            "standings_error": "[주소 오류] URL 접속에 실패했습니다: Message: unknown error: net::ERR_CONNECTION_REFUSED\n  (Session info: chrome=155.0.8059.39)\nStacktrace:\n#0 0x55fd0c0c25ea <unknown>\n#1 0x55fd0b9dc869 <unknown>\n#2 0x55fd0b9d36ba <unknown>\n#3 0x55fd0b9c4721 <unknown>\n#4 0x55fd0b9c6438 <unknown>\n#5 0x55fd0b9c4c0d <unknown>\n#6 0x55fd0b9c42ff <unknown>\n#7 0x55fd0b9c3ec6 <unknown>\n#8 0x55fd0b9c1ad0 <unknown>\n#9 0x55fd0b9c2300 <unknown>\n#10 0x55fd0b9e0341 <unknown>\n#11 0x55fd0ba82a3b <unknown>\n#12 0x55fd0ba81d4e <unknown>\n#13 0x55fd0ba2629b <unknown>\n#14 0x55fd0ba270a1 <unknown>\n#15 0x55fd0c084fec <unknown>\n#16 0x55fd0c0837f5 <unknown>\n#17 0x55fd0c06e785 <unknown>\n#18 0x55fd0c08445a <unknown>\n#19 0x55fd0c056d99 <unknown>\n#20 0x55fd0c0acb18 <unknown>\n#21 0x55fd0c0accb5 <unknown>\n#22 0x55fd0c0c0f73 <unknown>\n#23 0x7ff8de49cb84 <unknown>\n#24 0x7ff8de529ecc <unknown>\n"
         },
         "279": {
             "league_id": 279,
@@ -18134,7 +18134,7 @@
                     "승점": "5"
                 }
             ],
-            "standings_error": null
+            "standings_error": "[주소 오류] URL 접속에 실패했습니다: Message: unknown error: net::ERR_CONNECTION_REFUSED\n  (Session info: chrome=155.0.8059.39)\nStacktrace:\n#0 0x55fd0c0c25ea <unknown>\n#1 0x55fd0b9dc869 <unknown>\n#2 0x55fd0b9d36ba <unknown>\n#3 0x55fd0b9c4721 <unknown>\n#4 0x55fd0b9c6438 <unknown>\n#5 0x55fd0b9c4c0d <unknown>\n#6 0x55fd0b9c42ff <unknown>\n#7 0x55fd0b9c3ec6 <unknown>\n#8 0x55fd0b9c1ad0 <unknown>\n#9 0x55fd0b9c2300 <unknown>\n#10 0x55fd0b9e0341 <unknown>\n#11 0x55fd0ba82a3b <unknown>\n#12 0x55fd0ba81d4e <unknown>\n#13 0x55fd0ba2629b <unknown>\n#14 0x55fd0ba270a1 <unknown>\n#15 0x55fd0c084fec <unknown>\n#16 0x55fd0c0837f5 <unknown>\n#17 0x55fd0c06e785 <unknown>\n#18 0x55fd0c08445a <unknown>\n#19 0x55fd0c056d99 <unknown>\n#20 0x55fd0c0acb18 <unknown>\n#21 0x55fd0c0accb5 <unknown>\n#22 0x55fd0c0c0f73 <unknown>\n#23 0x7ff8de49cb84 <unknown>\n#24 0x7ff8de529ecc <unknown>\n"
         },
         "292": {
             "league_id": 292,
@@ -18380,7 +18380,7 @@
                     "승점": "2"
                 }
             ],
-            "standings_error": null
+            "standings_error": "[주소 오류] URL 접속에 실패했습니다: Message: unknown error: net::ERR_CONNECTION_REFUSED\n  (Session info: chrome=155.0.8059.39)\nStacktrace:\n#0 0x55fd0c0c25ea <unknown>\n#1 0x55fd0b9dc869 <unknown>\n#2 0x55fd0b9d36ba <unknown>\n#3 0x55fd0b9c4721 <unknown>\n#4 0x55fd0b9c6438 <unknown>\n#5 0x55fd0b9c4c0d <unknown>\n#6 0x55fd0b9c42ff <unknown>\n#7 0x55fd0b9c3ec6 <unknown>\n#8 0x55fd0b9c1ad0 <unknown>\n#9 0x55fd0b9c2300 <unknown>\n#10 0x55fd0b9e0341 <unknown>\n#11 0x55fd0ba82a3b <unknown>\n#12 0x55fd0ba81d4e <unknown>\n#13 0x55fd0ba2629b <unknown>\n#14 0x55fd0ba270a1 <unknown>\n#15 0x55fd0c084fec <unknown>\n#16 0x55fd0c0837f5 <unknown>\n#17 0x55fd0c06e785 <unknown>\n#18 0x55fd0c08445a <unknown>\n#19 0x55fd0c056d99 <unknown>\n#20 0x55fd0c0acb18 <unknown>\n#21 0x55fd0c0accb5 <unknown>\n#22 0x55fd0c0c0f73 <unknown>\n#23 0x7ff8de49cb84 <unknown>\n#24 0x7ff8de529ecc <unknown>\n"
         },
         "301": {
             "league_id": 301,
@@ -18574,7 +18574,7 @@
                     "승점": "1"
                 }
             ],
-            "standings_error": null
+            "standings_error": "[주소 오류] URL 접속에 실패했습니다: Message: unknown error: net::ERR_CONNECTION_REFUSED\n  (Session info: chrome=155.0.8059.39)\nStacktrace:\n#0 0x55fd0c0c25ea <unknown>\n#1 0x55fd0b9dc869 <unknown>\n#2 0x55fd0b9d36ba <unknown>\n#3 0x55fd0b9c4721 <unknown>\n#4 0x55fd0b9c6438 <unknown>\n#5 0x55fd0b9c4c0d <unknown>\n#6 0x55fd0b9c42ff <unknown>\n#7 0x55fd0b9c3ec6 <unknown>\n#8 0x55fd0b9c1ad0 <unknown>\n#9 0x55fd0b9c2300 <unknown>\n#10 0x55fd0b9e0341 <unknown>\n#11 0x55fd0ba82a3b <unknown>\n#12 0x55fd0ba81d4e <unknown>\n#13 0x55fd0ba2629b <unknown>\n#14 0x55fd0ba270a1 <unknown>\n#15 0x55fd0c084fec <unknown>\n#16 0x55fd0c0837f5 <unknown>\n#17 0x55fd0c06e785 <unknown>\n#18 0x55fd0c08445a <unknown>\n#19 0x55fd0c056d99 <unknown>\n#20 0x55fd0c0acb18 <unknown>\n#21 0x55fd0c0accb5 <unknown>\n#22 0x55fd0c0c0f73 <unknown>\n#23 0x7ff8de49cb84 <unknown>\n#24 0x7ff8de529ecc <unknown>\n"
         },
         "313": {
             "league_id": 313,
@@ -18752,7 +18752,7 @@
                     "승점": "1"
                 }
             ],
-            "standings_error": null
+            "standings_error": "[주소 오류] URL 접속에 실패했습니다: Message: unknown error: net::ERR_CONNECTION_REFUSED\n  (Session info: chrome=155.0.8059.39)\nStacktrace:\n#0 0x55fd0c0c25ea <unknown>\n#1 0x55fd0b9dc869 <unknown>\n#2 0x55fd0b9d36ba <unknown>\n#3 0x55fd0b9c4721 <unknown>\n#4 0x55fd0b9c6438 <unknown>\n#5 0x55fd0b9c4c0d <unknown>\n#6 0x55fd0b9c42ff <unknown>\n#7 0x55fd0b9c3ec6 <unknown>\n#8 0x55fd0b9c1ad0 <unknown>\n#9 0x55fd0b9c2300 <unknown>\n#10 0x55fd0b9e0341 <unknown>\n#11 0x55fd0ba82a3b <unknown>\n#12 0x55fd0ba81d4e <unknown>\n#13 0x55fd0ba2629b <unknown>\n#14 0x55fd0ba270a1 <unknown>\n#15 0x55fd0c084fec <unknown>\n#16 0x55fd0c0837f5 <unknown>\n#17 0x55fd0c06e785 <unknown>\n#18 0x55fd0c08445a <unknown>\n#19 0x55fd0c056d99 <unknown>\n#20 0x55fd0c0acb18 <unknown>\n#21 0x55fd0c0accb5 <unknown>\n#22 0x55fd0c0c0f73 <unknown>\n#23 0x7ff8de49cb84 <unknown>\n#24 0x7ff8de529ecc <unknown>\n"
         },
         "318": {
             "league_id": 318,
@@ -18922,7 +18922,7 @@
                     "승점": "1"
                 }
             ],
-            "standings_error": null
+            "standings_error": "[주소 오류] URL 접속에 실패했습니다: Message: unknown error: net::ERR_CONNECTION_REFUSED\n  (Session info: chrome=155.0.8059.39)\nStacktrace:\n#0 0x55fd0c0c25ea <unknown>\n#1 0x55fd0b9dc869 <unknown>\n#2 0x55fd0b9d36ba <unknown>\n#3 0x55fd0b9c4721 <unknown>\n#4 0x55fd0b9c6438 <unknown>\n#5 0x55fd0b9c4c0d <unknown>\n#6 0x55fd0b9c42ff <unknown>\n#7 0x55fd0b9c3ec6 <unknown>\n#8 0x55fd0b9c1ad0 <unknown>\n#9 0x55fd0b9c2300 <unknown>\n#10 0x55fd0b9e0341 <unknown>\n#11 0x55fd0ba82a3b <unknown>\n#12 0x55fd0ba81d4e <unknown>\n#13 0x55fd0ba2629b <unknown>\n#14 0x55fd0ba270a1 <unknown>\n#15 0x55fd0c084fec <unknown>\n#16 0x55fd0c0837f5 <unknown>\n#17 0x55fd0c06e785 <unknown>\n#18 0x55fd0c08445a <unknown>\n#19 0x55fd0c056d99 <unknown>\n#20 0x55fd0c0acb18 <unknown>\n#21 0x55fd0c0accb5 <unknown>\n#22 0x55fd0c0c0f73 <unknown>\n#23 0x7ff8de49cb84 <unknown>\n#24 0x7ff8de529ecc <unknown>\n"
         },
         "321": {
             "league_id": 321,
@@ -19144,7 +19144,7 @@
                     "승점": "1"
                 }
             ],
-            "standings_error": null
+            "standings_error": "[주소 오류] URL 접속에 실패했습니다: Message: unknown error: net::ERR_CONNECTION_REFUSED\n  (Session info: chrome=155.0.8059.39)\nStacktrace:\n#0 0x55fd0c0c25ea <unknown>\n#1 0x55fd0b9dc869 <unknown>\n#2 0x55fd0b9d36ba <unknown>\n#3 0x55fd0b9c4721 <unknown>\n#4 0x55fd0b9c6438 <unknown>\n#5 0x55fd0b9c4c0d <unknown>\n#6 0x55fd0b9c42ff <unknown>\n#7 0x55fd0b9c3ec6 <unknown>\n#8 0x55fd0b9c1ad0 <unknown>\n#9 0x55fd0b9c2300 <unknown>\n#10 0x55fd0b9e0341 <unknown>\n#11 0x55fd0ba82a3b <unknown>\n#12 0x55fd0ba81d4e <unknown>\n#13 0x55fd0ba2629b <unknown>\n#14 0x55fd0ba270a1 <unknown>\n#15 0x55fd0c084fec <unknown>\n#16 0x55fd0c0837f5 <unknown>\n#17 0x55fd0c06e785 <unknown>\n#18 0x55fd0c08445a <unknown>\n#19 0x55fd0c056d99 <unknown>\n#20 0x55fd0c0acb18 <unknown>\n#21 0x55fd0c0accb5 <unknown>\n#22 0x55fd0c0c0f73 <unknown>\n#23 0x7ff8de49cb84 <unknown>\n#24 0x7ff8de529ecc <unknown>\n"
         },
         "326": {
             "league_id": 326,
@@ -19362,7 +19362,7 @@
                     "승점": "1"
                 }
             ],
-            "standings_error": null
+            "standings_error": "[주소 오류] URL 접속에 실패했습니다: Message: unknown error: net::ERR_CONNECTION_REFUSED\n  (Session info: chrome=155.0.8059.39)\nStacktrace:\n#0 0x55fd0c0c25ea <unknown>\n#1 0x55fd0b9dc869 <unknown>\n#2 0x55fd0b9d36ba <unknown>\n#3 0x55fd0b9c4721 <unknown>\n#4 0x55fd0b9c6438 <unknown>\n#5 0x55fd0b9c4c0d <unknown>\n#6 0x55fd0b9c42ff <unknown>\n#7 0x55fd0b9c3ec6 <unknown>\n#8 0x55fd0b9c1ad0 <unknown>\n#9 0x55fd0b9c2300 <unknown>\n#10 0x55fd0b9e0341 <unknown>\n#11 0x55fd0ba82a3b <unknown>\n#12 0x55fd0ba81d4e <unknown>\n#13 0x55fd0ba2629b <unknown>\n#14 0x55fd0ba270a1 <unknown>\n#15 0x55fd0c084fec <unknown>\n#16 0x55fd0c0837f5 <unknown>\n#17 0x55fd0c06e785 <unknown>\n#18 0x55fd0c08445a <unknown>\n#19 0x55fd0c056d99 <unknown>\n#20 0x55fd0c0acb18 <unknown>\n#21 0x55fd0c0accb5 <unknown>\n#22 0x55fd0c0c0f73 <unknown>\n#23 0x7ff8de49cb84 <unknown>\n#24 0x7ff8de529ecc <unknown>\n"
         },
         "465": {
             "league_id": 465,
@@ -19372,7 +19372,7 @@
             "active_round_error": null,
             "total_rounds": 13,
             "standing_legends": [],
-            "standing_legends_error": "[모듈 에러] 하단 범례(#standingColor)를 찾을 수 없습니다.",
+            "standing_legends_error": null,
             "standings": [
                 {
                     "rank": "1",
@@ -19543,7 +19543,7 @@
                     "승점": "4"
                 }
             ],
-            "standings_error": null
+            "standings_error": "[주소 오류] URL 접속에 실패했습니다: Message: unknown error: net::ERR_CONNECTION_REFUSED\n  (Session info: chrome=155.0.8059.39)\nStacktrace:\n#0 0x55fd0c0c25ea <unknown>\n#1 0x55fd0b9dc869 <unknown>\n#2 0x55fd0b9d36ba <unknown>\n#3 0x55fd0b9c4721 <unknown>\n#4 0x55fd0b9c6438 <unknown>\n#5 0x55fd0b9c4c0d <unknown>\n#6 0x55fd0b9c42ff <unknown>\n#7 0x55fd0b9c3ec6 <unknown>\n#8 0x55fd0b9c1ad0 <unknown>\n#9 0x55fd0b9c2300 <unknown>\n#10 0x55fd0b9e0341 <unknown>\n#11 0x55fd0ba82a3b <unknown>\n#12 0x55fd0ba81d4e <unknown>\n#13 0x55fd0ba2629b <unknown>\n#14 0x55fd0ba270a1 <unknown>\n#15 0x55fd0c084fec <unknown>\n#16 0x55fd0c0837f5 <unknown>\n#17 0x55fd0c06e785 <unknown>\n#18 0x55fd0c08445a <unknown>\n#19 0x55fd0c056d99 <unknown>\n#20 0x55fd0c0acb18 <unknown>\n#21 0x55fd0c0accb5 <unknown>\n#22 0x55fd0c0c0f73 <unknown>\n#23 0x7ff8de49cb84 <unknown>\n#24 0x7ff8de529ecc <unknown>\n"
         },
         "332": {
             "league_id": 332,
@@ -20055,27 +20055,27 @@
                 },
                 {
                     "rank": "8",
-                    "team": "나시오날 포토시",
+                    "team": "블루밍",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "21",
-                    "승": "4",
-                    "무": "9",
-                    "패": "2",
-                    "득실": "28",
+                    "경기수": "22",
+                    "승": "6",
+                    "무": "10",
+                    "패": "6",
+                    "득실": "7",
                     "승점": "28"
                 },
                 {
                     "rank": "9",
-                    "team": "블루밍",
+                    "team": "나시오날 포토시",
                     "tag_color": "",
                     "tag_label": "일반",
                     "경기수": "21",
-                    "승": "6",
-                    "무": "7",
-                    "패": "27",
-                    "득실": "0",
-                    "승점": "27"
+                    "승": "8",
+                    "무": "4",
+                    "패": "2",
+                    "득실": "28",
+                    "승점": "28"
                 },
                 {
                     "rank": "10",
@@ -20094,12 +20094,12 @@
                     "team": "인디펜디엔테",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "21",
+                    "경기수": "22",
                     "승": "7",
-                    "무": "4",
+                    "무": "5",
                     "패": "10",
                     "득실": "-10",
-                    "승점": "25"
+                    "승점": "26"
                 },
                 {
                     "rank": "12",
@@ -20499,12 +20499,12 @@
                     "team": "Dep. 타치라",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
-                    "경기수": "11",
+                    "경기수": "12",
                     "승": "7",
-                    "무": "10",
-                    "패": "23",
-                    "득실": "0",
-                    "승점": "23"
+                    "무": "3",
+                    "패": "10",
+                    "득실": "24",
+                    "승점": "24"
                 },
                 {
                     "rank": "3",
@@ -20523,12 +20523,12 @@
                     "team": "카라보보",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
-                    "경기수": "12",
+                    "경기수": "13",
                     "승": "6",
                     "무": "3",
                     "패": "5",
-                    "득실": "21",
-                    "승점": "21"
+                    "득실": "22",
+                    "승점": "22"
                 },
                 {
                     "rank": "5",
@@ -20746,6 +20746,18 @@
                 },
                 {
                     "rank": "7",
+                    "team": "촐로마",
+                    "tag_color": "",
+                    "tag_label": "일반",
+                    "경기수": "10",
+                    "승": "3",
+                    "무": "1",
+                    "패": "6",
+                    "득실": "-2",
+                    "승점": "10"
+                },
+                {
+                    "rank": "8",
                     "team": "CA Independiente Siguatepeque",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -20757,63 +20769,51 @@
                     "승점": "10"
                 },
                 {
-                    "rank": "8",
+                    "rank": "9",
                     "team": "Estrella Roja",
+                    "tag_color": "",
+                    "tag_label": "일반",
+                    "경기수": "2",
+                    "승": "3",
+                    "무": "4",
+                    "패": "-4",
+                    "득실": "0",
+                    "승점": "9"
+                },
+                {
+                    "rank": "10",
+                    "team": "UPNFM",
                     "tag_color": "",
                     "tag_label": "일반",
                     "경기수": "9",
                     "승": "2",
                     "무": "3",
                     "패": "4",
-                    "득실": "-4",
+                    "득실": "-5",
                     "승점": "9"
-                },
-                {
-                    "rank": "9",
-                    "team": "UPNFM",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "2",
-                    "승": "3",
-                    "무": "4",
-                    "패": "-5",
-                    "득실": "0",
-                    "승점": "9"
-                },
-                {
-                    "rank": "10",
-                    "team": "플라텐세",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "2",
-                    "승": "6",
-                    "무": "-13",
-                    "패": "8",
-                    "득실": "0",
-                    "승점": "8"
                 },
                 {
                     "rank": "11",
-                    "team": "촐로마",
+                    "team": "플라텐세",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "9",
+                    "경기수": "10",
                     "승": "2",
-                    "무": "1",
-                    "패": "6",
-                    "득실": "-3",
-                    "승점": "7"
+                    "무": "6",
+                    "패": "-13",
+                    "득실": "8",
+                    "승점": "8"
                 },
                 {
                     "rank": "12",
                     "team": "후티칼파",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "9",
+                    "경기수": "10",
                     "승": "2",
                     "무": "0",
-                    "패": "7",
-                    "득실": "-12",
+                    "패": "8",
+                    "득실": "-13",
                     "승점": "6"
                 }
             ],
@@ -22457,10 +22457,10 @@
                     "team": "베라과스",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "11",
+                    "경기수": "12",
                     "승": "6",
-                    "무": "1",
-                    "패": "2",
+                    "무": "2",
+                    "패": "0",
                     "득실": "18",
                     "승점": "18"
                 },
@@ -22502,6 +22502,18 @@
                 },
                 {
                     "rank": "8",
+                    "team": "인디펜디엔테",
+                    "tag_color": "",
+                    "tag_label": "일반",
+                    "경기수": "12",
+                    "승": "3",
+                    "무": "5",
+                    "패": "4",
+                    "득실": "0",
+                    "승점": "14"
+                },
+                {
+                    "rank": "9",
                     "team": "미겔리토",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -22511,18 +22523,6 @@
                     "패": "-1",
                     "득실": "13",
                     "승점": "13"
-                },
-                {
-                    "rank": "9",
-                    "team": "인디펜디엔테",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "11",
-                    "승": "2",
-                    "무": "5",
-                    "패": "4",
-                    "득실": "-2",
-                    "승점": "11"
                 },
                 {
                     "rank": "10",
