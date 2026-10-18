@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-18 12:36:29",
+    "last_updated": "2026-10-18 15:40:43",
     "match_details": {
         "3018831": {
             "match_code": "3018831",
@@ -980,7 +980,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "9",
+                        "rank": "11",
                         "team": "셀타비고",
                         "played": "8",
                         "win": "1",
@@ -1172,8 +1172,8 @@
                 "home_stadium": "Daejeon World Cup Stadium",
                 "weather": "이슬비,  22℃～23℃"
             },
-            "home": "대전",
-            "away": "광주",
+            "home": "중단",
+            "away": "0 - 2",
             "meta_details": {
                 "rankings": [
                     {
@@ -1342,192 +1342,6 @@
                             "league": "K리그 1",
                             "match_time": "2026-10-24 05:00:00",
                             "teams": "10.24 2026 vs 부천 vs 광주 vs 6 일",
-                            "interval": "시작전"
-                        }
-                    ]
-                }
-            }
-        },
-        "2929744": {
-            "match_code": "2929744",
-            "head_info": {
-                "league": "K리그 1",
-                "round": "K리그 1·  라운드 32",
-                "match_time_raw": "10/18/2026 5:00:00 AM",
-                "match_time_display": "2026-10-18 14:00",
-                "stadium": "Jeonju World Cup Stadium",
-                "home_stadium": "Jeonju World Cup Stadium",
-                "weather": "이슬비,  23℃～24℃"
-            },
-            "home": "전북",
-            "away": "제주",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "5",
-                        "team": "전북",
-                        "played": "31",
-                        "win": "11",
-                        "draw": "11",
-                        "loss": "9",
-                        "goals_for": "39",
-                        "goals_against": "30",
-                        "goal_diff": "9",
-                        "points": "44"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "4",
-                        "team": "제주",
-                        "played": "31",
-                        "win": "12",
-                        "draw": "10",
-                        "loss": "9",
-                        "goals_for": "36",
-                        "goals_against": "31",
-                        "goal_diff": "5",
-                        "points": "46"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "3승 4무 3패",
-                        "goals_per_game": "1.10",
-                        "conceded_per_game": "1.10"
-                    },
-                    "away_summary": {
-                        "recent_record": "4승 3무 3패",
-                        "goals_per_game": "1.20",
-                        "conceded_per_game": "0.90"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 3 (30%)",
-                        "무승부 4 (40%)",
-                        "0.90",
-                        "경기당 득점",
-                        "1.00",
-                        "핸디캡：3승 0무 7패",
-                        "언오버：3오버 0무 7언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "KOR D12026.08.08",
-                                "전북",
-                                "1-3",
-                                "제주"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D12026.05.02",
-                                "제주",
-                                "0-2",
-                                "전북"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D12025.10.03",
-                                "제주",
-                                "1-1",
-                                "전북"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D12025.05.23",
-                                "제주",
-                                "0-0",
-                                "전북"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D12025.04.13",
-                                "전북",
-                                "1-1",
-                                "제주"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D12024.10.27",
-                                "제주",
-                                "1-0",
-                                "전북"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D12024.09.28",
-                                "전북",
-                                "2-1",
-                                "제주"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D12024.07.10",
-                                "전북",
-                                "2-1",
-                                "제주"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D12024.04.03",
-                                "제주",
-                                "2-0",
-                                "전북"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D12023.09.03",
-                                "제주",
-                                "0-0",
-                                "전북"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "K리그 1",
-                            "match_time": "2026-10-24 05:00:00",
-                            "teams": "10.24 2026 vs 안양 vs 전북 vs 6 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "AFC 챔피언스리그",
-                            "match_time": "2026-10-27 12:15:00",
-                            "teams": "10.27 2026 vs 베이징 궈안 vs 전북 vs 9 일",
-                            "interval": "9 일"
-                        },
-                        {
-                            "league": "AFC 챔피언스리그",
-                            "match_time": "2026-11-03 10:00:00",
-                            "teams": "11.03 2026 vs 전북 vs 조호르 DT vs 16 일",
-                            "interval": "16 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "K리그 1",
-                            "match_time": "2026-10-24 05:00:00",
-                            "teams": "10.24 2026 vs 인천 vs 제주 vs 6 일",
                             "interval": "시작전"
                         }
                     ]
@@ -1729,7 +1543,7 @@
                 "match_time_raw": "10/18/2026 7:30:00 AM",
                 "match_time_display": "2026-10-18 16:30",
                 "stadium": "Gangneung Stadium",
-                "home_stadium": "",
+                "home_stadium": "Gangneung Stadium",
                 "weather": "맑음,  20℃～21℃"
             },
             "home": "강원",
@@ -2058,300 +1872,6 @@
                             "match_time": "2026-10-24 05:00:00",
                             "teams": "10.24 2026 vs 안양 vs 전북 vs 6 일",
                             "interval": "시작전"
-                        }
-                    ]
-                }
-            }
-        },
-        "2925555": {
-            "match_code": "2925555",
-            "head_info": {
-                "league": "K리그 2",
-                "round": "K리그 2·  라운드 29",
-                "match_time_raw": "10/18/2026 5:00:00 AM",
-                "match_time_display": "2026-10-18 14:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": "이슬비,  21℃～22℃"
-            },
-            "home": "서울E",
-            "away": "김해FC",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "3",
-                        "team": "서울E",
-                        "played": "27",
-                        "win": "15",
-                        "draw": "6",
-                        "loss": "6",
-                        "goals_for": "46",
-                        "goals_against": "30",
-                        "goal_diff": "16",
-                        "points": "51"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "17",
-                        "team": "김해FC",
-                        "played": "26",
-                        "win": "2",
-                        "draw": "8",
-                        "loss": "16",
-                        "goals_for": "20",
-                        "goals_against": "50",
-                        "goal_diff": "-30",
-                        "points": "14"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "6승 3무 1패",
-                        "goals_per_game": "1.60",
-                        "conceded_per_game": "0.90"
-                    },
-                    "away_summary": {
-                        "recent_record": "0승 4무 6패",
-                        "goals_per_game": "0.60",
-                        "conceded_per_game": "1.70"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 1 (100%)",
-                        "무승부 0 (0%)",
-                        "승 0 (0%)",
-                        "3.00",
-                        "경기당 득점",
-                        "1.00",
-                        "핸디캡：1승 0무 0패",
-                        "언오버：1오버 0무 0언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "KOR D22026.07.05",
-                                "김해FC",
-                                "1-3",
-                                "서울E"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-10-31 05:00:00",
-                            "teams": "10.31 2026 vs 용인시민축구단 vs 서울E vs 13 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-11-07 07:30:00",
-                            "teams": "11.07 2026 vs 서울E vs 전남 vs 20 일",
-                            "interval": "20 일"
-                        },
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-11-22 07:30:00",
-                            "teams": "11.22 2026 vs 서울E vs 충남아산 vs 35 일",
-                            "interval": "35 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-10-24 07:30:00",
-                            "teams": "10.24 2026 vs 김포 vs 김해FC vs 6 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-11-01 07:30:00",
-                            "teams": "11.01 2026 vs 김해FC vs 천안시티FC vs 14 일",
-                            "interval": "14 일"
-                        },
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-11-07 07:30:00",
-                            "teams": "11.07 2026 vs 김해FC vs 화성FC vs 20 일",
-                            "interval": "20 일"
-                        }
-                    ]
-                }
-            }
-        },
-        "2925556": {
-            "match_code": "2925556",
-            "head_info": {
-                "league": "K리그 2",
-                "round": "K리그 2·  라운드 29",
-                "match_time_raw": "10/18/2026 5:00:00 AM",
-                "match_time_display": "2026-10-18 14:00",
-                "stadium": "Suwon World Cup Stadium",
-                "home_stadium": "Suwon World Cup Stadium",
-                "weather": "이슬비,  20℃～21℃"
-            },
-            "home": "수원삼성",
-            "away": "화성FC",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "1",
-                        "team": "수원삼성",
-                        "played": "26",
-                        "win": "17",
-                        "draw": "5",
-                        "loss": "4",
-                        "goals_for": "43",
-                        "goals_against": "21",
-                        "goal_diff": "22",
-                        "points": "56"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "5",
-                        "team": "화성FC",
-                        "played": "27",
-                        "win": "12",
-                        "draw": "8",
-                        "loss": "7",
-                        "goals_for": "41",
-                        "goals_against": "28",
-                        "goal_diff": "13",
-                        "points": "44"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "7승 3무 0패",
-                        "goals_per_game": "2.10",
-                        "conceded_per_game": "0.70"
-                    },
-                    "away_summary": {
-                        "recent_record": "3승 5무 2패",
-                        "goals_per_game": "1.40",
-                        "conceded_per_game": "0.90"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 4 (66.7%)",
-                        "무승부 1 (16.7%)",
-                        "승 1 (16.7%)",
-                        "1.67",
-                        "경기당 득점",
-                        "1.00",
-                        "핸디캡：3승 0무 3패",
-                        "언오버：3오버 0무 3언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "KOR D22026.06.06",
-                                "화성FC",
-                                "1-2",
-                                "수원삼성"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D22025.10.19",
-                                "화성FC",
-                                "2-3",
-                                "수원삼성"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D22025.08.24",
-                                "화성FC",
-                                "1-1",
-                                "수원삼성"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KOR D22025.04.19",
-                                "수원삼성",
-                                "3-1",
-                                "화성FC"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KFAC2019.10.02",
-                                "수원삼성",
-                                "1-0",
-                                "화성FC"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "KFAC2019.09.18",
-                                "화성FC",
-                                "1-0",
-                                "수원삼성"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-10-25 05:00:00",
-                            "teams": "10.25 2026 vs 성남 vs 수원삼성 vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-10-31 07:30:00",
-                            "teams": "10.31 2026 vs 대구 vs 수원삼성 vs 13 일",
-                            "interval": "13 일"
-                        },
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-11-08 05:00:00",
-                            "teams": "11.08 2026 vs 수원삼성 vs 용인시민축구단 vs 21 일",
-                            "interval": "21 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-10-25 07:30:00",
-                            "teams": "10.25 2026 vs 파주시민 vs 화성FC vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-10-31 05:00:00",
-                            "teams": "10.31 2026 vs 경남 vs 화성FC vs 13 일",
-                            "interval": "13 일"
-                        },
-                        {
-                            "league": "K리그 2",
-                            "match_time": "2026-11-07 07:30:00",
-                            "teams": "11.07 2026 vs 김해FC vs 화성FC vs 20 일",
-                            "interval": "20 일"
                         }
                     ]
                 }
@@ -6694,7 +6214,7 @@
                 "match_time_display": "2026-10-18 21:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  23°C"
+                "weather": "구름 조금,  24°C"
             },
             "home": "메찰",
             "away": "에디오피아 니그드 뱅크",
@@ -7059,164 +6579,112 @@
                 }
             }
         },
-        "3089022": {
-            "match_code": "3089022",
+        "3088816": {
+            "match_code": "3088816",
             "head_info": {
                 "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 9",
-                "match_time_raw": "10/18/2026 5:00:00 AM",
-                "match_time_display": "2026-10-18 14:00",
+                "round": "프리미어리그·  라운드 4",
+                "match_time_raw": "10/18/2026 10:00:00 AM",
+                "match_time_display": "2026-10-18 19:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "흐림,  -1°C"
+                "weather": "맑음,  28°C"
             },
-            "home": "FC 울란바토르",
-            "away": "Central Stallions",
+            "home": "타이완 시후",
+            "away": "Kaohsiung Attackers FC",
             "meta_details": {
                 "rankings": [
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "2",
-                        "team": "FC 울란바토르",
-                        "played": "7",
-                        "win": "6",
-                        "draw": "1",
+                        "rank": "4",
+                        "team": "타이완 시후",
+                        "played": "3",
+                        "win": "1",
+                        "draw": "2",
                         "loss": "0",
-                        "goals_for": "37",
-                        "goals_against": "4",
-                        "goal_diff": "33",
-                        "points": "19"
+                        "goals_for": "1",
+                        "goals_against": "0",
+                        "goal_diff": "1",
+                        "points": "5"
                     },
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
                         "rank": "1",
-                        "team": "Central Stallions",
-                        "played": "7",
-                        "win": "7",
-                        "draw": "0",
+                        "team": "Kaohsiung Attackers FC",
+                        "played": "3",
+                        "win": "2",
+                        "draw": "1",
                         "loss": "0",
-                        "goals_for": "29",
-                        "goals_against": "7",
-                        "goal_diff": "22",
-                        "points": "21"
+                        "goals_for": "8",
+                        "goals_against": "3",
+                        "goal_diff": "5",
+                        "points": "7"
                     }
                 ],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "7승 1무 2패",
-                        "goals_per_game": "4.40",
-                        "conceded_per_game": "1.20"
+                        "recent_record": "2승 4무 4패",
+                        "goals_per_game": "0.70",
+                        "conceded_per_game": "0.90"
                     },
                     "away_summary": {
-                        "recent_record": "8승 1무 1패",
-                        "goals_per_game": "3.20",
-                        "conceded_per_game": "1.20"
+                        "recent_record": "7승 2무 1패",
+                        "goals_per_game": "2.50",
+                        "conceded_per_game": "1.00"
                     },
                     "matches": []
                 },
                 "h2h": {
-                    "summary": [
-                        "승 4 (40%)",
-                        "무승부 1 (10%)",
-                        "승 5 (50%)",
-                        "2.30",
-                        "경기당 득점",
-                        "1.50",
-                        "핸디캡：2승 0무 3패",
-                        "언오버：1오버 0무 4언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "MGL PL2026.06.30",
-                                "FC 울란바토르",
-                                "2-3",
-                                "Central Stallions"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MGL PL2026.06.21",
-                                "Central Stallions",
-                                "0-3",
-                                "FC 울란바토르"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MGL PL2026.06.17",
-                                "Central Stallions",
-                                "1-0",
-                                "FC 울란바토르"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MGL PL2025.11.02",
-                                "FC 울란바토르",
-                                "1-1",
-                                "Central Stallions"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MGL PL2025.07.09",
-                                "Central Stallions",
-                                "0-3",
-                                "FC 울란바토르"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MGL PL2025.04.19",
-                                "FC 울란바토르",
-                                "0-3",
-                                "Central Stallions"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MGL PL2024.10.04",
-                                "Central Stallions",
-                                "1-11",
-                                "FC 울란바토르"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MGL PL2024.06.16",
-                                "FC 울란바토르",
-                                "1-2",
-                                "Central Stallions"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MGL PL2024.04.18",
-                                "Central Stallions",
-                                "1-2",
-                                "FC 울란바토르"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MGL PL2023.10.01",
-                                "FC 울란바토르",
-                                "0-3",
-                                "Central Stallions"
-                            ]
-                        }
-                    ]
+                    "summary": [],
+                    "matches": []
                 },
                 "lineup_summary": {
                     "home": [],
                     "away": []
                 },
                 "fixtures": {
-                    "home": [],
-                    "away": []
+                    "home": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-25 07:30:00",
+                            "teams": "10.25 2026 vs 대만전력 vs 타이완 시후 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-01 08:00:00",
+                            "teams": "11.01 2026 vs 타이완 시후 vs AC 타이베이 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-22 07:30:00",
+                            "teams": "11.22 2026 vs 타이중 락 vs 타이완 시후 vs 35 일",
+                            "interval": "35 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-10-25 11:00:00",
+                            "teams": "10.25 2026 vs Kaohsiung Attackers FC vs 대만철강 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-01 10:00:00",
+                            "teams": "11.01 2026 vs Kaohsiung Attackers FC vs 대만전력 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-22 11:00:00",
+                            "teams": "11.22 2026 vs Kaohsiung Attackers FC vs AC 타이베이 vs 35 일",
+                            "interval": "35 일"
+                        }
+                    ]
                 }
             }
         }
