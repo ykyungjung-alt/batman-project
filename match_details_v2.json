@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-19 09:44:30",
+    "last_updated": "2026-10-19 12:36:28",
     "match_details": {
         "3003918": {
             "match_code": "3003918",
@@ -10,7 +10,7 @@
                 "match_time_display": "2026-10-20 04:00",
                 "stadium": "Tottenham Hotspur Stadium",
                 "home_stadium": "Tottenham Hotspur Stadium",
-                "weather": "흐림,  12°C"
+                "weather": "구름 많음,  11℃～12℃"
             },
             "home": "토트넘",
             "away": "코번트리",
@@ -203,7 +203,7 @@
                 "match_time_display": "2026-10-20 04:00",
                 "stadium": "Coliseum Alfonso Perez",
                 "home_stadium": "Coliseum Alfonso Perez",
-                "weather": "흐림,  13°C"
+                "weather": "구름 많음,  11℃～12℃"
             },
             "home": "헤타페",
             "away": "라요 바예카노",
@@ -396,7 +396,7 @@
                 "match_time_display": "2026-10-20 01:30",
                 "stadium": "Stadio Brianteo",
                 "home_stadium": "Stadio Brianteo",
-                "weather": "맑음,  19°C"
+                "weather": "구름 많음,  18℃～19℃"
             },
             "home": "몬차",
             "away": "칼리아리",
@@ -541,7 +541,7 @@
                 "match_time_display": "2026-10-20 03:45",
                 "stadium": "Stadio Ennio Tardini",
                 "home_stadium": "Stadio Ennio Tardini",
-                "weather": "맑음,  17°C"
+                "weather": "구름 조금,  18℃～19℃"
             },
             "home": "파르마",
             "away": "토리노",
@@ -733,7 +733,7 @@
                 "match_time_display": "2026-10-20 03:30",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "맑음,  15°C"
+                "weather": "구름 많음,  15℃～16℃"
             },
             "home": "셀타비고 B",
             "away": "테네리페",
@@ -1851,7 +1851,7 @@
                 "match_time_display": "2026-10-20 00:30",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "구름 조금,  30°C"
             },
             "home": "아그보빌",
             "away": "무나",
@@ -1913,7 +1913,7 @@
                 "match_time_display": "2026-10-20 02:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  30°C"
+                "weather": "흐림,  30°C"
             },
             "home": "ASC Police",
             "away": "카에디",
@@ -2043,6 +2043,829 @@
                 }
             }
         },
+        "3104244": {
+            "match_code": "3104244",
+            "head_info": {
+                "league": "국제 친선경기",
+                "round": "",
+                "match_time_raw": "10/19/2026 3:00:00 PM",
+                "match_time_display": "2026-10-20 00:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "Al Duhail U23",
+            "away": "카타르 U20",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 2무 5패",
+                        "goals_per_game": "1.10",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 2무 6패",
+                        "goals_per_game": "1.00",
+                        "conceded_per_game": "1.80"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
+                }
+            }
+        },
+        "3059218": {
+            "match_code": "3059218",
+            "head_info": {
+                "league": "국제 친선경기",
+                "round": "England U21 Professional Development League 2·  라운드 10",
+                "match_time_raw": "10/20/2026 12:00:00 PM",
+                "match_time_display": "2026-10-20 21:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "찰튼 U21",
+            "away": "카디프 U21",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "10",
+                        "team": "찰튼 U21",
+                        "played": "7",
+                        "win": "2",
+                        "draw": "3",
+                        "loss": "2",
+                        "goals_for": "11",
+                        "goals_against": "12",
+                        "goal_diff": "-1",
+                        "points": "9"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "8",
+                        "team": "카디프 U21",
+                        "played": "6",
+                        "win": "2",
+                        "draw": "3",
+                        "loss": "1",
+                        "goals_for": "14",
+                        "goals_against": "6",
+                        "goal_diff": "8",
+                        "points": "9"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 4무 2패",
+                        "goals_per_game": "1.60",
+                        "conceded_per_game": "1.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "2.20",
+                        "conceded_per_game": "1.60"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 4 (40%)",
+                        "무승부 2 (20%)",
+                        "1.90",
+                        "경기당 득점",
+                        "1.70"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG U21D22026.03.10",
+                                "카디프 U21",
+                                "1-0",
+                                "찰튼 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22025.11.25",
+                                "찰튼 U21",
+                                "0-3",
+                                "카디프 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22025.01.24",
+                                "찰튼 U21",
+                                "6-1",
+                                "카디프 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22024.10.05",
+                                "카디프 U21",
+                                "2-0",
+                                "찰튼 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22024.02.20",
+                                "카디프 U21",
+                                "2-1",
+                                "찰튼 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22023.11.27",
+                                "찰튼 U21",
+                                "5-5",
+                                "카디프 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22023.02.28",
+                                "카디프 U21",
+                                "0-2",
+                                "찰튼 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22022.11.10",
+                                "찰튼 U21",
+                                "2-1",
+                                "카디프 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22016.03.24",
+                                "찰튼 U21",
+                                "1-1",
+                                "카디프 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22015.10.26",
+                                "카디프 U21",
+                                "1-2",
+                                "찰튼 U21"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-10-26 13:00:00",
+                            "teams": "10.26 2026 vs 스완지 U21 vs 찰튼 U21 vs 6 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그 컵",
+                            "match_time": "2026-11-03 19:00:00",
+                            "teams": "11.03 2026 vs 찰튼 U21 vs 스톡포트 U21 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-10 14:00:00",
+                            "teams": "11.10 2026 vs 콜체스터 U21 vs 찰튼 U21 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-10-27 19:00:00",
+                            "teams": "10.27 2026 vs 카디프 U21 vs 코번트리 U21 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그 컵",
+                            "match_time": "2026-11-02 19:00:00",
+                            "teams": "11.02 2026 vs 본머스 U21 vs 카디프 U21 vs 13 일",
+                            "interval": "13 일"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-03 13:00:00",
+                            "teams": "11.03 2026 vs 밀월 U21 vs 카디프 U21 vs 14 일",
+                            "interval": "14 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3059219": {
+            "match_code": "3059219",
+            "head_info": {
+                "league": "국제 친선경기",
+                "round": "England U21 Professional Development League 2·  라운드 10",
+                "match_time_raw": "10/20/2026 12:00:00 PM",
+                "match_time_display": "2026-10-20 21:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "플릿우드 U21",
+            "away": "반슬리 U21",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "2",
+                        "team": "플릿우드 U21",
+                        "played": "7",
+                        "win": "5",
+                        "draw": "0",
+                        "loss": "2",
+                        "goals_for": "10",
+                        "goals_against": "11",
+                        "goal_diff": "-1",
+                        "points": "15"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "10",
+                        "team": "반슬리 U21",
+                        "played": "6",
+                        "win": "2",
+                        "draw": "1",
+                        "loss": "3",
+                        "goals_for": "11",
+                        "goals_against": "15",
+                        "goal_diff": "-4",
+                        "points": "7"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "1.30",
+                        "conceded_per_game": "1.60"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 1무 5패",
+                        "goals_per_game": "1.90",
+                        "conceded_per_game": "2.40"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (16.7%)",
+                        "무승부 1 (16.7%)",
+                        "승 4 (66.7%)",
+                        "2.00",
+                        "경기당 득점",
+                        "2.83"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG U21D22026.02.10",
+                                "반슬리 U21",
+                                "4-2",
+                                "플릿우드 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22025.10.21",
+                                "플릿우드 U21",
+                                "1-2",
+                                "반슬리 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22025.03.11",
+                                "플릿우드 U21",
+                                "2-1",
+                                "반슬리 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22024.12.03",
+                                "반슬리 U21",
+                                "3-3",
+                                "플릿우드 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22024.01.09",
+                                "플릿우드 U21",
+                                "2-4",
+                                "반슬리 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22023.10.24",
+                                "반슬리 U21",
+                                "3-2",
+                                "플릿우드 U21"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-10-26 14:00:00",
+                            "teams": "10.26 2026 vs 셰필드U U21 vs 플릿우드 U21 vs 6 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그 컵",
+                            "match_time": "2026-11-02 19:00:00",
+                            "teams": "11.02 2026 vs 프레스턴 U21 vs 플릿우드 U21 vs 13 일",
+                            "interval": "13 일"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-10 13:00:00",
+                            "teams": "11.10 2026 vs 헐시티 U21 vs 플릿우드 U21 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-10-26 13:00:00",
+                            "teams": "10.26 2026 vs 반슬리 U21 vs 피터버러 U21 vs 6 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-17 13:00:00",
+                            "teams": "11.17 2026 vs 반슬리 U21 vs 위건 U21 vs 28 일",
+                            "interval": "28 일"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-23 13:00:00",
+                            "teams": "11.23 2026 vs 반슬리 U21 vs 볼턴 원더러스 FC (U21) vs 34 일",
+                            "interval": "34 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3059220": {
+            "match_code": "3059220",
+            "head_info": {
+                "league": "국제 친선경기",
+                "round": "England U21 Professional Development League 2·  라운드 10",
+                "match_time_raw": "10/20/2026 12:00:00 PM",
+                "match_time_display": "2026-10-20 21:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "허더스필드 U21",
+            "away": "헐시티 U21",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "9",
+                        "team": "허더스필드 U21",
+                        "played": "5",
+                        "win": "3",
+                        "draw": "0",
+                        "loss": "2",
+                        "goals_for": "13",
+                        "goals_against": "9",
+                        "goal_diff": "4",
+                        "points": "9"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "15",
+                        "team": "헐시티 U21",
+                        "played": "6",
+                        "win": "1",
+                        "draw": "2",
+                        "loss": "3",
+                        "goals_for": "9",
+                        "goals_against": "13",
+                        "goal_diff": "-4",
+                        "points": "5"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "6승 2무 2패",
+                        "goals_per_game": "2.80",
+                        "conceded_per_game": "1.70"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 4무 4패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "1.60"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (40%)",
+                        "무승부 2 (40%)",
+                        "승 1 (20%)",
+                        "1.60",
+                        "경기당 득점"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG U21D22026.02.25",
+                                "허더스필드 U21",
+                                "2-1",
+                                "헐시티 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22025.10.21",
+                                "헐시티 U21",
+                                "2-2",
+                                "허더스필드 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21LC2016.03.15",
+                                "허더스필드 U21",
+                                "0-0",
+                                "헐시티 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22016.01.04",
+                                "허더스필드 U21",
+                                "3-2",
+                                "헐시티 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22015.08.24",
+                                "헐시티 U21",
+                                "3-1",
+                                "허더스필드 U21"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-10-27 13:00:00",
+                            "teams": "10.27 2026 vs 볼턴 원더러스 FC (U21) vs 허더스필드 U21 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그 컵",
+                            "match_time": "2026-11-03 19:00:00",
+                            "teams": "11.03 2026 vs Gillingham U21 vs 허더스필드 U21 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-10 13:00:00",
+                            "teams": "11.10 2026 vs 허더스필드 U21 vs 피터버러 U21 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "프리미어리그 컵",
+                            "match_time": "2026-11-02 19:00:00",
+                            "teams": "11.02 2026 vs 헐시티 U21 vs 더비 U21 vs 13 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-10 13:00:00",
+                            "teams": "11.10 2026 vs 헐시티 U21 vs 플릿우드 U21 vs 21 일",
+                            "interval": "21 일"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-17 13:00:00",
+                            "teams": "11.17 2026 vs 셰필드 웬즈데이 U21 vs 헐시티 U21 vs 28 일",
+                            "interval": "28 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3059221": {
+            "match_code": "3059221",
+            "head_info": {
+                "league": "국제 친선경기",
+                "round": "England U21 Professional Development League 2·  라운드 10",
+                "match_time_raw": "10/20/2026 12:00:00 PM",
+                "match_time_display": "2026-10-20 21:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "위건 U21",
+            "away": "볼턴 원더러스 FC (U21)",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "7",
+                        "team": "위건 U21",
+                        "played": "8",
+                        "win": "2",
+                        "draw": "4",
+                        "loss": "2",
+                        "goals_for": "19",
+                        "goals_against": "22",
+                        "goal_diff": "-3",
+                        "points": "10"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "1",
+                        "team": "볼턴 원더러스 FC (U21)",
+                        "played": "7",
+                        "win": "6",
+                        "draw": "0",
+                        "loss": "1",
+                        "goals_for": "19",
+                        "goals_against": "5",
+                        "goal_diff": "14",
+                        "points": "18"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 4무 3패",
+                        "goals_per_game": "2.20",
+                        "conceded_per_game": "2.60"
+                    },
+                    "away_summary": {
+                        "recent_record": "6승 2무 2패",
+                        "goals_per_game": "2.40",
+                        "conceded_per_game": "1.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (50%)",
+                        "무승부 1 (50%)",
+                        "승 0 (0%)",
+                        "2.50",
+                        "경기당 득점",
+                        "2.00"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG U21LC2014.12.12",
+                                "볼턴 원더러스 FC (U21)",
+                                "4-4",
+                                "위건 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT CF2014.11.13",
+                                "위건 U21",
+                                "1-0",
+                                "볼턴 원더러스 FC (U21)"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-10 13:00:00",
+                            "teams": "11.10 2026 vs 위건 U21 vs 셰필드U U21 vs 21 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-17 13:00:00",
+                            "teams": "11.17 2026 vs 반슬리 U21 vs 위건 U21 vs 28 일",
+                            "interval": "28 일"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-12-01 13:00:00",
+                            "teams": "12.01 2026 vs 위건 U21 vs 피터버러 U21 vs 42 일",
+                            "interval": "42 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-10-27 13:00:00",
+                            "teams": "10.27 2026 vs 볼턴 원더러스 FC (U21) vs 허더스필드 U21 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그 컵",
+                            "match_time": "2026-11-02 19:00:00",
+                            "teams": "11.02 2026 vs 볼턴 원더러스 FC (U21) vs QPR U21 vs 13 일",
+                            "interval": "13 일"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-18 13:00:00",
+                            "teams": "11.18 2026 vs 피터버러 U21 vs 볼턴 원더러스 FC (U21) vs 29 일",
+                            "interval": "29 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3059222": {
+            "match_code": "3059222",
+            "head_info": {
+                "league": "국제 친선경기",
+                "round": "England U21 Professional Development League 2·  라운드 10",
+                "match_time_raw": "10/20/2026 1:00:00 PM",
+                "match_time_display": "2026-10-20 22:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "코번트리 U21",
+            "away": "스완지 U21",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "6",
+                        "team": "코번트리 U21",
+                        "played": "6",
+                        "win": "3",
+                        "draw": "1",
+                        "loss": "2",
+                        "goals_for": "15",
+                        "goals_against": "11",
+                        "goal_diff": "4",
+                        "points": "10"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "5",
+                        "team": "스완지 U21",
+                        "played": "7",
+                        "win": "4",
+                        "draw": "0",
+                        "loss": "3",
+                        "goals_for": "13",
+                        "goals_against": "10",
+                        "goal_diff": "3",
+                        "points": "12"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "2.10",
+                        "conceded_per_game": "1.90"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "1.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (40%)",
+                        "무승부 1 (20%)",
+                        "1.40",
+                        "경기당 득점"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG U21D22025.08.29",
+                                "코번트리 U21",
+                                "0-1",
+                                "스완지 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22025.04.25",
+                                "코번트리 U21",
+                                "2-1",
+                                "스완지 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22023.09.12",
+                                "코번트리 U21",
+                                "2-3",
+                                "스완지 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22022.11.11",
+                                "스완지 U21",
+                                "2-3",
+                                "코번트리 U21"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG U21D22014.08.20",
+                                "코번트리 U21",
+                                "0-0",
+                                "스완지 U21"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-10-27 19:00:00",
+                            "teams": "10.27 2026 vs 카디프 U21 vs 코번트리 U21 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그 컵",
+                            "match_time": "2026-11-02 19:00:00",
+                            "teams": "11.02 2026 vs 코번트리 U21 vs 입스위치 U21 vs 13 일",
+                            "interval": "13 일"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-09 13:00:00",
+                            "teams": "11.09 2026 vs 코번트리 U21 vs QPR U21 vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-10-26 13:00:00",
+                            "teams": "10.26 2026 vs 스완지 U21 vs 찰튼 U21 vs 6 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그 컵",
+                            "match_time": "2026-10-30 19:00:00",
+                            "teams": "10.30 2026 vs 버밍햄 U21 vs 스완지 U21 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "England U21 Professional Development League 2",
+                            "match_time": "2026-11-06 19:00:00",
+                            "teams": "11.06 2026 vs 스완지 U21 vs 브리스톨시티 U21 vs 17 일",
+                            "interval": "17 일"
+                        }
+                    ]
+                }
+            }
+        },
         "3103212": {
             "match_code": "3103212",
             "head_info": {
@@ -2061,7 +2884,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "12",
+                        "rank": "11",
                         "team": "몰린스",
                         "played": "5",
                         "win": "1",
@@ -2075,7 +2898,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "6",
+                        "rank": "7",
                         "team": "카발리어",
                         "played": "4",
                         "win": "2",
@@ -2241,11 +3064,11 @@
             "head_info": {
                 "league": "프리미어리그",
                 "round": "프리미어리그·  라운드 6",
-                "match_time_raw": "10/19/2026 10:05:00 PM",
-                "match_time_display": "2026-10-20 07:05",
+                "match_time_raw": "10/20/2026 1:00:00 AM",
+                "match_time_display": "2026-10-20 10:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  27°C"
+                "weather": "맑음,  27°C"
             },
             "home": "라싱 유나이티드",
             "away": "워터하우스",
@@ -2391,199 +3214,6 @@
                             "match_time": "2026-11-10 01:00:00",
                             "teams": "11.10 2026 vs 아넷 가든스 vs 워터하우스 vs 21 일",
                             "interval": "21 일"
-                        }
-                    ]
-                }
-            }
-        },
-        "3103217": {
-            "match_code": "3103217",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 6",
-                "match_time_raw": "10/20/2026 1:00:00 AM",
-                "match_time_display": "2026-10-20 10:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "마운트 플레전트",
-            "away": "포트모어",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "10",
-                        "team": "마운트 플레전트",
-                        "played": "4",
-                        "win": "1",
-                        "draw": "1",
-                        "loss": "2",
-                        "goals_for": "3",
-                        "goals_against": "6",
-                        "goal_diff": "-3",
-                        "points": "4"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "7",
-                        "team": "포트모어",
-                        "played": "3",
-                        "win": "1",
-                        "draw": "2",
-                        "loss": "0",
-                        "goals_for": "6",
-                        "goals_against": "3",
-                        "goal_diff": "3",
-                        "points": "5"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "4승 3무 3패",
-                        "goals_per_game": "0.90",
-                        "conceded_per_game": "1.00"
-                    },
-                    "away_summary": {
-                        "recent_record": "4승 3무 3패",
-                        "goals_per_game": "1.60",
-                        "conceded_per_game": "1.10"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 6 (60%)",
-                        "무승부 2 (20%)",
-                        "승 2 (20%)",
-                        "1.40",
-                        "경기당 득점",
-                        "0.60"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "CFU CUP2026.09.09",
-                                "포트모어",
-                                "0-1",
-                                "마운트 플레전트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12026.05.20",
-                                "마운트 플레전트",
-                                "1-2",
-                                "포트모어"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12026.05.18",
-                                "포트모어",
-                                "0-1",
-                                "마운트 플레전트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12026.03.24",
-                                "마운트 플레전트",
-                                "4-1",
-                                "포트모어"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12026.03.02",
-                                "마운트 플레전트",
-                                "1-1",
-                                "포트모어"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12025.12.14",
-                                "포트모어",
-                                "0-2",
-                                "마운트 플레전트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12025.03.12",
-                                "포트모어",
-                                "1-0",
-                                "마운트 플레전트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12024.12.22",
-                                "마운트 플레전트",
-                                "1-0",
-                                "포트모어"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12024.09.15",
-                                "포트모어",
-                                "0-2",
-                                "마운트 플레전트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12024.01.17",
-                                "포트모어",
-                                "1-1",
-                                "마운트 플레전트"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "CONCACAF 캐리비안컵",
-                            "match_time": "2026-10-22 23:00:00",
-                            "teams": "10.22 2026 vs 마운트 플레전트 vs 산도 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-27 01:00:00",
-                            "teams": "10.27 2026 vs 마운트 플레전트 vs 몬테고 바이 vs 7 일",
-                            "interval": "7 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-02 22:05:00",
-                            "teams": "11.02 2026 vs 몰린스 vs 마운트 플레전트 vs 14 일",
-                            "interval": "14 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "CONCACAF 캐리비안컵",
-                            "match_time": "2026-10-20 23:00:00",
-                            "teams": "10.20 2026 vs 바이올렛 vs 포트모어 vs 1 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-25 20:30:00",
-                            "teams": "10.25 2026 vs 포트모어 vs 채플턴 vs 6 일",
-                            "interval": "6 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-01 20:30:00",
-                            "teams": "11.01 2026 vs 몬테고 바이 vs 포트모어 vs 13 일",
-                            "interval": "13 일"
                         }
                     ]
                 }
