@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-19 09:45:30",
+    "last_updated": "2026-10-19 12:36:08",
     "match_details": {
         "3059472": {
             "match_code": "3059472",
@@ -10,7 +10,7 @@
                 "match_time_display": "2026-10-19 23:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "맑음,  28°C"
+                "weather": "맑음,  29°C"
             },
             "home": "엘 구나",
             "away": "스무하",
@@ -209,7 +209,7 @@
                 "match_time_display": "2026-10-19 14:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  -4°C"
+                "weather": "구름 조금,  -3°C"
             },
             "home": "Amtat FC",
             "away": "Khovd Western",
@@ -280,7 +280,7 @@
                 "match_time_display": "2026-10-19 17:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "맑음,  0°C"
+                "weather": "맑음,  -1°C"
             },
             "home": "Ulaangom City",
             "away": "허브드",
@@ -494,6 +494,66 @@
                                 "핀란드 U16 여",
                                 "2-0",
                                 "스웨덴 U16 여"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
+                }
+            }
+        },
+        "3104228": {
+            "match_code": "3104228",
+            "head_info": {
+                "league": "국제 친선경기",
+                "round": "",
+                "match_time_raw": "10/19/2026 2:30:00 PM",
+                "match_time_display": "2026-10-19 23:30",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "몰타 (U16)",
+            "away": "사우디아라비아 U16",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 4무 2패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "1승 2무 7패",
+                        "goals_per_game": "0.80",
+                        "conceded_per_game": "2.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (100%)",
+                        "무승부 0 (0%)",
+                        "승 0 (0%)",
+                        "3.00",
+                        "경기당 득점",
+                        "2.00",
+                        "핸디캡：0승 0무 0패",
+                        "언오버：0오버 0무 0언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "INT FRL2026.10.16",
+                                "몰타 (U16)",
+                                "3-2",
+                                "사우디아라비아 U16"
                             ]
                         }
                     ]
