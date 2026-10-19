@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-20 00:41:00",
+    "last_updated": "2026-10-20 03:42:48",
     "match_details": {
         "3073151": {
             "match_code": "3073151",
@@ -6812,6 +6812,100 @@
                             "interval": "22 일"
                         }
                     ]
+                }
+            }
+        },
+        "3104377": {
+            "match_code": "3104377",
+            "head_info": {
+                "league": "리그 1",
+                "round": "",
+                "match_time_raw": "10/20/2026 5:30:00 PM",
+                "match_time_display": "2026-10-21 02:30",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "폼피어",
+            "away": "테브라-제이나",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.10",
+                        "conceded_per_game": "0.70"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.60",
+                        "conceded_per_game": "1.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (16.7%)",
+                        "무승부 2 (33.3%)",
+                        "승 3 (50%)",
+                        "0.67",
+                        "경기당 득점",
+                        "1.50"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "MAU D12026.05.05",
+                                "테브라-제이나",
+                                "1-1",
+                                "폼피어"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12025.12.18",
+                                "폼피어",
+                                "1-0",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12025.02.07",
+                                "폼피어",
+                                "1-1",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12024.09.15",
+                                "테브라-제이나",
+                                "3-0",
+                                "폼피어"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12024.04.05",
+                                "폼피어",
+                                "1-2",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12023.11.05",
+                                "테브라-제이나",
+                                "2-0",
+                                "폼피어"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         },
