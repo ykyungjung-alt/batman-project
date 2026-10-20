@@ -14,7 +14,7 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
     sub_url = f"https://www.scoreman123.com/match/data-{sub_m_id}"
     try:
         driver.get(sub_url)
-        time.sleep(0.5)  # 서브 페이지 로딩 대기
+        time.sleep(0.3)
         soup = BeautifulSoup(driver.page_source, "html.parser")
         
         sub_home, sub_away = "", ""
@@ -48,13 +48,14 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
                 opp_goals = away_goals if is_target_home else home_goals
                 opp_conceded = away_conceded if is_target_home else home_conceded
                 
+                # 💡 티어 판정 로직을 완전히 제거하고 순수 골득실 수치만 반환
                 return f"{opp_goals}/{opp_conceded}"
     except Exception:
         pass
     
     return "0.00/0.00"
 
-def run_table_based_crawler_v3_2():
+def run_table_based_crawler_v3():
     if not os.path.exists("data.json"):
         print("❌ data.json 파일이 존재하지 않습니다.")
         return
@@ -67,11 +68,10 @@ def run_table_based_crawler_v3_2():
     
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst)
-    # 💡 수집 타임라인을 48시간(2일치)으로 확장
-    limit_kst = now_kst + timedelta(hours=48)
+    limit_kst = now_kst + timedelta(hours=24)
     
-    print(f"🕒 [V3-2] 실행 시간(KST): {now_kst.strftime('%Y-%m-%d %H:%M')}")
-    print(f"🎯 [V3-2] 수집 대상 타임라인 (~48시간(2일) 후): {limit_kst.strftime('%Y-%m-%d %H:%M')}")
+    print(f"🕒 [V3] 실행 시간(KST): {now_kst.strftime('%Y-%m-%d %H:%M')}")
+    print(f"🎯 [V3] 수집 대상 타임라인 (~24시간 후): {limit_kst.strftime('%Y-%m-%d %H:%M')}")
 
     current_year = now_kst.year
 
@@ -99,7 +99,6 @@ def run_table_based_crawler_v3_2():
                 if match_dt < now_kst - timedelta(days=15) and m_part == 1:
                     match_dt = datetime(current_year + 1, m_part, d_part, hour_val, min_val, tzinfo=kst)
 
-                # 48시간 이내 경기 필터링
                 if now_kst <= match_dt <= limit_kst:
                     m_code = m.get("match_code")
                     if m_code and m_code not in [t["match_code"] for t in target_matches]:
@@ -112,7 +111,7 @@ def run_table_based_crawler_v3_2():
             except Exception:
                 continue
 
-    print(f"🎯 [V3-2] 48시간 이내 조건에 일치하는 총 {len(target_matches)}개 메인 경기를 전수 수집합니다.")
+    print(f"🎯 [V3] 24시간 이내 조건에 일치하는 총 {len(target_matches)}개 메인 경기 크롤링 시작")
 
     options = Options()
     options.add_argument("--headless")
@@ -134,11 +133,10 @@ def run_table_based_crawler_v3_2():
             
             try:
                 driver.get(detail_url)
-                time.sleep(2.0)  # 페이지 초기 로딩 대기 시간 확보
+                time.sleep(1.0)
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
-                # 💡 구장 키값을 제외한 원래 규격 유지
                 head_info = {
                     "league": target["league"],
                     "round": ""
@@ -152,99 +150,20 @@ def run_table_based_crawler_v3_2():
                 except Exception:
                     pass
 
-                # 1. 실제 경기장(stadium) 수집 (중립 판별용 내부 변수)
-                actual_stadium_name = ""
-                try:
-                    other_info_div = detail_soup.find("div", {"id": "otherInfo"})
-                    if other_info_div:
-                        spans = other_info_div.find_all("span")
-                        stadium_candidates = []
-                        for s in spans:
-                            s_text = s.get_text(strip=True)
-                            if not s_text or "생중계" in s_text: continue
-                            if any(w in s_text for w in ["°C", "°F", "비", "맑음", "구름", "이슬비", "눈", "흐림", "Clear", "Rain", "Cloud", "Snow"]):
-                                continue
-                            else:
-                                stadium_candidates.append(s_text)
-                        if stadium_candidates:
-                            actual_stadium_name = stadium_candidates[0]
-                except Exception:
-                    pass
-
-                # 2. 홈팀 서브페이지에서 고유 홈구장(home_stadium) 수집 (중립 판별용 내부 변수)
-                h_stadium_name = "-"
-                try:
-                    home_div = detail_soup.find("div", {"class": "home"})
-                    if home_div and home_div.has_attr("data-url"):
-                        team_summary_url = "https:" + home_div["data-url"]
-                        driver.get(team_summary_url)
-                        time.sleep(0.8)
-                        team_soup = BeautifulSoup(driver.page_source, "html.parser")
-                        info_div = team_soup.find("div", id="info")
-                        if info_div:
-                            stadium_li = info_div.find("li", class_="home-stadium")
-                            if stadium_li:
-                                temp_name = stadium_li.get("explain", "").strip()
-                                if not temp_name:
-                                    div_tag = stadium_li.find("div")
-                                    if div_tag: temp_name = div_tag.get_text(strip=True)
-                                if temp_name:
-                                    h_stadium_name = temp_name
-                        
-                        # 메인 상세 페이지로 복귀
-                        driver.get(detail_url)
-                        time.sleep(1.5)
-                except Exception as e:
-                    print(f"  - 홈구장 파싱 예외: {e}")
-                    driver.get(detail_url)
-                    time.sleep(1.5)
-
-                # 💡 [핵심 판별 로직]: 실제 구장 이름과 홈구장 이름 비교 (JSON 저장소에는 미포함)
-                actual_stadium = actual_stadium_name.strip().lower()
-                home_stadium_val = h_stadium_name.strip().lower()
-                
-                is_neutral_or_special = False
-                if actual_stadium and home_stadium_val and home_stadium_val != "-":
-                    if actual_stadium != home_stadium_val:
-                        is_neutral_or_special = True
-
-                target_count = 10  # 기본값 10개
-
-                if is_neutral_or_special:
-                    print(f"  🔍 [{counter}/{len(target_matches)}] [중립/특수 구장 감지] ({h_stadium_name} vs {actual_stadium_name}) -> 최근 20개 전적 수집을 시도합니다.")
-                    target_count = 20
-                    try:
-                        dropdown_btn = driver.find_element("id", "selRecentMatch")
-                        if dropdown_btn:
-                            driver.execute_script("arguments[0].click();", dropdown_btn)
-                            time.sleep(1.0)  # 메뉴 열림 대기
-                            
-                            option_20 = driver.find_element("xpath", "//div[@id='selRecentMatchItem']//li[@v-data='20']")
-                            if option_20:
-                                driver.execute_script("arguments[0].click();", option_20)
-                                time.sleep(2.0)  # 20개 항목 비동기 렌더링 대기
-                    except Exception as drop_err:
-                        print(f"  - 최근 20개 확장 드롭다운 클릭 예외 (기본값 유지): {drop_err}")
-                else:
-                    print(f"  🏠 [{counter}/{len(target_matches)}] [정식 홈구장 경기] ({main_home} vs {main_away}) -> 기본 10개 전적을 수집합니다.")
-
-                # 드롭다운 선택 후 갱신된 소스 파싱
-                detail_soup = BeautifulSoup(driver.page_source, "html.parser")
-
                 recent_form_data = {
                     "form_title": "최근 전적",
-                    "home_team_name": main_home, 
-                    "home_matches": []
+                    "home_team_name": main_home, "home_matches": [], 
+                    "away_team_name": main_away, "away_matches": []
                 }
                 
                 stadium_form_data = {
                     "form_title": "구장별 전적",
-                    "home_team_name": main_home, 
-                    "home_matches": []
+                    "home_team_name": main_home, "home_matches": [], 
+                    "away_team_name": main_away, "away_matches": []
                 }
                 
                 try:
-                    def parse_matches(container_ul, target_team, target_list, max_count):
+                    def parse_matches(container_ul, target_team, target_list, max_count=10):
                         if not container_ul: return
                         count = 0
                         for li in container_ul.find_all("li", class_="courselis"):
@@ -253,6 +172,7 @@ def run_table_based_crawler_v3_2():
                                 league_div = li.find("div", class_="team")
                                 time_span = li.find("span", {"name": "timeData"})
                                 
+                                # 💡 날짜 포맷 변환 (MM.DD YYYY -> YYYY.MM.DD)
                                 raw_t_str = time_span.get_text(strip=True) if time_span else ""
                                 match_time_val = raw_t_str
                                 try:
@@ -287,11 +207,11 @@ def run_table_based_crawler_v3_2():
                                 if sub_m_id:
                                     opponent_tier_info = fetch_opponent_stats_fast(driver, sub_m_id, target_team)
                                     driver.get(detail_url)
-                                    time.sleep(0.5)
+                                    time.sleep(0.2)
 
                                 match_info = {
                                     "league": league_div.get_text(strip=True) if league_div else "",
-                                    "match_time": match_time_val,
+                                    "match_time": match_time_val,  # 💡 변환된 연.월.일 형식 반영
                                     "teams": teams_text,
                                     "ft_scores": ft_scores,
                                     "opponent_tier_info": opponent_tier_info
@@ -300,10 +220,27 @@ def run_table_based_crawler_v3_2():
                                     target_list.append(match_info)
                                     count += 1
 
-                    # 홈팀 전적 데이터 수집
+                    # 1. 최근전적 수집
                     home_ul = detail_soup.find("ul", id="tb_home_recent")
-                    if home_ul: 
-                        parse_matches(home_ul, main_home, recent_form_data["home_matches"], target_count)
+                    away_ul = detail_soup.find("ul", id="tb_guest_recent")
+                    if home_ul: parse_matches(home_ul, main_home, recent_form_data["home_matches"], 10)
+                    if away_ul: parse_matches(away_ul, main_away, recent_form_data["away_matches"], 10)
+
+                    # 2. 구장별 전적 수집
+                    try:
+                        checkbox = driver.find_element("id", "cbRecentFull")
+                        if checkbox and not checkbox.is_selected():
+                            driver.execute_script("arguments[0].click();", checkbox)
+                            time.sleep(0.5)
+                            
+                        stadium_soup = BeautifulSoup(driver.page_source, "html.parser")
+                        s_home_ul = stadium_soup.find("ul", id="tb_home_recent")
+                        s_away_ul = stadium_soup.find("ul", id="tb_guest_recent")
+                        
+                        if s_home_ul: parse_matches(s_home_ul, main_home, stadium_form_data["home_matches"], 10)
+                        if s_away_ul: parse_matches(s_away_ul, main_away, stadium_form_data["away_matches"], 10)
+                    except Exception as s_err:
+                        print(f"  - 구장별 전적 토글 수집 예외: {s_err}")
 
                 except Exception as e:
                     print(f"  - 전적 수집 예외 ({m_id}): {e}")
@@ -329,13 +266,13 @@ def run_table_based_crawler_v3_2():
             "match_details": match_details
         }
         
-        with open("match_details_v3-2.json", "w", encoding="utf-8") as f:
+        with open("match_details_v3.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 48시간 이내 모든 대진 전수 수집 완료 -> match_details_v3-2.json 저장 완료")
+        print(f"\n🎉 성공: 골득실 수치 중심 크롤링 완료 -> match_details_v3.json 저장 완료")
 
     finally:
         driver.quit()
 
 if __name__ == "__main__":
-    run_table_based_crawler_v3_2()
+    run_table_based_crawler_v3()
