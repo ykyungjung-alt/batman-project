@@ -56,19 +56,6 @@ def load_v3_match_details():
                 pass
     return combined_v3
 
-# 💡 [신규 추가] match_details_v3-2.json 파일 독립 전용 로딩 함수 (중립 경기 참조용)
-@st.cache_data(ttl=10)
-def load_v3_2_match_details():
-    v3_2_file = "match_details_v3-2.json"
-    if os.path.exists(v3_2_file):
-        try:
-            with open(v3_2_file, "r", encoding="utf-8") as f:
-                file_data = json.load(f)
-                return file_data.get("match_details", {})
-        except Exception:
-            pass
-    return {}
-
 @st.cache_data(ttl=10)
 def load_v4_match_details():
     v4_file = "match_details_v4.json"
@@ -81,6 +68,32 @@ def load_v4_match_details():
             pass
     return {}
 
+# 💡 [신규 추가] V5 결장자 및 선수 스탯 딕셔너리 독립 전용 로딩 함수
+@st.cache_data(ttl=10)
+def load_v5_match_details():
+    v5_file = "match_details_v5.json"
+    if os.path.exists(v5_file):
+        try:
+            with open(v5_file, "r", encoding="utf-8") as f:
+                file_data = json.load(f)
+                return file_data.get("match_details", {})
+        except Exception:
+            pass
+    return {}
+
+# 💡 [신규 추가] V5-1 구단 전체 선수단 명단 딕셔너리 독립 전용 로딩 함수
+@st.cache_data(ttl=10)
+def load_v5_1_match_details():
+    v5_1_file = "match_details_v5-1.json"
+    if os.path.exists(v5_1_file):
+        try:
+            with open(v5_1_file, "r", encoding="utf-8") as f:
+                file_data = json.load(f)
+                return file_data.get("squad_details", {})
+        except Exception:
+            pass
+    return {}
+
 
 
 
@@ -88,11 +101,12 @@ def load_v4_match_details():
 data = load_match_data()
 last_updated_time = data.get("last_updated", "알 수 없음")
 daily_matches = data.get("daily_matches", {})
-
 all_details_dict = load_all_match_details()
 v3_details_dict = load_v3_match_details()
-v3_2_details_dict = load_v3_2_match_details()  # 👈 독립 딕셔너리 호출 장착 완료
 v4_leagues_dict = load_v4_match_details()
+v5_details_dict = load_v5_match_details()      # 👈 V5 독립 딕셔너리 장착 완료
+v5_1_details_dict = load_v5_1_match_details()  # 👈 V5-1 독립 딕셔너리 장착 완료
+
 
 # 3. 메인 타이틀 출력 (중복 방지)
 st.markdown("<h2 style='font-size: 28px;'>⚽ 배트맨 프로젝트 통합 마스터 규격 및 분석 엔진 ⚽</h2>", unsafe_allow_html=True)
@@ -682,14 +696,14 @@ with tabs[1]:
     </div>""", unsafe_allow_html=True)
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (0단계 구장 판별 연동 및 공수 대칭 교차 보정 적용)
+# 💡 규칙 2번 탭 (0단계 구장 판별 연동 및 V3/V5 최근 전적 풀 기반 원정 폼 필터링 적용)
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
-    • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를 사용하며, 중립경기일 때는 match_details_v3-2.json(v3_2_details_dict)에서 홈팀 전적을 우선 탐색하고 데이터가 없으면 기존 3번 딕셔너리 폼으로 안전하게 폴백합니다. 원정팀은 항상 기본 원정 폼을 고정 사용합니다.<br>
+    • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를 사용하며, 중립경기일 때는 최근 전적 풀(최대 20경기)에서 홈팀의 원정/중립 성격 경기 기록을 필터링하여 안전하게 산출합니다. 원정팀은 항상 기본 원정 폼을 고정 사용합니다.<br>
     • <b>0단계 구장 판정 연동:</b> 홈구장 일치 여부에 따라 홈경기(초록색) 또는 중립경기(빨간색) 상태를 명시하고 원정 데이터를 분기 적용합니다.<br>
     • <b>공수 대칭 교차 특수 룰:</b> 구장별 전적 환경에서도 팀의 체급(A/E)과 상대 공수 티어의 교차 상성에 따라 득실점이 50% 할인 또는 할증 반영됩니다.
     </div>
@@ -707,41 +721,20 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        # 중립 경기일 때 match_details_v3-2.json에서 해당 경기 메타데이터 우선 탐색
-        target_v3_2_meta = None
-        if is_neutral_venue:
-            target_code = str(match_code).strip() if 'match_code' in locals() else ""
-            target_home = str(home_team).strip().replace(" ", "")
-            target_away = str(away_team).strip().replace(" ", "")
-
-            if target_code and target_code in v3_2_details_dict:
-                target_v3_2_meta = v3_2_details_dict[target_code].get("meta_details", {})
-            else:
-                for k, v in v3_2_details_dict.items():
-                    v_home = str(v.get("home", "")).strip().replace(" ", "")
-                    v_away = str(v.get("away", "")).strip().replace(" ", "")
-                    if v_home == target_home and v_away == target_away:
-                        target_v3_2_meta = v.get("meta_details", {})
-                        break
-
-        # 1. 홈팀 전적 추출
+        # 1. 홈팀 전적 추출 (중립 경기일 경우 최근 전적 풀에서 원정 성격 경기 필터링)
         s_home_matches = []
         if is_neutral_venue:
-            active_stadium_form = None
-            if target_v3_2_meta and "stadium_form" in target_v3_2_meta:
-                active_stadium_form = target_v3_2_meta["stadium_form"]
-            
+            # 최근 20경기 규모의 전체 최근 전적 풀(h_matches 등) 확보
             recent_all_pool = []
-            if active_stadium_form and active_stadium_form.get("home_matches"):
-                recent_all_pool = active_stadium_form.get("home_matches", [])
-            else:
-                recent_all_pool = stadium_form.get("recent_matches", []) if "recent_matches" in stadium_form else []
-                if not recent_all_pool and 'h_matches' in locals():
-                    recent_all_pool = h_matches
+            if 'h_matches' in locals() and h_matches:
+                recent_all_pool = h_matches
+            elif stadium_form and "recent_matches" in stadium_form:
+                recent_all_pool = stadium_form.get("recent_matches", [])
 
             neutral_home_away_matches = []
             for m in recent_all_pool:
                 teams_str = str(m.get("teams", ""))
+                # 대진 문자열을 분석하여 홈팀(h_name)이 원정 쪽이거나 포함되지 않은 경기 선별
                 if " vs " in teams_str:
                     t_parts = [p.strip() for p in teams_str.split("vs")]
                     if len(t_parts) >= 2 and h_name not in t_parts[0]:
@@ -749,6 +742,7 @@ with tabs[2]:
                 elif m.get("location") == "원정" or m.get("venue_type") == "away":
                     neutral_home_away_matches.append(m)
             
+            # 만약 필터링된 결과가 부족하면 기본 away_matches 풀에서 보완
             if not neutral_home_away_matches:
                 neutral_home_away_matches = stadium_form.get("away_matches", [])
 
@@ -880,6 +874,8 @@ with tabs[2]:
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+
+
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"#### [규칙 3번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
@@ -893,8 +889,8 @@ with tabs[3]:
     </div>
     """, unsafe_allow_html=True)
 
-    # ==========================================
-    # 3-1번 영역: 선수 등급 기준표 및 양팀 전력 변동 표 (하드코딩 제거 및 0% 기본값 처리)
+# ==========================================
+    # 3-1번 영역: 선수 등급 기준표 및 양팀 전력 변동 표 (V5 & V5-1 독립 딕셔너리 연동)
     # ==========================================
     st.markdown("##### 선수 등급(상/중/하) 정량 판정 기준표")
     html_table = """
@@ -914,16 +910,35 @@ with tabs[3]:
     """
     st.markdown(html_table, unsafe_allow_html=True)
 
-    # 실데이터 기반 선수 누수/가산 데이터 추출 (없으면 0% 기본값 적용)
-    h_squad_changes = []
-    a_squad_changes = []
-    if has_detailed_data and 'detailed_info' in locals():
-        meta_det = detailed_info.get("meta_details", {})
-        h_squad_changes = meta_det.get("home_squad_changes", [])
-        a_squad_changes = meta_det.get("away_squad_changes", [])
+    # 💡 [V5 및 V5-1 독립 딕셔너리 기반 실데이터 결장자 매핑]
+    match_key_str = str(match_code).strip()
+    
+    # 1. V5에서 해당 경기 결장자 리스트 추출
+    v5_match_data = v5_details_dict.get(match_key_str, {})
+    raw_home_absentees = v5_match_data.get("home_absentees", [])
+    raw_away_absentees = v5_match_data.get("away_absentees", [])
 
-    def build_squad_dataframe(changes_list, team_label):
-        if not changes_list:
+    # 2. V5-1에서 해당 경기 구단별 선수단 명단 맵핑 디렉토리 구축 (이름 -> 포지션)
+    v5_1_match_data = v5_1_details_dict.get(match_key_str, {})
+    home_squad_pool = v5_1_match_data.get("home_squad", [])
+    away_squad_pool = v5_1_match_data.get("away_squad", [])
+
+    def create_position_lookup(squad_list):
+        lookup = {}
+        for p in squad_list:
+            p_name = str(p.get("name", "")).strip()
+            p_pos = str(p.get("position", "-")).strip()
+            if p_name:
+                lookup[p_name] = p_pos
+                # 띄어쓰기 제거 버전도 함께 등록하여 매칭 확률 상승
+                lookup[p_name.replace(" ", "")] = p_pos
+        return lookup
+
+    home_pos_map = create_position_lookup(home_squad_pool)
+    away_pos_map = create_position_lookup(away_squad_pool)
+
+    def build_squad_dataframe_from_absentees(absentees_list, pos_lookup, team_label):
+        if not absentees_list:
             df_empty = pd.DataFrame({
                 "선수 실명": ["-", "[총합]"],
                 "포지션": ["-", "-"],
@@ -939,27 +954,51 @@ with tabs[3]:
         
         rows = []
         tot_atk, tot_def = 0.0, 0.0
-        for item in changes_list:
-            p_name = item.get("name", "-")
-            p_pos = item.get("position", "-")
-            p_type = item.get("type", "누수")
-            p_grade = item.get("grade", "중 (Medium)")
-            p_memo = item.get("memo", "-")
+        for item in absentees_list:
+            p_name = str(item.get("name", "-")).strip()
+            
+            # V5-1 맵에서 선수 이름으로 정확한 포지션 탐색 (없으면 기본값)
+            p_pos = pos_lookup.get(p_name, pos_lookup.get(p_name.replace(" ", ""), "미정"))
+            
+            p_type = item.get("status", "결장") # 기본 누수 처리
+            stats_dict = item.get("stats", {})
+            
+            # 시즌 스탯 요약 문자열 조립 (출전 시간, 경기 수 등)
+            matches_p = stats_dict.get("matches_played", 0)
+            total_time = stats_dict.get("total_play_time", 0)
+            p_stats_str = f"경기: {matches_p} / 출전시간: {total_time}분"
+            
+            # 등급 자동 판정 (출전 경기 수나 출전 시간에 따른 스마트 기준 또는 기본 중)
+            # 10경기 이상 또는 출전 시간 900분 이상이면 '상', 아니면 '중'
+            if matches_p >= 12 or total_time >= 900:
+                p_grade = "상 (High)"
+            elif matches_p >= 5 or total_time >= 300:
+                p_grade = "중 (Medium)"
+            else:
+                p_grade = "하 (Low)"
+
+            p_memo = f"시즌 {matches_p}경기 출전 핵심 자원 결장"
             
             rate = 14.0 if "상" in p_grade else (7.0 if "중" in p_grade else 0.0)
-            if p_type == "누수":
+            if p_type in ["결장", "부상", "징계", "누수"]:
                 atk_v = -rate
-                def_v = rate if "FW" in p_pos or "MF" in p_pos else rate / 2.0
+                def_v = rate if any(k in p_pos for k in ["FW", "MF", "공격수", "미드필더"]) else rate / 2.0
             else:
                 atk_v = rate
-                def_v = -rate if "DF" in p_pos or "GK" in p_pos else -rate / 2.0
+                def_v = -rate if any(k in p_pos for k in ["DF", "GK", "수비수", "골키퍼"]) else -rate / 2.0
 
             tot_atk += atk_v
             tot_def += def_v
             rows.append({
-                "선수 실명": p_name, "포지션": p_pos, "변동 유형": p_type, "핵심 영향력": p_memo,
-                "시즌 누적 스탯": item.get("stats", "-"), "등급": p_grade,
-                "공격 보정": f"{atk_v:+.1f}%", "방어 보정": f"{def_v:+.1f}%", "비고": "적용 완료"
+                "선수 실명": p_name, 
+                "포지션": p_pos, 
+                "변동 유형": p_type, 
+                "핵심 영향력": p_memo,
+                "시즌 누적 스탯": p_stats_str, 
+                "등급": p_grade,
+                "공격 보정": f"{atk_v:+.1f}%", 
+                "방어 보정": f"{def_v:+.1f}%", 
+                "비고": "적용 완료"
             })
         
         rows.append({
@@ -969,11 +1008,11 @@ with tabs[3]:
         return pd.DataFrame(rows), tot_atk, tot_def
 
     st.markdown(f"##### 3-1: 구단명 - {home_team} 선수 전력 변동")
-    table_3_1_home, h_r31_atk_val, h_r31_def_val = build_squad_dataframe(h_squad_changes, home_team)
+    table_3_1_home, h_r31_atk_val, h_r31_def_val = build_squad_dataframe_from_absentees(raw_home_absentees, home_pos_map, home_team)
     st.dataframe(table_3_1_home, use_container_width=True, hide_index=True)
 
     st.markdown(f"##### 3-1: 구단명 - {away_team} 선수 전력 변동")
-    table_3_1_away, a_r31_atk_val, a_r31_def_val = build_squad_dataframe(a_squad_changes, away_team)
+    table_3_1_away, a_r31_atk_val, a_r31_def_val = build_squad_dataframe_from_absentees(raw_away_absentees, away_pos_map, away_team)
     st.dataframe(table_3_1_away, use_container_width=True, hide_index=True)
 
     st.markdown("---")
