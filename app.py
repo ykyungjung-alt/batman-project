@@ -467,7 +467,7 @@ with tabs[1]:
     raw_h_matches = recent_form.get("home_matches", [])
     raw_a_matches = recent_form.get("away_matches", [])
 
-    # 💡 [핵심 규격 반영] 공식 경기 우선 필터링 및 10경기 미만 시 친선전 보완 함수
+    # 공식 경기 우선 필터링 및 10경기 미만 시 친선전 보완 함수
     def filter_and_supplement_matches(match_list, max_count=10):
         if not match_list:
             return []
@@ -477,13 +477,11 @@ with tabs[1]:
         
         for m in match_list:
             league_str = str(m.get("league", "")).upper()
-            # 친선 경기 키워드 감지
             if "CF" in league_str or "친선" in league_str or "FRIENDLY" in league_str:
                 friendly_matches.append(m)
             else:
                 official_matches.append(m)
         
-        # 공식 경기로 먼저 채우고, 부족하면 친선 경기로 최대 max_count(10개)까지 보완
         combined = list(official_matches)
         if len(combined) < max_count:
             needed = max_count - len(combined)
@@ -520,33 +518,6 @@ with tabs[1]:
 
     def atk_tier_nm(g): return atk_tier(g)[0]
     def def_tier_nm(c): return def_tier(c)[0]
-
-    def check_trigger_status(matches, tname, def_gpg, def_cpg):
-        if not matches:
-            return atk_tier_nm(def_gpg) == "Tier A" or def_tier_nm(def_cpg) == "Tier E"
-        raw_s = 0.0
-        raw_c = 0.0
-        for m in matches:
-            scores = m.get("ft_scores", ["0", "0"])
-            try:
-                s1, s2 = int(scores[0]), int(scores[1])
-            except:
-                s1 = s2 = 0
-            teams = m.get("teams", "")
-            sc, cc = s1, s2
-            if " vs " in teams:
-                t1, t2 = teams.split(" vs ")
-                if tname in t1: sc, cc = s1, s2
-                elif tname in t2: sc, cc = s2, s1
-            raw_s += sc
-            raw_c += cc
-        cnt = len(matches)
-        tmp_gpg = raw_s / cnt if cnt > 0 else def_gpg
-        tmp_cpg = raw_c / cnt if cnt > 0 else def_cpg
-        return (atk_tier_nm(tmp_gpg) == "Tier A") or (def_tier_nm(tmp_cpg) == "Tier E")
-
-    h_is_triggered = check_trigger_status(h_matches, h_name, h_gpg_base, h_cpg_base)
-    a_is_triggered = check_trigger_status(a_matches, a_name, a_gpg_base, a_cpg_base)
 
     def local_make_df(matches, tname, def_gpg, def_cpg, def_rec, my_at="Tier C", my_de="Tier C"):
         if not matches:
