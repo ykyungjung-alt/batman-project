@@ -293,16 +293,10 @@ with tabs[0]:
                         return c.get("code", "KOR"), rank_str, c.get("grade", "C"), c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
                 return "KOR", rank_str, "C", "+9%", "-9%"
 
-            # 💡 [핵심] 띄어쓰기나 하이픈(-) 앞쪽의 국가 코드만 정확히 추출 (예: "SPA D1-1" -> "SPA")
-            extracted_code = ""
-            if rank_str and rank_str != "-":
-                # 공백이나 하이픈을 기준으로 쪼갠 후 첫 번째 토큰만 취함
-                token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
-                if token and not token.isdigit():
-                    extracted_code = token
+            # 💡 [핵심 수정] 원본 랭크 문자열 전체를 대문자로 변환하여 country.json의 리그/코드 목록이 포함되는지 전면 탐색
+            full_rank_upper = rank_str.upper()
 
-            # 3. 추출된 국가 코드(예: SPA, FRA 등)가 있으면 country.json과 직접 대조
-            if extracted_code:
+            if rank_str and rank_str != "-":
                 for grade_key, countries in grades.items():
                     if grade_key == "F":
                         continue
@@ -311,8 +305,12 @@ with tabs[0]:
                             c_code = str(c.get("code", "")).strip().upper()
                             leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
                             
-                            # 추출된 코드(SPA 등)가 country.json의 code와 일치하거나 leagues 목록에 포함되는지 확인
-                            if c_code == extracted_code or any(extracted_code == l or extracted_code == l.split()[0] for l in leagues_list if l):
+                            # 1) 국가 코드(SPA 등)가 rank_str에 포함되어 있거나
+                            # 2) 등록된 리그 코드(SPA D1, UCL 등)가 rank_str에 포함되어 있는 경우 모두 매칭 허용
+                            code_matched = c_code and c_code in full_rank_upper
+                            league_matched = any(l and l in full_rank_upper for l in leagues_list)
+
+                            if code_matched or league_matched:
                                 return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
             # 4. 한글명(name), 영문명(name_eng), 한글 리그명(league_kor_name) 대조
@@ -325,8 +323,7 @@ with tabs[0]:
                         c_name = str(c.get("name", "")).strip().lower()
                         c_name_eng = str(c.get("name_eng", "")).strip().lower()
                         
-                        # 정확히 일치하거나 독립된 단어일 때만 매칭 허용 (글자 겹침 방지)
-                        match_kor_league = kor_league and (kor_league == clean_league or f" {kor_league} " in f" {clean_league} ")
+                        match_kor_league = kor_league and (kor_league in clean_league or clean_league in kor_league)
                         match_name = c_name and (c_name in clean_league or c_name in team_str)
                         match_name_eng = c_name_eng and (c_name_eng in clean_league or c_name_eng in team_str)
 
