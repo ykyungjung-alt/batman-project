@@ -1,7 +1,7 @@
 {
   "grades": {
     "A": [
-      {"name": "스페인", "name_eng": "Spain", "code": "SPA", "leagues": ["SPA D1", "SPA D2", "ESP D1", "ESP D2", "UCL"], "league_kor_name": "라리가", "grade": "A", "attack_bonus": "+15%", "defense_bonus": "-15%"},
+      {"name": "스페인", "name_eng": "Spain", "code": "SPA", "leagues": ["SPA D1", "SPA D2", "ESP D1", "ESP D2"], "league_kor_name": "라리가", "grade": "A", "attack_bonus": "+15%", "defense_bonus": "-15%"},
       {"name": "아르헨티나", "name_eng": "Argentina", "code": "ARG", "leagues": ["ARG D1", "ARG CP"], "league_kor_name": "아르헨티나 프리메라", "grade": "A", "attack_bonus": "+15%", "defense_bonus": "-15%"},
       {"name": "프랑스", "name_eng": "France", "code": "FRA", "leagues": ["FRA D1", "FRA D2"], "league_kor_name": "리그 1", "grade": "A", "attack_bonus": "+15%", "defense_bonus": "-15%"},
       {"name": "잉글랜드", "name_eng": "England", "code": "ENG", "leagues": ["ENG PR", "ENG L1"], "league_kor_name": "프리미어리그", "grade": "A", "attack_bonus": "+15%", "defense_bonus": "-15%"},
