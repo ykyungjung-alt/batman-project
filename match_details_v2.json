@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-20 12:38:00",
+    "last_updated": "2026-10-20 15:43:51",
     "match_details": {
         "3073151": {
             "match_code": "3073151",
@@ -8,9 +8,9 @@
                 "round": "",
                 "match_time_raw": "10/20/2026 4:45:00 PM",
                 "match_time_display": "2026-10-21 01:45",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": "구름 조금,  19°C"
+                "stadium": "Baku Olympic Stadium",
+                "home_stadium": "Baku Olympic Stadium",
+                "weather": "흐림,  19℃～20℃"
             },
             "home": "사바 바쿠",
             "away": "도르트문트",
@@ -1813,7 +1813,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Pirelli Stadium",
                 "home_stadium": "Pirelli Stadium",
-                "weather": "이슬비,  11°C"
+                "weather": "구름 많음,  10℃～11℃"
             },
             "home": "버튼",
             "away": "브래드포드 시티",
@@ -3309,7 +3309,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "흐림,  10°C"
+                "weather": "흐림,  11℃～12℃"
             },
             "home": "알베처치",
             "away": "스팔딩 유나이티드",
@@ -3470,7 +3470,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "흐림,  11°C"
+                "weather": "구름 많음,  10℃～11℃"
             },
             "home": "안스테이 노마즈",
             "away": "매클즈필드",
@@ -3589,7 +3589,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "이슬비,  12°C"
+                "weather": "흐림,  10℃～11℃"
             },
             "home": "크레이 원더러스",
             "away": "베드포드",
@@ -3885,7 +3885,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "New Meadow",
                 "home_stadium": "New Meadow",
-                "weather": "흐림,  9°C"
+                "weather": "흐림,  10℃～11℃"
             },
             "home": "포레스트그린",
             "away": "체셤",
@@ -4004,7 +4004,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "흐림,  10°C"
+                "weather": "구름 많음,  10℃～11℃"
             },
             "home": "글로스터시티",
             "away": "배로",
@@ -4380,7 +4380,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "흐림,  10°C"
+                "weather": "구름 많음,  10℃～11℃"
             },
             "home": "테들리",
             "away": "올더숏",
@@ -6335,6 +6335,44 @@
                         "recent_record": "4승 4무 2패",
                         "goals_per_game": "1.20",
                         "conceded_per_game": "0.90"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
+                }
+            }
+        },
+        "3104495": {
+            "match_code": "3104495",
+            "head_info": {
+                "league": "디베히어 프리미어리그",
+                "round": "",
+                "match_time_raw": "10/20/2026 4:00:00 PM",
+                "match_time_display": "2026-10-21 01:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "마지야",
+            "away": "Biss Buru SC",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 1무 6패",
+                        "goals_per_game": "1.30",
+                        "conceded_per_game": "1.90"
+                    },
+                    "away_summary": {
+                        "recent_record": "1승 0무 0패",
+                        "goals_per_game": "2.00",
+                        "conceded_per_game": "1.00"
                     },
                     "matches": []
                 },
