@@ -148,7 +148,6 @@ def crawl_match_lineups_v5():
         print("❌ [중단점 도달] 수집할 매치 정보가 없습니다. 프로세스를 종료합니다.")
         return
 
-    # 💡 [변경] 테스트용 특정 경기 제한을 풀고, 전체 마스터 데이터의 매치 코드를 대상으로 설정
     target_match_codes = list(match_master_map.keys())
     print(f"📍 [3단계 진입] 전체 수집 대상 매치 총 {len(target_match_codes)}개 확보 완료")
     
@@ -230,4 +229,49 @@ def crawl_match_lineups_v5():
                             
                             if g_name_tag and g_name_tag.text.strip():
                                 name = g_name_tag.text.strip()
-                                player_id = guest_div.get
+                                player_id = guest_div.get('techwinid', '')
+                                if not player_id:
+                                    onclick_attr = g_name_tag.get('onclick', '')
+                                    found_ids = re.findall(r'\d+', onclick_attr)
+                                    if found_ids:
+                                        player_id = found_ids[0]
+                                
+                                p_stats = {}
+                                if player_id:
+                                    print(f"   ㄴ [원정 선수 분석] {name} (ID: {player_id}) 지표 수집 중...")
+                                    p_stats = crawl_player_details_with_selenium(driver, player_id)
+                                    time.sleep(0.3)
+
+                                away_absentees.append({
+                                    "number": num_tag.text.strip() if num_tag else "",
+                                    "name": name,
+                                    "player_id": player_id,
+                                    "status": "결장" if is_injured else "출전의심/기타",
+                                    "stats": p_stats
+                                })
+
+                result_data["lineup_details"][m_code] = {
+                    "match_code": m_code,
+                    "home": teams["home"],
+                    "away": teams["away"],
+                    "home_absentees": home_absentees,
+                    "away_absentees": away_absentees
+                }
+                print(f"✨ [{idx}/{len(target_match_codes)}] 매치코드 {m_code} 수집 완료")
+
+            except Exception as e:
+                print(f"❌ [에러 발생] 매치코드 {m_code} 수집 중 예외 발생: {e}")
+
+    finally:
+        driver.quit()  # 브라우저 자원 해제
+
+    print(f"\n📍 [완료 단계] 전체 결과 JSON 파일 저장 시도 ({OUTPUT_FILE})...")
+    try:
+        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+            json.dump(result_data, f, ensure_ascii=False, indent=4)
+        print(f"✅ [최종 완료] 파일 저장 성공: {OUTPUT_FILE}")
+    except Exception as e:
+        print(f"❌ [에러 발생] JSON 파일 저장 실패: {e}")
+
+if __name__ == "__main__":
+    crawl_match_lineups_v5()
