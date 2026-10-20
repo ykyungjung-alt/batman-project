@@ -14,7 +14,7 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
     sub_url = f"https://www.scoreman123.com/match/data-{sub_m_id}"
     try:
         driver.get(sub_url)
-        time.sleep(0.3)
+        time.sleep(0.5)  # 0.5초 통일
         soup = BeautifulSoup(driver.page_source, "html.parser")
         
         sub_home, sub_away = "", ""
@@ -135,7 +135,7 @@ def run_table_based_crawler_v3_2():
             
             try:
                 driver.get(detail_url)
-                time.sleep(1.5)
+                time.sleep(0.5)  # 0.5초 통일
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
@@ -178,7 +178,7 @@ def run_table_based_crawler_v3_2():
                     if home_div and home_div.has_attr("data-url"):
                         team_summary_url = "https:" + home_div["data-url"]
                         driver.get(team_summary_url)
-                        time.sleep(0.8)
+                        time.sleep(0.5)  # 0.5초 통일
                         team_soup = BeautifulSoup(driver.page_source, "html.parser")
                         info_div = team_soup.find("div", id="info")
                         if info_div:
@@ -192,13 +192,13 @@ def run_table_based_crawler_v3_2():
                                     h_stadium_name = temp_name
                         
                         driver.get(detail_url)
-                        time.sleep(1.5)
+                        time.sleep(0.5)  # 0.5초 통일
                 except Exception as e:
                     print(f"  - 홈구장 파싱 예외: {e}")
                     driver.get(detail_url)
-                    time.sleep(1.5)
+                    time.sleep(0.5)
 
-                # 💡 [중립 구장 감지 및 20개 확장 수집 로직]
+                # 💡 [중립 구장 감지 및 사진 속 구조 기반 20개 확장 수집 로직]
                 actual_stadium = actual_stadium_name.strip().lower()
                 home_stadium_val = h_stadium_name.strip().lower()
                 
@@ -210,18 +210,24 @@ def run_table_based_crawler_v3_2():
                 target_count = 10  # 기본값 10개
 
                 if is_neutral_or_special:
-                    print(f"  🔍 [{counter}/{len(target_matches)}] [중립/특수 구장 감지] ({h_stadium_name} vs {actual_stadium_name}) -> 최근 20개 확장 수집을 시도합니다.")
+                    print(f"  🔍 [{counter}/{len(target_matches)}] [중립/특수 구장 감지] ({h_stadium_name} vs {actual_stadium_name}) -> 홈/원정 양 팀 모두 최근 20개 확장 수집을 시도합니다.")
                     target_count = 20
+                    
+                    # 💡 사진 속 구조(v-data='20' 및 selRecentMatch)를 명확히 타겟팅하여 양쪽 드롭다운 제어
                     try:
-                        dropdown_btn = driver.find_element("id", "selRecentMatch")
-                        if dropdown_btn:
-                            driver.execute_script("arguments[0].click();", dropdown_btn)
-                            time.sleep(1.0)
+                        dropdown_buttons = driver.find_elements("id", "selRecentMatch")
+                        for d_btn in dropdown_buttons:
+                            driver.execute_script("arguments[0].click();", d_btn)
+                            time.sleep(0.5)
                             
-                            option_20 = driver.find_element("xpath", "//div[@id='selRecentMatchItem']//li[@v-data='20']")
-                            if option_20:
-                                driver.execute_script("arguments[0].click();", option_20)
-                                time.sleep(2.0)
+                            # 사진에 나온 v-data="20" 속성을 가진 li 요소 정확히 클릭
+                            option_20s = driver.find_elements("xpath", "//div[@id='selRecentMatchItem']//li[@v-data='20']")
+                            for opt in option_20s:
+                                try:
+                                    driver.execute_script("arguments[0].click();", opt)
+                                    time.sleep(0.5)
+                                except:
+                                    pass
                     except Exception as drop_err:
                         print(f"  - 최근 20개 확장 드롭다운 클릭 예외 (기본값 유지): {drop_err}")
                 else:
@@ -285,7 +291,7 @@ def run_table_based_crawler_v3_2():
                                 if sub_m_id:
                                     opponent_tier_info = fetch_opponent_stats_fast(driver, sub_m_id, target_team)
                                     driver.get(detail_url)
-                                    time.sleep(0.2)
+                                    time.sleep(0.5)  # 0.5초 통일
 
                                 match_info = {
                                     "league": league_div.get_text(strip=True) if league_div else "",
@@ -298,18 +304,18 @@ def run_table_based_crawler_v3_2():
                                     target_list.append(match_info)
                                     count += 1
 
-                    # 💡 [핵심 연동] 홈/원정 최근 전적 수집 시 동적 변수 target_count(10 또는 20) 인자 반영
+                    # 💡 [홈/원정 최근 전적] 양쪽 모두 target_count 적용
                     home_ul = detail_soup.find("ul", id="tb_home_recent")
                     away_ul = detail_soup.find("ul", id="tb_guest_recent")
                     if home_ul: parse_matches(home_ul, main_home, recent_form_data["home_matches"], target_count)
                     if away_ul: parse_matches(away_ul, main_away, recent_form_data["away_matches"], target_count)
 
-                    # 💡 [핵심 연동] 구장별 전적 수집 시에도 동일하게 target_count 적용
+                    # 💡 [구장별 전적] 토글 및 양쪽 모두 target_count 적용
                     try:
                         checkbox = driver.find_element("id", "cbRecentFull")
                         if checkbox and not checkbox.is_selected():
                             driver.execute_script("arguments[0].click();", checkbox)
-                            time.sleep(0.5)
+                            time.sleep(0.5)  # 0.5초 통일
                             
                         stadium_soup = BeautifulSoup(driver.page_source, "html.parser")
                         s_home_ul = stadium_soup.find("ul", id="tb_home_recent")
@@ -347,7 +353,7 @@ def run_table_based_crawler_v3_2():
         with open("match_details_v3-2.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 20개 확장 수집 테스트 완료 -> match_details_v3-2.json 저장 완료")
+        print(f"\n🎉 성공: 사진 구조 반영 및 0.5초 최적화 테스트 완료 -> match_details_v3-2.json 저장 완료")
 
     finally:
         driver.quit()
