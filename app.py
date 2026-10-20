@@ -279,23 +279,23 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-# 💡 [국가 및 등급 정밀 대조 함수 - 5대 필드 중 하나만 맞으면 통과하는 독립 OR 교차 매칭]
+        # 💡 [국가 및 등급 정밀 대조 함수 - 오직 띄어쓰기 기준 토큰 파싱 및 5대 필드 유연 교차 매칭]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
             team_str = str(team_val).strip().lower()
             clean_league = str(current_league_name).strip().replace(" ", "").lower()
 
-            # 1. 띄어쓰기나 하이픈(-) 앞쪽의 핵심 토큰 추출 (예: "SPA D1-1" -> "SPA")
+            # 1. 💡 [핵심] 오직 띄어쓰기 전까지만 정확히 끊어내어 토큰 추출 (예: "SPA D1-1" -> "SPA")
             extracted_token = ""
             if rank_str and rank_str != "-":
-                token = re.split(r'[\s\-]+', rank_str)[0].strip()
+                token = rank_str.split()[0].strip()
                 if token and not token.isdigit():
                     extracted_token = token
 
             extracted_token_upper = extracted_token.upper()
 
-            # 2. country.json의 모든 국가 데이터를 순회하며 5대 필드 독립 검사 (하나라도 맞으면 즉시 반환)
+            # 2. country.json의 모든 국가 데이터를 순회하며 5대 필드 독립 교차 검사
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
@@ -307,23 +307,23 @@ with tabs[0]:
                         c_kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
                         leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
 
-                        # --- [독립 조건 검사 (OR)] ---
-                        # 1) code 일치 또는 포함
+                        # --- [5대 필드 독립 OR 조건 검사] ---
+                        # 1) 국가 코드(code) 일치 또는 포함
                         match_code = bool(extracted_token_upper and c_code and (c_code == extracted_token_upper or extracted_token_upper in c_code or c_code in extracted_token_upper))
                         
-                        # 2) 영문명(name_eng) 일치 또는 포함
+                        # 2) 영문 국가명(name_eng) 일치 또는 포함
                         match_eng = bool(extracted_token_upper and c_name_eng and (c_name_eng == extracted_token_upper or extracted_token_upper in c_name_eng or c_name_eng in extracted_token_upper))
                         
-                        # 3) leagues 목록 중 하나에 포함 또는 일치
+                        # 3) 전체 leagues 목록 중 토큰이 포함되거나 일치하는지
                         match_leagues = bool(extracted_token_upper and any(l and (l == extracted_token_upper or extracted_token_upper in l or l in extracted_token_upper) for l in leagues_list))
                         
-                        # 4) 한글 리그명(league_kor_name) 매칭
+                        # 4) 한글 리그명(league_kor_name) 포함 여부
                         match_kor_league = bool(c_kor_league and (c_kor_league in clean_league or clean_league in c_kor_league))
                         
-                        # 5) 한글 국가명(name) 또는 영문명 매칭 (팀명/리그명 기준)
+                        # 5) 한글/영문 국가명 팀명 매칭
                         match_name = bool((c_name and (c_name in clean_league or c_name in team_str)) or (c_name_eng and (c_name_eng.lower() in clean_league or c_name_eng.lower() in team_str)))
 
-                        # 💡 5개 중 단 하나라도 참(True)이면 즉시 해당 국가 정보 반환!
+                        # 💡 5개 필드 중 단 하나라도 맞으면(True) 즉시 해당 국가 정보 반환
                         if match_code or match_eng or match_leagues or match_kor_league or match_name:
                             return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
