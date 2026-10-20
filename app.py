@@ -912,13 +912,13 @@ with tabs[3]:
     st.markdown(html_table, unsafe_allow_html=True)
 
     # ==============================================================================
-    # [기능 2] V5(결장자) 및 V5-1(스쿼드) 독립 딕셔너리 안전 대조 및 데이터 발췌
+    # [기능 2] V5(결장자) 및 V5-1(스쿼드) 홈/원정 명칭 지정 및 안전 대조 발췌
     # ==============================================================================
     target_match_code_str = str(match_code).strip()
     clean_target_home = str(home_team).strip().replace(" ", "").lower()
     clean_target_away = str(away_team).strip().replace(" ", "").lower()
 
-    # 1. V5(결장자) 데이터 탐색 및 폴백
+    # 1. V5(결장자) 데이터 탐색 (홈/원정 팀명 정확히 지정하여 추출)
     v5_match_data = {}
     if target_match_code_str in v5_details_dict:
         v5_match_data = v5_details_dict[target_match_code_str]
@@ -932,10 +932,21 @@ with tabs[3]:
                 v5_match_data = v
                 break
 
-    raw_home_absentees = v5_match_data.get("home_absentees", [])
-    raw_away_absentees = v5_match_data.get("away_absentees", [])
+    # 💡 홈팀과 원정팀 결장자 리스트 명시적 지정
+    raw_home_absentees = []
+    raw_away_absentees = []
+    if v5_match_data:
+        # 딕셔너리 내 저장된 홈/원정 이름과 현재 사이드바 선택 팀을 대조하여 알맞게 배분
+        data_home_name = str(v5_match_data.get("home", "")).strip().replace(" ", "").lower()
+        if clean_target_home in data_home_name or data_home_name in clean_target_home:
+            raw_home_absentees = v5_match_data.get("home_absentees", [])
+            raw_away_absentees = v5_match_data.get("away_absentees", [])
+        else:
+            # 반대로 뒤집혀 저장되어 있을 경우 교정 배분
+            raw_home_absentees = v5_match_data.get("away_absentees", [])
+            raw_away_absentees = v5_match_data.get("home_absentees", [])
 
-    # 2. V5-1(전체 선수단 스쿼드) 데이터 탐색 및 폴백
+    # 2. V5-1(전체 선수단 스쿼드) 데이터 탐색 (홈/원정 팀명 정확히 지정하여 추출)
     v5_1_match_data = {}
     if target_match_code_str in v5_1_details_dict:
         v5_1_match_data = v5_1_details_dict[target_match_code_str]
@@ -949,8 +960,16 @@ with tabs[3]:
                 v5_1_match_data = v
                 break
 
-    home_squad_pool = v5_1_match_data.get("home_squad", [])
-    away_squad_pool = v5_1_match_data.get("away_squad", [])
+    home_squad_pool = []
+    away_squad_pool = []
+    if v5_1_match_data:
+        data_squad_home = str(v5_1_match_data.get("home", "")).strip().replace(" ", "").lower()
+        if clean_target_home in data_squad_home or data_squad_home in clean_target_home:
+            home_squad_pool = v5_1_match_data.get("home_squad", [])
+            away_squad_pool = v5_1_match_data.get("away_squad", [])
+        else:
+            home_squad_pool = v5_1_match_data.get("away_squad", [])
+            away_squad_pool = v5_1_match_data.get("home_squad", [])
 
     # 3. 선수 이름별 포지션 룩업 맵(Dictionary) 생성 함수
     def create_position_lookup(squad_list):
@@ -971,7 +990,6 @@ with tabs[3]:
     # [기능 3] 결장자 데이터 기반 공수 보정치 계산 및 Pandas DataFrame 조립 함수
     # ==============================================================================
     def build_squad_dataframe_from_absentees(absentees_list, pos_lookup, team_label):
-        # [안전 장치] 결장자 데이터가 없을 경우 기본 안내용 빈 행 반환
         if not absentees_list:
             df_empty = pd.DataFrame({
                 "선수 실명": ["-", "[총합]"],
@@ -998,7 +1016,6 @@ with tabs[3]:
             total_time = stats_dict.get("total_play_time", 0)
             p_stats_str = f"경기: {matches_p} / 출전시간: {total_time}분"
             
-            # 등급별 가중치 적용 (D=0%, C=4%, B=8%, A=12%)
             raw_grade = str(stats_dict.get("grade", item.get("grade", "C"))).strip().upper()
             if "A" in raw_grade:
                 p_grade = "A 등급"
@@ -1015,7 +1032,6 @@ with tabs[3]:
 
             p_memo = f"시즌 {matches_p}경기 출전 ({p_grade}) 핵심 자원 결장"
             
-            # 포지션별 공수 반감 규칙 적용
             is_attacker = any(k in p_pos for k in ["공격수", "미드필더", "FW", "MF"])
             is_defender = any(k in p_pos for k in ["수비수", "골키퍼", "DF", "GK"])
 
@@ -1063,13 +1079,13 @@ with tabs[3]:
     # ==============================================================================
     # [기능 4] 홈/원정팀 최종 표(DataFrame) 출력 및 안전 알림 장치 구동
     # ==============================================================================
-    st.markdown(f"##### 3-1: 구단명 - {home_team} 선수 전력 변동")
+    st.markdown(f"##### 3-1: 홈 구단 - {home_team} 선수 전력 변동")
     if not raw_home_absentees:
         st.info(f"💡 [{home_team}] 해당 경기에 수집된 선수 전력 변동(결장자) 데이터가 없습니다. (정상 스쿼드 가동 가정)")
     table_3_1_home, h_r31_atk_val, h_r31_def_val = build_squad_dataframe_from_absentees(raw_home_absentees, home_pos_map, home_team)
     st.dataframe(table_3_1_home, use_container_width=True, hide_index=True)
 
-    st.markdown(f"##### 3-1: 구단명 - {away_team} 선수 전력 변동")
+    st.markdown(f"##### 3-1: 원정 구단 - {away_team} 선수 전력 변동")
     if not raw_away_absentees:
         st.info(f"💡 [{away_team}] 해당 경기에 수집된 선수 전력 변동(결장자) 데이터가 없습니다. (정상 스쿼드 가동 가정)")
     table_3_1_away, a_r31_atk_val, a_r31_def_val = build_squad_dataframe_from_absentees(raw_away_absentees, away_pos_map, away_team)
