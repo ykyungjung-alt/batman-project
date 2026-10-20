@@ -38,6 +38,7 @@ EXCLUDED_KEYWORDS = [
 EXCLUDED_EXACT_LEAGUES = [
     "프리미어리그",
     "잉글랜드 프리미어리그",
+    "국제 친선경기",
     "리가 프레미어 세리에 A",
     "세리에 A 베타노",
     "타이리그 1",
