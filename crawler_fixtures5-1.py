@@ -27,9 +27,6 @@ def convert_market_value_to_krw(val_str):
         return val_str
 
 def parse_team_squad(driver, team_summary_url):
-    """
-    💡 선수 이름 중복 수집 및 인덱스 밀림 현상을 해결한 정밀 파서
-    """
     if team_summary_url in _team_squad_cache:
         return _team_squad_cache[team_summary_url]
 
@@ -47,11 +44,11 @@ def parse_team_squad(driver, team_summary_url):
         
         for li in player_items:
             try:
-                # 1. 오직 span.name 내부에서만 선수 이름을 추출 (alt 속성 간섭 원천 차단)
+                # 1. 선수 이름은 오직 'span.name' 안에서만 정확히 가져오고, 
+                # 만약 다른 곳(아바타 alt 등)에서 딸려오는 이름은 아예 배제합니다.
                 name_span = li.find("span", class_="name")
                 player_name = ""
                 if name_span:
-                    # name_span 안의 자식인 span.des(등번호/국가) 텍스트를 잠시 제거하고 순수 이름만 추출
                     des_span = name_span.find("span", class_="des")
                     if des_span:
                         des_text = des_span.get_text(strip=True)
@@ -60,28 +57,34 @@ def parse_team_squad(driver, team_summary_url):
                     else:
                         player_name = name_span.get_text(strip=True)
 
-                # 2. 이름 영역(span.name) 바깥에 독립적으로 존재하는 데이터 span들만 정확히 타겟팅
-                # (구조상 순서: 포지션, 나이, 몸값, 계약만료)
-                # li 바로 아래 또는 name 영역 외부에 있는 span들 중 텍스트가 있는 것만 수집
+                # 2. ⚠️ 수집에서 제외할 클래스나 영역 정의
+                # (예: 아바타, 이미지 alt, des 등 원치 않는 태그는 여기서 원천 차단)
+                exclude_classes = ["des", "avatar", "avatar-wrap", "headpic", "preview"]
+                
                 data_texts = []
-                for s in li.find_all("span", recursive=True):
-                    # span.name 내부에 포함된 태그이거나, des/avatar 관련 클래스인 경우는 데이터 수집 대상에서 제외
+                for s in li.find_all(["span", "div"], recursive=True):
+                    # a) 'span.name' 내부의 텍스트는 이미 위에서 처리했으니 중복 수집 방지를 위해 제외
                     if s.find_parent("span", class_="name"):
                         continue
-                    if any(cls in s.get("class", []) for cls in ["des", "avatar", "avatar-wrap", "headpic"]):
+                    
+                    # b) 지정한 제외 대상 클래스에 속한 태그라면 수집 대상에서 완전히 제외
+                    if any(cls in s.get("class", []) for cls in exclude_classes):
+                        continue
+                    
+                    # c) 자식 태그가 너무 많아서 통째로 텍스트가 딸려오는 부모 div 등도 제외 (순수 텍스트 칸만 타겟팅)
+                    if s.name == "div" and len(s.find_all()) > 0:
                         continue
                     
                     txt = s.get_text(strip=True)
                     if txt and txt not in data_texts:
                         data_texts.append(txt)
 
-                # 3. 정확한 순서로 매핑 [포지션, 나이, 몸값, 계약만료]
+                # 3. 남은 순수 데이터 텍스트 매핑 [포지션, 나이, 몸값, 계약만료]
                 if len(data_texts) >= 3:
-                    position = data_texts[0]    # 포지션 (예: 공격수)
-                    age = data_texts[1]         # 나이 (예: 25)
-                    raw_value = data_texts[2]   # 몸값 (예: £140.000M)
+                    position = data_texts[0]
+                    age = data_texts[1]
+                    raw_value = data_texts[2]
                     
-                    # 몸값 한국 원화 변환
                     krw_value = convert_market_value_to_krw(raw_value)
                     
                     if player_name:
