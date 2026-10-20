@@ -49,20 +49,16 @@ def find_target_match_code(match_master_map, keyword="파리생제르맹"):
     return found_codes
 
 def crawl_player_details(session, headers, player_id):
-    """선수 고유 ID를 받아 핵심 요약 지표 및 세부 스탯 정보를 파싱하고 출전 시간 기준 등급(A~D)을 부여합니다."""
+    """선수 고유 ID를 받아 image_3.png에 명시된 핵심 지표만 깔끔하게 파싱하고 등급(A~D)을 부여합니다."""
     player_url = f"https://football.scoreman123.com/team/player/{player_id}"
     
-    # 기본 데이터 구조 초기화 (선수 정보가 없거나 실패 시 기본값 설정용)
     player_stats = {
         "player_id": player_id,
         "matches_played": 0,
         "total_play_time": 0,
         "avg_play_time": 0.0,
         "grade": "D",  # 기본값 D 고정
-        "important_stats": {},
-        "offensive": {},
-        "passing": {},
-        "defensive": {}
+        "important_stats": {} # 사진에 나온 핵심 요약 지표들 저장 공간
     }
     
     try:
@@ -70,12 +66,12 @@ def crawl_player_details(session, headers, player_id):
         if resp.status_code == 200:
             soup = BeautifulSoup(resp.text, 'html.parser')
             
-            # 💡 1) 상단 핵심 요약 지표 파싱 (경기 수, 출전시간 등) -> image_2.png 참조
+            # 💡 image_3.png에 나오는 ul#techImportant 내부 항목들만 정확히 타겟팅
             important_items = soup.select('ul#techImportant > li')
             matches = 0
             play_time = 0
-            
             imp_stats = {}
+            
             for item in important_items:
                 text_val = item.select_one('text')
                 span_val = item.select_one('span')
@@ -84,7 +80,8 @@ def crawl_player_details(session, headers, player_id):
                     val = text_val.text.strip()
                     imp_stats[label] = val
                     
-                    if "경기" in label:
+                    # 수치 매핑 추출
+                    if "경기" == label or "경기" in label:
                         try: matches = int(val)
                         except: pass
                     elif "출전시간" in label:
@@ -95,7 +92,7 @@ def crawl_player_details(session, headers, player_id):
             player_stats["matches_played"] = matches
             player_stats["total_play_time"] = play_time
             
-            # 💡 2) 평균 출전 시간 계산 및 A~D 등급 판정
+            # 💡 평균 출전 시간 계산 및 A~D 등급 판정
             if matches > 0:
                 avg_time = play_time / matches
                 player_stats["avg_play_time"] = round(avg_time, 1)
@@ -109,38 +106,15 @@ def crawl_player_details(session, headers, player_id):
                 else:
                     player_stats["grade"] = "D"
             else:
-                # 경기 수가 0이거나 정보가 부족한 경우 D로 고정
                 player_stats["grade"] = "D"
-
-            # 💡 3) 부문별 세부 스탯 파싱 (공격/패싱/수비) -> image.png / image_2.png 참조[cite: 1, 2]
-            stat_boxes = soup.select('ul.statbox > li.tecstatbox')
-            for box in stat_boxes:
-                box_id = box.get('id', '') 
-                stats_list = {}
                 
-                rows = box.select('div.tecstatlis')
-                for row in rows:
-                    spans = row.select('span')
-                    if len(spans) >= 2:
-                        label = spans[0].text.strip()
-                        val = spans[1].text.strip()
-                        stats_list[label] = val
-                
-                if box_id == "techOffensive":
-                    player_stats["offensive"] = stats_list
-                elif box_id == "techPassing":
-                    player_stats["passing"] = stats_list
-                elif box_id == "techDefensive":
-                    player_stats["defensive"] = stats_list
-                    
     except Exception as e:
         print(f"⚠️ [선수 스탯 파싱 오류 - ID: {player_id}]: {e}")
-        # 오류 발생 시에도 기본값 'D'가 유지됨
         
     return player_stats
 
 def crawl_match_lineups_v5():
-    print("\n🚀 [Crawler V5 - 출전 시간 기반 등급 자동 판정 모드] 수집 시작...")
+    print("\n🚀 [Crawler V5 - 핵심 지표 집중 수집 및 타임슬립 적용 모드] 시작...")
     
     match_master_map = load_match_master_info()
     if not match_master_map:
@@ -204,9 +178,10 @@ def crawl_match_lineups_v5():
                                 
                                 p_stats = {}
                                 if player_id:
-                                    print(f"   ㄴ [홈 선수 분석] {name} (ID: {player_id}) 스탯 및 등급 산출 중...")
+                                    print(f"   ㄴ [홈 선수 분석] {name} (ID: {player_id}) 핵심 지표 수집 중...")
                                     p_stats = crawl_player_details(session, headers, player_id)
-                                    time.sleep(0.3)
+                                    # 💡 안정적인 수집을 위한 타임슬립 딜레이 적용 (0.7초)
+                                    time.sleep(0.7)
 
                                 home_absentees.append({
                                     "number": num_tag.text.strip() if num_tag else "",
@@ -220,11 +195,9 @@ def crawl_match_lineups_v5():
                         guest_div = row.select_one('div.guest')
                         if guest_div:
                             num_tag = guest_div.select_one('span.Nrank')
-                            name_tag = row.select_one('div.player > a') if not guest_div.select_one('div.player > a') else guest_div.select_one('div.player > a')
+                            g_name_tag = guest_div.select_one('div.player > a')
                             is_injured = guest_div.select_one('span.icon-font-injured1') is not None
                             
-                            # 올바른 guest 영역 안의 선수 태그 탐색 보정
-                            g_name_tag = guest_div.select_one('div.player > a')
                             if g_name_tag and g_name_tag.text.strip():
                                 name = g_name_tag.text.strip()
                                 href = g_name_tag.get('href', '')
@@ -232,9 +205,10 @@ def crawl_match_lineups_v5():
                                 
                                 p_stats = {}
                                 if player_id:
-                                    print(f"   ㄴ [원정 선수 분석] {name} (ID: {player_id}) 스탯 및 등급 산출 중...")
+                                    print(f"   ㄴ [원정 선수 분석] {name} (ID: {player_id}) 핵심 지표 수집 중...")
                                     p_stats = crawl_player_details(session, headers, player_id)
-                                    time.sleep(0.3)
+                                    # 💡 안정적인 수집을 위한 타임슬립 딜레이 적용 (0.7초)
+                                    time.sleep(0.7)
 
                                 away_absentees.append({
                                     "number": num_tag.text.strip() if num_tag else "",
@@ -251,7 +225,7 @@ def crawl_match_lineups_v5():
                     "home_absentees": home_absentees,
                     "away_absentees": away_absentees
                 }
-                print(f"✨ [7단계 완료] 출전 시간 기준 A~D 등급 자동 산출 및 데이터 연동 완료!")
+                print(f"✨ [7단계 완료] 사진 기반 핵심 지표 수집 및 타임슬립 적용 완료!")
             else:
                 print(f"⚠️ [중단점] 페이지 응답 실패 (Status Code: {resp.status_code})")
 
