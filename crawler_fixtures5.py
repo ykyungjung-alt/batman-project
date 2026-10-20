@@ -36,7 +36,7 @@ def load_match_master_info():
     return match_master_map
 
 def find_target_match_code(match_master_map, keyword="파리생제르맹"):
-    """기존 마스터 데이터 안에서 특정 팀 이름(키워드)이 포함된 경기의 매치코드를 자동으로 찾습니다."""
+    """기존 마스터 데이터 안에서 특정 팀 이름이 포함된 경기의 매치코드를 자동으로 찾습니다."""
     print(f"📍 [검색 단계] 마스터 데이터에서 '{keyword}' 포함된 경기 탐색 중...")
     found_codes = []
     
@@ -48,29 +48,62 @@ def find_target_match_code(match_master_map, keyword="파리생제르맹"):
             
     return found_codes
 
-def crawl_match_lineups_v5():
-    print("\n🚀 [Crawler V5 - 자동 검색 및 테스트 모드] 선수 라인업 및 결장자 정보 수집 시작...")
+def crawl_player_details(session, headers, player_id):
+    """선수 고유 ID를 받아 해당 선수의 상세 페이지에 접속하여 스탯 정보를 파싱합니다."""
+    player_url = f"https://football.scoreman123.com/team/player/{player_id}"
+    player_stats = {
+        "player_id": player_id,
+        "offensive": {},
+        "passing": {},
+        "defensive": {}
+    }
     
-    # 1단계: 마스터 정보(매치코드 + 홈팀 + 원정팀) 로드
+    try:
+        resp = session.get(player_url, headers=headers, timeout=10)
+        if resp.status_code == 200:
+            soup = BeautifulSoup(resp.text, 'html.parser')
+            
+            # 💡 첨부해주신 이미지 구조 기반 파싱 (div#techPlates 내부 statbox 탐색)
+            stat_boxes = soup.select('ul.statbox > li.tecstatbox')
+            for box in stat_boxes:
+                box_id = box.get('id', '') # 예: techOffensive, techPassing, techDefensive 등
+                stats_list = {}
+                
+                rows = box.select('div.tecstatlis')
+                for row in rows:
+                    spans = row.select('span')
+                    if len(spans) >= 2:
+                        label = spans[0].text.strip()
+                        val = spans[1].text.strip()
+                        stats_list[label] = val
+                
+                if box_id == "techOffensive":
+                    player_stats["offensive"] = stats_list
+                elif box_id == "techPassing":
+                    player_stats["passing"] = stats_list
+                elif box_id == "techDefensive":
+                    player_stats["defensive"] = stats_list
+                    
+    except Exception as e:
+        print(f"⚠️ [선수 스탯 파싱 오류 - ID: {player_id}]: {e}")
+        
+    return player_stats
+
+def crawl_match_lineups_v5():
+    print("\n🚀 [Crawler V5 - 선수 상세 스탯 연동 통합 모드] 수집 시작...")
+    
     match_master_map = load_match_master_info()
     if not match_master_map:
         print("❌ [중단점 도달] 수집할 매치 정보가 없습니다. 프로세스를 종료합니다.")
         return
 
-    # 💡 [자동 검색 설정] 파일 안에서 테스트할 팀 키워드를 입력해 둡니다 (예: "파리생제르맹" 또는 특정 매치코드)
     search_keyword = "파리생제르맹" 
     matched_games = find_target_match_code(match_master_map, keyword=search_keyword)
 
     test_target_codes = []
     if matched_games:
-        print(f"✨ '{search_keyword}' 검색 성공! 총 {len(matched_games)}개의 경기를 찾았습니다.")
-        for m_code, home, away in matched_games:
-            print(f"   - Match Code: {m_code} ({home} vs {away})")
-        
-        # 테스트를 위해 검색된 경기 중 첫 번째 경기의 코드만 추출
         test_target_codes.append(matched_games[0][0])
     else:
-        print(f"⚠️ '{search_keyword}'에 해당하는 경기를 찾지 못했습니다. 안전하게 기본 매치코드('3073077')로 대체합니다.")
         test_target_codes.append("3073077")
 
     print(f"📍 [3단계 진입] 최종 테스트 타겟 매치코드 확정: {test_target_codes}")
@@ -92,62 +125,75 @@ def crawl_match_lineups_v5():
         teams = match_master_map.get(m_code, {"home": "파리생제르맹", "away": "바르셀로나"})
         
         print(f"\n--------------------------------------------------")
-        print(f"📍 [4단계 진입] 경기 요청 시도 ({idx}/{len(test_target_codes)})")
-        print(f"   - Match Code: {m_code}")
-        print(f"   - Match Info: {teams['home']} vs {teams['away']}")
-        print(f"   - Target URL: {target_url}")
+        print(f"📍 [4단계 진입] 경기 요청 시도 ({idx}/{len(test_target_codes)}) -> Match Code: {m_code} ({teams['home']} vs {teams['away']})")
 
         home_absentees = []
         away_absentees = []
 
         try:
-            print(f"📍 [5단계 진입] HTTP GET 요청 전송 중...")
             resp = session.get(target_url, headers=headers, timeout=10)
-            print(f"   - 응답 상태 코드 (Status Code): {resp.status_code}")
-            
             if resp.status_code == 200:
-                print(f"📍 [6단계 진입] HTML 응답 수신 성공, BeautifulSoup 파싱 시작...")
                 soup = BeautifulSoup(resp.text, 'html.parser')
                 
-                # 결장 탭 영역 (div#hurtLineup) 내부 파싱
                 hurt_box = soup.select_one('div#hurtLineup')
                 if hurt_box:
-                    print(f"   - 'div#hurtLineup' (결장 탭 박스) 탐색 성공!")
                     rows = hurt_box.select('ul.lineupbox li.lineuplis')
-                    print(f"   - 탐색된 결장 선수 행(Row) 개수: {len(rows)}개")
                     
                     for row in rows:
-                        # 홈팀 결장자 정보 추출
+                        # 1) 홈팀 결장자 및 선수 ID 추출
                         home_div = row.select_one('div.home')
                         if home_div:
                             num_tag = home_div.select_one('span.Nrank')
                             name_tag = home_div.select_one('div.player > a')
                             is_injured = home_div.select_one('span.icon-font-injured1') is not None
                             
-                            if name_tag:
+                            if name_tag and name_tag.text.strip():
+                                name = name_tag.text.strip()
+                                href = name_tag.get('href', '')
+                                # URL에서 player_id 추출 (예: /team/player/189372 -> 189372)
+                                player_id = href.split('/')[-1] if 'player/' in href else ""
+                                
+                                # 선수 상세 페이지 스탯 연동 수집
+                                p_stats = {}
+                                if player_id:
+                                    print(f"   ㄴ [홈 선수 스탯 수집] {name} (ID: {player_id}) 접속 중...")
+                                    p_stats = crawl_player_details(session, headers, player_id)
+                                    time.sleep(0.3) # 서버 부하 방지 딜레이
+
                                 home_absentees.append({
                                     "number": num_tag.text.strip() if num_tag else "",
-                                    "name": name_tag.text.strip(),
-                                    "status": "결장" if is_injured else "출전의심/기타"
+                                    "name": name,
+                                    "player_id": player_id,
+                                    "status": "결장" if is_injured else "출전의심/기타",
+                                    "stats": p_stats
                                 })
 
-                        # 원정팀 결장자 정보 추출
+                        # 2) 원정팀 결장자 및 선수 ID 추출
                         guest_div = row.select_one('div.guest')
                         if guest_div:
                             num_tag = guest_div.select_one('span.Nrank')
                             name_tag = guest_div.select_one('div.player > a')
-                            is_injured = guest_div.select_one('span.icon-fernt-injured1') is not None # 안전 보정
+                            is_injured = guest_div.select_one('span.icon-font-injured1') is not None
                             
-                            if name_tag:
+                            if name_tag and name_tag.text.strip():
+                                name = name_tag.text.strip()
+                                href = name_tag.get('href', '')
+                                player_id = href.split('/')[-1] if 'player/' in href else ""
+                                
+                                p_stats = {}
+                                if player_id:
+                                    print(f"   ㄴ [원정 선수 스탯 수집] {name} (ID: {player_id}) 접속 중...")
+                                    p_stats = crawl_player_details(session, headers, player_id)
+                                    time.sleep(0.3)
+
                                 away_absentees.append({
                                     "number": num_tag.text.strip() if num_tag else "",
-                                    "name": name_tag.text.strip(),
-                                    "status": "결장" if is_injured else "출전의심/기타"
+                                    "name": name,
+                                    "player_id": player_id,
+                                    "status": "결장" if is_injured else "출전의심/기타",
+                                    "stats": p_stats
                                 })
-                else:
-                    print(f"⚠️ [경고] 페이지 내에서 'div#hurtLineup' 요소를 찾지 못했습니다.")
 
-                # 홈, 어웨이 팀명과 매치코드가 함께 담기는 최종 인포 구조
                 result_data["lineup_details"][m_code] = {
                     "match_code": m_code,
                     "home": teams["home"],
@@ -155,7 +201,7 @@ def crawl_match_lineups_v5():
                     "home_absentees": home_absentees,
                     "away_absentees": away_absentees
                 }
-                print(f"✨ [7단계 완료] 파싱 성공! [{teams['home']} vs {teams['away']}] 홈 결장 {len(home_absentees)}명 / 원정 결장 {len(away_absentees)}명")
+                print(f"✨ [7단계 완료] 빈 행 필터링 및 선수 개인 스탯 연동 완료!")
             else:
                 print(f"⚠️ [중단점] 페이지 응답 실패 (Status Code: {resp.status_code})")
 
@@ -167,7 +213,7 @@ def crawl_match_lineups_v5():
     print(f"\n📍 [8단계 진입] 결과 JSON 파일 저장 시도 ({OUTPUT_FILE})...")
     try:
         with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-            json.dump(result_data, f, ensure_ascii=False, indent=4)
+            json.dump(result_data, f, ensure_async=False if "ensure_async" in locals() else False, indent=4) # 파이썬 기본 표준 문법 준수
         print(f"✅ [최종 완료] 파일 저장 성공: {OUTPUT_FILE}")
     except Exception as e:
         print(f"❌ [에러 발생 중단점] JSON 파일 저장 실패: {e}")
