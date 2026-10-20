@@ -279,21 +279,21 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-# 💡 [국가 및 등급 정밀 대조 함수 - 한글명, 영문명, 코드, 전체 리그 + 한글 리그명 종합 교차 매칭 규격]
+# 💡 [국가 및 등급 정밀 대조 함수 - 토큰 파싱 후 country.json 전체 규격 포함 관계 교차 매칭 규격]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
             team_str = str(team_val).strip().lower()
             clean_league = str(current_league_name).strip().replace(" ", "").lower()
 
-            # 1. 순위표(rank_str) 또는 대회 리그명에서 비교할 핵심 키워드(토큰) 추출
+            # 1. 띄어쓰기나 하이픈(-) 앞쪽까지만 토큰으로 정확히 끊어냄 (예: "SPA D1-1" -> "SPA")
             extracted_token = ""
             if rank_str and rank_str != "-":
                 token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
                 if token and not token.isdigit():
                     extracted_token = token
 
-            # 2. country.json 내부의 모든 국가 데이터 순회하며 종합 교차 매칭
+            # 2. country.json 내부의 모든 국가 데이터를 순회하며 (한글명, 영문명, 코드, 전체 리그 목록) 종합 교차 매칭
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
@@ -305,18 +305,21 @@ with tabs[0]:
                         c_kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
                         leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
 
-                        # ① 순위표 파싱 토큰(extracted_token) 기반 매칭 검사
+                        # ① 끊어낸 핵심 토큰(extracted_token)이 country.json 정보에 포함되거나 일치하는지 유연하게 검사
                         token_matched = False
                         if extracted_token:
-                            is_code_match = c_code and c_code == extracted_token
+                            # 국가 코드 일치 또는 포함
+                            is_code_match = c_code and (c_code == extracted_token or extracted_token in c_code or c_code in extracted_token)
+                            # 영문 국가명 일치 또는 포함
                             is_eng_match = c_name_eng and (c_name_eng.upper() == extracted_token or extracted_token in c_name_eng.upper())
-                            is_league_code_match = any(l and (extracted_token == l or extracted_token == l.split()[0]) for l in leagues_list)
-                            if is_code_match or is_eng_match or is_league_code_match:
+                            # 등록된 전체 리그 코드 목록 중 하나에 토큰이 포함되거나 일치하는지
+                            is_league_match = any(l and (extracted_token == l or extracted_token in l or l in extracted_token) for l in leagues_list)
+                            
+                            if is_code_match or is_eng_match or is_league_match:
                                 token_matched = True
 
                         # ② 대회 리그명(clean_league), 한글 리그명(c_kor_league), 팀명(team_str) 기반 교차 텍스트 매칭 검사
                         text_matched = False
-                        # 한글 리그명(예: "탄자니아 프리미어리그", "라리가" 등)이 현재 대회명에 포함되거나 서로 연관된 경우
                         match_kor_league = c_kor_league and (c_kor_league in clean_league or clean_league in c_kor_league)
                         match_name_kor = c_name and (c_name in clean_league or c_name in team_str)
                         match_name_eng = c_name_eng and (c_name_eng in clean_league or c_name_eng in team_str)
@@ -331,7 +334,6 @@ with tabs[0]:
             # 3. 모든 매칭 실패 시 F등급 폴백 처리
             f_info = grades.get("F", {})
             return "EXT", rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
-
         if rankings_raw:
             rankings_list = []
             
