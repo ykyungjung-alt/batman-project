@@ -25,7 +25,7 @@ def load_match_codes():
     return list(match_codes)
 
 def crawl_match_lineups_v5():
-    print("🚀 [Crawler V5] 선수 라인업 및 결장자 정보 수집 크롤러 가동...")
+    print("🚀 [Crawler V5 - 1경기 테스트 모드] 선수 라인업 및 결장자 정보 수집 시작...")
     
     match_codes = load_match_codes()
     if not match_codes:
@@ -44,9 +44,12 @@ def crawl_match_lineups_v5():
 
     session = requests.Session()
 
-    for idx, m_code in enumerate(match_codes, 1):
+    # 💡 [테스트용] 전체 목록 중 딱 1개의 매치코드만 가져오기
+    test_target_codes = match_codes[:1]
+
+    for idx, m_code in enumerate(test_target_codes, 1):
         target_url = f"https://www.scoreman123.com/match/data-{m_code}"
-        print(f"[{idx}/{len(match_codes)}] 크롤링 중 (Match Code: {m_code})...")
+        print(f"🔍 [테스트 크롤링 중] Match Code: {m_code} ({target_url})")
 
         home_absentees = []
         away_absentees = []
@@ -56,7 +59,7 @@ def crawl_match_lineups_v5():
             if resp.status_code == 200:
                 soup = BeautifulSoup(resp.text, 'html.parser')
                 
-                # 💡 핵심: 결장 탭 영역 (div#hurtLineup) 내부 파싱
+                # 결장 탭 영역 (div#hurtLineup) 내부 파싱
                 hurt_box = soup.select_one('div#hurtLineup')
                 if hurt_box:
                     rows = hurt_box.select('ul.lineupbox li.lineuplis')
@@ -94,20 +97,21 @@ def crawl_match_lineups_v5():
                     "home_absentees": home_absentees,
                     "away_absentees": away_absentees
                 }
+                print(f"✨ [파싱 성공] 홈 결장자 {len(home_absentees)}명 / 원정 결장자 {len(away_absentees)}명 수집 완료")
             else:
                 print(f"⚠️ 페이지 응답 실패 (Status: {resp.status_code})")
 
         except Exception as e:
             print(f"❌ 크롤링 중 예외 발생 ({m_code}): {e}")
 
-        # 서버 부하 방지 및 차단 방지 딜레이
-        time.sleep(0.5)
+        # 테스트이므로 1경기 처리 후 강제 탈출
+        break
 
     # 최종 JSON 저장
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(result_data, f, ensure_ascii=False, indent=4)
 
-    print(f"✅ [Crawler V5] 모든 작업 완료! 결과 파일: {OUTPUT_FILE}")
+    print(f"✅ [Test 완료] 결과 파일({OUTPUT_FILE})을 확인해주세요!")
 
 if __name__ == "__main__":
     crawl_match_lineups_v5()
