@@ -1,4 +1,4 @@
-name: Match Details Crawler V3-2
+name: Match Details Crawler V5-1
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   
 jobs:
-  run-crawler-v3-2:
+  run-crawler-v5-1:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,16 +23,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Crawler V3-2
+    - name: Run Crawler V5-1
       run: |
-        python crawler_fixtures3-2.py
+        python crawler_fixtures5-1.py
 
-    - name: Commit and push generated match details v3-2
+    - name: Commit and push generated match details v5-1
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add match_details_v3-2.json
-        git commit -m "Auto-update match details v3-2 [skip ci]" || exit 0
+        git add match_details_v5-1.json
+        git commit -m "Auto-update match details v5-1 [skip ci]" || exit 0
         
         # 💡 원격 변경 사항을 가져올 때 충돌 시 로컬(현재 방금 크롤링한 것) 데이터를 우선하도록 설정
         git pull --rebase -X theirs origin main || echo "No remote changes to pull"
