@@ -14,9 +14,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
-# 설정 파일 경로
+# 설정 파일 경로 (필요한 모든 match_details 파일을 포괄하도록 확장)
 OUTPUT_FILE = "match_details_v5.json"
-SOURCE_FILES = ["match_details.json", "match_details2.json"]
+SOURCE_FILES = [
+    "match_details.json", 
+    "match_details2.json", 
+    "match_details_v3.json", 
+    "match_details_v3-1.json", 
+    "match_details_v3-2.json", 
+    "match_details_v4.json"
+]
 
 def get_kst_time_string():
     """UTC 시간 기준에서 9시간을 더한 대한민국 표준시(KST) 문자열을 반환합니다."""
@@ -24,8 +31,8 @@ def get_kst_time_string():
     return datetime.now(kst_zone).strftime("%Y-%m-%d %H:%M:%S")
 
 def load_match_master_info():
-    """기존 match_details 파일들에서 match_code와 매칭되는 홈/원정 팀명 정보를 수집합니다."""
-    print("📍 [1단계 진입] 기존 match_details 파일에서 매치 정보 로드 시작...")
+    """기존의 모든 match_details 및 데이터 파일들에서 match_code와 매칭되는 홈/원정 팀명 정보를 전수 수집합니다."""
+    print("📍 [1단계 진입] 모든 기존 match_details 및 데이터 파일에서 매치 정보 전수 로드 시작...")
     match_master_map = {}
     
     for s_file in SOURCE_FILES:
@@ -34,15 +41,38 @@ def load_match_master_info():
                 print(f"   - 파일 확인됨: {s_file}, 읽기 시도 중...")
                 with open(s_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
+                    
+                    # 1) 일반적인 match_details 구조 탐색
                     details = data.get("match_details", {})
-                    for m_code, m_info in details.items():
-                        m_code_str = str(m_code).strip()
-                        if m_code_str not in match_master_map:
-                            match_master_map[m_code_str] = {
-                                "home": m_info.get("home", ""),
-                                "away": m_info.get("away", "")
-                            }
-                print(f"📁 [1단계 완료] {s_file}에서 매치 정보 누적 확보 완료")
+                    if not details and isinstance(data, dict):
+                        # 파일 구조에 따라 최상위나 leagues 등에 데이터가 있을 경우 대비
+                        details = data.get("leagues", data)
+
+                    if isinstance(details, dict):
+                        for m_code, m_info in details.items():
+                            if isinstance(m_info, dict):
+                                m_code_str = str(m_info.get("match_code", m_code)).strip()
+                                home_t = m_info.get("home", "")
+                                away_t = m_info.get("away", "")
+                                if m_code_str and home_t and away_t:
+                                    if m_code_str not in match_master_map:
+                                      match_master_map[m_code_str] = {
+                                          "home": home_t,
+                                          "away": away_t
+                                      }
+                    elif isinstance(details, list):
+                        for item in details:
+                            if isinstance(item, dict):
+                                m_code_str = str(item.get("match_code", "")).strip()
+                                home_t = item.get("home", "")
+                                away_t = item.get("away", "")
+                                if m_code_str and home_t and away_t:
+                                    if m_code_str not in match_master_map:
+                                        match_master_map[m_code_str] = {
+                                            "home": home_t,
+                                            "away": away_t
+                                        }
+                print(f"📁 [1단계 완료] {s_file}에서 매치 정보 누적 확보 완료 (현재 누적 총 {len(match_master_map)}개)")
             except Exception as e:
                 print(f"⚠️ [1단계 오류] {s_file} 읽기 실패: {e}")
         else:
@@ -141,7 +171,7 @@ def crawl_player_details_with_selenium(driver, player_id):
     return player_stats
 
 def crawl_match_lineups_v5():
-    print("\n🚀 [Crawler V5 - 전체 경기 제한 없는 수집 모드] 시작...")
+    print("\n🚀 [Crawler V5 - 전체 경기 제한 없는 전수 수집 모드] 시작...")
     
     match_master_map = load_match_master_info()
     if not match_master_map:
@@ -149,12 +179,22 @@ def crawl_match_lineups_v5():
         return
 
     target_match_codes = list(match_master_map.keys())
-    print(f"📍 [3단계 진입] 전체 수집 대상 매치 총 {len(target_match_codes)}개 확보 완료")
+    print(f"📍 [3단계 진입] 전체 수집 대상 매치 총 {len(target_match_codes)}개 확보 완료. 순차 크롤링을 시작합니다.")
     
+    # 기존에 수집된 v5 결과가 있다면 로드하여 병합 (중단 지점 이어하기 지원)
     result_data = {
         "last_updated": get_kst_time_string(),
         "lineup_details": {}
     }
+    if os.path.exists(OUTPUT_FILE):
+        try:
+            with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+                existing_data = json.load(f)
+                if isinstance(existing_data, dict) and "lineup_details" in existing_data:
+                    result_data["lineup_details"] = existing_data["lineup_details"]
+                    print(f"📂 기존 {OUTPUT_FILE} 파일에서 {len(result_data['lineup_details D'])}개의 기존 수집 데이터를 성공적으로 불러왔습니다.")
+        except Exception:
+            pass
 
     # 셀레니움 옵션 설정 (Headless 모드)
     chrome_options = Options()
@@ -168,6 +208,11 @@ def crawl_match_lineups_v5():
 
     try:
         for idx, m_code in enumerate(target_match_codes, 1):
+            # 이미 수집된 매치코드라면 중복 크롤링 방지를 위해 스킵 가능 (원할 경우 주석 해제)
+            # if m_code in result_data["lineup_details"]:
+            #     print(f"⏭️ [{idx}/{len(target_match_codes)}] 매치코드 {m_code} 이미 수집됨. 건너뜁니다.")
+            #     continue
+
             target_url = f"https://www.scoreman123.com/match/data-{m_code}"
             teams = match_master_map.get(m_code, {"home": "홈팀", "away": "원정팀"})
             
@@ -210,7 +255,7 @@ def crawl_match_lineups_v5():
                                 if player_id:
                                     print(f"   ㄴ [홈 선수 분석] {name} (ID: {player_id}) 지표 수집 중...")
                                     p_stats = crawl_player_details_with_selenium(driver, player_id)
-                                    time.sleep(0.3)
+                                    time.sleep(0.2)
 
                                 home_absentees.append({
                                     "number": num_tag.text.strip() if num_tag else "",
@@ -240,7 +285,7 @@ def crawl_match_lineups_v5():
                                 if player_id:
                                     print(f"   ㄴ [원정 선수 분석] {name} (ID: {player_id}) 지표 수집 중...")
                                     p_stats = crawl_player_details_with_selenium(driver, player_id)
-                                    time.sleep(0.3)
+                                    time.sleep(0.2)
 
                                 away_absentees.append({
                                     "number": num_tag.text.strip() if num_tag else "",
@@ -259,19 +304,18 @@ def crawl_match_lineups_v5():
                 }
                 print(f"✨ [{idx}/{len(target_match_codes)}] 매치코드 {m_code} 수집 완료")
 
+                # 매 경기 수집 직후마다 실시간으로 JSON 파일 백업 저장 (중단 시 데이터 유실 방지)
+                result_data["last_updated"] = get_kst_time_string()
+                with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+                    json.dump(result_data, f, ensure_ascii=False, indent=4)
+
             except Exception as e:
                 print(f"❌ [에러 발생] 매치코드 {m_code} 수집 중 예외 발생: {e}")
 
     finally:
         driver.quit()  # 브라우저 자원 해제
 
-    print(f"\n📍 [완료 단계] 전체 결과 JSON 파일 저장 시도 ({OUTPUT_FILE})...")
-    try:
-        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-            json.dump(result_data, f, ensure_ascii=False, indent=4)
-        print(f"✅ [최종 완료] 파일 저장 성공: {OUTPUT_FILE}")
-    except Exception as e:
-        print(f"❌ [에러 발생] JSON 파일 저장 실패: {e}")
+    print(f"\n📍 [완료 단계] 전체 결과 JSON 파일 최종 저장 완료 ({OUTPUT_FILE})")
 
 if __name__ == "__main__":
     crawl_match_lineups_v5()
