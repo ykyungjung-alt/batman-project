@@ -413,16 +413,18 @@ with tabs[0]:
         st.session_state["h_grade"], st.session_state["h_atk_bonus"], st.session_state["h_def_bonus"] = "F", "0%", "0%"
         st.session_state["a_grade"], st.session_state["a_atk_bonus"], st.session_state["a_def_bonus"] = "F", "0%", "0%"
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (가중치 0% 처리)")
+
+
 # ==========================================
-# 💡 규칙 1번 탭 (v3 데이터 전용 단독 연동 및 공수 대칭 교차 보정 적용)
+# 💡 규칙 1번 탭 (공식 경기 우선 수집 및 부족 시 친선 경기 보완 LIFO 연동)
 # ==========================================
 with tabs[1]:
     st.markdown(f"#### [규칙 1번: 종합 최근 10경기 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
     st.markdown("""
         <div class="step-box">
             <b>📌 규격 원칙 및 요약 설명:</b><br>
-            • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기 10개를 최신순 역순(LIFO)으로 전수 조사하며, 골득실 평균을 산출하여 티어 산정표의 티어를 각 양팀에 부여합니다.<br>
-            • <b>친선 경기 전면 배제:</b> 최근 경기 표본에서 모든 친선 경기를 영구 배제하며, 오직 공식 경기만을 채택합니다.<br>
+            • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기를 우선 채택하며, 공식 경기만으로 10경기가 채워지지 않을 경우 친선 경기를 보완하여 최대 10경기를 확보합니다.<br>
+            • <b>친선 경기 예외 보완:</b> 표본 부족 시 친선 경기를 예외적으로 포함하되, 기본적으로는 공식 경기를 최우선으로 채택합니다.<br>
             • <b>공수 대칭 교차 특수 룰:</b> 팀의 공수 판정 체급(A/E)과 상대 공수 티어의 교차 상성에 따라 득실점이 50% 할인(-50%) 또는 50% 할증(+50%)되어 대칭 반영됩니다.
         </div>
         """, unsafe_allow_html=True,
@@ -458,13 +460,39 @@ with tabs[1]:
 
     v3_meta = target_v3_data.get("meta_details", {})
     recent_form = v3_meta.get("recent_form", {})
-    stadium_form = v3_meta.get("stadium_form", {})
 
     h_name = home_team
     a_name = away_team
 
-    h_matches = recent_form.get("home_matches", [])
-    a_matches = recent_form.get("away_matches", [])
+    raw_h_matches = recent_form.get("home_matches", [])
+    raw_a_matches = recent_form.get("away_matches", [])
+
+    # 💡 [핵심 규격 반영] 공식 경기 우선 필터링 및 10경기 미만 시 친선전 보완 함수
+    def filter_and_supplement_matches(match_list, max_count=10):
+        if not match_list:
+            return []
+        
+        official_matches = []
+        friendly_matches = []
+        
+        for m in match_list:
+            league_str = str(m.get("league", "")).upper()
+            # 친선 경기 키워드 감지
+            if "CF" in league_str or "친선" in league_str or "FRIENDLY" in league_str:
+                friendly_matches.append(m)
+            else:
+                official_matches.append(m)
+        
+        # 공식 경기로 먼저 채우고, 부족하면 친선 경기로 최대 max_count(10개)까지 보완
+        combined = list(official_matches)
+        if len(combined) < max_count:
+            needed = max_count - len(combined)
+            combined.extend(friendly_matches[:needed])
+            
+        return combined[:max_count]
+
+    h_matches = filter_and_supplement_matches(raw_h_matches, 10)
+    a_matches = filter_and_supplement_matches(raw_a_matches, 10)
 
     h_sum = recent_form.get("home_summary", {})
     a_sum = recent_form.get("away_summary", {})
@@ -493,7 +521,6 @@ with tabs[1]:
     def atk_tier_nm(g): return atk_tier(g)[0]
     def def_tier_nm(c): return def_tier(c)[0]
 
-    # 1차 임시 산출 결과로 발동 여부(is_triggered) 선행 판단 헬퍼 함수
     def check_trigger_status(matches, tname, def_gpg, def_cpg):
         if not matches:
             return atk_tier_nm(def_gpg) == "Tier A" or def_tier_nm(def_cpg) == "Tier E"
@@ -595,8 +622,6 @@ with tabs[1]:
                     df_name = def_tier_nm(od)
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
-                    # 💡 [마스터 규격] 공수 대칭 교차 보정 (할인 / 할증)
-                    # 1. 내 공격 관점 교차 보정
                     if my_at == "Tier A" and df_name == "Tier E":
                         mult_gf = 0.5
                         rule_desc = "공격 A vs 상대수비 E (득점 50% 할인)"
@@ -604,7 +629,6 @@ with tabs[1]:
                         mult_gf = 1.5
                         rule_desc = "공격 E vs 상대수비 A (득점 50% 할증)"
                         
-                    # 2. 내 방어 관점 교차 보정
                     if my_de == "Tier A" and at_name == "Tier E":
                         mult_ga = 1.5
                         rule_desc = (" / " if mult_gf != 1.0 else "") + "방어 A vs 상대공격 E (실점 50% 할증)"
@@ -644,7 +668,7 @@ with tabs[1]:
         
         return pd.DataFrame(rows), gpg, cpg, rec, raw_scored_total, raw_conceded_total
 
-    # 1차 예비 산출로 홈/원정 기본 체급 파악 후 대칭 교차 보정 적용 산출
+    # 1차 예비 산출 및 최종 산출 적용
     h_df_pre, h_gpg_pre, h_cpg_pre, h_rec_pre, _, _ = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base, "Tier C", "Tier C")
     h_at_pre, _ = atk_tier(h_gpg_pre)
     h_de_pre, _ = def_tier(h_cpg_pre)
@@ -653,7 +677,6 @@ with tabs[1]:
     a_at_pre, _ = atk_tier(a_gpg_pre)
     a_de_pre, _ = def_tier(a_cpg_pre)
 
-    # 최종 확정 산출 (각 팀의 확정 체급인 h_at_pre, h_de_pre 반영)
     h_df, h_gpg, h_cpg, h_rec, h_raw_s, h_raw_c = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base, h_at_pre, h_de_pre)
     a_df, a_gpg, a_cpg, a_rec, a_raw_s, a_raw_c = local_make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base, a_at_pre, a_de_pre)
 
