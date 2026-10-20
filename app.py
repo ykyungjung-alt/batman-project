@@ -589,28 +589,28 @@ with tabs[1]:
             if tier_info and "/" in tier_info:
                 try:
                     oa, od = map(float, tier_info.split("/"))
-                    at_name = atk_tier_nm(oa)  # 상대 공격 티어
-                    df_name = def_tier_nm(od)  # 상대 방어 티어
+                    at_name = atk_tier_nm(oa)  # 상대방의 공격 티어 (예: OA가 높으면 상대 공격이 A)
+                    df_name = def_tier_nm(od)  # 상대방의 방어 티어 (예: OD가 낮거나 높음에 따른 수비 티어)
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
-                    # 💡 [특수룰 정밀 교정] 10경기 평균 확정 체급(my_at, my_de) 기반 엄격 교차 대조
                     rule_descs = []
                     
-                    # 1. 공격 대칭 교차 룰 (내 공격력이 A고 상대 수비가 E이거나, 반대로 내 공격이 E고 상대 수비가 A일 때)
-                    if my_at == "Tier A" and (df_name == "Tier E" or od >= 2.0):
+                    # 💡 [정밀 교정] 
+                    # 1. 내 공격 관점: 내 체급(my_at)이 A이고 상대 수비 티어가 E(또는 수비 지표 od >= 1.7)일 때 -> 득점 할인 (-50%)
+                    if my_at == "Tier A" and (df_name == "Tier E" or od >= 1.7):
                         mult_gf = 0.5
-                        rule_descs.append("공격 A vs 상대수비 E (득점 50% 할인)")
-                    elif my_at == "Tier E" and (df_name == "Tier A" or od < 0.5):
+                        rule_descs.append(f"공격 A vs 상대수비 {df_name} (득점 50% 할인)")
+                    elif my_at == "Tier E" and (df_name == "Tier A" or od < 0.9):
                         mult_gf = 1.5
-                        rule_descs.append("공격 E vs 상대수비 A (득점 50% 할증)")
+                        rule_descs.append(f"공격 E vs 상대수비 {df_name} (득점 50% 할증)")
                         
-                    # 2. 방어 대칭 교차 룰 (내 방어력이 A고 상대 공격이 E이거나, 반대로 내 방어가 E고 상대 공격이 A일 때)
-                    if my_de == "Tier A" and (at_name == "Tier E" or oa < 0.5):
+                    # 2. 내 방어 관점: 내 체급(my_de)이 A이고 상대 공격 티어가 E(또는 공격 지표 oa < 1.1)일 때 -> 실점 할증 (+50%)
+                    if my_de == "Tier A" and (at_name == "Tier E" or oa < 1.1):
                         mult_ga = 1.5
-                        rule_descs.append("방어 A vs 상대공격 E (실점 50% 할증)")
+                        rule_descs.append(f"방어 A vs 상대공격 {at_name} (실점 50% 할증)")
                     elif my_de == "Tier E" and (at_name == "Tier A" or oa >= 2.3):
                         mult_ga = 0.5
-                        rule_descs.append("방어 E vs 상대공격 A (실점 50% 할인)")
+                        rule_descs.append(f"방어 E vs 상대공격 {at_name} (실점 50% 할인)")
                         
                     if rule_descs:
                         rule_desc = " / ".join(rule_descs)
