@@ -220,7 +220,18 @@ def run_table_based_crawler_v3_1():
                             
                             opponent_tier_info = "0.00/0.00"
                             if sub_m_id:
-                                opponent_tier_info = fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team)
+                                # 💡 [완벽 대칭 수정] 대진 문자열을 분석하여 우리 팀이 아닌 진짜 상대방 팀 특정
+                                actual_opponent = target_team
+                                if " vs " in teams_text:
+                                    parts = [p.strip() for p in teams_text.split(" vs ")]
+                                    if len(parts) == 2:
+                                        t1, t2 = parts[0], parts[1]
+                                        if target_team in t1:
+                                            actual_opponent = t2
+                                        elif target_team in t2:
+                                            actual_opponent = t1
+
+                                opponent_tier_info = fetch_opponent_stats_fast(driver, detail_url, sub_m_id, actual_opponent)
                                 driver.get(detail_url)
                                 time.sleep(0.1)
 
@@ -302,7 +313,7 @@ def run_table_based_crawler_v3_1():
         with open("match_details_v3-1.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: V3-1 (24~48시간 구간) 20개 확장 및 속도 최적화 완료 -> match_details_v3-1.json 저장 완료")
+        print(f"\n🎉 성공: V3-1 (24~48시간 구간) 20개 확장 및 원정/홈 상대 티어 대칭 매칭 완료 -> match_details_v3-1.json 저장 완료")
 
     finally:
         driver.quit()
