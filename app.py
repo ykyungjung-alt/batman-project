@@ -736,8 +736,13 @@ with tabs[2]:
         # 2. 원정팀 전적 추출 (3-2에 원정팀 데이터가 아예 없으므로 항상 기존 3번 딕셔너리의 원정 폼 고정 사용)
         s_away_matches = stadium_form.get("away_matches", [])[:10]
 
-        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=h_is_triggered)
-        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=a_is_triggered)
+        # 💡 [규칙 2번 전용 독립 발동 여부 판정 (구장별 폼 기준)]
+        s_h_is_triggered = check_trigger_status(s_home_matches, h_name, s_h_gpg, s_h_cpg) if 's_home_matches' in locals() and s_home_matches else False
+        s_a_is_triggered = check_trigger_status(s_away_matches, a_name, s_a_gpg, s_a_cpg) if 's_away_matches' in locals() and s_away_matches else False
+
+        # 구장별 폼을 반영한 local_make_df 호출 시 독립 발동 플래그 전달
+        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=s_h_is_triggered)
+        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=s_a_is_triggered)
 
         s_h_at, s_h_atw = atk_tier(s_h_gpg)
         s_h_de, s_h_dew = def_tier(s_h_cpg)
