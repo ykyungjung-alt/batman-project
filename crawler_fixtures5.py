@@ -50,7 +50,7 @@ def find_target_match_code(match_master_map, keyword="파리생제르맹"):
     return found_codes
 
 def crawl_player_details(session, headers, player_id):
-    """선수 고유 ID를 받아 image_5.png에 명시된 핵심 지표를 정확하게 파싱하고 등급(A~D)을 부여합니다."""
+    """선수 고유 ID를 받아 image_5.png의 <text>와 <span> 구조에 맞게 핵심 지표를 정확히 파싱합니다."""
     player_url = f"https://football.scoreman123.com/team/player/{player_id}"
     
     player_stats = {
@@ -67,21 +67,20 @@ def crawl_player_details(session, headers, player_id):
         if resp.status_code == 200:
             soup = BeautifulSoup(resp.text, 'html.parser')
             
-            # 💡 ul#techImportant 내부 li 항목들을 정확히 순회
+            # ul#techImportant 내부의 각 li 항목 탐색
             important_items = soup.select('ul#techImportant > li')
             matches = 0
             play_time = 0
             imp_stats = {}
             
             for item in important_items:
+                # 💡 핵심 수정: <text> 태그에서 직접 수치 데이터를 읽고, <span> 태그에서 라벨을 읽습니다.
+                text_tag = item.select_one('text')
                 span_tag = item.select_one('span')
-                if span_tag:
+                
+                if text_tag and span_tag:
+                    val = text_tag.text.strip()
                     label = span_tag.text.strip()
-                    
-                    # span 태그를 제외한 나머지 text 내용(숫자 값)만 추출
-                    # 예: <text>3</text> 혹은 태그 없이 텍스트가 있는 경우 모두 대응
-                    span_tag.decompose() # 라벨 span을 잠시 들어내고 남은 숫자 텍스트 획득
-                    val = item.text.strip()
                     
                     imp_stats[label] = val
                     
@@ -121,7 +120,6 @@ def crawl_player_details(session, headers, player_id):
         print(f"⚠️ [선수 스탯 파싱 오류 - ID: {player_id}]: {e}")
         
     return player_stats
-
 def crawl_match_lineups_v5():
     print("\n🚀 [Crawler V5 - ID 추출 개선 및 타임슬립 적용 모드] 시작...")
     
