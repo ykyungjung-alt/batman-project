@@ -1,12 +1,74 @@
 {
-    "last_updated": "2026-10-20 06:39:35",
+    "last_updated": "2026-10-20 06:44:18",
     "lineup_details": {
-        "3101574": {
-            "match_code": "3101574",
-            "home": "15 de Agosto",
-            "away": "심바",
-            "home_absentees": [],
-            "away_absentees": []
+        "3073077": {
+            "match_code": "3073077",
+            "home": "파리생제르맹",
+            "away": "바르셀로나",
+            "home_absentees": [
+                {
+                    "number": "25",
+                    "name": "누누 멘데스",
+                    "status": "결장"
+                },
+                {
+                    "number": "24",
+                    "name": "세니 마율루",
+                    "status": "결장"
+                },
+                {
+                    "number": "16",
+                    "name": "Alessandro Longoni",
+                    "status": "결장"
+                },
+                {
+                    "number": "",
+                    "name": "",
+                    "status": "출전의심/기타"
+                },
+                {
+                    "number": "",
+                    "name": "",
+                    "status": "출전의심/기타"
+                },
+                {
+                    "number": "",
+                    "name": "",
+                    "status": "출전의심/기타"
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "15",
+                    "name": "안드레아스 크리스텐센",
+                    "status": "출전의심/기타"
+                },
+                {
+                    "number": "21",
+                    "name": "프렌키 데 용",
+                    "status": "출전의심/기타"
+                },
+                {
+                    "number": "23",
+                    "name": "쥘 쿤데",
+                    "status": "출전의심/기타"
+                },
+                {
+                    "number": "24",
+                    "name": "에릭 가르시아",
+                    "status": "출전의심/기타"
+                },
+                {
+                    "number": "19",
+                    "name": "루니 바르다지",
+                    "status": "출전의심/기타"
+                },
+                {
+                    "number": "18",
+                    "name": "게라르드 마르틴",
+                    "status": "출전의심/기타"
+                }
+            ]
         }
     }
 }
