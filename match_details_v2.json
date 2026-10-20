@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-20 09:48:22",
+    "last_updated": "2026-10-20 12:38:00",
     "match_details": {
         "3073151": {
             "match_code": "3073151",
@@ -115,7 +115,7 @@
                 "match_time_display": "2026-10-21 01:45",
                 "stadium": "Sukru Saracoglu Stadium",
                 "home_stadium": "Sukru Saracoglu Stadium",
-                "weather": "구름 조금,  17°C"
+                "weather": "구름 많음,  16℃～17℃"
             },
             "home": "페네르바체",
             "away": "슬라비아 프라하",
@@ -252,7 +252,7 @@
                 "match_time_display": "2026-10-21 04:00",
                 "stadium": "Parc des Princes",
                 "home_stadium": "Parc des Princes",
-                "weather": "흐림,  12°C"
+                "weather": "구름 많음,  11℃～12℃"
             },
             "home": "파리생제르망",
             "away": "바르셀로나",
@@ -445,7 +445,7 @@
                 "match_time_display": "2026-10-21 04:00",
                 "stadium": "Etihad Stadium",
                 "home_stadium": "Etihad Stadium",
-                "weather": "이슬비,  11°C"
+                "weather": "구름 많음,  10℃～11℃"
             },
             "home": "맨체스터 시티",
             "away": "AEK",
@@ -550,7 +550,7 @@
                 "match_time_display": "2026-10-21 04:00",
                 "stadium": "Mercedes-Benz Arena",
                 "home_stadium": "Mercedes-Benz Arena",
-                "weather": "흐림,  11°C"
+                "weather": "구름 조금,  11℃～12℃"
             },
             "home": "VfB 슈투트가르트",
             "away": "AT 마드리드",
@@ -669,7 +669,7 @@
                 "match_time_display": "2026-10-21 04:00",
                 "stadium": "Anfield",
                 "home_stadium": "Anfield",
-                "weather": "이슬비,  11°C"
+                "weather": "이슬비,  9℃～10℃"
             },
             "home": "리버풀",
             "away": "비야레알",
@@ -822,7 +822,7 @@
                 "match_time_display": "2026-10-21 04:00",
                 "stadium": "Dragon Stadium",
                 "home_stadium": "Dragon Stadium",
-                "weather": "흐림,  16°C"
+                "weather": "구름 많음,  14℃～15℃"
             },
             "home": "FC 포르투",
             "away": "PSV 아인트호벤",
@@ -943,7 +943,7 @@
                 "match_time_display": "2026-10-21 04:00",
                 "stadium": "Stadio Olimpico",
                 "home_stadium": "Stadio Olimpico",
-                "weather": "흐림,  21°C"
+                "weather": "구름 조금,  21℃～22℃"
             },
             "home": "AS 로마",
             "away": "슬로반 브라티슬라바",
@@ -1072,7 +1072,7 @@
                 "match_time_display": "2026-10-21 04:00",
                 "stadium": "Stadio Diego Armando Maradona",
                 "home_stadium": "Stadio Diego Armando Maradona",
-                "weather": "흐림,  21°C"
+                "weather": "구름 많음,  20℃～21℃"
             },
             "home": "나폴리",
             "away": "보되",
@@ -1177,7 +1177,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Molineux Stadium",
                 "home_stadium": "Molineux Stadium",
-                "weather": "흐림,  10°C"
+                "weather": "구름 많음,  9℃～10℃"
             },
             "home": "울버햄튼",
             "away": "포츠머스",
@@ -1228,11 +1228,29 @@
                 "h2h": {
                     "summary": [
                         "승 0 (0%)",
-                        "무승부 2 (100%)",
-                        "0.00",
-                        "경기당 득점"
+                        "무승부 2 (50%)",
+                        "승 2 (50%)",
+                        "0.25",
+                        "경기당 득점",
+                        "1.00"
                     ],
                     "matches": [
+                        {
+                            "row_data": [
+                                "ENG PR2010.05.01",
+                                "포츠머스",
+                                "3-1",
+                                "울버햄튼"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2009.10.03",
+                                "울버햄튼",
+                                "0-1",
+                                "포츠머스"
+                            ]
+                        },
                         {
                             "row_data": [
                                 "ENG PR2004.01.31",
@@ -1304,7 +1322,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Plou Stadium",
                 "home_stadium": "Plou Stadium",
-                "weather": "이슬비,  12°C"
+                "weather": "구름 많음,  10℃～11℃"
             },
             "home": "윔블던",
             "away": "맨스필드",
@@ -1497,7 +1515,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Bloomfield Road",
                 "home_stadium": "Bloomfield Road",
-                "weather": "이슬비,  11°C"
+                "weather": "구름 많음,  10℃～11℃"
             },
             "home": "블랙풀",
             "away": "밀턴",
@@ -1690,7 +1708,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "",
                 "home_stadium": "The Courage Stadium",
-                "weather": "이슬비,  12°C"
+                "weather": "구름 많음,  10℃～11℃"
             },
             "home": "브롬리",
             "away": "레스터",
@@ -1795,7 +1813,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Pirelli Stadium",
                 "home_stadium": "Pirelli Stadium",
-                "weather": "흐림,  11°C"
+                "weather": "이슬비,  11°C"
             },
             "home": "버튼",
             "away": "브래드포드 시티",
@@ -1988,7 +2006,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Abbey Stadium",
                 "home_stadium": "Abbey Stadium",
-                "weather": "흐림,  12°C"
+                "weather": "구름 많음,  10℃～11℃"
             },
             "home": "케임브리지U",
             "away": "위컴",
@@ -2181,7 +2199,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Keepmoat Stadium",
                 "home_stadium": "Keepmoat Stadium",
-                "weather": "이슬비,  11°C"
+                "weather": "구름 많음,  9℃～10℃"
             },
             "home": "돈캐스터",
             "away": "스톡포트",
@@ -2374,7 +2392,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "John Smiths Stadium",
                 "home_stadium": "John Smiths Stadium",
-                "weather": "이슬비,  10°C"
+                "weather": "이슬비,  8℃～9℃"
             },
             "home": "허더스필드",
             "away": "피터버러",
@@ -2567,7 +2585,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Kenilworth Road",
                 "home_stadium": "Kenilworth Road",
-                "weather": "흐림,  10°C"
+                "weather": "구름 많음,  9℃～10℃"
             },
             "home": "루턴",
             "away": "반슬리",
@@ -2760,7 +2778,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Meadow Lane Stadium",
                 "home_stadium": "Meadow Lane Stadium",
-                "weather": "이슬비,  11°C"
+                "weather": "이슬비,  11℃～12℃"
             },
             "home": "노츠카운티",
             "away": "셰필드W",
@@ -2921,7 +2939,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Kassem Stadium",
                 "home_stadium": "Kassem Stadium",
-                "weather": "흐림,  11°C"
+                "weather": "이슬비,  9℃～10℃"
             },
             "home": "옥스포드U",
             "away": "위건",
@@ -3098,7 +3116,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "The Lamex Stadium",
                 "home_stadium": "The Lamex Stadium",
-                "weather": "흐림,  10°C"
+                "weather": "이슬비,  9℃～10℃"
             },
             "home": "스티버니지",
             "away": "플리머스",
@@ -3452,7 +3470,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "이슬비,  11°C"
+                "weather": "흐림,  11°C"
             },
             "home": "안스테이 노마즈",
             "away": "매클즈필드",
@@ -3690,7 +3708,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "",
                 "home_stadium": "Gigg Lane",
-                "weather": "이슬비,  11°C"
+                "weather": "구름 많음,  10℃～11℃"
             },
             "home": "FC 유나이티드",
             "away": "알트린참",
@@ -4139,7 +4157,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Wetherby Road",
                 "home_stadium": "Wetherby Road",
-                "weather": "이슬비,  10°C"
+                "weather": "구름 많음,  8℃～9℃"
             },
             "home": "해러게이트",
             "away": "버리",
@@ -4258,7 +4276,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "흐림,  10°C"
+                "weather": "구름 많음,  9℃～10℃"
             },
             "home": "스태포드",
             "away": "게이츠헤드",
@@ -4448,7 +4466,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "",
                 "home_stadium": "St George's Lane",
-                "weather": "흐림,  10°C"
+                "weather": "구름 많음,  9℃～10℃"
             },
             "home": "우스터",
             "away": "촐리",
@@ -4617,7 +4635,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "Huish Park",
                 "home_stadium": "Huish Park",
-                "weather": "흐림,  9°C"
+                "weather": "구름 많음,  10℃～11℃"
             },
             "home": "요빌",
             "away": "레더헤드",
@@ -4736,7 +4754,7 @@
                 "match_time_display": "2026-10-21 03:45",
                 "stadium": "",
                 "home_stadium": "East End Park",
-                "weather": "이슬비,  9°C"
+                "weather": "구름 많음,  9℃～10℃"
             },
             "home": "던펌린",
             "away": "파틱 티슬",
@@ -4929,7 +4947,7 @@
                 "match_time_display": "2026-10-21 02:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  26°C"
+                "weather": "맑음,  26°C"
             },
             "home": "와디 데글라",
             "away": "이집트 국립은행",
@@ -6301,7 +6319,7 @@
                 "match_time_display": "2026-10-21 00:30",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  30°C"
+                "weather": "이슬비,  30°C"
             },
             "home": "OFC Adiake",
             "away": "촐로고",
@@ -6348,7 +6366,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "ENG U21-16",
+                        "rank": "ENG U21-19",
                         "team": "웨스트햄 U21",
                         "played": "5",
                         "win": "1",
@@ -6449,7 +6467,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "ENG U21-10",
+                        "rank": "ENG U21-11",
                         "team": "에버턴 U21",
                         "played": "5",
                         "win": "2",
@@ -6554,7 +6572,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "ENG U21-17",
+                        "rank": "ENG U21-20",
                         "team": "스토크시티 U21",
                         "played": "5",
                         "win": "1",
@@ -6665,8 +6683,8 @@
                     },
                     "away_summary": {
                         "recent_record": "3승 2무 5패",
-                        "goals_per_game": "1.50",
-                        "conceded_per_game": "1.80"
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "1.90"
                     },
                     "matches": []
                 },
@@ -6730,7 +6748,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "ENG U21-2",
+                        "rank": "ENG U21-5",
                         "team": "사우샘프턴 U21",
                         "played": "4",
                         "win": "3",
@@ -7149,82 +7167,6 @@
                             "league": "프리미어리그",
                             "match_time": "2026-11-05 13:00:00",
                             "teams": "11.05 2026 vs 익스프레스 FC vs 블랙스 파워 vs 15 일",
-                            "interval": "15 일"
-                        }
-                    ]
-                }
-            }
-        },
-        "3074507": {
-            "match_code": "3074507",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "",
-                "match_time_raw": "10/21/2026 1:00:00 PM",
-                "match_time_display": "2026-10-21 22:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "키타라",
-            "away": "은투가사제",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "4승 3무 3패",
-                        "goals_per_game": "1.10",
-                        "conceded_per_game": "1.00"
-                    },
-                    "away_summary": {
-                        "recent_record": "4승 1무 5패",
-                        "goals_per_game": "1.10",
-                        "conceded_per_game": "1.30"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [],
-                    "matches": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "CAF 컨페더레이션스컵",
-                            "match_time": "2026-10-24 15:00:00",
-                            "teams": "10.24 2026 vs 알 아흘리 vs 키타라 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-28 13:00:00",
-                            "teams": "10.28 2026 vs 키타라 vs BUL vs 7 일",
-                            "interval": "7 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-31 13:00:00",
-                            "teams": "10.31 2026 vs UPDF vs 키타라 vs 10 일",
-                            "interval": "10 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-27 13:00:00",
-                            "teams": "10.27 2026 vs NEC FC vs 은투가사제 vs 6 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-01 13:00:00",
-                            "teams": "11.01 2026 vs 은투가사제 vs 익스프레스 FC vs 11 일",
-                            "interval": "11 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-05 13:00:00",
-                            "teams": "11.05 2026 vs 은투가사제 vs Entebbe UPPC vs 15 일",
                             "interval": "15 일"
                         }
                     ]
