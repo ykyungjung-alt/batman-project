@@ -709,12 +709,10 @@ with tabs[2]:
             if active_stadium_form and active_stadium_form.get("home_matches"):
                 recent_all_pool = active_stadium_form.get("home_matches", [])
             else:
-                # 3-2에 데이터가 없으면 아쉬운대로 기존 3번 딕셔너리(stadium_form 또는 h_matches)에서 폴백
                 recent_all_pool = stadium_form.get("recent_matches", []) if "recent_matches" in stadium_form else []
                 if not recent_all_pool and 'h_matches' in locals():
                     recent_all_pool = h_matches
 
-            # 홈팀의 원정/중립 성격 경기 필터링 (최대 10개)
             neutral_home_away_matches = []
             for m in recent_all_pool:
                 teams_str = str(m.get("teams", ""))
@@ -730,17 +728,38 @@ with tabs[2]:
 
             s_home_matches = neutral_home_away_matches[:10]
         else:
-            # 일반 홈경기일 때는 기존 3번 딕셔너리의 홈구장 전적 사용
             s_home_matches = stadium_form.get("home_matches", [])[:10]
 
-        # 2. 원정팀 전적 추출 (3-2에 원정팀 데이터가 아예 없으므로 항상 기존 3번 딕셔너리의 원정 폼 고정 사용)
+        # 2. 원정팀 전적 추출
         s_away_matches = stadium_form.get("away_matches", [])[:10]
 
-        # 💡 [규칙 2번 전용 독립 발동 여부 판정 (구장별 폼 기준)]
-        s_h_is_triggered = check_trigger_status(s_home_matches, h_name, s_h_gpg, s_h_cpg) if 's_home_matches' in locals() and s_home_matches else False
-        s_a_is_triggered = check_trigger_status(s_away_matches, a_name, s_a_gpg, s_a_cpg) if 's_away_matches' in locals() and s_away_matches else False
+        # 💡 [핵심 보완] 구장별 전적의 기본 평균 득실을 먼저 산출하여 규칙 2번 전용 특수 룰 판단 준비
+        def get_base_gpg_cpg(matches, tname):
+            if not matches: return 0.0, 0.0
+            s_sum, c_sum = 0.0, 0.0
+            for m in matches:
+                scores = m.get("ft_scores", ["0", "0"])
+                try: s1, s2 = int(scores[0]), int(scores[1])
+                except: s1 = s2 = 0
+                teams = m.get("teams", "")
+                sc, cc = s1, s2
+                if " vs " in teams:
+                    t1, t2 = teams.split(" vs ")
+                    if tname in t1: sc, cc = s1, s2
+                    elif tname in t2: sc, cc = s2, s1
+                s_sum += sc
+                c_sum += cc
+            cnt = len(matches)
+            return (s_sum / cnt if cnt > 0 else 0.0), (c_sum / cnt if cnt > 0 else 0.0)
 
-        # 구장별 폼을 반영한 local_make_df 호출 시 독립 발동 플래그 전달
+        s_h_gpg_base, s_h_cpg_base = get_base_gpg_cpg(s_home_matches, h_name)
+        s_a_gpg_base, s_a_cpg_base = get_base_gpg_cpg(s_away_matches, a_name)
+
+        # 💡 [규칙 2번 전용 독립 발동 여부 판정 (구장별 폼 기준)]
+        s_h_is_triggered = check_trigger_status(s_home_matches, h_name, s_h_gpg_base, s_h_cpg_base) if s_home_matches else False
+        s_a_is_triggered = check_trigger_status(s_away_matches, a_name, s_a_gpg_base, s_a_cpg_base) if s_away_matches else False
+
+        # 구장별 폼을 반영한 local_make_df 호출 시 규칙 2번 전용 독립 발동 플래그 전달
         s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=s_h_is_triggered)
         s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=s_a_is_triggered)
 
