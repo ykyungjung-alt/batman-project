@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-20 18:39:24",
+    "last_updated": "2026-10-20 21:46:33",
     "match_details": {
         "3073151": {
             "match_code": "3073151",
@@ -4938,6 +4938,85 @@
                 }
             }
         },
+        "3101574": {
+            "match_code": "3101574",
+            "head_info": {
+                "league": "CAF 챔피언스리그",
+                "round": "",
+                "match_time_raw": "10/21/2026 12:00:00 PM",
+                "match_time_display": "2026-10-21 21:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "구름 조금,  29°C"
+            },
+            "home": "15 de Agosto",
+            "away": "심바",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "Tanzania PL-1",
+                        "team": "심바",
+                        "played": "8",
+                        "win": "8",
+                        "draw": "0",
+                        "loss": "0",
+                        "goals_for": "19",
+                        "goals_against": "4",
+                        "goal_diff": "15",
+                        "points": "24"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 1무 4패",
+                        "goals_per_game": "1.38",
+                        "conceded_per_game": "1.13"
+                    },
+                    "away_summary": {
+                        "recent_record": "10승 0무 0패",
+                        "goals_per_game": "2.60",
+                        "conceded_per_game": "0.50"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "CAF 챔피언스리그",
+                            "match_time": "2026-10-25 13:00:00",
+                            "teams": "10.25 2026 vs 심바 vs 15 de Agosto vs 4 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "CAF 챔피언스리그",
+                            "match_time": "2026-10-25 13:00:00",
+                            "teams": "10.25 2026 vs 심바 vs 15 de Agosto vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "리기 쿠 바라",
+                            "match_time": "2026-10-28 13:00:00",
+                            "teams": "10.28 2026 vs 파운틴 게이트 vs 심바 vs 7 일",
+                            "interval": "7 일"
+                        },
+                        {
+                            "league": "리기 쿠 바라",
+                            "match_time": "2026-11-02 16:00:00",
+                            "teams": "11.02 2026 vs 심바 vs 나문고 vs 12 일",
+                            "interval": "12 일"
+                        }
+                    ]
+                }
+            }
+        },
         "3059476": {
             "match_code": "3059476",
             "head_info": {
@@ -5970,6 +6049,131 @@
                             "interval": "30 일"
                         }
                     ]
+                }
+            }
+        },
+        "3104520": {
+            "match_code": "3104520",
+            "head_info": {
+                "league": "프리미어리그",
+                "round": "",
+                "match_time_raw": "10/21/2026 1:00:00 PM",
+                "match_time_display": "2026-10-21 22:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "가소기 유나이티드",
+            "away": "고릴라",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 4무 3패",
+                        "goals_per_game": "1.20",
+                        "conceded_per_game": "1.30"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "0.90",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 4 (40%)",
+                        "무승부 3 (30%)",
+                        "승 3 (30%)",
+                        "1.60",
+                        "경기당 득점"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "RWA D12026.04.17",
+                                "가소기 유나이티드",
+                                "2-1",
+                                "고릴라"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12026.01.12",
+                                "고릴라",
+                                "1-2",
+                                "가소기 유나이티드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12024.11.30",
+                                "가소기 유나이티드",
+                                "2-2",
+                                "고릴라"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12024.02.17",
+                                "가소기 유나이티드",
+                                "1-0",
+                                "고릴라"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12023.10.10",
+                                "고릴라",
+                                "2-2",
+                                "가소기 유나이티드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12023.02.03",
+                                "고릴라",
+                                "1-2",
+                                "가소기 유나이티드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12022.11.12",
+                                "가소기 유나이티드",
+                                "2-3",
+                                "고릴라"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12022.04.22",
+                                "고릴라",
+                                "3-1",
+                                "가소기 유나이티드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12021.12.17",
+                                "가소기 유나이티드",
+                                "0-1",
+                                "고릴라"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "RWA D12021.05.26",
+                                "가소기 유나이티드",
+                                "2-2",
+                                "고릴라"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         },
