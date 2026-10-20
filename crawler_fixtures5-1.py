@@ -10,25 +10,9 @@ from zoneinfo import ZoneInfo
 # 💡 [속도 최적화] 동일한 구단 summary URL의 선수 명단은 캐싱하여 중복 접속 방지
 _team_squad_cache = {}
 
-def convert_market_value_to_krw(val_str):
-    if not val_str or val_str == "-" or "£" not in val_str:
-        return "-"
-    try:
-        clean_val = val_str.replace("£", "").replace("M", "").strip()
-        mil_val = float(clean_val)
-        krw_billion = mil_val * 1800  # 파운드당 대략적인 원화 환산 (억 원 단위)
-        if krw_billion >= 10000:
-            조 = krw_billion // 10000
-            억 = krw_billion % 10000
-            return f"{int(조)}조 {int(억)}억원"
-        else:
-            return f"{int(krw_billion)}억원"
-    except Exception:
-        return val_str
-
 def parse_team_squad(driver, team_summary_url):
     """
-    💡 선수 이름 중복 및 밀림 현상을 원천 차단하고 이름/포지션/나이를 정확히 타겟팅하는 파서
+    💡 이미지 alt 속성 중복을 막고, 몸값/원화 환산 없이 이름, 포지션, 나이만 정확히 수집하는 정밀 파서
     """
     if team_summary_url in _team_squad_cache:
         return _team_squad_cache[team_summary_url]
@@ -47,7 +31,7 @@ def parse_team_squad(driver, team_summary_url):
         
         for li in player_items:
             try:
-                # 1. 선수 이름은 오직 'span.name' 내부에서만 정확히 추출 (아바타 alt 등 간섭 원천 차단)
+                # 1. [이름 추출] 오직 'span.name' 내부에서만 정확히 추출 (img alt 속성 간섭 원천 차단)
                 name_span = li.find("span", class_="name")
                 player_name = ""
                 if name_span:
@@ -59,33 +43,26 @@ def parse_team_squad(driver, team_summary_url):
                     else:
                         player_name = name_span.get_text(strip=True)
 
-                # 2. 이름 영역을 제외한 나머지 li 직계 span 태그들만 순서대로 수집
-                # (보통 순서대로: 포지션, 나이, 몸값, 계약만료 가 위치함)
+                # 2. [나머지 데이터 추출] name 영역을 제외한 li 직계 span들만 순서대로 수집
                 child_spans = li.find_all("span", recursive=False)
                 
                 valid_texts = []
                 for s in child_spans:
-                    # name 래퍼 자체는 건너뜀
                     if "name" in s.get("class", []):
                         continue
                     txt = s.get_text(strip=True)
                     if txt:
                         valid_texts.append(txt)
 
-                # 3. 데이터 매핑 (첫 번째: 포지션, 두 번째: 나이)
+                # 3. [데이터 매핑] 첫 번째: 포지션, 두 번째: 나이 (몸값 및 계약일 등은 제외)
                 position = valid_texts[0] if len(valid_texts) > 0 else "-"
                 age = valid_texts[1] if len(valid_texts) > 1 else "-"
                 
-                # 몸값은 안 나와도 무방하므로 고정 혹은 변환 생략 가능
-                market_value = valid_texts[2] if len(valid_texts) > 2 else "-"
-                krw_value = convert_market_value_to_krw(market_value)
-
                 if player_name:
                     player_info = {
                         "name": player_name,
                         "position": position,
-                        "age": age,
-                        "market_value_krw": krw_value
+                        "age": age
                     }
                     squad_list.append(player_info)
             except Exception:
@@ -96,6 +73,7 @@ def parse_team_squad(driver, team_summary_url):
         
     _team_squad_cache[team_summary_url] = squad_list
     return squad_list
+
 def run_squad_crawler_v5_1():
     if not os.path.exists("data.json"):
         print("❌ data.json 파일이 존재하지 않습니다.")
@@ -149,7 +127,7 @@ def run_squad_crawler_v5_1():
             except Exception:
                 continue
 
-    # 💡 [테스트용 제한] 1개 경기 테스트 (전체 수집 시 주석 처리)
+    # 💡 [테스트용 제한] 1개 경기 테스트 (전체 수집 시 주석 처리 가능)
     target_matches = target_matches[:1]
     print(f"🎯 [V5-1] 총 {len(target_matches)}개 경기 선수 명단 수집 시작")
 
