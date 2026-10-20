@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-20 16:31:25",
+    "last_updated": "2026-10-20 19:31:26",
     "match_details": {
         "3101574": {
             "match_code": "3101574",
@@ -6505,6 +6505,128 @@
                 "stadium_form": {
                     "form_title": "구장별 전적",
                     "home_team_name": "OFC Adiake",
+                    "home_matches": []
+                }
+            }
+        },
+        "3104495": {
+            "match_code": "3104495",
+            "head_info": {
+                "league": "디베히어 프리미어리그",
+                "round": ""
+            },
+            "home": "마지야",
+            "away": "Biss Buru SC",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "마지야",
+                    "home_matches": [
+                        {
+                            "league": "Maldives P L",
+                            "match_time": "2026.10.15",
+                            "teams": "마지야 vs TC 스포츠클럽",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.40/2.10"
+                        },
+                        {
+                            "league": "Maldives P L",
+                            "match_time": "2026.10.10",
+                            "teams": "마지야 vs 유나이티드 빅토리",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.10/3.70"
+                        },
+                        {
+                            "league": "Maldives P L",
+                            "match_time": "2026.09.17",
+                            "teams": "마지야 vs 뉴 라디안트",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.60/1.10"
+                        },
+                        {
+                            "league": "ACGL",
+                            "match_time": "2026.08.12",
+                            "teams": "마지야 vs 레가르-타다즈",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.70/0.70"
+                        },
+                        {
+                            "league": "ACGL",
+                            "match_time": "2025.08.12",
+                            "teams": "마지야 vs 알 아라비",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.10/0.90"
+                        },
+                        {
+                            "league": "ACGL",
+                            "match_time": "2024.11.01",
+                            "teams": "마지야 vs 아브디시-아타",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.00/0.40"
+                        },
+                        {
+                            "league": "ACGL",
+                            "match_time": "2024.10.29",
+                            "teams": "마지야 vs 알 아라비",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.50/1.10"
+                        },
+                        {
+                            "league": "ACGL",
+                            "match_time": "2024.10.26",
+                            "teams": "아르카닥 vs 마지야",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "3.10/1.40"
+                        },
+                        {
+                            "league": "Maldives P L",
+                            "match_time": "2023.12.19",
+                            "teams": "마지야 vs 클럽 이글스",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "4.20/1.70"
+                        },
+                        {
+                            "league": "Maldives P L",
+                            "match_time": "2023.12.15",
+                            "teams": "마지야 vs TC 스포츠클럽",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.70/1.40"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "마지야",
                     "home_matches": []
                 }
             }
