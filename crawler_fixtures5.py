@@ -83,7 +83,7 @@ def crawl_match_lineups_v5():
                     rows = hurt_box.select('ul.lineupbox li.lineuplis')
                     print(f"   - 탐색된 결장 선수 행(Row) 개수: {len(rows)}개")
                     
-                    for r_idx, row in enumerate(rows, 1):
+                    for row in rows:
                         # 홈팀 결장자 정보 추출
                         home_div = row.select_one('div.home')
                         if home_div:
@@ -114,6 +114,7 @@ def crawl_match_lineups_v5():
                 else:
                     print(f"⚠️ [경고] 페이지 내에서 'div#hurtLineup' 요소를 찾지 못했습니다. 구조가 다를 수 있습니다.")
 
+                # 💡 기본 인포 구조에 맞춘 저장 형태
                 result_data["lineup_details"][m_code] = {
                     "match_code": m_code,
                     "home_absentees": home_absentees,
