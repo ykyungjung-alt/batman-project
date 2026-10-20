@@ -1,1882 +1,320 @@
 {
-    "last_updated": "2026-10-21 03:36:16",
-    "match_details": {
+    "last_updated": "2026-10-21 03:42:56",
+    "squad_details": {
         "3073077": {
             "match_code": "3073077",
-            "head_info": {
-                "league": "챔피언스리그",
-                "round": ""
-            },
             "home": "파리생제르망",
             "away": "바르셀로나",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "파리생제르망",
-                    "home_matches": [
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.10.17",
-                            "teams": "스트라스부르 vs 파리생제르망",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "2.30/1.30"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.14",
-                            "teams": "맨체스터 시티 vs 파리생제르망",
-                            "ft_scores": [
-                                "2",
-                                "4"
-                            ],
-                            "opponent_tier_info": "2.00/1.20"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.10.10",
-                            "teams": "파리생제르망 vs 르망",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.50"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.09.20",
-                            "teams": "마르세유 vs 파리생제르망",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.60/1.40"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.09.13",
-                            "teams": "브레스트 vs 파리생제르망",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.60/1.60"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.09",
-                            "teams": "파리생제르망 vs 슬로반 브라티슬라바",
-                            "ft_scores": [
-                                "6",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.50/0.80"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.09.04",
-                            "teams": "파리생제르망 vs 모나코",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.10/1.30"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.08.28",
-                            "teams": "릴 vs 파리생제르망",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.10/1.20"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.08.23",
-                            "teams": "렌 vs 파리생제르망",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.10/1.20"
-                        },
-                        {
-                            "league": "FRA SC",
-                            "match_time": "2026.08.16",
-                            "teams": "랑스 vs 파리생제르망",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.60/1.50"
-                        },
-                        {
-                            "league": "UEFA SC",
-                            "match_time": "2026.08.12",
-                            "teams": "파리생제르망 vs 아스톤 빌라",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.60/1.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "맨체스터 유나이티드 vs 파리생제르망",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.90/1.30"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.05",
-                            "teams": "마요르카 vs 파리생제르망",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.00/1.20"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.05.30",
-                            "teams": "파리생제르망 vs 아스널",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.20/0.60"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.05.17",
-                            "teams": "파리 FC vs 파리생제르망",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.20/0.90"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.05.13",
-                            "teams": "랑스 vs 파리생제르망",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.30/1.00"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.05.10",
-                            "teams": "파리생제르망 vs 브레스트",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.30/1.80"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.05.06",
-                            "teams": "바이에른 뮌헨 vs 파리생제르망",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.80/0.90"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.05.02",
-                            "teams": "파리생제르망 vs 로리앙",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.30/1.40"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.04.28",
-                            "teams": "파리생제르망 vs 바이에른 뮌헨",
-                            "ft_scores": [
-                                "5",
-                                "4"
-                            ],
-                            "opponent_tier_info": "3.30/1.30"
-                        }
-                    ],
-                    "away_team_name": "바르셀로나",
-                    "away_matches": [
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.17",
-                            "teams": "베티스 vs 바르셀로나",
-                            "ft_scores": [
-                                "2",
-                                "5"
-                            ],
-                            "opponent_tier_info": "4.30/0.90"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.13",
-                            "teams": "갈라타사라이 vs 바르셀로나",
-                            "ft_scores": [
-                                "1",
-                                "4"
-                            ],
-                            "opponent_tier_info": "4.10/0.90"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.10",
-                            "teams": "바르셀로나 vs 헤타페",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.90/1.10"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.19",
-                            "teams": "세비야 vs 바르셀로나",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "4.00/1.10"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.16",
-                            "teams": "바르셀로나 vs 라싱 산탄데르",
-                            "ft_scores": [
-                                "7",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.40/1.90"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.13",
-                            "teams": "레반테 vs 바르셀로나",
-                            "ft_scores": [
-                                "2",
-                                "4"
-                            ],
-                            "opponent_tier_info": "3.20/0.90"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.09",
-                            "teams": "바르셀로나 vs 페예노르트",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.80/1.10"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.06",
-                            "teams": "발렌시아 vs 바르셀로나",
-                            "ft_scores": [
-                                "0",
-                                "5"
-                            ],
-                            "opponent_tier_info": "2.70/1.20"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.31",
-                            "teams": "바르셀로나 vs 라요 바예카노",
-                            "ft_scores": [
-                                "5",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.20/1.40"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.27",
-                            "teams": "바르셀로나 vs 아틀레틱 빌바오",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.70/1.20"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.23",
-                            "teams": "엘체 vs 바르셀로나",
-                            "ft_scores": [
-                                "0",
-                                "5"
-                            ],
-                            "opponent_tier_info": "2.00/1.20"
-                        },
-                        {
-                            "league": "GAM T",
-                            "match_time": "2026.08.19",
-                            "teams": "바르셀로나 vs 알 아흘리",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.90/1.20"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.16",
-                            "teams": "바젤 vs 바르셀로나",
-                            "ft_scores": [
-                                "2",
-                                "5"
-                            ],
-                            "opponent_tier_info": "1.70/1.00"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "우디네세 vs 바르셀로나",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.90/1.00"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "바르셀로나 vs 노팅엄",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.50/2.00"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.31",
-                            "teams": "버밍엄 vs 바르셀로나",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.10/0.90"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.24",
-                            "teams": "바르셀로나 vs CE 유로파",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.50/1.60"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.23",
-                            "teams": "발렌시아 vs 바르셀로나",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.80/0.80"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.17",
-                            "teams": "바르셀로나 vs 베티스",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.60/1.40"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.13",
-                            "teams": "알라베스 vs 바르셀로나",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.30/0.80"
-                        }
-                    ]
+            "home_squad": [
+                {
+                    "name": "크비차 크바라트스켈리아",
+                    "position": "크비차 크바라트스켈리아#7 조지아",
+                    "age": "크비차 크바라트스켈리아#7 조지아",
+                    "market_value_krw": "-"
                 },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "파리생제르망",
-                    "home_matches": [
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.10.10",
-                            "teams": "파리생제르망 vs 르망",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.50"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.09",
-                            "teams": "파리생제르망 vs 슬로반 브라티슬라바",
-                            "ft_scores": [
-                                "6",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.50/0.80"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.09.04",
-                            "teams": "파리생제르망 vs 모나코",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.10/1.30"
-                        },
-                        {
-                            "league": "UEFA SC",
-                            "match_time": "2026.08.12",
-                            "teams": "파리생제르망 vs 아스톤 빌라",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.60/1.50"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.05.30",
-                            "teams": "파리생제르망 vs 아스널",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.20/0.60"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.05.10",
-                            "teams": "파리생제르망 vs 브레스트",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.30/1.80"
-                        },
-                        {
-                            "league": "FRA D1",
-                            "match_time": "2026.05.02",
-                            "teams": "파리생제르망 vs 로리앙",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.30/1.40"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.04.28",
-                            "teams": "파리생제르망 vs 바이에른 뮌헨",
-                            "ft_scores": [
-                                "5",
-                                "4"
-                            ],
-                            "opponent_tier_info": "3.30/1.30"
-                        }
-                    ],
-                    "away_team_name": "바르셀로나",
-                    "away_matches": [
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.17",
-                            "teams": "베티스 vs 바르셀로나",
-                            "ft_scores": [
-                                "2",
-                                "5"
-                            ],
-                            "opponent_tier_info": "4.30/0.90"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.13",
-                            "teams": "갈라타사라이 vs 바르셀로나",
-                            "ft_scores": [
-                                "1",
-                                "4"
-                            ],
-                            "opponent_tier_info": "4.10/0.90"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.19",
-                            "teams": "세비야 vs 바르셀로나",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "4.00/1.10"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.13",
-                            "teams": "레반테 vs 바르셀로나",
-                            "ft_scores": [
-                                "2",
-                                "4"
-                            ],
-                            "opponent_tier_info": "3.20/0.90"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.06",
-                            "teams": "발렌시아 vs 바르셀로나",
-                            "ft_scores": [
-                                "0",
-                                "5"
-                            ],
-                            "opponent_tier_info": "2.70/1.20"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.23",
-                            "teams": "엘체 vs 바르셀로나",
-                            "ft_scores": [
-                                "0",
-                                "5"
-                            ],
-                            "opponent_tier_info": "2.00/1.20"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.16",
-                            "teams": "바젤 vs 바르셀로나",
-                            "ft_scores": [
-                                "2",
-                                "5"
-                            ],
-                            "opponent_tier_info": "1.70/1.00"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "우디네세 vs 바르셀로나",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.90/1.00"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.31",
-                            "teams": "버밍엄 vs 바르셀로나",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.10/0.90"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.23",
-                            "teams": "발렌시아 vs 바르셀로나",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.80/0.80"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.13",
-                            "teams": "알라베스 vs 바르셀로나",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.30/0.80"
-                        }
-                    ]
-                }
-            }
-        },
-        "3073089": {
-            "match_code": "3073089",
-            "head_info": {
-                "league": "챔피언스리그",
-                "round": ""
-            },
-            "home": "맨체스터 시티",
-            "away": "AEK",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "맨체스터 시티",
-                    "home_matches": [
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.10.17",
-                            "teams": "맨체스터 시티 vs 입스위치",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.10/1.90"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.14",
-                            "teams": "맨체스터 시티 vs 파리생제르망",
-                            "ft_scores": [
-                                "2",
-                                "4"
-                            ],
-                            "opponent_tier_info": "2.00/1.20"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.10.11",
-                            "teams": "리버풀 vs 맨체스터 시티",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "2.60/1.00"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.09.20",
-                            "teams": "맨체스터 시티 vs 선덜랜드",
-                            "ft_scores": [
-                                "5",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.20/0.90"
-                        },
-                        {
-                            "league": "ENG LC",
-                            "match_time": "2026.09.17",
-                            "teams": "맨체스터 시티 vs 노르위치",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.90/1.50"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.09.13",
-                            "teams": "맨체스터 유나이티드 vs 맨체스터 시티",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.80/1.10"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.08",
-                            "teams": "FC 포르투 vs 맨체스터 시티",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.70/1.10"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.09.05",
-                            "teams": "맨체스터 시티 vs 코번트리",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.30/1.20"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.08.28",
-                            "teams": "크리스탈팰리스 vs 맨체스터 시티",
-                            "ft_scores": [
-                                "1",
-                                "4"
-                            ],
-                            "opponent_tier_info": "1.80/1.00"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.08.23",
-                            "teams": "맨체스터 시티 vs 본머스",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "3.00/1.30"
-                        },
-                        {
-                            "league": "ENG FACS",
-                            "match_time": "2026.08.16",
-                            "teams": "아스널 vs 맨체스터 시티",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.10/1.00"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.09",
-                            "teams": "맨체스터 시티 vs AT 마드리드",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.50/1.40"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.05",
-                            "teams": "K리그 올스타 vs 맨체스터 시티",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.80/0.90"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.01",
-                            "teams": "맨체스터 시티 vs 인터밀란",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.50/1.20"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.05.24",
-                            "teams": "맨체스터 시티 vs 아스톤 빌라",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.30/1.20"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.05.19",
-                            "teams": "본머스 vs 맨체스터 시티",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.40/0.50"
-                        },
-                        {
-                            "league": "ENG FAC",
-                            "match_time": "2026.05.16",
-                            "teams": "첼시 vs 맨체스터 시티",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.40/0.70"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.05.13",
-                            "teams": "맨체스터 시티 vs 크리스탈팰리스",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.50/1.40"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.05.09",
-                            "teams": "맨체스터 시티 vs 브렌트퍼드",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/1.30"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.05.04",
-                            "teams": "에버턴 vs 맨체스터 시티",
-                            "ft_scores": [
-                                "3",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.90/0.90"
-                        }
-                    ],
-                    "away_team_name": "AEK",
-                    "away_matches": [
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.14",
-                            "teams": "샤흐타르 vs AEK",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.90/0.40"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.10.10",
-                            "teams": "AEK vs OFI 크레타",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.80/0.40"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.10.04",
-                            "teams": "AEK vs 파네톨리코스",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.20/1.60"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.09.20",
-                            "teams": "볼로스 vs AEK",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.80/0.50"
-                        },
-                        {
-                            "league": "GRE Cup",
-                            "match_time": "2026.09.17",
-                            "teams": "AEK vs 판세라이코스",
-                            "ft_scores": [
-                                "8",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.90/1.40"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.09.13",
-                            "teams": "아스테라스 트리폴리스 vs AEK",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.60/0.30"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.08",
-                            "teams": "AEK vs LASK",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "3.40/0.70"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.09.05",
-                            "teams": "AEK vs 아리스",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.70/1.40"
-                        },
-                        {
-                            "league": "GRE Cup",
-                            "match_time": "2026.09.02",
-                            "teams": "크리소우폴리스 vs AEK",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.40/0.80"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.08.30",
-                            "teams": "키피시아스 vs AEK",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.30/0.70"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.08.26",
-                            "teams": "AEK vs 레브스키 소피아",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.00/0.40"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.08.22",
-                            "teams": "AEK vs 이라클리스 1908",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.00/0.90"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.08.18",
-                            "teams": "레브스키 소피아 vs AEK",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.90/1.00"
-                        },
-                        {
-                            "league": "GRE S CUP",
-                            "match_time": "2026.08.12",
-                            "teams": "AEK vs OFI 크레타",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.40/2.10"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "AEK vs 아테네 칼리테아",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.10/0.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.02",
-                            "teams": "AEK vs 신트 트라위던",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.00/0.70"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.29",
-                            "teams": "AEK vs 삼순스포르",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.60/1.40"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.26",
-                            "teams": "즈볼레 vs AEK",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.40/0.90"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.18",
-                            "teams": "흐로닝언 vs AEK",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.30/0.80"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.15",
-                            "teams": "비테세 vs AEK",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.60/0.80"
-                        }
-                    ]
+                {
+                    "name": "데지레 두에",
+                    "position": "데지레 두에#14 프랑스",
+                    "age": "데지레 두에#14 프랑스",
+                    "market_value_krw": "-"
                 },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "맨체스터 시티",
-                    "home_matches": [
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.10.17",
-                            "teams": "맨체스터 시티 vs 입스위치",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.10/1.90"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.14",
-                            "teams": "맨체스터 시티 vs 파리생제르망",
-                            "ft_scores": [
-                                "2",
-                                "4"
-                            ],
-                            "opponent_tier_info": "2.00/1.20"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.09.20",
-                            "teams": "맨체스터 시티 vs 선덜랜드",
-                            "ft_scores": [
-                                "5",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.20/0.90"
-                        },
-                        {
-                            "league": "ENG LC",
-                            "match_time": "2026.09.17",
-                            "teams": "맨체스터 시티 vs 노르위치",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.90/1.50"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.09.05",
-                            "teams": "맨체스터 시티 vs 코번트리",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.30/1.20"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.08.23",
-                            "teams": "맨체스터 시티 vs 본머스",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "3.00/1.30"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.09",
-                            "teams": "맨체스터 시티 vs AT 마드리드",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.50/1.40"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.01",
-                            "teams": "맨체스터 시티 vs 인터밀란",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.50/1.20"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.05.24",
-                            "teams": "맨체스터 시티 vs 아스톤 빌라",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.30/1.20"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.05.13",
-                            "teams": "맨체스터 시티 vs 크리스탈팰리스",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.50/1.40"
-                        },
-                        {
-                            "league": "ENG PR",
-                            "match_time": "2026.05.09",
-                            "teams": "맨체스터 시티 vs 브렌트퍼드",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/1.30"
-                        }
-                    ],
-                    "away_team_name": "AEK",
-                    "away_matches": [
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.14",
-                            "teams": "샤흐타르 vs AEK",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.90/0.40"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.09.20",
-                            "teams": "볼로스 vs AEK",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.80/0.50"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.09.13",
-                            "teams": "아스테라스 트리폴리스 vs AEK",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.60/0.30"
-                        },
-                        {
-                            "league": "GRE Cup",
-                            "match_time": "2026.09.02",
-                            "teams": "크리소우폴리스 vs AEK",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.40/0.80"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.08.30",
-                            "teams": "키피시아스 vs AEK",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.30/0.70"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.08.18",
-                            "teams": "레브스키 소피아 vs AEK",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.90/1.00"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.26",
-                            "teams": "즈볼레 vs AEK",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.40/0.90"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.18",
-                            "teams": "흐로닝언 vs AEK",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.30/0.80"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.15",
-                            "teams": "비테세 vs AEK",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.60/0.80"
-                        }
-                    ]
-                }
-            }
-        },
-        "3073110": {
-            "match_code": "3073110",
-            "head_info": {
-                "league": "챔피언스리그",
-                "round": ""
-            },
-            "home": "VfB 슈투트가르트",
-            "away": "AT 마드리드",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "VfB 슈투트가르트",
-                    "home_matches": [
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.10.17",
-                            "teams": "함부르크 SV vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.60/1.00"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.14",
-                            "teams": "슬로반 브라티슬라바 vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "2.30/1.10"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.10.10",
-                            "teams": "파더보른 vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.40/1.20"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.10.01",
-                            "teams": "VfB 슈투트가르트 vs 그로이터 퓌르트",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.70/1.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.09.25",
-                            "teams": "VfB 슈투트가르트 vs 하이덴하임",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.30/2.50"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.09.19",
-                            "teams": "VfB 슈투트가르트 vs 도르트문트",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.30/1.10"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.09.12",
-                            "teams": "호펜하임 vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "3.70/1.20"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.09",
-                            "teams": "VfB 슈투트가르트 vs 바이킹",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.00/1.10"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.09.04",
-                            "teams": "VfB 슈투트가르트 vs 쾰른",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.30/1.90"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.08.28",
-                            "teams": "바이에른 뮌헨 vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "3.40/1.10"
-                        },
-                        {
-                            "league": "GERC",
-                            "match_time": "2026.08.21",
-                            "teams": "한사 로스톡 vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "3.30/1.40"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.15",
-                            "teams": "풀럼 vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "3.40/1.40"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "VfB 슈투트가르트 vs 에버턴",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.01",
-                            "teams": "VfB 슈투트가르트 vs 파리 FC",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.80/1.00"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.29",
-                            "teams": "키커스 오펜바흐 vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "1",
-                                "8"
-                            ],
-                            "opponent_tier_info": "2.80/1.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.25",
-                            "teams": "홀렌바흐 vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "0",
-                                "5"
-                            ],
-                            "opponent_tier_info": "2.30/1.70"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.19",
-                            "teams": "발링겐 vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "0",
-                                "7"
-                            ],
-                            "opponent_tier_info": "2.10/1.90"
-                        },
-                        {
-                            "league": "GERC",
-                            "match_time": "2026.05.23",
-                            "teams": "바이에른 뮌헨 vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.10/1.80"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.05.16",
-                            "teams": "프랑크푸르트 vs VfB 슈투트가르트",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.00/1.60"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.05.09",
-                            "teams": "VfB 슈투트가르트 vs 레버쿠젠",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.90/1.60"
-                        }
-                    ],
-                    "away_team_name": "AT 마드리드",
-                    "away_matches": [
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.17",
-                            "teams": "에스파뇰 vs AT 마드리드",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.10/1.00"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.13",
-                            "teams": "AT 마드리드 vs 맨체스터 유나이티드",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.80/1.70"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.10",
-                            "teams": "알라베스 vs AT 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.00/1.30"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.20",
-                            "teams": "AT 마드리드 vs 레알 마드리드",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.50/0.80"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.16",
-                            "teams": "AT 마드리드 vs 오사수나",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.10/1.50"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.13",
-                            "teams": "레알소시에다드 vs AT 마드리드",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.70/2.00"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.09",
-                            "teams": "리버풀 vs AT 마드리드",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.70/1.80"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.05",
-                            "teams": "아틀레틱 빌바오 vs AT 마드리드",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.90/1.60"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.29",
-                            "teams": "세비야 vs AT 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.60/1.60"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.23",
-                            "teams": "AT 마드리드 vs 비야레알",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.80/1.30"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.19",
-                            "teams": "AT 마드리드 vs 말라가",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.80/1.30"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.14",
-                            "teams": "마르세유 vs AT 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.30/1.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.09",
-                            "teams": "맨체스터 시티 vs AT 마드리드",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.50/1.40"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.01",
-                            "teams": "맨체스터 유나이티드 vs AT 마드리드",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.60/1.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.29",
-                            "teams": "AT 마드리드 vs 헤타페",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.80/0.70"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.24",
-                            "teams": "비야레알 vs AT 마드리드",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.30"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.17",
-                            "teams": "AT 마드리드 vs 지로나",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.10/1.10"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.12",
-                            "teams": "오사수나 vs AT 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.40/1.40"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.09",
-                            "teams": "AT 마드리드 vs 셀타비고",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/2.00"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.05.05",
-                            "teams": "아스널 vs AT 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.70/1.70"
-                        }
-                    ]
+                {
+                    "name": "오우스만 뎀벨레",
+                    "position": "오우스만 뎀벨레#10 프랑스",
+                    "age": "오우스만 뎀벨레#10 프랑스",
+                    "market_value_krw": "-"
                 },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "VfB 슈투트가르트",
-                    "home_matches": [
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.10.01",
-                            "teams": "VfB 슈투트가르트 vs 그로이터 퓌르트",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.70/1.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.09.25",
-                            "teams": "VfB 슈투트가르트 vs 하이덴하임",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.30/2.50"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.09.19",
-                            "teams": "VfB 슈투트가르트 vs 도르트문트",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.30/1.10"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.09",
-                            "teams": "VfB 슈투트가르트 vs 바이킹",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.00/1.10"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.09.04",
-                            "teams": "VfB 슈투트가르트 vs 쾰른",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.30/1.90"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "VfB 슈투트가르트 vs 에버턴",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.01",
-                            "teams": "VfB 슈투트가르트 vs 파리 FC",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.80/1.00"
-                        },
-                        {
-                            "league": "GER D1",
-                            "match_time": "2026.05.09",
-                            "teams": "VfB 슈투트가르트 vs 레버쿠젠",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.90/1.60"
-                        }
-                    ],
-                    "away_team_name": "AT 마드리드",
-                    "away_matches": [
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.17",
-                            "teams": "에스파뇰 vs AT 마드리드",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.10/1.00"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.10",
-                            "teams": "알라베스 vs AT 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.00/1.30"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.13",
-                            "teams": "레알소시에다드 vs AT 마드리드",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.70/2.00"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.09",
-                            "teams": "리버풀 vs AT 마드리드",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.70/1.80"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.05",
-                            "teams": "아틀레틱 빌바오 vs AT 마드리드",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.90/1.60"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.29",
-                            "teams": "세비야 vs AT 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.60/1.60"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.14",
-                            "teams": "마르세유 vs AT 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.30/1.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.09",
-                            "teams": "맨체스터 시티 vs AT 마드리드",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.50/1.40"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.01",
-                            "teams": "맨체스터 유나이티드 vs AT 마드리드",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.60/1.50"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.24",
-                            "teams": "비야레알 vs AT 마드리드",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.30"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.12",
-                            "teams": "오사수나 vs AT 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.40/1.40"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.05.05",
-                            "teams": "아스널 vs AT 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.70/1.70"
-                        }
-                    ]
+                {
+                    "name": "페란 토레스",
+                    "position": "페란 토레스#9 스페인",
+                    "age": "페란 토레스#9 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "마그네스 아클리오체",
+                    "position": "마그네스 아클리오체#11 프랑스",
+                    "age": "마그네스 아클리오체#11 프랑스",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "미카 고즈",
+                    "position": "미카 고즈#22 벨기에",
+                    "age": "미카 고즈#22 벨기에",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "캉탱 은장투",
+                    "position": "캉탱 은장투#47 프랑스",
+                    "age": "캉탱 은장투#47 프랑스",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "비티냐",
+                    "position": "비티냐#17 포르투갈",
+                    "age": "비티냐#17 포르투갈",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "주앙 네베스",
+                    "position": "주앙 네베스#87 포르투갈",
+                    "age": "주앙 네베스#87 포르투갈",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "워렌 자이르-에머리",
+                    "position": "워렌 자이르-에머리#33 프랑스",
+                    "age": "워렌 자이르-에머리#33 프랑스",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "세니 마율루",
+                    "position": "세니 마율루#24 프랑스",
+                    "age": "세니 마율루#24 프랑스",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "파비안 루이스",
+                    "position": "파비안 루이스#8 스페인",
+                    "age": "파비안 루이스#8 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "페드로 페르난데스",
+                    "position": "페드로 페르난데스#27 스페인",
+                    "age": "페드로 페르난데스#27 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "아쉬샤프 하키미",
+                    "position": "아쉬샤프 하키미#2 모로코",
+                    "age": "아쉬샤프 하키미#2 모로코",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "누누 멘데스",
+                    "position": "누누 멘데스#25 포르투갈",
+                    "age": "누누 멘데스#25 포르투갈",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "윌리안 파초",
+                    "position": "윌리안 파초#51 에콰도르",
+                    "age": "윌리안 파초#51 에콰도르",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "일랴 자바르니",
+                    "position": "일랴 자바르니#6 우크라이나",
+                    "age": "일랴 자바르니#6 우크라이나",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "마르키뇨스",
+                    "position": "마르키뇨스#5 브라질",
+                    "age": "마르키뇨스#5 브라질",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "Lucas 베라우두",
+                    "position": "Lucas 베라우두#4 브라질",
+                    "age": "Lucas 베라우두#4 브라질",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "루카스 에르난데스",
+                    "position": "루카스 에르난데스#21 프랑스",
+                    "age": "루카스 에르난데스#21 프랑스",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "루카스 디뉴",
+                    "position": "루카스 디뉴#12 프랑스",
+                    "age": "루카스 디뉴#12 프랑스",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "Matvey 사포노프",
+                    "position": "Matvey 사포노프#39 러시아",
+                    "age": "Matvey 사포노프#39 러시아",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "루카스 슈발리에",
+                    "position": "루카스 슈발리에#30 프랑스",
+                    "age": "루카스 슈발리에#30 프랑스",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "Alessandro Longoni",
+                    "position": "Alessandro Longoni#16 이탈리아",
+                    "age": "Alessandro Longoni#16 이탈리아",
+                    "market_value_krw": "-"
                 }
-            }
+            ],
+            "away_squad": [
+                {
+                    "name": "라민 야말",
+                    "position": "라민 야말#10 스페인",
+                    "age": "라민 야말#10 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "앤서니 고든",
+                    "position": "앤서니 고든#17 잉글랜드",
+                    "age": "앤서니 고든#17 잉글랜드",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "하피냐",
+                    "position": "하피냐#11 브라질",
+                    "age": "하피냐#11 브라질",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "카림 아데예미",
+                    "position": "카림 아데예미#14 독일",
+                    "age": "카림 아데예미#14 독일",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "가브리엘 제주스",
+                    "position": "가브리엘 제주스#9 브라질",
+                    "age": "가브리엘 제주스#9 브라질",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "루니 바르다지",
+                    "position": "루니 바르다지#19 스웨덴",
+                    "age": "루니 바르다지#19 스웨덴",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "제시 비시우",
+                    "position": "제시 비시우#27 벨기에",
+                    "age": "제시 비시우#27 벨기에",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "Hamza Abdelkarim",
+                    "position": "Hamza Abdelkarim#29 이집트",
+                    "age": "Hamza Abdelkarim#29 이집트",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "페드리",
+                    "position": "페드리#8 스페인",
+                    "age": "페드리#8 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "페르민",
+                    "position": "페르민#7 스페인",
+                    "age": "페르민#7 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "로드리",
+                    "position": "로드리#16 스페인",
+                    "age": "로드리#16 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "다니 올모",
+                    "position": "다니 올모#20 스페인",
+                    "age": "다니 올모#20 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "마르크 베르날",
+                    "position": "마르크 베르날#22 스페인",
+                    "age": "마르크 베르날#22 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "가비",
+                    "position": "가비#6 스페인",
+                    "age": "가비#6 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "프렌키 데 용",
+                    "position": "프렌키 데 용#21 네덜란드",
+                    "age": "프렌키 데 용#21 네덜란드",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "Brian Farinas",
+                    "position": "Brian Farinas#4 스페인",
+                    "age": "Brian Farinas#4 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "파우 쿠바르시",
+                    "position": "파우 쿠바르시#5 스페인",
+                    "age": "파우 쿠바르시#5 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "쥘 쿤데",
+                    "position": "쥘 쿤데#23 프랑스",
+                    "age": "쥘 쿤데#23 프랑스",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "에릭 가르시아",
+                    "position": "에릭 가르시아#24 스페인",
+                    "age": "에릭 가르시아#24 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "아레한드로 발데",
+                    "position": "아레한드로 발데#3 스페인",
+                    "age": "아레한드로 발데#3 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "게라르드 마르틴",
+                    "position": "게라르드 마르틴#18 스페인",
+                    "age": "게라르드 마르틴#18 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "샤비 에스파르트",
+                    "position": "샤비 에스파르트#12 스페인",
+                    "age": "샤비 에스파르트#12 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "안드레아스 크리스텐센",
+                    "position": "안드레아스 크리스텐센#15 덴마크",
+                    "age": "안드레아스 크리스텐센#15 덴마크",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "주앙 칸셀로",
+                    "position": "주앙 칸셀로#2 포르투갈",
+                    "age": "주앙 칸셀로#2 포르투갈",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "조안 가르시아",
+                    "position": "조안 가르시아#1 스페인",
+                    "age": "조안 가르시아#1 스페인",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "도미니크 리바코비치",
+                    "position": "도미니크 리바코비치#25 크로아티아",
+                    "age": "도미니크 리바코비치#25 크로아티아",
+                    "market_value_krw": "-"
+                },
+                {
+                    "name": "보이치에흐 슈치에스니",
+                    "position": "보이치에흐 슈치에스니#13 폴란드",
+                    "age": "보이치에흐 슈치에스니#13 폴란드",
+                    "market_value_krw": "-"
+                }
+            ]
         }
     }
 }
