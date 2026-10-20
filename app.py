@@ -279,7 +279,7 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-# 💡 [국가 및 등급 정밀 대조 함수 - 한글명, 영문명, 코드, 전체 리그 완벽 호환 규격]
+        # 💡 [국가 및 등급 정밀 대조 함수 - 한글명, 영문명, 코드, 전체 리그 완벽 호환 규격]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
@@ -335,7 +335,17 @@ with tabs[0]:
             # 5. 매칭 실패 시 F등급 폴백 처리
             f_info = grades.get("F", {})
             return "EXT", rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
+
+        if rankings_raw:
+            rankings_list = []
             
+            clean_home_target = str(home_team).strip().replace(" ", "")
+            clean_away_target = str(away_team).strip().replace(" ", "")
+
+            # 기본값 F등급 및 0% 세팅
+            h_grade, h_atk_b, h_def_b = "F", "0%", "0%"
+            a_grade, a_atk_b, a_def_b = "F", "0%", "0%"
+
             # 💡 [방어 1] 중복 매칭 방지용 플래그 장착
             found_home = False
             found_away = False
