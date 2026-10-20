@@ -912,14 +912,13 @@ with tabs[3]:
     st.markdown(html_table, unsafe_allow_html=True)
 
     # ==============================================================================
-    # [기능 2] 💡 [올바른 순서] 1단계: match_details.json / match_details_v2.json (all_details_dict)
-    # 에서 해당 경기를 먼저 정확히 확정하고 match_code를 확보한 뒤 V5/V5-1을 탐색합니다.
+    # [연동 순서 1단계 & 2단계] 
+    # 사이드바 선택 값 기반으로 디테일 딕셔너리(all_details_dict)에서 해당 경기 코드 및 홈/원정 확정
     # ==============================================================================
     target_match_code_str = str(match_code).strip()
     clean_target_home = str(home_team).strip().replace(" ", "").lower()
     clean_target_away = str(away_team).strip().replace(" ", "").lower()
 
-    # 💡 1차 선행 검증: 마스터 상세 정보(all_details_dict)에서 현재 경기 유효성 및 확정 코드 재확인
     master_matched_info = None
     if target_match_code_str and target_match_code_str in all_details_dict:
         master_matched_info = all_details_dict[target_match_code_str]
@@ -932,23 +931,24 @@ with tabs[3]:
             if v_code == target_match_code_str or (clean_target_home in v_h and clean_target_away in v_a):
                 master_matched_info = v
                 if v_code:
-                    target_match_code_str = v_code # 확정된 실제 매치코드로 동기화
+                    target_match_code_str = v_code
                 break
 
-    # 💡 마스터에서 경기가 정상 확인된 경우에만 V5 / V5-1 데이터를 안전하게 추출
+    # ==============================================================================
+    # [연동 순서 3단계] 
+    # 확정된 코드로 5번 딕셔너리(match_details_v5.json)의 'lineup_details'에 접속하여
+    # 해당 경기 결장자(home_absentees / away_absentees)를 찾고 "status": "결장"을 선별합니다.
+    # ==============================================================================
     raw_home_absentees = []
     raw_away_absentees = []
     home_squad_pool = []
     away_squad_pool = []
 
     if master_matched_info:
-        # V5 딕셔너리 구조 언래핑 (lineup_details 방어)
-        v5_source_dict = v5_details_dict.get("lineup_details", v5_details_dict)
-        v5_1_source_dict = v5_1_details_dict.get("lineup_details", v5_1_details_dict)
-
-        # 2단계: 확정된 match_code를 바탕으로 V5(결장자 정보) 탐색
+        # 1. 5번 결장자 데이터 접속 (lineup_details 계층 언래핑)
+        v5_lineup_dict = v5_details_dict.get("lineup_details", v5_details_dict)
         v5_match_data = {}
-        for k, v in v5_source_dict.items():
+        for k, v in v5_lineup_dict.items():
             if not isinstance(v, dict): continue
             v_code = str(v.get("match_code", k)).strip()
             v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
@@ -957,9 +957,27 @@ with tabs[3]:
                 v5_match_data = v
                 break
 
-        # 3단계: 확정된 match_code를 바탕으로 V5-1(전체 선수단 스쿼드) 탐색
+        if v5_match_data:
+            data_home_name = str(v5_match_data.get("home", "")).strip().replace(" ", "").lower()
+            if clean_target_home in data_home_name or data_home_name in clean_target_home:
+                h_raw_list = v5_match_data.get("home_absentees", [])
+                a_raw_list = v5_match_data.get("away_absentees", [])
+            else:
+                h_raw_list = v5_match_data.get("away_absentees", [])
+                a_raw_list = v5_match_data.get("home_absentees", [])
+
+            # "status": "결장" (또는 누수 항목) 조건을 먼저 만족하는 선수들만 정확히 필터링
+            raw_home_absentees = [p for p in h_raw_list if str(p.get("status", "")).strip() in ["결장", "부상", "징계", "누수", "출전의심/기타"]]
+            raw_away_absentees = [p for p in a_raw_list if str(p.get("status", "")).strip() in ["결장", "부상", "징계", "누수", "출전의심/기타"]]
+
+        # ==============================================================================
+        # [연동 순서 4단계] 
+        # 5-1번 딕셔너리(match_details_v5-1.json)의 'squad_details'에 접속하여 
+        # 앞서 찾은 선수의 'name'으로 'home_squad' / 'away_squad' 안에서 'position'을 가져옵니다.
+        # ==============================================================================
+        v5_1_squad_dict = v5_1_details_dict.get("squad_details", v5_1_details_dict)
         v5_1_match_data = {}
-        for k, v in v5_1_source_dict.items():
+        for k, v in v5_1_squad_dict.items():
             if not isinstance(v, dict): continue
             v_code = str(v.get("match_code", k)).strip()
             v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
@@ -968,17 +986,6 @@ with tabs[3]:
                 v5_1_match_data = v
                 break
 
-        # 홈/원정 결장자 명단 배분
-        if v5_match_data:
-            data_home_name = str(v5_match_data.get("home", "")).strip().replace(" ", "").lower()
-            if clean_target_home in data_home_name or data_home_name in clean_target_home:
-                raw_home_absentees = v5_match_data.get("home_absentees", [])
-                raw_away_absentees = v5_match_data.get("away_absentees", [])
-            else:
-                raw_home_absentees = v5_match_data.get("away_absentees", [])
-                raw_away_absentees = v5_match_data.get("home_absentees", [])
-
-        # 홈/원정 스쿼드 풀 배분
         if v5_1_match_data:
             data_squad_home = str(v5_1_match_data.get("home", "")).strip().replace(" ", "").lower()
             if clean_target_home in data_squad_home or data_squad_home in clean_target_home:
@@ -989,9 +996,9 @@ with tabs[3]:
                 away_squad_pool = v5_1_match_data.get("home_squad", [])
 
     # ==============================================================================
-    # [기능 3] 정방향 조립 함수: V5 결장자 이름 기준 ➔ V5-1 포지션 매핑 및 공수 보정 연산
+    # [기능 3] 결장자 이름(name) 기준 포지션 매핑 및 공수 보정치 연산 함수
     # ==============================================================================
-    def build_squad_dataframe_correct_route(absentees_list, squad_list, team_label):
+    def build_squad_dataframe_ordered(absentees_list, squad_list, team_label):
         if not absentees_list:
             df_empty = pd.DataFrame({
                 "선수 실명": ["-", "[총합]"],
@@ -1006,27 +1013,26 @@ with tabs[3]:
             })
             return df_empty, 0.0, 0.0
         
-        # V5-1 스쿼드 풀에서 이름으로 포지션을 안전하게 찾아내는 룩업 딕셔너리 구축
-        squad_pos_dict = {}
+        # 5-1 스쿼드 풀에서 이름(name)을 키로, 포지션(position)을 값으로 하는 맵 구축
+        squad_pos_map = {}
         for p in squad_list:
             if not isinstance(p, dict): continue
             p_name = str(p.get("name", "")).strip()
-            p_pos = str(p.get("position", p.get("player_number_info", p.get("role", "-")))).strip()
+            p_pos = str(p.get("position", p.get("player_number_info", "-"))).strip()
             if p_name:
-                squad_pos_dict[p_name] = p_pos
-                squad_pos_dict[p_name.replace(" ", "")] = p_pos
+                squad_pos_map[p_name] = p_pos
+                squad_pos_map[p_name.replace(" ", "")] = p_pos
 
         rows = []
         tot_atk, tot_def = 0.0, 0.0
         
-        # V5 결장자 명단에서 선수를 순회하며 정방향 추출
         for item in absentees_list:
             p_name = str(item.get("name", "-")).strip()
             
-            # 이름으로 포지션 탐색 (없으면 기본값 부여)
-            p_pos = squad_pos_dict.get(p_name, squad_pos_dict.get(p_name.replace(" ", ""), ""))
+            # V5-1 스쿼드 풀에서 이름으로 정확한 포지션 획득
+            p_pos = squad_pos_map.get(p_name, squad_pos_map.get(p_name.replace(" ", ""), "미드필더/수비수"))
             if not p_pos or p_pos == "-":
-                p_pos = "미드필더/수비수" 
+                p_pos = "미드필더/수비수"
 
             p_type = item.get("status", "결장")
             stats_dict = item.get("stats", {})
@@ -1056,7 +1062,7 @@ with tabs[3]:
             is_attacker = any(k in p_pos for k in ["공격수", "미드필더", "FW", "MF"])
             is_defender = any(k in p_pos for k in ["수비수", "골키퍼", "DF", "GK"])
 
-            if p_type in ["결장", "부상", "징계", "누수"]:
+            if p_type in ["결장", "부상", "징계", "누수", "출전의심/기타"]:
                 if is_attacker:
                     atk_v = -rate
                     def_v = rate / 2.0
@@ -1078,7 +1084,7 @@ with tabs[3]:
                     def_v = -rate / 2.0
 
             tot_atk += atk_v
-            tot_def += def_v
+            tot_def += def_def if 'def_def' in locals() else def_v # 안전 방어
             rows.append({
                 "선수 실명": p_name, 
                 "포지션": p_pos, 
@@ -1103,17 +1109,19 @@ with tabs[3]:
     st.markdown(f"##### 3-1: 홈 구단 - {home_team} 선수 전력 변동")
     if not raw_home_absentees:
         st.info(f"💡 [{home_team}] 해당 경기에 수집된 선수 전력 변동(결장자) 데이터가 없습니다. (정상 스쿼드 가동 가정)")
-    table_3_1_home, h_r31_atk_val, h_r31_def_val = build_squad_dataframe_correct_route(raw_home_absentees, home_squad_pool, home_team)
+    table_3_1_home, h_r31_atk_val, h_r31_def_val = build_squad_dataframe_ordered(raw_home_absentees, home_squad_pool, home_team)
     st.dataframe(table_3_1_home, use_container_width=True, hide_index=True)
 
     st.markdown(f"##### 3-1: 원정 구단 - {away_team} 선수 전력 변동")
     if not raw_away_absentees:
         st.info(f"💡 [{away_team}] 해당 경기에 수집된 선수 전력 변동(결장자) 데이터가 없습니다. (정상 스쿼드 가동 가정)")
-    table_3_1_away, a_r31_atk_val, a_r31_def_val = build_squad_dataframe_correct_route(raw_away_absentees, away_squad_pool, away_team)
+    table_3_1_away, a_r31_atk_val, a_r31_def_val = build_squad_dataframe_ordered(raw_away_absentees, away_squad_pool, away_team)
     st.dataframe(table_3_1_away, use_container_width=True, hide_index=True)
 
     st.markdown("---")
-# ==========================================
+
+    
+    # ==========================================
     # 3-2번 영역: 일정 이동 피로도 및 중요도 타임라인 & 팀별 리그 순위표 연동 (최적화 버전)
     # ==========================================
     st.markdown(f"##### [규칙 3-2번: 일정 이동피로도 및 일정중요도 판단] - {home_team} vs {away_team}")
