@@ -14,9 +14,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
-# 설정 파일 경로 (요청하신 대로 match_details.json, match_details2.json만 정밀 타겟팅)
+# 설정 파일 경로 (앱과 동일하게 최신 match_details_v2.json 정밀 연동)
 OUTPUT_FILE = "match_details_v5.json"
-SOURCE_FILES = ["match_details.json", "match_details2.json"]
+SOURCE_FILES = ["match_details.json", "match_details_v2.json"]
 
 def get_kst_time_string():
     """UTC 시간 기준에서 9시간을 더한 대한민국 표준시(KST) 문자열을 반환합니다."""
@@ -24,8 +24,8 @@ def get_kst_time_string():
     return datetime.now(kst_zone).strftime("%Y-%m-%d %H:%M:%S")
 
 def load_match_master_info():
-    """match_details.json 및 match_details2.json 파일에서 match_code와 매칭되는 홈/원정 팀명 정보를 전수 수집합니다."""
-    print("📍 [1단계 진입] match_details.json 및 match_details2.json에서 매치 정보 전수 로드 시작...")
+    """match_details.json 및 match_details_v2.json 파일에서 match_code와 매칭되는 홈/원정 팀명 정보를 전수 수집합니다."""
+    print("📍 [1단계 진입] 대진 파일에서 매치 정보 전수 로드 시작...")
     match_master_map = {}
     
     for s_file in SOURCE_FILES:
@@ -38,7 +38,8 @@ def load_match_master_info():
                     
                     for m_code, m_info in match_dict.items():
                         if isinstance(m_info, dict):
-                            m_code_str = str(m_info.get("match_code", m_code)).strip()
+                            clean_k = str(m_code).strip()
+                            m_code_str = str(m_info.get("match_code", clean_k)).strip()
                             home_t = m_info.get("home", "")
                             away_t = m_info.get("away", "")
                             
@@ -73,7 +74,7 @@ def crawl_player_details_with_selenium(driver, player_id):
         driver.get(player_url)
         
         # 1) 셀렉트 박스가 로드될 때까지 대기
-        WebDriverWait(driver, 10).until(
+        WebDriverWait(driver, 8).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "div#techSeasonSelect"))
         )
         
@@ -89,9 +90,9 @@ def crawl_player_details_with_selenium(driver, player_id):
                 }
             """
             driver.execute_script(latest_season_script)
-            time.sleep(0.5) # 데이터 렌더링 대기
+            time.sleep(0.3) # 데이터 렌더링 대기
         except Exception as script_e:
-            print(f"⚠️ [셀레니움 제어 오류] 시즌 선택 실패 (기본값 파싱 시도): {script_e}")
+            pass
 
         # 3) 업데이트된 HTML 소스 파싱
         soup = BeautifulSoup(driver.page_source, 'html.parser')
@@ -184,7 +185,6 @@ def crawl_match_lineups_v5():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
     try:
-        # 💡 [핵심] 1경기 제한을 완전히 없애고 확보된 모든 target_match_codes를 순회하도록 설계
         for idx, m_code in enumerate(target_match_codes, 1):
             target_url = f"https://www.scoreman123.com/match/data-{m_code}"
             teams = match_master_map.get(m_code, {"home": "홈팀", "away": "원정팀"})
@@ -196,8 +196,9 @@ def crawl_match_lineups_v5():
             away_absentees = []
 
             try:
+                # 💡 [안전 장치] 매 경기 시작 시 메인 경기 페이지로 강제 이동 및 세션 리프레시
                 driver.get(target_url)
-                WebDriverWait(driver, 10).until(
+                WebDriverWait(driver, 12).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, "div#hurtLineup"))
                 )
                 
@@ -226,9 +227,8 @@ def crawl_match_lineups_v5():
                                 
                                 p_stats = {}
                                 if player_id:
-                                    print(f"   ㄴ [홈 선수 분석] {name} (ID: {player_id}) 지표 수집 중...")
                                     p_stats = crawl_player_details_with_selenium(driver, player_id)
-                                    time.sleep(0.2)
+                                    time.sleep(0.1)
 
                                 home_absentees.append({
                                     "number": num_tag.text.strip() if num_tag else "",
@@ -256,9 +256,8 @@ def crawl_match_lineups_v5():
                                 
                                 p_stats = {}
                                 if player_id:
-                                    print(f"   ㄴ [원정 선수 분석] {name} (ID: {player_id}) 지표 수집 중...")
                                     p_stats = crawl_player_details_with_selenium(driver, player_id)
-                                    time.sleep(0.2)
+                                    time.sleep(0.1)
 
                                 away_absentees.append({
                                     "number": num_tag.text.strip() if num_tag else "",
@@ -284,6 +283,11 @@ def crawl_match_lineups_v5():
 
             except Exception as e:
                 print(f"❌ [에러 발생] 매치코드 {m_code} 수집 중 예외 발생: {e}")
+                # 💡 개별 경기 에러 발생 시 드라이버 상태를 재정비하고 다음 경기로 안전하게 진입
+                try:
+                    driver.get("about:blank")
+                except:
+                    pass
 
     finally:
         driver.quit()  # 브라우저 자원 해제
