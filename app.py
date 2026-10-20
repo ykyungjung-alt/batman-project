@@ -585,33 +585,39 @@ with tabs[1]:
             mult_ga = 1.0
             rule_desc = "유지"
             
-            tier_info = m.get("opponent_tier_info", "")
+tier_info = m.get("opponent_tier_info", "")
             if tier_info and "/" in tier_info:
                 try:
                     oa, od = map(float, tier_info.split("/"))
-                    at_name = atk_tier_nm(oa)
-                    df_name = def_tier_nm(od)
+                    at_name = atk_tier_nm(oa)  # 상대 공격 티어
+                    df_name = def_tier_nm(od)  # 상대 방어 티어
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
+                    # 💡 [특수룰 정밀 교정] 내 팀 체급(my_at, my_de) vs 상대 팀 티어(at_name, df_name) 정확한 교차 대조
+                    rule_descs = []
+                    
+                    # 1. 내 공격 관점: 내 공격 체급(my_at) vs 상대 방어 티어(df_name)
                     if my_at == "Tier A" and df_name == "Tier E":
                         mult_gf = 0.5
-                        rule_desc = "공격 A vs 상대수비 E (득점 50% 할인)"
+                        rule_descs.append("공격 A vs 상대수비 E (득점 50% 할인)")
                     elif my_at == "Tier E" and df_name == "Tier A":
                         mult_gf = 1.5
-                        rule_desc = "공격 E vs 상대수비 A (득점 50% 할증)"
+                        rule_descs.append("공격 E vs 상대수비 A (득점 50% 할증)")
                         
+                    # 2. 내 방어 관점: 내 방어 체급(my_de) vs 상대 공격 티어(at_name)
                     if my_de == "Tier A" and at_name == "Tier E":
                         mult_ga = 1.5
-                        rule_desc = (" / " if mult_gf != 1.0 else "") + "방어 A vs 상대공격 E (실점 50% 할증)"
+                        rule_descs.append("방어 A vs 상대공격 E (실점 50% 할증)")
                     elif my_de == "Tier E" and at_name == "Tier A":
                         mult_ga = 0.5
-                        rule_desc = (" / " if mult_gf != 1.0 else "") + "방어 E vs 상대공격 A (실점 50% 할인)"
+                        rule_descs.append("방어 E vs 상대공격 A (실점 50% 할인)")
                         
-                    if mult_gf != 1.0 or mult_ga != 1.0:
+                    if rule_descs:
+                        rule_desc = " / ".join(rule_descs)
                         tier_str += f" ⚠️ ({rule_desc})"
                     else:
                         tier_str += " (보정 없음 / 유지)"
-                except:
+                except Exception as e:
                     pass
                     
             app_sc = sc * mult_gf
