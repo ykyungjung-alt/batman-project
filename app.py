@@ -1525,12 +1525,12 @@ with tabs[5]:
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 
 # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (2단계 구장 환경 체급 연동 및 승패 판정 정확도 개선 규격)
+        # 📊 [5-2 표] 렌더링 (2단계 구장 환경 체급 연동 규격)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 7경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
 
-        # 💡 [핵심 연동] 2단계(구장별 폼)에서 산출된 최종 체급(s_h_at, s_h_de, s_a_at, s_a_de)을 우선 연동하여 매칭 및 교차 보정에 반영
+        # 💡 [핵심 수정] 2단계(구장별 폼)에서 산출된 최종 체급(s_h_at, s_h_de, s_a_at, s_a_de)을 우선 연동하여 매칭 및 교차 보정에 반영
         h_opp_at = s_a_at if 's_a_at' in locals() else (a_current_at if 'a_current_at' in locals() else "Tier C")
         h_opp_de = s_a_de if 's_a_de' in locals() else (a_current_de if 'a_current_de' in locals() else "Tier C")
         a_opp_at = s_h_at if 's_h_at' in locals() else (h_current_at if 'h_current_at' in locals() else "Tier C")
@@ -1630,40 +1630,16 @@ with tabs[5]:
                 if scores_arr and len(scores_arr) >= 2:
                     m_score = f"{scores_arr[0]} : {scores_arr[1]}"
                 m_loc = str(m.get("location", "공식"))
-                
-                # 대진 문자열 분석을 통한 해당 팀의 정확한 득실 분기
-                teams_str = str(m.get("teams", ""))
-                is_team_home = True
                 m_opp = ""
+                teams_str = str(m.get("teams", ""))
                 if " vs " in teams_str:
                     t_parts = [p.strip() for p in teams_str.split("vs")]
                     if len(t_parts) >= 2:
-                        if team_label in t_parts[1] and team_label not in t_parts[0]:
-                            is_team_home = False
-                            m_opp = t_parts[0]
-                        else:
-                            m_opp = t_parts[1]
+                        m_opp = t_parts[1] if team_label in t_parts[0] else t_parts[0]
                 if not m_opp:
                     m_opp = str(m.get("opponent", "") or m.get("team", "")).strip()
                 if not m_opp:
                     m_opp = "상대 팀명 미확인"
-
-                raw_s1, raw_s2 = 0, 0
-                try:
-                    parts = m_score.replace("-", ":").split(":")
-                    if len(parts) >= 2:
-                        raw_s1 = int(parts[0].strip())
-                        raw_s2 = int(parts[1].strip())
-                except:
-                    pass
-
-                # 팀이 원정 위치였을 경우 스코어 득실 대조 방향 보정
-                if not is_team_home and " vs " in teams_str:
-                    gf = raw_s2
-                    ga = raw_s1
-                else:
-                    gf = raw_s1
-                    ga = raw_s2
 
                 oa, od = 1.3, 1.2
                 tier_info = m.get("opponent_tier_info", "")
@@ -1677,6 +1653,15 @@ with tabs[5]:
                 at_name = atk_tier_nm(oa)
                 df_name = def_tier_nm(od)
                 m_opp_tier = f"{at_name} / {df_name}"
+                
+                gf, ga = 0, 0
+                try:
+                    parts = m_score.replace("-", ":").split(":")
+                    if len(parts) >= 2:
+                        gf = int(parts[0].strip())
+                        ga = int(parts[1].strip())
+                except:
+                    pass
 
                 original_gf = float(gf)
                 original_ga = float(ga)
@@ -1685,6 +1670,7 @@ with tabs[5]:
                 rule_desc = ""
 
                 # 💡 [5-2 표 독립 공수 대칭 교차 보정 규격]
+                # 1. 내 공격 관점 교차 보정
                 if my_at == "Tier A" and df_name == "Tier E":
                     mult_gf = 0.5
                     rule_desc = "공격 A vs 상대수비 E (득점 50% 할인)"
@@ -1692,6 +1678,7 @@ with tabs[5]:
                     mult_gf = 1.5
                     rule_desc = "공격 E vs 상대수비 A (득점 50% 할증)"
                     
+                # 2. 내 방어 관점 교차 보정
                 if my_de == "Tier A" and at_name == "Tier E":
                     mult_ga = 1.5
                     rule_desc = (rule_desc + " / " if rule_desc else "") + "방어 A vs 상대공격 E (실점 50% 할증)"
@@ -1707,8 +1694,6 @@ with tabs[5]:
 
                 total_gf += app_gf
                 total_ga += app_ga
-                
-                # 정확히 보정된 득실 기준으로 승/무/패 판정
                 w_l = "승" if app_gf > app_ga else ("패" if app_gf < app_ga else "무")
                 seq_txt = f"{i} (최신)" if i == 1 else (f"{i} (과거)" if i == cnt else str(i))
                 
@@ -1726,7 +1711,7 @@ with tabs[5]:
             avg_ga = total_ga / cnt if cnt > 0 else 0.0
             return pd.DataFrame(rows), total_gf, total_ga, avg_gf, avg_ga, any_rule_applied
 
-        # 홈/원정 팀 체급 추출 (없으면 기본 C)
+        # 홈 팀 체급 추출 (없으면 기본 C)
         home_my_at = h_current_at if 'h_current_at' in locals() else "Tier C"
         home_my_de = h_current_de if 'h_current_de' in locals() else "Tier C"
         away_my_at = a_current_at if 'a_current_at' in locals() else "Tier C"
@@ -1746,6 +1731,7 @@ with tabs[5]:
             st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {away_team} 팀은 실전 7경기 검증 과정에서 상대 공수 티어와의 교차 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
         st.markdown(f"📌 **{away_team} 최근 7경기 총합:** {a_tgf:.1f} 득점 / {a_tga:.1f} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
+
 
         # --------------------------------------------------------------------------
         # 📊 [5-3 표] 렌더링
