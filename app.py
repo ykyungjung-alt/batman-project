@@ -286,21 +286,22 @@ with tabs[0]:
             team_str = str(team_val).strip().lower()
             clean_league = str(current_league_name).strip().replace(" ", "").lower()
 
-            # 1. [최우선 방어] 리그명이나 랭크 코드에 'K리그' 또는 'KOR'이 포함되어 있으면 오탐지 차단하고 대한민국(KOR) 고정
+            # 1. [최우선 방어] 리그명이나 랭크 코드에 'K리그' 또는 'KOR'이 포함되어 있으면 오탐지 차단
             if "k리그" in clean_league or "kor" in rank_str.upper():
                 for c in grades.get("C", []):
                     if c.get("code") == "KOR":
                         return c.get("code", "KOR"), rank_str, c.get("grade", "C"), c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
                 return "KOR", rank_str, "C", "+9%", "-9%"
 
-            # 2. 띄어쓰기나 하이픈(-) 앞쪽의 국가/리그 코드 추출 (예: "NGA PR-1", "SPA D1" 등)
+            # 💡 [핵심] 띄어쓰기나 하이픈(-) 앞쪽의 국가 코드만 정확히 추출 (예: "SPA D1-1" -> "SPA")
             extracted_code = ""
             if rank_str and rank_str != "-":
+                # 공백이나 하이픈을 기준으로 쪼갠 후 첫 번째 토큰만 취함
                 token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
                 if token and not token.isdigit():
                     extracted_code = token
 
-            # 3. 추출된 코드가 있으면 country.json의 국가 코드(code) 및 전체 leagues 항목과 정밀 대조
+            # 3. 추출된 국가 코드(예: SPA, FRA 등)가 있으면 country.json과 직접 대조
             if extracted_code:
                 for grade_key, countries in grades.items():
                     if grade_key == "F":
@@ -310,7 +311,7 @@ with tabs[0]:
                             c_code = str(c.get("code", "")).strip().upper()
                             leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
                             
-                            # 코드 일치 또는 leagues 배열 내 포함 여부 확인
+                            # 추출된 코드(SPA 등)가 country.json의 code와 일치하거나 leagues 목록에 포함되는지 확인
                             if c_code == extracted_code or any(extracted_code == l or extracted_code == l.split()[0] for l in leagues_list if l):
                                 return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
