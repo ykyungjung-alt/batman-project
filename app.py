@@ -1525,7 +1525,7 @@ with tabs[5]:
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 
 # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (2단계 구장 환경 체급 연동 및 원정 스코어/승패 정방향 교정 규격)
+        # 📊 [5-2 표] 렌더링 (2단계 체급 연동 + 승패 정방향 교정 + 최신순 시계열 정렬 완성 규격)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 7경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
@@ -1605,9 +1605,17 @@ with tabs[5]:
 
                 scored_pool.append((match_score, m))
 
+            # 1. 티어 매칭 점수가 가장 좋은 순서로 우선 정렬 후 상위 7경기 추출
             scored_pool.sort(key=lambda x: x[0])
-            sorted_matches = [item[1] for item in scored_pool]
-            return sorted_matches[:7]
+            sorted_matches = [item[1] for item in scored_pool[:7]]
+            
+            # 💡 [핵심 교정] 최종 선별된 7경기를 경기 일시(match_time) 기준 최신순(내림차순)으로 정렬하여 시계열 흐름 반영
+            try:
+                sorted_matches.sort(key=lambda x: str(x.get("match_time", "")), reverse=True)
+            except:
+                pass
+
+            return sorted_matches
 
         home_matched_7 = filter_matched_tier_games(home_raw_pool, h_opp_at, h_opp_de)
         away_matched_7 = filter_matched_tier_games(away_raw_pool, a_opp_at, a_opp_de)
@@ -1638,7 +1646,6 @@ with tabs[5]:
                 if " vs " in teams_str:
                     t_parts = [p.strip() for p in teams_str.split("vs")]
                     if len(t_parts) >= 2:
-                        # 팀 이름이 뒤쪽(원정 위치)에 있고 앞쪽에 없으면 원정 팀으로 판정
                         if team_label.strip() in t_parts[1] and team_label.strip() not in t_parts[0]:
                             is_team_home = False
                             m_opp = t_parts[0]
@@ -1658,7 +1665,7 @@ with tabs[5]:
                 except:
                     pass
 
-                # 💡 [핵심 교정] 원정 경기일 경우 스코어 득실(s1: 홈팀득점, s2: 원정팀득점)을 내 팀 관점에 맞게 정상적으로 스위치
+                # 💡 [핵심 교정] 원정 경기일 경우 스코어 득실을 내 팀 관점에 맞게 정상적으로 스위치
                 if not is_team_home and " vs " in teams_str:
                     gf = raw_s2
                     ga = raw_s1
@@ -1743,11 +1750,10 @@ with tabs[5]:
         st.markdown("---")
         st.markdown(f"##### ✈️ 원정 팀: {away_team} (상대({home_team}) 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_agf, a_aga, a_rule_active = build_team_52_dataframe(away_matched_7, away_team, away_my_at, away_my_de)
-        if a_rule_active:
+        if h_rule_active:
             st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {away_team} 팀은 실전 7경기 검증 과정에서 상대 공수 티어와의 교차 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
         st.markdown(f"📌 **{away_team} 최근 7경기 총합:** {a_tgf:.1f} 득점 / {a_tga:.1f} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
-
         # --------------------------------------------------------------------------
         # 📊 [5-3 표] 렌더링
         # --------------------------------------------------------------------------
