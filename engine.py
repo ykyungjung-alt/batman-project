@@ -187,12 +187,12 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         meta_details = target_detail.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
         
-        # [0단계] country.json 등급 및 공수 보정치 추출 (중복 덮어쓰기 완벽 방어)
+        # [0단계] country.json 등급 및 공수 보정치 추출 (중복 덮어쓰기 및 유사 팀 오탐지 완벽 방어)
         h_step0_atk, h_step0_def = 0.0, 0.0
         a_step0_atk, a_step0_def = 0.0, 0.0
         
-        clean_home_target = str(home_name).strip().replace(" ", "")
-        clean_away_target = str(away_name).strip().replace(" ", "")
+        clean_home_target = str(home_name).strip().replace(" ", "").lower()
+        clean_away_target = str(away_name).strip().replace(" ", "").lower()
         
         found_home = False
         found_away = False
@@ -203,22 +203,49 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 r_code = str(r.get("rank", ""))
                 grade, atk_val, def_val = resolve_country_and_grade(r_code, r_team, league_name)
                 
-                clean_row_team = r_team.strip().replace(" ", "")
-                if not found_home and (clean_home_target in clean_row_team or clean_row_team in clean_home_target):
+                clean_row_team = r_team.strip().replace(" ", "").lower()
+                
+                # 홈팀 최초 1회 정밀 매칭 (완전 일치 또는 상호 포함 관계 엄격 검증)
+                if not found_home and (clean_home_target == clean_row_team or clean_home_target in clean_row_team or clean_row_team in clean_home_target):
                     h_step0_atk, h_step0_def = atk_val, def_val
                     found_home = True
-                elif not found_away and (clean_away_target in clean_row_team or clean_row_team in clean_away_target):
+                
+                # 원정팀 최초 1회 정밀 매칭 (홈팀과 중복 할당 방지)
+                elif not found_away and (clean_away_target == clean_row_team or clean_away_target in clean_row_team or clean_row_team in clean_away_target):
                     a_step0_atk, a_step0_def = atk_val, def_val
                     found_away = True
 
-        # [규칙 1번] 최근 경기(LIFO) 풀 안전 추출 및 E티어 할인 룰 적용
+# [규칙 1번] 공식 경기 우선 수집 및 부족 시 친선 경기 보완 LIFO 연동 / E티어 할인 룰 적용
         recent_form = meta_details.get("recent_form", {})
-        h_matches = recent_form.get("home_matches", [])
-        a_matches = recent_form.get("away_matches", [])
+        raw_h_matches = recent_form.get("home_matches", [])
+        raw_a_matches = recent_form.get("away_matches", [])
+
+        # 💡 [핵심 규격 반영] 공식 경기 우선 필터링 및 10경기 미만 시 친선전 보완 함수
+        def filter_and_supplement_matches(match_list, max_count=10):
+            if not match_list:
+                return []
+            official_matches = []
+            friendly_matches = []
+            for m in match_list:
+                league_str = str(m.get("league", "")).upper()
+                if "CF" in league_str or "친선" in league_str or "FRIENDLY" in league_str:
+                    friendly_matches.append(m)
+                else:
+                    official_matches.append(m)
+            
+            combined = list(official_matches)
+            if len(combined) < max_count:
+                needed = max_count - len(combined)
+                combined.extend(friendly_matches[:needed])
+            return combined[:max_count]
+
+        h_matches = filter_and_supplement_matches(raw_h_matches, 10)
+        a_matches = filter_and_supplement_matches(raw_a_matches, 10)
 
         h_sum = recent_form.get("home_summary", {})
         a_sum = recent_form.get("away_summary", {})
         
+        # 실제 확보된 유효 경기수 기반 베이스 평균 득실 산출 방어
         h_gpg_base = float(target_detail.get("h_gpg", h_sum.get("goals_per_game", 1.2)))
         h_cpg_base = float(target_detail.get("h_cpg", h_sum.get("conceded_per_game", 1.1)))
         a_gpg_base = float(target_detail.get("a_gpg", a_sum.get("goals_per_game", 1.1)))
@@ -234,8 +261,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_h_de, h_r1_def = get_def_tier(h_base_c)
         base_a_at, a_r1_atk = get_atk_tier(a_base_g)
         base_a_de, a_r1_def = get_def_tier(a_base_c)
-
-# [규칙 2번] 구장별(Stadium Form) Shift 보정 연산 (기본 3번 및 기존 규격 단독 연동)
+# [규칙 2번] 구장별(Stadium Form) Shift 보정 연산 (공식 경기 우선 수집 및 친선전 보완 연동)
         head_info = target_detail.get("head_info", {})
         venue_val = str(head_info.get("stadium", ""))
         home_stadium_val = str(head_info.get("home_stadium", ""))
@@ -247,6 +273,25 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         # 메타 데이터에서 stadium_form 안전하게 가져오기
         stadium_form = target_detail.get("meta_details", {}).get("stadium_form", {"home_matches": [], "away_matches": []})
+
+        # 💡 [핵심 규격 반영] 공식 경기 우선 필터링 및 10경기 미만 시 친선전 보완 함수 (시간 순서 유지)
+        def filter_and_supplement_matches(match_list, max_count=10):
+            if not match_list:
+                return []
+            official_matches = []
+            friendly_matches = []
+            for m in match_list:
+                league_str = str(m.get("league", "")).upper()
+                if "CF" in league_str or "친선" in league_str or "FRIENDLY" in league_str:
+                    friendly_matches.append(m)
+                else:
+                    official_matches.append(m)
+            
+            combined = list(official_matches)
+            if len(combined) < max_count:
+                needed = max_count - len(combined)
+                combined.extend(friendly_matches[:needed])
+            return combined[:max_count]
 
         # 1. 홈팀 전적 추출
         s_home_matches = []
@@ -268,15 +313,19 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             if not neutral_home_away_matches:
                 neutral_home_away_matches = stadium_form.get("away_matches", [])
 
-            s_home_matches = neutral_home_away_matches[:10]
+            s_home_matches = filter_and_supplement_matches(neutral_home_away_matches, 10)
         else:
-            s_home_matches = stadium_form.get("home_matches", [])[:10]
+            raw_sh = stadium_form.get("home_matches", [])
+            s_home_matches = filter_and_supplement_matches(raw_sh, 10)
 
-        # 2. 원정팀 전적 추출
-        s_away_matches = stadium_form.get("away_matches", [])[:10]
+        # 2. 원정팀 전적 추출 (공식전 우선 10경기 확보)
+        raw_sa = stadium_form.get("away_matches", [])
+        s_away_matches = filter_and_supplement_matches(raw_sa, 10)
 
-        if not s_home_matches and 'h_matches' in locals(): s_home_matches = h_matches[:10]
-        if not s_away_matches and 'a_matches' in locals(): s_away_matches = a_matches[:10]
+        if not s_home_matches and 'h_matches' in locals(): 
+            s_home_matches = filter_and_supplement_matches(h_matches, 10)
+        if not s_away_matches and 'a_matches' in locals(): 
+            s_away_matches = filter_and_supplement_matches(a_matches, 10)
 
         s_h_g, s_h_c = compute_adjusted_stats_with_discount(s_home_matches, home_name, h_base_g, h_base_c, h_is_triggered)
         s_a_g, s_a_c = compute_adjusted_stats_with_discount(s_away_matches, away_name, a_base_g, a_base_c, a_is_triggered)
@@ -305,7 +354,141 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
    
         
-        # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 화면 연동 일치화
+        # [규칙 3번] 선수 전력 누수(3-1) 및 일정 중요도 및 피로 
+        
+        # ==============================================================================
+        # [규칙 3-1] 선수 전력 누수 및 결장자 보정 연산 (엔진 정밀 연동 규격)
+        # ==============================================================================
+        def compute_squad_changes_engine(match_code_str, home_name_str, away_name_str):
+            # 1. 안전 기본값 세팅 (결장자 데이터 없을 시 보정치 0.0 보장)
+            h_tot_atk, h_tot_def = 0.0, 0.0
+            a_tot_atk, a_tot_def = 0.0, 0.0
+            
+            try:
+                # 전역 혹은 파라미터로 넘어온 V5, V5-1 딕셔너리 안전 참조
+                v5_lineup_dict = v5_details_dict.get("lineup_details", v5_details_dict) if 'v5_details_dict' in globals() else {}
+                v5_1_squad_dict = v5_1_details_dict.get("squad_details", v5_1_details_dict) if 'v5_1_details_dict' in globals() else {}
+                
+                target_code = str(match_code_str).strip()
+                clean_home = str(home_name_str).strip().replace(" ", "").lower()
+                clean_away = str(away_name_str).strip().replace(" ", "").lower()
+                
+                # 2. V5 결장자 데이터 매칭
+                v5_match_data = {}
+                for k, v in v5_lineup_dict.items():
+                    if not isinstance(v, dict): continue
+                    v_code = str(v.get("match_code", k)).strip()
+                    v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
+                    v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
+                    if v_code == target_code or (clean_home in v_h and clean_away in v_a):
+                        v5_match_data = v
+                        break
+                
+                raw_home_absentees = []
+                raw_away_absentees = []
+                if v5_match_data:
+                    data_home = str(v5_match_data.get("home", "")).strip().replace(" ", "").lower()
+                    if clean_home in data_home or data_home in clean_home:
+                        h_raw = v5_match_data.get("home_absentees", [])
+                        a_raw = v5_match_data.get("away_absentees", [])
+                    else:
+                        h_raw = v5_match_data.get("away_absentees", [])
+                        a_raw = v5_match_data.get("home_absentees", [])
+                    
+                    raw_home_absentees = [p for p in h_raw if str(p.get("status", "")).strip() in ["결장", "부상", "징계", "누수", "출전의심/기타"] and str(p.get("name", "")).strip()]
+                    raw_away_absentees = [p for p in a_raw if str(p.get("status", "")).strip() in ["결장", "부상", "징계", "누수", "출전의심/기타"] and str(p.get("name", "")).strip()]
+
+                # 3. V5-1 스쿼드 풀 매칭
+                v5_1_match_data = {}
+                for k, v in v5_1_squad_dict.items():
+                    if not isinstance(v, dict): continue
+                    v_code = str(v.get("match_code", k)).strip()
+                    v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
+                    v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
+                    if v_code == target_code or (clean_home in v_h and clean_away in v_a):
+                        v5_1_match_data = v
+                        break
+                
+                home_squad_pool = []
+                away_squad_pool = []
+                if v5_1_match_data:
+                    data_squad_home = str(v5_1_match_data.get("home", "")).strip().replace(" ", "").lower()
+                    if clean_home in data_squad_home or data_squad_home in clean_home:
+                        home_squad_pool = v5_1_match_data.get("home_squad", [])
+                        away_squad_pool = v5_1_match_data.get("away_squad", [])
+                    else:
+                        home_squad_pool = v5_1_match_data.get("away_squad", [])
+                        away_squad_pool = v5_1_match_data.get("home_squad", [])
+
+                # 4. 개별 팀 보정치 산출 내부 헬퍼 함수
+                def calc_team_absentee_weights(abs_list, squad_list):
+                    if not abs_list:
+                        return 0.0, 0.0
+                    
+                    squad_pos_map = {}
+                    if squad_list and isinstance(squad_list, list):
+                        for p in squad_list:
+                            if not isinstance(p, dict): continue
+                            p_name = str(p.get("name", "")).strip()
+                            p_pos = str(p.get("position", "")).strip()
+                            if p_name and p_pos:
+                                squad_pos_map[p_name] = p_pos
+                                squad_pos_map[p_name.replace(" ", "")] = p_pos
+                    
+                    t_atk, t_def = 0.0, 0.0
+                    for item in abs_list:
+                        p_name = str(item.get("name", "-")).strip()
+                        p_pos = squad_pos_map.get(p_name, squad_pos_map.get(p_name.replace(" ", ""), "미드필더"))
+                        if not p_pos or p_pos == "-":
+                            p_pos = "미드필더"
+                        
+                        p_type = str(item.get("status", "결장")).strip()
+                        stats_dict = item.get("stats", {})
+                        raw_grade = str(stats_dict.get("grade", item.get("grade", "C"))).strip().upper()
+                        
+                        if "A" in raw_grade: rate = 12.0
+                        elif "B" in raw_grade: rate = 8.0
+                        elif "C" in raw_grade: rate = 4.0
+                        else: rate = 0.0
+                        
+                        is_attacker = any(k in p_pos for k in ["공격수", "FW", "MF"])
+                        is_defender = any(k in p_pos for k in ["수비수", "골키퍼", "DF", "GK"])
+                        
+                        if p_type in ["결장", "부상", "징계", "누수", "출전의심/기타"]:
+                            if is_attacker:
+                                atk_v, def_v = -rate, rate / 2.0
+                            elif is_defender:
+                                atk_v, def_v = -rate / 2.0, rate
+                            else:
+                                atk_v, def_v = -rate, rate / 2.0
+                        else:
+                            if is_attacker:
+                                atk_v, def_v = rate, -rate / 2.0
+                            elif is_defender:
+                                atk_v, def_v = rate / 2.0, -rate
+                            else:
+                                atk_v, def_v = rate, -rate / 2.0
+                        
+                        t_atk += atk_v
+                        t_def += def_v
+                    return t_atk, t_def
+
+                h_tot_atk, h_tot_def = calc_team_absentee_weights(raw_home_absentees, home_squad_pool)
+                a_tot_atk, a_tot_def = calc_team_absentee_weights(raw_away_absentees, away_squad_pool)
+
+            except Exception as e:
+                # 💡 [강력 방어] 예외 발생 시 크래시 없이 기본 0.0 보정치 반환
+                print(f"[Engine 3-1 Error Warning]: {e}")
+                
+            return h_tot_atk, h_tot_def, a_tot_atk, a_tot_def
+
+        # 엔진 메인 흐름에 3-1 결과 주입
+        h_r31_atk, h_r31_def, a_r31_atk, a_r31_def = compute_squad_changes_engine(target_code, home_name, away_name)  
+        
+        
+        
+        
+        # (3-2)일정 중요도·피로도 화면 연동 일치화
         h_squad_changes = meta_details.get("home_squad_changes", [])
         a_squad_changes = meta_details.get("away_squad_changes", [])
 
@@ -415,11 +598,17 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk
         a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def  # 👈 방어력 누락분 완전 결속
 
-        # 💡 [규칙 5-2 연동] 대시보드 5-2 표의 실전 평균 득실 데이터를 엔진 내부에 안전하게 수용
-        h_agf = float(target_detail.get("h_agf", h_base_g))
-        a_agf = float(target_detail.get("a_agf", a_base_g))
+# ==============================================================================
+        # 📊 [규칙 5-2 연동 및 규칙 5·6번 종합 산출 블록]
+        # ==============================================================================
         
-        # [규칙 5번] 최종 보정 및 1차 기본 기대 득실점 산출 (단일 화면과 완벽 동기화)
+        # 1. 5-2 표 실전 평균 득실 데이터 엔진 내부 안전 수용 (결과값 없을 시 기본 베이스값 방어)
+        h_agf = float(target_detail.get("h_agf", h_base_g))
+        h_aga = float(target_detail.get("h_aga", h_base_c))
+        a_agf = float(target_detail.get("a_agf", a_base_g))
+        a_aga = float(target_detail.get("a_aga", a_base_c))
+
+        # 2. [규칙 5번] 최종 보정 및 1차 기본 기대 득실점 산출 (단일 화면과 완벽 동기화)
         h_max_g = h_base_g * (1 + h_tot_atk_pct / 100.0)
         h_min_c = h_base_c * (1 + h_tot_def_pct / 100.0)
         a_max_g = a_base_g * (1 + a_tot_atk_pct / 100.0)
@@ -430,11 +619,11 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_final_exp_g = max(0.2, (a_max_g + (2.0 - h_min_c)) / 2.0)
         a_final_exp_c = max(0.2, (a_min_c + (2.0 - h_max_g)) / 2.0)
 
+        # 3. [규칙 5-3] 오버 팩터(Over Factor) 변동성 보정 반영
         h_tier_val = tier_ranks.get(base_h_at, 3)
         a_tier_val = tier_ranks.get(base_a_at, 3)
         tier_diff = abs(h_tier_val - a_tier_val)
 
-        # 5-3 오버 팩터(Over Factor) 변동성 보정 반영
         h_over_factor = 0.0
         a_over_factor = 0.0
 
@@ -448,12 +637,25 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             h_over_factor = 0.15
             a_over_factor = 0.15
 
-        # 💡 최종 람다 산정 시 5-2 실전 평균(h_agf, a_agf)과 오버 팩터 정밀 결합
+        # 4. 💡 최종 람다 산정 시 [5-2 실전 평균(h_agf, a_agf)]과 [5-3 오버 팩터] 정밀 결합 연동
         h_final = max(0.2, ((h_final_exp_g * (1 + h_over_factor)) + h_agf) / 2.0)
         a_final = max(0.2, ((a_final_exp_g * (1 + a_over_factor)) + a_agf) / 2.0)
         total_expected_goals = h_final + a_final
 
-# --------------------------------------------------------------------------
+        # ==============================================================================
+        # 📊 [5-4] 이원화 동적 골 범위 행렬 확정 및 구획 분류 (엔진 백엔드 연동)
+        # ==============================================================================
+        if total_expected_goals < 2.2:
+            poisson_zone_name = "저득점 통제 구역 (total < 2.2)"
+            matrix_range = "0 ~ 3골 범위 (4×4 행렬)"
+        elif total_expected_goals <= 3.2 and tier_diff < 2:
+            poisson_zone_name = "표준 득점 구역 (2.2 ~ 3.2)"
+            matrix_range = "0 ~ 4골 범위 (5×5 행렬 - 기본)"
+        else:
+            poisson_zone_name = "다득점 변동 구역 (total > 3.2 또는 격차 2단계 이상)"
+            matrix_range = "0 ~ 6골 / 0 ~ 7골 동적 확장 행렬"
+        
+        # --------------------------------------------------------------------------
         # 🧮 [규칙 6] 푸아송 분포 및 승무패 확률 / 예측 순위 정밀 연산 (5-2 최적합 1순위 강제 고정)
         # --------------------------------------------------------------------------
         def poisson_prob(lmbda, k):
