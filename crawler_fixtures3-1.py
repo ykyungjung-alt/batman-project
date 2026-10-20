@@ -7,14 +7,20 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from zoneinfo import ZoneInfo
 
-def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
+# 💡 [속도 최적화] 동일한 서브 페이지 ID 결과는 메모리에 캐싱하여 중복 이동(`driver.get`)을 원천 방지
+_opponent_stats_cache = {}
+
+def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
     """
-    💡 서브 페이지에 들어가서 순수하게 골득실(경기당 득점/실점) 수치만 가져오도록 최적화된 함수
+    💡 서브 페이지 골득실 수치 수집 함수 (캐싱 적용으로 속도 대폭 개선)
     """
+    if sub_m_id in _opponent_stats_cache:
+        return _opponent_stats_cache[sub_m_id]
+
     sub_url = f"https://www.scoreman123.com/match/data-{sub_m_id}"
     try:
         driver.get(sub_url)
-        time.sleep(0.3)
+        time.sleep(0.15)  # 대기 시간 최소화
         soup = BeautifulSoup(driver.page_source, "html.parser")
         
         sub_home, sub_away = "", ""
@@ -48,11 +54,36 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
                 opp_goals = away_goals if is_target_home else home_goals
                 opp_conceded = away_conceded if is_target_home else home_conceded
                 
-                return f"{opp_goals}/{opp_conceded}"
+                result_val = f"{opp_goals}/{opp_conceded}"
+                _opponent_stats_cache[sub_m_id] = result_val
+                return result_val
     except Exception:
         pass
     
     return "0.00/0.00"
+
+def expand_dropdowns_to_20(driver):
+    """
+    💡 페이지 내 모든 'selRecentMatch' 드롭다운을 열어 'v-data="20"' 항목을 클릭하여 20개로 확장
+    """
+    try:
+        dropdown_buttons = driver.find_elements("xpath", "//span[@id='selRecentMatch']")
+        for d_btn in dropdown_buttons:
+            try:
+                driver.execute_script("arguments[0].click();", d_btn)
+                time.sleep(0.1)
+                
+                option_20s = driver.find_elements("xpath", "//div[@id='selRecentMatchItem']//li[@v-data='20']")
+                for opt in option_20s:
+                    try:
+                        driver.execute_script("arguments[0].click();", opt)
+                        time.sleep(0.1)
+                    except:
+                        pass
+            except:
+                pass
+    except Exception as e:
+        print(f"  - 20개 확장 드롭다운 클릭 예외: {e}")
 
 def run_table_based_crawler_v3_1():
     if not os.path.exists("data.json"):
@@ -134,23 +165,8 @@ def run_table_based_crawler_v3_1():
             
             try:
                 driver.get(detail_url)
-                time.sleep(1.0)
+                time.sleep(0.5)
                 
-                detail_soup = BeautifulSoup(driver.page_source, "html.parser")
-                
-                head_info = {
-                    "league": target["league"],
-                    "round": ""
-                }
-                
-                try:
-                    sclass_span = detail_soup.find("span", {"class": "sclassListLink"})
-                    if sclass_span:
-                        full_text = sclass_span.get_text(separator=" ", strip=True)
-                        head_info["league"] = full_text.replace("·", "").strip()
-                except Exception:
-                    pass
-
                 recent_form_data = {
                     "form_title": "최근 전적",
                     "home_team_name": main_home, "home_matches": [], 
@@ -163,87 +179,104 @@ def run_table_based_crawler_v3_1():
                     "away_team_name": main_away, "away_matches": []
                 }
                 
+                def parse_matches(container_ul, target_team, target_list, max_count=20):
+                    if not container_ul: return
+                    count = 0
+                    for li in container_ul.find_all("li", class_="courselis"):
+                        if count >= max_count: break
+                        if "ftScore" in str(li) or li.find("span", class_="ftScore"):
+                            league_div = li.find("div", class_="team")
+                            time_span = li.find("span", {"name": "timeData"})
+                            
+                            raw_t_str = time_span.get_text(strip=True) if time_span else ""
+                            match_time_val = raw_t_str
+                            try:
+                                parts = raw_t_str.split()
+                                if len(parts) >= 2:
+                                    d_part = parts[0].replace("-", ".").replace("/", ".")
+                                    y_part = parts[1]
+                                    d_tokens = d_part.split(".")
+                                    if len(d_tokens) == 2:
+                                        match_time_val = f"{y_part}.{d_tokens[0].zfill(2)}.{d_tokens[1].zfill(2)}"
+                            except Exception:
+                                pass
+                            
+                            team_spans = li.find_all("span")
+                            teams_text = ""
+                            span_texts = [s.get_text(strip=True) for s in team_spans if s.get_text(strip=True) and not s.has_attr("name")]
+                            if len(span_texts) >= 2:
+                                teams_text = f"{span_texts[0]} vs {span_texts[1]}"
+                            
+                            ft_scores = [span.get_text(strip=True) for span in li.find_all("span", class_="ftScore")]
+                            
+                            sub_m_id = None
+                            for el in li.find_all(attrs={"onclick": True}):
+                                onclick_attr = el["onclick"]
+                                if "soccerInPage.analysis" in onclick_attr:
+                                    try:
+                                        sub_m_id = onclick_attr.split("'")[1]
+                                        break
+                                    except: pass
+                            
+                            opponent_tier_info = "0.00/0.00"
+                            if sub_m_id:
+                                opponent_tier_info = fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team)
+                                driver.get(detail_url)
+                                time.sleep(0.1)
+
+                            match_info = {
+                                "league": league_div.get_text(strip=True) if league_div else "",
+                                "match_time": match_time_val,
+                                "teams": teams_text,
+                                "ft_scores": ft_scores,
+                                "opponent_tier_info": opponent_tier_info
+                            }
+                            if match_info["ft_scores"] and match_info not in target_list:
+                                target_list.append(match_info)
+                                count += 1
+
+                # -------------------------------------------------------------
+                # 1. [최근 전적] 20개 확장 클릭 후 수집
+                # -------------------------------------------------------------
                 try:
-                    def parse_matches(container_ul, target_team, target_list, max_count=10):
-                        if not container_ul: return
-                        count = 0
-                        for li in container_ul.find_all("li", class_="courselis"):
-                            if count >= max_count: break
-                            if "ftScore" in str(li) or li.find("span", class_="ftScore"):
-                                league_div = li.find("div", class_="team")
-                                time_span = li.find("span", {"name": "timeData"})
-                                
-                                raw_t_str = time_span.get_text(strip=True) if time_span else ""
-                                match_time_val = raw_t_str
-                                try:
-                                    parts = raw_t_str.split()
-                                    if len(parts) >= 2:
-                                        d_part = parts[0].replace("-", ".").replace("/", ".")
-                                        y_part = parts[1]
-                                        d_tokens = d_part.split(".")
-                                        if len(d_tokens) == 2:
-                                            match_time_val = f"{y_part}.{d_tokens[0].zfill(2)}.{d_tokens[1].zfill(2)}"
-                                except Exception:
-                                    pass
-                                
-                                team_spans = li.find_all("span")
-                                teams_text = ""
-                                span_texts = [s.get_text(strip=True) for s in team_spans if s.get_text(strip=True) and not s.has_attr("name")]
-                                if len(span_texts) >= 2:
-                                    teams_text = f"{span_texts[0]} vs {span_texts[1]}"
-                                
-                                ft_scores = [span.get_text(strip=True) for span in li.find_all("span", class_="ftScore")]
-                                
-                                sub_m_id = None
-                                for el in li.find_all(attrs={"onclick": True}):
-                                    onclick_attr = el["onclick"]
-                                    if "soccerInPage.analysis" in onclick_attr:
-                                        try:
-                                            sub_m_id = onclick_attr.split("'")[1]
-                                            break
-                                        except: pass
-                                
-                                opponent_tier_info = "0.00/0.00"
-                                if sub_m_id:
-                                    opponent_tier_info = fetch_opponent_stats_fast(driver, sub_m_id, target_team)
-                                    driver.get(detail_url)
-                                    time.sleep(0.2)
-
-                                match_info = {
-                                    "league": league_div.get_text(strip=True) if league_div else "",
-                                    "match_time": match_time_val,
-                                    "teams": teams_text,
-                                    "ft_scores": ft_scores,
-                                    "opponent_tier_info": opponent_tier_info
-                                }
-                                if match_info["ft_scores"] and match_info not in target_list:
-                                    target_list.append(match_info)
-                                    count += 1
-
-                    # 1. 최근전적 수집
+                    expand_dropdowns_to_20(driver)
+                    detail_soup = BeautifulSoup(driver.page_source, "html.parser")
+                    
                     home_ul = detail_soup.find("ul", id="tb_home_recent")
                     away_ul = detail_soup.find("ul", id="tb_guest_recent")
-                    if home_ul: parse_matches(home_ul, main_home, recent_form_data["home_matches"], 10)
-                    if away_ul: parse_matches(away_ul, main_away, recent_form_data["away_matches"], 10)
-
-                    # 2. 구장별 전적 수집
-                    try:
-                        checkbox = driver.find_element("id", "cbRecentFull")
-                        if checkbox and not checkbox.is_selected():
-                            driver.execute_script("arguments[0].click();", checkbox)
-                            time.sleep(0.5)
-                            
-                        stadium_soup = BeautifulSoup(driver.page_source, "html.parser")
-                        s_home_ul = stadium_soup.find("ul", id="tb_home_recent")
-                        s_away_ul = stadium_soup.find("ul", id="tb_guest_recent")
-                        
-                        if s_home_ul: parse_matches(s_home_ul, main_home, stadium_form_data["home_matches"], 10)
-                        if s_away_ul: parse_matches(s_away_ul, main_away, stadium_form_data["away_matches"], 10)
-                    except Exception as s_err:
-                        print(f"  - 구장별 전적 토글 수집 예외: {s_err}")
-
+                    if home_ul: parse_matches(home_ul, main_home, recent_form_data["home_matches"], 20)
+                    if away_ul: parse_matches(away_ul, main_away, recent_form_data["away_matches"], 20)
                 except Exception as e:
-                    print(f"  - 전적 수집 예외 ({m_id}): {e}")
+                    print(f"  - 최근 전적 수집 예외: {e}")
+
+                # -------------------------------------------------------------
+                # 2. [구장별 전적] 체크박스 클릭 후, 드롭다운 20개 확장 클릭 후 수집
+                # -------------------------------------------------------------
+                try:
+                    checkbox = driver.find_element("id", "cbRecentFull")
+                    if checkbox and not checkbox.is_selected():
+                        driver.execute_script("arguments[0].click();", checkbox)
+                        time.sleep(0.3)
+                    
+                    expand_dropdowns_to_20(driver)
+                    
+                    stadium_soup = BeautifulSoup(driver.page_source, "html.parser")
+                    s_home_ul = stadium_soup.find("ul", id="tb_home_recent")
+                    s_away_ul = stadium_soup.find("ul", id="tb_guest_recent")
+                    
+                    if s_home_ul: parse_matches(s_home_ul, main_home, stadium_form_data["home_matches"], 20)
+                    if s_away_ul: parse_matches(s_away_ul, main_away, stadium_form_data["away_matches"], 20)
+                except Exception as s_err:
+                    print(f"  - 구장별 전적 토글 수집 예외: {s_err}")
+
+                head_info = {"league": target["league"], "round": ""}
+                try:
+                    sclass_span = detail_soup.find("span", {"class": "sclassListLink"})
+                    if sclass_span:
+                        full_text = sclass_span.get_text(separator=" ", strip=True)
+                        head_info["league"] = full_text.replace("·", "").strip()
+                except Exception:
+                    pass
 
                 match_details[m_id] = {
                     "match_code": m_id,
@@ -266,11 +299,10 @@ def run_table_based_crawler_v3_1():
             "match_details": match_details
         }
         
-        # 💡 저장소 이름 분리
         with open("match_details_v3-1.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 24~48시간 구간 크롤링 완료 -> match_details_v3-1.json 저장 완료")
+        print(f"\n🎉 성공: V3-1 (24~48시간 구간) 20개 확장 및 속도 최적화 완료 -> match_details_v3-1.json 저장 완료")
 
     finally:
         driver.quit()
