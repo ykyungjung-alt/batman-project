@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-20 09:46:36",
+    "last_updated": "2026-10-20 12:36:14",
     "match_details": {
         "3101574": {
             "match_code": "3101574",
@@ -93,7 +93,7 @@
                 "match_time_display": "2026-10-20 23:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "맑음,  23°C"
+                "weather": "맑음,  24°C"
             },
             "home": "아슛 페트롤레움(N)",
             "away": "자말렉",
@@ -450,172 +450,6 @@
                 }
             }
         },
-        "3103216": {
-            "match_code": "3103216",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 6",
-                "match_time_raw": "10/20/2026 1:00:00 AM",
-                "match_time_display": "2026-10-20 10:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": "구름 조금,  28°C"
-            },
-            "home": "라싱 유나이티드",
-            "away": "워터하우스",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "2",
-                        "team": "라싱 유나이티드",
-                        "played": "5",
-                        "win": "4",
-                        "draw": "0",
-                        "loss": "1",
-                        "goals_for": "14",
-                        "goals_against": "6",
-                        "goal_diff": "8",
-                        "points": "12"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "3",
-                        "team": "워터하우스",
-                        "played": "5",
-                        "win": "3",
-                        "draw": "2",
-                        "loss": "0",
-                        "goals_for": "15",
-                        "goals_against": "2",
-                        "goal_diff": "13",
-                        "points": "11"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "5승 2무 3패",
-                        "goals_per_game": "2.20",
-                        "conceded_per_game": "1.40"
-                    },
-                    "away_summary": {
-                        "recent_record": "5승 3무 2패",
-                        "goals_per_game": "2.50",
-                        "conceded_per_game": "0.80"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 2 (33.3%)",
-                        "무승부 2 (33.3%)",
-                        "1.00",
-                        "경기당 득점",
-                        "0.67",
-                        "핸디캡：3승 0무 2패",
-                        "언오버：2오버 0무 3언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "JAM D12026.04.12",
-                                "라싱 유나이티드",
-                                "0-1",
-                                "워터하우스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12026.01.04",
-                                "라싱 유나이티드",
-                                "0-0",
-                                "워터하우스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12025.08.31",
-                                "워터하우스",
-                                "1-2",
-                                "라싱 유나이티드"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12025.03.13",
-                                "워터하우스",
-                                "0-3",
-                                "라싱 유나이티드"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12024.12.22",
-                                "라싱 유나이티드",
-                                "1-1",
-                                "워터하우스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "JAM D12024.09.17",
-                                "워터하우스",
-                                "1-0",
-                                "라싱 유나이티드"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-25 20:30:00",
-                            "teams": "10.25 2026 vs 험블 라이온즈 vs 라싱 유나이티드 vs 6 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-01 20:30:00",
-                            "teams": "11.01 2026 vs 라싱 유나이티드 vs 트레저 비치 vs 13 일",
-                            "interval": "13 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-09 22:05:00",
-                            "teams": "11.09 2026 vs 채플턴 vs 라싱 유나이티드 vs 21 일",
-                            "interval": "21 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-25 23:00:00",
-                            "teams": "10.25 2026 vs 워터하우스 vs 던베홀덴 vs 6 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-03 01:00:00",
-                            "teams": "11.03 2026 vs 워터하우스 vs 카발리어 vs 14 일",
-                            "interval": "14 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-10 01:00:00",
-                            "teams": "11.10 2026 vs 아넷 가든스 vs 워터하우스 vs 21 일",
-                            "interval": "21 일"
-                        }
-                    ]
-                }
-            }
-        },
         "3100511": {
             "match_code": "3100511",
             "head_info": {
@@ -760,7 +594,7 @@
                 "match_time_display": "2026-10-20 21:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "맑음,  23°C"
             },
             "home": "Halaba City",
             "away": "파실 케네마",
@@ -769,7 +603,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "1",
+                        "rank": "3",
                         "team": "Halaba City",
                         "played": "2",
                         "win": "1",
@@ -855,6 +689,120 @@
                             "match_time": "2026-10-31 12:00:00",
                             "teams": "10.31 2026 vs 파실 케네마 vs 바히르다르 케네마 vs 11 일",
                             "interval": "11 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3104492": {
+            "match_code": "3104492",
+            "head_info": {
+                "league": "국제 친선경기",
+                "round": "",
+                "match_time_raw": "10/20/2026 10:00:00 AM",
+                "match_time_display": "2026-10-20 19:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "헝가리 U17",
+            "away": "몰타 U17",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 1무 5패",
+                        "goals_per_game": "1.90",
+                        "conceded_per_game": "2.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "0승 2무 8패",
+                        "goals_per_game": "0.60",
+                        "conceded_per_game": "2.90"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 3 (100%)",
+                        "무승부 0 (0%)",
+                        "승 0 (0%)",
+                        "4.00",
+                        "경기당 득점",
+                        "0.33",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：0오버 0무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "INT FRLW2014.08.09",
+                                "헝가리 U17",
+                                "3-0",
+                                "몰타 U17"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT CF2012.08.01",
+                                "헝가리 U17",
+                                "7-0",
+                                "몰타 U17"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT CF2011.08.03",
+                                "헝가리 U17",
+                                "2-1",
+                                "몰타 U17"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "유로 U17",
+                            "match_time": "2026-11-11 14:00:00",
+                            "teams": "11.11 2026 vs 헝가리 U17 vs 북마케도니아 U17 vs 22 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "유로 U17",
+                            "match_time": "2026-11-14 14:00:00",
+                            "teams": "11.14 2026 vs 터키 U17 vs 헝가리 U17 vs 25 일",
+                            "interval": "25 일"
+                        },
+                        {
+                            "league": "유로 U17",
+                            "match_time": "2026-11-17 14:00:00",
+                            "teams": "11.17 2026 vs 산마리노 U17 vs 헝가리 U17 vs 28 일",
+                            "interval": "28 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "유로 U17",
+                            "match_time": "2026-11-11 14:00:00",
+                            "teams": "11.11 2026 vs 슬로바키아 U17 vs 몰타 U17 vs 22 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "유로 U17",
+                            "match_time": "2026-11-14 14:00:00",
+                            "teams": "11.14 2026 vs 노르웨이 U17 vs 몰타 U17 vs 25 일",
+                            "interval": "25 일"
+                        },
+                        {
+                            "league": "유로 U17",
+                            "match_time": "2026-11-17 14:00:00",
+                            "teams": "11.17 2026 vs 몰타 U17 vs 네덜란드 U17 vs 28 일",
+                            "interval": "28 일"
                         }
                     ]
                 }
@@ -1257,7 +1205,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "15",
+                        "rank": "16",
                         "team": "헐시티 U21",
                         "played": "6",
                         "win": "1",
@@ -1778,118 +1726,6 @@
                             "match_time": "2026-10-30 13:00:00",
                             "teams": "10.30 2026 vs 카타카 vs 폴리스 vs 10 일",
                             "interval": "10 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-04 13:00:00",
-                            "teams": "11.04 2026 vs 카타카 vs URA SC vs 15 일",
-                            "interval": "15 일"
-                        }
-                    ]
-                }
-            }
-        },
-        "3074504": {
-            "match_code": "3074504",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "",
-                "match_time_raw": "10/20/2026 1:00:00 PM",
-                "match_time_display": "2026-10-20 22:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "블랙스 파워",
-            "away": "URA SC",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "5승 1무 4패",
-                        "goals_per_game": "1.20",
-                        "conceded_per_game": "1.20"
-                    },
-                    "away_summary": {
-                        "recent_record": "2승 4무 4패",
-                        "goals_per_game": "0.80",
-                        "conceded_per_game": "1.00"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 0 (0%)",
-                        "무승부 3 (100%)",
-                        "0.33",
-                        "경기당 득점",
-                        "핸디캡：2승 0무 0패",
-                        "언오버：0오버 0무 2언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "Uganda C2026.02.25",
-                                "URA SC",
-                                "0-0",
-                                "블랙스 파워"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "UPL2023.05.03",
-                                "블랙스 파워",
-                                "1-1",
-                                "URA SC"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "UPL2022.12.02",
-                                "URA SC",
-                                "0-0",
-                                "블랙스 파워"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-27 13:00:00",
-                            "teams": "10.27 2026 vs 빌라 vs 블랙스 파워 vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-30 13:00:00",
-                            "teams": "10.30 2026 vs 블랙스 파워 vs NEC FC vs 10 일",
-                            "interval": "10 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-05 13:00:00",
-                            "teams": "11.05 2026 vs 익스프레스 FC vs 블랙스 파워 vs 16 일",
-                            "interval": "16 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-27 13:00:00",
-                            "teams": "10.27 2026 vs UPDF vs URA SC vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-31 16:00:00",
-                            "teams": "10.31 2026 vs URA SC vs 바이퍼스 vs 11 일",
-                            "interval": "11 일"
                         },
                         {
                             "league": "프리미어리그",
