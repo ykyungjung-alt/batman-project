@@ -593,22 +593,22 @@ with tabs[1]:
                     df_name = def_tier_nm(od)  # 상대 방어 티어
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
-                    # 💡 [특수룰 정밀 교정] 내 팀 체급(my_at, my_de) vs 상대 팀 티어(at_name, df_name) 정확한 교차 대조
+                    # 💡 [특수룰 정밀 교정] 10경기 평균 확정 체급(my_at, my_de) 기반 엄격 교차 대조
                     rule_descs = []
                     
-                    # 1. 내 공격 관점: 내 공격 체급(my_at) vs 상대 방어 티어(df_name)
-                    if my_at == "Tier A" and df_name == "Tier E":
+                    # 1. 공격 대칭 교차 룰 (내 공격력이 A고 상대 수비가 E이거나, 반대로 내 공격이 E고 상대 수비가 A일 때)
+                    if my_at == "Tier A" and (df_name == "Tier E" or od >= 2.0):
                         mult_gf = 0.5
                         rule_descs.append("공격 A vs 상대수비 E (득점 50% 할인)")
-                    elif my_at == "Tier E" and df_name == "Tier A":
+                    elif my_at == "Tier E" and (df_name == "Tier A" or od < 0.5):
                         mult_gf = 1.5
                         rule_descs.append("공격 E vs 상대수비 A (득점 50% 할증)")
                         
-                    # 2. 내 방어 관점: 내 방어 체급(my_de) vs 상대 공격 티어(at_name)
-                    if my_de == "Tier A" and at_name == "Tier E":
+                    # 2. 방어 대칭 교차 룰 (내 방어력이 A고 상대 공격이 E이거나, 반대로 내 방어가 E고 상대 공격이 A일 때)
+                    if my_de == "Tier A" and (at_name == "Tier E" or oa < 0.5):
                         mult_ga = 1.5
                         rule_descs.append("방어 A vs 상대공격 E (실점 50% 할증)")
-                    elif my_de == "Tier E" and at_name == "Tier A":
+                    elif my_de == "Tier E" and (at_name == "Tier A" or oa >= 2.3):
                         mult_ga = 0.5
                         rule_descs.append("방어 E vs 상대공격 A (실점 50% 할인)")
                         
