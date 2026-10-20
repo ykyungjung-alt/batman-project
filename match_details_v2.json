@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-20 15:43:51",
+    "last_updated": "2026-10-20 18:39:24",
     "match_details": {
         "3073151": {
             "match_code": "3073151",
@@ -4947,7 +4947,7 @@
                 "match_time_display": "2026-10-21 02:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "맑음,  26°C"
+                "weather": "구름 조금,  26°C"
             },
             "home": "와디 데글라",
             "away": "이집트 국립은행",
@@ -5108,7 +5108,7 @@
                 "match_time_display": "2026-10-21 02:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  24°C"
+                "weather": "맑음,  24°C"
             },
             "home": "엘 가이쉬",
             "away": "피라미드",
@@ -5301,7 +5301,7 @@
                 "match_time_display": "2026-10-21 23:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "구름 조금,  26°C"
             },
             "home": "가즐 엘 말라",
             "away": "알 이티하드",
@@ -5853,7 +5853,7 @@
                 "match_time_display": "2026-10-21 21:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "맑음,  25°C"
             },
             "home": "에디오피아 번나",
             "away": "Negele Arsi Ketema",
@@ -5862,7 +5862,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "7",
+                        "rank": "6",
                         "team": "에디오피아 번나",
                         "played": "2",
                         "win": "1",
@@ -5876,7 +5876,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "9",
+                        "rank": "10",
                         "team": "Negele Arsi Ketema",
                         "played": "2",
                         "win": "0",
@@ -5973,343 +5973,6 @@
                 }
             }
         },
-        "3100514": {
-            "match_code": "3100514",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 3",
-                "match_time_raw": "10/21/2026 12:00:00 PM",
-                "match_time_display": "2026-10-21 21:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "하디야 호사나",
-            "away": "웰왈로 아디그라트",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "15",
-                        "team": "하디야 호사나",
-                        "played": "2",
-                        "win": "0",
-                        "draw": "1",
-                        "loss": "1",
-                        "goals_for": "1",
-                        "goals_against": "2",
-                        "goal_diff": "-1",
-                        "points": "1"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "11",
-                        "team": "웰왈로 아디그라트",
-                        "played": "1",
-                        "win": "0",
-                        "draw": "1",
-                        "loss": "0",
-                        "goals_for": "1",
-                        "goals_against": "1",
-                        "goal_diff": "0",
-                        "points": "1"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "3승 5무 2패",
-                        "goals_per_game": "0.60",
-                        "conceded_per_game": "0.50"
-                    },
-                    "away_summary": {
-                        "recent_record": "3승 4무 3패",
-                        "goals_per_game": "0.90",
-                        "conceded_per_game": "1.10"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 3 (60%)",
-                        "무승부 0 (0%)",
-                        "승 2 (40%)",
-                        "1.20",
-                        "경기당 득점",
-                        "1.00"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "ETH PR2026.06.22",
-                                "웰왈로 아디그라트",
-                                "0-1",
-                                "하디야 호사나"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2026.01.25",
-                                "하디야 호사나",
-                                "1-2",
-                                "웰왈로 아디그라트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2025.05.13",
-                                "하디야 호사나",
-                                "3-2",
-                                "웰왈로 아디그라트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2025.01.26",
-                                "웰왈로 아디그라트",
-                                "1-0",
-                                "하디야 호사나"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2020.01.12",
-                                "웰왈로 아디그라트",
-                                "0-1",
-                                "하디야 호사나"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-24 12:00:00",
-                            "teams": "10.24 2026 vs 하디야 호사나 vs 파실 케네마 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-30 13:00:00",
-                            "teams": "10.30 2026 vs Halaba City vs 하디야 호사나 vs 9 일",
-                            "interval": "9 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-21 12:00:00",
-                            "teams": "11.21 2026 vs 세인트 조지 vs 하디야 호사나 vs 31 일",
-                            "interval": "31 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "CAF 컨페더레이션스컵",
-                            "match_time": "2026-10-24 17:00:00",
-                            "teams": "10.24 2026 vs 알 아흘리 트리폴리 vs 웰왈로 아디그라트 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-27 12:00:00",
-                            "teams": "10.27 2026 vs 웰왈로 아디그라트 vs 파실 케네마 vs 6 일",
-                            "interval": "6 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-01 13:00:00",
-                            "teams": "11.01 2026 vs 웰레이타 디차 vs 웰왈로 아디그라트 vs 11 일",
-                            "interval": "11 일"
-                        }
-                    ]
-                }
-            }
-        },
-        "3100515": {
-            "match_code": "3100515",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": "프리미어리그·  라운드 3",
-                "match_time_raw": "10/21/2026 12:00:00 PM",
-                "match_time_display": "2026-10-21 21:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "시다마 번나",
-            "away": "에디오피안 인슈어런스",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "17",
-                        "team": "시다마 번나",
-                        "played": "1",
-                        "win": "0",
-                        "draw": "0",
-                        "loss": "1",
-                        "goals_for": "0",
-                        "goals_against": "1",
-                        "goal_diff": "-1",
-                        "points": "0"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "2",
-                        "team": "에디오피안 인슈어런스",
-                        "played": "2",
-                        "win": "1",
-                        "draw": "1",
-                        "loss": "0",
-                        "goals_for": "3",
-                        "goals_against": "1",
-                        "goal_diff": "2",
-                        "points": "4"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "4승 2무 4패",
-                        "goals_per_game": "0.80",
-                        "conceded_per_game": "0.80"
-                    },
-                    "away_summary": {
-                        "recent_record": "2승 5무 3패",
-                        "goals_per_game": "0.80",
-                        "conceded_per_game": "1.00"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 3 (33.3%)",
-                        "무승부 3 (33.3%)",
-                        "0.67",
-                        "경기당 득점",
-                        "1.22"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "Ethiopia C2026.05.26",
-                                "시다마 번나",
-                                "2-2",
-                                "에디오피안 인슈어런스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2026.05.06",
-                                "시다마 번나",
-                                "0-1",
-                                "에디오피안 인슈어런스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2025.12.26",
-                                "에디오피안 인슈어런스",
-                                "1-1",
-                                "시다마 번나"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2025.05.28",
-                                "에디오피안 인슈어런스",
-                                "3-0",
-                                "시다마 번나"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2024.10.22",
-                                "시다마 번나",
-                                "1-0",
-                                "에디오피안 인슈어런스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2024.04.07",
-                                "시다마 번나",
-                                "0-0",
-                                "에디오피안 인슈어런스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2024.01.03",
-                                "에디오피안 인슈어런스",
-                                "0-1",
-                                "시다마 번나"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2023.05.10",
-                                "에디오피안 인슈어런스",
-                                "0-1",
-                                "시다마 번나"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ETH PR2022.11.16",
-                                "시다마 번나",
-                                "0-4",
-                                "에디오피안 인슈어런스"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-24 12:00:00",
-                            "teams": "10.24 2026 vs 시다마 번나 vs 아와사 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "CAF 챔피언스리그",
-                            "match_time": "2026-10-25 16:00:00",
-                            "teams": "10.25 2026 vs 알 힐랄 옴두르만 vs 시다마 번나 vs 4 일",
-                            "interval": "4 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-01 15:00:00",
-                            "teams": "11.01 2026 vs 시다마 번나 vs 메찰 vs 11 일",
-                            "interval": "11 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-10-27 12:00:00",
-                            "teams": "10.27 2026 vs 에디오피안 인슈어런스 vs 메찰 vs 6 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-02 12:00:00",
-                            "teams": "11.02 2026 vs 에디오피아 니그드 뱅크 vs 에디오피안 인슈어런스 vs 12 일",
-                            "interval": "12 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-21 12:00:00",
-                            "teams": "11.21 2026 vs 바히르다르 케네마 vs 에디오피안 인슈어런스 vs 31 일",
-                            "interval": "31 일"
-                        }
-                    ]
-                }
-            }
-        },
         "3103470": {
             "match_code": "3103470",
             "head_info": {
@@ -6319,7 +5982,7 @@
                 "match_time_display": "2026-10-21 00:30",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "이슬비,  30°C"
+                "weather": "지역성 천둥,  30°C"
             },
             "home": "OFC Adiake",
             "away": "촐로고",
@@ -6357,7 +6020,7 @@
                 "match_time_display": "2026-10-21 01:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "이슬비,  29°C"
             },
             "home": "마지야",
             "away": "Biss Buru SC",
@@ -6944,6 +6607,63 @@
                 "fixtures": {
                     "home": [],
                     "away": []
+                }
+            }
+        },
+        "3104501": {
+            "match_code": "3104501",
+            "head_info": {
+                "league": "국제 친선경기",
+                "round": "",
+                "match_time_raw": "10/20/2026 5:00:00 PM",
+                "match_time_display": "2026-10-21 02:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "Real Madrid Youth",
+            "away": "온두라스 U17",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "0승 1무 0패",
+                        "goals_per_game": "3.00",
+                        "conceded_per_game": "3.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "1.60",
+                        "conceded_per_game": "1.90"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": [
+                        {
+                            "league": "U17 월드컵",
+                            "match_time": "2026-11-19 15:00:00",
+                            "teams": "11.19 2026 vs 세르비아 U17 vs 온두라스 U17 vs 30 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "U17 월드컵",
+                            "match_time": "2026-11-22 15:00:00",
+                            "teams": "11.22 2026 vs 온두라스 U17 vs 콜롬비아 U17 vs 33 일",
+                            "interval": "33 일"
+                        },
+                        {
+                            "league": "U17 월드컵",
+                            "match_time": "2026-11-25 15:00:00",
+                            "teams": "11.25 2026 vs 온두라스 U17 vs 일본 U17 vs 36 일",
+                            "interval": "36 일"
+                        }
+                    ]
                 }
             }
         },
