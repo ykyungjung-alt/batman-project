@@ -690,14 +690,14 @@ with tabs[1]:
     </div>""", unsafe_allow_html=True)
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (0단계 구장 판별 연동 및 V3/V5 최근 전적 풀 기반 원정 폼 필터링 적용)
+# 💡 규칙 2번 탭 (공식 경기 우선 수집 및 부족 시 친선 경기 보완 LIFO 연동)
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
-    • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를 사용하며, 중립경기일 때는 최근 전적 풀(최대 20경기)에서 홈팀의 원정/중립 성격 경기 기록을 필터링하여 안전하게 산출합니다. 원정팀은 항상 기본 원정 폼을 고정 사용합니다.<br>
+    • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를 사용하며, 중립경기일 때는 최근 전적 풀에서 홈팀의 원정/중립 성격 경기 기록을 필터링하여 안전하게 산출합니다. 공식 경기를 우선 채우되 부족 시 친선 경기로 보완합니다.<br>
     • <b>0단계 구장 판정 연동:</b> 홈구장 일치 여부에 따라 홈경기(초록색) 또는 중립경기(빨간색) 상태를 명시하고 원정 데이터를 분기 적용합니다.<br>
     • <b>공수 대칭 교차 특수 룰:</b> 구장별 전적 환경에서도 팀의 체급(A/E)과 상대 공수 티어의 교차 상성에 따라 득실점이 50% 할인 또는 할증 반영됩니다.
     </div>
@@ -715,10 +715,31 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        # 1. 홈팀 전적 추출 (중립 경기일 경우 최근 전적 풀에서 원정 성격 경기 필터링)
+        # 💡 [NameError 방지] stadium_form 안전 추출
+        stadium_form = detailed_info.get("meta_details", {}).get("stadium_form", {"home_matches": [], "away_matches": []})
+
+        # 💡 [규격 반영] 공식 경기 우선 필터링 및 부족 시 친선전 보완 함수 (시간 순서 유지)
+        def filter_and_supplement_matches(match_list, max_count=10):
+            if not match_list:
+                return []
+            official_matches = []
+            friendly_matches = []
+            for m in match_list:
+                league_str = str(m.get("league", "")).upper()
+                if "CF" in league_str or "친선" in league_str or "FRIENDLY" in league_str:
+                    friendly_matches.append(m)
+                else:
+                    official_matches.append(m)
+            
+            combined = list(official_matches)
+            if len(combined) < max_count:
+                needed = max_count - len(combined)
+                combined.extend(friendly_matches[:needed])
+            return combined[:max_count]
+
+        # 1. 홈팀 전적 추출 (중립 경기일 경우 원정/중립 경기 풀에서 공식전 우선 선별)
         s_home_matches = []
         if is_neutral_venue:
-            # 최근 20경기 규모의 전체 최근 전적 풀(h_matches 등) 확보
             recent_all_pool = []
             if 'h_matches' in locals() and h_matches:
                 recent_all_pool = h_matches
@@ -728,7 +749,6 @@ with tabs[2]:
             neutral_home_away_matches = []
             for m in recent_all_pool:
                 teams_str = str(m.get("teams", ""))
-                # 대진 문자열을 분석하여 홈팀(h_name)이 원정 쪽이거나 포함되지 않은 경기 선별
                 if " vs " in teams_str:
                     t_parts = [p.strip() for p in teams_str.split("vs")]
                     if len(t_parts) >= 2 and h_name not in t_parts[0]:
@@ -736,16 +756,17 @@ with tabs[2]:
                 elif m.get("location") == "원정" or m.get("venue_type") == "away":
                     neutral_home_away_matches.append(m)
             
-            # 만약 필터링된 결과가 부족하면 기본 away_matches 풀에서 보완
             if not neutral_home_away_matches:
                 neutral_home_away_matches = stadium_form.get("away_matches", [])
 
-            s_home_matches = neutral_home_away_matches[:10]
+            s_home_matches = filter_and_supplement_matches(neutral_home_away_matches, 10)
         else:
-            s_home_matches = stadium_form.get("home_matches", [])[:10]
+            raw_sh = stadium_form.get("home_matches", [])
+            s_home_matches = filter_and_supplement_matches(raw_sh, 10)
 
-        # 2. 원정팀 전적 추출
-        s_away_matches = stadium_form.get("away_matches", [])[:10]
+        # 2. 원정팀 전적 추출 (공식전 우선 10경기 확보)
+        raw_sa = stadium_form.get("away_matches", [])
+        s_away_matches = filter_and_supplement_matches(raw_sa, 10)
 
         # 기본 평균 득실 산출 헬퍼
         def get_base_gpg_cpg(matches, tname):
@@ -868,7 +889,6 @@ with tabs[2]:
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-
 
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
