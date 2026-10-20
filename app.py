@@ -912,57 +912,81 @@ with tabs[3]:
     st.markdown(html_table, unsafe_allow_html=True)
 
     # ==============================================================================
-    # [기능 2] V5(결장자) 및 V5-1(스쿼드) 정밀 탐색 및 홈/원정 데이터 분기
+    # [기능 2] 💡 [올바른 순서] 1단계: match_details.json / match_details_v2.json (all_details_dict)
+    # 에서 해당 경기를 먼저 정확히 확정하고 match_code를 확보한 뒤 V5/V5-1을 탐색합니다.
     # ==============================================================================
     target_match_code_str = str(match_code).strip()
     clean_target_home = str(home_team).strip().replace(" ", "").lower()
     clean_target_away = str(away_team).strip().replace(" ", "").lower()
 
-    # 1. V5(결장자 정보) 탐색
-    v5_match_data = {}
-    for k, v in v5_details_dict.items():
-        if not isinstance(v, dict): continue
-        v_code = str(v.get("match_code", "")).strip()
-        v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
-        v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
-        if v_code == target_match_code_str or (clean_target_home in v_h and clean_target_away in v_a):
-            v5_match_data = v
-            break
+    # 💡 1차 선행 검증: 마스터 상세 정보(all_details_dict)에서 현재 경기 유효성 및 확정 코드 재확인
+    master_matched_info = None
+    if target_match_code_str and target_match_code_str in all_details_dict:
+        master_matched_info = all_details_dict[target_match_code_str]
+    else:
+        for k, v in all_details_dict.items():
+            if not isinstance(v, dict): continue
+            v_code = str(v.get("match_code", "")).strip()
+            v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
+            v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
+            if v_code == target_match_code_str or (clean_target_home in v_h and clean_target_away in v_a):
+                master_matched_info = v
+                if v_code:
+                    target_match_code_str = v_code # 확정된 실제 매치코드로 동기화
+                break
 
-    # 2. V5-1(구단 전체 선수단 스쿼드) 탐색
-    v5_1_match_data = {}
-    for k, v in v5_1_details_dict.items():
-        if not isinstance(v, dict): continue
-        v_code = str(v.get("match_code", "")).strip()
-        v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
-        v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
-        if v_code == target_match_code_str or (clean_target_home in v_h and clean_target_away in v_a):
-            v5_1_match_data = v
-            break
-
-    # 홈/원정 결장자 명단 배분
+    # 💡 마스터에서 경기가 정상 확인된 경우에만 V5 / V5-1 데이터를 안전하게 추출
     raw_home_absentees = []
     raw_away_absentees = []
-    if v5_match_data:
-        data_home_name = str(v5_match_data.get("home", "")).strip().replace(" ", "").lower()
-        if clean_target_home in data_home_name or data_home_name in clean_target_home:
-            raw_home_absentees = v5_match_data.get("home_absentees", [])
-            raw_away_absentees = v5_match_data.get("away_absentees", [])
-        else:
-            raw_home_absentees = v5_match_data.get("away_absentees", [])
-            raw_away_absentees = v5_match_data.get("home_absentees", [])
-
-    # 홈/원정 스쿼드 풀 배분
     home_squad_pool = []
     away_squad_pool = []
-    if v5_1_match_data:
-        data_squad_home = str(v5_1_match_data.get("home", "")).strip().replace(" ", "").lower()
-        if clean_target_home in data_squad_home or data_squad_home in clean_target_home:
-            home_squad_pool = v5_1_match_data.get("home_squad", [])
-            away_squad_pool = v5_1_match_data.get("away_squad", [])
-        else:
-            home_squad_pool = v5_1_match_data.get("away_squad", [])
-            away_squad_pool = v5_1_match_data.get("home_squad", [])
+
+    if master_matched_info:
+        # V5 딕셔너리 구조 언래핑 (lineup_details 방어)
+        v5_source_dict = v5_details_dict.get("lineup_details", v5_details_dict)
+        v5_1_source_dict = v5_1_details_dict.get("lineup_details", v5_1_details_dict)
+
+        # 2단계: 확정된 match_code를 바탕으로 V5(결장자 정보) 탐색
+        v5_match_data = {}
+        for k, v in v5_source_dict.items():
+            if not isinstance(v, dict): continue
+            v_code = str(v.get("match_code", k)).strip()
+            v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
+            v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
+            if v_code == target_match_code_str or (clean_target_home in v_h and clean_target_away in v_a):
+                v5_match_data = v
+                break
+
+        # 3단계: 확정된 match_code를 바탕으로 V5-1(전체 선수단 스쿼드) 탐색
+        v5_1_match_data = {}
+        for k, v in v5_1_source_dict.items():
+            if not isinstance(v, dict): continue
+            v_code = str(v.get("match_code", k)).strip()
+            v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
+            v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
+            if v_code == target_match_code_str or (clean_target_home in v_h and clean_target_away in v_a):
+                v5_1_match_data = v
+                break
+
+        # 홈/원정 결장자 명단 배분
+        if v5_match_data:
+            data_home_name = str(v5_match_data.get("home", "")).strip().replace(" ", "").lower()
+            if clean_target_home in data_home_name or data_home_name in clean_target_home:
+                raw_home_absentees = v5_match_data.get("home_absentees", [])
+                raw_away_absentees = v5_match_data.get("away_absentees", [])
+            else:
+                raw_home_absentees = v5_match_data.get("away_absentees", [])
+                raw_away_absentees = v5_match_data.get("home_absentees", [])
+
+        # 홈/원정 스쿼드 풀 배분
+        if v5_1_match_data:
+            data_squad_home = str(v5_1_match_data.get("home", "")).strip().replace(" ", "").lower()
+            if clean_target_home in data_squad_home or data_squad_home in clean_target_home:
+                home_squad_pool = v5_1_match_data.get("home_squad", [])
+                away_squad_pool = v5_1_match_data.get("away_squad", [])
+            else:
+                home_squad_pool = v5_1_match_data.get("away_squad", [])
+                away_squad_pool = v5_1_match_data.get("home_squad", [])
 
     # ==============================================================================
     # [기능 3] 정방향 조립 함수: V5 결장자 이름 기준 ➔ V5-1 포지션 매핑 및 공수 보정 연산
@@ -1026,7 +1050,7 @@ with tabs[3]:
                 p_grade = "D 등급"
                 rate = 0.0
 
-            p_memo = f"시즌 {matches_p}경기 출전 ({p_grade}) 핵심 자원 결장"
+            p_memo = f"시즌 {matches_p}경기 출전 ({p_grade}) 핵심 자원 결장 ({p_type})"
             
             # 포지션별 공수 반감 룰 적용
             is_attacker = any(k in p_pos for k in ["공격수", "미드필더", "FW", "MF"])
