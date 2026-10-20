@@ -279,24 +279,30 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        # 💡 [국가 및 등급 정밀 대조 함수 - 한글명, 영문명, 코드, 전체 리그 완벽 호환 규격]
+# 💡 [국가 및 등급 정밀 대조 함수 - 띄어쓰기 전 토큰 추출 및 유연한 포함 탐색 규격]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
             team_str = str(team_val).strip().lower()
             clean_league = str(current_league_name).strip().replace(" ", "").lower()
 
-            # 1. [최우선 방어] 리그명이나 랭크 코드에 'K리그' 또는 'KOR'이 포함되어 있으면 오탐지 차단
+            # 1. [최우선 방어] 리그명이나 랭크 코드에 'K리그' 또는 'KOR'이 포함되어 있으면 오탐지 차단하고 대한민국(KOR) 고정
             if "k리그" in clean_league or "kor" in rank_str.upper():
                 for c in grades.get("C", []):
                     if c.get("code") == "KOR":
                         return c.get("code", "KOR"), rank_str, c.get("grade", "C"), c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
                 return "KOR", rank_str, "C", "+9%", "-9%"
 
-            # 💡 [핵심 수정] 원본 랭크 문자열 전체를 대문자로 변환하여 country.json의 리그/코드 목록이 포함되는지 전면 탐색
-            full_rank_upper = rank_str.upper()
-
+            # 💡 [핵심] 순위 문자열에서 띄어쓰기나 하이픈(-) 앞쪽의 핵심 코드만 정확히 추출 (예: "SPA D1-1" -> "SPA")
+            extracted_token = ""
             if rank_str and rank_str != "-":
+                # 첫 번째 띄어쓰기나 하이픈 전까지만 잘라냄
+                token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
+                if token and not token.isdigit():
+                    extracted_token = token
+
+            # 💡 [유연한 탐색] 추출된 토큰이 country.json의 국가 코드나 등록된 리그 코드에 포함되는지 확인
+            if extracted_token:
                 for grade_key, countries in grades.items():
                     if grade_key == "F":
                         continue
@@ -305,12 +311,11 @@ with tabs[0]:
                             c_code = str(c.get("code", "")).strip().upper()
                             leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
                             
-                            # 1) 국가 코드(SPA 등)가 rank_str에 포함되어 있거나
-                            # 2) 등록된 리그 코드(SPA D1, UCL 등)가 rank_str에 포함되어 있는 경우 모두 매칭 허용
-                            code_matched = c_code and c_code in full_rank_upper
-                            league_matched = any(l and l in full_rank_upper for l in leagues_list)
+                            # 국가 코드와 일치하거나, leagues 목록 중 하나의 앞부분(공백 기준)과 일치/포함되는 경우
+                            code_match = c_code and c_code == extracted_token
+                            league_match = any(l and (extracted_token == l or extracted_token == l.split()[0]) for l in leagues_list)
 
-                            if code_matched or league_matched:
+                            if code_match or league_match:
                                 return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
             # 4. 한글명(name), 영문명(name_eng), 한글 리그명(league_kor_name) 대조
