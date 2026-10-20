@@ -64,7 +64,7 @@ def find_target_match_code(match_master_map, keyword="파리생제르맹"):
     return found_codes
 
 def crawl_player_details_with_selenium(driver, player_id):
-    """Selenium을 통해 선수 페이지에 접속한 뒤, 최신 시즌 셀렉트 박스를 클릭하고 핵심 지표를 파싱합니다."""
+    """Selenium을 통해 선수 페이지에 접속한 뒤, 자바스크립트로 최신 시즌을 강제 선택하고 핵심 지표를 파싱합니다."""
     player_url = f"https://football.scoreman123.com/team/player/{player_id}"
     
     player_stats = {
@@ -78,36 +78,57 @@ def crawl_player_details_with_selenium(driver, player_id):
     
     try:
         driver.get(player_url)
-        # 페이지가 로드되고 ul#techImportant 영역이 나타날 때까지 최대 10초 대기
+        
+        # 💡 [핵심 보완] 데이터가 뜨지 않는 문제를 해결하기 위해 최신 시즌 강제 선택
+        # 1) 셀렉트 박스가 로드될 때까지 대기
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "ul#techImportant"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, "div#techSeasonSelect"))
         )
         
-        # 💡 [핵심] 최신 시즌 데이터를 보장하기 위해 시즌 선택 셀렉트 박스 조작이 필요한 경우 여기서 클릭 제어 가능
-        # 예시: 필요시 driver.execute_script 등을 통해 자바스크립트 함수 직접 호출 가능
-        # driver.execute_script("changeTechSelect(2, document.querySelector('#techSeasonSelect li'))")
-        # time.sleep(0.5)
+        # 2) [분석 기반] 캡처 화면에서 확인한 자바스크립트 changeTechSelect 함수 실행
+        # 첫 번째 리그 선택(1)과 최신 시즌 선택(2)을 차례로 실행시켜 스탯 새로고침 유도
+        try:
+            # 리그 선택 셀렉터 조작 (예시: 첫 번째 리그 선택)
+            # driver.execute_script("changeTechSelect(1, document.querySelector('#techLeagueSelect ul.selectpop li'))")
+            # time.sleep(0.3)
+            
+            # 시즌 선택 셀렉터 조작 (예시: 캡처된 '2026-2027' 최신 시즌 선택)
+            # image_7.png 구조에 맞게 가장 상단의 최신 시즌 li 요소를 찾아 onclick 이벤트 실행
+            latest_season_script = """
+                const seasonSelect = document.querySelector('#techSeasonSelect ul.selectpop');
+                if (seasonSelect) {
+                    const latestLi = seasonSelect.querySelector('li[onclick]');
+                    if (latestLi) {
+                        latestLi.click(); // 또는 latestLi.onclick();
+                    }
+                }
+            """
+            driver.execute_script(latest_season_script)
+            print(f"   ㄴ [셀레니움 제어] 최신 시즌 강제 선택 완료...")
+            time.sleep(0.5) # 자바스크립트 실행 후 데이터 렌더링 대기
+        except Exception as script_e:
+            print(f"⚠️ [셀레니움 제어 오류] 시즌 선택 실패 (기본값 파싱 시도): {script_e}")
 
-        # BeautifulSoup으로 현재 렌더링된 소스 파싱
+        # 3) 업데이트된 HTML 소스 파싱
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         important_items = soup.select('ul#techImportant > li')
         
+        if not important_items:
+            # 💡 셀렉터 조작 후에도 비어 있다면 대기 시간 부족일 수 있음
+            print(f"   ㄴ [알림] 시즌 선택 후에도 스탯 영역이 비어 있음 (재대기 또는 기본값 확인)...")
+
         matches = 0
         play_time = 0
         imp_stats = {}
         
         for item in important_items:
+            text_tag = item.select_one('text') # 분석 기반: text 커스텀 태그 지목
             span_tag = item.select_one('span')
-            if span_tag:
+            
+            if text_tag and span_tag:
+                val = text_tag.text.strip()
                 label = span_tag.text.strip()
                 
-                # 이미지 태그 제거
-                for img in item.select('img'):
-                    img.decompose()
-                # 라벨 span 제거
-                span_tag.decompose()
-                
-                val = item.text.strip()
                 imp_stats[label] = val
                 
                 # 수치 매핑 추출 (정규식 활용)
