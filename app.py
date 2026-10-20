@@ -585,7 +585,7 @@ with tabs[1]:
             mult_ga = 1.0
             rule_desc = "유지"
             
-tier_info = m.get("opponent_tier_info", "")
+            tier_info = m.get("opponent_tier_info", "")
             if tier_info and "/" in tier_info:
                 try:
                     oa, od = map(float, tier_info.split("/"))
