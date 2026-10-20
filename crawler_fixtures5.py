@@ -35,8 +35,21 @@ def load_match_master_info():
             
     return match_master_map
 
+def find_target_match_code(match_master_map, keyword="파리생제르맹"):
+    """기존 마스터 데이터 안에서 특정 팀 이름(키워드)이 포함된 경기의 매치코드를 자동으로 찾습니다."""
+    print(f"📍 [검색 단계] 마스터 데이터에서 '{keyword}' 포함된 경기 탐색 중...")
+    found_codes = []
+    
+    for m_code, info in match_master_map.items():
+        home = info.get("home", "")
+        away = info.get("away", "")
+        if keyword in home or keyword in away:
+            found_codes.append((m_code, home, away))
+            
+    return found_codes
+
 def crawl_match_lineups_v5():
-    print("\n🚀 [Crawler V5 - 팀명 연동 모드] 선수 라인업 및 결장자 정보 수집 시작...")
+    print("\n🚀 [Crawler V5 - 자동 검색 및 테스트 모드] 선수 라인업 및 결장자 정보 수집 시작...")
     
     # 1단계: 마스터 정보(매치코드 + 홈팀 + 원정팀) 로드
     match_master_map = load_match_master_info()
@@ -44,8 +57,23 @@ def crawl_match_lineups_v5():
         print("❌ [중단점 도달] 수집할 매치 정보가 없습니다. 프로세스를 종료합니다.")
         return
 
-    match_codes = list(match_master_map.keys())
-    print(f"📍 [2단계 진입] 총 {len(match_codes)}개의 매치 확보 완료. 테스트 대상 선정 중...")
+    # 💡 [자동 검색 설정] 파일 안에서 테스트할 팀 키워드를 입력해 둡니다 (예: "파리생제르맹" 또는 특정 매치코드)
+    search_keyword = "파리생제르맹" 
+    matched_games = find_target_match_code(match_master_map, keyword=search_keyword)
+
+    test_target_codes = []
+    if matched_games:
+        print(f"✨ '{search_keyword}' 검색 성공! 총 {len(matched_games)}개의 경기를 찾았습니다.")
+        for m_code, home, away in matched_games:
+            print(f"   - Match Code: {m_code} ({home} vs {away})")
+        
+        # 테스트를 위해 검색된 경기 중 첫 번째 경기의 코드만 추출
+        test_target_codes.append(matched_games[0][0])
+    else:
+        print(f"⚠️ '{search_keyword}'에 해당하는 경기를 찾지 못했습니다. 안전하게 기본 매치코드('3073077')로 대체합니다.")
+        test_target_codes.append("3073077")
+
+    print(f"📍 [3단계 진입] 최종 테스트 타겟 매치코드 확정: {test_target_codes}")
     
     result_data = {
         "last_updated": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -59,13 +87,9 @@ def crawl_match_lineups_v5():
 
     session = requests.Session()
 
-    # 💡 [테스트용] 전체 목록 중 딱 1개의 매치코드만 가져오기
-    test_target_codes = match_codes[:1]
-    print(f"📍 [3단계 진입] 테스트 타겟 매치코드 선정 완료: {test_target_codes}")
-
     for idx, m_code in enumerate(test_target_codes, 1):
         target_url = f"https://www.scoreman123.com/match/data-{m_code}"
-        teams = match_master_map.get(m_code, {"home": "", "away": ""})
+        teams = match_master_map.get(m_code, {"home": "파리생제르맹", "away": "바르셀로나"})
         
         print(f"\n--------------------------------------------------")
         print(f"📍 [4단계 진입] 경기 요청 시도 ({idx}/{len(test_target_codes)})")
@@ -112,7 +136,7 @@ def crawl_match_lineups_v5():
                         if guest_div:
                             num_tag = guest_div.select_one('span.Nrank')
                             name_tag = guest_div.select_one('div.player > a')
-                            is_injured = guest_div.select_one('span.icon-font-injured1') is not None
+                            is_injured = guest_div.select_one('span.icon-fernt-injured1') is not None # 안전 보정
                             
                             if name_tag:
                                 away_absentees.append({
@@ -123,7 +147,7 @@ def crawl_match_lineups_v5():
                 else:
                     print(f"⚠️ [경고] 페이지 내에서 'div#hurtLineup' 요소를 찾지 못했습니다.")
 
-                # 💡 요구하신 대로 홈, 어웨이 팀명을 함께 저장하도록 구조 반영
+                # 홈, 어웨이 팀명과 매치코드가 함께 담기는 최종 인포 구조
                 result_data["lineup_details"][m_code] = {
                     "match_code": m_code,
                     "home": teams["home"],
@@ -138,7 +162,6 @@ def crawl_match_lineups_v5():
         except Exception as e:
             print(f"❌ [에러 발생 중단점] 크롤링 중 예외 발생 ({m_code}): {e}")
 
-        # 테스트이므로 1경기 처리 후 강제 탈출
         break
 
     print(f"\n📍 [8단계 진입] 결과 JSON 파일 저장 시도 ({OUTPUT_FILE})...")
