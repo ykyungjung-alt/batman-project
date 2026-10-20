@@ -690,7 +690,7 @@ with tabs[1]:
     </div>""", unsafe_allow_html=True)
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (공식 경기 우선 수집 및 부족 시 친선 경기 보완 LIFO 연동)
+# 💡 규칙 2번 탭 (0단계 구장 판정 연동 및 V3/V5 최근 전적 풀 기반 원정 폼 필터링 적용)
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
@@ -715,12 +715,12 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        # 💡 [NameError 방지] stadium_form 안전 추출
+        # 1. 메타 데이터에서 stadium_form 안전하게 가져오기
         stadium_form = detailed_info.get("meta_details", {}).get("stadium_form", {"home_matches": [], "away_matches": []})
 
-        # 💡 [규격 반영] 공식 경기 우선 필터링 및 부족 시 친선전 보완 함수 (시간 순서 유지)
+        # 2. 공식 경기 우선 필터링 및 부족 시 친선전 보완 함수 (최신순 시계열 정렬 포함)
         def filter_and_supplement_matches(match_list, max_count=10):
-            if not match_list:
+            if not match_list or not isinstance(match_list, list):
                 return []
             official_matches = []
             friendly_matches = []
@@ -735,9 +735,16 @@ with tabs[2]:
             if len(combined) < max_count:
                 needed = max_count - len(combined)
                 combined.extend(friendly_matches[:needed])
-            return combined[:max_count]
+            
+            selected = combined[:max_count]
+            # 💡 [시계열 정렬 보장] 경기 일시 기준 최신순 정렬
+            try:
+                selected.sort(key=lambda x: str(x.get("match_time", "")), reverse=True)
+            except:
+                pass
+            return selected
 
-        # 1. 홈팀 전적 추출 (중립 경기일 경우 원정/중립 경기 풀에서 공식전 우선 선별)
+        # 3. 홈팀 전적 추출 (중립 경기일 경우 원정/중립 성격 경기 정밀 필터링)
         s_home_matches = []
         if is_neutral_venue:
             recent_all_pool = []
@@ -762,10 +769,14 @@ with tabs[2]:
             s_home_matches = filter_and_supplement_matches(neutral_home_away_matches, 10)
         else:
             raw_sh = stadium_form.get("home_matches", [])
+            if not raw_sh and 'h_matches' in locals():
+                raw_sh = h_matches
             s_home_matches = filter_and_supplement_matches(raw_sh, 10)
 
-        # 2. 원정팀 전적 추출 (공식전 우선 10경기 확보)
+        # 4. 원정팀 전적 추출 (공식전 우선 10경기 확보)
         raw_sa = stadium_form.get("away_matches", [])
+        if not raw_sa and 'a_matches' in locals():
+            raw_sa = a_matches
         s_away_matches = filter_and_supplement_matches(raw_sa, 10)
 
         # 기본 평균 득실 산출 헬퍼
