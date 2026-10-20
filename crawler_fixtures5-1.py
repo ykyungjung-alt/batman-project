@@ -28,7 +28,7 @@ def convert_market_value_to_krw(val_str):
 
 def parse_team_squad(driver, team_summary_url):
     """
-    💡 구단 페이지의 선수 명단 li 항목에서 이름, 포지션, 나이, 몸값을 안전하게 추출하도록 개선된 파서
+    💡 구단 페이지의 선수 명단 li 항목에서 태그와 구조를 정확히 타겟팅하여 매칭 오류를 해결한 파서
     """
     if team_summary_url in _team_squad_cache:
         return _team_squad_cache[team_summary_url]
@@ -47,10 +47,11 @@ def parse_team_squad(driver, team_summary_url):
         
         for li in player_items:
             try:
-                # 1. 선수 이름 추출 (span.name 내부 처리)
+                # 1. 선수 이름 추출 (span.name 내부 텍스트)
                 name_span = li.find("span", class_="name")
                 player_name = ""
                 if name_span:
+                    # des(등번호/국가) 태그를 제외하고 순수 이름만 추출
                     full_text = name_span.get_text(strip=True)
                     des_span = name_span.find("span", class_="des")
                     if des_span:
@@ -59,28 +60,29 @@ def parse_team_squad(driver, team_summary_url):
                     else:
                         player_name = full_text
 
-                # 2. li 안의 모든 span 태그 중 의미 있는 텍스트를 가진 요소들을 순서대로 추출
-                spans = li.find_all("span")
-                valid_texts = []
-                for s in spans:
-                    # name span 내부의 자식 태그이거나, des 클래스인 경우는 이름/등번호/국가 부가정보이므로 제외
-                    if s.find_parent("span", class_="name") or "des" in s.get("class", []):
+                # 2. li 내부의 모든 자식 span들 중에서 이름 영역을 제외한 순수 데이터 span들만 추출
+                # (보통 순서대로: 포지션, 나이, 몸값, 계약만료 가 위치함)
+                all_spans = li.find_all("span")
+                data_texts = []
+                for s in all_spans:
+                    # 이름 래퍼 내부의 span이거나 클래스에 name/des/avatar 등이 포함된 것은 레이아웃/부가정보이므로 제외
+                    if s.find_parent("span", class_="name"):
+                        continue
+                    if any(cls in s.get("class", []) for cls in ["des", "avatar", "avatar-wrap"]):
                         continue
                     
                     txt = s.get_text(strip=True)
-                    # 빈 텍스트가 아니고, 아바타 랩 등 레이아웃용 태그가 아닐 때만 수집
-                    if txt and "avatar" not in s.get("class", [""])[0]:
-                        if txt not in valid_texts:  # 중복 추가 방지
-                            valid_texts.append(txt)
+                    if txt and txt not in data_texts:
+                        data_texts.append(txt)
 
-                # 보통 유효 텍스트 순서: [포지션, 나이, 몸값, 계약만료] 형태 등으로 잡힙니다.
-                # 예: ['공격수', '25', '£140.000M', '2029.06.30']
-                if len(valid_texts) >= 3:
-                    position = valid_texts[0]
-                    age = valid_texts[1]
-                    raw_value = valid_texts[2]
+                # 추출된 데이터 순서 매핑 검증
+                # data_texts 예시: ['공격수', '25', '£140.000M', '2029.06.30']
+                if len(data_texts) >= 3:
+                    position = data_texts[0]  # 첫 번째: 포지션 (예: 공격수)
+                    age = data_texts[1]       # 두 번째: 나이 (예: 25)
+                    raw_value = data_texts[2] # 세 번째: 몸값 (예: £140.000M)
                     
-                    # 몸값 원화 변환
+                    # 몸값 한국 원화 변환
                     krw_value = convert_market_value_to_krw(raw_value)
                     
                     if player_name:
