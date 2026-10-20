@@ -1,79 +1,153 @@
 {
-    "last_updated": "2026-10-21 06:35:25",
+    "last_updated": "2026-10-21 07:34:02",
     "match_details": {
-        "3104219": {
-            "match_code": "3104219",
+        "3000493": {
+            "match_code": "3000493",
             "head_info": {
-                "league": "잉글랜드 FA 컵",
-                "round": "",
-                "match_time_raw": "10/20/2026 6:45:00 PM",
-                "match_time_display": "2026-10-21 03:45",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
+                "league": "J1 리그",
+                "round": "J1 리그·  라운드 11",
+                "match_time_raw": "10/21/2026 10:00:00 AM",
+                "match_time_display": "2026-10-21 19:00",
+                "stadium": "Best Denki Stadium",
+                "home_stadium": "Best Denki Stadium",
+                "weather": "구름 조금,  19°C"
             },
-            "home": "승부차기",
-            "away": "1 - 1",
+            "home": "아비스파 후쿠오카",
+            "away": "감바 오사카",
             "meta_details": {
                 "rankings": [
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "ENG RYM-18",
-                        "team": "크레이 원더러스",
-                        "played": "9",
-                        "win": "3",
-                        "draw": "3",
-                        "loss": "3",
-                        "goals_for": "19",
-                        "goals_against": "14",
-                        "goal_diff": "5",
-                        "points": "12"
+                        "rank": "17",
+                        "team": "아비스파 후쿠오카",
+                        "played": "10",
+                        "win": "2",
+                        "draw": "1",
+                        "loss": "7",
+                        "goals_for": "11",
+                        "goals_against": "16",
+                        "goal_diff": "-5",
+                        "points": "7"
                     },
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "ENG NLN-12",
-                        "team": "베드포드",
-                        "played": "11",
-                        "win": "5",
-                        "draw": "1",
+                        "rank": "18",
+                        "team": "감바 오사카",
+                        "played": "10",
+                        "win": "1",
+                        "draw": "4",
                         "loss": "5",
-                        "goals_for": "14",
-                        "goals_against": "15",
-                        "goal_diff": "-1",
-                        "points": "16"
+                        "goals_for": "10",
+                        "goals_against": "18",
+                        "goal_diff": "-8",
+                        "points": "7"
                     }
                 ],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "4승 4무 2패",
-                        "goals_per_game": "1.90",
-                        "conceded_per_game": "1.10"
+                        "recent_record": "1승 2무 7패",
+                        "goals_per_game": "0.80",
+                        "conceded_per_game": "1.60"
                     },
                     "away_summary": {
-                        "recent_record": "5승 3무 2패",
-                        "goals_per_game": "1.30",
-                        "conceded_per_game": "0.90"
+                        "recent_record": "3승 3무 4패",
+                        "goals_per_game": "1.90",
+                        "conceded_per_game": "1.60"
                     },
                     "matches": []
                 },
                 "h2h": {
                     "summary": [
-                        "승 0 (0%)",
-                        "무승부 1 (100%)",
-                        "0.00",
+                        "승 5 (50%)",
+                        "무승부 2 (20%)",
+                        "승 3 (30%)",
+                        "1.50",
                         "경기당 득점",
-                        "핸디캡：1승 0무 0패",
-                        "언오버：0오버 0무 1언더"
+                        "1.30",
+                        "핸디캡：7승 0무 3패",
+                        "언오버：7오버 0무 3언더"
                     ],
                     "matches": [
                         {
                             "row_data": [
-                                "ENG FAC2026.10.17",
-                                "베드포드",
-                                "0-0",
-                                "크레이 원더러스"
+                                "JPN D12026.04.22",
+                                "감바 오사카",
+                                "1-2",
+                                "아비스파 후쿠오카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12026.03.21",
+                                "아비스파 후쿠오카",
+                                "2-2",
+                                "감바 오사카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.11.30",
+                                "아비스파 후쿠오카",
+                                "1-0",
+                                "감바 오사카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.02.22",
+                                "감바 오사카",
+                                "2-1",
+                                "아비스파 후쿠오카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.08.24",
+                                "감바 오사카",
+                                "2-2",
+                                "아비스파 후쿠오카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.05.03",
+                                "아비스파 후쿠오카",
+                                "1-0",
+                                "감바 오사카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.11.11",
+                                "감바 오사카",
+                                "1-2",
+                                "아비스파 후쿠오카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.06.03",
+                                "아비스파 후쿠오카",
+                                "1-2",
+                                "감바 오사카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12022.08.31",
+                                "아비스파 후쿠오카",
+                                "0-1",
+                                "감바 오사카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12022.03.19",
+                                "감바 오사카",
+                                "2-3",
+                                "아비스파 후쿠오카"
                             ]
                         }
                     ]
@@ -85,42 +159,1751 @@
                 "fixtures": {
                     "home": [
                         {
-                            "league": "FA 트로피",
-                            "match_time": "2026-10-24 14:00:00",
-                            "teams": "10.24 2026 vs 베르켐스티드 vs 크레이 원더러스 vs 4 일",
+                            "league": "J1 리그",
+                            "match_time": "2026-10-24 06:00:00",
+                            "teams": "10.24 2026 vs 베르디 vs 아비스파 후쿠오카 vs 3 일",
                             "interval": "시작전"
                         },
                         {
-                            "league": "이스미언리그 프리미어 디비전",
-                            "match_time": "2026-11-03 14:00:00",
-                            "teams": "11.03 2026 vs 램스게이트 vs 크레이 원더러스 vs 14 일",
-                            "interval": "14 일"
+                            "league": "J1 리그",
+                            "match_time": "2026-11-01 05:00:00",
+                            "teams": "11.01 2026 vs 지바 vs 아비스파 후쿠오카 vs 11 일",
+                            "interval": "11 일"
                         },
                         {
-                            "league": "이스미언리그 프리미어 디비전",
-                            "match_time": "2026-11-07 14:00:00",
-                            "teams": "11.07 2026 vs 크레이 원더러스 vs 윈게이트&핀칠리 vs 18 일",
+                            "league": "J1 리그",
+                            "match_time": "2026-11-07 06:00:00",
+                            "teams": "11.07 2026 vs 아비스파 후쿠오카 vs V-바렌 나가사키 vs 17 일",
+                            "interval": "17 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-24 07:00:00",
+                            "teams": "10.24 2026 vs 감바 오사카 vs 교토 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그",
+                            "match_time": "2026-10-28 10:00:00",
+                            "teams": "10.28 2026 vs 감바 오사카 vs 부리람 vs 7 일",
+                            "interval": "7 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-01 07:00:00",
+                            "teams": "11.01 2026 vs 마치다 vs 감바 오사카 vs 11 일",
+                            "interval": "11 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000494": {
+            "match_code": "3000494",
+            "head_info": {
+                "league": "J1 리그",
+                "round": "J1 리그·  라운드 11",
+                "match_time_raw": "10/21/2026 10:00:00 AM",
+                "match_time_display": "2026-10-21 19:00",
+                "stadium": "Ajinomoto Stadium",
+                "home_stadium": "Ajinomoto Stadium",
+                "weather": "구름 조금,  26°C"
+            },
+            "home": "FC 도쿄",
+            "away": "가시와",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "3",
+                        "team": "FC 도쿄",
+                        "played": "10",
+                        "win": "7",
+                        "draw": "2",
+                        "loss": "1",
+                        "goals_for": "21",
+                        "goals_against": "8",
+                        "goal_diff": "13",
+                        "points": "23"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "5",
+                        "team": "가시와",
+                        "played": "10",
+                        "win": "7",
+                        "draw": "0",
+                        "loss": "3",
+                        "goals_for": "22",
+                        "goals_against": "17",
+                        "goal_diff": "5",
+                        "points": "21"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "8승 1무 1패",
+                        "goals_per_game": "2.20",
+                        "conceded_per_game": "0.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "2.50",
+                        "conceded_per_game": "1.90"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 3 (30%)",
+                        "무승부 4 (40%)",
+                        "1.70",
+                        "경기당 득점",
+                        "1.50",
+                        "핸디캡：4승 2무 4패",
+                        "언오버：4오버 0무 6언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D12026.04.29",
+                                "가시와",
+                                "1-3",
+                                "FC 도쿄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12026.02.28",
+                                "FC 도쿄",
+                                "0-2",
+                                "가시와"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.07.05",
+                                "가시와",
+                                "1-0",
+                                "FC 도쿄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.04.11",
+                                "FC 도쿄",
+                                "1-1",
+                                "가시와"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.07.06",
+                                "가시와",
+                                "3-2",
+                                "FC 도쿄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.05.11",
+                                "FC 도쿄",
+                                "3-3",
+                                "가시와"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.07.01",
+                                "FC 도쿄",
+                                "1-0",
+                                "가시와"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.02.26",
+                                "가시와",
+                                "1-1",
+                                "FC 도쿄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12022.08.27",
+                                "가시와",
+                                "3-6",
+                                "FC 도쿄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12022.05.21",
+                                "FC 도쿄",
+                                "0-0",
+                                "가시와"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-25 07:00:00",
+                            "teams": "10.25 2026 vs FC 도쿄 vs 미토 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 05:00:00",
+                            "teams": "10.31 2026 vs 오카야마 vs FC 도쿄 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-07 06:00:00",
+                            "teams": "11.07 2026 vs FC 도쿄 vs 가시마 vs 17 일",
+                            "interval": "17 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-24 06:00:00",
+                            "teams": "10.24 2026 vs 가시마 vs 가시와 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그",
+                            "match_time": "2026-10-27 12:15:00",
+                            "teams": "10.27 2026 vs 라차부리 vs 가시와 vs 6 일",
+                            "interval": "6 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 07:00:00",
+                            "teams": "10.31 2026 vs 가시와 vs 우라와 vs 10 일",
+                            "interval": "10 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000495": {
+            "match_code": "3000495",
+            "head_info": {
+                "league": "J1 리그",
+                "round": "J1 리그·  라운드 11",
+                "match_time_raw": "10/21/2026 10:00:00 AM",
+                "match_time_display": "2026-10-21 19:00",
+                "stadium": "Kawasaki Todoroki Stadium",
+                "home_stadium": "Todoroki Athletics Stadium",
+                "weather": "구름 조금,  26°C"
+            },
+            "home": "가와사키",
+            "away": "고베",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "7",
+                        "team": "가와사키",
+                        "played": "10",
+                        "win": "4",
+                        "draw": "4",
+                        "loss": "2",
+                        "goals_for": "21",
+                        "goals_against": "16",
+                        "goal_diff": "5",
+                        "points": "16"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "4",
+                        "team": "고베",
+                        "played": "10",
+                        "win": "7",
+                        "draw": "1",
+                        "loss": "2",
+                        "goals_for": "17",
+                        "goals_against": "9",
+                        "goal_diff": "8",
+                        "points": "22"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "7승 1무 2패",
+                        "goals_per_game": "2.40",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "9승 0무 1패",
+                        "goals_per_game": "1.90",
+                        "conceded_per_game": "0.70"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 5 (50%)",
+                        "무승부 1 (10%)",
+                        "승 4 (40%)",
+                        "1.40",
+                        "경기당 득점",
+                        "1.00",
+                        "핸디캡：4승 2무 4패",
+                        "언오버：6오버 0무 4언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D12025.06.21",
+                                "가와사키",
+                                "1-2",
+                                "고베"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.04.16",
+                                "고베",
+                                "2-1",
+                                "가와사키"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.08.07",
+                                "가와사키",
+                                "3-0",
+                                "고베"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.06.16",
+                                "고베",
+                                "1-0",
+                                "가와사키"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN SC2024.02.17",
+                                "고베",
+                                "0-1",
+                                "가와사키"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.08.12",
+                                "가와사키",
+                                "0-1",
+                                "고베"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.07.22",
+                                "고베",
+                                "2-2",
+                                "가와사키"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12022.10.29",
+                                "가와사키",
+                                "2-1",
+                                "고베"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12022.05.18",
+                                "고베",
+                                "0-1",
+                                "가와사키"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12021.09.29",
+                                "가와사키",
+                                "3-1",
+                                "고베"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-25 07:00:00",
+                            "teams": "10.25 2026 vs 가와사키 vs 오카야마 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-01 04:00:00",
+                            "teams": "11.01 2026 vs 요코하마 M. vs 가와사키 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-07 07:00:00",
+                            "teams": "11.07 2026 vs 가시와 vs 가와사키 vs 17 일",
+                            "interval": "17 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-24 06:00:00",
+                            "teams": "10.24 2026 vs 고베 vs 마치다 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그",
+                            "match_time": "2026-10-27 10:00:00",
+                            "teams": "10.27 2026 vs 대전 vs 고베 vs 6 일",
+                            "interval": "6 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 06:00:00",
+                            "teams": "10.31 2026 vs 고베 vs 나고야 vs 10 일",
+                            "interval": "10 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000496": {
+            "match_code": "3000496",
+            "head_info": {
+                "league": "J1 리그",
+                "round": "J1 리그·  라운드 11",
+                "match_time_raw": "10/21/2026 10:00:00 AM",
+                "match_time_display": "2026-10-21 19:00",
+                "stadium": "Sanga Stadium by Kyocera",
+                "home_stadium": "Sanga Stadium by Kyocera",
+                "weather": "이슬비,  20°C"
+            },
+            "home": "교토",
+            "away": "가시마",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "16",
+                        "team": "교토",
+                        "played": "10",
+                        "win": "2",
+                        "draw": "2",
+                        "loss": "6",
+                        "goals_for": "11",
+                        "goals_against": "19",
+                        "goal_diff": "-8",
+                        "points": "8"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "6",
+                        "team": "가시마",
+                        "played": "10",
+                        "win": "6",
+                        "draw": "1",
+                        "loss": "3",
+                        "goals_for": "21",
+                        "goals_against": "16",
+                        "goal_diff": "5",
+                        "points": "19"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 2무 5패",
+                        "goals_per_game": "0.70",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "6승 1무 3패",
+                        "goals_per_game": "2.30",
+                        "conceded_per_game": "1.20"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (20%)",
+                        "무승부 4 (40%)",
+                        "승 4 (40%)",
+                        "0.80",
+                        "경기당 득점",
+                        "1.10",
+                        "핸디캡：6승 2무 2패",
+                        "언오버：1오버 1무 8언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D12025.10.25",
+                                "교토",
+                                "1-1",
+                                "가시마"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.04.06",
+                                "가시마",
+                                "3-4",
+                                "교토"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.11.17",
+                                "교토",
+                                "0-0",
+                                "가시마"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.04.13",
+                                "가시마",
+                                "1-0",
+                                "교토"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.07.01",
+                                "가시마",
+                                "0-0",
+                                "교토"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.02.18",
+                                "교토",
+                                "0-2",
+                                "가시마"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12022.09.10",
+                                "교토",
+                                "1-1",
+                                "가시마"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12022.06.18",
+                                "가시마",
+                                "1-0",
+                                "교토"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JE Cup2013.10.14",
+                                "가시마",
+                                "2-1",
+                                "교토"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JE Cup2011.12.17",
+                                "가시마",
+                                "0-1",
+                                "교토"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-24 07:00:00",
+                            "teams": "10.24 2026 vs 감바 오사카 vs 교토 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그",
+                            "match_time": "2026-10-27 10:00:00",
+                            "teams": "10.27 2026 vs 교토 vs 뉴캐슬 제츠 vs 6 일",
+                            "interval": "6 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 05:00:00",
+                            "teams": "10.31 2026 vs 교토 vs 시미즈 vs 10 일",
+                            "interval": "10 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-24 06:00:00",
+                            "teams": "10.24 2026 vs 가시마 vs 가시와 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그",
+                            "match_time": "2026-10-28 10:00:00",
+                            "teams": "10.28 2026 vs 가시마 vs 포항 vs 7 일",
+                            "interval": "7 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 06:00:00",
+                            "teams": "10.31 2026 vs 가시마 vs 세레소 오사카 vs 10 일",
+                            "interval": "10 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000497": {
+            "match_code": "3000497",
+            "head_info": {
+                "league": "J1 리그",
+                "round": "J1 리그·  라운드 11",
+                "match_time_raw": "10/21/2026 10:00:00 AM",
+                "match_time_display": "2026-10-21 19:00",
+                "stadium": "Paloma Mizuho Stadium",
+                "home_stadium": "Paloma Mizuho Stadium",
+                "weather": "이슬비,  23°C"
+            },
+            "home": "나고야",
+            "away": "세레소 오사카",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "12",
+                        "team": "나고야",
+                        "played": "10",
+                        "win": "4",
+                        "draw": "0",
+                        "loss": "6",
+                        "goals_for": "12",
+                        "goals_against": "16",
+                        "goal_diff": "-4",
+                        "points": "12"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "13",
+                        "team": "세레소 오사카",
+                        "played": "10",
+                        "win": "3",
+                        "draw": "3",
+                        "loss": "4",
+                        "goals_for": "9",
+                        "goals_against": "16",
+                        "goal_diff": "-7",
+                        "points": "12"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 1무 5패",
+                        "goals_per_game": "1.50",
+                        "conceded_per_game": "1.90"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.30",
+                        "conceded_per_game": "1.50"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 5 (50%)",
+                        "무승부 1 (10%)",
+                        "승 4 (40%)",
+                        "1.60",
+                        "경기당 득점",
+                        "1.70",
+                        "핸디캡：6승 0무 4패",
+                        "언오버：8오버 1무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D12026.05.17",
+                                "세레소 오사카",
+                                "6-1",
+                                "나고야"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12026.04.04",
+                                "나고야",
+                                "3-0",
+                                "세레소 오사카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.10.04",
+                                "나고야",
+                                "2-1",
+                                "세레소 오사카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.03.08",
+                                "세레소 오사카",
+                                "1-1",
+                                "나고야"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.06.30",
+                                "세레소 오사카",
+                                "2-1",
+                                "나고야"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.04.21",
+                                "나고야",
+                                "2-1",
+                                "세레소 오사카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.08.26",
+                                "세레소 오사카",
+                                "3-1",
+                                "나고야"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.06.03",
+                                "나고야",
+                                "3-1",
+                                "세레소 오사카"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12022.11.05",
+                                "세레소 오사카",
+                                "0-1",
+                                "나고야"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JE Cup2022.07.13",
+                                "나고야",
+                                "1-2",
+                                "세레소 오사카"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-25 05:00:00",
+                            "teams": "10.25 2026 vs 나고야 vs 요코하마 M. vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 06:00:00",
+                            "teams": "10.31 2026 vs 고베 vs 나고야 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-07 05:00:00",
+                            "teams": "11.07 2026 vs 나고야 vs 교토 vs 17 일",
+                            "interval": "17 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-25 06:00:00",
+                            "teams": "10.25 2026 vs 세레소 오사카 vs 지바 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 06:00:00",
+                            "teams": "10.31 2026 vs 가시마 vs 세레소 오사카 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-08 06:00:00",
+                            "teams": "11.08 2026 vs 감바 오사카 vs 세레소 오사카 vs 18 일",
+                            "interval": "18 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000498": {
+            "match_code": "3000498",
+            "head_info": {
+                "league": "J1 리그",
+                "round": "J1 리그·  라운드 11",
+                "match_time_raw": "10/21/2026 10:00:00 AM",
+                "match_time_display": "2026-10-21 19:00",
+                "stadium": "Momotaro Kanko Stadium",
+                "home_stadium": "Momotaro Kanko Stadium",
+                "weather": "흐림,  20°C"
+            },
+            "home": "오카야마",
+            "away": "미토",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "11",
+                        "team": "오카야마",
+                        "played": "10",
+                        "win": "4",
+                        "draw": "1",
+                        "loss": "5",
+                        "goals_for": "12",
+                        "goals_against": "15",
+                        "goal_diff": "-3",
+                        "points": "13"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "14",
+                        "team": "미토",
+                        "played": "10",
+                        "win": "2",
+                        "draw": "3",
+                        "loss": "5",
+                        "goals_for": "12",
+                        "goals_against": "14",
+                        "goal_diff": "-2",
+                        "points": "9"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "1.60",
+                        "conceded_per_game": "1.70"
+                    },
+                    "away_summary": {
+                        "recent_record": "3승 3무 4패",
+                        "goals_per_game": "1.50",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 4 (40%)",
+                        "무승부 5 (50%)",
+                        "승 1 (10%)",
+                        "1.10",
+                        "경기당 득점",
+                        "0.70",
+                        "핸디캡：6승 2무 2패",
+                        "언오버：3오버 0무 7언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D22024.09.22",
+                                "미토",
+                                "0-0",
+                                "오카야마"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22024.03.20",
+                                "오카야마",
+                                "1-0",
+                                "미토"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22023.07.01",
+                                "오카야마",
+                                "1-0",
+                                "미토"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22023.03.05",
+                                "미토",
+                                "1-1",
+                                "오카야마"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22022.06.25",
+                                "미토",
+                                "1-1",
+                                "오카야마"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22022.05.04",
+                                "오카야마",
+                                "2-1",
+                                "미토"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22021.10.24",
+                                "미토",
+                                "1-1",
+                                "오카야마"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22021.04.17",
+                                "오카야마",
+                                "1-2",
+                                "미토"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22020.10.04",
+                                "미토",
+                                "0-0",
+                                "오카야마"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22020.08.08",
+                                "오카야마",
+                                "3-1",
+                                "미토"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-25 07:00:00",
+                            "teams": "10.25 2026 vs 가와사키 vs 오카야마 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 05:00:00",
+                            "teams": "10.31 2026 vs 오카야마 vs FC 도쿄 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-07 05:00:00",
+                            "teams": "11.07 2026 vs 요코하마 M. vs 오카야마 vs 17 일",
+                            "interval": "17 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-25 07:00:00",
+                            "teams": "10.25 2026 vs FC 도쿄 vs 미토 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 05:00:00",
+                            "teams": "10.31 2026 vs 미토 vs 산프레체 히로시마 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-08 08:00:00",
+                            "teams": "11.08 2026 vs 지바 vs 미토 vs 18 일",
+                            "interval": "18 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000499": {
+            "match_code": "3000499",
+            "head_info": {
+                "league": "J1 리그",
+                "round": "J1 리그·  라운드 11",
+                "match_time_raw": "10/21/2026 10:00:00 AM",
+                "match_time_display": "2026-10-21 19:00",
+                "stadium": "Nihondaira Stadium",
+                "home_stadium": "Nihondaira Stadium",
+                "weather": "구름 조금,  25°C"
+            },
+            "home": "시미즈",
+            "away": "마치다",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "10",
+                        "team": "시미즈",
+                        "played": "10",
+                        "win": "4",
+                        "draw": "2",
+                        "loss": "4",
+                        "goals_for": "10",
+                        "goals_against": "11",
+                        "goal_diff": "-1",
+                        "points": "14"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "2",
+                        "team": "마치다",
+                        "played": "10",
+                        "win": "7",
+                        "draw": "2",
+                        "loss": "1",
+                        "goals_for": "25",
+                        "goals_against": "10",
+                        "goal_diff": "15",
+                        "points": "23"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.30",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "7승 2무 1패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "0.80"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 3 (50%)",
+                        "무승부 1 (16.7%)",
+                        "승 2 (33.3%)",
+                        "1.67",
+                        "경기당 득점",
+                        "핸디캡：3승 1무 2패",
+                        "언오버：5오버 0무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D12025.07.05",
+                                "마치다",
+                                "3-0",
+                                "시미즈"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.05.11",
+                                "시미즈",
+                                "2-2",
+                                "마치다"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22023.08.19",
+                                "시미즈",
+                                "3-2",
+                                "마치다"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22023.05.21",
+                                "마치다",
+                                "2-1",
+                                "시미즈"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22016.10.08",
+                                "시미즈",
+                                "2-0",
+                                "마치다"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22016.06.08",
+                                "마치다",
+                                "1-2",
+                                "시미즈"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-24 05:00:00",
+                            "teams": "10.24 2026 vs 산프레체 히로시마 vs 시미즈 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 05:00:00",
+                            "teams": "10.31 2026 vs 교토 vs 시미즈 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-07 04:00:00",
+                            "teams": "11.07 2026 vs 시미즈 vs 베르디 vs 17 일",
+                            "interval": "17 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-24 06:00:00",
+                            "teams": "10.24 2026 vs 고베 vs 마치다 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-10-29 12:15:00",
+                            "teams": "10.29 2026 vs 상하이 선화 vs 마치다 vs 8 일",
+                            "interval": "8 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-01 07:00:00",
+                            "teams": "11.01 2026 vs 마치다 vs 감바 오사카 vs 11 일",
+                            "interval": "11 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000501": {
+            "match_code": "3000501",
+            "head_info": {
+                "league": "J1 리그",
+                "round": "J1 리그·  라운드 11",
+                "match_time_raw": "10/21/2026 10:00:00 AM",
+                "match_time_display": "2026-10-21 19:00",
+                "stadium": "Nagasaki Athletic Stadium",
+                "home_stadium": "Nagasaki Athletic Stadium",
+                "weather": "구름 조금,  20°C"
+            },
+            "home": "V-바렌 나가사키",
+            "away": "산프레체 히로시마",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "15",
+                        "team": "V-바렌 나가사키",
+                        "played": "10",
+                        "win": "2",
+                        "draw": "3",
+                        "loss": "5",
+                        "goals_for": "11",
+                        "goals_against": "18",
+                        "goal_diff": "-7",
+                        "points": "9"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "1",
+                        "team": "산프레체 히로시마",
+                        "played": "10",
+                        "win": "7",
+                        "draw": "2",
+                        "loss": "1",
+                        "goals_for": "25",
+                        "goals_against": "6",
+                        "goal_diff": "19",
+                        "points": "23"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 4무 4패",
+                        "goals_per_game": "0.90",
+                        "conceded_per_game": "1.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "8승 1무 1패",
+                        "goals_per_game": "2.40",
+                        "conceded_per_game": "0.40"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 0 (0%)",
+                        "승 4 (100%)",
+                        "0.25",
+                        "경기당 득점",
+                        "2.25",
+                        "핸디캡：0승 0무 4패",
+                        "언오버：1오버 0무 3언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D12026.04.18",
+                                "산프레체 히로시마",
+                                "2-0",
+                                "V-바렌 나가사키"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12026.02.06",
+                                "V-바렌 나가사키",
+                                "1-3",
+                                "산프레체 히로시마"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12018.08.11",
+                                "산프레체 히로시마",
+                                "2-0",
+                                "V-바렌 나가사키"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12018.04.28",
+                                "V-바렌 나가사키",
+                                "0-2",
+                                "산프레체 히로시마"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-25 06:00:00",
+                            "teams": "10.25 2026 vs 우라와 vs V-바렌 나가사키 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-01 05:00:00",
+                            "teams": "11.01 2026 vs V-바렌 나가사키 vs 베르디 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-07 06:00:00",
+                            "teams": "11.07 2026 vs 아비스파 후쿠오카 vs V-바렌 나가사키 vs 17 일",
+                            "interval": "17 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-24 05:00:00",
+                            "teams": "10.24 2026 vs 산프레체 히로시마 vs 시미즈 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 05:00:00",
+                            "teams": "10.31 2026 vs 미토 vs 산프레체 히로시마 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-08 05:00:00",
+                            "teams": "11.08 2026 vs 마치다 vs 산프레체 히로시마 vs 18 일",
+                            "interval": "18 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000502": {
+            "match_code": "3000502",
+            "head_info": {
+                "league": "J1 리그",
+                "round": "J1 리그·  라운드 11",
+                "match_time_raw": "10/21/2026 10:00:00 AM",
+                "match_time_display": "2026-10-21 19:00",
+                "stadium": "Nissan Stadium",
+                "home_stadium": "Nissan Stadium",
+                "weather": "구름 조금,  26°C"
+            },
+            "home": "요코하마 M.",
+            "away": "베르디",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "8",
+                        "team": "요코하마 M.",
+                        "played": "10",
+                        "win": "4",
+                        "draw": "4",
+                        "loss": "2",
+                        "goals_for": "13",
+                        "goals_against": "9",
+                        "goal_diff": "4",
+                        "points": "16"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "20",
+                        "team": "베르디",
+                        "played": "10",
+                        "win": "0",
+                        "draw": "4",
+                        "loss": "6",
+                        "goals_for": "4",
+                        "goals_against": "18",
+                        "goal_diff": "-14",
+                        "points": "4"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 4무 1패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "0.80"
+                    },
+                    "away_summary": {
+                        "recent_record": "1승 4무 5패",
+                        "goals_per_game": "0.40",
+                        "conceded_per_game": "1.50"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 6 (60%)",
+                        "무승부 1 (10%)",
+                        "승 3 (30%)",
+                        "2.00",
+                        "경기당 득점",
+                        "0.80",
+                        "핸디캡：5승 0무 3패",
+                        "언오버：4오버 1무 3언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D12026.05.24",
+                                "베르디",
+                                "0-6",
+                                "요코하마 M."
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12026.02.28",
+                                "요코하마 M.",
+                                "3-2",
+                                "베르디"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.08.09",
+                                "베르디",
+                                "1-0",
+                                "요코하마 M."
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.04.05",
+                                "요코하마 M.",
+                                "0-0",
+                                "베르디"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.06.29",
+                                "요코하마 M.",
+                                "1-2",
+                                "베르디"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12024.02.25",
+                                "베르디",
+                                "1-2",
+                                "요코하마 M."
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JE Cup2016.09.22",
+                                "요코하마 M.",
+                                "4-0",
+                                "베르디"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT CF2015.02.25",
+                                "요코하마 M.",
+                                "1-0",
+                                "베르디"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT CF2011.02.13",
+                                "요코하마 M.",
+                                "1-2",
+                                "베르디"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12008.11.29",
+                                "요코하마 M.",
+                                "2-0",
+                                "베르디"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-25 05:00:00",
+                            "teams": "10.25 2026 vs 나고야 vs 요코하마 M. vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-01 04:00:00",
+                            "teams": "11.01 2026 vs 요코하마 M. vs 가와사키 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-07 05:00:00",
+                            "teams": "11.07 2026 vs 요코하마 M. vs 오카야마 vs 17 일",
+                            "interval": "17 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-24 06:00:00",
+                            "teams": "10.24 2026 vs 베르디 vs 아비스파 후쿠오카 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-01 05:00:00",
+                            "teams": "11.01 2026 vs V-바렌 나가사키 vs 베르디 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-07 04:00:00",
+                            "teams": "11.07 2026 vs 시미즈 vs 베르디 vs 17 일",
+                            "interval": "17 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000500": {
+            "match_code": "3000500",
+            "head_info": {
+                "league": "J1 리그",
+                "round": "J1 리그·  라운드 11",
+                "match_time_raw": "10/21/2026 10:30:00 AM",
+                "match_time_display": "2026-10-21 19:30",
+                "stadium": "Saitama Stadium 2002",
+                "home_stadium": "Saitama Stadium 2002",
+                "weather": "맑음,  26°C"
+            },
+            "home": "우라와",
+            "away": "지바",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "9",
+                        "team": "우라와",
+                        "played": "10",
+                        "win": "5",
+                        "draw": "0",
+                        "loss": "5",
+                        "goals_for": "17",
+                        "goals_against": "21",
+                        "goal_diff": "-4",
+                        "points": "15"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "19",
+                        "team": "지바",
+                        "played": "10",
+                        "win": "1",
+                        "draw": "3",
+                        "loss": "6",
+                        "goals_for": "8",
+                        "goals_against": "19",
+                        "goal_diff": "-11",
+                        "points": "6"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "8승 0무 2패",
+                        "goals_per_game": "2.20",
+                        "conceded_per_game": "1.40"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 3무 5패",
+                        "goals_per_game": "1.20",
+                        "conceded_per_game": "1.50"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 7 (70%)",
+                        "무승부 1 (10%)",
+                        "승 2 (20%)",
+                        "2.00",
+                        "경기당 득점",
+                        "0.90",
+                        "핸디캡：7승 0무 3패",
+                        "언오버：2오버 0무 3언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D12026.05.02",
+                                "우라와",
+                                "2-0",
+                                "지바"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12026.02.07",
+                                "지바",
+                                "0-2",
+                                "우라와"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12009.10.03",
+                                "우라와",
+                                "3-1",
+                                "지바"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12009.04.25",
+                                "지바",
+                                "0-1",
+                                "우라와"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12008.10.05",
+                                "지바",
+                                "3-2",
+                                "우라와"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12008.05.06",
+                                "우라와",
+                                "3-0",
+                                "지바"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12007.10.20",
+                                "지바",
+                                "2-4",
+                                "우라와"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12007.05.03",
+                                "우라와",
+                                "1-1",
+                                "지바"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12006.10.07",
+                                "우라와",
+                                "2-0",
+                                "지바"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12006.05.03",
+                                "지바",
+                                "2-0",
+                                "우라와"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-25 06:00:00",
+                            "teams": "10.25 2026 vs 우라와 vs V-바렌 나가사키 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-10-31 07:00:00",
+                            "teams": "10.31 2026 vs 가시와 vs 우라와 vs 10 일",
+                            "interval": "10 일"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-08 05:00:00",
+                            "teams": "11.08 2026 vs 고베 vs 우라와 vs 18 일",
                             "interval": "18 일"
                         }
                     ],
                     "away": [
                         {
-                            "league": "내셔널리그 (북부)",
-                            "match_time": "2026-10-24 14:00:00",
-                            "teams": "10.24 2026 vs 스카브러 애슬레틱 vs 베드포드 vs 4 일",
+                            "league": "J1 리그",
+                            "match_time": "2026-10-25 06:00:00",
+                            "teams": "10.25 2026 vs 세레소 오사카 vs 지바 vs 4 일",
                             "interval": "시작전"
                         },
                         {
-                            "league": "내셔널리그 (북부)",
-                            "match_time": "2026-10-27 14:00:00",
-                            "teams": "10.27 2026 vs 베드포드 vs 촐리 vs 7 일",
-                            "interval": "7 일"
+                            "league": "J1 리그",
+                            "match_time": "2026-11-01 05:00:00",
+                            "teams": "11.01 2026 vs 지바 vs 아비스파 후쿠오카 vs 11 일",
+                            "interval": "11 일"
                         },
                         {
-                            "league": "내셔널리그 (북부)",
-                            "match_time": "2026-10-27 19:45:00",
-                            "teams": "10.27 2026 vs 베드포드 vs 헤드네스포드 vs 7 일",
-                            "interval": "7 일"
+                            "league": "J1 리그",
+                            "match_time": "2026-11-08 08:00:00",
+                            "teams": "11.08 2026 vs 지바 vs 미토 vs 18 일",
+                            "interval": "18 일"
                         }
                     ]
                 }
