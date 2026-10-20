@@ -12,7 +12,8 @@ _team_squad_cache = {}
 
 def parse_team_squad(driver, team_summary_url):
     """
-    💡 이미지 alt 속성 중복을 막고, 몸값/원화 환산 없이 이름, 포지션, 나이만 정확히 수집하는 정밀 파서
+    💡 텍스트 내에서 중복되는 선수 이름을 정제하여 단 한 번만 남기고,
+       포지션과 나이를 정확히 매칭하는 정밀 파서
     """
     if team_summary_url in _team_squad_cache:
         return _team_squad_cache[team_summary_url]
@@ -31,21 +32,28 @@ def parse_team_squad(driver, team_summary_url):
         
         for li in player_items:
             try:
-                # 1. [이름 추출] 오직 'span.name' 내부에서만 정확히 추출 (img alt 속성 간섭 원천 차단)
+                # 1. span.name 전체 텍스트 가져오기
                 name_span = li.find("span", class_="name")
-                player_name = ""
-                if name_span:
-                    des_span = name_span.find("span", class_="des")
-                    if des_span:
-                        des_text = des_span.get_text(strip=True)
-                        full_text = name_span.get_text(strip=True)
-                        player_name = full_text.replace(des_text, "").strip()
-                    else:
-                        player_name = name_span.get_text(strip=True)
-
-                # 2. [나머지 데이터 추출] name 영역을 제외한 li 직계 span들만 순서대로 수집
-                child_spans = li.find_all("span", recursive=False)
+                raw_name_text = name_span.get_text(strip=True) if name_span else ""
                 
+                # 2. [핵심] 만약 이름이 두 번 겹쳐서 들어가 있다면 하나를 날려버림
+                # 예: "아산 디아오아산 디아오#11 세네갈" -> 이름을 두 번 찾아서 하나로 정제
+                des_span = name_span.find("span", class_="des") if name_span else None
+                des_text = des_span.get_text(strip=True) if des_span else ""
+                
+                # 순수 선수 이름 추출 (중복 제거 및 des 영역 분리)
+                if des_text:
+                    player_name = raw_name_text.replace(des_text, "").strip()
+                else:
+                    player_name = raw_name_text
+                
+                # 만약 이름 자체가 내부에서 두 번 반복되어 붙어 있다면 반으로 쪼개서 하나만 남김
+                half_len = len(player_name) // 2
+                if len(player_name) > 4 and player_name[:half_len] == player_name[half_len:half_len*2]:
+                    player_name = player_name[:half_len].strip()
+
+                # 3. 나머지 데이터(포지션, 나이) 추출
+                child_spans = li.find_all("span", recursive=False)
                 valid_texts = []
                 for s in child_spans:
                     if "name" in s.get("class", []):
@@ -54,10 +62,9 @@ def parse_team_squad(driver, team_summary_url):
                     if txt:
                         valid_texts.append(txt)
 
-                # 3. [데이터 매핑] 첫 번째: 포지션, 두 번째: 나이 (몸값 및 계약일 등은 제외)
                 position = valid_texts[0] if len(valid_texts) > 0 else "-"
                 age = valid_texts[1] if len(valid_texts) > 1 else "-"
-                
+
                 if player_name:
                     player_info = {
                         "name": player_name,
@@ -73,7 +80,6 @@ def parse_team_squad(driver, team_summary_url):
         
     _team_squad_cache[team_summary_url] = squad_list
     return squad_list
-
 def run_squad_crawler_v5_1():
     if not os.path.exists("data.json"):
         print("❌ data.json 파일이 존재하지 않습니다.")
