@@ -890,9 +890,9 @@ with tabs[3]:
     """, unsafe_allow_html=True)
 
 # ==========================================
-    # 3-1번 영역: 선수 등급 기준표 및 양팀 전력 변동 표 (V5 & V5-1 독립 딕셔너리 연동)
+    # 3-1번 영역: 선수 등급(A~D) 기준표 및 양팀 전력 변동 표 (V5 & V5-1 독립 딕셔너리 연동)
     # ==========================================
-    st.markdown("##### 선수 등급(상/중/하) 정량 판정 기준표")
+    st.markdown("##### 선수 등급(A~D) 정량 판정 기준표")
     html_table = """
     <style>
     .custom-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px; font-size: 14px; }
@@ -900,11 +900,12 @@ with tabs[3]:
     .custom-table th { background-color: #f5f5f5; font-weight: bold; }
     </style>
     <table class="custom-table">
-    <thead><tr><th>전력 등급</th><th>포지션</th><th>정량적 스펙 및 평가 기준</th><th>보정 비율</th></tr></thead>
+    <thead><tr><th>전력 등급</th><th>포지션</th><th>정량적 스펙 및 평가 기준</th><th>보정 비율 (D=0, 급당 +4%)</th></tr></thead>
     <tbody>
-    <tr><td>상 (High)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 팀 내 득점/도움 1~2위 또는 선발 출전율 80% 이상<br>• [DF/GK] 클린시트 기여 1위 / 경기당 평균 실점 1.0 이하</td><td>14%<br>(공격: -14% / 방어: +14%)</td></tr>
-    <tr><td>중 (Medium)</td><td>공격 (FW/MF) / 수비 (DF/GK)</td><td>• 선발 출전율 50% ~ 79% / 핵심 주전 로테이션<br>• [DF/GK] 주전 수비수·골키퍼 / 태클·인터셉트 상위권</td><td>7%<br>(공격: -7% / 방어: +7%)</td></tr>
-    <tr><td>하 (Low)</td><td>공용</td><td>• 선발 출전율 50% 미만 / 백업 및 후보 자원 (결장 시 수비/공격 수치 변화 미비)</td><td>0%</td></tr>
+    <tr><td><b>A 등급</b></td><td>공격수 / 미드필더 / 수비수</td><td>• 팀 내 최상위 핵심 자원 (출전율 및 공격포인트/클린시트 최상위)</td><td><b>± 12.0%</b><br>(공격/방어 기본 가중치)</td></tr>
+    <tr><td><b>B 등급</b></td><td>공격수 / 미드필더 / 수비수</td><td>• 주전급 핵심 로테이션 자원</td><td><b>± 8.0%</b></td></tr>
+    <tr><td><b>C 등급</b></td><td>공격수 / 미드필더 / 수비수</td><td>• 준주전 및 로테이션 자원</td><td><b>± 4.0%</b></td></tr>
+    <tr><td><b>D 등급</b></td><td>공용</td><td>• 백업 및 후보 자원 (결장 시 수치 변화 미비)</td><td><b>0.0%</b></td></tr>
     </tbody>
     </table>
     """
@@ -930,7 +931,6 @@ with tabs[3]:
             p_pos = str(p.get("position", "-")).strip()
             if p_name:
                 lookup[p_name] = p_pos
-                # 띄어쓰기 제거 버전도 함께 등록하여 매칭 확률 상승
                 lookup[p_name.replace(" ", "")] = p_pos
         return lookup
 
@@ -957,35 +957,62 @@ with tabs[3]:
         for item in absentees_list:
             p_name = str(item.get("name", "-")).strip()
             
-            # V5-1 맵에서 선수 이름으로 정확한 포지션 탐색 (없으면 기본값)
+            # V5-1 맵에서 선수 이름으로 정확한 포지션 탐색
             p_pos = pos_lookup.get(p_name, pos_lookup.get(p_name.replace(" ", ""), "미정"))
             
-            p_type = item.get("status", "결장") # 기본 누수 처리
+            p_type = item.get("status", "결장") # 누수 여부
             stats_dict = item.get("stats", {})
             
-            # 시즌 스탯 요약 문자열 조립 (출전 시간, 경기 수 등)
             matches_p = stats_dict.get("matches_played", 0)
             total_time = stats_dict.get("total_play_time", 0)
             p_stats_str = f"경기: {matches_p} / 출전시간: {total_time}분"
             
-            # 등급 자동 판정 (출전 경기 수나 출전 시간에 따른 스마트 기준 또는 기본 중)
-            # 10경기 이상 또는 출전 시간 900분 이상이면 '상', 아니면 '중'
-            if matches_p >= 12 or total_time >= 900:
-                p_grade = "상 (High)"
-            elif matches_p >= 5 or total_time >= 300:
-                p_grade = "중 (Medium)"
+            # 💡 [원천 등급 연동 및 A~D 등급별 가중치(급당 4%) 계산]
+            # V5 원본에 들어있는 "grade" (예: "A", "B" 등)를 우선 읽어오고 없으면 출전 시간으로 보정
+            raw_grade = str(stats_dict.get("grade", item.get("grade", "C"))).strip().upper()
+            if "A" in raw_grade:
+                p_grade = "A 등급"
+                rate = 12.0
+            elif "B" in raw_grade:
+                p_grade = "B 등급"
+                rate = 8.0
+            elif "C" in raw_grade:
+                p_grade = "C 등급"
+                rate = 4.0
             else:
-                p_grade = "하 (Low)"
+                p_grade = "D 등급"
+                rate = 0.0
 
-            p_memo = f"시즌 {matches_p}경기 출전 핵심 자원 결장"
+            p_memo = f"시즌 {matches_p}경기 출전 ({p_grade}) 핵심 자원 결장"
             
-            rate = 14.0 if "상" in p_grade else (7.0 if "중" in p_grade else 0.0)
+            # 💡 [포지션 분류 압축 및 공수 반감 룰 적용]
+            is_attacker = any(k in p_pos for k in ["공격수", "미드필더", "FW", "MF"])
+            is_defender = any(k in p_pos for k in ["수비수", "골키퍼", "DF", "GK"])
+
             if p_type in ["결장", "부상", "징계", "누수"]:
-                atk_v = -rate
-                def_v = rate if any(k in p_pos for k in ["FW", "MF", "공격수", "미드필더"]) else rate / 2.0
+                if is_attacker:
+                    # 공격수/미드필더 결장: 공격력 -rate, 방어력은 반감(+rate / 2.0)
+                    atk_v = -rate
+                    def_v = rate / 2.0
+                elif is_defender:
+                    # 수비수/골키퍼 결장: 방어력 +rate, 공격력은 반감(-rate / 2.0)
+                    atk_v = -rate / 2.0
+                    def_v = rate
+                else:
+                    # 포지션 미정 시 기본 배분
+                    atk_v = -rate
+                    def_v = rate / 2.0
             else:
-                atk_v = rate
-                def_v = -rate if any(k in p_pos for k in ["DF", "GK", "수비수", "골키퍼"]) else -rate / 2.0
+                # 가산(복귀 등)인 경우 대칭 반전
+                if is_attacker:
+                    atk_v = rate
+                    def_v = -rate / 2.0
+                elif is_defender:
+                    atk_v = rate / 2.0
+                    def_v = -rate
+                else:
+                    atk_v = rate
+                    def_v = -rate / 2.0
 
             tot_atk += atk_v
             tot_def += def_v
