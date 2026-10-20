@@ -279,12 +279,10 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        # 💡 [국가 및 등급 정밀 대조 함수 - 1순위 리그명/팀명 검색 ➔ 2순위 리그순위 토큰 검색, 5대 필드 순차 정밀 매칭]
+# 💡 [국가 및 등급 정밀 대조 함수 - 한글 리그명(league_kor_name) 전용 매칭 규격]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
-            team_str = str(team_val).strip().lower()
-            clean_league = str(current_league_name).strip().replace(" ", "").lower()
 
             # 1. 순위표 띄어쓰기 앞토큰 추출 (예: "SPA D1-1" -> "SPA")
             extracted_token = ""
@@ -294,55 +292,33 @@ with tabs[0]:
                     extracted_token = token
             token_up = extracted_token.upper()
 
-            # 2. 검색 순서 정의: 1순위 (리그명 및 팀명), 2순위 (리그순위 토큰)
-            search_targets = []
-            if clean_league:
-                search_targets.append(clean_league)
-            if team_str:
-                search_targets.append(team_str)
-            if token_up:
-                search_targets.append(token_up)
+            if not token_up:
+                f_info = grades.get("F", {})
+                return "EXT", rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
-            # 3. country.json 내부의 국가 데이터를 순회하며 지정된 순서대로 정밀 검사
+            # 2. country.json 내부를 순회하며 오직 한글 리그명(league_kor_name) 및 국가 코드 대조
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
                 if isinstance(countries, list):
                     for c in countries:
-                        c_name = str(c.get("name", "")).strip().lower()
-                        c_name_eng = str(c.get("name_eng", "")).strip().lower()
-                        c_code = str(c.get("code", "")).strip().upper()
+                        c_country_code = str(c.get("country_code", "")).strip().upper()
                         c_kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
                         leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
 
-                        # 4. 요청하신 5대 필드 검색 순서 준수 (name -> name_eng -> code -> leagues -> league_kor_name)
-                        for target in search_targets:
-                            if not target:
-                                continue
-                            t_lower = target.lower()
-                            t_upper = target.upper()
+                        # ① country_code (국가 코드 - 예: SPA, FRA) 일치 검사
+                        if c_country_code and c_country_code == token_up:
+                            return c.get("country_code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                        
+                        # ② leagues 목록 일치 검사
+                        if leagues_list and token_up in leagues_list:
+                            return c.get("country_code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                        
+                        # ③ league_kor_name (한글 리그명) 일치 검사 (요청하신 기준)
+                        if c_kor_league and (c_kor_league in token_up.lower() or token_up.lower() in c_kor_league):
+                            return c.get("country_code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
-                            # ① name (한글 국가명) 일치/포함 검사
-                            if c_name and (c_name in t_lower or t_lower in c_name):
-                                return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
-                            
-                            # ② name_eng (영문 국가명) 일치/포함 검사
-                            if c_name_eng and (c_name_eng in t_lower or t_lower in c_name_eng):
-                                return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
-                            
-                            # ③ code (국가 코드 - 예: SPA, FRA) 일치/포함 검사
-                            if c_code and (c_code == t_upper or c_code in t_upper or t_upper in c_code):
-                                return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
-                            
-                            # ④ leagues (리그 코드 목록) 일치/포함 검사
-                            if leagues_list and any(l and (l == t_upper or l in t_upper or t_upper in l) for l in leagues_list):
-                                return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
-                            
-                            # ⑤ league_kor_name (한글 리그명) 일치/포함 검사
-                            if c_kor_league and (c_kor_league in t_lower or t_lower in c_kor_league):
-                                return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
-
-            # 5. 모든 5대 필드 조건에서 일치하는 항목이 하나도 없는 경우 F등급 폴백 처리
+            # 3. 모든 조건 실패 시 F등급 폴백 처리
             f_info = grades.get("F", {})
             return "EXT", rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
