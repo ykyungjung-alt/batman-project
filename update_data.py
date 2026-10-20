@@ -24,13 +24,20 @@ MAJOR_LEAGUES = [
     "잉글랜드 FA 컵", "EFL 트로피"
 ]
 
-# 🚫 제외할 리그 키워드 목록 (이 중 하나의 단어라도 리그명에 포함되면 수집 대상에서 제외)
+# ==============================================================================
+# 🚫 [제외 필터링 설정 영역]
+# ==============================================================================
+
+# 1. 키워드 부분 포함 제외 목록 (이 단어 중 하나라도 리그명에 포함되면 수집 대상에서 제외)
 EXCLUDED_KEYWORDS = [
-    "여자", "아드미랄", "타이", "디베히어", "CAF", "(여)", "베타노", "프레미어", "홍콩", 
+    "여자", "아드미랄", "타이", "디베히어", "CAF", "(여)", "베타노", "홍콩", 
     "ABFA", "캐나다", "U-16", "U16", "U-17", "U17", "남부"
 ]
 
-EXCLUDED_LEAGUES = [
+# 2. 리그명 정확히 일치(Exact Match) 전용 제외 목록 (프리미어컵 등 파생 대회는 살리고 특정 명칭만 정확히 차단)
+EXCLUDED_EXACT_LEAGUES = [
+    "프리미어리그",
+    "잉글랜드 프리미어리그",
     "리가 프레미어 세리에 A",
     "세리에 A 베타노",
     "타이리그 1",
@@ -39,6 +46,7 @@ EXCLUDED_LEAGUES = [
     "ABFA 프리미어리그",
     "캐나다 프리미어리그"
 ]
+# ==============================================================================
 
 def update_json_file():
     options = Options()
@@ -128,9 +136,15 @@ def update_json_file():
                 if not is_major:
                     continue
                 
-                # 💡 정확한 일치 또는 키워드 포함 여부 검사 (EXCLUDED_LEAGUES + EXCLUDED_KEYWORDS)
-                is_excluded = any(ex in current_league for ex in EXCLUDED_LEAGUES) or any(kw in current_league for kw in EXCLUDED_KEYWORDS)
-                if is_excluded:
+                # ==============================================================================
+                # 💡 [핵심 예외 검사 분리 적용]
+                # 1. 키워드 부분 포함 검사 (EXCLUDED_KEYWORDS)
+                # 2. 리그명 정확히 일치 검사 (EXCLUDED_EXACT_LEAGUES)
+                # ==============================================================================
+                is_excluded_by_keyword = any(kw in current_league for kw in EXCLUDED_KEYWORDS)
+                is_excluded_by_exact = current_league.strip() in EXCLUDED_EXACT_LEAGUES
+
+                if is_excluded_by_keyword or is_excluded_by_exact:
                     continue
                 
                 m_id = None
