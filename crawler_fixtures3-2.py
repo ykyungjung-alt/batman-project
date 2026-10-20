@@ -14,7 +14,7 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
     sub_url = f"https://www.scoreman123.com/match/data-{sub_m_id}"
     try:
         driver.get(sub_url)
-        time.sleep(0.5)  # 0.5초 통일
+        time.sleep(0.3)
         soup = BeautifulSoup(driver.page_source, "html.parser")
         
         sub_home, sub_away = "", ""
@@ -48,6 +48,7 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
                 opp_goals = away_goals if is_target_home else home_goals
                 opp_conceded = away_conceded if is_target_home else home_conceded
                 
+                # 💡 티어 판정 로직을 완전히 제거하고 순수 골득실 수치만 반환
                 return f"{opp_goals}/{opp_conceded}"
     except Exception:
         pass
@@ -67,7 +68,7 @@ def run_table_based_crawler_v3_2():
     
     kst = ZoneInfo("Asia/Seoul")
     now_kst = datetime.now(kst)
-    limit_kst = now_kst + timedelta(hours=48)
+    limit_kst = now_kst + timedelta(hours=48)  # 필요에 따라 24~48시간 조절 가능
     
     print(f"🕒 [V3-2] 실행 시간(KST): {now_kst.strftime('%Y-%m-%d %H:%M')}")
     print(f"🎯 [V3-2] 수집 대상 타임라인 (~48시간 후): {limit_kst.strftime('%Y-%m-%d %H:%M')}")
@@ -110,10 +111,10 @@ def run_table_based_crawler_v3_2():
             except Exception:
                 continue
 
-    # 💡 [테스트용 제한] 원활한 테스트를 위해 수집 대상을 딱 1개만 제한합니다.
+    # 💡 [테스트용 제한] 딱 1개 경기만 수집하도록 제한
     target_matches = target_matches[:1]
 
-    print(f"🎯 [V3-2 테스트 모드] 조건에 일치하는 대진 중 **딱 1개 경기**만 테스트 수집합니다.")
+    print(f"🎯 [V3-2 테스트 모드] 조건에 일치하는 대진 중 **딱 1개 경기**만 크롤링 시작합니다.")
 
     options = Options()
     options.add_argument("--headless")
@@ -135,7 +136,7 @@ def run_table_based_crawler_v3_2():
             
             try:
                 driver.get(detail_url)
-                time.sleep(0.5)  # 0.5초 통일
+                time.sleep(1.0)
                 
                 detail_soup = BeautifulSoup(driver.page_source, "html.parser")
                 
@@ -151,89 +152,6 @@ def run_table_based_crawler_v3_2():
                         head_info["league"] = full_text.replace("·", "").strip()
                 except Exception:
                     pass
-
-                # 1. 실제 경기장(stadium) 수집 (중립 판별용)
-                actual_stadium_name = ""
-                try:
-                    other_info_div = detail_soup.find("div", {"id": "otherInfo"})
-                    if other_info_div:
-                        spans = other_info_div.find_all("span")
-                        stadium_candidates = []
-                        for s in spans:
-                            s_text = s.get_text(strip=True)
-                            if not s_text or "생중계" in s_text: continue
-                            if any(w in s_text for w in ["°C", "°F", "비", "맑음", "구름", "이슬비", "눈", "흐림", "Clear", "Rain", "Cloud", "Snow"]):
-                                continue
-                            else:
-                                stadium_candidates.append(s_text)
-                        if stadium_candidates:
-                            actual_stadium_name = stadium_candidates[0]
-                except Exception:
-                    pass
-
-                # 2. 홈팀 고유 홈구장 수집 (중립 판별용)
-                h_stadium_name = "-"
-                try:
-                    home_div = detail_soup.find("div", {"class": "home"})
-                    if home_div and home_div.has_attr("data-url"):
-                        team_summary_url = "https:" + home_div["data-url"]
-                        driver.get(team_summary_url)
-                        time.sleep(0.5)  # 0.5초 통일
-                        team_soup = BeautifulSoup(driver.page_source, "html.parser")
-                        info_div = team_soup.find("div", id="info")
-                        if info_div:
-                            stadium_li = info_div.find("li", class_="home-stadium")
-                            if stadium_li:
-                                temp_name = stadium_li.get("explain", "").strip()
-                                if not temp_name:
-                                    div_tag = stadium_li.find("div")
-                                    if div_tag: temp_name = div_tag.get_text(strip=True)
-                                if temp_name:
-                                    h_stadium_name = temp_name
-                        
-                        driver.get(detail_url)
-                        time.sleep(0.5)  # 0.5초 통일
-                except Exception as e:
-                    print(f"  - 홈구장 파싱 예외: {e}")
-                    driver.get(detail_url)
-                    time.sleep(0.5)
-
-                # 💡 [중립 구장 감지 및 사진 속 구조 기반 20개 확장 수집 로직]
-                actual_stadium = actual_stadium_name.strip().lower()
-                home_stadium_val = h_stadium_name.strip().lower()
-                
-                is_neutral_or_special = False
-                if actual_stadium and home_stadium_val and home_stadium_val != "-":
-                    if actual_stadium != home_stadium_val:
-                        is_neutral_or_special = True
-
-                target_count = 10  # 기본값 10개
-
-                if is_neutral_or_special:
-                    print(f"  🔍 [{counter}/{len(target_matches)}] [중립/특수 구장 감지] ({h_stadium_name} vs {actual_stadium_name}) -> 홈/원정 양 팀 모두 최근 20개 확장 수집을 시도합니다.")
-                    target_count = 20
-                    
-                    # 💡 사진 속 구조(v-data='20' 및 selRecentMatch)를 명확히 타겟팅하여 양쪽 드롭다운 제어
-                    try:
-                        dropdown_buttons = driver.find_elements("id", "selRecentMatch")
-                        for d_btn in dropdown_buttons:
-                            driver.execute_script("arguments[0].click();", d_btn)
-                            time.sleep(0.5)
-                            
-                            # 사진에 나온 v-data="20" 속성을 가진 li 요소 정확히 클릭
-                            option_20s = driver.find_elements("xpath", "//div[@id='selRecentMatchItem']//li[@v-data='20']")
-                            for opt in option_20s:
-                                try:
-                                    driver.execute_script("arguments[0].click();", opt)
-                                    time.sleep(0.5)
-                                except:
-                                    pass
-                    except Exception as drop_err:
-                        print(f"  - 최근 20개 확장 드롭다운 클릭 예외 (기본값 유지): {drop_err}")
-                else:
-                    print(f"  🏠 [{counter}/{len(target_matches)}] [정식 홈구장 경기] ({main_home} vs {main_away}) -> 기본 10개 전적을 수집합니다.")
-
-                detail_soup = BeautifulSoup(driver.page_source, "html.parser")
 
                 recent_form_data = {
                     "form_title": "최근 전적",
@@ -257,6 +175,7 @@ def run_table_based_crawler_v3_2():
                                 league_div = li.find("div", class_="team")
                                 time_span = li.find("span", {"name": "timeData"})
                                 
+                                # 💡 날짜 포맷 변환 (MM.DD YYYY -> YYYY.MM.DD)
                                 raw_t_str = time_span.get_text(strip=True) if time_span else ""
                                 match_time_val = raw_t_str
                                 try:
@@ -291,11 +210,11 @@ def run_table_based_crawler_v3_2():
                                 if sub_m_id:
                                     opponent_tier_info = fetch_opponent_stats_fast(driver, sub_m_id, target_team)
                                     driver.get(detail_url)
-                                    time.sleep(0.5)  # 0.5초 통일
+                                    time.sleep(0.2)
 
                                 match_info = {
                                     "league": league_div.get_text(strip=True) if league_div else "",
-                                    "match_time": match_time_val,
+                                    "match_time": match_time_val,  # 💡 변환된 연.월.일 형식 반영
                                     "teams": teams_text,
                                     "ft_scores": ft_scores,
                                     "opponent_tier_info": opponent_tier_info
@@ -304,25 +223,25 @@ def run_table_based_crawler_v3_2():
                                     target_list.append(match_info)
                                     count += 1
 
-                    # 💡 [홈/원정 최근 전적] 양쪽 모두 target_count 적용
+                    # 1. 최근전적 수집
                     home_ul = detail_soup.find("ul", id="tb_home_recent")
                     away_ul = detail_soup.find("ul", id="tb_guest_recent")
-                    if home_ul: parse_matches(home_ul, main_home, recent_form_data["home_matches"], target_count)
-                    if away_ul: parse_matches(away_ul, main_away, recent_form_data["away_matches"], target_count)
+                    if home_ul: parse_matches(home_ul, main_home, recent_form_data["home_matches"], 10)
+                    if away_ul: parse_matches(away_ul, main_away, recent_form_data["away_matches"], 10)
 
-                    # 💡 [구장별 전적] 토글 및 양쪽 모두 target_count 적용
+                    # 2. 구장별 전적 수집
                     try:
                         checkbox = driver.find_element("id", "cbRecentFull")
                         if checkbox and not checkbox.is_selected():
                             driver.execute_script("arguments[0].click();", checkbox)
-                            time.sleep(0.5)  # 0.5초 통일
+                            time.sleep(0.5)
                             
                         stadium_soup = BeautifulSoup(driver.page_source, "html.parser")
                         s_home_ul = stadium_soup.find("ul", id="tb_home_recent")
                         s_away_ul = stadium_soup.find("ul", id="tb_guest_recent")
                         
-                        if s_home_ul: parse_matches(s_home_ul, main_home, stadium_form_data["home_matches"], target_count)
-                        if s_away_ul: parse_matches(s_away_ul, main_away, stadium_form_data["away_matches"], target_count)
+                        if s_home_ul: parse_matches(s_home_ul, main_home, stadium_form_data["home_matches"], 10)
+                        if s_away_ul: parse_matches(s_away_ul, main_away, stadium_form_data["away_matches"], 10)
                     except Exception as s_err:
                         print(f"  - 구장별 전적 토글 수집 예외: {s_err}")
 
@@ -353,7 +272,7 @@ def run_table_based_crawler_v3_2():
         with open("match_details_v3-2.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 사진 구조 반영 및 0.5초 최적화 테스트 완료 -> match_details_v3-2.json 저장 완료")
+        print(f"\n🎉 성공: V3 기반 테스트 크롤링 완료 -> match_details_v3-2.json 저장 완료")
 
     finally:
         driver.quit()
