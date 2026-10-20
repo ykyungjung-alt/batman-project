@@ -1525,15 +1525,16 @@ with tabs[5]:
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 
 # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (공수 대칭 교차 보정 독립 적용)
+        # 📊 [5-2 표] 렌더링 (2단계 구장 환경 체급 연동 규격)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 7경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
 
-        h_opp_at = a_current_at if 'a_current_at' in locals() else "Tier C"
-        h_opp_de = a_current_de if 'a_current_de' in locals() else "Tier C"
-        a_opp_at = h_current_at if 'h_current_at' in locals() else "Tier C"
-        a_opp_de = h_current_de if 'h_current_de' in locals() else "Tier C"
+        # 💡 [핵심 수정] 2단계(구장별 폼)에서 산출된 최종 체급(s_h_at, s_h_de, s_a_at, s_a_de)을 우선 연동하여 매칭 및 교차 보정에 반영
+        h_opp_at = s_a_at if 's_a_at' in locals() else (a_current_at if 'a_current_at' in locals() else "Tier C")
+        h_opp_de = s_a_de if 's_a_de' in locals() else (a_current_de if 'a_current_de' in locals() else "Tier C")
+        a_opp_at = s_h_at if 's_h_at' in locals() else (h_current_at if 'h_current_at' in locals() else "Tier C")
+        a_opp_de = s_h_de if 's_h_de' in locals() else (h_current_de if 'h_current_de' in locals() else "Tier C")
 
         home_raw_pool = []
         away_raw_pool = []
