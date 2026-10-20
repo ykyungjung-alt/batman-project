@@ -27,14 +27,18 @@ jobs:
       run: |
         python crawler_fixtures4.py
 
-    - name: Commit and push generated match details v3
+    - name: Commit and push generated match details v4
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+        # 변경된 파일 스테이징
         git add match_details_v4.json
+        
+        # 변경 사항이 없으면 종료, 있으면 커밋
         git commit -m "Auto-update match details v4 [skip ci]" || exit 0
         
-        # 💡 원격 저장소 최신 내역을 먼저 Rebase하여 동시 푸시 충돌 방지
-        git pull --rebase origin main || echo "No remote changes to pull"
+        # 💡 원격 저장소 충돌 방지 (안전한 pull 전략 적용)
+        git pull --rebase origin main || git rebase --abort
         
         git push
