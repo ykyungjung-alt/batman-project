@@ -279,49 +279,72 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-# 💡 [국가 및 등급 정밀 대조 함수 - 5대 필드 단일 OR 매칭 규격]
+# 💡 [국가 및 등급 정밀 대조 함수 - 2단계 검색 및 5대 필드 순차 정밀 매칭]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
             team_str = str(team_val).strip().lower()
             clean_league = str(current_league_name).strip().replace(" ", "").lower()
 
-            # 1. 띄어쓰기 기준으로 앞토큰 추출 (예: "SPA D1-1" -> "SPA", "FRA D1-2" -> "FRA")
+            # 순위표 띄어쓰기 앞토큰 추출 (예: "SPA D1-1" -> "SPA")
             extracted_token = ""
             if rank_str and rank_str != "-":
                 token = rank_str.split()[0].strip()
                 if token and not token.isdigit():
                     extracted_token = token
-            
             token_up = extracted_token.upper()
 
-            # 2. country.json 순회하며 5대 필드 중 단 하나라도 맞으면 즉시 국가 코드 및 등급 부여
+            # country.json 내부의 국가 데이터를 순회하며 지정된 순서대로 정밀 검사
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
                 if isinstance(countries, list):
                     for c in countries:
                         c_name = str(c.get("name", "")).strip().lower()
-                        c_name_eng = str(c.get("name_eng", "")).strip().upper()
+                        c_name_eng = str(c.get("name_eng", "")).strip().lower()
                         c_code = str(c.get("code", "")).strip().upper()
                         c_kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
                         leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
 
-                        # 💡 [핵심] 5대 필드 중 어느 하나라도 포함되거나 일치하면 True (단일 OR 결합)
-                        is_code_match = bool(token_up and c_code and (c_code == token_up or token_up in c_code or c_code in token_up))
-                        is_eng_match  = bool(token_up and c_name_eng and (c_name_eng == token_up or token_up in c_name_eng or c_name_eng in token_up))
-                        is_league_match = bool(token_up and any(l and (l == token_up or token_up in l or l in token_up) for l in leagues_list))
-                        is_kor_league_match = bool(c_kor_league and (c_kor_league in clean_league or clean_league in c_kor_league))
-                        is_name_match = bool((c_name and (c_name in clean_league or c_name in team_str)) or (c_name_eng and (c_name_eng.lower() in clean_league or c_name_eng.lower() in team_str)))
+                        # -------------------------------------------------------------
+                        # [검증 방식] 1단계: 리그명 검색 우선 시도 -> 2단계: 리그순위(토큰) 검색 시도
+                        # -------------------------------------------------------------
+                        
+                        # 검사 대상 후보 풀 생성 (리그명 관련 텍스트 vs 토큰)
+                        target_texts = [clean_league, team_str]
+                        if token_up:
+                            target_texts.append(token_up)
 
-                        # 5개 중 단 하나라도 맞으면 즉시 반환 (부여 완료!)
-                        if is_code_match or is_eng_match or is_league_match or is_kor_league_match or is_name_match:
-                            return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                        # 지정된 5대 필드 순서대로 일치/포함 여부 확인
+                        for t in target_texts:
+                            if not t:
+                                continue
+                            t_lower = t.lower()
+                            t_upper = t.upper()
 
-            # 3. 모든 조건 실패 시 F등급 폴백
+                            # 1순위: name (한글 국가명)
+                            if c_name and (c_name in t_lower or t_lower in c_name):
+                                return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                            
+                            # 2순위: name_eng (영문 국가명)
+                            if c_name_eng and (c_name_eng in t_lower or t_lower in c_name_eng):
+                                return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                            
+                            # 3순위: code (국가 코드)
+                            if c_code and (c_code == t_upper or c_code in t_upper or t_upper in c_code):
+                                return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                            
+                            # 4순위: leagues (리그 코드 목록)
+                            if leagues_list and any(l and (l == t_upper or l in t_upper or t_upper in l) for l in leagues_list):
+                                return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                            
+                            # 5순위: league_kor_name (한글 리그명)
+                            if c_kor_league and (c_kor_league in t_lower or t_lower in c_kor_league):
+                                return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+
+            # 4. 모든 5대 필드 조건에서 일치하는 항목이 하나도 없는 경우 F등급 폴백 처리
             f_info = grades.get("F", {})
             return "EXT", rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
-
         # ==========================================
         # 순위표 순회 및 홈/원정 등급 매핑 처리 영역
         # ==========================================
