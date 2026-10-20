@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-20 07:28:57",
+    "last_updated": "2026-10-20 10:35:02",
     "match_details": {
         "3101574": {
             "match_code": "3101574",
@@ -343,128 +343,6 @@
                 "stadium_form": {
                     "form_title": "구장별 전적",
                     "home_team_name": "ZED",
-                    "home_matches": []
-                }
-            }
-        },
-        "3103212": {
-            "match_code": "3103212",
-            "head_info": {
-                "league": "프리미어리그",
-                "round": ""
-            },
-            "home": "몰린스",
-            "away": "카발리어",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "몰린스",
-                    "home_matches": [
-                        {
-                            "league": "JAM D1",
-                            "match_time": "2026.10.11",
-                            "teams": "던베홀덴 vs 몰린스",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.60/2.00"
-                        },
-                        {
-                            "league": "JAM D1",
-                            "match_time": "2026.10.04",
-                            "teams": "몰린스 vs 라싱 유나이티드",
-                            "ft_scores": [
-                                "0",
-                                "6"
-                            ],
-                            "opponent_tier_info": "1.40/1.70"
-                        },
-                        {
-                            "league": "JAM D1",
-                            "match_time": "2026.09.27",
-                            "teams": "몰린스 vs Tru-Juice FC",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.00/0.00"
-                        },
-                        {
-                            "league": "JAM D1",
-                            "match_time": "2026.09.20",
-                            "teams": "채플턴 vs 몰린스",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.70/1.20"
-                        },
-                        {
-                            "league": "JAM D1",
-                            "match_time": "2026.09.14",
-                            "teams": "몰린스 vs 트레저 비치",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.20/1.20"
-                        },
-                        {
-                            "league": "JAM C",
-                            "match_time": "2026.06.10",
-                            "teams": "마운트 플레전트 vs 몰린스",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.00/0.00"
-                        },
-                        {
-                            "league": "JAM C",
-                            "match_time": "2026.06.06",
-                            "teams": "몰린스 vs 몬테고 바이",
-                            "ft_scores": [
-                                "5",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.70/1.50"
-                        },
-                        {
-                            "league": "JAM D1",
-                            "match_time": "2026.05.06",
-                            "teams": "트레저 비치 vs 몰린스",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.90/0.90"
-                        },
-                        {
-                            "league": "JAM D1",
-                            "match_time": "2026.05.03",
-                            "teams": "몰린스 vs 하버 뷰",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.60/1.60"
-                        },
-                        {
-                            "league": "JAM D1",
-                            "match_time": "2026.04.27",
-                            "teams": "몰린스 vs 티볼리",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.90/1.20"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "몰린스",
                     "home_matches": []
                 }
             }
@@ -10043,6 +9921,128 @@
                 "stadium_form": {
                     "form_title": "구장별 전적",
                     "home_team_name": "자바르",
+                    "home_matches": []
+                }
+            }
+        },
+        "3103523": {
+            "match_code": "3103523",
+            "head_info": {
+                "league": "챔피언쉽",
+                "round": ""
+            },
+            "home": "CF 몽레알",
+            "away": "포지",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "CF 몽레알",
+                    "home_matches": [
+                        {
+                            "league": "MLS",
+                            "match_time": "2026.10.18",
+                            "teams": "시애틀 사운더스 vs CF 몽레알",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.90/2.20"
+                        },
+                        {
+                            "league": "MLS",
+                            "match_time": "2026.10.14",
+                            "teams": "CF 몽레알 vs 애틀랜타 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.40/1.50"
+                        },
+                        {
+                            "league": "MLS",
+                            "match_time": "2026.10.10",
+                            "teams": "토론토 FC vs CF 몽레알",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.20/2.00"
+                        },
+                        {
+                            "league": "MLS",
+                            "match_time": "2026.09.26",
+                            "teams": "CF 몽레알 vs 신시내티",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.50/2.00"
+                        },
+                        {
+                            "league": "MLS",
+                            "match_time": "2026.09.19",
+                            "teams": "CF 몽레알 vs 콜럼버스 크루",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.20/1.80"
+                        },
+                        {
+                            "league": "CAN CHL",
+                            "match_time": "2026.09.16",
+                            "teams": "CF 몽레알 vs 밴쿠버 화이트캡스",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.80/1.10"
+                        },
+                        {
+                            "league": "MLS",
+                            "match_time": "2026.09.13",
+                            "teams": "콜로라도 래피즈 vs CF 몽레알",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.00/2.00"
+                        },
+                        {
+                            "league": "MLS",
+                            "match_time": "2026.09.09",
+                            "teams": "CF 몽레알 vs 샬럿",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.90/0.80"
+                        },
+                        {
+                            "league": "MLS",
+                            "match_time": "2026.09.05",
+                            "teams": "필라델피아 유니온 vs CF 몽레알",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.10/1.70"
+                        },
+                        {
+                            "league": "CAN CHL",
+                            "match_time": "2026.09.03",
+                            "teams": "밴쿠버 화이트캡스 vs CF 몽레알",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.20/1.70"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "CF 몽레알",
                     "home_matches": []
                 }
             }
