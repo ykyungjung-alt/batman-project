@@ -8,10 +8,10 @@ from bs4 import BeautifulSoup
 OUTPUT_FILE = "match_details_v5.json"
 SOURCE_FILES = ["match_details.json", "match_details2.json"]
 
-def load_match_codes():
-    """기존 match_details 파일들에서 match_code 목록을 수집합니다."""
-    print("📍 [1단계 진입] 기존 match_details 파일 로드 시작...")
-    match_codes = set()
+def load_match_master_info():
+    """기존 match_details 파일들에서 match_code와 매칭되는 홈/원정 팀명 정보를 수집합니다."""
+    print("📍 [1단계 진입] 기존 match_details 파일에서 매치 정보 로드 시작...")
+    match_master_map = {}
     
     for s_file in SOURCE_FILES:
         if os.path.exists(s_file):
@@ -20,26 +20,32 @@ def load_match_codes():
                 with open(s_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     details = data.get("match_details", {})
-                    for m_code in details.keys():
-                        match_codes.add(str(m_code).strip())
-                print(f"📁 [1단계 완료] {s_file}에서 매치코드 {len(match_codes)}개 누적 확보")
+                    for m_code, m_info in details.items():
+                        m_code_str = str(m_code).strip()
+                        if m_code_str not in match_master_map:
+                            match_master_map[m_code_str] = {
+                                "home": m_info.get("home", ""),
+                                "away": m_info.get("away", "")
+                            }
+                print(f"📁 [1단계 완료] {s_file}에서 매치 정보 누적 확보 완료")
             except Exception as e:
                 print(f"⚠️ [1단계 오류] {s_file} 읽기 실패: {e}")
         else:
             print(f"⚠️ [1단계 알림] 파일이 존재하지 않습니다: {s_file}")
             
-    return list(match_codes)
+    return match_master_map
 
 def crawl_match_lineups_v5():
-    print("\n🚀 [Crawler V5 - 디버깅 모드] 선수 라인업 및 결장자 정보 수집 시작...")
+    print("\n🚀 [Crawler V5 - 팀명 연동 모드] 선수 라인업 및 결장자 정보 수집 시작...")
     
-    # 1단계: 매치코드 로드
-    match_codes = load_match_codes()
-    if not match_codes:
-        print("❌ [중단점 도달] 수집할 매치코드가 없습니다. 프로세스를 종료합니다.")
+    # 1단계: 마스터 정보(매치코드 + 홈팀 + 원정팀) 로드
+    match_master_map = load_match_master_info()
+    if not match_master_map:
+        print("❌ [중단점 도달] 수집할 매치 정보가 없습니다. 프로세스를 종료합니다.")
         return
 
-    print(f"📍 [2단계 진입] 총 {len(match_codes)}개의 매치코드 확보 완료. 테스트 대상 선정 중...")
+    match_codes = list(match_master_map.keys())
+    print(f"📍 [2단계 진입] 총 {len(match_codes)}개의 매치 확보 완료. 테스트 대상 선정 중...")
     
     result_data = {
         "last_updated": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -59,9 +65,12 @@ def crawl_match_lineups_v5():
 
     for idx, m_code in enumerate(test_target_codes, 1):
         target_url = f"https://www.scoreman123.com/match/data-{m_code}"
+        teams = match_master_map.get(m_code, {"home": "", "away": ""})
+        
         print(f"\n--------------------------------------------------")
         print(f"📍 [4단계 진입] 경기 요청 시도 ({idx}/{len(test_target_codes)})")
         print(f"   - Match Code: {m_code}")
+        print(f"   - Match Info: {teams['home']} vs {teams['away']}")
         print(f"   - Target URL: {target_url}")
 
         home_absentees = []
@@ -112,15 +121,17 @@ def crawl_match_lineups_v5():
                                     "status": "결장" if is_injured else "출전의심/기타"
                                 })
                 else:
-                    print(f"⚠️ [경고] 페이지 내에서 'div#hurtLineup' 요소를 찾지 못했습니다. 구조가 다를 수 있습니다.")
+                    print(f"⚠️ [경고] 페이지 내에서 'div#hurtLineup' 요소를 찾지 못했습니다.")
 
-                # 💡 기본 인포 구조에 맞춘 저장 형태
+                # 💡 요구하신 대로 홈, 어웨이 팀명을 함께 저장하도록 구조 반영
                 result_data["lineup_details"][m_code] = {
                     "match_code": m_code,
+                    "home": teams["home"],
+                    "away": teams["away"],
                     "home_absentees": home_absentees,
                     "away_absentees": away_absentees
                 }
-                print(f"✨ [7단계 완료] 파싱 성공! 홈 결장자 {len(home_absentees)}명 / 원정 결장자 {len(away_absentees)}명 수집 완료")
+                print(f"✨ [7단계 완료] 파싱 성공! [{teams['home']} vs {teams['away']}] 홈 결장 {len(home_absentees)}명 / 원정 결장 {len(away_absentees)}명")
             else:
                 print(f"⚠️ [중단점] 페이지 응답 실패 (Status Code: {resp.status_code})")
 
