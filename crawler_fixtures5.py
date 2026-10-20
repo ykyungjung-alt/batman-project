@@ -50,19 +50,6 @@ def load_match_master_info():
             
     return match_master_map
 
-def find_target_match_code(match_master_map, keyword="파리생제르맹"):
-    """기존 마스터 데이터 안에서 특정 팀 이름이 포함된 경기의 매치코드를 자동으로 찾습니다."""
-    print(f"📍 [검색 단계] 마스터 데이터에서 '{keyword}' 포함된 경기 탐색 중...")
-    found_codes = []
-    
-    for m_code, info in match_master_map.items():
-        home = info.get("home", "")
-        away = info.get("away", "")
-        if keyword in home or keyword in away:
-            found_codes.append((m_code, home, away))
-            
-    return found_codes
-
 def crawl_player_details_with_selenium(driver, player_id):
     """Selenium을 통해 선수 페이지에 접속한 뒤, 자바스크립트로 최신 시즌을 강제 선택하고 핵심 지표를 파싱합니다."""
     player_url = f"https://football.scoreman123.com/team/player/{player_id}"
@@ -79,33 +66,24 @@ def crawl_player_details_with_selenium(driver, player_id):
     try:
         driver.get(player_url)
         
-        # 💡 [핵심 보완] 데이터가 뜨지 않는 문제를 해결하기 위해 최신 시즌 강제 선택
         # 1) 셀렉트 박스가 로드될 때까지 대기
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "div#techSeasonSelect"))
         )
         
-        # 2) [분석 기반] 캡처 화면에서 확인한 자바스크립트 changeTechSelect 함수 실행
-        # 첫 번째 리그 선택(1)과 최신 시즌 선택(2)을 차례로 실행시켜 스탯 새로고침 유도
+        # 2) 최신 시즌 강제 선택 자바스크립트 실행
         try:
-            # 리그 선택 셀렉터 조작 (예시: 첫 번째 리그 선택)
-            # driver.execute_script("changeTechSelect(1, document.querySelector('#techLeagueSelect ul.selectpop li'))")
-            # time.sleep(0.3)
-            
-            # 시즌 선택 셀렉터 조작 (예시: 캡처된 '2026-2027' 최신 시즌 선택)
-            # image_7.png 구조에 맞게 가장 상단의 최신 시즌 li 요소를 찾아 onclick 이벤트 실행
             latest_season_script = """
                 const seasonSelect = document.querySelector('#techSeasonSelect ul.selectpop');
                 if (seasonSelect) {
                     const latestLi = seasonSelect.querySelector('li[onclick]');
                     if (latestLi) {
-                        latestLi.click(); // 또는 latestLi.onclick();
+                        latestLi.click();
                     }
                 }
             """
             driver.execute_script(latest_season_script)
-            print(f"   ㄴ [셀레니움 제어] 최신 시즌 강제 선택 완료...")
-            time.sleep(0.5) # 자바스크립트 실행 후 데이터 렌더링 대기
+            time.sleep(0.5) # 데이터 렌더링 대기
         except Exception as script_e:
             print(f"⚠️ [셀레니움 제어 오류] 시즌 선택 실패 (기본값 파싱 시도): {script_e}")
 
@@ -113,16 +91,12 @@ def crawl_player_details_with_selenium(driver, player_id):
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         important_items = soup.select('ul#techImportant > li')
         
-        if not important_items:
-            # 💡 셀렉터 조작 후에도 비어 있다면 대기 시간 부족일 수 있음
-            print(f"   ㄴ [알림] 시즌 선택 후에도 스탯 영역이 비어 있음 (재대기 또는 기본값 확인)...")
-
         matches = 0
         play_time = 0
         imp_stats = {}
         
         for item in important_items:
-            text_tag = item.select_one('text') # 분석 기반: text 커스텀 태그 지목
+            text_tag = item.select_one('text')
             span_tag = item.select_one('span')
             
             if text_tag and span_tag:
@@ -131,7 +105,6 @@ def crawl_player_details_with_selenium(driver, player_id):
                 
                 imp_stats[label] = val
                 
-                # 수치 매핑 추출 (정규식 활용)
                 if "경기" in label and "평점" not in label:
                     numbers = re.findall(r'\d+', val)
                     if numbers:
@@ -147,7 +120,6 @@ def crawl_player_details_with_selenium(driver, player_id):
         player_stats["matches_played"] = matches
         player_stats["total_play_time"] = play_time
         
-        # 평균 출전 시간 계산 및 A~D 등급 판정
         if matches > 0:
             avg_time = play_time / matches
             player_stats["avg_play_time"] = round(avg_time, 1)
@@ -169,23 +141,16 @@ def crawl_player_details_with_selenium(driver, player_id):
     return player_stats
 
 def crawl_match_lineups_v5():
-    print("\n🚀 [Crawler V5 - Selenium 기반 자동화 모드] 시작...")
+    print("\n🚀 [Crawler V5 - 전체 경기 제한 없는 수집 모드] 시작...")
     
     match_master_map = load_match_master_info()
     if not match_master_map:
         print("❌ [중단점 도달] 수집할 매치 정보가 없습니다. 프로세스를 종료합니다.")
         return
 
-    search_keyword = "파리생제르맹" 
-    matched_games = find_target_match_code(match_master_map, keyword=search_keyword)
-
-    test_target_codes = []
-    if matched_games:
-        test_target_codes.append(matched_games[0][0])
-    else:
-        test_target_codes.append("3073077")
-
-    print(f"📍 [3단계 진입] 최종 테스트 타겟 매치코드 확정: {test_target_codes}")
+    # 💡 [변경] 테스트용 특정 경기 제한을 풀고, 전체 마스터 데이터의 매치 코드를 대상으로 설정
+    target_match_codes = list(match_master_map.keys())
+    print(f"📍 [3단계 진입] 전체 수집 대상 매치 총 {len(target_match_codes)}개 확보 완료")
     
     result_data = {
         "last_updated": get_kst_time_string(),
@@ -203,12 +168,12 @@ def crawl_match_lineups_v5():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
     try:
-        for idx, m_code in enumerate(test_target_codes, 1):
+        for idx, m_code in enumerate(target_match_codes, 1):
             target_url = f"https://www.scoreman123.com/match/data-{m_code}"
-            teams = match_master_map.get(m_code, {"home": "파리생제르맹", "away": "바르셀로나"})
+            teams = match_master_map.get(m_code, {"home": "홈팀", "away": "원정팀"})
             
             print(f"\n--------------------------------------------------")
-            print(f"📍 [4단계 진입] 경기 요청 시도 ({idx}/{len(test_target_codes)}) -> Match Code: {m_code} ({teams['home']} vs {teams['away']})")
+            print(f"📍 [진행 상황] ({idx}/{len(target_match_codes)}) -> Match Code: {m_code} ({teams['home']} vs {teams['away']})")
 
             home_absentees = []
             away_absentees = []
@@ -244,9 +209,9 @@ def crawl_match_lineups_v5():
                                 
                                 p_stats = {}
                                 if player_id:
-                                    print(f"   ㄴ [홈 선수 분석] {name} (ID: {player_id}) 핵심 지표 수집 중...")
+                                    print(f"   ㄴ [홈 선수 분석] {name} (ID: {player_id}) 지표 수집 중...")
                                     p_stats = crawl_player_details_with_selenium(driver, player_id)
-                                    time.sleep(0.5)
+                                    time.sleep(0.3)
 
                                 home_absentees.append({
                                     "number": num_tag.text.strip() if num_tag else "",
@@ -265,51 +230,4 @@ def crawl_match_lineups_v5():
                             
                             if g_name_tag and g_name_tag.text.strip():
                                 name = g_name_tag.text.strip()
-                                player_id = guest_div.get('techwinid', '')
-                                if not player_id:
-                                    onclick_attr = g_name_tag.get('onclick', '')
-                                    found_ids = re.findall(r'\d+', onclick_attr)
-                                    if found_ids:
-                                        player_id = found_ids[0]
-                                
-                                p_stats = {}
-                                if player_id:
-                                    print(f"   ㄴ [원정 선수 분석] {name} (ID: {player_id}) 핵심 지표 수집 중...")
-                                    p_stats = crawl_player_details_with_selenium(driver, player_id)
-                                    time.sleep(0.5)
-
-                                away_absentees.append({
-                                    "number": num_tag.text.strip() if num_tag else "",
-                                    "name": name,
-                                    "player_id": player_id,
-                                    "status": "결장" if is_injured else "출전의심/기타",
-                                    "stats": p_stats
-                                })
-
-                result_data["lineup_details"][m_code] = {
-                    "match_code": m_code,
-                    "home": teams["home"],
-                    "away": teams["away"],
-                    "home_absentees": home_absentees,
-                    "away_absentees": away_absentees
-                }
-                print(f"✨ [7단계 완료] Selenium 기반 데이터 수집 및 KST 시간 기록 완료!")
-
-            except Exception as e:
-                print(f"❌ [에러 발생 중단점] 크롤링 중 예외 발생 ({m_code}): {e}")
-
-            break
-
-    finally:
-        driver.quit()  # 브라우저 자원 해제
-
-    print(f"\n📍 [8단계 진입] 결과 JSON 파일 저장 시도 ({OUTPUT_FILE})...")
-    try:
-        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-            json.dump(result_data, f, ensure_ascii=False, indent=4)
-        print(f"✅ [최종 완료] 파일 저장 성공: {OUTPUT_FILE}")
-    except Exception as e:
-        print(f"❌ [에러 발생 중단점] JSON 파일 저장 실패: {e}")
-
-if __name__ == "__main__":
-    crawl_match_lineups_v5()
+                                player_id = guest_div.get
