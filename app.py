@@ -279,7 +279,7 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-# 💡 [국가 및 등급 정밀 대조 함수 - 토큰/팀명 우선 검색 후 5대 필드 순차 정밀 매칭]
+        # 💡 [국가 및 등급 정밀 대조 함수 - 1순위 리그명/팀명 검색 ➔ 2순위 리그순위 토큰 검색, 5대 필드 순차 정밀 매칭]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
@@ -294,16 +294,16 @@ with tabs[0]:
                     extracted_token = token
             token_up = extracted_token.upper()
 
-            # 2. 검색 순서 명확화: 토큰(SPA) 또는 팀명 우선 검색 -> 리그명(챔피언스리그 등) 보조 검색
+            # 2. 검색 순서 정의: 1순위 (리그명 및 팀명), 2순위 (리그순위 토큰)
             search_targets = []
-            if token_up:
-                search_targets.append(token_up)
-            if team_str:
-                search_targets.append(team_str)
             if clean_league:
                 search_targets.append(clean_league)
+            if team_str:
+                search_targets.append(team_str)
+            if token_up:
+                search_targets.append(token_up)
 
-            # country.json 내부의 국가 데이터를 순회하며 지정된 5대 필드 순서대로 정밀 검사
+            # 3. country.json 내부의 국가 데이터를 순회하며 지정된 순서대로 정밀 검사
             for grade_key, countries in grades.items():
                 if grade_key == "F":
                     continue
@@ -315,36 +315,50 @@ with tabs[0]:
                         c_kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
                         leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
 
-                        # 요청하신 5대 필드 검사 순서 (name -> name_eng -> code -> leagues -> league_kor_name)
-                        for t in search_targets:
-                            if not t:
+                        # 4. 요청하신 5대 필드 검색 순서 준수 (name -> name_eng -> code -> leagues -> league_kor_name)
+                        for target in search_targets:
+                            if not target:
                                 continue
-                            t_lower = t.lower()
-                            t_upper = t.upper()
+                            t_lower = target.lower()
+                            t_upper = target.upper()
 
-                            # 1순위: name (한글 국가명)
+                            # ① name (한글 국가명) 일치/포함 검사
                             if c_name and (c_name in t_lower or t_lower in c_name):
                                 return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
                             
-                            # 2순위: name_eng (영문 국가명)
+                            # ② name_eng (영문 국가명) 일치/포함 검사
                             if c_name_eng and (c_name_eng in t_lower or t_lower in c_name_eng):
                                 return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
                             
-                            # 3순위: code (국가 코드 - 예: SPA)
+                            # ③ code (국가 코드 - 예: SPA, FRA) 일치/포함 검사
                             if c_code and (c_code == t_upper or c_code in t_upper or t_upper in c_code):
                                 return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
                             
-                            # 4순위: leagues (리그 코드 목록)
+                            # ④ leagues (리그 코드 목록) 일치/포함 검사
                             if leagues_list and any(l and (l == t_upper or l in t_upper or t_upper in l) for l in leagues_list):
                                 return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
                             
-                            # 5순위: league_kor_name (한글 리그명)
+                            # ⑤ league_kor_name (한글 리그명) 일치/포함 검사
                             if c_kor_league and (c_kor_league in t_lower or t_lower in c_kor_league):
                                 return c.get("code", "EXT"), rank_str, c.get("grade", "E"), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
 
-            # 3. 모든 조건 실패 시 F등급 폴백 처리
+            # 5. 모든 5대 필드 조건에서 일치하는 항목이 하나도 없는 경우 F등급 폴백 처리
             f_info = grades.get("F", {})
             return "EXT", rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
+
+        # ==========================================
+        # 순위표 순회 및 홈/원정 등급 매핑 처리 영역
+        # ==========================================
+        if rankings_raw:
+            rankings_list = []
+            
+            clean_home_target = str(home_team).strip().replace(" ", "")
+            clean_away_target = str(away_team).strip().replace(" ", "")
+
+            # 기본값 F등급 및 0% 세팅
+            h_grade, h_atk_b, h_def_b = "F", "0%", "0%"
+            a_grade, a_atk_b, a_def_b = "F", "0%", "0%"
+
             # 💡 [방어 1] 중복 매칭 방지용 플래그 장착
             found_home = False
             found_away = False
