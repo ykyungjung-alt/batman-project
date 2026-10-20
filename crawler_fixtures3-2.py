@@ -142,7 +142,7 @@ def run_table_based_crawler_v3_2():
                 continue
 
     # 💡 [테스트용 제한] 전체 수집 시 아래 코드를 주석 처리(#) 하세요.
-    target_matches = target_matches[:1]
+    target_matches = target_matches[:3]
     print(f"🎯 [V3-2 테스트 모드] 조건에 일치하는 대진 중 **딱 1개 경기**만 크롤링 시작합니다.")
 
     options = Options()
