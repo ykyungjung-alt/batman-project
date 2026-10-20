@@ -988,8 +988,8 @@ with tabs[3]:
                 home_squad_pool = v5_1_match_data.get("away_squad", [])
                 away_squad_pool = v5_1_match_data.get("home_squad", [])
 
-    # ==============================================================================
-    # [기능 3] 깔끔한 정제 규격 적용 조립 함수
+# ==============================================================================
+    # [기능 3] 포지션 매핑 정밀화 및 출전시간/경기수 포맷 개편 적용 조립 함수
     # ==============================================================================
     def build_clean_squad_dataframe(absentees_list, squad_list, team_label):
         if not absentees_list:
@@ -998,7 +998,7 @@ with tabs[3]:
                 "포지션": ["-", "-"],
                 "변동 유형": ["-", "-"],
                 "핵심 스펙 (평점·득점·도움 등)": ["특이 전력 누수/가산 없음", f"{team_label} 최종 가중치"],
-                "출전 시간": ["-", "-"],
+                "출전시간 / 경기수": ["-", "-"],
                 "등급": ["-", "-"],
                 "공격 보정": ["0.0%", "0.0%"],
                 "방어 보정": ["0.0%", "0.0%"],
@@ -1006,15 +1006,16 @@ with tabs[3]:
             })
             return df_empty, 0.0, 0.0
         
-        # V5-1 스쿼드 맵 구축 (오직 1개의 정확한 position 필드만 추출)
+        # 1. 5-1 스쿼드 풀(home_squad / away_squad)에서 name을 키로, position을 값으로 하는 완벽한 룩업 맵 구축
         squad_pos_map = {}
-        for p in squad_list:
-            if not isinstance(p, dict): continue
-            p_name = str(p.get("name", "")).strip()
-            p_pos = str(p.get("position", "")).strip()
-            if p_name and p_pos:
-                squad_pos_map[p_name] = p_pos
-                squad_pos_map[p_name.replace(" ", "")] = p_pos
+        if squad_list and isinstance(squad_list, list):
+            for p in squad_list:
+                if not isinstance(p, dict): continue
+                p_name = str(p.get("name", "")).strip()
+                p_pos = str(p.get("position", "")).strip()
+                if p_name and p_pos:
+                    squad_pos_map[p_name] = p_pos
+                    squad_pos_map[p_name.replace(" ", "")] = p_pos
 
         rows = []
         tot_atk, tot_def = 0.0, 0.0
@@ -1022,32 +1023,33 @@ with tabs[3]:
         for item in absentees_list:
             p_name = str(item.get("name", "-")).strip()
             
-            # 5-1 스쿼드에서 정확한 단일 포지션 매핑 (없으면 기본값)
-            p_pos = squad_pos_map.get(p_name, squad_pos_map.get(p_name.replace(" ", ""), "미드필더"))
-            if not p_pos:
+            # 2. 5-1 스쿼드 맵에서 이름으로 정확한 포지션 매핑 (없을 시 기본 폴백)
+            p_pos = squad_pos_map.get(p_name, squad_pos_map.get(p_name.replace(" ", ""), ""))
+            if not p_pos or p_pos == "-":
                 p_pos = "미드필더"
 
             p_type = item.get("status", "결장")
             stats_dict = item.get("stats", {})
             
-            # 💡 [요구사항 반영] 불필요한 문장 없이 important_stats에서 0이 아닌 유효 항목만 깔끔하게 조합
+            # 3. 핵심 스펙 정제 (0인 값 제외, 평점·득점·도움 등 유효 항목만 조합)
             imp_stats = stats_dict.get("important_stats", {})
             stat_parts = []
             for k, val in imp_stats.items():
                 val_str = str(val).strip()
-                # 0이거나 빈 값은 출력 생략 (단, 경기나 출전시간은 기본 표기 가능)
-                if val_str and val_str != "0" and val_str != "0(0)":
+                if k in ["경기", "출전시간"]: 
+                    continue
+                if val_str and val_str != "0" and val_str != "0(0)" and val_str != "-":
                     stat_parts.append(f"{k}: {val_str}")
             
-            if stat_parts:
-                p_stats_str = " | ".join(stat_parts)
-            else:
-                # 데이터가 부족할 경우 방어용으로 평균 플레이타임(avg_play_time) 표기
-                avg_time = stats_dict.get("avg_play_time", 0.0)
-                p_stats_str = f"평균 플레이타임: {avg_time}분" if avg_time > 0 else "출전 기록 없음"
+            p_stats_str = " | ".join(stat_parts) if stat_parts else "특이 공격/수비 스펙 없음"
 
+            # 4. 출전시간 / 경기수 포맷 적용 (예: "401 / 6")
+            matches_p = stats_dict.get("matches_played", 0)
             total_time = stats_dict.get("total_play_time", 0)
-            p_time_str = f"출전시간: {total_time}분" if total_time > 0 else "-"
+            if matches_p and matches_p != "-" and total_time:
+                p_time_str = f"{total_time}분 / {matches_p}경기"
+            else:
+                p_time_str = "-"
             
             # 등급 및 가중치 산출
             raw_grade = str(stats_dict.get("grade", item.get("grade", "C"))).strip().upper()
@@ -1063,10 +1065,9 @@ with tabs[3]:
             else:
                 p_grade = "D 등급"
                 rate = 0.0
-
-            p_memo = f"시즌 {stats_dict.get('matches_played', 0)}경기 출전 ({p_grade})"
             
-            is_attacker = any(k in p_pos for k in ["공격수", "미드필더", "FW", "MF"])
+            # 포지션별 공수 반감 룰 적용
+            is_attacker = any(k in p_pos for k in ["공격수", "FW", "MF"])
             is_defender = any(k in p_pos for k in ["수비수", "골키퍼", "DF", "GK"])
 
             if p_type in ["결장", "부상", "징계", "누수", "출전의심/기타"]:
@@ -1097,7 +1098,7 @@ with tabs[3]:
                 "포지션": p_pos, 
                 "변동 유형": p_type, 
                 "핵심 스펙 (평점·득점·도움 등)": p_stats_str, 
-                "출전 시간": p_time_str, 
+                "출전시간 / 경기수": p_time_str, 
                 "등급": p_grade,
                 "공격 보정": f"{atk_v:+.1f}%", 
                 "방어 보정": f"{def_v:+.1f}%", 
@@ -1106,7 +1107,7 @@ with tabs[3]:
         
         rows.append({
             "선수 실명": "[총합]", "포지션": "-", "변동 유형": "-", "핵심 스펙 (평점·득점·도움 등)": f"{team_label} 최종 가중치",
-            "출전 시간": "-", "등급": "-", "공격 보정": f"{tot_atk:+.1f}%", "방어 보정": f"{tot_def:+.1f}%", "비고": "최종 누적 보정치"
+            "출전시간 / 경기수": "-", "등급": "-", "공격 보정": f"{tot_atk:+.1f}%", "방어 보정": f"{tot_def:+.1f}%", "비고": "최종 누적 보정치"
         })
         return pd.DataFrame(rows), tot_atk, tot_def
 
