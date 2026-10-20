@@ -7,14 +7,20 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from zoneinfo import ZoneInfo
 
-def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
+# 💡 [속도 최적화] 동일한 서브 페이지 ID 결과는 메모리에 캐싱하여 중복 이동(`driver.get`)을 원천 방지
+_opponent_stats_cache = {}
+
+def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
     """
-    💡 서브 페이지에 들어가서 순수하게 골득실(경기당 득점/실점) 수치만 가져오도록 최적화된 함수
+    💡 서브 페이지 골득실 수치 수집 함수 (캐싱 적용으로 속도 대폭 개선)
     """
+    if sub_m_id in _opponent_stats_cache:
+        return _opponent_stats_cache[sub_m_id]
+
     sub_url = f"https://www.scoreman123.com/match/data-{sub_m_id}"
     try:
         driver.get(sub_url)
-        time.sleep(0.3)
+        time.sleep(0.15)  # 대기 시간 최소화
         soup = BeautifulSoup(driver.page_source, "html.parser")
         
         sub_home, sub_away = "", ""
@@ -48,7 +54,9 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
                 opp_goals = away_goals if is_target_home else home_goals
                 opp_conceded = away_conceded if is_target_home else home_conceded
                 
-                return f"{opp_goals}/{opp_conceded}"
+                result_val = f"{opp_goals}/{opp_conceded}"
+                _opponent_stats_cache[sub_m_id] = result_val
+                return result_val
     except Exception:
         pass
     
@@ -56,20 +64,20 @@ def fetch_opponent_stats_fast(driver, sub_m_id, target_team_name):
 
 def expand_dropdowns_to_20(driver):
     """
-    💡 페이지 내에 존재하는 모든 'selRecentMatch' 드롭다운을 순회하며 'v-data="20"'을 클릭하여 20개로 확장
+    💡 페이지 내 모든 'selRecentMatch' 드롭다운을 순회하며 'v-data="20"'을 클릭하여 20개로 확장
     """
     try:
         dropdown_buttons = driver.find_elements("xpath", "//span[@id='selRecentMatch']")
         for d_btn in dropdown_buttons:
             try:
                 driver.execute_script("arguments[0].click();", d_btn)
-                time.sleep(0.3)
+                time.sleep(0.1)
                 
                 option_20s = driver.find_elements("xpath", "//div[@id='selRecentMatchItem']//li[@v-data='20']")
                 for opt in option_20s:
                     try:
                         driver.execute_script("arguments[0].click();", opt)
-                        time.sleep(0.3)
+                        time.sleep(0.1)
                     except:
                         pass
             except:
@@ -133,9 +141,8 @@ def run_table_based_crawler_v3_2():
             except Exception:
                 continue
 
-    # 💡 [테스트용 제한] 딱 1개 경기만 수집하도록 제한 (전체 수집 시 이 줄을 주석 처리하세요)
+    # 💡 [테스트용 제한] 전체 수집 시 아래 코드를 주석 처리(#) 하세요.
     target_matches = target_matches[:1]
-
     print(f"🎯 [V3-2 테스트 모드] 조건에 일치하는 대진 중 **딱 1개 경기**만 크롤링 시작합니다.")
 
     options = Options()
@@ -158,7 +165,7 @@ def run_table_based_crawler_v3_2():
             
             try:
                 driver.get(detail_url)
-                time.sleep(1.0)
+                time.sleep(0.5)
                 
                 recent_form_data = {
                     "form_title": "최근 전적",
@@ -213,10 +220,9 @@ def run_table_based_crawler_v3_2():
                             
                             opponent_tier_info = "0.00/0.00"
                             if sub_m_id:
-                                opponent_tier_info = fetch_opponent_stats_fast(driver, sub_m_id, target_team)
+                                opponent_tier_info = fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team)
                                 driver.get(detail_url)
-                                time.sleep(0.2)
-                                # 💡 페이지 재로딩 후 현재 보고 있는 영역(최근/구장별) 상태 유지 복구 필요 시 아래에서 재클릭 수행 가능
+                                time.sleep(0.1)
 
                             match_info = {
                                 "league": league_div.get_text(strip=True) if league_div else "",
@@ -250,9 +256,8 @@ def run_table_based_crawler_v3_2():
                     checkbox = driver.find_element("id", "cbRecentFull")
                     if checkbox and not checkbox.is_selected():
                         driver.execute_script("arguments[0].click();", checkbox)
-                        time.sleep(0.5)
+                        time.sleep(0.3)
                     
-                    # 구장별 탭 화면에서도 20개 보기 드롭다운 클릭 실행
                     expand_dropdowns_to_20(driver)
                     
                     stadium_soup = BeautifulSoup(driver.page_source, "html.parser")
@@ -297,7 +302,7 @@ def run_table_based_crawler_v3_2():
         with open("match_details_v3-2.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: 20개 확장 수집 테스트 완료 -> match_details_v3-2.json 저장 완료")
+        print(f"\n🎉 성공: 20개 확장 및 속도 최적화 완료 -> match_details_v3-2.json 저장 완료")
 
     finally:
         driver.quit()
