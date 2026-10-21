@@ -507,17 +507,16 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
 # ======================================================================
-        # 🟢 [3단계] 선수 전력 누수 및 일정 중요도·피로도 연산 (마스터 규격 정밀 일치)
+        # 🟢 [3단계] 선수 전력 누수 및 일정 중요도·피로도 연산 (app.py 대시보드 규격 100% 일치)
         # ======================================================================
         target_code = str(target_detail.get("match_code", "")).strip()
 
-        # 💡 [정밀 교정] 팀별 스쿼드 누수 가중치를 홈/원정 각각 명확히 독립 산출
+        # 1. 3-1 전력 누수 독립 산출
         def compute_single_team_absentee_engine(match_code_str, team_name_str, is_home=True):
             tot_atk, tot_def = 0.0, 0.0
             try:
                 v5_lineup_dict = v5_details_dict.get("lineup_details", v5_details_dict) if 'v5_details_dict' in globals() else {}
                 v5_1_squad_dict = v5_1_details_dict.get("squad_details", v5_1_details_dict) if 'v5_1_details_dict' in globals() else {}
-                
                 clean_target = str(team_name_str).strip().replace(" ", "").lower()
                 
                 v5_match_data = {}
@@ -537,7 +536,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                         abs_list = v5_match_data.get("home_absentees", []) if is_home else v5_match_data.get("away_absentees", [])
                     else:
                         abs_list = v5_match_data.get("away_absentees", []) if is_home else v5_match_data.get("home_absentees", [])
-                    
                     abs_list = [p for p in abs_list if isinstance(p, dict) and str(p.get("status", "")).strip() in ["결장", "부상", "징계", "누수", "출전의심/기타"] and str(p.get("name", "")).strip()]
 
                 v5_1_match_data = {}
@@ -594,17 +592,16 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                         if is_attacker: atk_v, def_v = rate, -rate / 2.0
                         elif is_defender: atk_v, def_v = rate / 2.0, -rate
                         else: atk_v, def_v = rate, -rate / 2.0
-                    
                     tot_atk += atk_v
                     tot_def += def_v
             except Exception:
                 pass
             return tot_atk, tot_def
 
-        # 홈/원정 누수 가중치 각각 정밀 산출
         h_r31_atk, h_r31_def = compute_single_team_absentee_engine(target_code, home_name, is_home=True)
         a_r31_atk, a_r31_def = compute_single_team_absentee_engine(target_code, away_name, is_home=False)
 
+        # 2. 3-2 일정 중요도 산출
         def get_team_standing_info_engine(target_team_name):
             target_clean = str(target_team_name).strip().replace(" ", "").lower()
             matched_standings = []
@@ -618,12 +615,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     row_team = str(row.get("team", "")).strip().replace(" ", "").lower()
                     if target_clean in row_team or row_team in target_clean:
                         raw_label = str(row.get("tag_label", "일반"))
-                        matched_standings.append({
-                            "league_name": league_name,
-                            "rank": str(row.get("rank", "-")),
-                            "team": row.get("team", target_team_name),
-                            "tag_label": raw_label
-                        })
+                        matched_standings.append({"league_name": league_name, "rank": str(row.get("rank", "-")), "team": row.get("team", target_team_name), "tag_label": raw_label})
             return matched_standings
 
         def determine_match_importance_engine(standing_info_list, league_raw_name):
@@ -631,7 +623,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             if any(k in league_str for k in ["친선", "cf", "탈락", "강등"]):
                 return -10.0, 10.0
             if not standing_info_list: return 5.0, -5.0
-            
             for standing_info in standing_info_list:
                 label = str(standing_info.get("tag_label", "")).strip()
                 if any(k in label for k in ["탈락", "강등", "탈락확정", "강등확정"]): return -10.0, 10.0
@@ -645,17 +636,17 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_imp_atk, h_imp_def = determine_match_importance_engine(home_standings_list, tournament_display)
         a_imp_atk, a_imp_def = determine_match_importance_engine(away_standings_list, tournament_display)
 
+        # 3. 이동 피로도 단계 산출
         fixtures_info = meta_details.get("fixtures", {})
         raw_home_fixes = list(fixtures_info.get("home", []))
         raw_away_fixes = list(fixtures_info.get("away", []))
         match_date_str = str(target_detail.get("match_time", "2026-06-01"))
 
-        def parse_fatigue_stage_strictly(fix_list, recent_list, is_home_team):
+        def parse_fatigue_stage_engine(fix_list, recent_list, is_home_team):
             base_dt = datetime.now()
             try:
                 base_dt = datetime.strptime(match_date_str.split(" ")[0].replace(".", "-").replace("/", "-")[:10], "%Y-%m-%d")
             except Exception: pass
-
             combined_pool = []
             seen = set()
             for f in list(fix_list) + list(recent_list):
@@ -664,7 +655,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 if uid not in seen:
                     combined_pool.append(f)
                     seen.add(uid)
-
             past_arr = []
             for f in combined_pool:
                 m_time_str = str(f.get("match_time", ""))
@@ -673,38 +663,33 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     d_diff = (c_dt - base_dt).days
                     if d_diff < 0: past_arr.append((d_diff, f))
                 except Exception: continue
-
             chrono_past = sorted(past_arr, key=lambda x: x[0])
             has_4d_away = has_7d_away = False
-
             for d_d, f_item in chrono_past:
                 abs_d = abs(d_d)
-                is_away_match = ("원정" in str(f_item.get("location", "")) or "away" in str(f_item.get("venue_type", "")))
+                loc_str = str(f_item.get("location", "")) + str(f_item.get("venue_type", "")) + str(f_item.get("teams", ""))
+                is_away_match = ("원정" in loc_str or "away" in loc_str.lower())
                 if 1 <= abs_d <= 4 and is_away_match: has_4d_away = True
                 elif 4 < abs_d <= 7 and is_away_match: has_7d_away = True
-
             acc = 0
             if has_4d_away: acc += 1
             if has_7d_away: acc += 1
-
             my_loc = "홈" if is_home_team else "원정"
             if acc > 0 and my_loc == "원정": return acc + 1
             elif acc > 0: return acc
             else: return 1 if my_loc == "원정" else 0
 
-        h_fatigue_stage = parse_fatigue_stage_strictly(raw_home_fixes, h_matches, True)
-        a_fatigue_stage = parse_fatigue_stage_strictly(raw_away_fixes, a_matches, False)
+        h_fatigue_stage = parse_fatigue_stage_engine(raw_home_fixes, h_matches, True)
+        a_fatigue_stage = parse_fatigue_stage_engine(raw_away_fixes, a_matches, False)
 
-        h_r32_atk = (-5.0 * h_fatigue_stage)
-        h_r32_def = (5.0 * h_fatigue_stage)
-        a_r32_atk = (-5.0 * a_fatigue_stage)
-        a_r32_def = (5.0 * a_fatigue_stage)
+        h_fa, h_fd = -5 * h_fatigue_stage, 5 * h_fatigue_stage
+        a_fa, a_fd = -5 * a_fatigue_stage, 5 * a_fatigue_stage
 
-        # 💡 [최종 마스터 규격 합산] 코모 및 맨유의 3-1, 3-2, 3-3 최종 누적 보정치 완벽 일치 산출
-        h_r3_tot_atk = h_r31_atk + h_imp_atk + h_r32_atk
-        h_r3_tot_def = h_r31_def + h_imp_def + h_r32_def
-        a_r3_tot_atk = a_r31_atk + a_imp_atk + a_r32_atk
-        a_r3_tot_def = a_r31_def + a_imp_def + a_r32_def
+        # 4. 💡 [앱 app.py와 완벽 동기화된 최종 3단계 통합 합산]
+        h_r3_tot_atk = h_r31_atk + h_imp_atk + h_fa
+        h_r3_tot_def = h_r31_def + h_imp_def + h_fd
+        a_r3_tot_atk = a_r31_atk + a_imp_atk + a_fa
+        a_r3_tot_def = a_r31_def + a_imp_def + a_fd
 
         # ======================================================================
         # 🟢 [4단계] H2H 맞대결 상성 가중치 연산
