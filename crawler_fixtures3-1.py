@@ -10,7 +10,11 @@ from zoneinfo import ZoneInfo
 # 💡 [속도 최적화] 동일한 서브 페이지 ID 결과는 메모리에 캐싱하여 중복 이동(`driver.get`)을 원천 방지
 _opponent_stats_cache = {}
 
-def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
+def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, is_my_team_home):
+    """
+    💡 서브 페이지 골득실 수치 수집 함수 
+    - is_my_team_home: True면 내가 홈(상대방은 원정=오른쪽), False면 내가 원정(상대방은 홈=왼쪽)
+    """
     if sub_m_id in _opponent_stats_cache:
         return _opponent_stats_cache[sub_m_id]
 
@@ -20,12 +24,6 @@ def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
         time.sleep(0.3)  # 렌더링 안정 대기
         soup = BeautifulSoup(driver.page_source, "html.parser")
         
-        sub_home, sub_away = "", ""
-        teams_spans = soup.find_all("span", class_=["home", "away"])
-        if len(teams_spans) >= 2:
-            sub_home = teams_spans[0].get_text(strip=True)
-            sub_away = teams_spans[1].get_text(strip=True)
-
         recent_div = soup.find("div", id="dv_recent")
         if recent_div:
             stats_div = recent_div.find("div", id="dv_recent_stats")
@@ -47,15 +45,9 @@ def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
                             home_conceded = left_val
                             away_conceded = right_val
                 
-                # 🎯 [핵심 교정] 타겟 팀이 서브 페이지의 홈인지 원정인지 판별
-                is_target_home = False
-                if target_team_name:
-                    if target_team_name in sub_home or sub_home in target_team_name:
-                        is_target_home = True
-
-                # 💡 내가 홈이면 상대방은 '원정(오른쪽)' 지표를 가져오고,
-                #    내가 원정이면 상대방은 '홈(왼쪽)' 지표를 가져옴
-                if is_target_home:
+                # 🎯 [핵심 교차 매칭] 내가 홈이었으면 상대방(원정)인 오른쪽 수치를 가져오고,
+                #                    내가 원정이었으면 상대방(홈)인 왼쪽 수치를 가져옴
+                if is_my_team_home:
                     opp_goals = away_goals
                     opp_conceded = away_conceded
                 else:
@@ -69,6 +61,7 @@ def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
         pass
     
     return "0.00/0.00"
+
 def expand_dropdowns_to_20(driver):
     """
     💡 페이지 내 모든 'selRecentMatch' 드롭다운을 열어 'v-data="20"' 항목을 클릭하여 20개로 확장
@@ -157,6 +150,11 @@ def run_table_based_crawler_v3_1():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--window-size=1920,1080")
+    
+    # 🚀 [속도 최적화] 이미지 로딩 차단 설정
+    prefs = {"profile.managed_default_content_settings.images": 2}
+    options.add_experimental_option("prefs", prefs)
+    
     options.add_argument("User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     
     driver = webdriver.Chrome(options=options)
@@ -227,18 +225,16 @@ def run_table_based_crawler_v3_1():
                             
                             opponent_tier_info = "0.00/0.00"
                             if sub_m_id:
-                                # 💡 [완벽 대칭 수정] 대진 문자열을 분석하여 우리 팀이 아닌 진짜 상대방 팀 특정
-                                actual_opponent = target_team
+                                # 💡 [완벽 대칭 수정] 대진표 좌측(t1)이 홈, 우측(t2)이 원정인 규칙 적용
+                                is_my_team_home = True
                                 if " vs " in teams_text:
                                     parts = [p.strip() for p in teams_text.split(" vs ")]
                                     if len(parts) == 2:
                                         t1, t2 = parts[0], parts[1]
-                                        if target_team in t1:
-                                            actual_opponent = t2
-                                        elif target_team in t2:
-                                            actual_opponent = t1
+                                        if target_team in t2 and target_team not in t1:
+                                            is_my_team_home = False
 
-                                opponent_tier_info = fetch_opponent_stats_fast(driver, detail_url, sub_m_id, actual_opponent)
+                                opponent_tier_info = fetch_opponent_stats_fast(driver, detail_url, sub_m_id, is_my_team_home)
                                 driver.get(detail_url)
                                 time.sleep(0.1)
 
