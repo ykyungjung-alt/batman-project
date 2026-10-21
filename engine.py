@@ -113,11 +113,109 @@ def load_country_data_for_engine():
     return {}
 
 # ==============================================================================
-# 🚀 [마스터 계산 엔진] 단일 메인 함수
+# ⚽ [공통 티어 및 특수 룰 유틸리티] (이전 원본 정밀 보정식 복원 이식)
+# ==============================================================================
+def get_atk_tier(g):
+    if g >= 2.3: return "Tier A", 12.0
+    elif g >= 1.7: return "Tier B", 9.0
+    elif g >= 1.1: return "Tier C", 6.0
+    elif g >= 0.5: return "Tier D", 3.0
+    else: return "Tier E", 0.0
+
+def get_def_tier(c):
+    if c < 0.5: return "Tier A", -12.0
+    elif c < 0.9: return "Tier B", -9.0
+    elif c < 1.3: return "Tier C", -6.0
+    elif c < 1.7: return "Tier D", -3.0
+    else: return "Tier E", 0.0
+
+def check_special_rule_trigger(matches, tname, base_gpg, base_cpg):
+    at_nm, _ = get_atk_tier(base_gpg)
+    df_nm, _ = get_def_tier(base_cpg)
+    if not matches:
+        return at_nm == "Tier A" or df_nm == "Tier E"
+    
+    raw_s, raw_c = 0.0, 0.0
+    for m in matches:
+        if not isinstance(m, dict): continue
+        scores = m.get("ft_scores", ["0", "0"])
+        try: s1, s2 = int(scores[0]), int(scores[1])
+        except Exception: s1 = s2 = 0
+        teams = m.get("teams", "")
+        sc, cc = s1, s2
+        if " vs " in teams:
+            t1, t2 = teams.split(" vs ")
+            if tname in t1: sc, cc = s1, s2
+            elif tname in t2: sc, cc = s2, s1
+        raw_s += sc
+        raw_c += cc
+        
+    cnt = len(matches)
+    tmp_gpg = raw_s / cnt if cnt > 0 else base_gpg
+    tmp_cpg = raw_c / cnt if cnt > 0 else base_cpg
+    
+    at_nm_tmp, _ = get_atk_tier(tmp_gpg)
+    df_nm_tmp, _ = get_def_tier(tmp_cpg)
+    return (at_nm_tmp == "Tier A") or (df_nm_tmp == "Tier E")
+
+def compute_adjusted_stats_with_discount(matches, tname, base_gpg, base_cpg, is_triggered=False):
+    if not matches or not isinstance(matches, list):
+        return base_gpg, base_cpg
+        
+    eff_scored = 0.0
+    eff_conceded = 0.0
+    
+    for m in matches:
+        if not isinstance(m, dict): continue
+        teams = str(m.get("teams", "-"))
+        scores = m.get("ft_scores", ["0", "0"])
+        try: s1, s2 = int(scores[0]), int(scores[1])
+        except Exception: s1 = s2 = 0
+            
+        sc, cc = s1, s2
+        if " vs " in teams:
+            pair = teams.split(" vs ")
+            if len(pair) == 2:
+                t1, t2 = pair[0].strip(), pair[1].strip()
+                if tname in t1: sc, cc = s1, s2
+                elif tname in t2: sc, cc = s2, s1
+                
+        mult = 1.0
+        tier_info = m.get("opponent_tier_info", "")
+        if tier_info and "/" in tier_info:
+            try:
+                oa, od = map(float, tier_info.split("/"))
+                at_name, _ = get_atk_tier(oa)
+                df_name, _ = get_def_tier(od)
+                if is_triggered and (at_name == "Tier E" or df_name == "Tier E"):
+                    mult = 0.5
+            except Exception:
+                pass
+                
+        eff_scored += (sc * mult)
+        eff_conceded += (cc * mult)
+        
+    cnt = len(matches)
+    gpg = round(eff_scored / cnt, 2) if cnt > 0 else base_gpg
+    cpg = round(eff_conceded / cnt, 2) if cnt > 0 else base_cpg
+    return gpg, cpg
+
+# ==============================================================================
+# 🚀 [마스터 계산 엔진] 단일 메인 함수 (완전 방어 및 통합 규격)
 # ==============================================================================
 def compute_match_prediction_master(target_detail, home_name, away_name, league_name=""):
+    # 💡 [안전망 장치] 단일모드 데이터가 비어 있거나 누락되어도 먹통이 되지 않고 디폴트 분석 수행
     if not target_detail or not isinstance(target_detail, dict):
-        return {"status": False, "msg": "상세 정량 데이터 없음"}
+        target_detail = {
+            "head_info": {"stadium": "-", "home_stadium": "-"},
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {"home_summary": {"goals_per_game": 1.2, "conceded_per_game": 1.1}, "away_summary": {"goals_per_game": 1.1, "conceded_per_game": 1.2}, "home_matches": [], "away_matches": []},
+                "stadium_form": {"home_matches": [], "away_matches": []},
+                "h2h": {"matches": []},
+                "fixtures": {"home": [], "away": []}
+            }
+        }
 
     try:
         meta_details = target_detail.get("meta_details", {})
@@ -215,75 +313,16 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_gpg_base = float(target_detail.get("a_gpg", a_sum.get("goals_per_game", 1.1)))
         a_cpg_base = float(target_detail.get("a_cpg", a_sum.get("conceded_per_game", 1.2)))
 
-        def get_atk_tier(g):
-            if g >= 2.3: return "Tier A", 12.0
-            elif g >= 1.7: return "Tier B", 9.0
-            elif g >= 1.1: return "Tier C", 6.0
-            elif g >= 0.5: return "Tier D", 3.0
-            else: return "Tier E", 0.0
+        h_is_triggered = check_special_rule_trigger(h_matches, home_name, h_gpg_base, h_cpg_base)
+        a_is_triggered = check_special_rule_trigger(a_matches, away_name, a_gpg_base, a_cpg_base)
 
-        def get_def_tier(c):
-            if c < 0.5: return "Tier A", -12.0
-            elif c < 0.9: return "Tier B", -9.0
-            elif c < 1.3: return "Tier C", -6.0
-            elif c < 1.7: return "Tier D", -3.0
-            else: return "Tier E", 0.0
+        h_base_g, h_base_c = compute_adjusted_stats_with_discount(h_matches, home_name, h_gpg_base, h_cpg_base, h_is_triggered)
+        a_base_g, a_base_c = compute_adjusted_stats_with_discount(a_matches, away_name, a_gpg_base, a_cpg_base, a_is_triggered)
 
-        def compute_rule1_stats_with_cross_tier(matches, tname, base_gpg, base_cpg):
-            if not matches or not isinstance(matches, list):
-                return base_gpg, base_cpg, "Tier C", "Tier C", 6.0, -6.0
-
-            pre_at, _ = get_atk_tier(base_gpg)
-            pre_de, _ = get_def_tier(base_cpg)
-
-            eff_scored = 0.0
-            eff_conceded = 0.0
-
-            for m in matches:
-                if not isinstance(m, dict): continue
-                teams = m.get("teams", "-")
-                scores = m.get("ft_scores", ["0", "0"])
-                try: s1, s2 = int(scores[0]), int(scores[1])
-                except Exception: s1 = s2 = 0
-                
-                sc, cc = s1, s2
-                if " vs " in teams:
-                    pair = teams.split(" vs ")
-                    if len(pair) == 2:
-                        if tname in pair[0]: sc, cc = s1, s2
-                        elif tname in pair[1]: sc, cc = s2, s1
-
-                mult_gf = 1.0
-                mult_ga = 1.0
-                tier_info = m.get("opponent_tier_info", "")
-                
-                if tier_info and "/" in tier_info:
-                    try:
-                        oa, od = map(float, tier_info.split("/"))
-                        at_name, _ = get_atk_tier(oa)
-                        df_name, _ = get_def_tier(od)
-
-                        if pre_at == "Tier A" and (df_name == "Tier E" or od >= 2.0): mult_gf = 0.5
-                        elif pre_at == "Tier E" and (df_name == "Tier A" or od < 0.5): mult_gf = 1.5
-
-                        if pre_de == "Tier A" and (at_name == "Tier E" or oa < 0.5): mult_ga = 1.5
-                        elif pre_de == "Tier E" and (at_name == "Tier A" or oa >= 2.3): mult_ga = 0.5
-                    except Exception:
-                        pass
-
-                eff_scored += (sc * mult_gf)
-                eff_conceded += (cc * mult_ga)
-
-            cnt = len(matches)
-            gpg = round(eff_scored / cnt, 2) if cnt > 0 else base_gpg
-            cpg = round(eff_conceded / cnt, 2) if cnt > 0 else base_cpg
-
-            final_at, at_val = get_atk_tier(gpg)
-            final_de, def_val = get_def_tier(cpg)
-            return gpg, cpg, final_at, final_de, at_val, def_val
-
-        h_base_g, h_base_c, base_h_at, base_h_de, h_r1_atk, h_r1_def = compute_rule1_stats_with_cross_tier(h_matches, home_name, h_gpg_base, h_cpg_base)
-        a_base_g, a_base_c, base_a_at, base_a_de, a_r1_atk, a_r1_def = compute_rule1_stats_with_cross_tier(a_matches, away_name, a_gpg_base, a_cpg_base)
+        base_h_at, h_r1_atk = get_atk_tier(h_base_g)
+        base_h_de, h_r1_def = get_def_tier(h_base_c)
+        base_a_at, a_r1_atk = get_atk_tier(a_base_g)
+        base_a_de, a_r1_def = get_def_tier(a_base_c)
         
         # [규칙 2번 영역]
         head_info = target_detail.get("head_info", {})
@@ -386,61 +425,13 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         s_a_gpg_base = float(target_detail.get("s_a_gpg", get_base_gpg_cpg(s_away_matches, away_name)[0]))
         s_a_cpg_base = float(target_detail.get("s_a_cpg", get_base_gpg_cpg(s_away_matches, away_name)[1]))
 
-        def compute_stadium_stats_with_cross_tier(matches, tname, base_gpg, base_cpg):
-            if not matches or not isinstance(matches, list):
-                return base_gpg, base_cpg, "Tier C", "Tier C"
-            
-            pre_at, _ = get_atk_tier(base_gpg)
-            pre_de, _ = get_def_tier(base_cpg)
+        s_h_g, s_h_c = compute_adjusted_stats_with_discount(s_home_matches, home_name, s_h_gpg_base, s_h_cpg_base, h_is_triggered)
+        s_a_g, s_a_c = compute_adjusted_stats_with_discount(s_away_matches, away_name, s_a_gpg_base, s_a_cpg_base, a_is_triggered)
 
-            eff_scored = 0.0
-            eff_conceded = 0.0
-            t_clean = str(tname).strip().lower()
-
-            for m in matches:
-                if not isinstance(m, dict): continue
-                teams = str(m.get("teams", "-")).lower()
-                scores = m.get("ft_scores", ["0", "0"])
-                try: s1, s2 = int(scores[0]), int(scores[1])
-                except Exception: s1 = s2 = 0
-                
-                sc, cc = s1, s2
-                if " vs " in teams:
-                    pair = teams.split(" vs ")
-                    if len(pair) == 2:
-                        if t_clean in pair[0]: sc, cc = s1, s2
-                        elif t_clean in pair[1]: sc, cc = s2, s1
-
-                mult_gf = 1.0
-                mult_ga = 1.0
-                tier_info = m.get("opponent_tier_info", "")
-                
-                if tier_info and "/" in tier_info:
-                    try:
-                        oa, od = map(float, tier_info.split("/"))
-                        at_name, _ = get_atk_tier(oa)
-                        df_name, _ = get_def_tier(od)
-
-                        if pre_at == "Tier A" and (df_name == "Tier E" or od >= 2.0): mult_gf = 0.5
-                        elif pre_at == "Tier E" and (df_name == "Tier A" or od < 0.5): mult_gf = 1.5
-
-                        if pre_de == "Tier A" and (at_name == "Tier E" or oa < 0.5): mult_ga = 1.5
-                        elif pre_de == "Tier E" and (at_name == "Tier A" or oa >= 2.3): mult_ga = 0.5
-                    except Exception:
-                        pass
-
-                eff_scored += (sc * mult_gf)
-                eff_conceded += (cc * mult_ga)
-
-            cnt = len(matches)
-            gpg = round(eff_scored / cnt, 2) if cnt > 0 else base_gpg
-            cpg = round(eff_conceded / cnt, 2) if cnt > 0 else base_cpg
-            final_at, _ = get_atk_tier(gpg)
-            final_de, _ = get_def_tier(cpg)
-            return gpg, cpg, final_at, final_de
-
-        s_h_g, s_h_c, s_h_at, s_h_de = compute_stadium_stats_with_cross_tier(s_home_matches, home_name, s_h_gpg_base, s_h_cpg_base)
-        s_a_g, s_a_c, s_a_at, s_a_de = compute_stadium_stats_with_cross_tier(s_away_matches, away_name, s_a_gpg_base, s_a_cpg_base)
+        s_h_at, _ = get_atk_tier(s_h_g)
+        s_h_de, _ = get_def_tier(s_h_c)
+        s_a_at, _ = get_atk_tier(s_a_g)
+        s_a_de, _ = get_def_tier(s_a_c)
 
         tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
         def calc_shift(base_t, stadium_t, is_atk=True):
