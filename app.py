@@ -555,17 +555,13 @@ with tabs[1]:
                 s1 = s2 = 0
                 
             sc, cc = 0, 0
-            is_my_team_home = True  # 우리 팀이 이 경기에서 홈이었는지 여부 판정 플래그
-            
             pair = teams.split(" vs ")
             if len(pair) == 2:
                 t1, t2 = pair[0].strip(), pair[1].strip()
                 if tname in t1:
                     sc, cc = s1, s2
-                    is_my_team_home = True   # 대진 좌측(홈)
                 elif tname in t2:
                     sc, cc = s2, s1
-                    is_my_team_home = False  # 대진 우측(원정)
                 else:
                     sc, cc = s1, s2
             else:
@@ -592,32 +588,29 @@ with tabs[1]:
             tier_info = m.get("opponent_tier_info", "")
             if tier_info and "/" in tier_info:
                 try:
-                    # 💡 [핵심 정교화] 상대방의 홈/원정 성격에 맞는 올바른 평득실 지표 분기 파싱
-                    parts_t = tier_info.split("/")
-                    # 데이터 소스의 배열 구조에 맞춰 우리 팀의 홈/원정 여부에 따른 상대 지표 매칭 보정
-                    oa = float(parts_t[0].strip())
-                    od = float(parts_t[1].strip())
-                    
-                    at_name = atk_tier_nm(oa)  
-                    df_name = def_tier_nm(od)  
+                    oa, od = map(float, tier_info.split("/"))
+                    at_name = atk_tier_nm(oa)  # 상대 공격 티어
+                    df_name = def_tier_nm(od)  # 상대 방어 티어
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
+                    # 💡 [특수룰 정밀 교정] 10경기 평균 확정 체급(my_at, my_de) 기반 엄격 교차 대조
                     rule_descs = []
                     
-                    # 특수룰 교차 보정 조건식 (기존 방어막 유지)
-                    if my_at == "Tier A" and (df_name == "Tier E" or od >= 1.7):
+                    # 1. 공격 대칭 교차 룰 (내 공격력이 A고 상대 수비가 E이거나, 반대로 내 공격이 E고 상대 수비가 A일 때)
+                    if my_at == "Tier A" and (df_name == "Tier E" or od >= 2.0):
                         mult_gf = 0.5
-                        rule_descs.append(f"공격 A vs 상대수비 {df_name} (득점 50% 할인)")
-                    elif my_at == "Tier E" and (df_name == "Tier A" or od < 0.9):
+                        rule_descs.append("공격 A vs 상대수비 E (득점 50% 할인)")
+                    elif my_at == "Tier E" and (df_name == "Tier A" or od < 0.5):
                         mult_gf = 1.5
-                        rule_descs.append(f"공격 E vs 상대수비 {df_name} (득점 50% 할증)")
+                        rule_descs.append("공격 E vs 상대수비 A (득점 50% 할증)")
                         
-                    if my_de == "Tier A" and (at_name == "Tier E" or oa < 1.1):
+                    # 2. 방어 대칭 교차 룰 (내 방어력이 A고 상대 공격이 E이거나, 반대로 내 방어가 E고 상대 공격이 A일 때)
+                    if my_de == "Tier A" and (at_name == "Tier E" or oa < 0.5):
                         mult_ga = 1.5
-                        rule_descs.append(f"방어 A vs 상대공격 {at_name} (실점 50% 할증)")
+                        rule_descs.append("방어 A vs 상대공격 E (실점 50% 할증)")
                     elif my_de == "Tier E" and (at_name == "Tier A" or oa >= 2.3):
                         mult_ga = 0.5
-                        rule_descs.append(f"방어 E vs 상대공격 {at_name} (실점 50% 할인)")
+                        rule_descs.append("방어 E vs 상대공격 A (실점 50% 할인)")
                         
                     if rule_descs:
                         rule_desc = " / ".join(rule_descs)
