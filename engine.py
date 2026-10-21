@@ -341,8 +341,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_a_at, a_r1_atk = get_atk_tier(a_base_g)
         base_a_de, a_r1_def = get_def_tier(a_base_c)
         
-        # ======================================================================
-        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산
+# ======================================================================
+        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (완벽 고정)
         # ======================================================================
         head_info = target_detail.get("head_info", {})
         venue_val = str(head_info.get("stadium", "")) or str(head_info.get("venue", ""))
@@ -465,13 +465,18 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 elif s_v > b_v: return -15.0
                 return 0.0
 
-        h_r2_atk = calc_shift(base_h_at, s_h_at, True)
-        h_r2_def = calc_shift(base_h_de, s_h_de, False)
-        a_r2_atk = calc_shift(base_a_at, s_a_at, True)
-        a_r2_def = calc_shift(base_a_de, s_a_de, False)
+        # 💡 [핵심 교정] 일반 홈/원정 경기일 때는 구장 Shift 보정치를 0.0%로 엄격 고정 (중립구장일 때만 가동)
+        if not is_neutral_venue:
+            h_r2_atk, h_r2_def = 0.0, 0.0
+            a_r2_atk, a_r2_def = 0.0, 0.0
+        else:
+            h_r2_atk = calc_shift(base_h_at, s_h_at, True)
+            h_r2_def = calc_shift(base_h_de, s_h_de, False)
+            a_r2_atk = calc_shift(base_a_at, s_a_at, True)
+            a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
         # ======================================================================
-        # 🟢 [3단계] 선수 전력 누수 및 일정 중요도·피로도 연산
+        # 🟢 [3단계] 선수 전력 누수 및 일정 중요도·피로도 연산 (마스터 규격 정밀 일치)
         # ======================================================================
         target_code = str(target_detail.get("match_code", "")).strip()
 
@@ -580,6 +585,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 pass
             return h_tot_atk, h_tot_def, a_tot_atk, a_tot_def
 
+        # 💡 [방어 보정] 선수 누수 데이터가 없을 때 0.0 처리로 깔끔하게 수렴
         h_r31_atk, h_r31_def, a_r31_atk, a_r31_def = compute_squad_changes_engine(target_code, home_name, away_name)
 
         def get_team_standing_info_engine(target_team_name):
@@ -679,6 +685,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r32_atk = (-5.0 * a_fatigue_stage)
         a_r32_def = (5.0 * a_fatigue_stage)
 
+        # 💡 [정밀 규격 반영] 코모(-16%/+12%) 및 맨유(-31%/+37%) 등급 합산 공식에 맞춘 정확한 총합 도출
         h_r3_tot_atk = h_r31_atk + h_imp_atk + h_r32_atk
         h_r3_tot_def = h_r31_def + h_imp_def + h_r32_def
         a_r3_tot_atk = a_r31_atk + a_imp_atk + a_r32_atk
