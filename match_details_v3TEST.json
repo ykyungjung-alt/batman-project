@@ -1,1 +1,394 @@
-
+{
+    "last_updated": "2026-10-21 21:23:58",
+    "match_details": {
+        "3073171": {
+            "match_code": "3073171",
+            "head_info": {
+                "league": "챔피언스리그",
+                "round": ""
+            },
+            "home": "코모",
+            "away": "맨체스터 유나이티드",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "코모",
+                    "home_matches": [
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.10.18",
+                            "teams": "피오렌티나 vs 코모",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.50/1.20"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.14",
+                            "teams": "페예노르트 vs 코모",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.40/1.00"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.10.11",
+                            "teams": "코모 vs AS 로마",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.70/1.20"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.20",
+                            "teams": "프로시노네 vs 코모",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.80/1.10"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.14",
+                            "teams": "코모 vs 파르마",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.60/1.10"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.10",
+                            "teams": "코모 vs RB 라이프치히",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.70/1.20"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.04",
+                            "teams": "제노아 vs 코모",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.70/1.20"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.08.30",
+                            "teams": "나폴리 vs 코모",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.60/1.10"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.08.22",
+                            "teams": "우디네세 vs 코모",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.90/1.20"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.16",
+                            "teams": "리버풀 vs 코모",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.80/0.80"
+                        }
+                    ],
+                    "away_team_name": "맨체스터 유나이티드",
+                    "away_matches": [
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.10.18",
+                            "teams": "리즈 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.70/1.80"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.13",
+                            "teams": "AT 마드리드 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.10/1.10"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.10.10",
+                            "teams": "맨체스터 유나이티드 vs 토트넘",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.40/1.50"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.09.20",
+                            "teams": "풀럼 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.90/1.70"
+                        },
+                        {
+                            "league": "ENG LC",
+                            "match_time": "2026.09.16",
+                            "teams": "맨체스터 유나이티드 vs 브라이튼",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.80/1.00"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.09.13",
+                            "teams": "맨체스터 유나이티드 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.20/1.40"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.10",
+                            "teams": "맨체스터 유나이티드 vs 사바 바쿠",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.20/0.70"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.09.06",
+                            "teams": "에버턴 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.80/0.80"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.08.30",
+                            "teams": "맨체스터 유나이티드 vs 입스위치",
+                            "ft_scores": [
+                                "5",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.70/1.20"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.08.22",
+                            "teams": "헐시티 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.20/0.70"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "코모",
+                    "home_matches": [
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.10.11",
+                            "teams": "코모 vs AS 로마",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.70/1.20"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.14",
+                            "teams": "코모 vs 파르마",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.60/1.10"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.10",
+                            "teams": "코모 vs RB 라이프치히",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.70/1.20"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.31",
+                            "teams": "코모 vs 파말리샹",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.10/0.30"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.29",
+                            "teams": "코모 vs Al-Ula",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.60/1.20"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.24",
+                            "teams": "코모 vs 파리 FC",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.90/1.00"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.17",
+                            "teams": "코모 vs 파르마",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.80/1.10"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.02",
+                            "teams": "코모 vs 나폴리",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.60/1.00"
+                        }
+                    ],
+                    "away_team_name": "맨체스터 유나이티드",
+                    "away_matches": [
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.10.18",
+                            "teams": "리즈 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.70/1.80"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.13",
+                            "teams": "AT 마드리드 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.10/1.10"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.09.20",
+                            "teams": "풀럼 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.90/1.70"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.09.06",
+                            "teams": "에버턴 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.80/0.80"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.08.22",
+                            "teams": "헐시티 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.20/0.70"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.24",
+                            "teams": "로젠보르그 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "5"
+                            ],
+                            "opponent_tier_info": "1.80/1.10"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.05.24",
+                            "teams": "브라이튼 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.80/1.30"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.05.09",
+                            "teams": "선덜랜드 vs 맨체스터 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.70/1.20"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
