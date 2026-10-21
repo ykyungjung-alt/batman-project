@@ -288,7 +288,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     a_step0_atk, a_step0_def = atk_val, def_val
                     found_away = True
 
-        # [규칙 1번 영역]
+# [규칙 1번 영역: 대시보드 UI 완벽 동기화 및 득실 베이스 정밀 고정]
         recent_form = meta_details.get("recent_form", {})
         raw_h_matches = recent_form.get("home_matches", [])
         raw_a_matches = recent_form.get("away_matches", [])
@@ -308,16 +308,29 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_sum = recent_form.get("home_summary", {})
         a_sum = recent_form.get("away_summary", {})
         
-        h_gpg_base = float(target_detail.get("h_gpg", h_sum.get("goals_per_game", 1.2)))
-        h_cpg_base = float(target_detail.get("cpg", h_sum.get("conceded_per_game", 1.1)))
-        a_gpg_base = float(target_detail.get("a_gpg", a_sum.get("goals_per_game", 1.1)))
-        a_cpg_base = float(target_detail.get("a_cpg", a_sum.get("conceded_per_game", 1.2)))
+        # 💡 [핵심 교정] 대시보드 UI와 동일하게 요약 데이터(goals_per_game, conceded_per_game)를 1순위 베이스로 설정
+        h_gpg_base = float(h_sum.get("goals_per_game", target_detail.get("h_gpg", 1.2)))
+        h_cpg_base = float(h_sum.get("conceded_per_game", target_detail.get("cpg", target_detail.get("h_cpg", 1.1))))
+        a_gpg_base = float(a_sum.get("goals_per_game", target_detail.get("a_gpg", 1.1)))
+        a_cpg_base = float(a_sum.get("conceded_per_game", target_detail.get("a_cpg", target_detail.get("cpg", 1.2))))
+
+        # 만약 요약 데이터가 0이거나 없을 때 안전 폴백
+        if h_gpg_base <= 0: h_gpg_base = float(target_detail.get("h_gpg", 1.2))
+        if h_cpg_base <= 0: h_cpg_base = float(target_detail.get("cpg", 1.1))
+        if a_gpg_base <= 0: a_gpg_base = float(target_detail.get("a_gpg", 1.1))
+        if a_cpg_base <= 0: a_cpg_base = float(target_detail.get("a_cpg", 1.2))
 
         h_is_triggered = check_special_rule_trigger(h_matches, home_name, h_gpg_base, h_cpg_base)
         a_is_triggered = check_special_rule_trigger(a_matches, away_name, a_gpg_base, a_cpg_base)
 
-        h_base_g, h_base_c = compute_adjusted_stats_with_discount(h_matches, home_name, h_gpg_base, h_cpg_base, h_is_triggered)
-        a_base_g, a_base_c = compute_adjusted_stats_with_discount(a_matches, away_name, a_gpg_base, a_cpg_base, a_is_triggered)
+        # 💡 [방어 보정] LIFO 경기 풀을 통한 할인 보정 적용 (값이 0으로 튈 경우 원본 베이스 엄격 유지)
+        calc_h_base_g, calc_h_base_c = compute_adjusted_stats_with_discount(h_matches, home_name, h_gpg_base, h_cpg_base, h_is_triggered)
+        calc_a_base_g, calc_a_base_c = compute_adjusted_stats_with_discount(a_matches, away_name, a_gpg_base, a_cpg_base, a_is_triggered)
+
+        h_base_g = calc_h_base_g if calc_h_base_g > 0 else h_gpg_base
+        h_base_c = calc_h_base_c if calc_h_base_c > 0 else h_cpg_base
+        a_base_g = calc_a_base_g if calc_a_base_g > 0 else a_gpg_base
+        a_base_c = calc_a_base_c if calc_a_base_c > 0 else a_cpg_base
 
         base_h_at, h_r1_atk = get_atk_tier(h_base_g)
         base_h_de, h_r1_def = get_def_tier(h_base_c)
