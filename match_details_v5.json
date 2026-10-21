@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-21 21:45:15",
+    "last_updated": "2026-10-22 00:38:58",
     "lineup_details": {
         "3059479": {
             "match_code": "3059479",
@@ -4657,6 +4657,27 @@
                             "카드": "0/2"
                         }
                     }
+                },
+                {
+                    "number": "17",
+                    "name": "헤수스 로드리게스",
+                    "player_id": "266769",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "266769",
+                        "matches_played": 4,
+                        "total_play_time": 174,
+                        "avg_play_time": 43.5,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "174",
+                            "경기당 평점": "6.64",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
                 }
             ],
             "away_absentees": [
@@ -5124,17 +5145,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "24230",
-                        "matches_played": 4,
-                        "total_play_time": 360,
-                        "avg_play_time": 90.0,
-                        "grade": "A",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
                         "important_stats": {
-                            "경기": "4",
-                            "출전시간": "360",
-                            "경기당 평점": "6.71",
-                            "득점(PK)": "0(0)",
-                            "도움": "0",
-                            "카드": "0/0"
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
                         }
                     }
                 },
