@@ -12,7 +12,7 @@ _opponent_stats_cache = {}
 
 def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
     """
-    💡 서브 페이지 골득실 수치 수집 함수 (캐싱 적용으로 속도 대폭 개선)
+    💡 서브 페이지 골득실 수치 수집 함수 (좌/우 고정 열 규칙 및 정확한 대칭 매칭 적용)
     """
     if sub_m_id in _opponent_stats_cache:
         return _opponent_stats_cache[sub_m_id]
@@ -50,7 +50,12 @@ def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
                             home_conceded = left_val
                             away_conceded = right_val
                 
-                is_target_home = target_team_name in sub_home or not (target_team_name in sub_away)
+                # 🎯 [정확한 위치 판단] 타겟 팀이 서브 경기에서 홈이었는지 판별
+                is_target_home = False
+                if target_team_name and sub_home:
+                    if target_team_name in sub_home or sub_home in target_team_name:
+                        is_target_home = True
+
                 opp_goals = away_goals if is_target_home else home_goals
                 opp_conceded = away_conceded if is_target_home else home_conceded
                 
@@ -218,7 +223,6 @@ def run_table_based_crawler_v3():
                             
                             opponent_tier_info = "0.00/0.00"
                             if sub_m_id:
-                                # 💡 [대진 대칭 검증 추가] 대진표(팀A vs 팀B)를 분석하여 우리 팀이 아닌 진짜 상대방 팀 특정
                                 actual_opponent = target_team
                                 if " vs " in teams_text:
                                     parts = [p.strip() for p in teams_text.split(" vs ")]
