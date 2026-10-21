@@ -290,8 +290,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     a_step0_atk, a_step0_def = atk_val, def_val
                     found_away = True
 
-        # ======================================================================
-        # 🟢 [1단계] LIFO 최근 경기 득실 산출 및 기본 기대치 연동
+# ======================================================================
+        # 🟢 [1단계] LIFO 최근 경기 득실 산출 및 기본 기대치 실시간 연동 (완벽 고정)
         # ======================================================================
         recent_form = meta_details.get("recent_form", {})
         raw_h_matches = recent_form.get("home_matches", [])
@@ -312,15 +312,17 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_sum = recent_form.get("home_summary", {})
         a_sum = recent_form.get("away_summary", {})
         
-        h_gpg_base = float(h_sum.get("goals_per_game", target_detail.get("h_gpg", 1.2)))
-        h_cpg_base = float(h_sum.get("conceded_per_game", target_detail.get("cpg", target_detail.get("h_cpg", 1.1))))
-        a_gpg_base = float(a_sum.get("goals_per_game", target_detail.get("a_gpg", 1.1)))
-        a_cpg_base = float(a_sum.get("conceded_per_game", target_detail.get("a_cpg", target_detail.get("cpg", 1.2))))
+        # 💡 [핵심 교정] summary 내부와 target_detail 전체 경로를 철저히 뒤져서 실제 득실값을 강제 추출
+        h_gpg_base = float(h_sum.get("goals_per_game", h_sum.get("gpg", target_detail.get("h_gpg", 1.2))))
+        h_cpg_base = float(h_sum.get("conceded_per_game", h_sum.get("cpg", target_detail.get("cpg", target_detail.get("h_cpg", 1.1)))))
+        a_gpg_base = float(a_sum.get("goals_per_game", a_sum.get("gpg", target_detail.get("a_gpg", 1.1))))
+        a_cpg_base = float(a_sum.get("conceded_per_game", a_sum.get("cpg", target_detail.get("a_cpg", target_detail.get("cpg", 1.2)))))
 
-        if h_gpg_base <= 0: h_gpg_base = float(target_detail.get("h_gpg", 1.2))
-        if h_cpg_base <= 0: h_cpg_base = float(target_detail.get("cpg", 1.1))
-        if a_gpg_base <= 0: a_gpg_base = float(target_detail.get("a_gpg", 1.1))
-        if a_cpg_base <= 0: a_cpg_base = float(target_detail.get("a_cpg", 1.2))
+        # 만약 여전히 0이거나 데이터가 비어있을 때만 최후의 방어 디폴트 적용
+        if h_gpg_base <= 0: h_gpg_base = 1.2
+        if h_cpg_base <= 0: h_cpg_base = 1.1
+        if a_gpg_base <= 0: a_gpg_base = 1.1
+        if a_cpg_base <= 0: a_cpg_base = 1.2
 
         h_is_triggered = check_special_rule_trigger(h_matches, home_name, h_gpg_base, h_cpg_base)
         a_is_triggered = check_special_rule_trigger(a_matches, away_name, a_gpg_base, a_cpg_base)
@@ -328,6 +330,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         calc_h_base_g, calc_h_base_c = compute_adjusted_stats_with_discount(h_matches, home_name, h_gpg_base, h_cpg_base, h_is_triggered)
         calc_a_base_g, calc_a_base_c = compute_adjusted_stats_with_discount(a_matches, away_name, a_gpg_base, a_cpg_base, a_is_triggered)
 
+        # 최종 엔진 베이스 득실 확정 (0으로 튀는 현상 원천 차단)
         h_base_g = calc_h_base_g if calc_h_base_g > 0 else h_gpg_base
         h_base_c = calc_h_base_c if calc_h_base_c > 0 else h_cpg_base
         a_base_g = calc_a_base_g if calc_a_base_g > 0 else a_gpg_base
