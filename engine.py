@@ -899,7 +899,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         over_factor_desc = f"홈 +{int(h_over_factor * 100)}% / 원정 +{int(a_over_factor * 100)}% 가산 반영"
 
-        return {
+return {
             "status": True,
             "home_win_pct": calc_home_win,
             "draw_pct": calc_draw,
@@ -916,6 +916,12 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "over_factor_desc": over_factor_desc,
             "d_prob_val": d_prob_val,
 
+            # 💡 [핵심 진단 보완] 디버그 센터에서 실시간으로 찍어볼 수 있도록 엔진의 실제 계산 베이스 득실 송신
+            "h_gpg": h_base_g,
+            "h_cpg": h_base_c,
+            "a_gpg": a_base_g,
+            "a_cpg": a_base_c,
+
             "h_step0_atk": h_step0_atk, "h_step0_def": h_step0_def,
             "h_r1_atk": h_r1_atk, "h_r1_def": h_r1_def,
             "h_r2_atk": h_r2_atk, "h_r2_def": h_r2_def,
@@ -930,7 +936,3 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "a_r4_atk": a_r4_atk, "a_r4_def": a_r4_def,
             "a_tot_atk_pct": a_tot_atk_pct, "a_tot_def_pct": a_tot_def_pct
         }
-
-    except Exception as e:
-        print(f"[Engine Master Critical Error]: {e}")
-        return {"status": False, "msg": str(e)}
