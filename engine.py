@@ -507,11 +507,11 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
 # ======================================================================
-        # 🟢 [3단계] 선수 전력 누수 및 일정 중요도·피로도 연산 (app.py 대시보드 규격 100% 일치)
+        # 🟢 [3단계] 선수 전력 누수 및 일정 중요도·피로도 연산 (원래 선수 누수 파싱 완벽 복구 및 app.py 동기화)
         # ======================================================================
         target_code = str(target_detail.get("match_code", "")).strip()
 
-        # 1. 3-1 전력 누수 독립 산출
+        # 1. 3-1 전력 누수 산출 (원래 잘 잡히던 V5 / V5-1 매칭 및 스쿼드 맵핑 복구)
         def compute_single_team_absentee_engine(match_code_str, team_name_str, is_home=True):
             tot_atk, tot_def = 0.0, 0.0
             try:
@@ -525,7 +525,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     v_code = str(v.get("match_code", k)).strip()
                     v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
                     v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
-                    if v_code == match_code_str or clean_target in v_h or clean_target in v_a:
+                    if v_code == match_code_str or (clean_target in v_h and clean_target in v_a):
                         v5_match_data = v
                         break
                 
@@ -533,10 +533,10 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 if v5_match_data:
                     data_home_name = str(v5_match_data.get("home", "")).strip().replace(" ", "").lower()
                     if clean_target in data_home_name or data_home_name in clean_target:
-                        abs_list = v5_match_data.get("home_absentees", []) if is_home else v5_match_data.get("away_absentees", [])
+                        h_raw = v5_match_data.get("home_absentees", []) if is_home else v5_match_data.get("away_absentees", [])
                     else:
-                        abs_list = v5_match_data.get("away_absentees", []) if is_home else v5_match_data.get("home_absentees", [])
-                    abs_list = [p for p in abs_list if isinstance(p, dict) and str(p.get("status", "")).strip() in ["결장", "부상", "징계", "누수", "출전의심/기타"] and str(p.get("name", "")).strip()]
+                        h_raw = v5_match_data.get("away_absentees", []) if is_home else v5_match_data.get("home_absentees", [])
+                    abs_list = [p for p in h_raw if isinstance(p, dict) and str(p.get("status", "")).strip() in ["결장", "부상", "징계", "누수", "출전의심/기타"] and str(p.get("name", "")).strip()]
 
                 v5_1_match_data = {}
                 for k, v in v5_1_squad_dict.items():
@@ -544,7 +544,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     v_code = str(v.get("match_code", k)).strip()
                     v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
                     v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
-                    if v_code == match_code_str or clean_target in v_h or clean_target in v_a:
+                    if v_code == match_code_str or (clean_target in v_h and clean_target in v_a):
                         v5_1_match_data = v
                         break
                 
@@ -572,7 +572,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     p_pos = squad_pos_map.get(p_name, squad_pos_map.get(p_name.replace(" ", ""), ""))
                     if not p_pos or p_pos == "-": p_pos = "미드필더"
                     
-                    p_type = str(item.get("status", "결장")).strip()
                     stats_dict = item.get("stats", {})
                     raw_grade = str(stats_dict.get("grade", item.get("grade", "C"))).strip().upper()
                     
@@ -584,14 +583,10 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     is_attacker = any(k in p_pos for k in ["공격수", "FW", "MF"])
                     is_defender = any(k in p_pos for k in ["수비수", "골키퍼", "DF", "GK"])
                     
-                    if p_type in ["결장", "부상", "징계", "누수", "출전의심/기타"]:
-                        if is_attacker: atk_v, def_v = -rate, rate / 2.0
-                        elif is_defender: atk_v, def_v = -rate / 2.0, rate
-                        else: atk_v, def_v = -rate, rate / 2.0
-                    else:
-                        if is_attacker: atk_v, def_v = rate, -rate / 2.0
-                        elif is_defender: atk_v, def_v = rate / 2.0, -rate
-                        else: atk_v, def_v = rate, -rate / 2.0
+                    if is_attacker: atk_v, def_v = -rate, rate / 2.0
+                    elif is_defender: atk_v, def_v = -rate / 2.0, rate
+                    else: atk_v, def_v = -rate, rate / 2.0
+                    
                     tot_atk += atk_v
                     tot_def += def_v
             except Exception:
@@ -603,7 +598,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         # 2. 3-2 일정 중요도 산출
         def get_team_standing_info_engine(target_team_name):
-            target_clean = str(target_team_name).strip().replace(" ", "").lower()
+            target_clean = str(target_team_name).strip().replace(" ", "")
             matched_standings = []
             v4_dict = v4_leagues_dict.get("leagues", v4_leagues_dict) if 'v4_leagues_dict' in globals() else {}
             for l_id, l_data in v4_dict.items():
@@ -612,7 +607,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 league_name = l_data.get("league_name", "해외 리그")
                 for row in standings:
                     if not isinstance(row, dict): continue
-                    row_team = str(row.get("team", "")).strip().replace(" ", "").lower()
+                    row_team = str(row.get("team", "")).strip().replace(" ", "")
                     if target_clean in row_team or row_team in target_clean:
                         raw_label = str(row.get("tag_label", "일반"))
                         matched_standings.append({"league_name": league_name, "rank": str(row.get("rank", "-")), "team": row.get("team", target_team_name), "tag_label": raw_label})
@@ -621,7 +616,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         def determine_match_importance_engine(standing_info_list, league_raw_name):
             league_str = str(league_raw_name).strip().lower()
             if any(k in league_str for k in ["친선", "cf", "탈락", "강등"]):
-                return -10.0, 10.0
+                return 5.0, -5.0
             if not standing_info_list: return 5.0, -5.0
             for standing_info in standing_info_list:
                 label = str(standing_info.get("tag_label", "")).strip()
@@ -685,7 +680,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_fa, h_fd = -5 * h_fatigue_stage, 5 * h_fatigue_stage
         a_fa, a_fd = -5 * a_fatigue_stage, 5 * a_fatigue_stage
 
-        # 4. 💡 [앱 app.py와 완벽 동기화된 최종 3단계 통합 합산]
+        # 4. 💡 [최종 통합 합산] 선수 누수 + 중요도 + 피로도 반영 완료
         h_r3_tot_atk = h_r31_atk + h_imp_atk + h_fa
         h_r3_tot_def = h_r31_def + h_imp_def + h_fd
         a_r3_tot_atk = a_r31_atk + a_imp_atk + a_fa
