@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-10-21 12:31:14",
+    "updated_at": "2026-10-21 15:37:42",
     "leagues": {
         "34": {
             "league_id": 34,
@@ -16307,6 +16307,18 @@
                 },
                 {
                     "rank": "4",
+                    "team": "클럽 레온",
+                    "tag_color": "#FFFF00",
+                    "tag_label": "Title Play-offs",
+                    "경기수": "13",
+                    "승": "6",
+                    "무": "3",
+                    "패": "21",
+                    "득실": "0",
+                    "승점": "21"
+                },
+                {
+                    "rank": "5",
                     "team": "아틀라스",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
@@ -16318,40 +16330,28 @@
                     "승점": "21"
                 },
                 {
-                    "rank": "5",
-                    "team": "크루즈 아즐",
-                    "tag_color": "#FFFF00",
-                    "tag_label": "Title Play-offs",
-                    "경기수": "12",
-                    "승": "6",
-                    "무": "2",
-                    "패": "4",
-                    "득실": "6",
-                    "승점": "20"
-                },
-                {
                     "rank": "6",
-                    "team": "케레타로",
+                    "team": "크루즈 아즐",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
                     "경기수": "12",
                     "승": "2",
                     "무": "4",
-                    "패": "1",
-                    "득실": "20",
+                    "패": "20",
+                    "득실": "0",
                     "승점": "20"
                 },
                 {
                     "rank": "7",
-                    "team": "클럽 레온",
+                    "team": "케레타로",
                     "tag_color": "#FC9B0A",
                     "tag_label": "Playoffs: playoffs",
                     "경기수": "12",
-                    "승": "5",
-                    "무": "3",
+                    "승": "6",
+                    "무": "2",
                     "패": "4",
                     "득실": "1",
-                    "승점": "18"
+                    "승점": "20"
                 },
                 {
                     "rank": "8",
@@ -16430,11 +16430,11 @@
                     "team": "U.A.N.L.- 티그레스",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "12",
+                    "경기수": "13",
                     "승": "3",
                     "무": "5",
-                    "패": "4",
-                    "득실": "-2",
+                    "패": "-4",
+                    "득실": "0",
                     "승점": "14"
                 },
                 {
@@ -21243,7 +21243,7 @@
             "league_id": 579,
             "league_name": "리가 나시오날",
             "league_name_error": null,
-            "active_round": "15/22",
+            "active_round": "12/22",
             "active_round_error": null,
             "total_rounds": 22,
             "standing_legends": [
