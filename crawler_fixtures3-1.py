@@ -11,16 +11,13 @@ from zoneinfo import ZoneInfo
 _opponent_stats_cache = {}
 
 def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
-    """
-    💡 서브 페이지 골득실 수치 수집 함수 (좌/우 고정 열 규칙 및 정확한 대칭 매칭 적용)
-    """
     if sub_m_id in _opponent_stats_cache:
         return _opponent_stats_cache[sub_m_id]
 
     sub_url = f"https://www.scoreman123.com/match/data-{sub_m_id}"
     try:
         driver.get(sub_url)
-        time.sleep(0.15)  # 대기 시간 최소화
+        time.sleep(0.3)  # 렌더링 안정 대기
         soup = BeautifulSoup(driver.page_source, "html.parser")
         
         sub_home, sub_away = "", ""
@@ -39,9 +36,9 @@ def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
                 for v in stats_div.find_all("div", class_="vote"):
                     ext_els = v.find_all("div", class_=["ext", "win-f", "draw-f", "p2"])
                     if len(ext_els) >= 3:
-                        left_val = ext_els[0].get_text(strip=True)
+                        left_val = ext_els[0].get_text(strip=True)   # 왼쪽 칸 (서브 페이지 홈팀)
                         label = ext_els[1].get_text(strip=True)
-                        right_val = ext_els[2].get_text(strip=True)
+                        right_val = ext_els[2].get_text(strip=True)  # 오른쪽 칸 (서브 페이지 원정팀)
                         
                         if "경기당 득점" in label:
                             home_goals = left_val
@@ -50,14 +47,20 @@ def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
                             home_conceded = left_val
                             away_conceded = right_val
                 
-                # 🎯 [정확한 위치 판단] 타겟 팀이 서브 경기에서 홈이었는지 판별
+                # 🎯 [핵심 교정] 타겟 팀이 서브 페이지의 홈인지 원정인지 판별
                 is_target_home = False
-                if target_team_name and sub_home:
+                if target_team_name:
                     if target_team_name in sub_home or sub_home in target_team_name:
                         is_target_home = True
 
-                opp_goals = away_goals if is_target_home else home_goals
-                opp_conceded = away_conceded if is_target_home else home_conceded
+                # 💡 내가 홈이면 상대방은 '원정(오른쪽)' 지표를 가져오고,
+                #    내가 원정이면 상대방은 '홈(왼쪽)' 지표를 가져옴
+                if is_target_home:
+                    opp_goals = away_goals
+                    opp_conceded = away_conceded
+                else:
+                    opp_goals = home_goals
+                    opp_conceded = home_conceded
                 
                 result_val = f"{opp_goals}/{opp_conceded}"
                 _opponent_stats_cache[sub_m_id] = result_val
@@ -66,7 +69,6 @@ def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, target_team_name):
         pass
     
     return "0.00/0.00"
-
 def expand_dropdowns_to_20(driver):
     """
     💡 페이지 내 모든 'selRecentMatch' 드롭다운을 열어 'v-data="20"' 항목을 클릭하여 20개로 확장
