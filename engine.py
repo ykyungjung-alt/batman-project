@@ -113,7 +113,7 @@ def load_country_data_for_engine():
     return {}
 
 # ==============================================================================
-# ⚽ [공통 티어 및 특수 룰 유틸리티] (이전 원본 정밀 보정식 복원 이식)
+# ⚽ [공통 티어 및 특수 룰 유틸리티]
 # ==============================================================================
 def get_atk_tier(g):
     if g >= 2.3: return "Tier A", 12.0
@@ -201,10 +201,10 @@ def compute_adjusted_stats_with_discount(matches, tname, base_gpg, base_cpg, is_
     return gpg, cpg
 
 # ==============================================================================
-# 🚀 [마스터 계산 엔진] 단일 메인 함수 (완전 방어 및 통합 규격)
+# 🚀 [마스터 계산 엔진] 단일 메인 순차 파이프라인 함수
 # ==============================================================================
 def compute_match_prediction_master(target_detail, home_name, away_name, league_name=""):
-    # 💡 [안전망 장치] 단일모드 데이터가 비어 있거나 누락되어도 먹통이 되지 않고 디폴트 분석 수행
+    # 💡 [안전망 장치] 데이터 누락 시 기본 디폴트 세션 구축
     if not target_detail or not isinstance(target_detail, dict):
         target_detail = {
             "head_info": {"stadium": "-", "home_stadium": "-"},
@@ -221,7 +221,9 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         meta_details = target_detail.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
         
-        # [0단계 영역]
+        # ======================================================================
+        # 🟢 [0단계] Country 등급 및 공격/수비 보정치 산출
+        # ======================================================================
         def resolve_country_and_grade(rank_val, team_val, current_league_name="", country_data=None):
             try:
                 if not country_data:
@@ -288,7 +290,9 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     a_step0_atk, a_step0_def = atk_val, def_val
                     found_away = True
 
-# [규칙 1번 영역: 대시보드 UI 완벽 동기화 및 득실 베이스 정밀 고정]
+        # ======================================================================
+        # 🟢 [1단계] LIFO 최근 경기 득실 산출 및 기본 기대치 연동
+        # ======================================================================
         recent_form = meta_details.get("recent_form", {})
         raw_h_matches = recent_form.get("home_matches", [])
         raw_a_matches = recent_form.get("away_matches", [])
@@ -308,13 +312,11 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_sum = recent_form.get("home_summary", {})
         a_sum = recent_form.get("away_summary", {})
         
-        # 💡 [핵심 교정] 대시보드 UI와 동일하게 요약 데이터(goals_per_game, conceded_per_game)를 1순위 베이스로 설정
         h_gpg_base = float(h_sum.get("goals_per_game", target_detail.get("h_gpg", 1.2)))
         h_cpg_base = float(h_sum.get("conceded_per_game", target_detail.get("cpg", target_detail.get("h_cpg", 1.1))))
         a_gpg_base = float(a_sum.get("goals_per_game", target_detail.get("a_gpg", 1.1)))
         a_cpg_base = float(a_sum.get("conceded_per_game", target_detail.get("a_cpg", target_detail.get("cpg", 1.2))))
 
-        # 만약 요약 데이터가 0이거나 없을 때 안전 폴백
         if h_gpg_base <= 0: h_gpg_base = float(target_detail.get("h_gpg", 1.2))
         if h_cpg_base <= 0: h_cpg_base = float(target_detail.get("cpg", 1.1))
         if a_gpg_base <= 0: a_gpg_base = float(target_detail.get("a_gpg", 1.1))
@@ -323,7 +325,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_is_triggered = check_special_rule_trigger(h_matches, home_name, h_gpg_base, h_cpg_base)
         a_is_triggered = check_special_rule_trigger(a_matches, away_name, a_gpg_base, a_cpg_base)
 
-        # 💡 [방어 보정] LIFO 경기 풀을 통한 할인 보정 적용 (값이 0으로 튈 경우 원본 베이스 엄격 유지)
         calc_h_base_g, calc_h_base_c = compute_adjusted_stats_with_discount(h_matches, home_name, h_gpg_base, h_cpg_base, h_is_triggered)
         calc_a_base_g, calc_a_base_c = compute_adjusted_stats_with_discount(a_matches, away_name, a_gpg_base, a_cpg_base, a_is_triggered)
 
@@ -337,7 +338,9 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_a_at, a_r1_atk = get_atk_tier(a_base_g)
         base_a_de, a_r1_def = get_def_tier(a_base_c)
         
-        # [규칙 2번 영역]
+        # ======================================================================
+        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산
+        # ======================================================================
         head_info = target_detail.get("head_info", {})
         venue_val = str(head_info.get("stadium", "")) or str(head_info.get("venue", ""))
         home_stadium_val = str(head_info.get("home_stadium", ""))
@@ -464,7 +467,9 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
-        # [규칙 3-1 영역]
+        # ======================================================================
+        # 🟢 [3단계] 선수 전력 누수 및 일정 중요도·피로도 연산
+        # ======================================================================
         target_code = str(target_detail.get("match_code", "")).strip()
 
         def compute_squad_changes_engine(match_code_str, home_name_str, away_name_str):
@@ -574,7 +579,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         h_r31_atk, h_r31_def, a_r31_atk, a_r31_def = compute_squad_changes_engine(target_code, home_name, away_name)
 
-        # [규칙 3-2 영역]
         def get_team_standing_info_engine(target_team_name):
             target_clean = str(target_team_name).strip().replace(" ", "")
             matched_standings = []
@@ -677,7 +681,9 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r3_tot_atk = a_r31_atk + a_imp_atk + a_r32_atk
         a_r3_tot_def = a_r31_def + a_imp_def + a_r32_def
 
-        # [규칙 4번 영역]
+        # ======================================================================
+        # 🟢 [4단계] H2H 맞대결 상성 가중치 연산
+        # ======================================================================
         h2h_info = meta_details.get("h2h", {})
         h2h_matches = h2h_info.get("matches", [])
         
@@ -710,7 +716,9 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             if home_win_rate >= 50.0: h_r4_atk, h_r4_def = 10.0, -10.0
             elif away_win_rate >= 50.0: a_r4_atk, a_r4_def = 10.0, -10.0
 
-        # [규칙 5번 영역]
+        # ======================================================================
+        # 🟢 [5단계] 누적 보정치 합산 및 교차 결합 득실점 산출
+        # ======================================================================
         h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r3_tot_atk + h_r4_atk
         h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r3_tot_def + h_r4_def
         a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk
@@ -829,7 +837,9 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_final = max(0.2, ((a_final_exp_g * (1 + a_over_factor)) + a_agf) / 2.0)
         total_expected_goals = h_final + a_final
 
-        # [규칙 6번 영역]
+        # ======================================================================
+        # 🟢 [6단계] 푸아송 분포 및 승무패/스코어 최종 확률 도출
+        # ======================================================================
         def poisson_prob(lmbda, k):
             if lmbda <= 0 and k == 0: return 1.0
             try: return (math.exp(-lmbda) * (lmbda ** k)) / math.factorial(k)
@@ -899,7 +909,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         over_factor_desc = f"홈 +{int(h_over_factor * 100)}% / 원정 +{int(a_over_factor * 100)}% 가산 반영"
 
-return {
+        return {
             "status": True,
             "home_win_pct": calc_home_win,
             "draw_pct": calc_draw,
@@ -916,7 +926,7 @@ return {
             "over_factor_desc": over_factor_desc,
             "d_prob_val": d_prob_val,
 
-            # 💡 [핵심 진단 보완] 디버그 센터에서 실시간으로 찍어볼 수 있도록 엔진의 실제 계산 베이스 득실 송신
+            # 디버그 센터 싱크로율 유지를 위한 베이스 득실 전송
             "h_gpg": h_base_g,
             "h_cpg": h_base_c,
             "a_gpg": a_base_g,
@@ -936,3 +946,7 @@ return {
             "a_r4_atk": a_r4_atk, "a_r4_def": a_r4_def,
             "a_tot_atk_pct": a_tot_atk_pct, "a_tot_def_pct": a_tot_def_pct
         }
+
+    except Exception as e:
+        print(f"[Engine Master Critical Error]: {e}")
+        return {"status": False, "msg": str(e)}
