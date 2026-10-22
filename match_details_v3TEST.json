@@ -1,420 +1,410 @@
 {
-    "last_updated": "2026-10-23 03:28:52",
+    "last_updated": "2026-10-23 06:29:19",
     "match_details": {
-        "3073722": {
-            "match_code": "3073722",
+        "3018848": {
+            "match_code": "3018848",
             "head_info": {
-                "league": "유로파리그",
+                "league": "분데스리가",
                 "round": ""
             },
-            "home": "오모니아",
-            "away": "벤피카",
+            "home": "VfB 슈투트가르트",
+            "away": "묀헨글라트바흐",
             "meta_details": {
                 "recent_form": {
                     "form_title": "최근 전적",
-                    "home_team_name": "오모니아",
+                    "home_team_name": "VfB 슈투트가르트",
                     "home_matches": [
                         {
-                            "league": "CYP D1",
-                            "match_time": "2026.10.19",
-                            "teams": "오모니아 vs Ol. 니코시아",
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.20",
+                            "teams": "VfB 슈투트가르트 vs AT 마드리드",
                             "ft_scores": [
-                                "2",
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.00/1.00"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.10.17",
+                            "teams": "함부르크 SV vs VfB 슈투트가르트",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.50/2.00"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.14",
+                            "teams": "슬로반 브라티슬라바 vs VfB 슈투트가르트",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.20/1.80"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.10.10",
+                            "teams": "파더보른 vs VfB 슈투트가르트",
+                            "ft_scores": [
+                                "0",
                                 "2"
                             ],
-                            "opponent_tier_info": "1.80/1.40"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.10.15",
-                            "teams": "첼예 vs 오모니아",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.00/1.10"
-                        },
-                        {
-                            "league": "CYP D1",
-                            "match_time": "2026.10.09",
-                            "teams": "카르미오티사 vs 오모니아",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.00/1.50"
+                            "opponent_tier_info": "1.60/1.10"
                         },
                         {
                             "league": "INT CF",
-                            "match_time": "2026.10.02",
-                            "teams": "오모니아 vs Ol. 니코시아",
+                            "match_time": "2026.10.01",
+                            "teams": "VfB 슈투트가르트 vs 그로이터 퓌르트",
                             "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.90/1.50"
-                        },
-                        {
-                            "league": "CYP D1",
-                            "match_time": "2026.09.20",
-                            "teams": "오모니아 vs 크라사바",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.70/2.40"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.09.16",
-                            "teams": "오모니아 vs 셀타비고",
-                            "ft_scores": [
-                                "1",
+                                "5",
                                 "0"
-                            ],
-                            "opponent_tier_info": "1.10/1.00"
-                        },
-                        {
-                            "league": "CYP D1",
-                            "match_time": "2026.09.12",
-                            "teams": "오모니아 vs 아폴론",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.90/0.80"
-                        },
-                        {
-                            "league": "CYP D1",
-                            "match_time": "2026.09.07",
-                            "teams": "아리스 vs 오모니아",
-                            "ft_scores": [
-                                "1",
-                                "4"
-                            ],
-                            "opponent_tier_info": "2.10/1.50"
-                        },
-                        {
-                            "league": "CYP SCUP",
-                            "match_time": "2026.09.03",
-                            "teams": "오모니아 vs 파포스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/1.30"
-                        },
-                        {
-                            "league": "CYP D1",
-                            "match_time": "2026.08.31",
-                            "teams": "오모니아 vs 오모니아 아라디푸",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.30/1.50"
-                        }
-                    ],
-                    "away_team_name": "벤피카",
-                    "away_matches": [
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.10.15",
-                            "teams": "벤피카 vs 셀틱",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.50/1.30"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.10.11",
-                            "teams": "벤피카 vs 비토리아 기마랑이스",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.90/0.90"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.09.20",
-                            "teams": "FC 포르투 vs 벤피카",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.80/0.60"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.09.16",
-                            "teams": "AC 밀란 vs 벤피카",
-                            "ft_scores": [
-                                "0",
-                                "2"
                             ],
                             "opponent_tier_info": "1.70/1.50"
                         },
                         {
-                            "league": "POR D1",
-                            "match_time": "2026.09.13",
-                            "teams": "벤피카 vs 길 비센테",
+                            "league": "INT CF",
+                            "match_time": "2026.09.25",
+                            "teams": "VfB 슈투트가르트 vs 하이덴하임",
                             "ft_scores": [
                                 "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.30/2.50"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.09.19",
+                            "teams": "VfB 슈투트가르트 vs 도르트문트",
+                            "ft_scores": [
+                                "0",
                                 "1"
                             ],
-                            "opponent_tier_info": "1.30/1.00"
+                            "opponent_tier_info": "2.30/1.10"
                         },
                         {
-                            "league": "POR D1",
-                            "match_time": "2026.09.09",
-                            "teams": "모레이렌세 vs 벤피카",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "1.20/1.60"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.09.05",
-                            "teams": "마리티무 vs 벤피카",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.30/1.20"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.08.31",
-                            "teams": "벤피카 vs 에스토릴",
+                            "league": "GER D1",
+                            "match_time": "2026.09.12",
+                            "teams": "호펜하임 vs VfB 슈투트가르트",
                             "ft_scores": [
                                 "2",
                                 "1"
                             ],
-                            "opponent_tier_info": "0.80/1.30"
+                            "opponent_tier_info": "2.00/1.60"
                         },
                         {
-                            "league": "UEFA EL",
-                            "match_time": "2026.08.27",
-                            "teams": "오르후스 vs 벤피카",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.50/1.90"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.08.20",
-                            "teams": "벤피카 vs 오르후스",
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.09",
+                            "teams": "VfB 슈투트가르트 vs 바이킹",
                             "ft_scores": [
                                 "3",
                                 "1"
                             ],
-                            "opponent_tier_info": "1.70/1.60"
+                            "opponent_tier_info": "2.00/1.10"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.09.04",
+                            "teams": "VfB 슈투트가르트 vs 쾰른",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.30/1.90"
+                        }
+                    ],
+                    "away_team_name": "묀헨글라트바흐",
+                    "away_matches": [
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.10.18",
+                            "teams": "묀헨글라트바흐 vs 호펜하임",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.70/2.30"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.10.11",
+                            "teams": "쾰른 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.30/2.00"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.10.03",
+                            "teams": "장크트 파울리 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.30/1.70"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.09.24",
+                            "teams": "지겐 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.30/1.60"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.09.19",
+                            "teams": "묀헨글라트바흐 vs 마인츠",
+                            "ft_scores": [
+                                "3",
+                                "4"
+                            ],
+                            "opponent_tier_info": "3.20/0.80"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.09.12",
+                            "teams": "프라이부르크 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.60/0.80"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.09.05",
+                            "teams": "묀헨글라트바흐 vs 엘버스베르크",
+                            "ft_scores": [
+                                "3",
+                                "4"
+                            ],
+                            "opponent_tier_info": "2.70/1.00"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.08.29",
+                            "teams": "RB 라이프치히 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.90/1.80"
+                        },
+                        {
+                            "league": "GERC",
+                            "match_time": "2026.08.23",
+                            "teams": "쇼트 마인츠 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "0",
+                                "5"
+                            ],
+                            "opponent_tier_info": "1.90/1.80"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.15",
+                            "teams": "묀헨글라트바흐 vs 아스톤 빌라",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.50/1.50"
                         }
                     ]
                 },
                 "stadium_form": {
                     "form_title": "구장별 전적",
-                    "home_team_name": "오모니아",
+                    "home_team_name": "VfB 슈투트가르트",
                     "home_matches": [
                         {
-                            "league": "CYP D1",
-                            "match_time": "2026.10.19",
-                            "teams": "오모니아 vs Ol. 니코시아",
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.20",
+                            "teams": "VfB 슈투트가르트 vs AT 마드리드",
                             "ft_scores": [
-                                "2",
-                                "2"
+                                "1",
+                                "1"
                             ],
-                            "opponent_tier_info": "1.80/1.40"
+                            "opponent_tier_info": "2.00/1.00"
                         },
                         {
                             "league": "INT CF",
-                            "match_time": "2026.10.02",
-                            "teams": "오모니아 vs Ol. 니코시아",
+                            "match_time": "2026.10.01",
+                            "teams": "VfB 슈투트가르트 vs 그로이터 퓌르트",
                             "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.90/1.50"
-                        },
-                        {
-                            "league": "CYP D1",
-                            "match_time": "2026.09.20",
-                            "teams": "오모니아 vs 크라사바",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.70/2.40"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.09.16",
-                            "teams": "오모니아 vs 셀타비고",
-                            "ft_scores": [
-                                "1",
+                                "5",
                                 "0"
-                            ],
-                            "opponent_tier_info": "1.10/1.00"
-                        },
-                        {
-                            "league": "CYP D1",
-                            "match_time": "2026.09.12",
-                            "teams": "오모니아 vs 아폴론",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.90/0.80"
-                        },
-                        {
-                            "league": "CYP SCUP",
-                            "match_time": "2026.09.03",
-                            "teams": "오모니아 vs 파포스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/1.30"
-                        },
-                        {
-                            "league": "CYP D1",
-                            "match_time": "2026.08.31",
-                            "teams": "오모니아 vs 오모니아 아라디푸",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.30/1.50"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.08.27",
-                            "teams": "오모니아 vs 신트 트라위던",
-                            "ft_scores": [
-                                "4",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.80/0.90"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.08.13",
-                            "teams": "오모니아 vs 링컨 레드임프스",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.50/0.90"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.07.22",
-                            "teams": "오모니아 vs 카이랏 알마티",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.40/0.80"
-                        }
-                    ],
-                    "away_team_name": "벤피카",
-                    "away_matches": [
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.09.20",
-                            "teams": "FC 포르투 vs 벤피카",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.80/0.60"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.09.16",
-                            "teams": "AC 밀란 vs 벤피카",
-                            "ft_scores": [
-                                "0",
-                                "2"
                             ],
                             "opponent_tier_info": "1.70/1.50"
                         },
                         {
-                            "league": "POR D1",
-                            "match_time": "2026.09.09",
-                            "teams": "모레이렌세 vs 벤피카",
+                            "league": "INT CF",
+                            "match_time": "2026.09.25",
+                            "teams": "VfB 슈투트가르트 vs 하이덴하임",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.30/2.50"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.09.19",
+                            "teams": "VfB 슈투트가르트 vs 도르트문트",
                             "ft_scores": [
                                 "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "1.20/1.60"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.09.05",
-                            "teams": "마리티무 vs 벤피카",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.30/1.20"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.08.27",
-                            "teams": "오르후스 vs 벤피카",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.50/1.90"
-                        },
-                        {
-                            "league": "POR D1",
-                            "match_time": "2026.08.17",
-                            "teams": "카사 피아 vs 벤피카",
-                            "ft_scores": [
-                                "0",
-                                "7"
-                            ],
-                            "opponent_tier_info": "0.80/1.30"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.08.13",
-                            "teams": "하츠 vs 벤피카",
-                            "ft_scores": [
-                                "1",
                                 "1"
                             ],
-                            "opponent_tier_info": "1.30/2.10"
+                            "opponent_tier_info": "2.30/1.10"
                         },
                         {
-                            "league": "UEFA EL",
-                            "match_time": "2026.07.23",
-                            "teams": "장트 갈렌 vs 벤피카",
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.09",
+                            "teams": "VfB 슈투트가르트 vs 바이킹",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.00/1.10"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.09.04",
+                            "teams": "VfB 슈투트가르트 vs 쾰른",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.30/1.90"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.08",
+                            "teams": "VfB 슈투트가르트 vs 에버턴",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.40/1.50"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.01",
+                            "teams": "VfB 슈투트가르트 vs 파리 FC",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.80/1.00"
+                        }
+                    ],
+                    "away_team_name": "묀헨글라트바흐",
+                    "away_matches": [
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.10.11",
+                            "teams": "쾰른 vs 묀헨글라트바흐",
                             "ft_scores": [
                                 "2",
                                 "1"
                             ],
-                            "opponent_tier_info": "1.80/1.80"
+                            "opponent_tier_info": "2.30/2.00"
                         },
                         {
-                            "league": "POR D1",
-                            "match_time": "2026.05.16",
-                            "teams": "에스토릴 vs 벤피카",
+                            "league": "INT CF",
+                            "match_time": "2026.10.03",
+                            "teams": "장크트 파울리 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.30/1.70"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.09.24",
+                            "teams": "지겐 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.30/1.60"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.09.12",
+                            "teams": "프라이부르크 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.60/0.80"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.08.29",
+                            "teams": "RB 라이프치히 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.90/1.80"
+                        },
+                        {
+                            "league": "GERC",
+                            "match_time": "2026.08.23",
+                            "teams": "쇼트 마인츠 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "0",
+                                "5"
+                            ],
+                            "opponent_tier_info": "1.90/1.80"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.12",
+                            "teams": "펠베르트 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "0",
+                                "8"
+                            ],
+                            "opponent_tier_info": "1.80/2.00"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.01",
+                            "teams": "한사 로스톡 vs 묀헨글라트바흐",
                             "ft_scores": [
                                 "1",
                                 "3"
                             ],
-                            "opponent_tier_info": "0.70/1.50"
+                            "opponent_tier_info": "3.30/1.70"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.25",
+                            "teams": "RW 에쎈 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.60/2.10"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.18",
+                            "teams": "부퍼탈러 vs 묀헨글라트바흐",
+                            "ft_scores": [
+                                "0",
+                                "6"
+                            ],
+                            "opponent_tier_info": "0.80/1.70"
                         }
                     ]
                 }
