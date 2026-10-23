@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-23 09:55:15",
+    "last_updated": "2026-10-23 12:44:58",
     "lineup_details": {
         "3059479": {
             "match_code": "3059479",
@@ -18000,6 +18000,27 @@
                     }
                 },
                 {
+                    "number": "99",
+                    "name": "살리스 압둘 사메드",
+                    "player_id": "179053",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "179053",
+                        "matches_played": 18,
+                        "total_play_time": 942,
+                        "avg_play_time": 52.3,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "18",
+                            "출전시간": "942",
+                            "경기당 평점": "6.14",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/3"
+                        }
+                    }
+                },
+                {
                     "number": "33",
                     "name": "앙투안 멘디",
                     "player_id": "211181",
@@ -18768,17 +18789,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "134904",
-                        "matches_played": 0,
-                        "total_play_time": 0,
-                        "avg_play_time": 0.0,
+                        "matches_played": 3,
+                        "total_play_time": 76,
+                        "avg_play_time": 25.3,
                         "grade": "D",
                         "important_stats": {
-                            "경기": "-",
-                            "출전시간": "-",
-                            "경기당 평점": "-",
-                            "득점(PK)": "-",
-                            "도움": "-",
-                            "카드": "-"
+                            "경기": "3",
+                            "출전시간": "76",
+                            "경기당 평점": "4.83",
+                            "득점(PK)": "2(0)",
+                            "도움": "0",
+                            "카드": "0/0"
                         }
                     }
                 }
@@ -19657,17 +19678,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "264706",
-                        "matches_played": 0,
-                        "total_play_time": 0,
-                        "avg_play_time": 0.0,
-                        "grade": "D",
+                        "matches_played": 6,
+                        "total_play_time": 436,
+                        "avg_play_time": 72.7,
+                        "grade": "A",
                         "important_stats": {
-                            "경기": "-",
-                            "출전시간": "-",
-                            "경기당 평점": "-",
-                            "득점(PK)": "-",
-                            "도움": "-",
-                            "카드": "-"
+                            "경기": "6",
+                            "출전시간": "436",
+                            "경기당 평점": "7.02",
+                            "득점(PK)": "5(1)",
+                            "도움": "0",
+                            "카드": "0/2"
                         }
                     }
                 }
@@ -19722,17 +19743,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "180997",
-                        "matches_played": 0,
-                        "total_play_time": 0,
-                        "avg_play_time": 0.0,
-                        "grade": "D",
+                        "matches_played": 31,
+                        "total_play_time": 2185,
+                        "avg_play_time": 70.5,
+                        "grade": "A",
                         "important_stats": {
-                            "경기": "-",
-                            "출전시간": "-",
-                            "경기당 평점": "-",
-                            "득점(PK)": "-",
-                            "도움": "-",
-                            "카드": "-"
+                            "경기": "31",
+                            "출전시간": "2185",
+                            "경기당 평점": "7.05",
+                            "득점(PK)": "6(0)",
+                            "도움": "4",
+                            "카드": "0/7"
                         }
                     }
                 }
@@ -21709,6 +21730,92 @@
                             "득점(PK)": "0(0)",
                             "도움": "0",
                             "카드": "0/0"
+                        }
+                    }
+                }
+            ]
+        },
+        "3014138": {
+            "match_code": "3014138",
+            "home": "그라나다",
+            "away": "바야돌리드",
+            "home_absentees": [
+                {
+                    "number": "9",
+                    "name": "Alejandro Marques",
+                    "player_id": "177270",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "177270",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
+                        "important_stats": {}
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "9",
+                    "name": "후안미 라타사",
+                    "player_id": "229167",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "229167",
+                        "matches_played": 10,
+                        "total_play_time": 588,
+                        "avg_play_time": 58.8,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "588",
+                            "경기당 평점": "6.59",
+                            "득점(PK)": "3(0)",
+                            "도움": "0",
+                            "카드": "0/3"
+                        }
+                    }
+                },
+                {
+                    "number": "",
+                    "name": "Guille 부에노",
+                    "player_id": "241796",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "241796",
+                        "matches_played": 19,
+                        "total_play_time": 1458,
+                        "avg_play_time": 76.7,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "19",
+                            "출전시간": "1458",
+                            "경기당 평점": "0",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "30",
+                    "name": "Victor Fernandez",
+                    "player_id": "286630",
+                    "status": "출전의심/기타",
+                    "stats": {
+                        "player_id": "286630",
+                        "matches_played": 10,
+                        "total_play_time": 589,
+                        "avg_play_time": 58.9,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "589",
+                            "경기당 평점": "6.88",
+                            "득점(PK)": "1(0)",
+                            "도움": "4",
+                            "카드": "1/2"
                         }
                     }
                 }
