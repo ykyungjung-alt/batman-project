@@ -772,7 +772,7 @@ with tabs[2]:
                 neutral_home_away_matches = raw_sa
             s_home_matches = filter_and_supplement_matches(neutral_home_away_matches, 10)
         else:
-            # 💡 [핵심] 보내주신 raw_sh 데이터를 다이렉트 채택 (없을 때만 규칙1 h_matches 폴백)
+            # 💡 [핵심] raw_sh 데이터를 다이렉트 채택 (없을 때만 규칙1 h_matches 폴백)
             if not raw_sh and 'h_matches' in locals():
                 raw_sh = h_matches
             s_home_matches = filter_and_supplement_matches(raw_sh, 10)
@@ -782,8 +782,8 @@ with tabs[2]:
             raw_sa = a_matches
         s_away_matches = filter_and_supplement_matches(raw_sa, 10)
 
-        # 기본 평균 득실 산출 헬퍼
-        def get_base_gpg_cpg(matches, tname):
+        # 기본 평균 득실 산출 헬퍼 (원정팀 득실 주체 반전 문제 원천 해결 및 명확한 매칭)
+        def get_base_gpg_cpg(matches, tname, is_away=False):
             if not matches: return 0.0, 0.0
             s_sum, c_sum = 0.0, 0.0
             for m in matches:
@@ -793,16 +793,21 @@ with tabs[2]:
                 teams = m.get("teams", "")
                 sc, cc = s1, s2
                 if " vs " in teams:
-                    t1, t2 = teams.split(" vs ")
-                    if tname in t1: sc, cc = s1, s2
-                    elif tname in t2: sc, cc = s2, s1
+                    t1, t2 = [p.strip() for p in teams.split("vs")]
+                    # 원정팀일 경우 대진 문자열에서 우측이 본인이면 s2가 득점, s1이 실점
+                    if is_away:
+                        if tname in t2: sc, cc = s2, s1
+                        elif tname in t1: sc, cc = s1, s2
+                    else:
+                        if tname in t1: sc, cc = s1, s2
+                        elif tname in t2: sc, cc = s2, s1
                 s_sum += sc
                 c_sum += cc
             cnt = len(matches)
             return (s_sum / cnt if cnt > 0 else 0.0), (c_sum / cnt if cnt > 0 else 0.0)
 
-        s_h_gpg_base, s_h_cpg_base = get_base_gpg_cpg(s_home_matches, h_name)
-        s_a_gpg_base, s_a_cpg_base = get_base_gpg_cpg(s_away_matches, a_name)
+        s_h_gpg_base, s_h_cpg_base = get_base_gpg_cpg(s_home_matches, h_name, is_away=False)
+        s_a_gpg_base, s_a_cpg_base = get_base_gpg_cpg(s_away_matches, a_name, is_away=True)
 
         # 1차 예비 산출로 구장별 체급(공수 A/E 등) 파악
         _, pre_sh_gpg, pre_sh_cpg, _, _, _ = local_make_df(s_home_matches, h_name, s_h_gpg_base, s_h_cpg_base, "0전", "Tier C", "Tier C")
