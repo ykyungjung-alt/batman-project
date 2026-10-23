@@ -415,17 +415,57 @@ with tabs[0]:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다. (가중치 0% 처리)")
 
 
+# ==============================================================================
+# 💡 [공통 유틸리티] 날짜 기준 최신순 정렬 + 공식 우선 및 부족 시 친선 보완 LIFO 함수
+# ==============================================================================
+def filter_and_supplement_matches(match_list, max_count=10):
+    if not match_list:
+        return []
+        
+    # 날짜 파싱 헬퍼 함수
+    def parse_match_date(m):
+        mtime = str(m.get("match_time", ""))
+        try:
+            clean_date = mtime.split(" ")[0].replace("-", ".").replace("/", ".")
+            return clean_date
+        except:
+            return "0000.00.00"
+
+    # 1. 전체 매치를 날짜 기준 최신순(내림차순)으로 정렬
+    sorted_matches = sorted(match_list, key=parse_match_date, reverse=True)
+
+    # 2. 공식 경기 우선 추출 및 친선 경기 분리 (최신순 유지)
+    official_matches = []
+    friendly_matches = []
+    
+    for m in sorted_matches:
+        league_str = str(m.get("league", "")).upper()
+        if "CF" in league_str or "친선" in league_str or "FRIENDLY" in league_str:
+            friendly_matches.append(m)
+        else:
+            official_matches.append(m)
+            
+    # 3. 공식 경기로 최대 max_count까지 채우고, 부족하면 친선 경기 최신순으로 보완
+    combined = list(official_matches[:max_count])
+    if len(combined) < max_count:
+        needed = max_count - len(combined)
+        combined.extend(friendly_matches[:needed])
+        
+    # 4. 최종 확정된 10경기를 다시 날짜 기준 최신순으로 완벽히 재배열
+    final_sorted = sorted(combined, key=parse_match_date, reverse=True)
+    return final_sorted[:max_count]
+
+
 # ==========================================
-# 💡 규칙 1번 탭 (공식 경기 우선 수집 및 부족 시 친선 경기 보완 LIFO 연동)
+# 💡 규칙 1번 탭 (종합 최근 10경기 및 독립 특수룰 파이프라인)
 # ==========================================
 with tabs[1]:
     st.markdown(f"#### [규칙 1번: 종합 최근 10경기 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
     st.markdown("""
         <div class="step-box">
             <b>📌 규격 원칙 및 요약 설명:</b><br>
-            • <b>전수 조사 및 LIFO 방식:</b> 홈/원정 통합 최근 공식 경기를 우선 채택하며, 공식 경기만으로 10경기가 채워지지 않을 경우 친선 경기를 보완하여 최대 10경기를 확보합니다.<br>
-            • <b>친선 경기 예외 보완:</b> 표본 부족 시 친선 경기를 예외적으로 포함하되, 기본적으로는 공식 경기를 최우선으로 채택합니다.<br>
-            • <b>공수 대칭 교차 특수 룰:</b> 팀의 공수 판정 체급(A/E)과 상대 공수 티어의 교차 상성에 따라 득실점이 50% 할인(-50%) 또는 50% 할증(+50%)되어 대칭 반영됩니다.
+            • <b>전수 조사 및 LIFO 방식:</b> 최신순 정렬을 원칙으로 공식 경기를 우선 채택하며, 부족한 경우에만 친선 경기를 보완하여 최대 10경기를 확보합니다.<br>
+            • <b>공수 각각 독립 교차 특수 룰:</b> 내 원본 공격/방어 티어가 Tier A 또는 E에 해당할 때만 개별 독립적으로 교차 상성에 따라 득실점 50% 할인/할증 보정이 작동합니다.
         </div>
         """, unsafe_allow_html=True,
     )
@@ -465,24 +505,6 @@ with tabs[1]:
 
     raw_h_matches = recent_form.get("home_matches", [])
     raw_a_matches = recent_form.get("away_matches", [])
-
-    # 💡 공식 경기 우선 수집 및 부족 시 친선 경기 보완 LIFO 룰 함수
-    def filter_and_supplement_matches(match_list, max_count=10):
-        if not match_list:
-            return []
-        official_matches = []
-        friendly_matches = []
-        for m in match_list:
-            league_str = str(m.get("league", "")).upper()
-            if "CF" in league_str or "친선" in league_str or "FRIENDLY" in league_str:
-                friendly_matches.append(m)
-            else:
-                official_matches.append(m)
-        combined = list(official_matches)
-        if len(combined) < max_count:
-            needed = max_count - len(combined)
-            combined.extend(friendly_matches[:needed])
-        return combined[:max_count]
 
     h_matches = filter_and_supplement_matches(raw_h_matches, 10)
     a_matches = filter_and_supplement_matches(raw_a_matches, 10)
@@ -590,29 +612,29 @@ with tabs[1]:
                     
                     rule_descs = []
                     
-                    # 💡 [공격 독립 특수룰] 내 원본 공격이 Tier A 또는 E일 때 독립 발동
+                    # 💡 [공격 독립 특수룰] 내 원본 공격이 Tier A 또는 E일 때만 발동
                     if my_at in ["Tier A", "Tier E"]:
                         if my_at == "Tier A" and df_name == "Tier E":
                             mult_gf = 0.5
-                            rule_descs.append("내 공격 Tier A vs 상대 방어 Tier E (득점 50% 할인)")
+                            rule_descs.append("🔍 [공격 특수룰 발동] 내 공격 Tier A vs 상대 방어 Tier E (득점 50% 할인)")
                         elif my_at == "Tier E" and df_name == "Tier A":
                             mult_gf = 1.5
-                            rule_descs.append("내 공격 Tier E vs 상대 방어 Tier A (득점 50% 할증)")
+                            rule_descs.append("🔍 [공격 특수룰 발동] 내 공격 Tier E vs 상대 방어 Tier A (득점 50% 할증)")
 
-                    # 💡 [방어 독립 특수룰] 내 원본 방어가 Tier A 또는 E일 때 독립 발동 (D등급 등 기준 미달 시 미발동)
+                    # 💡 [방어 독립 특수룰] 내 원본 방어가 Tier A 또는 E일 때만 발동 (D등급 등 기준 미달 시 진입 불가로 1.0 유지)
                     if my_de in ["Tier A", "Tier E"]:
                         if my_de == "Tier A" and at_name == "Tier E":
                             mult_ga = 1.5
-                            rule_descs.append("내 방어 Tier A vs 상대 공격 Tier E (실점 50% 할증)")
+                            rule_descs.append("🔍 [방어 특수룰 발동] 내 방어 Tier A vs 상대 공격 Tier E (실점 50% 할증)")
                         elif my_de == "Tier E" and at_name == "Tier A":
                             mult_ga = 0.5
-                            rule_descs.append("내 방어 Tier E vs 상대 공격 Tier A (실점 50% 할인)")
+                            rule_descs.append("🔍 [방어 특수룰 발동] 내 방어 Tier E vs 상대 공격 Tier A (실점 50% 할인)")
 
                     if rule_descs:
                         rule_desc = " / ".join(rule_descs)
                         tier_str += f" ⚠️ ({rule_desc})"
                     else:
-                        tier_str += " (보정 없음 / 유지)"
+                        tier_str += " (특수룰 미해당 / 보정 유지)"
                 except Exception as e:
                     pass
                     
@@ -678,7 +700,7 @@ with tabs[1]:
         • 원본 평균 득점: <b>{h_pure_gpg:.2f}골/경기</b> | 원본 평균 실점: <b>{h_pure_cpg:.2f}골/경기</b><br>
         • <b>특수룰 발동 기준 1차 원본 티어: 공격 {h_at_pre} / 방어 {h_de_pre}</b><br>
         • 최종 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> (공격 티어: <b>{h_at} ({h_atw})</b>) / 최종 보정 평균 실점: <b>{h_cpg:.2f}골/경기</b> (방어 티어: <b>{h_de} ({h_dew})</b>)<br>
-        • <b>공수 교차 보정 및 최종 체급 확정 완료</b>
+        • <b>공수 독립 교차 보정 및 최종 체급 확정 완료</b>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("---")
@@ -696,20 +718,20 @@ with tabs[1]:
         • 원본 평균 득점: <b>{a_pure_gpg:.2f}골/경기</b> | 원본 평균 실점: <b>{a_pure_cpg:.2f}골/경기</b><br>
         • <b>특수룰 발동 기준 1차 원본 티어: 공격 {a_at_pre} / 방어 {a_de_pre}</b><br>
         • 최종 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> (공격 티어: <b>{a_at} ({a_atw})</b>) / 최종 보정 평균 실점: <b>{a_cpg:.2f}골/경기</b> (방어 티어: <b>{a_de} ({a_dew})</b>)<br>
-        • <b>공수 교차 보정 및 최종 체급 확정 완료</b>
+        • <b>공수 독립 교차 보정 및 최종 체급 확정 완료</b>
     </div>""", unsafe_allow_html=True)
 
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (v3_details_dict 기반 stadium_form 직접 연동 및 친선 보완 LIFO 파이프라인)
+# 💡 규칙 2번 탭 (구장별 전적 및 날짜 정렬 LIFO + 독립 특수룰 파이프라인)
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
-    • <b>구장별 전적(Stadium Form) 분석:</b> 공식 경기를 최우선으로 수집하되, 표본이 부족할 경우 친선 경기를 보완하여 최대 10경기를 확보합니다.<br>
-    • <b>연산 파이프라인 규격:</b> 구장별 매치 LIFO 수집 ➔ 독립 원본 평균 산출 ➔ 1차 원본 티어 확정(특수룰 발동 기준) ➔ 독립 분기 특수룰 교차 보정 및 보정 평균 산출 ➔ 구장 환경 체급 확정 ➔ 1단계 비교 (Shift +15% / -15%)
+    • <b>구장별 전적(Stadium Form) 분석:</b> 최신순 정렬 기준으로 공식 경기를 우선 채택하며, 표본이 부족할 경우 친선 경기를 보완하여 최대 10경기를 확보합니다.<br>
+    • <b>연산 파이프라인 규격:</b> 구장별 매치 최신순 LIFO 수집 ➔ 독립 원본 평균 산출 ➔ 1차 원본 티어 확정(특수룰 발동 기준) ➔ 독립 분기 특수룰 교차 보정 및 보정 평균 산출 ➔ 구장 환경 체급 확정 ➔ 1단계 비교 (Shift +15% / -15%)
     </div>
     """, unsafe_allow_html=True)
 
@@ -728,7 +750,7 @@ with tabs[2]:
         v3_meta_block = target_v3_data.get("meta_details", {}) if 'target_v3_data' in locals() and target_v3_data else {}
         stadium_form = v3_meta_block.get("stadium_form", {}) if isinstance(v3_meta_block, dict) else {}
 
-        # 홈팀 구장별 전적 추출 및 친선 보완 LIFO 적용
+        # 홈팀 구장별 전적 추출 및 최신순 LIFO 필터 적용
         if is_neutral_venue:
             recent_all_pool = stadium_form.get("recent_matches", []) if isinstance(stadium_form, dict) and "recent_matches" in stadium_form else []
             if not recent_all_pool and 'h_matches' in locals():
@@ -754,14 +776,14 @@ with tabs[2]:
                 raw_s_home = h_matches
             s_home_matches = filter_and_supplement_matches(raw_s_home, 10)
 
-        # 원정팀 구장별 전적 추출 및 친선 보완 LIFO 적용
+        # 원정팀 구장별 전적 추출 및 최신순 LIFO 필터 적용
         raw_s_away = stadium_form.get("away_matches", []) if isinstance(stadium_form, dict) else []
         if not raw_s_away and 'a_matches' in locals():
             raw_s_away = a_matches
         s_away_matches = filter_and_supplement_matches(raw_s_away, 10)
 
         # --------------------------------------------------------------------------
-        # 💡 [구장별 파이프라인] 원본 및 보정 산출
+        # 💡 [구장별 파이프라인] 원본 및 독립 보정 산출
         # --------------------------------------------------------------------------
         s_h_df_raw, _, _, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
         s_a_df_raw, _, _, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
@@ -861,7 +883,7 @@ with tabs[2]:
         <b>{a_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
         • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b>)<br>
         • 구장별 원본 평균 득점: <b>{s_a_pure_gpg:.2f}골/경기</b> | 구장별 원본 평균 실점: <b>{s_a_pure_cpg:.2f}골/경기</b><br>
-        • 특수룰 발동 기준 1차 티어: 공격 <b>{s_a_at_raw}</b> / 방어 <b>{s_a_de_raw}</b><br>
+        • 특수룰 발동 여부 및 1차 티어: 공격 <b>{s_a_at_raw}</b> / 방어 <b>{s_a_de_raw}</b><br>
         • 최종 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> (공격 티어: <b>{s_a_at} ({s_a_atw})</b>) / 최종 보정 평균 실점: <b>{s_a_cpg:.2f}골/경기</b> (방어 티어: <b>{s_a_de} ({s_a_dew})</b>)<br>
         • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급(보정 반영): 공격 <b>{a_atk_color_str}</b> / 방어 <b>{a_def_color_str}</b><br>
         • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> / 방어 <b>{a_def_shift_str}</b>
