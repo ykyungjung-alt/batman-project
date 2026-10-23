@@ -704,7 +704,7 @@ with tabs[2]:
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
     • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를, 중립경기일 때는 1단계와 동일하게 최근 전적 중 '원정 경기' 조건으로 최대 10개까지 추출합니다.<br>
-    • <b>연산 파이프라인 규격:</b> 최근전적 데이터 산출 ➔ 최근전적 티어 산출(특수룰 발동 조건 판정 기준) ➔ 특수룰 교차 보정 적용 및 보정 평균 산출 ➔ 1단계 종합 체급 비교(Shift +15% / -15%)
+    • <b>연산 파이프라인 규격:</b> 최근전적 데이터 산출 ➔ 오리지널 최근전적 티어 산출(특수룰 발동 조건 판정 기준) ➔ 특수룰 교차 보정 적용 및 최종 보정 평균 산출 ➔ 1단계 종합 체급 비교(Shift +15% / -15%)
     </div>
     """, unsafe_allow_html=True)
 
@@ -759,13 +759,14 @@ with tabs[2]:
         a_init_de = a_de_pre if 'a_de_pre' in locals() else "Tier C"
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인] 1단계: 최근전적 데이터 기본 산출
+        # 💡 [정밀 파이프라인 1단계] 오리지널 최근전적 데이터 산출 (보정 전 원본 평균 득실)
         # --------------------------------------------------------------------------
-        s_h_df, s_h_gpg_raw, s_h_cpg_raw, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", h_init_at, h_init_de)
-        s_a_df, s_a_gpg_raw, s_a_cpg_raw, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", a_init_at, a_init_de)
+        # 보정 전 판정용 오리지널 함수 호출 (가중치 0.0, 초기 티어 C 전달)
+        s_h_df, s_h_gpg_raw, s_h_cpg_raw, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
+        s_a_df, s_a_gpg_raw, s_a_cpg_raw, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인] 2단계: 최근전적 티어 먼저 산출 (특수룰 발동 조건 판정 기지)
+        # 💡 [정밀 파이프라인 2단계] 오리지널 최근전적 기준 티어 먼저 산출 (특수룰 발동 조건 판정 기지)
         # --------------------------------------------------------------------------
         s_h_at, s_h_atw = atk_tier(s_h_gpg_raw)
         s_h_de, s_h_dew = def_tier(s_h_cpg_raw)
@@ -773,15 +774,17 @@ with tabs[2]:
         s_a_de, s_a_dew = def_tier(s_a_cpg_raw)
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인] 3단계: 특수룰 반영 및 최종 보정 평균 확정
+        # 💡 [정밀 파이프라인 3단계] 위에서 확정된 판정 티어를 특수룰 발동 기지로 전달하여 최종 보정 평균 산출
         # --------------------------------------------------------------------------
-        s_h_gpg = s_h_gpg_raw  # 특수룰 조건 및 교차 보정이 반영된 최종 보정 평균 득점
-        s_h_cpg = s_h_cpg_raw  # 특수룰 조건 및 교차 보정이 반영된 최종 보정 평균 실점
-        s_a_gpg = s_a_gpg_raw
-        s_a_cpg = s_a_cpg_raw
+        s_h_df_real, s_h_gpg, s_h_cpg, _, _, _ = local_make_df(s_home_matches, h_name, s_h_gpg_raw, s_h_cpg_raw, s_h_rec, s_h_at, s_h_de)
+        s_a_df_real, s_a_gpg, s_a_cpg, _, _, _ = local_make_df(s_away_matches, a_name, s_a_gpg_raw, s_a_cpg_raw, s_a_rec, s_a_at, s_a_de)
+        
+        # 화면에 표시할 df는 실제 보정 내역이 반영된 결과물로 교체
+        s_h_df = s_h_df_real
+        s_a_df = s_a_df_real
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인] 4단계: 1단계 종합 체급과의 비교 (Shift 보정치 도출)
+        # 💡 [정밀 파이프라인 4단계] 1단계 종합 체급과의 비교 (Shift 보정치 도출)
         # --------------------------------------------------------------------------
         base_h_at = h_at if 'h_at' in locals() else "Tier C"
         base_h_de = h_de if 'h_de' in locals() else "Tier C"
@@ -866,6 +869,8 @@ with tabs[2]:
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+
+
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"#### [규칙 3번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
