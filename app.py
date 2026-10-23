@@ -720,17 +720,16 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        # 💡 [안전 장치 추가] 메타 상세 정보에서 stadium_form 객체 추출
+        # 안전한 stadium_form 객체 추출
         meta_details = detailed_info.get("meta_details", {}) if 'detailed_info' in locals() else {}
         stadium_form = meta_details.get("stadium_form", {}) if isinstance(meta_details, dict) else {}
 
-        # 💡 [핵심 규격 반영] 중립 구장일 경우 홈 팀도 최근 전적/원정 성격 풀에서 원정 경기만 골라 최대 10개 추출
+        # 홈팀 전적 추출
         if is_neutral_venue:
             recent_all_pool = stadium_form.get("recent_matches", []) if isinstance(stadium_form, dict) and "recent_matches" in stadium_form else []
             if not recent_all_pool and 'h_matches' in locals():
                 recent_all_pool = h_matches
             
-            # 홈 팀의 최근 전적 중 원정(Away) 성격의 경기만 필터링 (최대 10개)
             neutral_home_away_matches = []
             for m in recent_all_pool:
                 teams_str = str(m.get("teams", ""))
@@ -748,11 +747,15 @@ with tabs[2]:
         else:
             s_home_matches = stadium_form.get("home_matches", [])[:10] if isinstance(stadium_form, dict) else []
 
-        # 원정 팀은 항상 원정 경기 기준 최대 10개
+        # 원정팀 전적 추출
         s_away_matches = stadium_form.get("away_matches", [])[:10] if isinstance(stadium_form, dict) else []
 
-        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=h_is_triggered)
-        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=a_is_triggered)
+        # 💡 [에러 해결 포인트] 누락되었던 트리거 변수 안전 정의 (없으면 False 처리)
+        trig_h = h_is_triggered if 'h_is_triggered' in locals() else False
+        trig_a = a_is_triggered if 'a_is_triggered' in locals() else False
+
+        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=trig_h)
+        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=trig_a)
 
         s_h_at, s_h_atw = atk_tier(s_h_gpg)
         s_h_de, s_h_dew = def_tier(s_h_cpg)
@@ -840,7 +843,6 @@ with tabs[2]:
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"#### [규칙 3번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
