@@ -761,7 +761,6 @@ with tabs[2]:
         # --------------------------------------------------------------------------
         # 💡 [정밀 파이프라인 1단계] 오리지널 최근전적 데이터 산출 (보정 전 원본 평균 득실)
         # --------------------------------------------------------------------------
-        # 보정 전 판정용 오리지널 함수 호출 (가중치 0.0, 초기 티어 C 전달)
         s_h_df, s_h_gpg_raw, s_h_cpg_raw, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
         s_a_df, s_a_gpg_raw, s_a_cpg_raw, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
 
@@ -779,7 +778,6 @@ with tabs[2]:
         s_h_df_real, s_h_gpg, s_h_cpg, _, _, _ = local_make_df(s_home_matches, h_name, s_h_gpg_raw, s_h_cpg_raw, s_h_rec, s_h_at, s_h_de)
         s_a_df_real, s_a_gpg, s_a_cpg, _, _, _ = local_make_df(s_away_matches, a_name, s_a_gpg_raw, s_a_cpg_raw, s_a_rec, s_a_at, s_a_de)
         
-        # 화면에 표시할 df는 실제 보정 내역이 반영된 결과물로 교체
         s_h_df = s_h_df_real
         s_a_df = s_a_df_real
 
