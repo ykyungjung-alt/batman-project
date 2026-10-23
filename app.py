@@ -593,22 +593,22 @@ with tabs[1]:
                     df_name = def_tier_nm(od)  # 상대 방어 티어
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
-                    # 💡 [특수롤] 외부 1단계 체급 의존성 제거: 구장별 해당 경기 상대 공수 티어 및 수치 기준 직접 교차 보정
+# 💡 [특수룰] 각 단계별 상대 공수 티어 기준 대칭 교차 보정
                     rule_descs = []
                     
-                    # 1. 공격 대칭 교차 룰 (상대 방어가 Tier E이거나 수치가 매우 낮을 때 / 반대 상황)
-                    if df_name == "Tier E" or od >= 2.0:
+                    # 1. 공격 대칭 교차 룰 (상대 방어 티어 기준)
+                    if df_name == "Tier E":
                         mult_gf = 0.5
                         rule_descs.append(f"상대 방어 {df_name} (득점 50% 할인)")
-                    elif df_name == "Tier A" or od < 0.8:
+                    elif df_name == "Tier A":
                         mult_gf = 1.5
                         rule_descs.append(f"상대 방어 {df_name} (득점 50% 할증)")
                         
-                    # 2. 방어 대칭 교차 룰 (상대 공격이 Tier E이거나 수치가 매우 낮을 때 / 반대 상황)
-                    if at_name == "Tier E" or oa < 1.0:
+                    # 2. 방어 대칭 교차 룰 (상대 공격 티어 기준)
+                    if at_name == "Tier E":
                         mult_ga = 0.5
                         rule_descs.append(f"상대 공격 {at_name} (실점 50% 할인)")
-                    elif at_name == "Tier A" or oa >= 2.2:
+                    elif at_name == "Tier A":
                         mult_ga = 1.5
                         rule_descs.append(f"상대 공격 {at_name} (실점 50% 할증)")
                         
