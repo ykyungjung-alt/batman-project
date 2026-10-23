@@ -589,21 +589,23 @@ with tabs[1]:
                     
                     rule_descs = []
                     
-                    # 💡 [핵심 가드레일 규격] 각 단계별로 전달된 원본 티어(my_at, my_de)가 A 또는 E일 때만 교차 특수룰 발동
-                    if my_at in ["Tier A", "Tier E"] or my_de in ["Tier A", "Tier E"]:
+                    # 💡 [핵심 가드레일 1] 공격 특수룰: 내 원본 공격 티어가 Tier A 또는 E일 때만 진입
+                    if my_at in ["Tier A", "Tier E"]:
                         if my_at == "Tier A" and df_name == "Tier E":
                             mult_gf = 0.5
-                            rule_descs.append(f"내 공격 Tier A vs 상대 방어 Tier E (득점 50% 할인)")
+                            rule_descs.append("내 공격 Tier A vs 상대 방어 Tier E (득점 50% 할인)")
                         elif my_at == "Tier E" and df_name == "Tier A":
                             mult_gf = 1.5
-                            rule_descs.append(f"내 공격 Tier E vs 상대 방어 Tier A (득점 50% 할증)")
+                            rule_descs.append("내 공격 Tier E vs 상대 방어 Tier A (득점 50% 할증)")
 
+                    # 💡 [핵심 가드레일 2] 방어 특수룰: 내 원본 방어 티어가 Tier A 또는 E일 때만 진입 (방어 D 등급 팀은 진입 불가하여 mult_ga = 1.0 고정)
+                    if my_de in ["Tier A", "Tier E"]:
                         if my_de == "Tier A" and at_name == "Tier E":
                             mult_ga = 1.5
-                            rule_descs.append(f"내 방어 Tier A vs 상대 공격 Tier E (실점 50% 할증)")
+                            rule_descs.append("내 방어 Tier A vs 상대 공격 Tier E (실점 50% 할증)")
                         elif my_de == "Tier E" and at_name == "Tier A":
                             mult_ga = 0.5
-                            rule_descs.append(f"내 방어 Tier E vs 상대 공격 Tier A (실점 50% 할인)")
+                            rule_descs.append("내 방어 Tier E vs 상대 공격 Tier A (실점 50% 할인)")
 
                     if rule_descs:
                         rule_desc = " / ".join(rule_descs)
@@ -638,7 +640,7 @@ with tabs[1]:
         
         return pd.DataFrame(rows), gpg, cpg, rec, raw_scored_total, raw_conceded_total
 
-    # 1단계 1차 예비 산출 (종합 최근전적 원본 평균 및 1차 티어 확정)
+    # 1단계 1차 예비 산출
     h_df_pre, h_gpg_pre, h_cpg_pre, h_rec_pre, h_raw_s_pre, h_raw_c_pre = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base, "Tier C", "Tier C")
     h_cnt = len(h_matches) if h_matches else 10
     h_pure_gpg = round(h_raw_s_pre / h_cnt, 2) if h_cnt > 0 else 0.0
@@ -653,7 +655,7 @@ with tabs[1]:
     a_at_pre, _ = atk_tier(a_pure_gpg)
     a_de_pre, _ = def_tier(a_pure_cpg)
 
-    # 1단계 2차 최종 보정 산출 (1차 티어 주입 후 보정 평균 및 최종 티어 도출)
+    # 1단계 2차 최종 보정 산출
     h_df, h_gpg, h_cpg, h_rec, h_raw_s, h_raw_c = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base, h_at_pre, h_de_pre)
     a_df, a_gpg, a_cpg, a_rec, a_raw_s, a_raw_c = local_make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base, a_at_pre, a_de_pre)
 
@@ -661,9 +663,6 @@ with tabs[1]:
     h_de, h_dew = def_tier(h_cpg)
     a_at, a_atw = atk_tier(a_gpg)
     a_de, a_dew = def_tier(a_cpg)
-
-    h_goal_diff = h_raw_s - h_raw_c
-    a_goal_diff = a_raw_s - a_raw_c
 
     # 홈 팀 1단계 출력
     st.markdown(f"##### 홈 팀 ({h_name}) 최근 전적 분석 로그")
@@ -674,7 +673,7 @@ with tabs[1]:
         
     st.markdown(f"""<div class="calc-box">
         <b>{h_name} 규칙 1번 상세 산출 내역</b><br>
-        • 최근 전적: <b>{h_rec}</b> (총 득점: <b>{h_raw_s:.1f}골</b> / 총 실점: <b>{h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if h_goal_diff >= 0 else '#c62828'};">{h_goal_diff:+.1f}</b>)<br>
+        • 최근 전적: <b>{h_rec}</b> (총 득점: <b>{h_raw_s:.1f}골</b> / 총 실점: <b>{h_raw_c:.1f}골</b>)<br>
         • 원본 평균 득점: <b>{h_pure_gpg:.2f}골/경기</b> | 원본 평균 실점: <b>{h_pure_cpg:.2f}골/경기</b><br>
         • <b>특수룰 발동 기준 1차 원본 티어: 공격 {h_at_pre} / 방어 {h_de_pre}</b><br>
         • 최종 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> (공격 티어: <b>{h_at} ({h_atw})</b>) / 최종 보정 평균 실점: <b>{h_cpg:.2f}골/경기</b> (방어 티어: <b>{h_de} ({h_dew})</b>)<br>
@@ -692,7 +691,7 @@ with tabs[1]:
         
     st.markdown(f"""<div class="calc-box">
         <b>{a_name} 규칙 1번 상세 산출 내역</b><br>
-        • 최근 전적: <b>{a_rec}</b> (총 득점: <b>{a_raw_s:.1f}골</b> / 총 실점: <b>{a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if a_goal_diff >= 0 else '#c62828'};">{a_goal_diff:+.1f}</b>)<br>
+        • 최근 전적: <b>{a_rec}</b> (총 득점: <b>{a_raw_s:.1f}골</b> / 총 실점: <b>{a_raw_c:.1f}골</b>)<br>
         • 원본 평균 득점: <b>{a_pure_gpg:.2f}골/경기</b> | 원본 평균 실점: <b>{a_pure_cpg:.2f}골/경기</b><br>
         • <b>특수룰 발동 기준 1차 원본 티어: 공격 {a_at_pre} / 방어 {a_de_pre}</b><br>
         • 최종 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> (공격 티어: <b>{a_at} ({a_atw})</b>) / 최종 보정 평균 실점: <b>{a_cpg:.2f}골/경기</b> (방어 티어: <b>{a_de} ({a_dew})</b>)<br>
@@ -728,7 +727,6 @@ with tabs[2]:
         v3_meta_block = target_v3_data.get("meta_details", {}) if 'target_v3_data' in locals() and target_v3_data else {}
         stadium_form = v3_meta_block.get("stadium_form", {}) if isinstance(v3_meta_block, dict) else {}
 
-        # 홈팀 구장별 전적 추출
         if is_neutral_venue:
             recent_all_pool = stadium_form.get("recent_matches", []) if isinstance(stadium_form, dict) and "recent_matches" in stadium_form else []
             if not recent_all_pool and 'h_matches' in locals():
@@ -753,13 +751,12 @@ with tabs[2]:
             if not s_home_matches and 'h_matches' in locals():
                 s_home_matches = h_matches[:10]
 
-        # 원정팀 구장별 전적 추출
         s_away_matches = stadium_form.get("away_matches", [])[:10] if isinstance(stadium_form, dict) else []
         if not s_away_matches and 'a_matches' in locals():
             s_away_matches = a_matches[:10]
 
         # --------------------------------------------------------------------------
-        # 💡 [구장별 파이프라인 1단계] 구장별 전적 원본 데이터 및 총득실 산출
+        # 💡 [구장별 파이프라인] 원본 및 보정 산출
         # --------------------------------------------------------------------------
         s_h_df_raw, _, _, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
         s_a_df_raw, _, _, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
@@ -772,23 +769,14 @@ with tabs[2]:
         s_a_pure_gpg = round(s_a_raw_s / s_a_cnt, 2) if s_a_cnt > 0 else 0.0
         s_a_pure_cpg = round(s_a_raw_c / s_a_cnt, 2) if s_a_cnt > 0 else 0.0
 
-        # --------------------------------------------------------------------------
-        # 💡 [구장별 파이프라인 2단계] 구장별 독립 원본 평균으로 1차 티어 확정 (특수룰 발동 조건 판정 기준)
-        # --------------------------------------------------------------------------
         s_h_at_raw, _ = atk_tier(s_h_pure_gpg)
         s_h_de_raw, _ = def_tier(s_h_pure_cpg)
         s_a_at_raw, _ = atk_tier(s_a_pure_gpg)
         s_a_de_raw, _ = def_tier(s_a_pure_cpg)
 
-        # --------------------------------------------------------------------------
-        # 💡 [구장별 파이프라인 3단계] 구장별 1차 원본 티어를 주입하여 특수룰 교차 보정 및 최종 보정 평균 산출
-        # --------------------------------------------------------------------------
         s_h_df, s_h_gpg, s_h_cpg, _, _, _ = local_make_df(s_home_matches, h_name, s_h_pure_gpg, s_h_pure_cpg, s_h_rec, s_h_at_raw, s_h_de_raw)
         s_a_df, s_a_gpg, s_a_cpg, _, _, _ = local_make_df(s_away_matches, a_name, s_a_pure_gpg, s_a_pure_cpg, s_a_rec, s_a_at_raw, s_a_de_raw)
 
-        # --------------------------------------------------------------------------
-        # 💡 [구장별 파이프라인 4단계] 보정 평균값 기반 최종 구장 환경 체급(티어) 확정 및 Shift 보정치 도출
-        # --------------------------------------------------------------------------
         s_h_at, s_h_atw = atk_tier(s_h_gpg)
         s_h_de, s_h_dew = def_tier(s_h_cpg)
         s_a_at, s_a_atw = atk_tier(s_a_gpg)
@@ -826,13 +814,10 @@ with tabs[2]:
                 elif s_val > b_val: return "-15%", -15.0
                 else: return "0%", 0.0
 
-        h_atk_shift_str, h_atk_val = get_shift_correction(base_h_at, s_h_at, is_attack=True)
-        h_def_shift_str, h_def_val = get_shift_correction(base_h_de, s_h_de, is_attack=False)
-        a_atk_shift_str, a_atk_val = get_shift_correction(base_a_at, s_a_at, is_attack=True)
-        a_def_shift_str, a_def_val = get_shift_correction(base_a_de, s_a_de, is_attack=False)
-
-        s_h_diff = s_h_raw_s - s_h_raw_c
-        s_a_diff = s_a_raw_s - s_a_raw_c
+        h_atk_shift_str, _ = get_shift_correction(base_h_at, s_h_at, is_attack=True)
+        h_def_shift_str, _ = get_shift_correction(base_h_de, s_h_de, is_attack=False)
+        a_atk_shift_str, _ = get_shift_correction(base_a_at, s_a_at, is_attack=True)
+        a_def_shift_str, _ = get_shift_correction(base_a_de, s_a_de, is_attack=False)
 
         venue_status_badge = (
             "<span style='color: #c62828; font-weight: bold;'> (중립경기)</span>" 
@@ -849,7 +834,7 @@ with tabs[2]:
         st.markdown(f"""
         <div class="calc-box">
         <b>{h_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
-        • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
+        • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b>)<br>
         • 구장별 원본 평균 득점: <b>{s_h_pure_gpg:.2f}골/경기</b> | 구장별 원본 평균 실점: <b>{s_h_pure_cpg:.2f}골/경기</b><br>
         • 특수룰 발동 기준 1차 티어: 공격 <b>{s_h_at_raw}</b> / 방어 <b>{s_h_de_raw}</b><br>
         • 최종 보정 평균 득점: <b>{s_h_gpg:.2f}골/경기</b> (공격 티어: <b>{s_h_at} ({s_h_atw})</b>) / 최종 보정 평균 실점: <b>{s_h_cpg:.2f}골/경기</b> (방어 티어: <b>{s_h_de} ({s_h_dew})</b>)<br>
@@ -869,7 +854,7 @@ with tabs[2]:
         st.markdown(f"""
         <div class="calc-box">
         <b>{a_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
-        • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
+        • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b>)<br>
         • 구장별 원본 평균 득점: <b>{s_a_pure_gpg:.2f}골/경기</b> | 구장별 원본 평균 실점: <b>{s_a_pure_cpg:.2f}골/경기</b><br>
         • 특수룰 발동 기준 1차 티어: 공격 <b>{s_a_at_raw}</b> / 방어 <b>{s_a_de_raw}</b><br>
         • 최종 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> (공격 티어: <b>{s_a_at} ({s_a_atw})</b>) / 최종 보정 평균 실점: <b>{s_a_cpg:.2f}골/경기</b> (방어 티어: <b>{s_a_de} ({s_a_dew})</b>)<br>
