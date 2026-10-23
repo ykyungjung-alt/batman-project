@@ -696,7 +696,7 @@ with tabs[1]:
     </div>""", unsafe_allow_html=True)
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (0단계 구장 판별 연동 및 홈/중립 배지 표시)
+# 💡 규칙 2번 탭 (0단계 구장 판별 연동 및 홈/중립 배지 표시) - 비교 검증 완료 버전
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
@@ -720,11 +720,11 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        # 안전한 stadium_form 객체 추출
+        # 메타 상세 정보에서 stadium_form 안전 추출
         meta_details = detailed_info.get("meta_details", {}) if 'detailed_info' in locals() else {}
         stadium_form = meta_details.get("stadium_form", {}) if isinstance(meta_details, dict) else {}
 
-        # 홈팀 전적 추출
+        # 홈팀 전적 추출 (중립 구장 여부에 따른 분기)
         if is_neutral_venue:
             recent_all_pool = stadium_form.get("recent_matches", []) if isinstance(stadium_form, dict) and "recent_matches" in stadium_form else []
             if not recent_all_pool and 'h_matches' in locals():
@@ -747,15 +747,17 @@ with tabs[2]:
         else:
             s_home_matches = stadium_form.get("home_matches", [])[:10] if isinstance(stadium_form, dict) else []
 
-        # 원정팀 전적 추출
+        # 원정팀 전적 추출 (항상 away_matches 기준)
         s_away_matches = stadium_form.get("away_matches", [])[:10] if isinstance(stadium_form, dict) else []
 
-        # 💡 [에러 해결 포인트] 누락되었던 트리거 변수 안전 정의 (없으면 False 처리)
-        trig_h = h_is_triggered if 'h_is_triggered' in locals() else False
-        trig_a = a_is_triggered if 'a_is_triggered' in locals() else False
+        # 💡 [함수 시그니처 일치화] 규칙 1번과 동일한 7개 인자 규격 엄수
+        h_init_at = h_at_pre if 'h_at_pre' in locals() else "Tier C"
+        h_init_de = h_de_pre if 'h_de_pre' in locals() else "Tier C"
+        a_init_at = a_at_pre if 'a_at_pre' in locals() else "Tier C"
+        a_init_de = a_de_pre if 'a_de_pre' in locals() else "Tier C"
 
-        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=trig_h)
-        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=trig_a)
+        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", h_init_at, h_init_de)
+        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", a_init_at, a_init_de)
 
         s_h_at, s_h_atw = atk_tier(s_h_gpg)
         s_h_de, s_h_dew = def_tier(s_h_cpg)
@@ -843,6 +845,8 @@ with tabs[2]:
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+
+
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"#### [규칙 3번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
