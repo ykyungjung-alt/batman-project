@@ -721,8 +721,13 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        # 1. 메타 데이터에서 stadium_form 안전하게 가져오기
-        stadium_form = detailed_info.get("meta_details", {}).get("stadium_form", {"home_matches": [], "away_matches": []})
+        # 1. 메타 데이터에서 stadium_form 정밀 추출 (전송해주신 원본 규격 100% 다이렉트 연동)
+        meta_block = detailed_info.get("meta_details", {})
+        stadium_form = meta_block.get("stadium_form", {})
+        
+        # 💡 원본 JSON에 존재하는 home_matches, away_matches를 누락 없이 확실하게 직관적으로 확보
+        raw_sh = stadium_form.get("home_matches", [])
+        raw_sa = stadium_form.get("away_matches", [])
 
         # 2. 공식 경기 우선 필터링 및 부족 시 친선전 보완 함수 (최신순 시계열 정렬 포함)
         def filter_and_supplement_matches(match_list, max_count=10):
@@ -749,15 +754,10 @@ with tabs[2]:
                 pass
             return selected
 
-        # 3. 홈팀 전적 추출 (일반 홈경기는 구장 홈 전적, 중립경기 시 최근 풀에서 원정/중립 성격 경기 필터링)
+        # 3. 홈팀 전적 추출 (일반 홈경기는 stadium_form의 home_matches, 중립경기 시 원정 성격 필터링)
         s_home_matches = []
         if is_neutral_venue:
-            recent_all_pool = []
-            if 'h_matches' in locals() and h_matches:
-                recent_all_pool = h_matches
-            elif stadium_form and "recent_matches" in stadium_form:
-                recent_all_pool = stadium_form.get("recent_matches", [])
-
+            recent_all_pool = raw_sh if raw_sh else (h_matches if 'h_matches' in locals() else [])
             neutral_home_away_matches = []
             for m in recent_all_pool:
                 teams_str = str(m.get("teams", ""))
@@ -769,15 +769,17 @@ with tabs[2]:
                     neutral_home_away_matches.append(m)
             
             if not neutral_home_away_matches:
-                neutral_home_away_matches = stadium_form.get("away_matches", [])
-
+                neutral_home_away_matches = raw_sa
             s_home_matches = filter_and_supplement_matches(neutral_home_away_matches, 10)
         else:
-            raw_sh = stadium_form.get("home_matches", [])
+            # 💡 [핵심] 보내주신 raw_sh 데이터를 다이렉트 채택 (없을 때만 규칙1 h_matches 폴백)
+            if not raw_sh and 'h_matches' in locals():
+                raw_sh = h_matches
             s_home_matches = filter_and_supplement_matches(raw_sh, 10)
 
-        # 4. 원정팀 전적 추출 (오직 stadium_form의 원정 전적 데이터만 엄격하게 고정 채택)
-        raw_sa = stadium_form.get("away_matches", [])
+        # 4. 원정팀 전적 추출 (stadium_form의 away_matches 데이터를 누락 없이 다이렉트 채택)
+        if not raw_sa and 'a_matches' in locals():
+            raw_sa = a_matches
         s_away_matches = filter_and_supplement_matches(raw_sa, 10)
 
         # 기본 평균 득실 산출 헬퍼
