@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-24 00:41:09",
+    "last_updated": "2026-10-24 03:42:03",
     "match_details": {
         "3018841": {
             "match_code": "3018841",
@@ -6646,6 +6646,162 @@
                             "interval": "시작전"
                         }
                     ]
+                }
+            }
+        },
+        "3105814": {
+            "match_code": "3105814",
+            "head_info": {
+                "league": "리그 1",
+                "round": "",
+                "match_time_raw": "10/24/2026 4:15:00 PM",
+                "match_time_display": "2026-10-25 01:15",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "Nzeidane",
+            "away": "폼피어",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 5무 0패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "0.80"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 4무 2패",
+                        "goals_per_game": "1.10",
+                        "conceded_per_game": "0.60"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 0 (0%)",
+                        "승 2 (100%)",
+                        "0.50",
+                        "경기당 득점",
+                        "2.00"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "MAU D12025.11.02",
+                                "폼피어",
+                                "3-1",
+                                "Nzeidane"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12024.12.31",
+                                "폼피어",
+                                "1-0",
+                                "Nzeidane"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
+                }
+            }
+        },
+        "3105812": {
+            "match_code": "3105812",
+            "head_info": {
+                "league": "리그 1",
+                "round": "",
+                "match_time_raw": "10/24/2026 5:15:00 PM",
+                "match_time_display": "2026-10-25 02:15",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "카에디",
+            "away": "ASC Police",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 1무 7패",
+                        "goals_per_game": "0.60",
+                        "conceded_per_game": "1.60"
+                    },
+                    "away_summary": {
+                        "recent_record": "1승 2무 7패",
+                        "goals_per_game": "0.50",
+                        "conceded_per_game": "1.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (33.3%)",
+                        "무승부 1 (16.7%)",
+                        "승 3 (50%)",
+                        "0.50",
+                        "경기당 득점",
+                        "1.33"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "MAU D12026.10.19",
+                                "ASC Police",
+                                "2-0",
+                                "카에디"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12026.05.20",
+                                "ASC Police",
+                                "0-1",
+                                "카에디"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12023.04.03",
+                                "ASC Police",
+                                "0-1",
+                                "카에디"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12022.06.10",
+                                "ASC Police",
+                                "1-0",
+                                "카에디"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12021.04.25",
+                                "ASC Police",
+                                "4-0",
+                                "카에디"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12020.02.19",
+                                "ASC Police",
+                                "1-1",
+                                "카에디"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         },
