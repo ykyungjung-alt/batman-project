@@ -696,16 +696,15 @@ with tabs[1]:
     </div>""", unsafe_allow_html=True)
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (0단계 구장 판정 연동 및 구장별 전적 데이터 추출 정밀화)
+# 💡 규칙 2번 탭 (0단계 구장 판별 연동 및 홈/중립 배지 표시)
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
-    • <b>구장별 전적(Stadium Form) 분석:</b> 기본적으로 홈팀은 홈 경기 구장 데이터, 원정팀은 원정 경기 구장 데이터를 사용합니다. 단, 중립경기일 때는 홈팀의 데이터만 원정/중립 성격의 기록으로 대체하여 안전하게 산출합니다.<br>
-    • <b>0단계 구장 판정 연동:</b> 홈구장 일치 여부에 따라 홈경기(초록색) 또는 중립경기(빨간색) 상태를 명시하고 데이터를 분기 적용합니다.<br>
-    • <b>공수 대칭 교차 특수 룰:</b> 구장별 전적 환경에서도 팀의 체급(A/E)과 상대 공수 티어의 교차 상성에 따라 득실점이 50% 할인 또는 할증 반영됩니다.
+    • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를, 중립경기일 때는 1단계와 동일하게 최근 전적 중 '원정 경기' 조건으로 최대 10개까지 추출합니다.<br>
+    • <b>0단계 구장 판정 연동:</b> 홈구장 일치 여부에 따라 홈경기(초록색) 또는 중립경기(빨간색) 상태를 명시하고 원정 데이터를 분기 적용합니다.
     </div>
     """, unsafe_allow_html=True)
 
@@ -721,46 +720,17 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        # 1. 메타 데이터에서 stadium_form 정밀 추출 (전송해주신 원본 규격 100% 다이렉트 연동)
-        meta_block = detailed_info.get("meta_details", {})
-        stadium_form = meta_block.get("stadium_form", {})
-        
-        # 💡 원본 JSON에 존재하는 home_matches, away_matches를 누락 없이 확실하게 직관적으로 확보
-        raw_sh = stadium_form.get("home_matches", [])
-        raw_sa = stadium_form.get("away_matches", [])
-
-        # 2. 공식 경기 우선 필터링 및 부족 시 친선전 보완 함수 (최신순 시계열 정렬 포함)
-        def filter_and_supplement_matches(match_list, max_count=10):
-            if not match_list or not isinstance(match_list, list):
-                return []
-            official_matches = []
-            friendly_matches = []
-            for m in match_list:
-                league_str = str(m.get("league", "")).upper()
-                if "CF" in league_str or "친선" in league_str or "FRIENDLY" in league_str:
-                    friendly_matches.append(m)
-                else:
-                    official_matches.append(m)
-            
-            combined = list(official_matches)
-            if len(combined) < max_count:
-                needed = max_count - len(combined)
-                combined.extend(friendly_matches[:needed])
-            
-            selected = combined[:max_count]
-            try:
-                selected.sort(key=lambda x: str(x.get("match_time", "")), reverse=True)
-            except:
-                pass
-            return selected
-
-        # 3. 홈팀 전적 추출 (일반 홈경기는 stadium_form의 home_matches, 중립경기 시 원정 성격 필터링)
-        s_home_matches = []
+        # 💡 [핵심 규격 반영] 중립 구장일 경우 홈 팀도 최근 전적/원정 성격 풀에서 원정 경기만 골라 최대 10개 추출
         if is_neutral_venue:
-            recent_all_pool = raw_sh if raw_sh else (h_matches if 'h_matches' in locals() else [])
+            recent_all_pool = stadium_form.get("recent_matches", []) if "recent_matches" in stadium_form else []
+            if not recent_all_pool and 'h_matches' in locals():
+                recent_all_pool = h_matches
+            
+            # 홈 팀의 최근 전적 중 원정(Away) 성격의 경기만 필터링 (최대 10개)
             neutral_home_away_matches = []
             for m in recent_all_pool:
                 teams_str = str(m.get("teams", ""))
+                # 홈 팀이 vs 뒤에 오거나 원정으로 표기된 경기 필터링
                 if " vs " in teams_str:
                     t_parts = [p.strip() for p in teams_str.split("vs")]
                     if len(t_parts) >= 2 and h_name not in t_parts[0]:
@@ -768,59 +738,19 @@ with tabs[2]:
                 elif m.get("location") == "원정" or m.get("venue_type") == "away":
                     neutral_home_away_matches.append(m)
             
+            # 만약 별도 필터링된 풀이 부족하면 stadium_form의 away_matches 또는 일반 원정 풀 활용
             if not neutral_home_away_matches:
-                neutral_home_away_matches = raw_sa
-            s_home_matches = filter_and_supplement_matches(neutral_home_away_matches, 10)
+                neutral_home_away_matches = stadium_form.get("away_matches", [])
+
+            s_home_matches = neutral_home_away_matches[:10]
         else:
-            # 💡 [핵심] raw_sh 데이터를 다이렉트 채택 (없을 때만 규칙1 h_matches 폴백)
-            if not raw_sh and 'h_matches' in locals():
-                raw_sh = h_matches
-            s_home_matches = filter_and_supplement_matches(raw_sh, 10)
+            s_home_matches = stadium_form.get("home_matches", [])[:10]
 
-        # 4. 원정팀 전적 추출 (stadium_form의 away_matches 데이터를 누락 없이 다이렉트 채택)
-        if not raw_sa and 'a_matches' in locals():
-            raw_sa = a_matches
-        s_away_matches = filter_and_supplement_matches(raw_sa, 10)
+        # 원정 팀은 항상 원정 경기 기준 최대 10개
+        s_away_matches = stadium_form.get("away_matches", [])[:10]
 
-        # 기본 평균 득실 산출 헬퍼 (원정팀 득실 주체 반전 문제 원천 해결 및 명확한 매칭)
-        def get_base_gpg_cpg(matches, tname, is_away=False):
-            if not matches: return 0.0, 0.0
-            s_sum, c_sum = 0.0, 0.0
-            for m in matches:
-                scores = m.get("ft_scores", ["0", "0"])
-                try: s1, s2 = int(scores[0]), int(scores[1])
-                except: s1 = s2 = 0
-                teams = m.get("teams", "")
-                sc, cc = s1, s2
-                if " vs " in teams:
-                    t1, t2 = [p.strip() for p in teams.split("vs")]
-                    # 원정팀일 경우 대진 문자열에서 우측이 본인이면 s2가 득점, s1이 실점
-                    if is_away:
-                        if tname in t2: sc, cc = s2, s1
-                        elif tname in t1: sc, cc = s1, s2
-                    else:
-                        if tname in t1: sc, cc = s1, s2
-                        elif tname in t2: sc, cc = s2, s1
-                s_sum += sc
-                c_sum += cc
-            cnt = len(matches)
-            return (s_sum / cnt if cnt > 0 else 0.0), (c_sum / cnt if cnt > 0 else 0.0)
-
-        s_h_gpg_base, s_h_cpg_base = get_base_gpg_cpg(s_home_matches, h_name, is_away=False)
-        s_a_gpg_base, s_a_cpg_base = get_base_gpg_cpg(s_away_matches, a_name, is_away=True)
-
-        # 1차 예비 산출로 구장별 체급(공수 A/E 등) 파악
-        _, pre_sh_gpg, pre_sh_cpg, _, _, _ = local_make_df(s_home_matches, h_name, s_h_gpg_base, s_h_cpg_base, "0전", "Tier C", "Tier C")
-        _, pre_sa_gpg, pre_sa_cpg, _, _, _ = local_make_df(s_away_matches, a_name, s_a_gpg_base, s_a_cpg_base, "0전", "Tier C", "Tier C")
-        
-        pre_sh_at = atk_tier_nm(pre_sh_gpg)
-        pre_sh_de = def_tier_nm(pre_sh_cpg)
-        pre_sa_at = atk_tier_nm(pre_sa_gpg)
-        pre_sa_de = def_tier_nm(pre_sa_cpg)
-
-        # 구장별 폼 대칭 교차 보정 적용 최종 산출
-        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", pre_sh_at, pre_sh_de)
-        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", pre_sa_at, pre_sa_de)
+        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=h_is_triggered)
+        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=a_is_triggered)
 
         s_h_at, s_h_atw = atk_tier(s_h_gpg)
         s_h_de, s_h_dew = def_tier(s_h_cpg)
@@ -831,6 +761,11 @@ with tabs[2]:
         base_h_de = h_de if 'h_de' in locals() else "Tier C"
         base_a_at = a_at if 'a_at' in locals() else "Tier C"
         base_a_de = a_de if 'a_de' in locals() else "Tier C"
+
+        h_current_at = s_h_at if 's_h_at' in locals() else base_h_at
+        h_current_de = s_h_de if 's_h_de' in locals() else base_h_de
+        a_current_at = s_a_at if 's_a_at' in locals() else base_a_at
+        a_current_de = s_a_de if 's_a_de' in locals() else base_a_de
 
         def get_tier_colored_html(base_tier, stadium_tier):
             b_val = tier_ranks.get(base_tier, 3)
