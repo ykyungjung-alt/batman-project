@@ -696,7 +696,7 @@ with tabs[1]:
     </div>""", unsafe_allow_html=True)
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (v3_details_dict 기반 stadium_form 직접 연동 정밀 버전)
+# 💡 규칙 2번 탭 (v3_details_dict 기반 stadium_form 직접 연동 최종 버전)
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
@@ -720,7 +720,7 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
-        # 💡 [핵심 정돈] 딕셔너리 3(target_v3_data) 안의 meta_details에서 stadium_form을 곧바로 직관적으로 추출
+        # 💡 전적 데이터는 오직 딕셔너리 3(target_v3_data) 안의 meta_details -> stadium_form에서 직관적으로 추출
         v3_meta_block = target_v3_data.get("meta_details", {}) if 'target_v3_data' in locals() and target_v3_data else {}
         stadium_form = v3_meta_block.get("stadium_form", {}) if isinstance(v3_meta_block, dict) else {}
 
@@ -745,7 +745,6 @@ with tabs[2]:
 
             s_home_matches = neutral_home_away_matches[:10]
         else:
-            # 💡 V3 딕셔너리에 들어있는 실제 구장별 홈 전적 데이터 다이렉트 획득
             s_home_matches = stadium_form.get("home_matches", [])[:10] if isinstance(stadium_form, dict) else []
             if not s_home_matches and 'h_matches' in locals():
                 s_home_matches = h_matches[:10]
@@ -755,6 +754,101 @@ with tabs[2]:
         if not s_away_matches and 'a_matches' in locals():
             s_away_matches = a_matches[:10]
 
+        # 함수 시그니처 일치화 (규칙 1번 연동 변수 안전 반영)
+        h_init_at = h_at_pre if 'h_at_pre' in locals() else "Tier C"
+        h_init_de = h_de_pre if 'h_de_pre' in locals() else "Tier C"
+        a_init_at = a_at_pre if 'a_at_pre' in locals() else "Tier C"
+        a_init_de = a_de_pre if 'a_de_pre' in locals() else "Tier C"
+
+        s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", h_init_at, h_init_de)
+        s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", a_init_at, a_init_de)
+
+        s_h_at, s_h_atw = atk_tier(s_h_gpg)
+        s_h_de, s_h_dew = def_tier(s_h_cpg)
+        s_a_at, s_a_atw = atk_tier(s_a_gpg)
+        s_a_de, s_a_dew = def_tier(s_a_cpg)
+
+        base_h_at = h_at if 'h_at' in locals() else "Tier C"
+        base_h_de = h_de if 'h_de' in locals() else "Tier C"
+        base_a_at = a_at if 'a_at' in locals() else "Tier C"
+        base_a_de = a_de if 'a_de' in locals() else "Tier C"
+
+        def get_tier_colored_html(base_tier, stadium_tier):
+            b_val = tier_ranks.get(base_tier, 3)
+            s_val = tier_ranks.get(stadium_tier, 3)
+            if s_val > b_val:
+                return f"<span style='color: #2e7d32; font-weight: bold;'>{stadium_tier} 📈</span>"
+            elif s_val < b_val:
+                return f"<span style='color: #c62828; font-weight: bold;'>{stadium_tier} 📉</span>"
+            else:
+                return f"<span>{stadium_tier}</span>"
+
+        h_atk_color_str = get_tier_colored_html(base_h_at, s_h_at)
+        h_def_color_str = get_tier_colored_html(base_h_de, s_h_de)
+        a_atk_color_str = get_tier_colored_html(base_a_at, s_a_at)
+        a_def_color_str = get_tier_colored_html(base_a_de, s_a_de)
+
+        def get_shift_correction(base_tier, stadium_tier, is_attack=True):
+            b_val = tier_ranks.get(base_tier, 3)
+            s_val = tier_ranks.get(stadium_tier, 3)
+            if is_attack:
+                if s_val > b_val: return "+15%", 15.0
+                elif s_val < b_val: return "-15%", -15.0
+                else: return "0%", 0.0
+            else:
+                if s_val < b_val: return "+15%", 15.0
+                elif s_val > b_val: return "-15%", -15.0
+                else: return "0%", 0.0
+
+        h_atk_shift_str, h_atk_val = get_shift_correction(base_h_at, s_h_at, is_attack=True)
+        h_def_shift_str, h_def_val = get_shift_correction(base_h_de, s_h_de, is_attack=False)
+        a_atk_shift_str, a_atk_val = get_shift_correction(base_a_at, s_a_at, is_attack=True)
+        a_def_shift_str, a_def_val = get_shift_correction(base_a_de, s_a_de, is_attack=False)
+
+        s_h_diff = s_h_raw_s - s_h_raw_c
+        s_a_diff = s_a_raw_s - s_a_raw_c
+
+        venue_status_badge = (
+            "<span style='color: #c62828; font-weight: bold;'> (중립경기)</span>" 
+            if is_neutral_venue 
+            else "<span style='color: #2e7d32; font-weight: bold;'> (홈경기)</span>"
+        )
+
+        st.markdown(f"##### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증{venue_status_badge}", unsafe_allow_html=True)
+        if not s_h_df.empty:
+            st.dataframe(s_h_df, use_container_width=True, hide_index=True)
+        else:
+            st.info("📋 구장별 상세 전적 데이터 없음")
+
+        st.markdown(f"""
+        <div class="calc-box">
+        <b>{h_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
+        • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
+        • 보정 평균 득점: <b>{s_h_gpg:.2f}골/경기</b> / 보정 평균 실점: <b>{s_h_cpg:.2f}골/경기</b><br>
+        • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{h_atk_color_str}</b> / 방어 <b>{h_def_color_str}</b><br>
+        • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{h_atk_shift_str}</b> / 방어 <b>{h_def_shift_str}</b>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("---")
+
+        st.markdown(f"##### 원정 팀 ({a_name}) 구장별 전적 및 티어 변동 검증")
+        if not s_a_df.empty:
+            st.dataframe(s_a_df, use_container_width=True, hide_index=True)
+        else:
+            st.info("📋 구장별 상세 전적 데이터 없음")
+
+        st.markdown(f"""
+        <div class="calc-box">
+        <b>{a_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
+        • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
+        • 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> / 보정 평균 실점: <b>{s_a_cpg:.2f}골/경기</b><br>
+        • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{a_atk_color_str}</b> / 방어 <b>{a_def_color_str}</b><br>
+        • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> / 방어 <b>{a_def_shift_str}</b>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"#### [규칙 3번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
