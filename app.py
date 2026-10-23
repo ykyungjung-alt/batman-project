@@ -696,15 +696,15 @@ with tabs[1]:
     </div>""", unsafe_allow_html=True)
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (0단계 구장 판정 연동 및 V3/V5 최근 전적 풀 기반 원정 폼 필터링 적용)
+# 💡 규칙 2번 탭 (0단계 구장 판정 연동 및 구장별 전적 데이터 추출 정밀화)
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
-    • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를 사용하며, 중립경기일 때는 최근 전적 풀에서 홈팀의 원정/중립 성격 경기 기록을 필터링하여 안전하게 산출합니다. 공식 경기를 우선 채우되 부족 시 친선 경기로 보완합니다.<br>
-    • <b>0단계 구장 판정 연동:</b> 홈구장 일치 여부에 따라 홈경기(초록색) 또는 중립경기(빨간색) 상태를 명시하고 원정 데이터를 분기 적용합니다.<br>
+    • <b>구장별 전적(Stadium Form) 분석:</b> 기본적으로 홈팀은 홈 경기 구장 데이터, 원정팀은 원정 경기 구장 데이터를 사용합니다. 단, 중립경기일 때는 홈팀의 데이터만 원정/중립 성격의 기록으로 대체하여 안전하게 산출합니다.<br>
+    • <b>0단계 구장 판정 연동:</b> 홈구장 일치 여부에 따라 홈경기(초록색) 또는 중립경기(빨간색) 상태를 명시하고 데이터를 분기 적용합니다.<br>
     • <b>공수 대칭 교차 특수 룰:</b> 구장별 전적 환경에서도 팀의 체급(A/E)과 상대 공수 티어의 교차 상성에 따라 득실점이 50% 할인 또는 할증 반영됩니다.
     </div>
     """, unsafe_allow_html=True)
@@ -743,14 +743,13 @@ with tabs[2]:
                 combined.extend(friendly_matches[:needed])
             
             selected = combined[:max_count]
-            # 💡 [시계열 정렬 보장] 경기 일시 기준 최신순 정렬
             try:
                 selected.sort(key=lambda x: str(x.get("match_time", "")), reverse=True)
             except:
                 pass
             return selected
 
-        # 3. 홈팀 전적 추출 (중립 경기일 경우 원정/중립 성격 경기 정밀 필터링)
+        # 3. 홈팀 전적 추출 (일반 홈경기는 구장 홈 전적, 중립경기 시 최근 풀에서 원정/중립 성격 경기 필터링)
         s_home_matches = []
         if is_neutral_venue:
             recent_all_pool = []
@@ -775,14 +774,10 @@ with tabs[2]:
             s_home_matches = filter_and_supplement_matches(neutral_home_away_matches, 10)
         else:
             raw_sh = stadium_form.get("home_matches", [])
-            if not raw_sh and 'h_matches' in locals():
-                raw_sh = h_matches
             s_home_matches = filter_and_supplement_matches(raw_sh, 10)
 
-        # 4. 원정팀 전적 추출 (공식전 우선 10경기 확보)
+        # 4. 원정팀 전적 추출 (오직 stadium_form의 원정 전적 데이터만 엄격하게 고정 채택)
         raw_sa = stadium_form.get("away_matches", [])
-        if not raw_sa and 'a_matches' in locals():
-            raw_sa = a_matches
         s_away_matches = filter_and_supplement_matches(raw_sa, 10)
 
         # 기본 평균 득실 산출 헬퍼
