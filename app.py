@@ -754,12 +754,11 @@ with tabs[2]:
             s_away_matches = a_matches[:10]
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인 1단계] 구장별 최근전적 오리지널 원본 데이터 및 득실점 산출 (보정 일체 배제)
+        # 💡 [정밀 파이프라인 1단계] 구장별 최근전적 원본 데이터 및 총득실 산출
         # --------------------------------------------------------------------------
-        s_h_df, _, _, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
-        s_a_df, _, _, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
+        s_h_df_raw, _, _, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
+        s_a_df_raw, _, _, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
 
-        # 순수 원본 경기수 계산 (0 DIVISION 방어)
         s_h_cnt = len(s_home_matches) if s_home_matches else (10 if s_h_raw_s > 0 else 1)
         s_a_cnt = len(s_away_matches) if s_away_matches else (10 if s_a_raw_s > 0 else 1)
 
@@ -769,7 +768,7 @@ with tabs[2]:
         s_a_pure_cpg = s_a_raw_c / s_a_cnt
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인 2단계] 오리지널 총득점/총실점 평균으로 티어 먼저 산출 (특수룰 발동 조건 판정 기지)
+        # 💡 [정밀 파이프라인 2단계] 원본 평균 득실로 티어 확정 (특수룰 발동 조건 판정 기준 기지)
         # --------------------------------------------------------------------------
         s_h_at, s_h_atw = atk_tier(s_h_pure_gpg)
         s_h_de, s_h_dew = def_tier(s_h_pure_cpg)
@@ -777,21 +776,23 @@ with tabs[2]:
         s_a_de, s_a_dew = def_tier(s_a_pure_cpg)
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인 3단계] 확정된 판정 티어를 발동 기지로 전달하여 최종 보정 평균 득실 산출
+        # 💡 [정밀 파이프라인 3단계] 특수룰 판정 티어를 반영하여 최종 보정 평균 득실 및 산출 내역 데이터프레임 생성
         # --------------------------------------------------------------------------
-        s_h_df_real, s_h_gpg, s_h_cpg, _, _, _ = local_make_df(s_home_matches, h_name, s_h_pure_gpg, s_h_pure_cpg, s_h_rec, s_h_at, s_h_de)
-        s_a_df_real, s_a_gpg, s_a_cpg, _, _, _ = local_make_df(s_away_matches, a_name, s_a_pure_gpg, s_a_pure_cpg, s_a_rec, s_a_at, s_a_de)
-        
-        s_h_df = s_h_df_real
-        s_a_df = s_a_df_real
+        s_h_df, s_h_gpg, s_h_cpg, _, _, _ = local_make_df(s_home_matches, h_name, s_h_pure_gpg, s_h_pure_cpg, s_h_rec, s_h_at, s_h_de)
+        s_a_df, s_a_gpg, s_a_cpg, _, _, _ = local_make_df(s_away_matches, a_name, s_a_pure_gpg, s_a_pure_cpg, s_a_rec, s_a_at, s_a_de)
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인 4단계] 1단계 종합 체급과의 비교 (Shift 보정치 도출)
+        # 💡 [정밀 파이프라인 4단계] 1단계 종합 체급 비교 및 Shift 보정치 도출 (후행 규칙 연동 동기화)
         # --------------------------------------------------------------------------
         base_h_at = h_at if 'h_at' in locals() else "Tier C"
         base_h_de = h_de if 'h_de' in locals() else "Tier C"
         base_a_at = a_at if 'a_at' in locals() else "Tier C"
         base_a_de = a_de if 'a_de' in locals() else "Tier C"
+
+        h_current_at = s_h_at
+        h_current_de = s_h_de
+        a_current_at = s_a_at
+        a_current_de = s_a_de
 
         def get_tier_colored_html(base_tier, stadium_tier):
             b_val = tier_ranks.get(base_tier, 3)
