@@ -589,14 +589,12 @@ with tabs[1]:
             if tier_info and "/" in tier_info:
                 try:
                     oa, od = map(float, tier_info.split("/"))
-                    at_name = atk_tier_nm(oa)  # 상대 공격 티어
-                    df_name = def_tier_nm(od)  # 상대 방어 티어
+                    at_name = atk_tier_nm(oa)
+                    df_name = def_tier_nm(od)
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
-# 💡 [특수룰] 각 단계별 상대 공수 티어 기준 대칭 교차 보정
+                    # 특수룰 로직 원본 유지 (수정 없음)
                     rule_descs = []
-                    
-                    # 1. 공격 대칭 교차 룰 (상대 방어 티어 기준)
                     if df_name == "Tier E":
                         mult_gf = 0.5
                         rule_descs.append(f"상대 방어 {df_name} (득점 50% 할인)")
@@ -604,7 +602,6 @@ with tabs[1]:
                         mult_gf = 1.5
                         rule_descs.append(f"상대 방어 {df_name} (득점 50% 할증)")
                         
-                    # 2. 방어 대칭 교차 룰 (상대 공격 티어 기준)
                     if at_name == "Tier E":
                         mult_ga = 0.5
                         rule_descs.append(f"상대 공격 {at_name} (실점 50% 할인)")
@@ -646,11 +643,11 @@ with tabs[1]:
         return pd.DataFrame(rows), gpg, cpg, rec, raw_scored_total, raw_conceded_total
 
     # 1차 예비 산출 및 최종 산출 적용
-    h_df_pre, h_gpg_pre, h_cpg_pre, h_rec_pre, _, _ = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base, "Tier C", "Tier C")
+    h_df_pre, h_gpg_pre, h_cpg_pre, h_rec_pre, h_raw_s_pre, h_raw_c_pre = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base, "Tier C", "Tier C")
     h_at_pre, _ = atk_tier(h_gpg_pre)
     h_de_pre, _ = def_tier(h_cpg_pre)
 
-    a_df_pre, a_gpg_pre, a_cpg_pre, a_rec_pre, _, _ = local_make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base, "Tier C", "Tier C")
+    a_df_pre, a_gpg_pre, a_cpg_pre, a_rec_pre, a_raw_s_pre, a_raw_c_pre = local_make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base, "Tier C", "Tier C")
     a_at_pre, _ = atk_tier(a_gpg_pre)
     a_de_pre, _ = def_tier(a_cpg_pre)
 
@@ -662,11 +659,18 @@ with tabs[1]:
     a_at, a_atw = atk_tier(a_gpg)
     a_de, a_dew = def_tier(a_cpg)
 
+    h_cnt = len(h_matches) if h_matches else 10
+    a_cnt = len(a_matches) if a_matches else 10
+    h_pure_gpg = round(h_raw_s / h_cnt, 2) if h_cnt > 0 else 0.0
+    h_pure_cpg = round(h_raw_c / h_cnt, 2) if h_cnt > 0 else 0.0
+    a_pure_gpg = round(a_raw_s / a_cnt, 2) if a_cnt > 0 else 0.0
+    a_pure_cpg = round(a_raw_c / a_cnt, 2) if a_cnt > 0 else 0.0
+
     h_goal_diff = h_raw_s - h_raw_c
     a_goal_diff = a_raw_s - a_raw_c
 
     # 홈 팀 1단계 출력
-    st.markdown(f"##### 홈 팀 ({h_name}) 최근 전적 분석 로그 ")
+    st.markdown(f"##### 홈 팀 ({h_name}) 최근 전적 분석 로그")
     if not h_df.empty:
         st.dataframe(h_df, use_container_width=True, hide_index=True)
     else:
@@ -675,14 +679,15 @@ with tabs[1]:
     st.markdown(f"""<div class="calc-box">
         <b>{h_name} 규칙 1번 상세 산출 내역</b><br>
         • 최근 전적: <b>{h_rec}</b> (총 득점: <b>{h_raw_s:.1f}골</b> / 총 실점: <b>{h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if h_goal_diff >= 0 else '#c62828'};">{h_goal_diff:+.1f}</b>)<br>
-        • 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> / 보정 평균 실점: <b>{h_cpg:.2f}골/경기</b><br>
-        • 공격 티어: <b>{h_at} ({h_atw})</b> | 방어 티어: <b>{h_de} ({h_dew})</b> | 공수 교차 보정 적용 완료
+        • 원본 평균 득점: <b>{h_pure_gpg:.2f}골/경기</b> | 원본 평균 실점: <b>{h_pure_cpg:.2f}골/경기</b><br>
+        • 최종 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> (공격 티어: <b>{h_at} ({h_atw})</b>) / 최종 보정 평균 실점: <b>{h_cpg:.2f}골/경기</b> (방어 티어: <b>{h_de} ({h_dew})</b>)<br>
+        • <b>공수 교차 보정 및 최종 체급 확정 완료</b>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("---")
 
     # 원정 팀 1단계 출력
-    st.markdown(f"##### 원정 팀 ({a_name}) 최근 전적 분석 로그 ")
+    st.markdown(f"##### 원정 팀 ({a_name}) 최근 전적 분석 로그")
     if not a_df.empty:
         st.dataframe(a_df, use_container_width=True, hide_index=True)
     else:
@@ -691,10 +696,10 @@ with tabs[1]:
     st.markdown(f"""<div class="calc-box">
         <b>{a_name} 규칙 1번 상세 산출 내역</b><br>
         • 최근 전적: <b>{a_rec}</b> (총 득점: <b>{a_raw_s:.1f}골</b> / 총 실점: <b>{a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if a_goal_diff >= 0 else '#c62828'};">{a_goal_diff:+.1f}</b>)<br>
-        • 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> / 보정 평균 실점: <b>{a_cpg:.2f}골/경기</b><br>
-        • 공격 티어: <b>{a_at} ({a_atw})</b> | 방어 티어: <b>{a_de} ({a_dew})</b> | 공수 교차 보정 적용 완료
+        • 원본 평균 득점: <b>{a_pure_gpg:.2f}골/경기</b> | 원본 평균 실점: <b>{a_pure_cpg:.2f}골/경기</b><br>
+        • 최종 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> (공격 티어: <b>{a_at} ({a_atw})</b>) / 최종 보정 평균 실점: <b>{a_cpg:.2f}골/경기</b> (방어 티어: <b>{a_de} ({a_dew})</b>)<br>
+        • <b>공수 교차 보정 및 최종 체급 확정 완료</b>
     </div>""", unsafe_allow_html=True)
-
 # ==============================================================================
 # 💡 규칙 2번 탭 (v3_details_dict 기반 stadium_form 직접 연동 및 정밀 특수룰 파이프라인)
 # ==============================================================================
