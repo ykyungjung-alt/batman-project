@@ -720,9 +720,13 @@ with tabs[2]:
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
                 is_neutral_venue = True
 
+        # 💡 [안전 장치 추가] 메타 상세 정보에서 stadium_form 객체 추출
+        meta_details = detailed_info.get("meta_details", {}) if 'detailed_info' in locals() else {}
+        stadium_form = meta_details.get("stadium_form", {}) if isinstance(meta_details, dict) else {}
+
         # 💡 [핵심 규격 반영] 중립 구장일 경우 홈 팀도 최근 전적/원정 성격 풀에서 원정 경기만 골라 최대 10개 추출
         if is_neutral_venue:
-            recent_all_pool = stadium_form.get("recent_matches", []) if "recent_matches" in stadium_form else []
+            recent_all_pool = stadium_form.get("recent_matches", []) if isinstance(stadium_form, dict) and "recent_matches" in stadium_form else []
             if not recent_all_pool and 'h_matches' in locals():
                 recent_all_pool = h_matches
             
@@ -730,7 +734,6 @@ with tabs[2]:
             neutral_home_away_matches = []
             for m in recent_all_pool:
                 teams_str = str(m.get("teams", ""))
-                # 홈 팀이 vs 뒤에 오거나 원정으로 표기된 경기 필터링
                 if " vs " in teams_str:
                     t_parts = [p.strip() for p in teams_str.split("vs")]
                     if len(t_parts) >= 2 and h_name not in t_parts[0]:
@@ -738,16 +741,15 @@ with tabs[2]:
                 elif m.get("location") == "원정" or m.get("venue_type") == "away":
                     neutral_home_away_matches.append(m)
             
-            # 만약 별도 필터링된 풀이 부족하면 stadium_form의 away_matches 또는 일반 원정 풀 활용
-            if not neutral_home_away_matches:
+            if not neutral_home_away_matches and isinstance(stadium_form, dict):
                 neutral_home_away_matches = stadium_form.get("away_matches", [])
 
             s_home_matches = neutral_home_away_matches[:10]
         else:
-            s_home_matches = stadium_form.get("home_matches", [])[:10]
+            s_home_matches = stadium_form.get("home_matches", [])[:10] if isinstance(stadium_form, dict) else []
 
         # 원정 팀은 항상 원정 경기 기준 최대 10개
-        s_away_matches = stadium_form.get("away_matches", [])[:10]
+        s_away_matches = stadium_form.get("away_matches", [])[:10] if isinstance(stadium_form, dict) else []
 
         s_h_df, s_h_gpg, s_h_cpg, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=h_is_triggered)
         s_a_df, s_a_gpg, s_a_cpg, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", is_triggered=a_is_triggered)
@@ -761,11 +763,6 @@ with tabs[2]:
         base_h_de = h_de if 'h_de' in locals() else "Tier C"
         base_a_at = a_at if 'a_at' in locals() else "Tier C"
         base_a_de = a_de if 'a_de' in locals() else "Tier C"
-
-        h_current_at = s_h_at if 's_h_at' in locals() else base_h_at
-        h_current_de = s_h_de if 's_h_de' in locals() else base_h_de
-        a_current_at = s_a_at if 's_a_at' in locals() else base_a_at
-        a_current_de = s_a_de if 's_a_de' in locals() else base_a_de
 
         def get_tier_colored_html(base_tier, stadium_tier):
             b_val = tier_ranks.get(base_tier, 3)
