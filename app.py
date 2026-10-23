@@ -466,6 +466,7 @@ with tabs[1]:
     raw_h_matches = recent_form.get("home_matches", [])
     raw_a_matches = recent_form.get("away_matches", [])
 
+    # 💡 공식 경기 우선 수집 및 부족 시 친선 경기 보완 LIFO 룰 함수
     def filter_and_supplement_matches(match_list, max_count=10):
         if not match_list:
             return []
@@ -589,7 +590,7 @@ with tabs[1]:
                     
                     rule_descs = []
                     
-                    # 💡 [핵심 가드레일 1] 공격 특수룰: 내 원본 공격 티어가 Tier A 또는 E일 때만 진입
+                    # 💡 [공격 독립 특수룰] 내 원본 공격이 Tier A 또는 E일 때 독립 발동
                     if my_at in ["Tier A", "Tier E"]:
                         if my_at == "Tier A" and df_name == "Tier E":
                             mult_gf = 0.5
@@ -598,7 +599,7 @@ with tabs[1]:
                             mult_gf = 1.5
                             rule_descs.append("내 공격 Tier E vs 상대 방어 Tier A (득점 50% 할증)")
 
-                    # 💡 [핵심 가드레일 2] 방어 특수룰: 내 원본 방어 티어가 Tier A 또는 E일 때만 진입 (방어 D 등급 팀은 진입 불가하여 mult_ga = 1.0 고정)
+                    # 💡 [방어 독립 특수룰] 내 원본 방어가 Tier A 또는 E일 때 독립 발동 (D등급 등 기준 미달 시 미발동)
                     if my_de in ["Tier A", "Tier E"]:
                         if my_de == "Tier A" and at_name == "Tier E":
                             mult_ga = 1.5
@@ -700,15 +701,15 @@ with tabs[1]:
 
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (v3_details_dict 기반 stadium_form 직접 연동 및 독립 특수룰 파이프라인)
+# 💡 규칙 2번 탭 (v3_details_dict 기반 stadium_form 직접 연동 및 친선 보완 LIFO 파이프라인)
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
-    • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를, 중립경기일 때는 1단계와 동일하게 최근 전적 중 '원정 경기' 조건으로 최대 10개까지 추출합니다.<br>
-    • <b>연산 파이프라인 규격:</b> 최근전적 데이터 산출 ➔ 구장별 독립 원본 평균 산출 ➔ 구장별 1차 원본 티어 확정(특수룰 발동 기준) ➔ 구장별 특수룰 교차 보정 및 보정 평균 산출 ➔ 구장 환경 체급 확정 ➔ 1단계 비교 (Shift +15% / -15%)
+    • <b>구장별 전적(Stadium Form) 분석:</b> 공식 경기를 최우선으로 수집하되, 표본이 부족할 경우 친선 경기를 보완하여 최대 10경기를 확보합니다.<br>
+    • <b>연산 파이프라인 규격:</b> 구장별 매치 LIFO 수집 ➔ 독립 원본 평균 산출 ➔ 1차 원본 티어 확정(특수룰 발동 기준) ➔ 독립 분기 특수룰 교차 보정 및 보정 평균 산출 ➔ 구장 환경 체급 확정 ➔ 1단계 비교 (Shift +15% / -15%)
     </div>
     """, unsafe_allow_html=True)
 
@@ -727,6 +728,7 @@ with tabs[2]:
         v3_meta_block = target_v3_data.get("meta_details", {}) if 'target_v3_data' in locals() and target_v3_data else {}
         stadium_form = v3_meta_block.get("stadium_form", {}) if isinstance(v3_meta_block, dict) else {}
 
+        # 홈팀 구장별 전적 추출 및 친선 보완 LIFO 적용
         if is_neutral_venue:
             recent_all_pool = stadium_form.get("recent_matches", []) if isinstance(stadium_form, dict) and "recent_matches" in stadium_form else []
             if not recent_all_pool and 'h_matches' in locals():
@@ -745,15 +747,18 @@ with tabs[2]:
             if not neutral_home_away_matches and isinstance(stadium_form, dict):
                 neutral_home_away_matches = stadium_form.get("away_matches", [])
 
-            s_home_matches = neutral_home_away_matches[:10]
+            s_home_matches = filter_and_supplement_matches(neutral_home_away_matches, 10)
         else:
-            s_home_matches = stadium_form.get("home_matches", [])[:10] if isinstance(stadium_form, dict) else []
-            if not s_home_matches and 'h_matches' in locals():
-                s_home_matches = h_matches[:10]
+            raw_s_home = stadium_form.get("home_matches", []) if isinstance(stadium_form, dict) else []
+            if not raw_s_home and 'h_matches' in locals():
+                raw_s_home = h_matches
+            s_home_matches = filter_and_supplement_matches(raw_s_home, 10)
 
-        s_away_matches = stadium_form.get("away_matches", [])[:10] if isinstance(stadium_form, dict) else []
-        if not s_away_matches and 'a_matches' in locals():
-            s_away_matches = a_matches[:10]
+        # 원정팀 구장별 전적 추출 및 친선 보완 LIFO 적용
+        raw_s_away = stadium_form.get("away_matches", []) if isinstance(stadium_form, dict) else []
+        if not raw_s_away and 'a_matches' in locals():
+            raw_s_away = a_matches
+        s_away_matches = filter_and_supplement_matches(raw_s_away, 10)
 
         # --------------------------------------------------------------------------
         # 💡 [구장별 파이프라인] 원본 및 보정 산출
