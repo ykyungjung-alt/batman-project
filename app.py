@@ -704,7 +704,7 @@ with tabs[2]:
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
     • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를, 중립경기일 때는 1단계와 동일하게 최근 전적 중 '원정 경기' 조건으로 최대 10개까지 추출합니다.<br>
-    • <b>연산 파이프라인 규격:</b> 최근전적 데이터 산출 ➔ 오리지널 최근전적 티어 산출(특수룰 발동 조건 판정 기준) ➔ 특수룰 교차 보정 적용 및 최종 보정 평균 산출 ➔ 1단계 종합 체급 비교(Shift +15% / -15%)
+    • <b>연산 파이프라인 규격:</b> 최근전적 데이터 산출 ➔ 오리지널 최근전적 티어 산출(특수룰 발동 조건 판정 기준) ➔ 특수룰 교차 보정 적용 및 최종 보정 평균 산출 ➔ 보정 평균 기반 구장 환경 체급 확정 ➔ 1단계 비교 (Shift +15% / -15%)
     </div>
     """, unsafe_allow_html=True)
 
@@ -754,7 +754,7 @@ with tabs[2]:
             s_away_matches = a_matches[:10]
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인 1단계] 구장별 최근전적 원본 데이터 및 총득실 산출
+        # 💡 [파이프라인 1단계] 구장별 최근전적 원본 데이터 및 총득실 산출
         # --------------------------------------------------------------------------
         s_h_df_raw, _, _, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
         s_a_df_raw, _, _, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
@@ -768,22 +768,27 @@ with tabs[2]:
         s_a_pure_cpg = s_a_raw_c / s_a_cnt
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인 2단계] 원본 평균 득실로 티어 확정 (특수룰 발동 조건 판정 기준 기지)
+        # 💡 [파이프라인 2단계] 원본 평균으로 1차 티어 확정 (특수룰 발동 조건 판정 기준 기지)
         # --------------------------------------------------------------------------
-        s_h_at, s_h_atw = atk_tier(s_h_pure_gpg)
-        s_h_de, s_h_dew = def_tier(s_h_pure_cpg)
-        s_a_at, s_a_atw = atk_tier(s_a_pure_gpg)
-        s_a_de, s_a_dew = def_tier(s_a_pure_cpg)
+        s_h_at_raw, _ = atk_tier(s_h_pure_gpg)
+        s_h_de_raw, _ = def_tier(s_h_pure_cpg)
+        s_a_at_raw, _ = atk_tier(s_a_pure_gpg)
+        s_a_de_raw, _ = def_tier(s_a_pure_cpg)
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인 3단계] 특수룰 판정 티어를 반영하여 최종 보정 평균 득실 및 산출 내역 데이터프레임 생성
+        # 💡 [파이프라인 3단계] 특수룰 판정 티어를 반영하여 최종 보정 평균 득실 및 산출 내역 생성
         # --------------------------------------------------------------------------
-        s_h_df, s_h_gpg, s_h_cpg, _, _, _ = local_make_df(s_home_matches, h_name, s_h_pure_gpg, s_h_pure_cpg, s_h_rec, s_h_at, s_h_de)
-        s_a_df, s_a_gpg, s_a_cpg, _, _, _ = local_make_df(s_away_matches, a_name, s_a_pure_gpg, s_a_pure_cpg, s_a_rec, s_a_at, s_a_de)
+        s_h_df, s_h_gpg, s_h_cpg, _, _, _ = local_make_df(s_home_matches, h_name, s_h_pure_gpg, s_h_pure_cpg, s_h_rec, s_h_at_raw, s_h_de_raw)
+        s_a_df, s_a_gpg, s_a_cpg, _, _, _ = local_make_df(s_away_matches, a_name, s_a_pure_gpg, s_a_pure_cpg, s_a_rec, s_a_at_raw, s_a_de_raw)
 
         # --------------------------------------------------------------------------
-        # 💡 [정밀 파이프라인 4단계] 1단계 종합 체급 비교 및 Shift 보정치 도출 (후행 규칙 연동 동기화)
+        # 💡 [파이프라인 4단계] ★보정 평균값 기반 최종 구장 환경 체급(티어) 확정 및 Shift 보정치 도출★
         # --------------------------------------------------------------------------
+        s_h_at, s_h_atw = atk_tier(s_h_gpg)
+        s_h_de, s_h_dew = def_tier(s_h_cpg)
+        s_a_at, s_a_atw = atk_tier(s_a_gpg)
+        s_a_de, s_a_dew = def_tier(s_a_cpg)
+
         base_h_at = h_at if 'h_at' in locals() else "Tier C"
         base_h_de = h_de if 'h_de' in locals() else "Tier C"
         base_a_at = a_at if 'a_at' in locals() else "Tier C"
@@ -845,9 +850,9 @@ with tabs[2]:
         <div class="calc-box">
         <b>{h_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
         • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
-        • 최근전적 판정 티어: 공격 <b>{s_h_at}</b> / 방어 <b>{s_h_de}</b> (특수룰 발동 기준 연동 완료)<br>
-        • 최종 보정 평균 득점: <b>{s_h_gpg:.2f}골/경기</b> / 최종 보정 평균 실점: <b>{s_h_cpg:.2f}골/경기</b><br>
-        • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{h_atk_color_str}</b> / 방어 <b>{h_def_color_str}</b><br>
+        • 특수룰 발동 기준 1차 티어: 공격 <b>{s_h_at_raw}</b> / 방어 <b>{s_h_de_raw}</b><br>
+        • 최종 보정 평균 득점: <b>{s_h_gpg:.2f}골/경기</b> (공격 티어: <b>{s_h_at} ({s_h_atw})</b>) / 최종 보정 평균 실점: <b>{s_h_cpg:.2f}골/경기</b> (방어 티어: <b>{s_h_de} ({s_h_dew})</b>)<br>
+        • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b> &nbsp;|&nbsp; 구장 환경 체급(보정 반영): 공격 <b>{h_atk_color_str}</b> / 방어 <b>{h_def_color_str}</b><br>
         • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{h_atk_shift_str}</b> / 방어 <b>{h_def_shift_str}</b>
         </div>
         """, unsafe_allow_html=True)
@@ -864,9 +869,9 @@ with tabs[2]:
         <div class="calc-box">
         <b>{a_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
         • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
-        • 최근전적 판정 티어: 공격 <b>{s_a_at}</b> / 방어 <b>{s_a_de}</b> (특수룰 발동 기준 연동 완료)<br>
-        • 최종 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> / 최종 보정 평균 실점: <b>{s_a_cpg:.2f}골/경기</b><br>
-        • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급: 공격 <b>{a_atk_color_str}</b> / 방어 <b>{a_def_color_str}</b><br>
+        • 특수룰 발동 기준 1차 티어: 공격 <b>{s_a_at_raw}</b> / 방어 <b>{s_a_de_raw}</b><br>
+        • 최종 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> (공격 티어: <b>{s_a_at} ({s_a_atw})</b>) / 최종 보정 평균 실점: <b>{s_a_cpg:.2f}골/경기</b> (방어 티어: <b>{s_a_de} ({s_a_dew})</b>)<br>
+        • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급(보정 반영): 공격 <b>{a_atk_color_str}</b> / 방어 <b>{a_def_color_str}</b><br>
         • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> / 방어 <b>{a_def_shift_str}</b>
         </div>
         """, unsafe_allow_html=True)
