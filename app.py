@@ -577,7 +577,7 @@ with tabs[1]:
             tier_str = "정보 없음"
             mult_gf = 1.0
             mult_ga = 1.0
-            rule_desc = "유지"
+            rule_desc = "보정 없음 / 유지"
             
             tier_info = m.get("opponent_tier_info", "")
             if tier_info and "/" in tier_info:
@@ -588,20 +588,23 @@ with tabs[1]:
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
                     rule_descs = []
-                    if df_name == "Tier E":
-                        mult_gf = 0.5
-                        rule_descs.append(f"상대 방어 {df_name} (득점 50% 할인)")
-                    elif df_name == "Tier A":
-                        mult_gf = 1.5
-                        rule_descs.append(f"상대 방어 {df_name} (득점 50% 할증)")
-                        
-                    if at_name == "Tier E":
-                        mult_ga = 0.5
-                        rule_descs.append(f"상대 공격 {at_name} (실점 50% 할인)")
-                    elif at_name == "Tier A":
-                        mult_ga = 1.5
-                        rule_descs.append(f"상대 공격 {at_name} (실점 50% 할증)")
-                        
+                    
+                    # 💡 [핵심 가드레일 규격] 각 단계별로 전달된 원본 티어(my_at, my_de)가 A 또는 E일 때만 교차 특수룰 발동
+                    if my_at in ["Tier A", "Tier E"] or my_de in ["Tier A", "Tier E"]:
+                        if my_at == "Tier A" and df_name == "Tier E":
+                            mult_gf = 0.5
+                            rule_descs.append(f"내 공격 Tier A vs 상대 방어 Tier E (득점 50% 할인)")
+                        elif my_at == "Tier E" and df_name == "Tier A":
+                            mult_gf = 1.5
+                            rule_descs.append(f"내 공격 Tier E vs 상대 방어 Tier A (득점 50% 할증)")
+
+                        if my_de == "Tier A" and at_name == "Tier E":
+                            mult_ga = 1.5
+                            rule_descs.append(f"내 방어 Tier A vs 상대 공격 Tier E (실점 50% 할증)")
+                        elif my_de == "Tier E" and at_name == "Tier A":
+                            mult_ga = 0.5
+                            rule_descs.append(f"내 방어 Tier E vs 상대 공격 Tier A (실점 50% 할인)")
+
                     if rule_descs:
                         rule_desc = " / ".join(rule_descs)
                         tier_str += f" ⚠️ ({rule_desc})"
@@ -635,7 +638,7 @@ with tabs[1]:
         
         return pd.DataFrame(rows), gpg, cpg, rec, raw_scored_total, raw_conceded_total
 
-    # 1차 예비 산출 (원본 평균 및 1차 특수룰 판정 기준 티어 확정)
+    # 1단계 1차 예비 산출 (종합 최근전적 원본 평균 및 1차 티어 확정)
     h_df_pre, h_gpg_pre, h_cpg_pre, h_rec_pre, h_raw_s_pre, h_raw_c_pre = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base, "Tier C", "Tier C")
     h_cnt = len(h_matches) if h_matches else 10
     h_pure_gpg = round(h_raw_s_pre / h_cnt, 2) if h_cnt > 0 else 0.0
@@ -650,7 +653,7 @@ with tabs[1]:
     a_at_pre, _ = atk_tier(a_pure_gpg)
     a_de_pre, _ = def_tier(a_pure_cpg)
 
-    # 2차 최종 보정 산출 (1차 티어를 특수룰 교차 보정에 태움)
+    # 1단계 2차 최종 보정 산출 (1차 티어 주입 후 보정 평균 및 최종 티어 도출)
     h_df, h_gpg, h_cpg, h_rec, h_raw_s, h_raw_c = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base, h_at_pre, h_de_pre)
     a_df, a_gpg, a_cpg, a_rec, a_raw_s, a_raw_c = local_make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base, a_at_pre, a_de_pre)
 
@@ -698,7 +701,7 @@ with tabs[1]:
 
 
 # ==============================================================================
-# 💡 규칙 2번 탭 (v3_details_dict 기반 stadium_form 직접 연동 및 정밀 특수룰 파이프라인)
+# 💡 규칙 2번 탭 (v3_details_dict 기반 stadium_form 직접 연동 및 독립 특수룰 파이프라인)
 # ==============================================================================
 with tabs[2]:
     st.markdown(f"#### [규칙 2번: 구장별 Shift 검증 및 티어 보정] - {home_team} vs {away_team}")
@@ -706,7 +709,7 @@ with tabs[2]:
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
     • <b>구장별 전적(Stadium Form) 분석:</b> 일반 홈경기일 때는 홈팀의 홈 경기 구장 데이터를, 중립경기일 때는 1단계와 동일하게 최근 전적 중 '원정 경기' 조건으로 최대 10개까지 추출합니다.<br>
-    • <b>연산 파이프라인 규격:</b> 최근전적 데이터 산출 ➔ 오리지널 최근전적 티어 산출(특수룰 발동 조건 판정 기준) ➔ 특수룰 교차 보정 적용 및 최종 보정 평균 산출 ➔ 보정 평균 기반 구장 환경 체급 확정 ➔ 1단계 비교 (Shift +15% / -15%)
+    • <b>연산 파이프라인 규격:</b> 최근전적 데이터 산출 ➔ 구장별 독립 원본 평균 산출 ➔ 구장별 1차 원본 티어 확정(특수룰 발동 기준) ➔ 구장별 특수룰 교차 보정 및 보정 평균 산출 ➔ 구장 환경 체급 확정 ➔ 1단계 비교 (Shift +15% / -15%)
     </div>
     """, unsafe_allow_html=True)
 
@@ -725,7 +728,7 @@ with tabs[2]:
         v3_meta_block = target_v3_data.get("meta_details", {}) if 'target_v3_data' in locals() and target_v3_data else {}
         stadium_form = v3_meta_block.get("stadium_form", {}) if isinstance(v3_meta_block, dict) else {}
 
-        # 홈팀 전적 추출
+        # 홈팀 구장별 전적 추출
         if is_neutral_venue:
             recent_all_pool = stadium_form.get("recent_matches", []) if isinstance(stadium_form, dict) and "recent_matches" in stadium_form else []
             if not recent_all_pool and 'h_matches' in locals():
@@ -750,13 +753,13 @@ with tabs[2]:
             if not s_home_matches and 'h_matches' in locals():
                 s_home_matches = h_matches[:10]
 
-        # 원정팀 전적 추출
+        # 원정팀 구장별 전적 추출
         s_away_matches = stadium_form.get("away_matches", [])[:10] if isinstance(stadium_form, dict) else []
         if not s_away_matches and 'a_matches' in locals():
             s_away_matches = a_matches[:10]
 
         # --------------------------------------------------------------------------
-        # 💡 [파이프라인 1단계] 구장별 최근전적 원본 데이터 및 총득실 산출
+        # 💡 [구장별 파이프라인 1단계] 구장별 전적 원본 데이터 및 총득실 산출
         # --------------------------------------------------------------------------
         s_h_df_raw, _, _, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
         s_a_df_raw, _, _, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
@@ -764,13 +767,13 @@ with tabs[2]:
         s_h_cnt = len(s_home_matches) if s_home_matches else (10 if s_h_raw_s > 0 else 1)
         s_a_cnt = len(s_away_matches) if s_away_matches else (10 if s_a_raw_s > 0 else 1)
 
-        s_h_pure_gpg = s_h_raw_s / s_h_cnt
-        s_h_pure_cpg = s_h_raw_c / s_h_cnt
-        s_a_pure_gpg = s_a_raw_s / s_a_cnt
-        s_a_pure_cpg = s_a_raw_c / s_a_cnt
+        s_h_pure_gpg = round(s_h_raw_s / s_h_cnt, 2) if s_h_cnt > 0 else 0.0
+        s_h_pure_cpg = round(s_h_raw_c / s_h_cnt, 2) if s_h_cnt > 0 else 0.0
+        s_a_pure_gpg = round(s_a_raw_s / s_a_cnt, 2) if s_a_cnt > 0 else 0.0
+        s_a_pure_cpg = round(s_a_raw_c / s_a_cnt, 2) if s_a_cnt > 0 else 0.0
 
         # --------------------------------------------------------------------------
-        # 💡 [파이프라인 2단계] 원본 평균으로 1차 티어 확정 (특수룰 발동 조건 판정 기준 기지)
+        # 💡 [구장별 파이프라인 2단계] 구장별 독립 원본 평균으로 1차 티어 확정 (특수룰 발동 조건 판정 기준)
         # --------------------------------------------------------------------------
         s_h_at_raw, _ = atk_tier(s_h_pure_gpg)
         s_h_de_raw, _ = def_tier(s_h_pure_cpg)
@@ -778,13 +781,13 @@ with tabs[2]:
         s_a_de_raw, _ = def_tier(s_a_pure_cpg)
 
         # --------------------------------------------------------------------------
-        # 💡 [파이프라인 3단계] 특수룰 판정 티어를 반영하여 최종 보정 평균 득실 및 산출 내역 생성
+        # 💡 [구장별 파이프라인 3단계] 구장별 1차 원본 티어를 주입하여 특수룰 교차 보정 및 최종 보정 평균 산출
         # --------------------------------------------------------------------------
         s_h_df, s_h_gpg, s_h_cpg, _, _, _ = local_make_df(s_home_matches, h_name, s_h_pure_gpg, s_h_pure_cpg, s_h_rec, s_h_at_raw, s_h_de_raw)
         s_a_df, s_a_gpg, s_a_cpg, _, _, _ = local_make_df(s_away_matches, a_name, s_a_pure_gpg, s_a_pure_cpg, s_a_rec, s_a_at_raw, s_a_de_raw)
 
         # --------------------------------------------------------------------------
-        # 💡 [파이프라인 4단계] ★보정 평균값 기반 최종 구장 환경 체급(티어) 확정 및 Shift 보정치 도출★
+        # 💡 [구장별 파이프라인 4단계] 보정 평균값 기반 최종 구장 환경 체급(티어) 확정 및 Shift 보정치 도출
         # --------------------------------------------------------------------------
         s_h_at, s_h_atw = atk_tier(s_h_gpg)
         s_h_de, s_h_dew = def_tier(s_h_cpg)
@@ -795,11 +798,6 @@ with tabs[2]:
         base_h_de = h_de if 'h_de' in locals() else "Tier C"
         base_a_at = a_at if 'a_at' in locals() else "Tier C"
         base_a_de = a_de if 'a_de' in locals() else "Tier C"
-
-        h_current_at = s_h_at
-        h_current_de = s_h_de
-        a_current_at = s_a_at
-        a_current_de = s_a_de
 
         def get_tier_colored_html(base_tier, stadium_tier):
             b_val = tier_ranks.get(base_tier, 3)
@@ -852,6 +850,7 @@ with tabs[2]:
         <div class="calc-box">
         <b>{h_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
         • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_h_diff >= 0 else '#c62828'};">{s_h_diff:+.1f}</b>)<br>
+        • 구장별 원본 평균 득점: <b>{s_h_pure_gpg:.2f}골/경기</b> | 구장별 원본 평균 실점: <b>{s_h_pure_cpg:.2f}골/경기</b><br>
         • 특수룰 발동 기준 1차 티어: 공격 <b>{s_h_at_raw}</b> / 방어 <b>{s_h_de_raw}</b><br>
         • 최종 보정 평균 득점: <b>{s_h_gpg:.2f}골/경기</b> (공격 티어: <b>{s_h_at} ({s_h_atw})</b>) / 최종 보정 평균 실점: <b>{s_h_cpg:.2f}골/경기</b> (방어 티어: <b>{s_h_de} ({s_h_dew})</b>)<br>
         • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b> &nbsp;|&nbsp; 구장 환경 체급(보정 반영): 공격 <b>{h_atk_color_str}</b> / 방어 <b>{h_def_color_str}</b><br>
@@ -871,6 +870,7 @@ with tabs[2]:
         <div class="calc-box">
         <b>{a_name} 규칙 2번(구장별) Shift 보정 산출 내역</b><br>
         • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b> / 골득실: <b style="color: {'#2e7d32' if s_a_diff >= 0 else '#c62828'};">{s_a_diff:+.1f}</b>)<br>
+        • 구장별 원본 평균 득점: <b>{s_a_pure_gpg:.2f}골/경기</b> | 구장별 원본 평균 실점: <b>{s_a_pure_cpg:.2f}골/경기</b><br>
         • 특수룰 발동 기준 1차 티어: 공격 <b>{s_a_at_raw}</b> / 방어 <b>{s_a_de_raw}</b><br>
         • 최종 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> (공격 티어: <b>{s_a_at} ({s_a_atw})</b>) / 최종 보정 평균 실점: <b>{s_a_cpg:.2f}골/경기</b> (방어 티어: <b>{s_a_de} ({s_a_dew})</b>)<br>
         • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급(보정 반영): 공격 <b>{a_atk_color_str}</b> / 방어 <b>{a_def_color_str}</b><br>
