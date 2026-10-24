@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-24 15:39:42",
+    "last_updated": "2026-10-24 18:35:40",
     "match_details": {
         "3018841": {
             "match_code": "3018841",
@@ -212,7 +212,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "14",
+                        "rank": "13",
                         "team": "호펜하임",
                         "played": "6",
                         "win": "2",
@@ -381,6 +381,970 @@
                             "league": "유로파리그",
                             "match_time": "2026-11-05 20:00:00",
                             "teams": "11.05 2026 vs 레버쿠젠 vs 마르세유 vs 11 일",
+                            "interval": "11 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3003921": {
+            "match_code": "3003921",
+            "head_info": {
+                "league": "잉글랜드 프리미어리그",
+                "round": "잉글랜드 프리미어리그·  라운드 8",
+                "match_time_raw": "10/24/2026 4:30:00 PM",
+                "match_time_display": "2026-10-25 01:30",
+                "stadium": "Stamford Bridge stadium",
+                "home_stadium": "Stamford Bridge stadium",
+                "weather": "구름 조금,  12℃～13℃"
+            },
+            "home": "첼시",
+            "away": "토트넘",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "4",
+                        "team": "첼시",
+                        "played": "7",
+                        "win": "4",
+                        "draw": "1",
+                        "loss": "2",
+                        "goals_for": "17",
+                        "goals_against": "13",
+                        "goal_diff": "4",
+                        "points": "13"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "16",
+                        "team": "토트넘",
+                        "played": "7",
+                        "win": "1",
+                        "draw": "3",
+                        "loss": "3",
+                        "goals_for": "6",
+                        "goals_against": "10",
+                        "goal_diff": "-4",
+                        "points": "6"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "7승 1무 2패",
+                        "goals_per_game": "2.80",
+                        "conceded_per_game": "1.70"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 4무 4패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "1.60"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 7 (70%)",
+                        "무승부 1 (10%)",
+                        "승 2 (20%)",
+                        "1.90",
+                        "경기당 득점",
+                        "1.10"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "INT CF2026.08.01",
+                                "첼시",
+                                "1-2",
+                                "토트넘"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2026.05.19",
+                                "첼시",
+                                "2-1",
+                                "토트넘"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2025.11.01",
+                                "토트넘",
+                                "0-1",
+                                "첼시"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2025.04.03",
+                                "첼시",
+                                "1-0",
+                                "토트넘"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2024.12.08",
+                                "토트넘",
+                                "3-4",
+                                "첼시"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2024.05.02",
+                                "첼시",
+                                "2-0",
+                                "토트넘"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2023.11.06",
+                                "토트넘",
+                                "1-4",
+                                "첼시"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2023.02.26",
+                                "토트넘",
+                                "2-0",
+                                "첼시"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2022.08.14",
+                                "첼시",
+                                "2-2",
+                                "토트넘"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2022.01.23",
+                                "첼시",
+                                "2-0",
+                                "토트넘"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "EFL컵",
+                            "match_time": "2026-10-28 20:00:00",
+                            "teams": "10.28 2026 vs 리버풀 vs 첼시 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-10-31 12:30:00",
+                            "teams": "10.31 2026 vs 첼시 vs 맨체스터 유나이티드 vs 7 일",
+                            "interval": "7 일"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-08 14:00:00",
+                            "teams": "11.08 2026 vs 선덜랜드 vs 첼시 vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-10-31 17:30:00",
+                            "teams": "10.31 2026 vs 토트넘 vs 크리스탈팰리스 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-07 12:30:00",
+                            "teams": "11.07 2026 vs 리즈 vs 토트넘 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-21 15:00:00",
+                            "teams": "11.21 2026 vs 토트넘 vs 입스위치 vs 28 일",
+                            "interval": "28 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3003923": {
+            "match_code": "3003923",
+            "head_info": {
+                "league": "잉글랜드 프리미어리그",
+                "round": "잉글랜드 프리미어리그·  라운드 8",
+                "match_time_raw": "10/25/2026 2:00:00 PM",
+                "match_time_display": "2026-10-25 23:00",
+                "stadium": "Selhurst Park Stadium",
+                "home_stadium": "Selhurst Park Stadium",
+                "weather": ""
+            },
+            "home": "크리스탈팰리스",
+            "away": "뉴캐슬 Utd",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "14",
+                        "team": "크리스탈팰리스",
+                        "played": "7",
+                        "win": "2",
+                        "draw": "1",
+                        "loss": "4",
+                        "goals_for": "9",
+                        "goals_against": "17",
+                        "goal_diff": "-8",
+                        "points": "7"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "11",
+                        "team": "뉴캐슬 Utd",
+                        "played": "7",
+                        "win": "2",
+                        "draw": "2",
+                        "loss": "3",
+                        "goals_for": "10",
+                        "goals_against": "14",
+                        "goal_diff": "-4",
+                        "points": "8"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 2무 4패",
+                        "goals_per_game": "1.90",
+                        "conceded_per_game": "1.80"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.50",
+                        "conceded_per_game": "1.70"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (20%)",
+                        "무승부 4 (40%)",
+                        "승 4 (40%)",
+                        "0.50",
+                        "경기당 득점",
+                        "1.40"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG PR2026.04.12",
+                                "크리스탈팰리스",
+                                "2-1",
+                                "뉴캐슬 Utd"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2026.01.04",
+                                "뉴캐슬 Utd",
+                                "2-0",
+                                "크리스탈팰리스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2025.04.16",
+                                "뉴캐슬 Utd",
+                                "5-0",
+                                "크리스탈팰리스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2024.11.30",
+                                "크리스탈팰리스",
+                                "1-1",
+                                "뉴캐슬 Utd"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2024.04.24",
+                                "크리스탈팰리스",
+                                "2-0",
+                                "뉴캐슬 Utd"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2023.10.21",
+                                "뉴캐슬 Utd",
+                                "4-0",
+                                "크리스탈팰리스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2023.01.21",
+                                "크리스탈팰리스",
+                                "0-0",
+                                "뉴캐슬 Utd"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LC2022.11.09",
+                                "뉴캐슬 Utd",
+                                "0-0",
+                                "크리스탈팰리스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2022.09.03",
+                                "뉴캐슬 Utd",
+                                "0-0",
+                                "크리스탈팰리스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2022.04.20",
+                                "뉴캐슬 Utd",
+                                "1-0",
+                                "크리스탈팰리스"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "EFL컵",
+                            "match_time": "2026-10-28 19:45:00",
+                            "teams": "10.28 2026 vs 풀럼 vs 크리스탈팰리스 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-10-31 17:30:00",
+                            "teams": "10.31 2026 vs 토트넘 vs 크리스탈팰리스 vs 6 일",
+                            "interval": "6 일"
+                        },
+                        {
+                            "league": "유로파리그",
+                            "match_time": "2026-11-05 17:45:00",
+                            "teams": "11.05 2026 vs 크리스탈팰리스 vs 호펜하임 vs 11 일",
+                            "interval": "11 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "EFL컵",
+                            "match_time": "2026-10-29 19:45:00",
+                            "teams": "10.29 2026 vs 에버턴 vs 뉴캐슬 Utd vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-02 20:00:00",
+                            "teams": "11.02 2026 vs 뉴캐슬 Utd vs 에버턴 vs 8 일",
+                            "interval": "8 일"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-07 15:00:00",
+                            "teams": "11.07 2026 vs 풀럼 vs 뉴캐슬 Utd vs 13 일",
+                            "interval": "13 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3003924": {
+            "match_code": "3003924",
+            "head_info": {
+                "league": "잉글랜드 프리미어리그",
+                "round": "잉글랜드 프리미어리그·  라운드 8",
+                "match_time_raw": "10/25/2026 2:00:00 PM",
+                "match_time_display": "2026-10-25 23:00",
+                "stadium": "Kingston Communications Stadium",
+                "home_stadium": "Kingston Communications Stadium",
+                "weather": ""
+            },
+            "home": "헐시티",
+            "away": "브렌트퍼드",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "10",
+                        "team": "헐시티",
+                        "played": "7",
+                        "win": "2",
+                        "draw": "3",
+                        "loss": "2",
+                        "goals_for": "8",
+                        "goals_against": "7",
+                        "goal_diff": "1",
+                        "points": "9"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "6",
+                        "team": "브렌트퍼드",
+                        "played": "7",
+                        "win": "2",
+                        "draw": "4",
+                        "loss": "1",
+                        "goals_for": "13",
+                        "goals_against": "8",
+                        "goal_diff": "5",
+                        "points": "10"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 5무 3패",
+                        "goals_per_game": "0.90",
+                        "conceded_per_game": "0.90"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 4무 1패",
+                        "goals_per_game": "2.80",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 4 (40%)",
+                        "무승부 2 (20%)",
+                        "1.50",
+                        "경기당 득점",
+                        "1.80"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG LCH2020.02.01",
+                                "헐시티",
+                                "1-5",
+                                "브렌트퍼드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LCH2019.08.17",
+                                "브렌트퍼드",
+                                "1-1",
+                                "헐시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LCH2019.02.23",
+                                "브렌트퍼드",
+                                "5-1",
+                                "헐시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LCH2018.12.15",
+                                "헐시티",
+                                "2-0",
+                                "브렌트퍼드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LCH2018.05.06",
+                                "브렌트퍼드",
+                                "1-1",
+                                "헐시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LCH2017.12.09",
+                                "헐시티",
+                                "3-2",
+                                "브렌트퍼드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LCH2016.04.26",
+                                "헐시티",
+                                "2-0",
+                                "브렌트퍼드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LCH2015.11.03",
+                                "브렌트퍼드",
+                                "0-2",
+                                "헐시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LC2010.08.24",
+                                "브렌트퍼드",
+                                "2-1",
+                                "헐시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L12005.05.07",
+                                "브렌트퍼드",
+                                "2-1",
+                                "헐시티"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-10-31 15:00:00",
+                            "teams": "10.31 2026 vs 헐시티 vs 입스위치 vs 6 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-07 15:00:00",
+                            "teams": "11.07 2026 vs 아스널 vs 헐시티 vs 13 일",
+                            "interval": "13 일"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-22 14:00:00",
+                            "teams": "11.22 2026 vs 헐시티 vs 브라이튼 vs 28 일",
+                            "interval": "28 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "EFL컵",
+                            "match_time": "2026-10-28 19:45:00",
+                            "teams": "10.28 2026 vs 선덜랜드 vs 브렌트퍼드 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-10-31 15:00:00",
+                            "teams": "10.31 2026 vs 브렌트퍼드 vs 노팅엄 vs 6 일",
+                            "interval": "6 일"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-08 14:00:00",
+                            "teams": "11.08 2026 vs 브라이튼 vs 브렌트퍼드 vs 14 일",
+                            "interval": "14 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3003926": {
+            "match_code": "3003926",
+            "head_info": {
+                "league": "잉글랜드 프리미어리그",
+                "round": "잉글랜드 프리미어리그·  라운드 8",
+                "match_time_raw": "10/25/2026 2:00:00 PM",
+                "match_time_display": "2026-10-25 23:00",
+                "stadium": "Anfield",
+                "home_stadium": "Anfield",
+                "weather": ""
+            },
+            "home": "리버풀",
+            "away": "브라이튼",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "5",
+                        "team": "리버풀",
+                        "played": "7",
+                        "win": "3",
+                        "draw": "3",
+                        "loss": "1",
+                        "goals_for": "9",
+                        "goals_against": "8",
+                        "goal_diff": "1",
+                        "points": "12"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "3",
+                        "team": "브라이튼",
+                        "played": "7",
+                        "win": "5",
+                        "draw": "1",
+                        "loss": "1",
+                        "goals_for": "23",
+                        "goals_against": "5",
+                        "goal_diff": "18",
+                        "points": "16"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "7승 2무 1패",
+                        "goals_per_game": "2.20",
+                        "conceded_per_game": "1.40"
+                    },
+                    "away_summary": {
+                        "recent_record": "7승 2무 1패",
+                        "goals_per_game": "3.00",
+                        "conceded_per_game": "0.70"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 5 (50%)",
+                        "무승부 1 (10%)",
+                        "승 4 (40%)",
+                        "1.80",
+                        "경기당 득점",
+                        "1.60"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG PR2026.03.21",
+                                "브라이튼",
+                                "2-1",
+                                "리버풀"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG FAC2026.02.14",
+                                "리버풀",
+                                "3-0",
+                                "브라이튼"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2025.12.13",
+                                "리버풀",
+                                "2-0",
+                                "브라이튼"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2025.05.19",
+                                "브라이튼",
+                                "3-2",
+                                "리버풀"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2024.11.02",
+                                "리버풀",
+                                "2-1",
+                                "브라이튼"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LC2024.10.30",
+                                "브라이튼",
+                                "2-3",
+                                "리버풀"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2024.03.31",
+                                "리버풀",
+                                "2-1",
+                                "브라이튼"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2023.10.08",
+                                "브라이튼",
+                                "2-2",
+                                "리버풀"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG FAC2023.01.29",
+                                "브라이튼",
+                                "2-1",
+                                "리버풀"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2023.01.14",
+                                "브라이튼",
+                                "3-0",
+                                "리버풀"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "EFL컵",
+                            "match_time": "2026-10-28 20:00:00",
+                            "teams": "10.28 2026 vs 리버풀 vs 첼시 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-01 16:30:00",
+                            "teams": "11.01 2026 vs 리버풀 vs 아스널 vs 7 일",
+                            "interval": "7 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-04 17:45:00",
+                            "teams": "11.04 2026 vs 페네르바체 vs 리버풀 vs 10 일",
+                            "interval": "10 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "EFL컵",
+                            "match_time": "2026-10-28 19:30:00",
+                            "teams": "10.28 2026 vs 맨체스터 시티 vs 브라이튼 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-10-31 15:00:00",
+                            "teams": "10.31 2026 vs 맨체스터 시티 vs 브라이튼 vs 6 일",
+                            "interval": "6 일"
+                        },
+                        {
+                            "league": "유로파 컨퍼런스리그",
+                            "match_time": "2026-11-05 20:00:00",
+                            "teams": "11.05 2026 vs 헤타페 vs 브라이튼 vs 11 일",
+                            "interval": "11 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3003927": {
+            "match_code": "3003927",
+            "head_info": {
+                "league": "잉글랜드 프리미어리그",
+                "round": "잉글랜드 프리미어리그·  라운드 8",
+                "match_time_raw": "10/25/2026 2:00:00 PM",
+                "match_time_display": "2026-10-25 23:00",
+                "stadium": "Old Trafford",
+                "home_stadium": "Old Trafford",
+                "weather": ""
+            },
+            "home": "맨체스터 유나이티드",
+            "away": "본머스",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "13",
+                        "team": "맨체스터 유나이티드",
+                        "played": "7",
+                        "win": "1",
+                        "draw": "4",
+                        "loss": "2",
+                        "goals_for": "10",
+                        "goals_against": "10",
+                        "goal_diff": "0",
+                        "points": "7"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "15",
+                        "team": "본머스",
+                        "played": "7",
+                        "win": "1",
+                        "draw": "3",
+                        "loss": "3",
+                        "goals_for": "9",
+                        "goals_against": "13",
+                        "goal_diff": "-4",
+                        "points": "6"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 4무 4패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "1.70"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 3무 2패",
+                        "goals_per_game": "2.00",
+                        "conceded_per_game": "1.20"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 4 (40%)",
+                        "무승부 4 (40%)",
+                        "승 2 (20%)",
+                        "2.20",
+                        "경기당 득점",
+                        "1.80"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG PR2026.03.20",
+                                "본머스",
+                                "2-2",
+                                "맨체스터 유나이티드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2025.12.15",
+                                "맨체스터 유나이티드",
+                                "4-4",
+                                "본머스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT CF2025.07.31",
+                                "맨체스터 유나이티드",
+                                "4-1",
+                                "본머스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2025.04.27",
+                                "본머스",
+                                "1-1",
+                                "맨체스터 유나이티드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2024.12.22",
+                                "맨체스터 유나이티드",
+                                "0-3",
+                                "본머스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2024.04.13",
+                                "본머스",
+                                "2-2",
+                                "맨체스터 유나이티드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2023.12.09",
+                                "맨체스터 유나이티드",
+                                "0-3",
+                                "본머스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2023.05.20",
+                                "본머스",
+                                "0-1",
+                                "맨체스터 유나이티드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2023.01.03",
+                                "맨체스터 유나이티드",
+                                "3-0",
+                                "본머스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG PR2020.07.04",
+                                "맨체스터 유나이티드",
+                                "5-2",
+                                "본머스"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-10-31 12:30:00",
+                            "teams": "10.31 2026 vs 첼시 vs 맨체스터 유나이티드 vs 6 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-03 20:00:00",
+                            "teams": "11.03 2026 vs 맨체스터 유나이티드 vs AS 로마 vs 9 일",
+                            "interval": "9 일"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-08 16:30:00",
+                            "teams": "11.08 2026 vs 맨체스터 유나이티드 vs 아스톤 빌라 vs 14 일",
+                            "interval": "14 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "EFL컵",
+                            "match_time": "2026-10-28 19:45:00",
+                            "teams": "10.28 2026 vs 본머스 vs 아스톤 빌라 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-10-31 15:00:00",
+                            "teams": "10.31 2026 vs 본머스 vs 리즈 vs 6 일",
+                            "interval": "6 일"
+                        },
+                        {
+                            "league": "유로파리그",
+                            "match_time": "2026-11-05 17:45:00",
+                            "teams": "11.05 2026 vs 스파르타 프라하 vs 본머스 vs 11 일",
                             "interval": "11 일"
                         }
                     ]
@@ -924,42 +1888,42 @@
                 "fixtures": {
                     "home": [
                         {
+                            "league": "코파델레이",
+                            "match_time": "2026-10-29 20:00:00",
+                            "teams": "10.29 2026 vs 프라트 vs 아틀레틱 빌바오 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
                             "league": "라리가",
                             "match_time": "2026-11-01 20:00:00",
                             "teams": "11.01 2026 vs 아틀레틱 빌바오 vs 레알소시에다드 vs 7 일",
-                            "interval": "시작전"
+                            "interval": "7 일"
                         },
                         {
                             "league": "라리가",
                             "match_time": "2026-11-08 16:00:00",
                             "teams": "11.08 2026 vs 오사수나 vs 아틀레틱 빌바오 vs 14 일",
                             "interval": "14 일"
-                        },
-                        {
-                            "league": "라리가",
-                            "match_time": "2026-11-22 16:00:00",
-                            "teams": "11.22 2026 vs 아틀레틱 빌바오 vs 에스파뇰 vs 28 일",
-                            "interval": "28 일"
                         }
                     ],
                     "away": [
                         {
+                            "league": "코파델레이",
+                            "match_time": "2026-10-29 18:00:00",
+                            "teams": "10.29 2026 vs UB Lebrijana vs 헤타페 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
                             "league": "라리가",
                             "match_time": "2026-11-01 13:00:00",
                             "teams": "11.01 2026 vs 헤타페 vs 세비야 vs 7 일",
-                            "interval": "시작전"
+                            "interval": "7 일"
                         },
                         {
                             "league": "유로파 컨퍼런스리그",
                             "match_time": "2026-11-05 20:00:00",
                             "teams": "11.05 2026 vs 헤타페 vs 브라이튼 vs 11 일",
                             "interval": "11 일"
-                        },
-                        {
-                            "league": "라리가",
-                            "match_time": "2026-11-08 16:00:00",
-                            "teams": "11.08 2026 vs 비야레알 vs 헤타페 vs 14 일",
-                            "interval": "14 일"
                         }
                     ]
                 }
@@ -3576,7 +4540,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "15",
+                        "rank": "17",
                         "team": "브라운슈바이크",
                         "played": "8",
                         "win": "2",
@@ -3590,7 +4554,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "14",
+                        "rank": "15",
                         "team": "하노버",
                         "played": "8",
                         "win": "2",
@@ -4145,7 +5109,7 @@
                 "match_time_raw": "10/24/2026 4:30:00 PM",
                 "match_time_display": "2026-10-25 01:30",
                 "stadium": "Municipal de Montilivi",
-                "home_stadium": "-",
+                "home_stadium": "Municipal de Montilivi",
                 "weather": "구름 많음,  15℃～16℃"
             },
             "home": "지로나",
@@ -4696,42 +5660,42 @@
                 "fixtures": {
                     "home": [
                         {
+                            "league": "코파델레이",
+                            "match_time": "2026-10-28 18:00:00",
+                            "teams": "10.28 2026 vs 우테보 FC vs 사바델 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
                             "league": "라리가2",
                             "match_time": "2026-10-31 20:00:00",
                             "teams": "10.31 2026 vs 알바세테 vs 사바델 vs 6 일",
-                            "interval": "시작전"
+                            "interval": "6 일"
                         },
                         {
                             "league": "라리가2",
                             "match_time": "2026-11-08 16:00:00",
                             "teams": "11.08 2026 vs 사바델 vs 레알 소시에다드 B vs 14 일",
                             "interval": "14 일"
-                        },
-                        {
-                            "league": "라리가2",
-                            "match_time": "2026-11-15 16:00:00",
-                            "teams": "11.15 2026 vs 엘덴세 vs 사바델 vs 21 일",
-                            "interval": "21 일"
                         }
                     ],
                     "away": [
                         {
+                            "league": "코파델레이",
+                            "match_time": "2026-10-28 19:00:00",
+                            "teams": "10.28 2026 vs CD 바다호스 vs 테네리페 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
                             "league": "라리가2",
                             "match_time": "2026-11-01 20:00:00",
                             "teams": "11.01 2026 vs 테네리페 vs FC 안도라 vs 7 일",
-                            "interval": "시작전"
+                            "interval": "7 일"
                         },
                         {
                             "league": "라리가2",
                             "match_time": "2026-11-08 16:00:00",
                             "teams": "11.08 2026 vs 그라나다 vs 테네리페 vs 14 일",
                             "interval": "14 일"
-                        },
-                        {
-                            "league": "라리가2",
-                            "match_time": "2026-11-15 16:00:00",
-                            "teams": "11.15 2026 vs 테네리페 vs 세우타 vs 21 일",
-                            "interval": "21 일"
                         }
                     ]
                 }
@@ -5488,8 +6452,8 @@
                     "away": [
                         {
                             "league": "KNVB 베커",
-                            "match_time": "2026-10-27 16:00:00",
-                            "teams": "10.27 2026 vs 흐로닝언 vs FC 엠멘 vs 2 일",
+                            "match_time": "2026-10-29 20:00:00",
+                            "teams": "10.29 2026 vs 흐로닝언 vs FC 엠멘 vs 4 일",
                             "interval": "시작전"
                         },
                         {
