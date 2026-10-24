@@ -1609,7 +1609,7 @@ with tabs[5]:
         a_base_g = a_gpg if 'a_gpg' in locals() else 0.0
         a_base_c = a_cpg if 'a_cpg' in locals() else 0.0
 
-        # 3. 규칙별 보정치 안전 정의 (정보 없을 시 0.0% 방어)
+        # 3. 규칙별 보정치 안전 정의 (규칙 1 및 규칙 2 구장 Shift 보정 확실하게 연동)
         h_atw = h_atw if 'h_atw' in locals() else "0%"
         h_dew = h_dew if 'h_dew' in locals() else "0%"
         a_atw = a_atw if 'a_atw' in locals() else "0%"
@@ -1620,23 +1620,22 @@ with tabs[5]:
         a_r1_atk = parse_pct(a_atw)
         a_r1_def = parse_pct(a_dew)
 
-        h_r2_atk = h_atk_val if 'h_atk_val' in locals() else 0.0
-        h_r2_def = h_def_val if 'h_def_val' in locals() else 0.0
-        a_r2_atk = a_atk_val if 'a_atk_val' in locals() else 0.0
-        a_r2_def = a_def_val if 'a_def_val' in locals() else 0.0
+        # 💡 [확실한 연동] 규칙 2번(구장 Shift 보정치) 누락 방지 매핑
+        h_r2_atk = parse_pct(h_atk_shift_str) if 'h_atk_shift_str' in locals() else (h_r2_atk_val if 'h_r2_atk_val' in locals() else 0.0)
+        h_r2_def = parse_pct(h_def_shift_str) if 'h_def_shift_str' in locals() else (h_r2_def_val if 'h_r2_def_val' in locals() else 0.0)
+        a_r2_atk = parse_pct(a_atk_shift_str) if 'a_atk_shift_str' in locals() else (a_r2_atk_val if 'a_r2_atk_val' in locals() else 0.0)
+        a_r2_def = parse_pct(a_def_shift_str) if 'a_def_shift_str' in locals() else (a_r2_def_val if 'a_r2_def_val' in locals() else 0.0)
 
         h_r31_atk = h_r31_atk_val if 'h_r31_atk_val' in locals() else 0.0
         h_r31_def = h_r31_def_val if 'h_r31_def_val' in locals() else 0.0
         a_r31_atk = a_r31_atk_val if 'a_r31_atk_val' in locals() else 0.0
         a_r31_def = a_r31_def_val if 'a_r31_def_val' in locals() else 0.0
 
-        # 💡 [규칙 3-2 중요도 가중치 연동 코드]
         h_imp_atk_val = h_imp_atk if 'h_imp_atk' in locals() else 0.0
         h_imp_def_val = h_imp_def if 'h_imp_def' in locals() else 0.0
         a_imp_atk_val = a_imp_atk if 'a_imp_atk' in locals() else 0.0
         a_imp_def_val = a_imp_def if 'a_imp_def' in locals() else 0.0
 
-        # 이동 피로도 단계 가중치 연동
         h_fatigue_stage = h_last_fatigue if 'h_last_fatigue' in locals() else 0
         a_fatigue_stage = a_last_fatigue if 'a_last_fatigue' in locals() else 0
         
@@ -1645,7 +1644,6 @@ with tabs[5]:
         a_r32_atk = (-5 * a_fatigue_stage)
         a_r32_def = (5 * a_fatigue_stage)
 
-        # 규칙 3번 전체 통합 합산 (3-1 전력누수 + 3-2 중요도 + 3-2 이동피로도)
         h_r3_tot_atk = h_r31_atk + h_imp_atk_val + h_r32_atk
         h_r3_tot_def = h_r31_def + h_imp_def_val + h_r32_def
         a_r3_tot_atk = a_r31_atk + a_imp_atk_val + a_r32_atk
@@ -1656,7 +1654,7 @@ with tabs[5]:
         a_r4_atk = a_r4_atk_val if 'a_r4_atk_val' in locals() else 0.0
         a_r4_def = a_r4_def_val if 'a_r4_def_val' in locals() else 0.0
 
-        # 최종 누적 보정치 합산 (0단계 및 규칙 1~4 통합)
+        # 최종 누적 보정치 합산
         h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r3_tot_atk + h_r4_atk
         h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r3_tot_def + h_r4_def
         a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk
@@ -1690,7 +1688,6 @@ with tabs[5]:
             {"구분 항목": "1차기본기대 득실점", f"홈 팀 ({home_team})": f"기대 득점 {h_final_exp_g:.2f}골 / 예상 실점 {h_final_exp_c:.2f}골", f"원정 팀 ({away_team})": f"기대 득점 {a_final_exp_g:.2f}골 / 예상 실점 {a_final_exp_c:.2f}골", "보정 및 산출 연산 근거": "기하평균 공수 교차 상쇄 결합 연산"}
         ]
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
-
 # --------------------------------------------------------------------------
         # 📊 [5-2 표] 렌더링 (5-2 표 내부 자체 원본 평균 산출 ➔ 1차 원본 티어 확정 ➔ 특수룰 검증 규격)
         # --------------------------------------------------------------------------
