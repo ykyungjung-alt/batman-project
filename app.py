@@ -1692,24 +1692,22 @@ with tabs[5]:
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 
 # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (1~2단계 체급 누락 방지 및 완벽 연동 규격)
+        # 📊 [5-2 표] 렌더링 (홈/원정 득실 정방향 스위치 + 독립 특수룰 티어 판장 및 근거 확보 규격)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 7경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
 
-        # 💡 [핵심 연동 고정] 1~2단계에서 산출된 최종 체급 변수를 누락 없이 안전하게 계승
+        # 1~2단계에서 확정된 체급 변수를 안전하게 연동
         home_my_at = s_h_at if 's_h_at' in locals() and s_h_at else (h_at if 'h_at' in locals() else "Tier C")
         home_my_de = s_h_de if 's_h_de' in locals() and s_h_de else (h_de if 'h_de' in locals() else "Tier C")
-        
         away_my_at = s_a_at if 's_a_at' in locals() else (a_at if 'a_at' in locals() else "Tier C")
         away_my_de = s_a_de if 's_a_de' in locals() else (a_de if 'a_de' in locals() else "Tier C")
 
-        # 상대방 연동 체급 규격
         h_opp_at = away_my_at
         h_opp_de = away_my_de
         a_opp_at = home_my_at
         a_opp_de = home_my_de
-      
+
         home_raw_pool = []
         away_raw_pool = []
         target_v3_match = v3_details_dict.get(str(match_code), {}) if 'v3_details_dict' in locals() else {}
@@ -1779,11 +1777,9 @@ with tabs[5]:
 
                 scored_pool.append((match_score, m))
 
-            # 1. 티어 매칭 점수가 가장 좋은 순서로 우선 정렬 후 상위 7경기 추출
             scored_pool.sort(key=lambda x: x[0])
             sorted_matches = [item[1] for item in scored_pool[:7]]
             
-            # 💡 [핵심 교정] 최종 선별된 7경기를 경기 일시(match_time) 기준 최신순(내림차순)으로 정렬하여 시계열 흐름 반영
             try:
                 sorted_matches.sort(key=lambda x: str(x.get("match_time", "")), reverse=True)
             except:
@@ -1798,7 +1794,7 @@ with tabs[5]:
             rows = []
             cnt = len(match_list)
             if cnt == 0:
-                return pd.DataFrame([{"순서": "데이터 없음", "경기 일시": "-", "대회 명칭": "-", "장소": "-", "상대 팀": f"[{team_label}] 조건 부합 경기 없음", "상대 티어": "-", "최종 스코어": "-", "결과": "-", "비고": "0득점 / 0실점"}]), 0, 0, 0.0, 0.0, False
+                return pd.DataFrame([{"순서": "데이터 없음", "경기 일시": "-", "대회 명칭": "-", "장소": "-", "상대 팀": f"[{team_label}] 조건 부합 경기 없음", "상대 티어": "-", "최종 스코어": "-", "결과": "-", "비고 (득점 / 실점)": "0득점 / 0실점"}]), 0.0, 0.0, 0.0, 0.0, False
             
             total_gf, total_ga = 0.0, 0.0
             any_rule_applied = False
@@ -1813,7 +1809,7 @@ with tabs[5]:
                     m_score = f"{scores_arr[0]} : {scores_arr[1]}"
                 m_loc = str(m.get("location", "공식"))
                 
-                # 💡 [정밀 교정] 대진 문자열(teams)을 분석하여 해당 팀이 홈인지 원정인지 판정 및 상대 팀 추출
+                # 대진 문자열 분석을 통한 정확한 홈/원정 및 상대 팀 판정
                 teams_str = str(m.get("teams", ""))
                 is_team_home = True
                 m_opp = ""
@@ -1839,7 +1835,7 @@ with tabs[5]:
                 except:
                     pass
 
-                # 💡 [핵심 교정] 원정 경기일 경우 스코어 득실을 내 팀 관점에 맞게 정상적으로 스위치
+                # 원정 경기일 경우 득실 정방향 스위치
                 if not is_team_home and " vs " in teams_str:
                     gf = raw_s2
                     ga = raw_s1
@@ -1864,25 +1860,27 @@ with tabs[5]:
                 original_ga = float(ga)
                 mult_gf = 1.0
                 mult_ga = 1.0
-                rule_desc = ""
+                rule_desc = []
 
-                # [5-2 표 독립 공수 대칭 교차 보정 규격]
-                if my_at == "Tier A" and df_name == "Tier E":
-                    mult_gf = 0.5
-                    rule_desc = "공격 A vs 상대수비 E (득점 50% 할인)"
-                elif my_at == "Tier E" and df_name == "Tier A":
-                    mult_gf = 1.5
-                    rule_desc = "공격 E vs 상대수비 A (득점 50% 할증)"
-                    
-                if my_de == "Tier A" and at_name == "Tier E":
-                    mult_ga = 1.5
-                    rule_desc = (rule_desc + " / " if rule_desc else "") + "방어 A vs 상대공격 E (실점 50% 할증)"
-                elif my_de == "Tier E" and at_name == "Tier A":
-                    mult_ga = 0.5
-                    rule_desc = (rule_desc + " / " if rule_desc else "") + "방어 E vs 상대공격 A (실점 50% 할인)"
+                # 💡 [공수 각각 독립 교차 특수룰 검증 가드레일]
+                if my_at in ["Tier A", "Tier E"]:
+                    if my_at == "Tier A" and df_name == "Tier E":
+                        mult_gf = 0.5
+                        rule_desc.append(f"내공격({my_at}) vs 상대수비({df_name}) ➔ 득점 50% 할인")
+                    elif my_at == "Tier E" and df_name == "Tier A":
+                        mult_gf = 1.5
+                        rule_desc.append(f"내공격({my_at}) vs 상대수비({df_name}) ➔ 득점 50% 할증")
+                        
+                if my_de in ["Tier A", "Tier E"]:
+                    if my_de == "Tier A" and at_name == "Tier E":
+                        mult_ga = 1.5
+                        rule_desc.append(f"내방어({my_de}) vs 상대공격({at_name}) ➔ 실점 50% 할증")
+                    elif my_de == "Tier E" and at_name == "Tier A":
+                        mult_ga = 0.5
+                        rule_desc.append(f"내방어({my_de}) vs 상대공격({at_name}) ➔ 실점 50% 할인")
 
-                app_gf = gf * mult_gf
-                app_ga = ga * mult_ga
+                app_gf = original_gf * mult_gf
+                app_ga = original_ga * mult_ga
 
                 if mult_gf != 1.0 or mult_ga != 1.0:
                     any_rule_applied = True
@@ -1890,14 +1888,16 @@ with tabs[5]:
                 total_gf += app_gf
                 total_ga += app_ga
                 
-                # 💡 교정된 정방향 득실 기준으로 승/무/패 판정
+                # 보정된 정방향 득실 기준 승패 판정
                 w_l = "승" if app_gf > app_ga else ("패" if app_gf < app_ga else "무")
                 seq_txt = f"{i} (최신)" if i == 1 else (f"{i} (과거)" if i == cnt else str(i))
                 
-                if mult_gf != 1.0 or mult_ga != 1.0:
-                    note_str = f"{int(original_gf)}득점 / {original_ga}실점 ⚠️ [{rule_desc} ➔ 보정: {app_gf:.1f}득점 / {app_ga:.1f}실점]"
+                # 산출 근거(티어 판장 및 보정 수치) 비고란 명시
+                if rule_desc:
+                    rule_joined = " / ".join(rule_desc)
+                    note_str = f"{int(original_gf)}득점 / {int(original_ga)}실점 ⚠️ [{rule_joined} ➔ 보정산출: {app_gf:.1f}득점 / {app_ga:.1f}실점]"
                 else:
-                    note_str = f"{int(original_gf)}득점 / {int(original_ga)}실점"
+                    note_str = f"{int(original_gf)}득점 / {int(original_ga)}실점 (특수룰 미해당)"
 
                 rows.append({
                     "순서": seq_txt, "경기 일시": m_date, "대회 명칭": m_league, "장소": m_loc, "상대 팀": m_opp,
@@ -1908,12 +1908,7 @@ with tabs[5]:
             avg_ga = total_ga / cnt if cnt > 0 else 0.0
             return pd.DataFrame(rows), total_gf, total_ga, avg_gf, avg_ga, any_rule_applied
 
-        # 홈/원정 팀 체급 추출 (없으면 기본 C)
-        home_my_at = h_current_at if 'h_current_at' in locals() else "Tier C"
-        home_my_de = h_current_de if 'h_current_de' in locals() else "Tier C"
-        away_my_at = a_current_at if 'a_current_at' in locals() else "Tier C"
-        away_my_de = a_current_de if 'a_current_de' in locals() else "Tier C"
-
+        # 홈 팀 출력
         st.markdown(f"##### 🏠 홈 팀: {home_team} (상대({away_team}) 연동 체급: 공격 {h_opp_at} / 방어 {h_opp_de})")
         h_df_52, h_tgf, h_tga, h_agf, h_aga, h_rule_active = build_team_52_dataframe(home_matched_7, home_team, home_my_at, home_my_de)
         if h_rule_active:
@@ -1922,9 +1917,11 @@ with tabs[5]:
         st.markdown(f"📌 **{home_team} 최근 7경기 총합:** {h_tgf:.1f}득점 / {h_tga:.1f}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span>", unsafe_allow_html=True)
 
         st.markdown("---")
+
+        # 원정 팀 출력 (변수명 오류 교정 완료: a_rule_active)
         st.markdown(f"##### ✈️ 원정 팀: {away_team} (상대({home_team}) 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_agf, a_aga, a_rule_active = build_team_52_dataframe(away_matched_7, away_team, away_my_at, away_my_de)
-        if h_rule_active:
+        if a_rule_active:
             st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {away_team} 팀은 실전 7경기 검증 과정에서 상대 공수 티어와의 교차 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
         st.markdown(f"📌 **{away_team} 최근 7경기 총합:** {a_tgf:.1f} 득점 / {a_tga:.1f} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
