@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-10-26 15:42:59",
+    "updated_at": "2026-10-26 18:41:01",
     "leagues": {
         "34": {
             "league_id": 34,
@@ -269,7 +269,7 @@
                     "승점": "3"
                 }
             ],
-            "standings_error": null
+            "standings_error": "[주소 오류] URL 접속에 실패했습니다: HTTPConnectionPool(host='localhost', port=34067): Read timed out. (read timeout=120)"
         },
         "39": {
             "league_id": 39,
@@ -583,7 +583,7 @@
                     "승점": "7"
                 }
             ],
-            "standings_error": null
+            "standings_error": "[주소 오류] URL 접속에 실패했습니다: HTTPConnectionPool(host='localhost', port=34067): Read timed out. (read timeout=120)"
         },
         "40": {
             "league_id": 40,
@@ -15642,7 +15642,7 @@
             "league_id": 21,
             "league_name": "메이저리그사커",
             "league_name_error": null,
-            "active_round": "31/34",
+            "active_round": "32/34",
             "active_round_error": null,
             "total_rounds": 34,
             "standing_legends": [
@@ -16246,7 +16246,7 @@
             "league_id": 140,
             "league_name": "리가 MX",
             "league_name_error": null,
-            "active_round": "14/17",
+            "active_round": "7/17",
             "active_round_error": null,
             "total_rounds": 17,
             "standing_legends": [
