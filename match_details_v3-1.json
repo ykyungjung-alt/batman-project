@@ -1,635 +1,6 @@
 {
-    "last_updated": "2026-10-27 01:04:32",
+    "last_updated": "2026-10-27 02:22:25",
     "match_details": {
-        "3068946": {
-            "match_code": "3068946",
-            "head_info": {
-                "league": "AFC 챔피언스리그",
-                "round": ""
-            },
-            "home": "알 알리 두바이",
-            "away": "에스테갈 F.C.",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "알 알리 두바이",
-                    "home_matches": [
-                        {
-                            "league": "UAE",
-                            "match_time": "2026.10.22",
-                            "teams": "알 알리 두바이 vs 알 아인",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.20/1.40"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.10.17",
-                            "teams": "알 알리 두바이 vs 알 아인",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.60/1.40"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.13",
-                            "teams": "알 이티하드 FC vs 알 알리 두바이",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.80/1.00"
-                        },
-                        {
-                            "league": "UAE C",
-                            "match_time": "2026.10.08",
-                            "teams": "알 알리 두바이 vs 유나이티드 FC",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.70/2.10"
-                        },
-                        {
-                            "league": "UAE C",
-                            "match_time": "2026.10.02",
-                            "teams": "알 알리 두바이 vs 알 나스르",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.70/1.20"
-                        },
-                        {
-                            "league": "UAE C",
-                            "match_time": "2026.09.19",
-                            "teams": "하타 vs 알 알리 두바이",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.00/1.30"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.09.14",
-                            "teams": "알 알리 두바이 vs 트락토르",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.00/0.50"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.09.10",
-                            "teams": "유나이티드 FC vs 알 알리 두바이",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.80/1.60"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.09.05",
-                            "teams": "알 알리 두바이 vs 알 자지라",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.70/1.20"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.08.28",
-                            "teams": "알 와슬 vs 알 알리 두바이",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.60/1.40"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.08.22",
-                            "teams": "알 알리 두바이 vs 알 다프라",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.50/2.00"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.08.15",
-                            "teams": "코르팍칸 vs 알 알리 두바이",
-                            "ft_scores": [
-                                "1",
-                                "5"
-                            ],
-                            "opponent_tier_info": "1.30/1.50"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.31",
-                            "teams": "마인츠 vs 알 알리 두바이",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "3.70/1.40"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.28",
-                            "teams": "우디네세 vs 알 알리 두바이",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.20/1.00"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.13",
-                            "teams": "시그마 올로모우츠 vs 알 알리 두바이",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.10/0.90"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.05.16",
-                            "teams": "알 알리 두바이 vs 알 바테",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.70/1.10"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.05.10",
-                            "teams": "바니 야스 vs 알 알리 두바이",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.40/1.20"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.05.06",
-                            "teams": "알 알리 두바이 vs 알 나스르",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.30"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.04.29",
-                            "teams": "알 알리 두바이 vs 코르팍칸",
-                            "ft_scores": [
-                                "3",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.50/2.00"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.04.21",
-                            "teams": "마치다 vs 알 알리 두바이",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.70/0.80"
-                        }
-                    ],
-                    "away_team_name": "에스테갈 F.C.",
-                    "away_matches": [
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.10.23",
-                            "teams": "차도르말루 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.80/1.20"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.10.19",
-                            "teams": "에스테갈 F.C. vs 시리안",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.00/0.90"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.12",
-                            "teams": "알 가라파 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.50/2.10"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.10.08",
-                            "teams": "트락토르 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.90/0.50"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.09.14",
-                            "teams": "에스테갈 F.C. vs 알 사드",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.70/1.50"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.09.10",
-                            "teams": "에스테갈 F.C. vs 파이칸",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.60/1.00"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.09.06",
-                            "teams": "알루미늄 아라크 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.10/0.60"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.09.02",
-                            "teams": "에스테갈 F.C. vs 페르세폴리스",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/0.90"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.28",
-                            "teams": "풀라드 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.80/0.80"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.23",
-                            "teams": "에스테갈 F.C. vs 세파한",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.00/0.90"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.18",
-                            "teams": "나사지 마잔다란 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/0.70"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.14",
-                            "teams": "에스테갈 F.C. vs 메스 샤르 바닥",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.50/0.30"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.27",
-                            "teams": "에스테갈 F.C. vs 파지르 세파시",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.20"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.22",
-                            "teams": "메스 라프산잔 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.50/1.10"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.02.17",
-                            "teams": "알 후세인 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.40/1.00"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.02.10",
-                            "teams": "에스테갈 F.C. vs 알 후세인",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/1.20"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.05",
-                            "teams": "에스테갈 F.C. vs 샴스 아자르 카즈빈",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "0.80/0.50"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.01",
-                            "teams": "파이칸 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.80/0.40"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.01.27",
-                            "teams": "에스테갈 F.C. vs 에스테그랄 쿠제스탄",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.40/1.20"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.01.23",
-                            "teams": "조브 아한 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.30/0.90"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "알 알리 두바이",
-                    "home_matches": [
-                        {
-                            "league": "UAE",
-                            "match_time": "2026.10.22",
-                            "teams": "알 알리 두바이 vs 알 아인",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.20/1.40"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.10.17",
-                            "teams": "알 알리 두바이 vs 알 아인",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.60/1.40"
-                        },
-                        {
-                            "league": "UAE C",
-                            "match_time": "2026.10.08",
-                            "teams": "알 알리 두바이 vs 유나이티드 FC",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.70/2.10"
-                        },
-                        {
-                            "league": "UAE C",
-                            "match_time": "2026.10.02",
-                            "teams": "알 알리 두바이 vs 알 나스르",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.70/1.20"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.09.14",
-                            "teams": "알 알리 두바이 vs 트락토르",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.00/0.50"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.09.05",
-                            "teams": "알 알리 두바이 vs 알 자지라",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.70/1.20"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.08.22",
-                            "teams": "알 알리 두바이 vs 알 다프라",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.50/2.00"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.05.16",
-                            "teams": "알 알리 두바이 vs 알 바테",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.70/1.10"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.05.06",
-                            "teams": "알 알리 두바이 vs 알 나스르",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.30"
-                        },
-                        {
-                            "league": "UAE LP",
-                            "match_time": "2026.04.29",
-                            "teams": "알 알리 두바이 vs 코르팍칸",
-                            "ft_scores": [
-                                "3",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.50/2.00"
-                        }
-                    ],
-                    "away_team_name": "에스테갈 F.C.",
-                    "away_matches": [
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.10.23",
-                            "teams": "차도르말루 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.80/1.20"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.12",
-                            "teams": "알 가라파 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.50/2.10"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.10.08",
-                            "teams": "트락토르 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.90/0.50"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.09.06",
-                            "teams": "알루미늄 아라크 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.10/0.60"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.28",
-                            "teams": "풀라드 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.80/0.80"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.18",
-                            "teams": "나사지 마잔다란 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/0.70"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.22",
-                            "teams": "메스 라프산잔 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.50/1.10"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.02.17",
-                            "teams": "알 후세인 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.40/1.00"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.01",
-                            "teams": "파이칸 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.80/0.40"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.01.23",
-                            "teams": "조브 아한 vs 에스테갈 F.C.",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "0.30/0.90"
-                        }
-                    ]
-                }
-            }
-        },
         "3068947": {
             "match_code": "3068947",
             "head_info": {
@@ -9995,635 +9366,6 @@
                 }
             }
         },
-        "3069032": {
-            "match_code": "3069032",
-            "head_info": {
-                "league": "AFC 챔피언스리그 2",
-                "round": ""
-            },
-            "home": "알 세브",
-            "away": "이스트 벵골",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "알 세브",
-                    "home_matches": [
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.10.23",
-                            "teams": "알 세브 vs 소하르",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.20/1.90"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.10.18",
-                            "teams": "알 나스르 vs 알 세브",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.00/1.30"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.10.13",
-                            "teams": "알 세브 vs 알 후세인",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "2.10/1.70"
-                        },
-                        {
-                            "league": "OMA FA Cup",
-                            "match_time": "2026.09.24",
-                            "teams": "소하르 vs 알 세브",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.40/1.00"
-                        },
-                        {
-                            "league": "OMA FA Cup",
-                            "match_time": "2026.09.20",
-                            "teams": "알 세브 vs 이브리",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/2.00"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.09.16",
-                            "teams": "알 쇼르타 vs 알 세브",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.00/0.50"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.09.10",
-                            "teams": "알 나흐다 vs 알 세브",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/1.40"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.09.06",
-                            "teams": "알 세브 vs 수르 클럽",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.80/1.90"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.08.30",
-                            "teams": "Bahla vs 알 세브",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.80/0.80"
-                        },
-                        {
-                            "league": "OMA FA Cup",
-                            "match_time": "2026.08.25",
-                            "teams": "사함 vs 알 세브",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.70/1.60"
-                        },
-                        {
-                            "league": "OMA FA Cup",
-                            "match_time": "2026.08.19",
-                            "teams": "알 세브 vs 알 샤밥",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.00/1.60"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.05.23",
-                            "teams": "알 세브 vs 이브리",
-                            "ft_scores": [
-                                "7",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.60"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.05.18",
-                            "teams": "알 샤밥 vs 알 세브",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.20/1.70"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.05.14",
-                            "teams": "알 나흐다 vs 알 세브",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "1.00/0.60"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.05.02",
-                            "teams": "알 세브 vs 도파르",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.50/0.80"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.04.26",
-                            "teams": "알 루스타크 vs 알 세브",
-                            "ft_scores": [
-                                "2",
-                                "4"
-                            ],
-                            "opponent_tier_info": "0.80/1.60"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.04.18",
-                            "teams": "알 세브 vs 수르 클럽",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.80/0.80"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.04.10",
-                            "teams": "사함 vs 알 세브",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "0.50/1.70"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.04.05",
-                            "teams": "알 세브 vs Al-Samail",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.90/1.00"
-                        },
-                        {
-                            "league": "OMA FA Cup",
-                            "match_time": "2026.03.31",
-                            "teams": "알 세브 vs 소하르",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.90/0.60"
-                        }
-                    ],
-                    "away_team_name": "이스트 벵골",
-                    "away_matches": [
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.10.23",
-                            "teams": "인터 카쉬 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "5"
-                            ],
-                            "opponent_tier_info": "0.80/1.50"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.10.18",
-                            "teams": "처칠 브라더스 vs 이스트 벵골",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "1.00/1.70"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.10.13",
-                            "teams": "이스트 벵골 vs 알 쇼르타",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.00/0.40"
-                        },
-                        {
-                            "league": "IND IS",
-                            "match_time": "2026.10.08",
-                            "teams": "모훈 바간 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.80/0.40"
-                        },
-                        {
-                            "league": "IND IS",
-                            "match_time": "2026.10.05",
-                            "teams": "이스트 벵골 vs 노스이스트 유나이티드",
-                            "ft_scores": [
-                                "7",
-                                "2"
-                            ],
-                            "opponent_tier_info": "2.70/0.90"
-                        },
-                        {
-                            "league": "IND IS",
-                            "match_time": "2026.09.30",
-                            "teams": "이스트 벵골 vs 펀자브",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "2.10/0.90"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.09.16",
-                            "teams": "알 후세인 vs 이스트 벵골",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.80/1.20"
-                        },
-                        {
-                            "league": "Id DCup",
-                            "match_time": "2026.08.19",
-                            "teams": "하이데라바드 vs 이스트 벵골",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.20/1.00"
-                        },
-                        {
-                            "league": "Id DCup",
-                            "match_time": "2026.08.16",
-                            "teams": "아미 레드 vs 이스트 벵골",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/1.20"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.08.12",
-                            "teams": "이스트 벵골 vs 알 아라비",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.20"
-                        },
-                        {
-                            "league": "Id DCup",
-                            "match_time": "2026.07.25",
-                            "teams": "이스트 벵골 vs 모훈 바간",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/0.80"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.05.21",
-                            "teams": "인터 카쉬 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "0.90/1.40"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.05.17",
-                            "teams": "모훈 바간 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.80/0.70"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.05.11",
-                            "teams": "이스트 벵골 vs 펀자브",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.50/0.80"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.05.05",
-                            "teams": "뭄바이 시티 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.00/0.70"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.04.28",
-                            "teams": "이스트 벵골 vs 오디샤 FC",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.20/1.90"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.04.16",
-                            "teams": "이스트 벵골 vs 벵갈루루",
-                            "ft_scores": [
-                                "3",
-                                "3"
-                            ],
-                            "opponent_tier_info": "1.50/0.70"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.04.11",
-                            "teams": "첸나인 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "0.50/1.80"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.03.23",
-                            "teams": "이스트 벵골 vs 모하메단",
-                            "ft_scores": [
-                                "7",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.00/2.10"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.03.14",
-                            "teams": "이스트 벵골 vs 케랄라 블래스터즈",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.90/1.00"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "알 세브",
-                    "home_matches": [
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.10.23",
-                            "teams": "알 세브 vs 소하르",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.20/1.90"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.10.13",
-                            "teams": "알 세브 vs 알 후세인",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "2.10/1.70"
-                        },
-                        {
-                            "league": "OMA FA Cup",
-                            "match_time": "2026.09.20",
-                            "teams": "알 세브 vs 이브리",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.40/2.00"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.09.06",
-                            "teams": "알 세브 vs 수르 클럽",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.80/1.90"
-                        },
-                        {
-                            "league": "OMA FA Cup",
-                            "match_time": "2026.08.19",
-                            "teams": "알 세브 vs 알 샤밥",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "2.00/1.60"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.05.23",
-                            "teams": "알 세브 vs 이브리",
-                            "ft_scores": [
-                                "7",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.40/1.60"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.05.02",
-                            "teams": "알 세브 vs 도파르",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.50/0.80"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.04.18",
-                            "teams": "알 세브 vs 수르 클럽",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.80/0.80"
-                        },
-                        {
-                            "league": "OMA PL",
-                            "match_time": "2026.04.05",
-                            "teams": "알 세브 vs Al-Samail",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.90/1.00"
-                        },
-                        {
-                            "league": "OMA FA Cup",
-                            "match_time": "2026.03.31",
-                            "teams": "알 세브 vs 소하르",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "0.90/0.60"
-                        }
-                    ],
-                    "away_team_name": "이스트 벵골",
-                    "away_matches": [
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.10.23",
-                            "teams": "인터 카쉬 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "5"
-                            ],
-                            "opponent_tier_info": "0.80/1.50"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.10.18",
-                            "teams": "처칠 브라더스 vs 이스트 벵골",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "1.00/1.70"
-                        },
-                        {
-                            "league": "IND IS",
-                            "match_time": "2026.10.08",
-                            "teams": "모훈 바간 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.80/0.40"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.09.16",
-                            "teams": "알 후세인 vs 이스트 벵골",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.80/1.20"
-                        },
-                        {
-                            "league": "Id DCup",
-                            "match_time": "2026.08.19",
-                            "teams": "하이데라바드 vs 이스트 벵골",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "1.20/1.00"
-                        },
-                        {
-                            "league": "Id DCup",
-                            "match_time": "2026.08.16",
-                            "teams": "아미 레드 vs 이스트 벵골",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.30/1.20"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.05.21",
-                            "teams": "인터 카쉬 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "0.90/1.40"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.05.17",
-                            "teams": "모훈 바간 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "1.80/0.70"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.05.05",
-                            "teams": "뭄바이 시티 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "1.00/0.70"
-                        },
-                        {
-                            "league": "ISL",
-                            "match_time": "2026.04.11",
-                            "teams": "첸나인 vs 이스트 벵골",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "0.50/1.80"
-                        }
-                    ]
-                }
-            }
-        },
         "3069033": {
             "match_code": "3069033",
             "head_info": {
@@ -10665,7 +9407,7 @@
                                 "2",
                                 "3"
                             ],
-                            "opponent_tier_info": "1.00/0.40"
+                            "opponent_tier_info": "1.40/1.00"
                         },
                         {
                             "league": "IRQ SL",
@@ -10695,7 +9437,7 @@
                                 "1",
                                 "0"
                             ],
-                            "opponent_tier_info": "1.00/0.50"
+                            "opponent_tier_info": "2.40/0.60"
                         },
                         {
                             "league": "IRQ SL",
@@ -10868,7 +9610,7 @@
                                 "0",
                                 "3"
                             ],
-                            "opponent_tier_info": "2.10/1.70"
+                            "opponent_tier_info": "2.00/0.50"
                         },
                         {
                             "league": "JOR D1",
@@ -10898,7 +9640,7 @@
                                 "2",
                                 "2"
                             ],
-                            "opponent_tier_info": "1.80/1.20"
+                            "opponent_tier_info": "1.30/0.80"
                         },
                         {
                             "league": "JOR D1",
@@ -11074,7 +9816,7 @@
                                 "1",
                                 "0"
                             ],
-                            "opponent_tier_info": "1.00/0.50"
+                            "opponent_tier_info": "2.40/0.60"
                         },
                         {
                             "league": "IRQ SL",
@@ -11167,7 +9909,7 @@
                                 "0",
                                 "3"
                             ],
-                            "opponent_tier_info": "2.10/1.70"
+                            "opponent_tier_info": "2.00/0.50"
                         },
                         {
                             "league": "JOR D1",
@@ -13221,7 +11963,7 @@
                                 "1",
                                 "0"
                             ],
-                            "opponent_tier_info": "1.00/0.90"
+                            "opponent_tier_info": "1.50/0.30"
                         },
                         {
                             "league": "ACL2",
@@ -16859,6 +15601,1863 @@
                                 "0"
                             ],
                             "opponent_tier_info": "1.40/0.70"
+                        }
+                    ]
+                }
+            }
+        },
+        "3069009": {
+            "match_code": "3069009",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": ""
+            },
+            "home": "알 자지라",
+            "away": "알 무하라크",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "알 자지라",
+                    "home_matches": [
+                        {
+                            "league": "UAE",
+                            "match_time": "2026.10.22",
+                            "teams": "알 자지라 vs 아지만",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.40/2.30"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.10.18",
+                            "teams": "이티하드 칼바 vs 알 자지라",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.20/2.40"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.14",
+                            "teams": "알 자지라 vs 아르카닥",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.50/0.60"
+                        },
+                        {
+                            "league": "UAE C",
+                            "match_time": "2026.10.09",
+                            "teams": "알 샤르자 vs 알 자지라",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.20/1.30"
+                        },
+                        {
+                            "league": "UAE C",
+                            "match_time": "2026.10.02",
+                            "teams": "코르팍칸 vs 알 자지라",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.00/1.80"
+                        },
+                        {
+                            "league": "UAE C",
+                            "match_time": "2026.09.20",
+                            "teams": "알 자지라 vs 알 와흐다",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.40/1.40"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.09.15",
+                            "teams": "시리안 vs 알 자지라",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.60/1.10"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.09.10",
+                            "teams": "알 자지라 vs 알 나스르",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.70/1.40"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.09.05",
+                            "teams": "알 알리 두바이 vs 알 자지라",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.80/1.20"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.08.29",
+                            "teams": "알 자지라 vs 아지만",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.80/1.50"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.08.23",
+                            "teams": "알 샤르자 vs 알 자지라",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.70/1.30"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.08.16",
+                            "teams": "하타 vs 알 자지라",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.40/0.60"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.08.11",
+                            "teams": "알 자지라 vs 알 이티하드 FC",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.90/1.90"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.25",
+                            "teams": "신트 트라위던 vs 알 자지라",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.20/0.90"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.18",
+                            "teams": "비테세 vs 알 자지라",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.80/0.70"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.11",
+                            "teams": "즈볼레 vs 알 자지라",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.00/2.10"
+                        },
+                        {
+                            "league": "UAE",
+                            "match_time": "2026.05.22",
+                            "teams": "알 자지라 vs 알 아인",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "2.40/0.20"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.05.16",
+                            "teams": "알 자지라 vs 바니 야스",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.50/1.20"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.05.11",
+                            "teams": "알 자지라 vs 알 와슬",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.60/1.60"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.05.05",
+                            "teams": "아지만 vs 알 자지라",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.40/1.50"
+                        }
+                    ],
+                    "away_team_name": "알 무하라크",
+                    "away_matches": [
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.10.23",
+                            "teams": "이스트 리파 vs 알 무하라크",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.70/1.20"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.10.18",
+                            "teams": "알 무하라크 vs 말키아",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.90/0.90"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.14",
+                            "teams": "알 무하라크 vs 시리안",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.30/1.00"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.10.09",
+                            "teams": "알 칼리디야 vs 알 무하라크",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.10/1.20"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.09.15",
+                            "teams": "아르카닥 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.40/0.80"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.09.10",
+                            "teams": "알 무하라크 vs 마나마 클럽",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.30/1.70"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.09.04",
+                            "teams": "알-이티파크 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.40/1.00"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.08.28",
+                            "teams": "알 무하라크 vs 알-아흘리 마나마",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.20/1.10"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.12",
+                            "teams": "알 무하라크 vs 무아이다르 SC",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.30/2.30"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.06",
+                            "teams": "ZED vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.30/1.10"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.05.16",
+                            "teams": "알 무하라크 vs 아알리 클럽",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.00/0.80"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.05.11",
+                            "teams": "알 칼리디야 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.20/0.70"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.05.04",
+                            "teams": "알-나즈마 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "0.60/1.60"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.04.29",
+                            "teams": "알 무하라크 vs 알-부다이야",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.10/1.40"
+                        },
+                        {
+                            "league": "BHR Cup",
+                            "match_time": "2026.04.24",
+                            "teams": "알 리파 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.50/0.60"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.04.16",
+                            "teams": "알 하드 vs 알 무하라크",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.60/0.90"
+                        },
+                        {
+                            "league": "BHR Cup",
+                            "match_time": "2026.04.11",
+                            "teams": "알 무하라크 vs 알-아흘리 마나마",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.00/1.10"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.04.03",
+                            "teams": "알 무하라크 vs 시트라",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.10/2.00"
+                        },
+                        {
+                            "league": "BS Cup",
+                            "match_time": "2026.03.18",
+                            "teams": "알 무하라크 vs 알 칼리디야",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.30/0.30"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.03.12",
+                            "teams": "알 리파 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "3.20/0.50"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "알 자지라",
+                    "home_matches": [
+                        {
+                            "league": "UAE",
+                            "match_time": "2026.10.22",
+                            "teams": "알 자지라 vs 아지만",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.40/2.30"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.14",
+                            "teams": "알 자지라 vs 아르카닥",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.50/0.60"
+                        },
+                        {
+                            "league": "UAE C",
+                            "match_time": "2026.09.20",
+                            "teams": "알 자지라 vs 알 와흐다",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.40/1.40"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.09.10",
+                            "teams": "알 자지라 vs 알 나스르",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.70/1.40"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.08.29",
+                            "teams": "알 자지라 vs 아지만",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.80/1.50"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.08.11",
+                            "teams": "알 자지라 vs 알 이티하드 FC",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.90/1.90"
+                        },
+                        {
+                            "league": "UAE",
+                            "match_time": "2026.05.22",
+                            "teams": "알 자지라 vs 알 아인",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "2.40/0.20"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.05.16",
+                            "teams": "알 자지라 vs 바니 야스",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.50/1.20"
+                        },
+                        {
+                            "league": "UAE LP",
+                            "match_time": "2026.05.11",
+                            "teams": "알 자지라 vs 알 와슬",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.60/1.60"
+                        }
+                    ],
+                    "away_team_name": "알 무하라크",
+                    "away_matches": [
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.10.23",
+                            "teams": "이스트 리파 vs 알 무하라크",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.70/1.20"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.10.09",
+                            "teams": "알 칼리디야 vs 알 무하라크",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.10/1.20"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.09.15",
+                            "teams": "아르카닥 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.40/0.80"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.09.04",
+                            "teams": "알-이티파크 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.40/1.00"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.06",
+                            "teams": "ZED vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.30/1.10"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.05.11",
+                            "teams": "알 칼리디야 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.20/0.70"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.05.04",
+                            "teams": "알-나즈마 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "0.60/1.60"
+                        },
+                        {
+                            "league": "BHR Cup",
+                            "match_time": "2026.04.24",
+                            "teams": "알 리파 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.50/0.60"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.04.16",
+                            "teams": "알 하드 vs 알 무하라크",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.60/0.90"
+                        },
+                        {
+                            "league": "BHR D1",
+                            "match_time": "2026.03.12",
+                            "teams": "알 리파 vs 알 무하라크",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "3.20/0.50"
+                        }
+                    ]
+                }
+            }
+        },
+        "3069021": {
+            "match_code": "3069021",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": ""
+            },
+            "home": "알 나흐다",
+            "away": "알 라얀",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "알 나흐다",
+                    "home_matches": [
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.10.23",
+                            "teams": "사함 vs 알 나흐다",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.90/1.20"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.10.19",
+                            "teams": "알 나흐다 vs 수르 클럽",
+                            "ft_scores": [
+                                "5",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.60/2.30"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.14",
+                            "teams": "알 파이살리 암만 vs 알 나흐다",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.80/1.00"
+                        },
+                        {
+                            "league": "OMA FA Cup",
+                            "match_time": "2026.10.02",
+                            "teams": "알 나흐다 vs 소하르",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.40/1.20"
+                        },
+                        {
+                            "league": "OMA FA Cup",
+                            "match_time": "2026.09.25",
+                            "teams": "이브리 vs 알 나흐다",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.20/2.00"
+                        },
+                        {
+                            "league": "OMA FA Cup",
+                            "match_time": "2026.09.21",
+                            "teams": "알 나흐다 vs 사함",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.70/1.20"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.09.16",
+                            "teams": "알 나흐다 vs 알 타원",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.10/1.50"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.09.10",
+                            "teams": "알 나흐다 vs 알 세브",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.50/0.60"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.09.05",
+                            "teams": "알 샤밥 vs 알 나흐다",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.30/1.00"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.08.30",
+                            "teams": "알 나흐다 vs Al-Msnaa",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.30/1.30"
+                        },
+                        {
+                            "league": "OMA FA Cup",
+                            "match_time": "2026.08.24",
+                            "teams": "알 샤밥 vs 알 나흐다",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.90/1.20"
+                        },
+                        {
+                            "league": "OMA FA Cup",
+                            "match_time": "2026.08.19",
+                            "teams": "알 나흐다 vs Al-Msnaa",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.40/1.10"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.05.23",
+                            "teams": "알 나흐다 vs 알 샤밥",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.80/1.60"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.05.18",
+                            "teams": "Bahla vs 알 나흐다",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.20/1.40"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.05.14",
+                            "teams": "알 나흐다 vs 알 세브",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.80/0.60"
+                        },
+                        {
+                            "league": "OMA FA Cup",
+                            "match_time": "2026.05.08",
+                            "teams": "알 나흐다 vs 소하르",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.70/0.90"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.05.04",
+                            "teams": "알 나스르 vs 알 나흐다",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.20/0.50"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.04.30",
+                            "teams": "Al-Samail vs 알 나흐다",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.20/2.00"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.04.26",
+                            "teams": "알 나흐다 vs 도파르",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.80/0.70"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.04.17",
+                            "teams": "소하르 vs 알 나흐다",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "0.90/0.70"
+                        }
+                    ],
+                    "away_team_name": "알 라얀",
+                    "away_matches": [
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.10.23",
+                            "teams": "알 사일리야 vs 알 라얀",
+                            "ft_scores": [
+                                "1",
+                                "6"
+                            ],
+                            "opponent_tier_info": "1.00/2.60"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.10.18",
+                            "teams": "알 가라파 vs 알 라얀",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.50/2.10"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.14",
+                            "teams": "알 타원 vs 알 라얀",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.70/1.60"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.10.09",
+                            "teams": "카타르 SC vs 알 라얀",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.00/1.40"
+                        },
+                        {
+                            "league": "QATL CUP",
+                            "match_time": "2026.09.28",
+                            "teams": "알 사일리야 vs 알 라얀",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.00/2.60"
+                        },
+                        {
+                            "league": "QATL CUP",
+                            "match_time": "2026.09.20",
+                            "teams": "알 라얀 vs 카타르 SC",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "2.00/1.50"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.09.16",
+                            "teams": "알 라얀 vs 알 파이살리 암만",
+                            "ft_scores": [
+                                "4",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.40/0.80"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.09.11",
+                            "teams": "알 라얀 vs 알 아흘리 도하",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.90/2.20"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.09.05",
+                            "teams": "알 라얀 vs 알 두하일",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.80/1.40"
+                        },
+                        {
+                            "league": "QCP Cup",
+                            "match_time": "2026.09.01",
+                            "teams": "샤말 vs 알 라얀",
+                            "ft_scores": [
+                                "3",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.80/1.10"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.08.27",
+                            "teams": "알 와크라 vs 알 라얀",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.90/1.70"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.08.20",
+                            "teams": "알 라얀 vs 루사일",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.70/1.50"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.04",
+                            "teams": "레가네스 vs 알 라얀",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.60/1.20"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.30",
+                            "teams": "알 라얀 vs 알 디리야",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.10/1.30"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.24",
+                            "teams": "알바세테 vs 알 라얀",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.50/1.10"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.19",
+                            "teams": "알 라얀 vs 로치데일",
+                            "ft_scores": [
+                                "3",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.50/1.50"
+                        },
+                        {
+                            "league": "QAT PC",
+                            "match_time": "2026.05.01",
+                            "teams": "알 라얀 vs 알 와크라",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.30/1.50"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.04.27",
+                            "teams": "알 라얀 vs 알 아라비",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.70/1.20"
+                        },
+                        {
+                            "league": "GCC",
+                            "match_time": "2026.04.23",
+                            "teams": "알 라얀 vs 알 샤밥",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "3.10/1.70"
+                        },
+                        {
+                            "league": "GCC",
+                            "match_time": "2026.04.19",
+                            "teams": "알 라얀 vs 알 카디시야",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.80/1.20"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "알 나흐다",
+                    "home_matches": [
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.10.19",
+                            "teams": "알 나흐다 vs 수르 클럽",
+                            "ft_scores": [
+                                "5",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.60/2.30"
+                        },
+                        {
+                            "league": "OMA FA Cup",
+                            "match_time": "2026.10.02",
+                            "teams": "알 나흐다 vs 소하르",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.40/1.20"
+                        },
+                        {
+                            "league": "OMA FA Cup",
+                            "match_time": "2026.09.21",
+                            "teams": "알 나흐다 vs 사함",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.70/1.20"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.09.16",
+                            "teams": "알 나흐다 vs 알 타원",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.10/1.50"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.09.10",
+                            "teams": "알 나흐다 vs 알 세브",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "2.50/0.60"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.08.30",
+                            "teams": "알 나흐다 vs Al-Msnaa",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.30/1.30"
+                        },
+                        {
+                            "league": "OMA FA Cup",
+                            "match_time": "2026.08.19",
+                            "teams": "알 나흐다 vs Al-Msnaa",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.40/1.10"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.05.23",
+                            "teams": "알 나흐다 vs 알 샤밥",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.80/1.60"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.05.14",
+                            "teams": "알 나흐다 vs 알 세브",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.80/0.60"
+                        },
+                        {
+                            "league": "OMA FA Cup",
+                            "match_time": "2026.05.08",
+                            "teams": "알 나흐다 vs 소하르",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.70/0.90"
+                        },
+                        {
+                            "league": "OMA PL",
+                            "match_time": "2026.04.26",
+                            "teams": "알 나흐다 vs 도파르",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.80/0.70"
+                        }
+                    ],
+                    "away_team_name": "알 라얀",
+                    "away_matches": [
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.10.23",
+                            "teams": "알 사일리야 vs 알 라얀",
+                            "ft_scores": [
+                                "1",
+                                "6"
+                            ],
+                            "opponent_tier_info": "1.00/2.60"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.10.18",
+                            "teams": "알 가라파 vs 알 라얀",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.50/2.10"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.14",
+                            "teams": "알 타원 vs 알 라얀",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.70/1.60"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.10.09",
+                            "teams": "카타르 SC vs 알 라얀",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.00/1.40"
+                        },
+                        {
+                            "league": "QATL CUP",
+                            "match_time": "2026.09.28",
+                            "teams": "알 사일리야 vs 알 라얀",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.00/2.60"
+                        },
+                        {
+                            "league": "QCP Cup",
+                            "match_time": "2026.09.01",
+                            "teams": "샤말 vs 알 라얀",
+                            "ft_scores": [
+                                "3",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.80/1.10"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.08.27",
+                            "teams": "알 와크라 vs 알 라얀",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.90/1.70"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.04",
+                            "teams": "레가네스 vs 알 라얀",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.60/1.20"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.24",
+                            "teams": "알바세테 vs 알 라얀",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.50/1.10"
+                        }
+                    ]
+                }
+            }
+        },
+        "3101915": {
+            "match_code": "3101915",
+            "head_info": {
+                "league": "걸프 클럽 챔피언스리그",
+                "round": ""
+            },
+            "home": "샵 하드라마우트",
+            "away": "알 두하일",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "샵 하드라마우트",
+                    "home_matches": [
+                        {
+                            "league": "GCC",
+                            "match_time": "2026.10.13",
+                            "teams": "네옴 SC vs 샵 하드라마우트",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.80/0.80"
+                        },
+                        {
+                            "league": "YEM FAC",
+                            "match_time": "2026.09.17",
+                            "teams": "샵 하드라마우트 vs 살람",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.90/1.30"
+                        },
+                        {
+                            "league": "YEM FAC",
+                            "match_time": "2026.08.28",
+                            "teams": "알-티랄 vs 샵 하드라마우트",
+                            "ft_scores": [
+                                "2",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.20/0.90"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.08.21",
+                            "teams": "Ittihad Ibb vs 샵 하드라마우트",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "0.40/1.60"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.08.15",
+                            "teams": "샵 하드라마우트 vs Al Mukalla SC",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.20/0.40"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.08.06",
+                            "teams": "알 아흘리 사나 vs 샵 하드라마우트",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.80/0.50"
+                        },
+                        {
+                            "league": "YEM FAC",
+                            "match_time": "2026.07.26",
+                            "teams": "샵 하드라마우트 vs Al Hussein Lahj",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.00/0.00"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.07.21",
+                            "teams": "샵 하드라마우트 vs 알 오루바 자비드",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.50/1.20"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.07.15",
+                            "teams": "샵 하드라마우트 vs Al Helal Al Sahely",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.50/2.10"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.07.09",
+                            "teams": "샵 하드라마우트 vs 프흐만",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.90/0.80"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.07.04",
+                            "teams": "샵 하드라마우트 vs Shabab Al Baydaa",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.10/1.60"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.06.28",
+                            "teams": "Al Wehda Sanaa vs 샵 하드라마우트",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.30/0.90"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.05.14",
+                            "teams": "살람 vs 샵 하드라마우트",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "0.90/1.50"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.05.08",
+                            "teams": "샵 하드라마우트 vs 타다모네 하드라마우트",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.50/2.60"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.05.01",
+                            "teams": "Ittihad Hadramaut vs 샵 하드라마우트",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "0.00/0.00"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2024.02.10",
+                            "teams": "샵 하드라마우트 vs Al Wehda Sanaa",
+                            "ft_scores": [
+                                "4",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.10/0.50"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2024.02.06",
+                            "teams": "알 아흘리 사나 vs 샵 하드라마우트",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.00/0.30"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2024.01.27",
+                            "teams": "샵 하드라마우트 vs 알 아흘리 사나",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.00/0.40"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2023.12.31",
+                            "teams": "샵 입 vs 샵 하드라마우트",
+                            "ft_scores": [
+                                "2",
+                                "5"
+                            ],
+                            "opponent_tier_info": "1.40/1.90"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2023.12.27",
+                            "teams": "살람 vs 샵 하드라마우트",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.20/1.80"
+                        }
+                    ],
+                    "away_team_name": "알 두하일",
+                    "away_matches": [
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.10.24",
+                            "teams": "알 두하일 vs 루사일",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.10/1.20"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.10.18",
+                            "teams": "알 사드 vs 알 두하일",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.60/1.70"
+                        },
+                        {
+                            "league": "GCC",
+                            "match_time": "2026.10.14",
+                            "teams": "알 두하일 vs 알 샤밥",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.60/1.00"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.10.08",
+                            "teams": "샤말 vs 알 두하일",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.80/1.20"
+                        },
+                        {
+                            "league": "QATL CUP",
+                            "match_time": "2026.09.28",
+                            "teams": "알 사하니야 vs 알 두하일",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.40/1.50"
+                        },
+                        {
+                            "league": "QATL CUP",
+                            "match_time": "2026.09.21",
+                            "teams": "알 두하일 vs 알 아라비",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.00/2.10"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.09.12",
+                            "teams": "알 두하일 vs 알 사하니야",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.40/2.00"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.09.05",
+                            "teams": "알 라얀 vs 알 두하일",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.80/1.40"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.08.29",
+                            "teams": "알 두하일 vs 알 아라비",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.10/2.30"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.08.22",
+                            "teams": "알 두하일 vs 알 사일리야",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.10/2.40"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.29",
+                            "teams": "알 두하일 vs 알 타원",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.60/1.50"
+                        },
+                        {
+                            "league": "QAT PC",
+                            "match_time": "2026.05.05",
+                            "teams": "알 두하일 vs 알 사드",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "2.80/2.30"
+                        },
+                        {
+                            "league": "QAT PC",
+                            "match_time": "2026.05.01",
+                            "teams": "알 두하일 vs 알 아라비",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.60/1.40"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.04.27",
+                            "teams": "카타르 SC vs 알 두하일",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.80/1.30"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.04.13",
+                            "teams": "알 두하일 vs 알 아흘리 SC",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.50/1.20"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.04.08",
+                            "teams": "알 아흘리 도하 vs 알 두하일",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.60/2.00"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.04.04",
+                            "teams": "알 두하일 vs 알 가라파",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "0.80/2.30"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.03.17",
+                            "teams": "샤말 vs 알 두하일",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.30/1.50"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.03.12",
+                            "teams": "알 사일리야 vs 알 두하일",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "0.80/1.20"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.02.26",
+                            "teams": "알 두하일 vs 알 사드",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.30/1.60"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "샵 하드라마우트",
+                    "home_matches": [
+                        {
+                            "league": "YEM FAC",
+                            "match_time": "2026.09.17",
+                            "teams": "샵 하드라마우트 vs 살람",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.90/1.30"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.08.15",
+                            "teams": "샵 하드라마우트 vs Al Mukalla SC",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.20/0.40"
+                        },
+                        {
+                            "league": "YEM FAC",
+                            "match_time": "2026.07.26",
+                            "teams": "샵 하드라마우트 vs Al Hussein Lahj",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.00/0.00"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.07.21",
+                            "teams": "샵 하드라마우트 vs 알 오루바 자비드",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "1.50/1.20"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.07.15",
+                            "teams": "샵 하드라마우트 vs Al Helal Al Sahely",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.50/2.10"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.07.09",
+                            "teams": "샵 하드라마우트 vs 프흐만",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.90/0.80"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.07.04",
+                            "teams": "샵 하드라마우트 vs Shabab Al Baydaa",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.10/1.60"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2026.05.08",
+                            "teams": "샵 하드라마우트 vs 타다모네 하드라마우트",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "0.50/2.60"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2024.02.10",
+                            "teams": "샵 하드라마우트 vs Al Wehda Sanaa",
+                            "ft_scores": [
+                                "4",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.10/0.50"
+                        },
+                        {
+                            "league": "YEM D1",
+                            "match_time": "2024.01.27",
+                            "teams": "샵 하드라마우트 vs 알 아흘리 사나",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "2.00/0.40"
+                        }
+                    ],
+                    "away_team_name": "알 두하일",
+                    "away_matches": [
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.10.18",
+                            "teams": "알 사드 vs 알 두하일",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "2.60/1.70"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.10.08",
+                            "teams": "샤말 vs 알 두하일",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "1.80/1.20"
+                        },
+                        {
+                            "league": "QATL CUP",
+                            "match_time": "2026.09.28",
+                            "teams": "알 사하니야 vs 알 두하일",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.40/1.50"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.09.05",
+                            "teams": "알 라얀 vs 알 두하일",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.80/1.40"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.04.27",
+                            "teams": "카타르 SC vs 알 두하일",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "1.80/1.30"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.04.08",
+                            "teams": "알 아흘리 도하 vs 알 두하일",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "1.60/2.00"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.03.17",
+                            "teams": "샤말 vs 알 두하일",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "1.30/1.50"
+                        },
+                        {
+                            "league": "QAT D1",
+                            "match_time": "2026.03.12",
+                            "teams": "알 사일리야 vs 알 두하일",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "0.80/1.20"
                         }
                     ]
                 }
