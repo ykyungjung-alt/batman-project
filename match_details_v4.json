@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-10-27 03:43:18",
+    "updated_at": "2026-10-27 06:32:00",
     "leagues": {
         "34": {
             "league_id": 34,
@@ -1709,7 +1709,7 @@
             "league_id": 33,
             "league_name": "라리가2",
             "league_name_error": null,
-            "active_round": "11/42",
+            "active_round": "12/42",
             "active_round_error": null,
             "total_rounds": 42,
             "standing_legends": [
@@ -1790,18 +1790,30 @@
                 },
                 {
                     "rank": "6",
-                    "team": "마요르카",
+                    "team": "부르고스 CF",
                     "tag_color": "#00CCCC",
                     "tag_label": "승격 플레이오프",
+                    "경기수": "11",
+                    "승": "2",
+                    "무": "3",
+                    "패": "4",
+                    "득실": "20",
+                    "승점": "20"
+                },
+                {
+                    "rank": "7",
+                    "team": "마요르카",
+                    "tag_color": "",
+                    "tag_label": "일반",
                     "경기수": "11",
                     "승": "5",
                     "무": "4",
                     "패": "2",
-                    "득실": "7",
+                    "득실": "19",
                     "승점": "19"
                 },
                 {
-                    "rank": "7",
+                    "rank": "8",
                     "team": "히혼",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -1813,7 +1825,7 @@
                     "승점": "19"
                 },
                 {
-                    "rank": "8",
+                    "rank": "9",
                     "team": "R. 오비에도",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -1823,18 +1835,6 @@
                     "패": "18",
                     "득실": "0",
                     "승점": "18"
-                },
-                {
-                    "rank": "9",
-                    "team": "부르고스 CF",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "10",
-                    "승": "5",
-                    "무": "2",
-                    "패": "3",
-                    "득실": "17",
-                    "승점": "17"
                 },
                 {
                     "rank": "10",
@@ -1949,11 +1949,11 @@
                     "team": "FC 안도라",
                     "tag_color": "#B1A7A7",
                     "tag_label": "강등팀",
-                    "경기수": "10",
+                    "경기수": "11",
                     "승": "3",
                     "무": "1",
-                    "패": "6",
-                    "득실": "-4",
+                    "패": "7",
+                    "득실": "-5",
                     "승점": "10"
                 },
                 {
@@ -2495,7 +2495,7 @@
             "league_id": 11,
             "league_name": "프랑스 리그 1",
             "league_name_error": null,
-            "active_round": "8/34",
+            "active_round": "9/34",
             "active_round_error": null,
             "total_rounds": 34,
             "standing_legends": [
@@ -4009,7 +4009,7 @@
             "league_id": 23,
             "league_name": "리가 포르투갈",
             "league_name_error": null,
-            "active_round": "9/34",
+            "active_round": "10/34",
             "active_round_error": null,
             "total_rounds": 34,
             "standing_legends": [
@@ -4057,12 +4057,12 @@
                     "team": "벤피카",
                     "tag_color": "#FF9966",
                     "tag_label": "UEFA CL qualifying",
-                    "경기수": "8",
-                    "승": "6",
+                    "경기수": "9",
+                    "승": "7",
                     "무": "1",
-                    "패": "17",
-                    "득실": "19",
-                    "승점": "19"
+                    "패": "18",
+                    "득실": "22",
+                    "승점": "22"
                 },
                 {
                     "rank": "3",
@@ -4081,11 +4081,11 @@
                     "team": "산타클라라",
                     "tag_color": "#993333",
                     "tag_label": "UEFA EL play-offs",
-                    "경기수": "8",
+                    "경기수": "9",
                     "승": "5",
                     "무": "3",
-                    "패": "0",
-                    "득실": "8",
+                    "패": "1",
+                    "득실": "7",
                     "승점": "18"
                 },
                 {
@@ -8742,11 +8742,11 @@
                     "team": "팔켄베리",
                     "tag_color": "#CCCCFF",
                     "tag_label": "승격팀",
-                    "경기수": "27",
+                    "경기수": "28",
                     "승": "15",
                     "무": "6",
-                    "패": "15",
-                    "득실": "51",
+                    "패": "7",
+                    "득실": "14",
                     "승점": "51"
                 },
                 {
@@ -8871,6 +8871,18 @@
                 },
                 {
                     "rank": "13",
+                    "team": "오레브",
+                    "tag_color": "#FF9999",
+                    "tag_label": "강등 플레이오프",
+                    "경기수": "28",
+                    "승": "6",
+                    "무": "11",
+                    "패": "-11",
+                    "득실": "29",
+                    "승점": "29"
+                },
+                {
+                    "rank": "14",
                     "team": "노르비",
                     "tag_color": "#FF9999",
                     "tag_label": "강등 플레이오프",
@@ -8882,27 +8894,15 @@
                     "승점": "27"
                 },
                 {
-                    "rank": "14",
+                    "rank": "15",
                     "team": "브라게",
-                    "tag_color": "#FF9999",
-                    "tag_label": "강등 플레이오프",
+                    "tag_color": "#B1A7A7",
+                    "tag_label": "강등팀",
                     "경기수": "28",
                     "승": "6",
                     "무": "8",
-                    "패": "-10",
-                    "득실": "26",
-                    "승점": "26"
-                },
-                {
-                    "rank": "15",
-                    "team": "오레브",
-                    "tag_color": "#B1A7A7",
-                    "tag_label": "강등팀",
-                    "경기수": "27",
-                    "승": "5",
-                    "무": "11",
-                    "패": "-12",
-                    "득실": "26",
+                    "패": "14",
+                    "득실": "-10",
                     "승점": "26"
                 },
                 {
@@ -11297,7 +11297,7 @@
             "league_id": 124,
             "league_name": "수페르리가",
             "league_name_error": null,
-            "active_round": "13/30",
+            "active_round": "14/30",
             "active_round_error": null,
             "total_rounds": 30,
             "standing_legends": [
@@ -11326,27 +11326,27 @@
                 },
                 {
                     "rank": "2",
+                    "team": "Univ. 크라이오바",
+                    "tag_color": "#FFFF00",
+                    "tag_label": "Title Play-offs",
+                    "경기수": "13",
+                    "승": "9",
+                    "무": "23",
+                    "패": "29",
+                    "득실": "0",
+                    "승점": "29"
+                },
+                {
+                    "rank": "3",
                     "team": "FC 래피드 부쿠레슈티",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
                     "경기수": "13",
                     "승": "8",
-                    "무": "3",
+                    "무": "2",
                     "패": "8",
                     "득실": "27",
                     "승점": "27"
-                },
-                {
-                    "rank": "3",
-                    "team": "Univ. 크라이오바",
-                    "tag_color": "#FFFF00",
-                    "tag_label": "Title Play-offs",
-                    "경기수": "12",
-                    "승": "8",
-                    "무": "2",
-                    "패": "18",
-                    "득실": "26",
-                    "승점": "26"
                 },
                 {
                     "rank": "4",
@@ -11449,10 +11449,10 @@
                     "team": "셉시 Sf. 게오르게",
                     "tag_color": "#FF9999",
                     "tag_label": "강등 플레이오프",
-                    "경기수": "3",
-                    "승": "5",
-                    "무": "4",
-                    "패": "-5",
+                    "경기수": "13",
+                    "승": "3",
+                    "무": "5",
+                    "패": "-10",
                     "득실": "14",
                     "승점": "14"
                 },
@@ -11847,7 +11847,7 @@
             "league_id": 214,
             "league_name": "비르스리가",
             "league_name_error": null,
-            "active_round": "34/36",
+            "active_round": "35/36",
             "active_round_error": null,
             "total_rounds": 36,
             "standing_legends": [
@@ -12409,7 +12409,7 @@
             "league_id": 30,
             "league_name": "쉬페르리그",
             "league_name_error": null,
-            "active_round": "9/34",
+            "active_round": "10/34",
             "active_round_error": null,
             "total_rounds": 34,
             "standing_legends": [
@@ -12438,38 +12438,38 @@
             "standings": [
                 {
                     "rank": "1",
-                    "team": "아메드스포르",
+                    "team": "갈라타사라이",
                     "tag_color": "#FF9966",
                     "tag_label": "UEFA CL qualifying",
                     "경기수": "9",
-                    "승": "6",
-                    "무": "2",
-                    "패": "10",
-                    "득실": "20",
-                    "승점": "20"
+                    "승": "7",
+                    "무": "22",
+                    "패": "0",
+                    "득실": "0",
+                    "승점": "22"
                 },
                 {
                     "rank": "2",
-                    "team": "트라브존스포르",
+                    "team": "아메드스포르",
                     "tag_color": "#A2E76F",
                     "tag_label": "UEFA CL play-offs",
                     "경기수": "9",
                     "승": "6",
                     "무": "1",
-                    "패": "14",
-                    "득실": "19",
-                    "승점": "19"
+                    "패": "10",
+                    "득실": "20",
+                    "승점": "20"
                 },
                 {
                     "rank": "3",
-                    "team": "갈라타사라이",
+                    "team": "트라브존스포르",
                     "tag_color": "#993333",
                     "tag_label": "UEFA EL play-offs",
-                    "경기수": "8",
+                    "경기수": "9",
                     "승": "6",
                     "무": "1",
-                    "패": "6",
-                    "득실": "19",
+                    "패": "2",
+                    "득실": "14",
                     "승점": "19"
                 },
                 {
@@ -12489,11 +12489,11 @@
                     "team": "페네르바체",
                     "tag_color": "",
                     "tag_label": "일반",
-                    "경기수": "8",
+                    "경기수": "9",
                     "승": "1",
-                    "무": "2",
-                    "패": "16",
-                    "득실": "0",
+                    "무": "3",
+                    "패": "15",
+                    "득실": "16",
                     "승점": "16"
                 },
                 {
@@ -12687,12 +12687,12 @@
                     "team": "하이두크 스플리트",
                     "tag_color": "#A2E76F",
                     "tag_label": "UEFA CL play-offs",
-                    "경기수": "10",
+                    "경기수": "11",
                     "승": "7",
                     "무": "2",
                     "패": "10",
-                    "득실": "22",
-                    "승점": "22"
+                    "득실": "23",
+                    "승점": "23"
                 },
                 {
                     "rank": "2",
@@ -12744,27 +12744,27 @@
                 },
                 {
                     "rank": "6",
+                    "team": "이스트라 1961",
+                    "tag_color": "",
+                    "tag_label": "일반",
+                    "경기수": "11",
+                    "승": "3",
+                    "무": "4",
+                    "패": "1",
+                    "득실": "13",
+                    "승점": "13"
+                },
+                {
+                    "rank": "7",
                     "team": "벨루포",
                     "tag_color": "",
                     "tag_label": "일반",
                     "경기수": "11",
                     "승": "4",
                     "무": "1",
-                    "패": "-9",
-                    "득실": "13",
+                    "패": "6",
+                    "득실": "-9",
                     "승점": "13"
-                },
-                {
-                    "rank": "7",
-                    "team": "이스트라 1961",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "10",
-                    "승": "3",
-                    "무": "4",
-                    "패": "1",
-                    "득실": "12",
-                    "승점": "12"
                 },
                 {
                     "rank": "8",
@@ -12830,38 +12830,38 @@
             "standings": [
                 {
                     "rank": "1",
+                    "team": "CSKA 소피아",
+                    "tag_color": "#FFFF00",
+                    "tag_label": "Title Play-offs",
+                    "경기수": "12",
+                    "승": "9",
+                    "무": "3",
+                    "패": "0",
+                    "득실": "20",
+                    "승점": "30"
+                },
+                {
+                    "rank": "2",
                     "team": "레브스키 소피아",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
                     "경기수": "10",
                     "승": "9",
-                    "무": "0",
-                    "패": "19",
-                    "득실": "28",
-                    "승점": "28"
-                },
-                {
-                    "rank": "2",
-                    "team": "CSKA 소피아",
-                    "tag_color": "#FFFF00",
-                    "tag_label": "Title Play-offs",
-                    "경기수": "11",
-                    "승": "8",
-                    "무": "3",
+                    "무": "1",
                     "패": "0",
-                    "득실": "18",
-                    "승점": "27"
+                    "득실": "19",
+                    "승점": "28"
                 },
                 {
                     "rank": "3",
                     "team": "루도고레츠",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
-                    "경기수": "10",
+                    "경기수": "11",
                     "승": "8",
                     "무": "2",
-                    "패": "0",
-                    "득실": "14",
+                    "패": "1",
+                    "득실": "12",
                     "승점": "26"
                 },
                 {
@@ -13153,7 +13153,7 @@
             "league_id": 159,
             "league_name": "키프로스 리그",
             "league_name_error": null,
-            "active_round": "7/26",
+            "active_round": "8/26",
             "active_round_error": null,
             "total_rounds": 26,
             "standing_legends": [
@@ -13170,6 +13170,18 @@
             "standings": [
                 {
                     "rank": "1",
+                    "team": "AEK 라르나카",
+                    "tag_color": "#FFFF00",
+                    "tag_label": "Title Play-offs",
+                    "경기수": "7",
+                    "승": "5",
+                    "무": "8",
+                    "패": "16",
+                    "득실": "0",
+                    "승점": "16"
+                },
+                {
+                    "rank": "2",
                     "team": "아폴론",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
@@ -13181,38 +13193,26 @@
                     "승점": "15"
                 },
                 {
-                    "rank": "2",
+                    "rank": "3",
                     "team": "AEL 리마솔",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
                     "경기수": "7",
                     "승": "5",
                     "무": "0",
-                    "패": "15",
+                    "패": "2",
                     "득실": "0",
                     "승점": "15"
-                },
-                {
-                    "rank": "3",
-                    "team": "AEK 라르나카",
-                    "tag_color": "#FFFF00",
-                    "tag_label": "Title Play-offs",
-                    "경기수": "6",
-                    "승": "4",
-                    "무": "1",
-                    "패": "6",
-                    "득실": "13",
-                    "승점": "13"
                 },
                 {
                     "rank": "4",
                     "team": "오모니아",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
-                    "경기수": "6",
+                    "경기수": "7",
                     "승": "3",
-                    "무": "0",
-                    "패": "9",
+                    "무": "1",
+                    "패": "7",
                     "득실": "12",
                     "승점": "12"
                 },
@@ -13951,7 +13951,7 @@
             "league_id": 469,
             "league_name": "프리미어리그",
             "league_name_error": null,
-            "active_round": "11/33",
+            "active_round": "12/33",
             "active_round_error": null,
             "total_rounds": 33,
             "standing_legends": [
@@ -14639,7 +14639,7 @@
             "league_id": 563,
             "league_name": "크리스탈벳 에로브눌리 리가",
             "league_name_error": null,
-            "active_round": "30/36",
+            "active_round": "31/36",
             "active_round_error": null,
             "total_rounds": 36,
             "standing_legends": [
@@ -16484,7 +16484,7 @@
             "league_id": 118,
             "league_name": "리갓 하알",
             "league_name_error": null,
-            "active_round": "8/26",
+            "active_round": "9/26",
             "active_round_error": null,
             "total_rounds": 26,
             "standing_legends": [
@@ -16525,27 +16525,27 @@
                 },
                 {
                     "rank": "3",
-                    "team": "마카비 하이파",
-                    "tag_color": "#FFFF00",
-                    "tag_label": "Title Play-offs",
-                    "경기수": "7",
-                    "승": "6",
-                    "무": "0",
-                    "패": "1",
-                    "득실": "9",
-                    "승점": "18"
-                },
-                {
-                    "rank": "4",
                     "team": "브엘세바",
                     "tag_color": "#FFFF00",
                     "tag_label": "Title Play-offs",
-                    "경기수": "7",
-                    "승": "5",
+                    "경기수": "8",
+                    "승": "6",
                     "무": "1",
-                    "패": "16",
-                    "득실": "0",
-                    "승점": "16"
+                    "패": "7",
+                    "득실": "19",
+                    "승점": "19"
+                },
+                {
+                    "rank": "4",
+                    "team": "마카비 하이파",
+                    "tag_color": "#FFFF00",
+                    "tag_label": "Title Play-offs",
+                    "경기수": "8",
+                    "승": "6",
+                    "무": "0",
+                    "패": "2",
+                    "득실": "6",
+                    "승점": "18"
                 },
                 {
                     "rank": "5",
@@ -17676,7 +17676,7 @@
             "league_id": 193,
             "league_name": "디비전 1",
             "league_name_error": null,
-            "active_round": "6/30",
+            "active_round": "7/30",
             "active_round_error": null,
             "total_rounds": 30,
             "standing_legends": [
