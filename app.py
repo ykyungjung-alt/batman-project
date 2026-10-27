@@ -1953,7 +1953,7 @@ with tabs[5]:
 
                 rows.append({
                     "순서": seq_txt, "경기 일시": m_date, "대회 명칭": m_league, "장소": m_loc, "상대 팀": m_opp,
-                    "상대 티어 (A~E 등급 연동)": m_opp_tier, "최종 스코어": m_score, "결과": w_l, "비고 (득점 / 실점)": note_str
+                    "상대 티어 (A~E 등급 연동)": m_opp_tier, "최종 스코어": m_score, "결과": w_l, "비고": note_str
                 })
 
             raw_avg_gf = total_gf_raw / cnt if cnt > 0 else 0.0
