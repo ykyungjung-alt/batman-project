@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-10-27 21:41:40",
+    "updated_at": "2026-10-28 00:44:17",
     "leagues": {
         "34": {
             "league_id": 34,
@@ -18064,7 +18064,7 @@
             "league_id": 292,
             "league_name": "사우디 프로페셔널리그",
             "league_name_error": null,
-            "active_round": "8/34",
+            "active_round": "12/34",
             "active_round_error": null,
             "total_rounds": 34,
             "standing_legends": [
@@ -18245,6 +18245,18 @@
                 },
                 {
                     "rank": "14",
+                    "team": "알 파이살리",
+                    "tag_color": "",
+                    "tag_label": "일반",
+                    "경기수": "11",
+                    "승": "2",
+                    "무": "4",
+                    "패": "5",
+                    "득실": "-8",
+                    "승점": "10"
+                },
+                {
+                    "rank": "15",
                     "team": "알 파이하",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -18254,18 +18266,6 @@
                     "패": "-7",
                     "득실": "8",
                     "승점": "8"
-                },
-                {
-                    "rank": "15",
-                    "team": "알 파이살리",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "10",
-                    "승": "1",
-                    "무": "4",
-                    "패": "5",
-                    "득실": "-9",
-                    "승점": "7"
                 },
                 {
                     "rank": "16",
@@ -18296,11 +18296,11 @@
                     "team": "아브하",
                     "tag_color": "#B1A7A7",
                     "tag_label": "강등팀",
-                    "경기수": "9",
+                    "경기수": "10",
                     "승": "0",
                     "무": "2",
-                    "패": "7",
-                    "득실": "-11",
+                    "패": "8",
+                    "득실": "-12",
                     "승점": "2"
                 }
             ],
@@ -20627,7 +20627,7 @@
             "league_id": 1122,
             "league_name": "인도네시아 리가 1",
             "league_name_error": null,
-            "active_round": "7/34",
+            "active_round": "8/34",
             "active_round_error": null,
             "total_rounds": 34,
             "standing_legends": [
