@@ -893,7 +893,7 @@ with tabs[2]:
         a_atk_color_str = get_tier_colored_html(base_a_at, s_a_at)
         a_def_color_str = get_tier_colored_html(base_a_de, s_a_de)
 
-        # 💡 [통합 완벽 정방향 규격] 상향이면 무조건 +15% (초록색), 하향이면 무조건 -15% (적색)
+# 💡 [최종 완벽 교정] 방어 상향 시 무조건 초록색(#2e7d32) 출력을 보장하는 정방향 규격
         def get_shift_correction_v3(base_tier, stadium_tier, is_attack=True):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
@@ -907,11 +907,12 @@ with tabs[2]:
                 else: 
                     return "0%", 0.0
             else:
-                # 방어: s_val < b_val (실점 감소/수비 상향 ➔ +15% 초록) / s_val > b_val (실점 증가/수비 하향 ➔ -15% 적색)
+                # 방어: s_val < b_val (실점 감소/수비 상향 ➔ -15% 초록색 #2e7d32)
+                #       s_val > b_val (실점 증가/수비 하향 ➔ +15% 적색 #c62828)
                 if s_val < b_val: 
-                    return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
+                    return "<span style='color: #2e7d32; font-weight: bold;'>-15%</span>", -15.0
                 elif s_val > b_val: 
-                    return "<span style='color: #c62828; font-weight: bold;'>-15%</span>", -15.0
+                    return "<span style='color: #c62828; font-weight: bold;'>+15%</span>", 15.0
                 else: 
                     return "0%", 0.0
 
