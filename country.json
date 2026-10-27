@@ -17,7 +17,7 @@
       {"name": "스위스", "name_eng": "Switzerland", "country_code": "SUI", "leagues": ["SUI SL", "SUI D2"], "league_kor_name": "스위스 슈퍼리그", "grade": "B", "attack_bonus": "+12%", "defense_bonus": "-12%"},
       {"name": "독일", "name_eng": "Germany", "country_code": "GER", "leagues": ["GER D1", "GER D2"], "league_kor_name": "분데스리가", "grade": "B", "attack_bonus": "+12%", "defense_bonus": "-12%"},
       {"name": "크로아티아", "name_eng": "Croatia", "country_code": "CRO", "leagues": ["CRO D1", "CRO D2"], "league_kor_name": "HNL", "grade": "B", "attack_bonus": "+12%", "defense_bonus": "-12%"},
-      {"name": "이탈리아", "name_eng": "Italy", "country_code": "ITA", "leagues": ["ITA D1", "ITA D2"], "league_kor_name": "세리에A", "세리에B", "grade": "B", "attack_bonus": "+12%", "defense_bonus": "-12%"},
+      {"name": "이탈리아", "name_eng": "Italy", "country_code": "ITA", "leagues": ["ITA D1", "ITA D2"], "league_kor_name": ["세리에A", "세리에B"], "grade": "B", "attack_bonus": "+12%", "defense_bonus": "-12%"},
       {"name": "미국", "name_eng": "United States", "country_code": "USA", "leagues": ["USA MLS", "USA USL"], "league_kor_name": "MLS", "grade": "B", "attack_bonus": "+12%", "defense_bonus": "-12%"},
       {"name": "일본", "name_eng": "Japan", "country_code": "JPN", "leagues": ["JPN D1", "JPN D2"], "league_kor_name": "J리그", "grade": "B", "attack_bonus": "+12%", "defense_bonus": "-12%"},
       {"name": "세네갈", "name_eng": "Senegal", "country_code": "SEN", "leagues": ["SEN D1", "SEN CP"], "league_kor_name": "세네갈 리그", "grade": "B", "attack_bonus": "+12%", "defense_bonus": "-12%"},
