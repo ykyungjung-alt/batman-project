@@ -579,12 +579,24 @@ with tabs[1]:
             except Exception:
                 formatted_mtime = mtime
 
-            teams = m.get("teams", "-")
-            scores = m.get("ft_scores", ["0", "0"])
-            try:
-                s1, s2 = int(scores[0]), int(scores[1])
-            except:
-                s1 = s2 = 0
+            teams = str(m.get("teams", "-"))
+            scores_arr = m.get("ft_scores", [])
+            score_str = str(m.get("score", "") or m.get("result", ""))
+            
+            s1, s2 = 0, 0
+            if scores_arr and len(scores_arr) >= 2:
+                try:
+                    s1, s2 = int(scores_arr[0]), int(scores_arr[1])
+                except:
+                    pass
+            elif score_str:
+                try:
+                    parts_s = score_str.replace("：", ":").replace("-", ":").split(":")
+                    if len(parts_s) >= 2:
+                        s1 = int(parts_s[0].strip())
+                        s2 = int(parts_s[1].strip())
+                except:
+                    pass
                 
             sc, cc = 0, 0
             pair = teams.split(" vs ")
@@ -617,7 +629,7 @@ with tabs[1]:
             mult_ga = 1.0
             rule_desc = "보정 없음 / 유지"
             
-            tier_info = m.get("opponent_tier_info", "")
+            tier_info = str(m.get("opponent_tier_info", ""))
             at_name, df_name = "Tier C", "Tier C"
             oa, od = 1.3, 1.2
             
@@ -639,25 +651,25 @@ with tabs[1]:
                     if my_at in ["Tier A", "Tier E"]:
                         if my_at == "Tier A" and df_name == "Tier E":
                             mult_gf = 0.5
-                            rule_descs.append("<span style='color: #c62828; font-weight: bold;'>[공격 특수룰] 상대 방어 Tier E (득점 50% 할인)</span>")
+                            rule_descs.append("[공격 특수룰] 상대 방어 Tier E (득점 50% 할인)")
                         elif my_at == "Tier E" and df_name == "Tier A":
                             mult_gf = 1.5
-                            rule_descs.append("<span style='color: #2e7d32; font-weight: bold;'>[공격 특수룰] 상대 방어 Tier A (득점 50% 할증)</span>")
+                            rule_descs.append("[공격 특수룰] 상대 방어 Tier A (득점 50% 할증)")
 
                     if my_de in ["Tier A", "Tier E"]:
                         if my_de == "Tier A" and at_name == "Tier E":
                             mult_ga = 1.5
-                            rule_descs.append("<span style='color: #c62828; font-weight: bold;'>[방어 특수룰] 상대 공격 Tier E (실점 50% 할증)</span>")
+                            rule_descs.append("[방어 특수룰] 상대 공격 Tier E (실점 50% 할증)")
                         elif my_de == "Tier E" and at_name == "Tier A":
                             mult_ga = 0.5
-                            rule_descs.append("<span style='color: #2e7d32; font-weight: bold;'>[방어 특수룰] 상대 공격 Tier A (실점 50% 할인)</span>")
+                            rule_descs.append("[방어 특수룰] 상대 공격 Tier A (실점 50% 할인)")
 
                     if rule_descs:
                         rule_desc = " / ".join(rule_descs)
                         tier_str += f" ⚠️ ({rule_desc})"
                     else:
                         tier_str += " (특수룰 미해당 / 보정 유지)"
-                except Exception as e:
+                except Exception:
                     pass
                     
             app_sc = sc * mult_gf
@@ -668,7 +680,7 @@ with tabs[1]:
             seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
             
             if mult_gf != 1.0 or mult_ga != 1.0:
-                score_display = f"{s1} : {s2} (<span style='color: #d32f2f; font-weight: bold;'>보정 득실: {app_sc:.1f} : {app_cc:.1f}</span>)"
+                score_display = f"{s1} : {s2} (보정 득실: {app_sc:.1f} : {app_cc:.1f})"
             else:
                 score_display = f"{s1} : {s2} (유지)"
             
