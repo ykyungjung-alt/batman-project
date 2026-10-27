@@ -282,19 +282,8 @@ with tabs[0]:
         meta_details = detailed_info.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
         
-        # country.json 로드 함수
-        @st.cache_data
-        def load_country_data():
-            import json, os
-            if os.path.exists("country.json"):
-                with open("country.json", "r", encoding="utf-8") as f:
-                    return json.load(f)
-            return {}
-
-        country_data = load_country_data()
-
 # 💡 [국가 및 등급 정밀 대조 함수 - 순위표 실패 시 리그명 100% 매칭 및 실제 등급 연동]
-    def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
+def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
     grades = country_data.get("grades", {})
     rank_str = str(rank_val).strip()
     team_str = str(team_val).strip().lower()
