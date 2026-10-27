@@ -983,29 +983,31 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "over_factor_desc": over_factor_desc,
             "d_prob_val": d_prob_val,
 
-            # 디버그 센터 싱크로율 유지를 위한 베이스 득실 전송
+            # 디버그 센터 및 5단계 싱크로율 유지를 위한 베이스 득실 전송
             "h_gpg": h_base_g,
             "h_cpg": h_base_c,
             "a_gpg": a_base_g,
             "a_cpg": a_base_c,
 
-            # 🏠 홈팀 단계별 보정치 (규칙 3-1, 3-2 중요도/피로도 세분화 키 완벽 포함)
+            # 🏠 홈팀 단계별 정밀 보정치
             "h_step0_atk": h_step0_atk, "h_step0_def": h_step0_def,
             "h_r1_atk": h_r1_atk, "h_r1_def": h_r1_def,
             "h_r2_atk": h_r2_atk, "h_r2_def": h_r2_def,
             "h_r31_atk": h_r31_atk, "h_r31_def": h_r31_def,
-            "h_imp_atk": h_imp_atk_val, "h_imp_def": h_imp_def_val,
+            "h_imp_atk": h_imp_atk_val if 'h_imp_atk_val' in locals() else 0.0, 
+            "h_imp_def": h_imp_def_val if 'h_imp_def_val' in locals() else (h_imp_def if 'h_imp_def' in locals() else 0.0),
             "h_fa": h_fa, "h_fd": h_fd,
             "h_r3_tot_atk": h_r3_tot_atk, "h_r3_tot_def": h_r3_tot_def,
             "h_r4_atk": h_r4_atk, "h_r4_def": h_r4_def,
             "h_tot_atk_pct": h_tot_atk_pct, "h_tot_def_pct": h_tot_def_pct,
             
-            # ✈️ 원정팀 단계별 보정치 (규칙 3-1, 3-2 중요도/피로도 세분화 키 완벽 포함)
+            # ✈️ 원정팀 단계별 정밀 보정치
             "a_step0_atk": a_step0_atk, "a_step0_def": a_step0_def,
             "a_r1_atk": a_r1_atk, "a_r1_def": a_r1_def,
             "a_r2_atk": a_r2_atk, "a_r2_def": a_r2_def,
             "a_r31_atk": a_r31_atk, "a_r31_def": a_r31_def,
-            "a_imp_atk": a_imp_atk_val, "a_imp_def": a_imp_def_val,
+            "a_imp_atk": a_imp_atk_val if 'a_imp_atk_val' in locals() else 0.0, 
+            "a_imp_def": a_imp_def_val if 'a_imp_def_val' in locals() else (a_imp_def if 'a_imp_def' in locals() else 0.0),
             "a_fa": a_fa, "a_fd": a_fd,
             "a_r3_tot_atk": a_r3_tot_atk, "a_r3_tot_def": a_r3_tot_def,
             "a_r4_atk": a_r4_atk, "a_r4_def": a_r4_def,
