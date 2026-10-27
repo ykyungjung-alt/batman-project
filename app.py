@@ -636,7 +636,8 @@ with tabs[1]:
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
                     rule_descs = []
-                    # 💡 돋보기 제거 및 내 공격/방어 생략, 상향(녹색) / 하향(적색) 시각화 적용
+                    
+                    # 1. 공격 특수룰 (내 공격이 Tier A 또는 E일 때만 작동)
                     if my_at in ["Tier A", "Tier E"]:
                         if my_at == "Tier A" and df_name == "Tier E":
                             mult_gf = 0.5
@@ -645,6 +646,7 @@ with tabs[1]:
                             mult_gf = 1.5
                             rule_descs.append("<span style='color: #2e7d32; font-weight: bold;'>[공격 특수룰] 상대 방어 Tier A (득점 50% 할증)</span>")
 
+                    # 2. 방어 특수룰 (💡 내 방어가 정확히 Tier A 또는 E일 때만 작동하도록 조건 엄격화)
                     if my_de in ["Tier A", "Tier E"]:
                         if my_de == "Tier A" and at_name == "Tier E":
                             mult_ga = 1.5
@@ -668,7 +670,6 @@ with tabs[1]:
             
             seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
             
-            # 득실 변동 여부에 따른 색상 적용 (상향: 녹색, 하향: 적색)
             if mult_gf != 1.0 or mult_ga != 1.0:
                 score_display = f"{s1} : {s2} (<span style='color: #d32f2f; font-weight: bold;'>보정 득실: {app_sc:.1f} : {app_cc:.1f}</span>)"
             else:
@@ -716,7 +717,7 @@ with tabs[1]:
     a_de, a_dew = def_tier(a_cpg)
 
     st.markdown(f"##### 홈 팀 ({h_name}) 최근 전적 분석 로그")
-    if not h_df.empty: st.markdown(h_df.to_html(escape=False, index=False), unsafe_allow_html=True)
+    if not h_df.empty: st.dataframe(h_df, use_container_width=True, hide_index=True)
     else: st.info("📋 개별 경기 상세 데이터 없음")
         
     st.markdown(f"""<div class="calc-box">
@@ -731,7 +732,7 @@ with tabs[1]:
     st.markdown("---")
 
     st.markdown(f"##### 원정 팀 ({a_name}) 최근 전적 분석 로그")
-    if not a_df.empty: st.markdown(a_df.to_html(escape=False, index=False), unsafe_allow_html=True)
+    if not a_df.empty: st.dataframe(a_df, use_container_width=True, hide_index=True)
     else: st.info("📋 개별 경기 상세 데이터 없음")
         
     st.markdown(f"""<div class="calc-box">
@@ -870,7 +871,7 @@ with tabs[2]:
         )
 
         st.markdown(f"##### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증{venue_status_badge}", unsafe_allow_html=True)
-        if not s_h_df.empty: st.markdown(s_h_df.to_html(escape=False, index=False), unsafe_allow_html=True)
+        if not s_h_df.empty: st.dataframe(s_h_df, use_container_width=True, hide_index=True)
         else: st.info("📋 구장별 상세 전적 데이터 없음")
 
         st.markdown(f"""
@@ -888,7 +889,7 @@ with tabs[2]:
         st.markdown("---")
 
         st.markdown(f"##### 원정 팀 ({a_name}) 구장별 전적 및 티어 변동 검증")
-        if not s_a_df.empty: st.markdown(s_a_df.to_html(escape=False, index=False), unsafe_allow_html=True)
+        if not s_a_df.empty: st.dataframe(s_a_df, use_container_width=True, hide_index=True)
         else: st.info("📋 구장별 상세 전적 데이터 없음")
 
         st.markdown(f"""
@@ -904,7 +905,6 @@ with tabs[2]:
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"#### [규칙 3번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
