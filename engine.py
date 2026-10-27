@@ -506,111 +506,118 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
 # ======================================================================
-    # 🟢 [엔진-APP 완벽 동기화] 규칙 3번 정밀 연산 마스터 규격
+    # 🟢 [규칙 3단계 백엔드 엔진] V5(결장자 및 스탯 선행 확보) ➔ V5-1(포지션 룩업 연동)
     # ======================================================================
-    target_code = str(target_detail.get("match_code", "")).strip()
-    clean_target_home = str(home_name).strip().replace(" ", "").lower()
-    clean_target_away = str(away_name).strip().replace(" ", "").lower()
+    target_match_code_str = str(target_detail.get("match_code", "")).strip() if 'target_detail' in locals() else ""
+    clean_target_home = str(home_name).strip().replace(" ", "").lower() if 'home_name' in locals() else ""
+    clean_target_away = str(away_name).strip().replace(" ", "").lower() if 'away_name' in locals() else ""
 
-    # 1. [규칙 3-1] 선수 전력 누수 (APP 3단계 100% 동일 로직)
-    def engine_compute_absentee(team_name_str, is_home=True):
+    # 1. [V5] 결장자 데이터 선행 탐색 및 필터링
+    raw_home_absentees = []
+    raw_away_absentees = []
+    
+    v5_lineup_dict = v5_details_dict.get("lineup_details", v5_details_dict) if 'v5_details_dict' in globals() else {}
+    v5_match_data = {}
+    for k, v in v5_lineup_dict.items():
+        if not isinstance(v, dict): continue
+        v_code = str(v.get("match_code", k)).strip()
+        v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
+        v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
+        if v_code == target_match_code_str or (clean_target_home in v_h and clean_target_away in v_a):
+            v5_match_data = v
+            break
+
+    if v5_match_data:
+        data_home_name = str(v5_match_data.get("home", "")).strip().replace(" ", "").lower()
+        if clean_target_home in data_home_name or data_home_name in clean_target_home:
+            h_raw_list = v5_match_data.get("home_absentees", [])
+            a_raw_list = v5_match_data.get("away_absentees", [])
+        else:
+            h_raw_list = v5_match_data.get("away_absentees", [])
+            a_raw_list = v5_match_data.get("home_absentees", [])
+
+        raw_home_absentees = [p for p in h_raw_list if isinstance(p, dict) and str(p.get("status", "")).strip() in ["결장", "부상", "징계", "누수", "출전의심/기타"] and str(p.get("name", "")).strip()]
+        raw_away_absentees = [p for p in a_raw_list if isinstance(p, dict) and str(p.get("status", "")).strip() in ["결장", "부상", "징계", "누수", "출전의심/기타"] and str(p.get("name", "")).strip()]
+
+    # 2. [V5-1] 구단 전체 선수단 명단에서 포지션 룩업 풀 확보
+    home_squad_pool = []
+    away_squad_pool = []
+    
+    v5_1_squad_dict = v5_1_details_dict.get("squad_details", v5_1_details_dict) if 'v5_1_details_dict' in globals() else {}
+    v5_1_match_data = {}
+    for k, v in v5_1_squad_dict.items():
+        if not isinstance(v, dict): continue
+        v_code = str(v.get("match_code", k)).strip()
+        v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
+        v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
+        if v_code == target_match_code_str or (clean_target_home in v_h and clean_target_away in v_a):
+            v5_1_match_data = v
+            break
+
+    if v5_1_match_data:
+        data_squad_home = str(v5_1_match_data.get("home", "")).strip().replace(" ", "").lower()
+        if clean_target_home in data_squad_home or data_squad_home in clean_target_home:
+            home_squad_pool = v5_1_match_data.get("home_squad", [])
+            away_squad_pool = v5_1_match_data.get("away_squad", [])
+        else:
+            home_squad_pool = v5_1_match_data.get("away_squad", [])
+            away_squad_pool = v5_1_match_data.get("home_squad", [])
+
+    # 3. [규칙 3-1 연산 엔진] V5 스탯 + V5-1 포지션 매핑 결합 가중치 산출 함수
+    def engine_compute_squad_weights_strictly(absentees_list, squad_list):
+        if not absentees_list:
+            return 0.0, 0.0
+        
+        squad_pos_map = {}
+        if squad_list and isinstance(squad_list, list):
+            for p in squad_list:
+                if not isinstance(p, dict): continue
+                p_name = str(p.get("name", "")).strip()
+                p_pos = str(p.get("position", "")).strip()
+                if p_name and p_pos:
+                    squad_pos_map[p_name] = p_pos
+                    squad_pos_map[p_name.replace(" ", "")] = p_pos
+
         tot_atk, tot_def = 0.0, 0.0
-        try:
-            v5_lineup_dict = v5_details_dict.get("lineup_details", v5_details_dict) if 'v5_details_dict' in globals() else {}
-            v5_1_squad_dict = v5_1_details_dict.get("squad_details", v5_1_details_dict) if 'v5_1_details_dict' in globals() else {}
+        for item in absentees_list:
+            if not isinstance(item, dict): continue
+            p_name = str(item.get("name", "-")).strip()
             
-            clean_team = str(team_name_str).strip().replace(" ", "").lower()
-            v5_match_data = {}
-            for k, v in v5_lineup_dict.items():
-                if not isinstance(v, dict): continue
-                v_code = str(v.get("match_code", k)).strip()
-                v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
-                v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
-                if v_code == target_code or clean_team in v_h or clean_team in v_a:
-                    v5_match_data = v
-                    break
+            # V5-1 스쿼드 맵에서 포지션 룩업 (없으면 미드필더 폴백)
+            p_pos = squad_pos_map.get(p_name, squad_pos_map.get(p_name.replace(" ", ""), ""))
+            if not p_pos or p_pos == "-": p_pos = "미드필더"
             
-            abs_list = []
-            if v5_match_data:
-                data_home_name = str(v5_match_data.get("home", "")).strip().replace(" ", "").lower()
-                if clean_target_home in data_home_name or data_home_name in clean_target_home:
-                    h_raw = v5_match_data.get("home_absentees", [])
-                    a_raw = v5_match_data.get("away_absentees", [])
-                else:
-                    h_raw = v5_match_data.get("away_absentees", [])
-                    a_raw = v5_match_data.get("home_absentees", [])
-                target_raw = h_raw if is_home else a_raw
-                abs_list = [p for p in target_raw if isinstance(p, dict) and str(p.get("status", "")).strip() in ["결장", "부상", "징계", "누수", "출전의심/기타"] and str(p.get("name", "")).strip()]
-
-            v5_1_match_data = {}
-            for k, v in v5_1_squad_dict.items():
-                if not isinstance(v, dict): continue
-                v_code = str(v.get("match_code", k)).strip()
-                v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
-                v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
-                if v_code == target_code or clean_team in v_h or clean_team in v_a:
-                    v5_1_match_data = v
-                    break
+            p_type = str(item.get("status", "결장")).strip()
+            stats_dict = item.get("stats", {}) if isinstance(item.get("stats"), dict) else {}
+            raw_grade = str(stats_dict.get("grade", item.get("grade", "C"))).strip().upper()
             
-            squad_list = []
-            if v5_1_match_data:
-                data_s_home = str(v5_1_match_data.get("home", "")).strip().replace(" ", "").lower()
-                if clean_target_home in data_s_home or data_s_home in clean_target_home:
-                    h_squad = v5_1_match_data.get("home_squad", [])
-                    a_squad = v5_1_match_data.get("away_squad", [])
-                else:
-                    h_squad = v5_1_match_data.get("away_squad", [])
-                    a_squad = v5_1_match_data.get("home_squad", [])
-                squad_list = h_squad if is_home else a_squad
-
-            squad_pos_map = {}
-            if squad_list and isinstance(squad_list, list):
-                for p in squad_list:
-                    if not isinstance(p, dict): continue
-                    p_n = str(p.get("name", "")).strip()
-                    p_p = str(p.get("position", "")).strip()
-                    if p_n and p_p:
-                        squad_pos_map[p_n] = p_p
-                        squad_pos_map[p_n.replace(" ", "")] = p_p
+            if "A" in raw_grade: rate = 12.0
+            elif "B" in raw_grade: rate = 8.0
+            elif "C" in raw_grade: rate = 4.0
+            else: rate = 0.0
             
-            for item in abs_list:
-                if not isinstance(item, dict): continue
-                p_name = str(item.get("name", "-")).strip()
-                p_pos = squad_pos_map.get(p_name, squad_pos_map.get(p_name.replace(" ", ""), ""))
-                if not p_pos or p_pos == "-": p_pos = "미드필더"
-                
-                p_type = str(item.get("status", "결장")).strip()
-                stats_dict = item.get("stats", {}) if isinstance(item.get("stats"), dict) else {}
-                raw_grade = str(stats_dict.get("grade", item.get("grade", "C"))).strip().upper()
-                
-                if "A" in raw_grade: rate = 12.0
-                elif "B" in raw_grade: rate = 8.0
-                elif "C" in raw_grade: rate = 4.0
-                else: rate = 0.0
-                
-                is_attacker = any(k in p_pos for k in ["공격수", "FW", "MF"])
-                is_defender = any(k in p_pos for k in ["수비수", "골키퍼", "DF", "GK"])
-                
-                if p_type in ["결장", "부상", "징계", "누수", "출전의심/기타"]:
-                    if is_attacker: atk_v, def_v = -rate, rate / 2.0
-                    elif is_defender: atk_v, def_v = -rate / 2.0, rate
-                    else: atk_v, def_v = -rate, rate / 2.0
-                else:
-                    if is_attacker: atk_v, def_v = rate, -rate / 2.0
-                    elif is_defender: atk_v, def_v = rate / 2.0, -rate
-                    else: atk_v, def_v = rate, -rate / 2.0
-                
-                tot_atk += atk_v
-                tot_def += def_v
-        except Exception:
-            pass
+            is_attacker = any(k in p_pos for k in ["공격수", "미드필더", "FW", "MF"])
+            is_defender = any(k in p_pos for k in ["수비수", "골키퍼", "DF", "GK"])
+            
+            if p_type in ["결장", "부상", "징계", "누수", "출전의심/기타"]:
+                if is_attacker: atk_v, def_v = -rate, rate / 2.0
+                elif is_defender: atk_v, def_v = -rate / 2.0, rate
+                else: atk_v, def_v = -rate, rate / 2.0
+            else:
+                if is_attacker: atk_v, def_v = rate, -rate / 2.0
+                elif is_defender: atk_v, def_v = rate / 2.0, -rate
+                else: atk_v, def_v = rate, -rate / 2.0
+            
+            tot_atk += atk_v
+            tot_def += def_v
+            
         return tot_atk, tot_def
 
-    h_r31_atk, h_r31_def = engine_compute_absentee(home_name, is_home=True)
-    a_r31_atk, a_r31_def = engine_compute_absentee(away_name, is_home=False)
+    h_r31_atk, h_r31_def = engine_compute_squad_weights_strictly(raw_home_absentees, home_squad_pool)
+    a_r31_atk, a_r31_def = engine_compute_squad_weights_strictly(raw_away_absentees, away_squad_pool)
 
-    # 2. [규칙 3-2] 리그 순위표 및 중요도 연동
-    def engine_get_standing(t_name):
+    # 4. [규칙 3-2] 리그 순위표 및 중요도 판정
+    def engine_get_team_standings(t_name):
         t_clean = str(t_name).strip().replace(" ", "")
         matched = []
         v4_dict = v4_leagues_dict.get("leagues", v4_leagues_dict) if 'v4_leagues_dict' in globals() else {}
@@ -625,25 +632,30 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     matched.append({"league_name": l_name, "tag_label": str(row.get("tag_label", "일반"))})
         return matched
 
-    def engine_determine_importance(standings_list, league_name_str):
-        l_str = str(league_name_str)
-        if any(k in l_str for k in ["친선", "CF", "탈락", "탈락확정", "강등확정"]):
+    def engine_determine_importance(standing_info_list, league_raw_name):
+        league_str = str(league_raw_name)
+        if any(k in league_str for k in ["친선", "CF", "탈락", "탈락확정", "강등확정"]):
             return -10.0, 10.0
-        if not standings_list:
+        if not standing_info_list:
             return 5.0, -5.0
-        for info in standings_list:
-            if info.get("league_name", "") in l_str or any(k in l_str and k in info.get("league_name", "") for k in ["챔피언스", "유로파", "컨퍼런스", "분데스리가", "프리미어", "라리가", "세리에", "리그"]):
-                lbl = str(info.get("tag_label", ""))
-                if any(k in lbl for k in ["탈락", "탈락확정", "강등확정"]):
+        for standing_info in standing_info_list:
+            l_name = str(standing_info.get("league_name", ""))
+            if l_name in league_str or league_str in l_name or any(k in league_str and k in l_name for k in ["챔피언스", "유로파", "컨퍼런스", "분데스리가", "프리미어", "라리가", "세리에", "리그"]):
+                label = str(standing_info.get("tag_label", ""))
+                if any(k in label for k in ["탈락", "탈락확정", "강등확정"]):
                     return -10.0, 10.0
-                if any(k in lbl for k in ["진출권", "플레이오프", "승격", "우승", "qualifying", "play-offs", "Playoff"]):
+                if any(k in label for k in ["진출권", "플레이오프", "승격", "우승", "qualifying", "play-offs", "Playoff"]) or any(k in league_str for k in ["챔피언스", "유로파", "결승", "컵", "ACL", "CL"]):
                     return 15.0, -15.0
         return 5.0, -5.0
 
-    h_imp_atk, h_imp_def = engine_determine_importance(engine_get_standing(home_name), str(target_detail.get("tournament", "")))
-    a_imp_atk, a_imp_def = engine_determine_importance(engine_get_standing(away_name), str(target_detail.get("tournament", "")))
+    home_standings = engine_get_team_standings(home_name)
+    away_standings = engine_get_team_standings(away_name)
+    tournament_display = str(target_detail.get("tournament", "리그 경기")) if 'target_detail' in globals() else ""
 
-    # 3. [규칙 3-2] 이동 피로도 산출
+    h_imp_atk, h_imp_def = engine_determine_importance(home_standings, tournament_display)
+    a_imp_atk, a_imp_def = engine_determine_importance(away_standings, tournament_display)
+
+    # 5. [규칙 3-2] 이동 피로도 산출
     def engine_parse_fatigue(fix_list, recent_list, is_home):
         base_dt = datetime.now()
         try:
@@ -652,17 +664,17 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             base_dt = datetime.strptime(base_clean[:10], "%Y-%m-%d")
         except Exception: pass
 
-        pool = []
+        combined_pool = []
         seen = set()
         for f in list(fix_list) + list(recent_list):
             if not isinstance(f, dict): continue
             uid = f"{f.get('match_time', '')}_{f.get('teams', '')}"
             if uid not in seen:
-                pool.append(f)
+                combined_pool.append(f)
                 seen.add(uid)
 
         past_arr = []
-        for f in pool:
+        for f in combined_pool:
             try:
                 c_clean = str(f.get("match_time", "")).split(" ")[0].replace(".", "-").replace("/", "-")
                 c_dt = datetime.strptime(c_clean[:10], "%Y-%m-%d")
@@ -671,27 +683,29 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             except Exception: continue
 
         chrono_past = sorted(past_arr, key=lambda x: x[0])
-        p4 = p7 = 0
+        p4_cnt = p7_cnt = 0
         for d_d, f_item in chrono_past:
             abs_d = abs(d_d)
             is_away = ("원정" in str(f_item.get("location", "")) or "away" in str(f_item.get("venue_type", "")))
-            if 1 <= abs_d <= 4 and is_away: p4 += 1
-            elif 4 < abs_d <= 7 and is_away: p7 += 1
+            if 1 <= abs_d <= 4 and is_away: p4_cnt += 1
+            elif 4 < abs_d <= 7 and is_away: p7_cnt += 1
 
-        acc = (1 if p4 > 0 else 0) + (1 if p7 > 0 else 0)
+        acc = (1 if p4_cnt > 0 else 0) + (1 if p7_cnt > 0 else 0)
         my_loc = "홈" if is_home else "원정"
         if acc > 0 and my_loc == "원정": return acc + 1
         elif acc > 0: return acc
         else: return 1 if my_loc == "원정" else 0
 
-    fixtures_info = meta_details.get("fixtures", {})
-    h_fatigue_stage = engine_parse_fatigue(fixtures_info.get("home", []), h_matches, True)
-    a_fatigue_stage = engine_parse_fatigue(fixtures_info.get("away", []), a_matches, False)
+    fixtures_info = meta_details.get("fixtures", {}) if 'meta_details' in globals() else {}
+    h_fatigue_stage = engine_parse_fatigue(fixtures_info.get("home", []), h_matches if 'h_matches' in locals() else [], True)
+    a_fatigue_stage = engine_parse_fatigue(fixtures_info.get("away", []), a_matches if 'a_matches' in locals() else [], False)
 
-    h_fa, h_fd = -5.0 * h_fatigue_stage, 5.0 * h_fatigue_stage
-    a_fa, a_fd = -5.0 * a_fatigue_stage, 5.0 * a_fatigue_stage
+    h_fa = -5.0 * h_fatigue_stage
+    h_fd = 5.0 * h_fatigue_stage
+    a_fa = -5.0 * a_fatigue_stage
+    a_fd = 5.0 * a_fatigue_stage
 
-    # 4. 최종 합산
+    # 6. 최종 합산
     h_r3_tot_atk = h_r31_atk + h_imp_atk + h_fa
     h_r3_tot_def = h_r31_def + h_imp_def + h_fd
     a_r3_tot_atk = a_r31_atk + a_imp_atk + a_fa
