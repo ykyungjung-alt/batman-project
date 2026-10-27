@@ -2687,7 +2687,9 @@ with tabs[7]:
                         st.markdown(f"- **0단계 (Country):** {format_weight_val(debug_res.get('h_step0_atk', 0.0))} / {format_weight_val(debug_res.get('h_step0_def', 0.0))}")
                         st.markdown(f"- **규칙 1 (LIFO):** {format_weight_val(debug_res.get('h_r1_atk', 0.0))} / {format_weight_val(debug_res.get('h_r1_def', 0.0))}")
                         st.markdown(f"- **규칙 2 (구장 Shift):** {format_weight_val(debug_res.get('h_r2_atk', 0.0))} / {format_weight_val(debug_res.get('h_r2_def', 0.0))}")
-                        st.markdown(f"- **규칙 3 (누수·피로):** {format_weight_val(debug_res.get('h_r3_tot_atk', 0.0))} / {format_weight_val(debug_res.get('h_r3_tot_def', 0.0))}")
+                        st.markdown(f"- **규칙 3-1 (선수 전력 누수):** {format_weight_val(debug_res.get('h_r31_atk', 0.0))} / {format_weight_val(debug_res.get('h_r31_def', 0.0))}")
+                        st.markdown(f"- **규칙 3-2 (일정 중요도 판단):** {format_weight_val(debug_res.get('h_imp_atk', 0.0))} / {format_weight_val(debug_res.get('h_imp_def', 0.0))}")
+                        st.markdown(f"- **규칙 3-2 (이동 피로도 누적):** {format_weight_val(debug_res.get('h_fa', 0.0))} / {format_weight_val(debug_res.get('h_fd', 0.0))}")
                         st.markdown(f"- **규칙 4 (H2H 상성):** {format_weight_val(debug_res.get('h_r4_atk', 0.0))} / {format_weight_val(debug_res.get('h_r4_def', 0.0))}")
                         st.markdown(f"- **총 누적 보정치:** {format_weight_val(debug_res.get('h_tot_atk_pct', 0.0))} / {format_weight_val(debug_res.get('h_tot_def_pct', 0.0))}")
                     
@@ -2696,7 +2698,9 @@ with tabs[7]:
                         st.markdown(f"- **0단계 (Country):** {format_weight_val(debug_res.get('a_step0_atk', 0.0))} / {format_weight_val(debug_res.get('a_step0_def', 0.0))}")
                         st.markdown(f"- **규칙 1 (LIFO):** {format_weight_val(debug_res.get('a_r1_atk', 0.0))} / {format_weight_val(debug_res.get('a_r1_def', 0.0))}")
                         st.markdown(f"- **규칙 2 (구장 Shift):** {format_weight_val(debug_res.get('a_r2_atk', 0.0))} / {format_weight_val(debug_res.get('a_r2_def', 0.0))}")
-                        st.markdown(f"- **규칙 3 (누수·피로):** {format_weight_val(debug_res.get('a_r3_tot_atk', 0.0))} / {format_weight_val(debug_res.get('a_r3_tot_def', 0.0))}")
+                        st.markdown(f"- **규칙 3-1 (선수 전력 누수):** {format_weight_val(debug_res.get('a_r31_atk', 0.0))} / {format_weight_val(debug_res.get('a_r31_def', 0.0))}")
+                        st.markdown(f"- **규칙 3-2 (일정 중요도 판단):** {format_weight_val(debug_res.get('a_imp_atk', 0.0))} / {format_weight_val(debug_res.get('a_imp_def', 0.0))}")
+                        st.markdown(f"- **규칙 3-2 (이동 피로도 누적):** {format_weight_val(debug_res.get('a_fa', 0.0))} / {format_weight_val(debug_res.get('a_fd', 0.0))}")
                         st.markdown(f"- **규칙 4 (H2H 상성):** {format_weight_val(debug_res.get('a_r4_atk', 0.0))} / {format_weight_val(debug_res.get('a_r4_def', 0.0))}")
                         st.markdown(f"- **총 누적 보정치:** {format_weight_val(debug_res.get('a_tot_atk_pct', 0.0))} / {format_weight_val(debug_res.get('a_tot_def_pct', 0.0))}")
 
