@@ -897,19 +897,28 @@ with tabs[2]:
         a_atk_color_str = get_tier_colored_html(base_a_at, s_a_at)
         a_def_color_str = get_tier_colored_html(base_a_de, s_a_de)
 
-        # 💡 [핵심 수정] 2단계 구장 Shift 보정치 색상 규격 (방어는 마이너스(-)가 수비 강화이므로 초록색)
+# 💡 [핵심 수정] 2단계 구장 Shift 보정치 부호 및 색상 정방향 규격
         def get_shift_correction(base_tier, stadium_tier, is_attack=True):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
+            
             if is_attack:
-                if s_val > b_val: return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
-                elif s_val < b_val: return "<span style='color: #c62828; font-weight: bold;'>-15%</span>", -15.0
-                else: return "0%", 0.0
+                # 공격: s_val > b_val 이면 공격력 향상(상향) ➔ +15% (초록)
+                if s_val > b_val: 
+                    return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
+                elif s_val < b_val: 
+                    return "<span style='color: #c62828; font-weight: bold;'>-15%</span>", -15.0
+                else: 
+                    return "0%", 0.0
             else:
-                # 방어는 순위(Tier 값)가 낮을수록(실점이 적을수록) 우수함 (s_val < b_val 이면 실점 감소 = 수비 강화 = +15% 보정치로 표기하되 색상은 초록색)
-                if s_val < b_val: return "<span style='color: #2e7d32; font-weight: bold;'>-15%</span>", -15.0
-                elif s_val > b_val: return "<span style='color: #c62828; font-weight: bold;'>+15%</span>", 15.0
-                else: return "0%", 0.0
+                # 방어: s_val < b_val 이면 실점 감소(수비 강화/상향) ➔ -15% (초록)
+                #       s_val > b_val 이면 실점 증가(수비 약화/하향) ➔ +15% (적색)
+                if s_val < b_val: 
+                    return "<span style='color: #2e7d32; font-weight: bold;'>-15%</span>", -15.0
+                elif s_val > b_val: 
+                    return "<span style='color: #c62828; font-weight: bold;'>+15%</span>", 15.0
+                else: 
+                    return "0%", 0.0
 
         h_atk_shift_str, _ = get_shift_correction(base_h_at, s_h_at, is_attack=True)
         h_def_shift_str, _ = get_shift_correction(base_h_de, s_h_de, is_attack=False)
