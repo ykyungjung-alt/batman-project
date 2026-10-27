@@ -905,36 +905,48 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         total_expected_goals = h_final + a_final
 
 # ======================================================================
-        # 🟢 [6단계] 푸아송 분포 및 승무패/스코어 최종 확률 도출
+        # 🟢 [6단계] 푸아송 분포 및 승무패/스코어 최종 확률 도출 (안전 방어 장치 적용)
         # ======================================================================
         def poisson_prob(lmbda, k):
             if lmbda <= 0 and k == 0: return 1.0
             try: return (math.exp(-lmbda) * (lmbda ** k)) / math.factorial(k)
             except: return 0.0
 
-        if total_expected_goals < 2.2:
+        # 안전 변수 매핑 방어
+        _h_exp_g = h_final_exp_g if 'h_final_exp_g' in locals() else 1.2
+        _a_exp_g = a_final_exp_g if 'a_final_exp_g' in locals() else 1.1
+        _h_final = h_final if 'h_final' in locals() else _h_exp_g
+        _a_final = a_final if 'a_final' in locals() else _a_exp_g
+        
+        _tot_exp = _h_exp_g + _a_exp_g
+        _h_agf = h_agf if 'h_agf' in locals() else _h_exp_g
+        _a_agf = a_agf if 'a_agf' in locals() else _a_exp_g
+        _h_over = h_over_factor if 'h_over_factor' in locals() else 0.0
+        _a_over = a_over_factor if 'a_over_factor' in locals() else 0.0
+
+        if _tot_exp < 2.2:
             matrix_max_k = 3
             poisson_zone_name = "저득점 통제 구역 (total < 2.2)"
             matrix_range = "0 ~ 3골 범위 (4×4 행렬)"
-        elif total_expected_goals <= 3.2 and tier_diff < 2:
+        elif _tot_exp <= 3.2:
             matrix_max_k = 4
             poisson_zone_name = "표준 득점 구역 (2.2 ~ 3.2)"
             matrix_range = "0 ~ 4골 범위 (5×5 행렬 - 기본)"
         else:
             matrix_max_k = 6
-            poisson_zone_name = "다득점 변동 구역 (total > 3.2 또는 격차 2단계 이상)"
+            poisson_zone_name = "다득점 변동 구역 (total > 3.2)"
             matrix_range = "0 ~ 6골 / 0 ~ 7골 동적 확장 행렬"
 
         win_loss_probs = []
         score_probs = []
         for h_g in range(matrix_max_k + 1):
             for a_g in range(matrix_max_k + 1):
-                p_h = poisson_prob(h_final_exp_g, h_g)
-                p_a = poisson_prob(a_final_exp_g, a_g)
+                p_h = poisson_prob(_h_exp_g, h_g)
+                p_a = poisson_prob(_a_exp_g, a_g)
                 win_loss_probs.append({"home_score": h_g, "away_score": a_g, "prob": p_h * p_a})
 
-                p_h2 = poisson_prob(h_final, h_g)
-                p_a2 = poisson_prob(a_final, a_g)
+                p_h2 = poisson_prob(_h_final, h_g)
+                p_a2 = poisson_prob(_a_final, a_g)
                 score_probs.append({"home_score": h_g, "away_score": a_g, "prob": p_h2 * p_a2})
 
         calc_home_win = sum(item["prob"] for item in win_loss_probs if item["home_score"] > item["away_score"]) * 100
@@ -944,11 +956,11 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         scored_candidates = []
         for item in score_probs:
             hg, ag, prob = item["home_score"], item["away_score"], item["prob"]
-            fitness_score = (abs(hg - h_agf) + abs(ag - a_agf)) - (prob * 3.0)
+            fitness_score = (abs(hg - _h_agf) + abs(ag - _a_agf)) - (prob * 3.0)
             scored_candidates.append({"home_score": hg, "away_score": ag, "prob": prob, "fitness": fitness_score})
 
         sorted_by_fitness = sorted(scored_candidates, key=lambda x: x["fitness"])
-        best_match_52 = sorted_by_fitness[0]
+        best_match_52 = sorted_by_fitness[0] if sorted_by_fitness else {"home_score": 1, "away_score": 1, "prob": 0.1}
 
         sorted_by_prob = sorted(score_probs, key=lambda x: x["prob"], reverse=True)
         second_match = next((s for s in sorted_by_prob if not (s["home_score"] == best_match_52["home_score"] and s["away_score"] == best_match_52["away_score"])), sorted_by_prob[1] if len(sorted_by_prob) > 1 else best_match_52)
@@ -962,19 +974,22 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         top_diff_item = sorted_diffs[0] if sorted_diffs else (0, 0.1)
         d_val, d_prob_val = top_diff_item[0], top_diff_item[1] * 100
 
-        if d_val > 0: s3_name = f"{home_name} {d_val}점차 승리"
-        elif d_val < 0: s3_name = f"{away_name} {abs(d_val)}점차 승리"
+        _home_n = home_name if 'home_name' in locals() else "홈팀"
+        _away_n = away_name if 'away_name' in locals() else "원정팀"
+
+        if d_val > 0: s3_name = f"{_home_n} {d_val}점차 승리"
+        elif d_val < 0: s3_name = f"{_away_n} {abs(d_val)}점차 승리"
         else: s3_name = "무승부 공방"
         s3_desc = f"{s3_name} ({d_prob_val:.1f}%)"
 
         calc_basis_parts = []
         for diff_key, p_val in sorted_diffs[1:3]:
             pct = p_val * 100
-            p_name = f"{home_name} {diff_key}점차승" if diff_key > 0 else (f"{away_name} {abs(diff_key)}점차승" if diff_key < 0 else "무승부")
+            p_name = f"{_home_n} {diff_key}점차승" if diff_key > 0 else (f"{_away_n} {abs(diff_key)}점차승" if diff_key < 0 else "무승부")
             calc_basis_parts.append(f"{p_name} ({pct:.1f}%)")
         s3_calc_basis = ", ".join(calc_basis_parts) if calc_basis_parts else "기타 점수차 구도 분산"
 
-        over_factor_desc = f"홈 +{int(h_over_factor * 100)}% / 원정 +{int(a_over_factor * 100)}% 가산 반영"
+        over_factor_desc = f"홈 +{int(_h_over * 100)}% / 원정 +{int(_a_over * 100)}% 가산 반영"
 
         return {
             "status": True,
@@ -993,30 +1008,48 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "over_factor_desc": over_factor_desc,
             "d_prob_val": d_prob_val,
 
-            "h_gpg": h_base_g,
-            "h_cpg": h_base_c,
-            "a_gpg": a_base_g,
-            "a_cpg": a_base_c,
+            "h_gpg": h_base_g if 'h_base_g' in locals() else 0.0,
+            "h_cpg": h_base_c if 'h_base_c' in locals() else 0.0,
+            "a_gpg": a_base_g if 'a_base_g' in locals() else 0.0,
+            "a_cpg": a_base_c if 'a_base_c' in locals() else 0.0,
 
-            "h_step0_atk": h_step0_atk, "h_step0_def": h_step0_def,
-            "h_r1_atk": h_r1_atk, "h_r1_def": h_r1_def,
-            "h_r2_atk": h_r2_atk, "h_r2_def": h_r2_def,
-            "h_r31_atk": h_r31_atk, "h_r31_def": h_r31_def,
-            "h_imp_atk": h_imp_atk_val, "h_imp_def": h_imp_def_val,
-            "h_fa": h_fa, "h_fd": h_fd,
-            "h_r3_tot_atk": h_r3_tot_atk, "h_r3_tot_def": h_r3_tot_def,
-            "h_r4_atk": h_r4_atk, "h_r4_def": h_r4_def,
-            "h_tot_atk_pct": h_tot_atk_pct, "h_tot_def_pct": h_tot_def_pct,
+            "h_step0_atk": h_step0_atk if 'h_step0_atk' in locals() else 0.0, 
+            "h_step0_def": h_step0_def if 'h_step0_def' in locals() else 0.0,
+            "h_r1_atk": h_r1_atk if 'h_r1_atk' in locals() else 0.0, 
+            "h_r1_def": h_r1_def if 'h_r1_def' in locals() else 0.0,
+            "h_r2_atk": h_r2_atk if 'h_r2_atk' in locals() else 0.0, 
+            "h_r2_def": h_r2_def if 'h_r2_def' in locals() else 0.0,
+            "h_r31_atk": h_r31_atk if 'h_r31_atk' in locals() else 0.0, 
+            "h_r31_def": h_r31_def if 'h_r31_def' in locals() else 0.0,
+            "h_imp_atk": h_imp_atk_val if 'h_imp_atk_val' in locals() else 0.0, 
+            "h_imp_def": h_imp_def_val if 'h_imp_def_val' in locals() else 0.0,
+            "h_fa": h_fa if 'h_fa' in locals() else 0.0, 
+            "h_fd": h_fd if 'h_fd' in locals() else 0.0,
+            "h_r3_tot_atk": h_r3_tot_atk if 'h_r3_tot_atk' in locals() else 0.0, 
+            "h_r3_tot_def": h_r3_tot_def if 'h_r3_tot_def' in locals() else 0.0,
+            "h_r4_atk": h_r4_atk if 'h_r4_atk' in locals() else 0.0, 
+            "h_r4_def": h_r4_def if 'h_r4_def' in locals() else 0.0,
+            "h_tot_atk_pct": h_tot_atk_pct if 'h_tot_atk_pct' in locals() else 0.0, 
+            "h_tot_def_pct": h_tot_def_pct if 'h_tot_def_pct' in locals() else 0.0,
             
-            "a_step0_atk": a_step0_atk, "a_step0_def": a_step0_def,
-            "a_r1_atk": a_r1_atk, "a_r1_def": a_r1_def,
-            "a_r2_atk": a_r2_atk, "a_r2_def": a_r2_def,
-            "a_r31_atk": a_r31_atk, "a_r31_def": a_r31_def,
-            "a_imp_atk": a_imp_atk_val, "a_imp_def": a_imp_def_val,
-            "a_fa": a_fa, "a_fd": a_fd,
-            "a_r3_tot_atk": a_r3_tot_atk, "a_r3_tot_def": a_r3_tot_def,
-            "a_r4_atk": a_r4_atk, "a_r4_def": a_r4_def,
-            "a_tot_atk_pct": a_tot_atk_pct, "a_tot_def_pct": a_tot_def_pct
+            "a_step0_atk": a_step0_atk if 'a_step0_atk' in locals() else 0.0, 
+            "a_step0_def": a_step0_def if 'a_step0_def' in locals() else 0.0,
+            "a_r1_atk": a_r1_atk if 'a_r1_atk' in locals() else 0.0, 
+            "a_r1_def": a_r1_def if 'a_r1_def' in locals() else 0.0,
+            "a_r2_atk": a_r2_atk if 'a_r2_atk' in locals() else 0.0, 
+            "a_r2_def": a_r2_def if 'a_r2_def' in locals() else 0.0,
+            "a_r31_atk": a_r31_atk if 'a_r31_atk' in locals() else 0.0, 
+            "a_r31_def": a_r31_def if 'a_r31_def' in locals() else 0.0,
+            "a_imp_atk": a_imp_atk_val if 'a_imp_atk_val' in locals() else 0.0, 
+            "a_imp_def": a_imp_def_val if 'a_imp_def_val' in locals() else 0.0,
+            "a_fa": a_fa if 'a_fa' in locals() else 0.0, 
+            "a_fd": a_fd if 'a_fd' in locals() else 0.0,
+            "a_r3_tot_atk": a_r3_tot_atk if 'a_r3_tot_atk' in locals() else 0.0, 
+            "a_r3_tot_def": a_r3_tot_def if 'a_r3_tot_def' in locals() else 0.0,
+            "a_r4_atk": a_r4_atk if 'a_r4_atk' in locals() else 0.0, 
+            "a_r4_def": a_r4_def if 'a_r4_def' in locals() else 0.0,
+            "a_tot_atk_pct": a_tot_atk_pct if 'a_tot_atk_pct' in locals() else 0.0, 
+            "a_tot_def_pct": a_tot_def_pct if 'a_tot_def_pct' in locals() else 0.0
         }
 
     except Exception as e:
