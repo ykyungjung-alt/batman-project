@@ -10,9 +10,23 @@ from zoneinfo import ZoneInfo
 # 💡 [속도 최적화] 동일한 서브 페이지 ID 결과는 메모리에 캐싱하여 중복 이동(`driver.get`)을 원천 방지
 _opponent_stats_cache = {}
 
+def get_atk_tier_char(val):
+    if val >= 2.3: return "A"
+    elif val >= 1.7: return "B"
+    elif val >= 1.1: return "C"
+    elif val >= 0.5: return "D"
+    else: return "E"
+
+def get_def_tier_char(val):
+    if val < 0.5: return "A"
+    elif val < 0.9: return "B"
+    elif val < 1.3: return "C"
+    elif val < 1.7: return "D"
+    else: return "E"
+
 def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, is_my_team_home):
     """
-    💡 서브 페이지 골득실 수치 수집 함수 
+    💡 서브 페이지 골득실 수치 수집 및 '공격C(1.50)/방어E(1.90)' 형태 포맷 변환 함수
     - is_my_team_home: True면 내가 홈(상대방은 원정=오른쪽), False면 내가 원정(상대방은 홈=왼쪽)
     """
     if sub_m_id in _opponent_stats_cache:
@@ -48,19 +62,30 @@ def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, is_my_team_home):
                 # 🎯 [핵심 교차 매칭] 내가 홈이었으면 상대방(원정)인 오른쪽 수치를 가져오고,
                 #                    내가 원정이었으면 상대방(홈)인 왼쪽 수치를 가져옴
                 if is_my_team_home:
-                    opp_goals = away_goals
-                    opp_conceded = away_conceded
+                    opp_g_str = away_goals
+                    opp_c_str = away_conceded
                 else:
-                    opp_goals = home_goals
-                    opp_conceded = home_conceded
+                    opp_g_str = home_goals
+                    opp_c_str = home_conceded
                 
-                result_val = f"{opp_goals}/{opp_conceded}"
+                try:
+                    g_val = float(opp_g_str)
+                    c_val = float(opp_c_str)
+                except:
+                    g_val, c_val = 0.00, 0.00
+
+                # 💡 요청하신 포맷으로 공수 티어 문자열 조합 (예: 공격C(1.50)/방어E(1.90))
+                at_char = get_atk_tier_char(g_val)
+                de_char = get_def_tier_char(c_val)
+                
+                result_val = f"공격{at_char}({g_val:.2f})/방어{de_char}({c_val:.2f})"
+                
                 _opponent_stats_cache[sub_m_id] = result_val
                 return result_val
     except Exception:
         pass
     
-    return "0.00/0.00"
+    return "공격E(0.00)/방어E(0.00)"
 
 def expand_dropdowns_to_10(driver):
     """
@@ -206,118 +231,4 @@ def run_table_based_crawler_v3TEST():
                             
                             team_spans = li.find_all("span")
                             teams_text = ""
-                            span_texts = [s.get_text(strip=True) for s in team_spans if s.get_text(strip=True) and not s.has_attr("name")]
-                            if len(span_texts) >= 2:
-                                teams_text = f"{span_texts[0]} vs {span_texts[1]}"
-                            
-                            ft_scores = [span.get_text(strip=True) for span in li.find_all("span", class_="ftScore")]
-                            
-                            sub_m_id = None
-                            for el in li.find_all(attrs={"onclick": True}):
-                                onclick_attr = el["onclick"]
-                                if "soccerInPage.analysis" in onclick_attr:
-                                    try:
-                                        sub_m_id = onclick_attr.split("'")[1]
-                                        break
-                                    except: pass
-                            
-                            opponent_tier_info = "0.00/0.00"
-                            if sub_m_id:
-                                is_my_team_home = True
-                                if " vs " in teams_text:
-                                    parts = [p.strip() for p in teams_text.split(" vs ")]
-                                    if len(parts) == 2:
-                                        t1, t2 = parts[0], parts[1]
-                                        # 💡 [핵심 정립] 대진표 좌측(t1)이 홈, 우측(t2)이 원정
-                                        # 우리 팀이 우측(t2)에 있다면 이 경기에서 우리 팀은 원정팀
-                                        if target_team in t2 and target_team not in t1:
-                                            is_my_team_home = False
-
-                                opponent_tier_info = fetch_opponent_stats_fast(driver, detail_url, sub_m_id, is_my_team_home)
-                                driver.get(detail_url)
-                                time.sleep(0.1)
-
-                            match_info = {
-                                "league": league_div.get_text(strip=True) if league_div else "",
-                                "match_time": match_time_val,
-                                "teams": teams_text,
-                                "ft_scores": ft_scores,
-                                "opponent_tier_info": opponent_tier_info
-                            }
-                            if match_info["ft_scores"] and match_info not in target_list:
-                                target_list.append(match_info)
-                                count += 1
-
-                # -------------------------------------------------------------
-                # 1. [최근 전적] 10개 제한 수집
-                # -------------------------------------------------------------
-                try:
-                    expand_dropdowns_to_10(driver)
-                    detail_soup = BeautifulSoup(driver.page_source, "html.parser")
-                    
-                    home_ul = detail_soup.find("ul", id="tb_home_recent")
-                    away_ul = detail_soup.find("ul", id="tb_guest_recent")
-                    if home_ul: parse_matches(home_ul, main_home, recent_form_data["home_matches"], 10)
-                    if away_ul: parse_matches(away_ul, main_away, recent_form_data["away_matches"], 10)
-                except Exception as e:
-                    print(f"  - 최근 전적 수집 예외: {e}")
-
-                # -------------------------------------------------------------
-                # 2. [구장별 전적] 체크박스 클릭 후, 10개 제한 수집
-                # -------------------------------------------------------------
-                try:
-                    checkbox = driver.find_element("id", "cbRecentFull")
-                    if checkbox and not checkbox.is_selected():
-                        driver.execute_script("arguments[0].click();", checkbox)
-                        time.sleep(0.3)
-                    
-                    expand_dropdowns_to_10(driver)
-                    
-                    stadium_soup = BeautifulSoup(driver.page_source, "html.parser")
-                    s_home_ul = stadium_soup.find("ul", id="tb_home_recent")
-                    s_away_ul = stadium_soup.find("ul", id="tb_guest_recent")
-                    
-                    if s_home_ul: parse_matches(s_home_ul, main_home, stadium_form_data["home_matches"], 10)
-                    if s_away_ul: parse_matches(s_away_ul, main_away, stadium_form_data["away_matches"], 10)
-                except Exception as s_err:
-                    print(f"  - 구장별 전적 토글 수집 예외: {s_err}")
-
-                head_info = {"league": target["league"], "round": ""}
-                try:
-                    sclass_span = detail_soup.find("span", {"class": "sclassListLink"})
-                    if sclass_span:
-                        full_text = sclass_span.get_text(separator=" ", strip=True)
-                        head_info["league"] = full_text.replace("·", "").strip()
-                except Exception:
-                    pass
-
-                match_details[m_id] = {
-                    "match_code": m_id,
-                    "head_info": head_info,
-                    "home": main_home,
-                    "away": main_away,
-                    "meta_details": {
-                        "recent_form": recent_form_data,
-                        "stadium_form": stadium_form_data
-                    }
-                }
-
-            except Exception as e:
-                print(f"  ⚠️ 데이터 수집 실패 (Match ID: {m_id}): {e}")
-                continue
-
-        output_data = {
-            "last_updated": datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S"),
-            "match_details": match_details
-        }
-        
-        with open("match_details_v3TEST.json", "w", encoding="utf-8") as f:
-            json.dump(output_data, f, ensure_ascii=False, indent=4)
-            
-        print(f"\n🎉 [테스트 성공] 경기수 1개, 전적 10개 제한 테스트 완료 -> match_details_v3TEST.json 저장 완료")
-
-    finally:
-        driver.quit()
-
-if __name__ == "__main__":
-    run_table_based_crawler_v3TEST()
+                            span_
