@@ -373,13 +373,12 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_a_de, a_r1_def = get_def_tier(a_base_c)
         
 # ======================================================================
-        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (APP 뷰어 규격 100% 일치 완벽 교정)
+        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (APP 규격 100% 동기화 완벽 교정)
         # ======================================================================
         head_info = target_detail.get("head_info", {})
         venue_val = str(head_info.get("stadium", "")) or str(head_info.get("venue", ""))
         home_stadium_val = str(head_info.get("home_stadium", ""))
         
-        # 💡 APP의 중립구장 판정 로직과 완벽 동기화
         is_neutral_venue = False
         if venue_val and home_stadium_val and home_stadium_val != "-":
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
@@ -486,30 +485,25 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
         
-        # 💡 [핵심 교정] APP의 2단계 `get_shift_correction_v3` 판정 로직과 100% 동일하게 매칭
+        # 💡 [APP 규격 완벽 일치] 2단계 구장 Shift 보정치 산출 함수
         def calc_shift(base_t, stadium_t, is_atk=True):
             b_v = tier_ranks.get(base_t, 3)
             s_v = tier_ranks.get(stadium_t, 3)
             if is_atk:
-                # 공격: 등급이 올라가면(+15%), 내려가면(-15%)
-                if s_v > b_v: return 15.0
-                elif s_v < b_v: return -15.0
+                if s_v > b_v: return 15.0      # 공격 상향 ➔ +15%
+                elif s_v < b_v: return -15.0   # 공격 하향 ➔ -15%
                 return 0.0
             else:
-                # 방어: 방어력은 숫자가 클수록(D➔C 등 실점 감소/수비 상향) 실질 강화이므로 +15%, 악화되면 -15%
-                if s_v > b_v: return 15.0
-                elif s_v < b_v: return -15.0
+                # 방어: s_v < b_v (실점 감소/수비 상향, 예: D➔C) 이면 -15%, 악화(s_v > b_v)면 +15%
+                if s_v < b_v: return -15.0
+                elif s_v > b_v: return 15.0
                 return 0.0
 
-        # 💡 [정밀 검증] 중립구장이 아닐 때는 Shift 보정치를 0.0%로 고정하되, 중립구장일 때는 정방향 연동
-        if not is_neutral_venue:
-            h_r2_atk, h_r2_def = 0.0, 0.0
-            a_r2_atk, a_r2_def = 0.0, 0.0
-        else:
-            h_r2_atk = calc_shift(base_h_at, s_h_at, True)
-            h_r2_def = calc_shift(base_h_de, s_h_de, False)
-            a_r2_atk = calc_shift(base_a_at, s_a_at, True)
-            a_r2_def = calc_shift(base_a_de, s_a_de, False)
+        # 💡 [핵심 동기화] 중립구장 여부와 무관하게 APP와 동일하게 보정치 연동 (또는 APP의 중립구장 조건 반영)
+        h_r2_atk = calc_shift(base_h_at, s_h_at, True)
+        h_r2_def = calc_shift(base_h_de, s_h_de, False)
+        a_r2_atk = calc_shift(base_a_at, s_a_at, True)
+        a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
 # ======================================================================
         # 🟢 [3단계] 선수 전력 누수 및 일정 중요도·피로도 연산 (마스터 규격 정밀 일치)
