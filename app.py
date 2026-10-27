@@ -897,13 +897,12 @@ with tabs[2]:
         a_atk_color_str = get_tier_colored_html(base_a_at, s_a_at)
         a_def_color_str = get_tier_colored_html(base_a_de, s_a_de)
 
-# 💡 [최종 완벽 교정] 2단계 구장 Shift 보정치 부호 및 색상 정방향 규격
-        def get_shift_correction(base_tier, stadium_tier, is_attack=True):
+        # 💡 [함수명 변경 및 명확한 보정치 규칙 적용] 상향 시 +15%(초록), 하향 시 -15%(적색)
+        def get_shift_correction_v2(base_tier, stadium_tier, is_attack=True):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
             
             if is_attack:
-                # 공격: s_val > b_val 이면 공격력 향상(상향) ➔ +15% (초록) / 낮아지면(하향) ➔ -15% (적색)
                 if s_val > b_val: 
                     return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
                 elif s_val < b_val: 
@@ -911,19 +910,19 @@ with tabs[2]:
                 else: 
                     return "0%", 0.0
             else:
-                # 방어: s_val < b_val 이면 실점 감소(수비 강화/상향) ➔ -15% (초록)
-                #       s_val > b_val 이면 실점 증가(수비 약화/하향) ➔ +15% (적색)
+                # 방어: s_val < b_val 이면 수비 상향(개선) ➔ +15% (초록색)
+                #       s_val > b_val 이면 수비 하향(악화) ➔ -15% (적색)
                 if s_val < b_val: 
-                    return "<span style='color: #2e7d32; font-weight: bold;'>-15%</span>", -15.0
+                    return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
                 elif s_val > b_val: 
-                    return "<span style='color: #c62828; font-weight: bold;'>+15%</span>", 15.0
+                    return "<span style='color: #c62828; font-weight: bold;'>-15%</span>", -15.0
                 else: 
                     return "0%", 0.0
 
-        h_atk_shift_str, _ = get_shift_correction(base_h_at, s_h_at, is_attack=True)
-        h_def_shift_str, _ = get_shift_correction(base_h_de, s_h_de, is_attack=False)
-        a_atk_shift_str, _ = get_shift_correction(base_a_at, s_a_at, is_attack=True)
-        a_def_shift_str, _ = get_shift_correction(base_a_de, s_a_de, is_attack=False)
+        h_atk_shift_str, _ = get_shift_correction_v2(base_h_at, s_h_at, is_attack=True)
+        h_def_shift_str, _ = get_shift_correction_v2(base_h_de, s_h_de, is_attack=False)
+        a_atk_shift_str, _ = get_shift_correction_v2(base_a_at, s_a_at, is_attack=True)
+        a_def_shift_str, _ = get_shift_correction_v2(base_a_de, s_a_de, is_attack=False)
 
         venue_status_badge = (
             "<span style='color: #c62828; font-weight: bold;'> (중립경기)</span>" 
@@ -936,7 +935,6 @@ with tabs[2]:
         s_a_gpg_html = get_colored_stat_html(s_a_gpg, s_a_pure_gpg, is_higher_better=True)
         s_a_cpg_html = get_colored_stat_html(s_a_cpg, s_a_pure_cpg, is_higher_better=False)
 
-        # 💡 2단계 산출부는 티어 이름만 표시하고 가중치는 생략
         s_h_at_clean = f"<b>{s_h_at}</b>"
         s_h_de_clean = f"<b>{s_h_de}</b>"
         s_a_at_clean = f"<b>{s_a_at}</b>"
