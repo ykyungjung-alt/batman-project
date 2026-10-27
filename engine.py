@@ -801,7 +801,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_final = max(0.2, ((a_final_exp_g * (1 + a_over_factor)) + a_agf) / 2.0)
         total_expected_goals = h_final + a_final
 
-        # ======================================================================
+# ======================================================================
         # 🟢 [6단계] 푸아송 분포 및 승무패/스코어 최종 확률 도출
         # ======================================================================
         def poisson_prob(lmbda, k):
@@ -873,7 +873,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         over_factor_desc = f"홈 +{int(h_over_factor * 100)}% / 원정 +{int(a_over_factor * 100)}% 가산 반영"
 
-return {
+        return {
             "status": True,
             "home_win_pct": calc_home_win,
             "draw_pct": calc_draw,
