@@ -293,7 +293,7 @@ with tabs[0]:
 
         country_data = load_country_data()
 
-        # 💡 [국가 및 등급 정밀 대조 함수 - 순위표 실패 시 리그명 100% 매칭 및 실제 등급 연동]
+        # 💡 [국가 및 등급 정밀 대조 함수 - 이탈리아 세리에 A와 브라질 세리에 A 완벽 분리 규격]
         def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
             grades = country_data.get("grades", {})
             rank_str = str(rank_val).strip()
@@ -307,7 +307,7 @@ with tabs[0]:
                         return c.get("country_code", "KOR"), rank_str, c.get("grade", "C"), c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
                 return "KOR", rank_str, "C", "+9%", "-9%"
 
-            # 2. 1차 시도: 순위표 rank_str에서 국가/리그 코드 토큰 추출
+            # 2. 1차 시도: 순위표 rank_str에서 국가/리그 코드 토큰 추출 (예: ITA D1, BRA D1 등)
             extracted_code = ""
             if rank_str and rank_str != "-" and not rank_str.isdigit():
                 token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
@@ -322,26 +322,37 @@ with tabs[0]:
                             c_code = str(c.get("country_code", "")).strip().upper()
                             leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
                             if c_code == extracted_code or any(extracted_code == l.split()[0] for l in leagues_list if l):
-                                return c.get("country_code", "EXT"), rank_str, c.get("grade", grade_key), c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
+                                return c.get("country_code", "EXT"), rank_str, c.get("grade", grade_key), c.get("attack_bonus", c.get("attack_bonus", "+9%")), c.get("defense_bonus", c.get("defense_bonus", "-9%"))
 
-            # 3. 2차 시도: 순위표에 코드가 없거나 숫자인 경우, 현재 선택된 리그명(clean_league)으로 전수 대조
+            # 3. 2차 시도: 리그명 그대로 엄격한 분리 대조 (브라질 vs 이탈리아 세리에 A 명확한 구분)
             for grade_key, countries in grades.items():
                 if grade_key == "F": continue
                 if isinstance(countries, list):
                     for c in countries:
                         kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
-                        c_name = str(c.get("name", "")).strip().lower()
-                        leagues_list = [str(l).strip().lower() for l in c.get("leagues", [])]
+                        c_code = str(c.get("country_code", "")).strip().upper()
                         
-                        match_kor = kor_league and (kor_league in clean_league or clean_league in kor_league)
-                        match_name = c_name and (c_name in clean_league or c_name in team_str)
-                        match_league_code = any(l in clean_league for l in leagues_list if l)
+                        # 💡 브라질("세리에 a"가 있더라도 리그명에 명시적으로 브라질이 없으면 브라질 매칭 건너뜀)
+                        if c_code == "BRA" and "브라질" not in clean_league:
+                            continue
+                        # 💡 이탈리아(리그명에 '브라질'이 들어가거나 순수 '세리에'가 아니면 이탈리아 매칭 건너뜀)
+                        if c_code == "ITA" and "브라질" in clean_league:
+                            continue
 
-                        if match_kor or match_name or match_league_code:
-                            # 💡 country.json에 정의된 실제 등급과 보정치를 그대로 리턴
-                            return c.get("country_code", "EXT"), rank_str, c.get("grade", grade_key), c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
+                        # 완전 일치 또는 포함 관계 검증
+                        if kor_league and (kor_league == clean_league or clean_league == kor_league or (len(clean_league) >= 4 and clean_league in kor_league)):
+                            return c.get("country_code", "EXT"), rank_str, c.get("grade", grade_key), c.get("attack_bonus", c.get("attack_bonus", "+9%")), c.get("defense_bonus", c.get("defense_bonus", "-9%"))
 
-            # 4. 최종 매칭 실패 시 F등급 폴백 처리
+            # 4. 3차 시도: 영문 리그 코드 대조
+            for grade_key, countries in grades.items():
+                if grade_key == "F": continue
+                if isinstance(countries, list):
+                    for c in countries:
+                        leagues_list = [str(l).strip().lower() for l in c.get("leagues", [])]
+                        if any(l == clean_league or l in clean_league for l in leagues_list if l):
+                            return c.get("country_code", "EXT"), rank_str, c.get("grade", grade_key), c.get("attack_bonus", c.get("attack_bonus", "+9%")), c.get("defense_bonus", c.get("defense_bonus", "-9%"))
+
+            # 5. 최종 매칭 실패 시 F등급 폴백 처리
             f_info = grades.get("F", {})
             return "EXT", rank_str if rank_str else "-", "F", f_info.get("attack_bonus", "0%"), f_info.get("defense_bonus", "0%")
 
