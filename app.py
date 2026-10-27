@@ -294,7 +294,7 @@ with tabs[0]:
         country_data = load_country_data()
 
 # 💡 [국가 및 등급 정밀 대조 함수 - 순위표 실패 시 리그명 100% 매칭 및 실제 등급 연동]
-def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
+    def resolve_country_and_grade_from_rankings(rank_val, team_val, current_league_name=""):
     grades = country_data.get("grades", {})
     rank_str = str(rank_val).strip()
     team_str = str(team_val).strip().lower()
