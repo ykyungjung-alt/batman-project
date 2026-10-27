@@ -373,12 +373,13 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_a_de, a_r1_def = get_def_tier(a_base_c)
         
 # ======================================================================
-        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (완벽 고정)
+        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (APP 뷰어 규격 100% 일치 완벽 교정)
         # ======================================================================
         head_info = target_detail.get("head_info", {})
         venue_val = str(head_info.get("stadium", "")) or str(head_info.get("venue", ""))
         home_stadium_val = str(head_info.get("home_stadium", ""))
         
+        # 💡 APP의 중립구장 판정 로직과 완벽 동기화
         is_neutral_venue = False
         if venue_val and home_stadium_val and home_stadium_val != "-":
             if venue_val.strip().lower() != home_stadium_val.strip().lower():
@@ -484,19 +485,23 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         s_a_de, _ = get_def_tier(s_a_c)
 
         tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
+        
+        # 💡 [핵심 교정] APP의 2단계 `get_shift_correction_v3` 판정 로직과 100% 동일하게 매칭
         def calc_shift(base_t, stadium_t, is_atk=True):
             b_v = tier_ranks.get(base_t, 3)
             s_v = tier_ranks.get(stadium_t, 3)
             if is_atk:
+                # 공격: 등급이 올라가면(+15%), 내려가면(-15%)
                 if s_v > b_v: return 15.0
                 elif s_v < b_v: return -15.0
                 return 0.0
             else:
-                if s_v < b_v: return 15.0
-                elif s_v > b_v: return -15.0
+                # 방어: 방어력은 숫자가 클수록(D➔C 등 실점 감소/수비 상향) 실질 강화이므로 +15%, 악화되면 -15%
+                if s_v > b_v: return 15.0
+                elif s_v < b_v: return -15.0
                 return 0.0
 
-        # 💡 [핵심 교정] 일반 홈/원정 경기일 때는 구장 Shift 보정치를 0.0%로 엄격 고정 (중립구장일 때만 가동)
+        # 💡 [정밀 검증] 중립구장이 아닐 때는 Shift 보정치를 0.0%로 고정하되, 중립구장일 때는 정방향 연동
         if not is_neutral_venue:
             h_r2_atk, h_r2_def = 0.0, 0.0
             a_r2_atk, a_r2_def = 0.0, 0.0
