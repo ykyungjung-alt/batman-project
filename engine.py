@@ -506,15 +506,15 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
 # ======================================================================
-        # 🟢 [3단계] 선수 전력 누수 및 일정 중요도·피로도 연산 (APP 규격 100% 동기화)
+        # 🟢 [3단계] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 복합 가중치 정밀 연산
         # ======================================================================
         target_code = str(target_detail.get("match_code", "")).strip()
 
-        # 홈/원정 누수 가중치 각각 정밀 산출
+        # 1. [3-1] 선수 전력 누수 가중치 독립 산출
         h_r31_atk, h_r31_def = compute_single_team_absentee_engine(target_code, home_name, is_home=True)
         a_r31_atk, a_r31_def = compute_single_team_absentee_engine(target_code, away_name, is_home=False)
 
-        # 💡 [APP 규격 완벽 일치] v4 리그 순위표 연동 및 태그 라벨 매핑 함수
+        # 2. [3-2] 리그 순위표 및 중요도 태그 연동 함수
         def get_team_standing_info_engine(target_team_name):
             target_clean = str(target_team_name).strip().replace(" ", "")
             matched_standings = []
@@ -549,7 +549,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                         })
             return matched_standings
 
-        # 💡 [APP 규격 완벽 일치] 현재 경기 대회명과 순위표 소속 리그명을 상호 대조하여 오적용 방지하는 중요도 판정
         def determine_match_importance_engine(standing_info_list, league_raw_name):
             league_str = str(league_raw_name)
             if any(k in league_str for k in ["친선", "CF", "탈락", "탈락확정", "강등확정"]):
@@ -575,12 +574,12 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_imp_atk, h_imp_def = determine_match_importance_engine(home_standings_list, tournament_display)
         a_imp_atk, a_imp_def = determine_match_importance_engine(away_standings_list, tournament_display)
 
+        # 3. [3-2] 타임라인 기반 이동 피로도 단계 및 가중치 산출
         fixtures_info = meta_details.get("fixtures", {})
         raw_home_fixes = list(fixtures_info.get("home", []))
         raw_away_fixes = list(fixtures_info.get("away", []))
         match_date_str = str(target_detail.get("match_time", "2026-06-01"))
 
-        # 💡 [APP 규격 완벽 일치] 엄격한 타임라인 기반 피로도 단계 산출 
         def parse_fatigue_stage_strictly_engine(fix_list, recent_list, is_home_team):
             base_dt = datetime.now()
             try:
@@ -633,16 +632,17 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_fatigue_stage = parse_fatigue_stage_strictly_engine(raw_home_fixes, h_matches, True)
         a_fatigue_stage = parse_fatigue_stage_strictly_engine(raw_away_fixes, a_matches, False)
 
-        h_r32_atk = (-5.0 * h_fatigue_stage)
-        h_r32_def = (5.0 * h_fatigue_stage)
-        a_r32_atk = (-5.0 * a_fatigue_stage)
-        a_r32_def = (5.0 * a_fatigue_stage)
+        # 피로도에 따른 2종류 가중치 변환 (단계별 공격 -5%, 방어 +5%)
+        h_fa = -5.0 * h_fatigue_stage
+        h_fd = 5.0 * h_fatigue_stage
+        a_fa = -5.0 * a_fatigue_stage
+        a_fd = 5.0 * a_fatigue_stage
 
-        # 최종 누적 보정치 합산 반영
-        h_r3_tot_atk = h_r31_atk + h_imp_atk + h_r32_atk
-        h_r3_tot_def = h_r31_def + h_imp_def + h_r32_def
-        a_r3_tot_atk = a_r31_atk + a_imp_atk + a_r32_atk
-        a_r3_tot_def = a_r31_def + a_imp_def + a_r32_def
+        # 4. 규칙 3번 최종 토탈 합산 (3-1 누수 + 3-2 중요도 + 3-2 피로도 2종류 모두 포함)
+        h_r3_tot_atk = h_r31_atk + h_imp_atk + h_fa
+        h_r3_tot_def = h_r31_def + h_imp_def + h_fd
+        a_r3_tot_atk = a_r31_atk + a_imp_atk + a_fa
+        a_r3_tot_def = a_r31_def + a_imp_def + a_fd
        
         
         # ======================================================================
