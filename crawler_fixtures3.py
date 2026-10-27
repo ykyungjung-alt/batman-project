@@ -10,9 +10,23 @@ from zoneinfo import ZoneInfo
 # 💡 [속도 최적화] 동일한 서브 페이지 ID 결과는 메모리에 캐싱하여 중복 이동(`driver.get`)을 원천 방지
 _opponent_stats_cache = {}
 
+def get_atk_tier_char(val):
+    if val >= 2.3: return "A"
+    elif val >= 1.7: return "B"
+    elif val >= 1.1: return "C"
+    elif val >= 0.5: return "D"
+    else: return "E"
+
+def get_def_tier_char(val):
+    if val < 0.5: return "A"
+    elif val < 0.9: return "B"
+    elif val < 1.3: return "C"
+    elif val < 1.7: return "D"
+    else: return "E"
+
 def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, is_my_team_home):
     """
-    💡 서브 페이지 골득실 수치 수집 함수 
+    💡 서브 페이지 골득실 수치 수집 및 '공격C(1.50)/방어E(1.90)' 형식 변환 함수
     - is_my_team_home: True면 내가 홈(상대방은 원정=오른쪽), False면 내가 원정(상대방은 홈=왼쪽)
     """
     if sub_m_id in _opponent_stats_cache:
@@ -48,19 +62,29 @@ def fetch_opponent_stats_fast(driver, detail_url, sub_m_id, is_my_team_home):
                 # 🎯 [핵심 교차 매칭] 내가 홈이었으면 상대방(원정)인 오른쪽 수치를 가져오고,
                 #                    내가 원정이었으면 상대방(홈)인 왼쪽 수치를 가져옴
                 if is_my_team_home:
-                    opp_goals = away_goals
-                    opp_conceded = away_conceded
+                    opp_g_str = away_goals
+                    opp_c_str = away_conceded
                 else:
-                    opp_goals = home_goals
-                    opp_conceded = home_conceded
+                    opp_g_str = home_goals
+                    opp_c_str = home_conceded
                 
-                result_val = f"{opp_goals}/{opp_conceded}"
+                try:
+                    g_val = float(opp_g_str)
+                    c_val = float(opp_c_str)
+                except:
+                    g_val, c_val = 0.00, 0.00
+
+                # 💡 [핵심 추가] 득실점 수치를 바탕으로 공격/방어 티어 문자열 조합 (예: 공격C(1.50)/방어E(1.90))
+                at_char = get_atk_tier_char(g_val)
+                de_char = get_def_tier_char(c_val)
+                
+                result_val = f"공격{at_char}({g_val:.2f})/방어{de_char}({c_val:.2f})"
                 _opponent_stats_cache[sub_m_id] = result_val
                 return result_val
     except Exception:
         pass
     
-    return "0.00/0.00"
+    return "공격E(0.00)/방어E(0.00)"
 
 def expand_dropdowns_to_20(driver):
     """
@@ -216,7 +240,7 @@ def run_table_based_crawler_v3():
                                         break
                                     except: pass
                             
-                            opponent_tier_info = "0.00/0.00"
+                            opponent_tier_info = "공격E(0.00)/방어E(0.00)"
                             if sub_m_id:
                                 is_my_team_home = True
                                 if " vs " in teams_text:
@@ -309,7 +333,7 @@ def run_table_based_crawler_v3():
         with open("match_details_v3.json", "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=4)
             
-        print(f"\n🎉 성공: V3 20개 확장 및 홈/원정 상대방 평득실 대칭 매칭 완료 -> match_details_v3.json 저장 완료")
+        print(f"\n🎉 성공: V3 20개 확장, 티어 포맷 변환 및 홈/원정 상대방 평득실 대칭 매칭 완료 -> match_details_v3.json 저장 완료")
 
     finally:
         driver.quit()
