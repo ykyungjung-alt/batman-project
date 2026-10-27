@@ -1839,12 +1839,12 @@ with tabs[5]:
         home_matched_7 = filter_matched_tier_games(home_merged_pool, h_opp_at, h_opp_de)
         away_matched_7 = filter_matched_tier_games(away_merged_pool, a_opp_at, a_opp_de)
 
-        # 4. DataFrame 빌드 및 2단계 보정 체급 기준 특수룰 연산 함수 (비고란 간결화 적용)
+# 4. DataFrame 빌드 및 2단계 보정 체급 기준 특수룰 연산 함수 (비고란 순수 텍스트 규격)
         def build_team_52_dataframe(match_list, team_label, my_corrected_at, my_corrected_de):
             rows = []
             cnt = len(match_list)
             if cnt == 0:
-                return pd.DataFrame([{"순서": "데이터 없음", "경기 일시": "-", "대회 명칭": "-", "장소": "-", "상대 팀": f"[{team_label}] 조건 부합 경기 없음", "상대 티어": "-", "최종 스코어": "-", "결과": "-", "비고 (득점 / 실점)": "0득점 / 0실점"}]), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, False
+                return pd.DataFrame([{"순서": "데이터 없음", "경기 일시": "-", "대회 명칭": "-", "장소": "-", "상대 팀": f"[{team_label}] 조건 부합 경기 없음", "상대 티어": "-", "최종 스코어": "-", "결과": "-", "비고 (득점 / 실점)": "조건 부합 경기 없음"}]), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, False
             
             total_gf_raw, total_ga_raw = 0.0, 0.0
             total_gf_app, total_ga_app = 0.0, 0.0
@@ -1913,22 +1913,22 @@ with tabs[5]:
                 mult_ga = 1.0
                 rule_desc = []
 
-                # 💡 [2단계 보정 체급 기준 특수룰 연산]
+                # 💡 [2단계 보정 체급 기준 특수룰 연산 (순수 텍스트 비고 규격)]
                 if my_corrected_at in ["Tier A", "Tier E"]:
                     if my_corrected_at == "Tier A" and df_name == "Tier E":
                         mult_gf = 0.5
-                        rule_desc.append("<span style='color: #c62828; font-weight: bold;'>[공격 특수룰] 상대 방어 Tier E (득점 50% 할인)</span>")
+                        rule_desc.append("[공격 특수룰] 상대 방어 Tier E (득점 50% 할인)")
                     elif my_corrected_at == "Tier E" and df_name == "Tier A":
                         mult_gf = 1.5
-                        rule_desc.append("<span style='color: #2e7d32; font-weight: bold;'>[공격 특수룰] 상대 방어 Tier A (득점 50% 할증)</span>")
+                        rule_desc.append("[공격 특수룰] 상대 방어 Tier A (득점 50% 할증)")
                         
                 if my_corrected_de in ["Tier A", "Tier E"]:
                     if my_corrected_de == "Tier A" and at_name == "Tier E":
                         mult_ga = 1.5
-                        rule_desc.append("<span style='color: #c62828; font-weight: bold;'>[방어 특수룰] 상대 공격 Tier E (실점 50% 할증)</span>")
+                        rule_desc.append("[방어 특수룰] 상대 공격 Tier E (실점 50% 할증)")
                     elif my_corrected_de == "Tier E" and at_name == "Tier A":
                         mult_ga = 0.5
-                        rule_desc.append("<span style='color: #2e7d32; font-weight: bold;'>[방어 특수룰] 상대 공격 Tier A (실점 50% 할인)</span>")
+                        rule_desc.append("[방어 특수룰] 상대 공격 Tier A (실점 50% 할인)")
 
                 app_gf = original_gf * mult_gf
                 app_ga = original_ga * mult_ga
@@ -1944,12 +1944,12 @@ with tabs[5]:
                 w_l = "승" if app_gf > app_ga else ("패" if app_gf < app_ga else "무")
                 seq_txt = f"{i} (최신)" if i == 1 else (f"{i} (과거)" if i == cnt else str(i))
                 
-                # 💡 비고란에서 기준 언급은 생략하고 특수룰 발동 여부 및 보정 득실점만 표시
+                # 💡 원본 득실점 문구를 없애고 특수룰 결과만 순수 텍스트로 구성
                 if rule_desc:
                     rule_joined = " / ".join(rule_desc)
-                    note_str = f"{int(original_gf)}득점 / {int(original_ga)}실점 ⚠️ [{rule_joined} ➔ 보정: {app_gf:.1f}득점 / {app_ga:.1f}실점]"
+                    note_str = f"⚠️ [{rule_joined} ➔ 보정: {app_gf:.1f}득점 / {app_ga:.1f}실점]"
                 else:
-                    note_str = f"{int(original_gf)}득점 / {int(original_ga)}실점 (특수룰 미해당)"
+                    note_str = "특수룰 미해당"
 
                 rows.append({
                     "순서": seq_txt, "경기 일시": m_date, "대회 명칭": m_league, "장소": m_loc, "상대 팀": m_opp,
