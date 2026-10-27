@@ -473,20 +473,23 @@ def def_tier_nm(c):
     elif c < 1.7: return "Tier D"
     else: return "Tier E"
 
-# 티어 및 가중치 문자열에 상향(녹색)/하향(적색) 색상을 동적으로 입혀주는 헬퍼
+# ==========================================
+# 💡 [공통 헬퍼] 1단계용: 티어 및 가중치 색상 부여 (상향:녹색 / 하향:적색 / 유지:기본)
+# ==========================================
 def format_tier_with_color(tier_name, weight_str, is_attack=True):
-    # 공격: Tier A, B가 높음(+ 가중치), 방어: Tier A, B가 낮고 우수(- 가중치)
-    # 가중치에 기호(+ 또는 -)가 포함되어 있으므로 이를 기준으로 판정
     is_positive = "+" in weight_str
     is_negative = "-" in weight_str
     
-    color = "#333333"
+    # 가중치가 0.0%이거나 기호가 없으면 기본 검은색 (유지)
+    if "0.0%" in weight_str or (not is_positive and not is_negative):
+        return f"<b>{tier_name} ({weight_str})</b>"
+    
     if is_attack:
-        # 공격은 가중치가 플러스(+)면 상향(초록), 마이너스(-)면 하향(적색)
-        color = "#2e7d32" if is_positive else ("#c62828" if is_negative else "#333333")
+        # 공격은 플러스(+)가 상향(초록), 마이너스(-)가 하향(적색)
+        color = "#2e7d32" if is_positive else "#c62828"
     else:
-        # 방어는 가중치가 마이너스(-)면 수비 강화(초록), 플러스(+)면 실점 증가/불리(적색)
-        color = "#2e7d32" if is_negative else ("#c62828" if is_positive else "#333333")
+        # 방어는 마이너스(-)가 수비 강화/우수(초록), 플러스(-)가 실점 증가/불리(적색)
+        color = "#2e7d32" if is_negative else "#c62828"
         
     return f"<b style='color: {color};'>{tier_name} ({weight_str})</b>"
 
@@ -741,7 +744,7 @@ with tabs[1]:
     a_at, a_atw = atk_tier(a_gpg)
     a_de, a_dew = def_tier(a_cpg)
 
-    # 색상 적용된 티어 문자열 생성
+    # 1단계는 티어 옆에 가중치 포함하여 색상 적용
     h_at_colored = format_tier_with_color(h_at, h_atw, is_attack=True)
     h_de_colored = format_tier_with_color(h_de, h_dew, is_attack=False)
     a_at_colored = format_tier_with_color(a_at, a_atw, is_attack=True)
@@ -894,7 +897,7 @@ with tabs[2]:
         a_atk_color_str = get_tier_colored_html(base_a_at, s_a_at)
         a_def_color_str = get_tier_colored_html(base_a_de, s_a_de)
 
-        # 💡 [핵심 수정] 방어 Shift 보정치는 낮아질수록(실점 감소) 수비 강화이므로 초록색(+15%), 높아지면 적색(-15%)
+        # 💡 [핵심 수정] 2단계 구장 Shift 보정치 색상 규격 (방어는 마이너스(-)가 수비 강화이므로 초록색)
         def get_shift_correction(base_tier, stadium_tier, is_attack=True):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
@@ -903,9 +906,9 @@ with tabs[2]:
                 elif s_val < b_val: return "<span style='color: #c62828; font-weight: bold;'>-15%</span>", -15.0
                 else: return "0%", 0.0
             else:
-                # 방어는 순위(Tier 값)가 낮을수록(실점이 적을수록) 우수함 (s_val < b_val 이면 실점 감소 = 수비 강화 = 초록색)
-                if s_val < b_val: return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
-                elif s_val > b_val: return "<span style='color: #c62828; font-weight: bold;'>-15%</span>", -15.0
+                # 방어는 순위(Tier 값)가 낮을수록(실점이 적을수록) 우수함 (s_val < b_val 이면 실점 감소 = 수비 강화 = +15% 보정치로 표기하되 색상은 초록색)
+                if s_val < b_val: return "<span style='color: #2e7d32; font-weight: bold;'>-15%</span>", -15.0
+                elif s_val > b_val: return "<span style='color: #c62828; font-weight: bold;'>+15%</span>", 15.0
                 else: return "0%", 0.0
 
         h_atk_shift_str, _ = get_shift_correction(base_h_at, s_h_at, is_attack=True)
@@ -924,10 +927,11 @@ with tabs[2]:
         s_a_gpg_html = get_colored_stat_html(s_a_gpg, s_a_pure_gpg, is_higher_better=True)
         s_a_cpg_html = get_colored_stat_html(s_a_cpg, s_a_pure_cpg, is_higher_better=False)
 
-        s_h_at_colored = format_tier_with_color(s_h_at, s_h_atw, is_attack=True)
-        s_h_de_colored = format_tier_with_color(s_h_de, s_h_dew, is_attack=False)
-        s_a_at_colored = format_tier_with_color(s_a_at, s_a_atw, is_attack=True)
-        s_a_de_colored = format_tier_with_color(s_a_de, s_a_dew, is_attack=False)
+        # 💡 2단계 산출부는 티어 이름만 표시하고 가중치는 생략
+        s_h_at_clean = f"<b>{s_h_at}</b>"
+        s_h_de_clean = f"<b>{s_h_de}</b>"
+        s_a_at_clean = f"<b>{s_a_at}</b>"
+        s_a_de_clean = f"<b>{s_a_de}</b>"
 
         st.markdown(f"##### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증{venue_status_badge}", unsafe_allow_html=True)
         if not s_h_df.empty: st.dataframe(s_h_df, use_container_width=True, hide_index=True)
@@ -939,7 +943,7 @@ with tabs[2]:
         • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b>)<br>
         • 구장별 원본 평균 득점: <b>{s_h_pure_gpg:.2f}골/경기</b> | 구장별 원본 평균 실점: <b>{s_h_pure_cpg:.2f}골/경기</b><br>
         • 특수룰 발동 기준 1차 티어: 공격 <b>{s_h_at_raw}</b> / 방어 <b>{s_h_de_raw}</b><br>
-        • 최종 보정 평균 득점: <b>{s_h_gpg_html}</b> (공격 티어: <b>{s_h_at_colored}</b>) / 최종 보정 평균 실점: <b>{s_h_cpg_html}</b> (방어 티어: <b>{s_h_de_colored}</b>)<br>
+        • 최종 보정 평균 득점: <b>{s_h_gpg_html}</b> (공격 티어: {s_h_at_clean}) / 최종 보정 평균 실점: <b>{s_h_cpg_html}</b> (방어 티어: {s_h_de_clean})<br>
         • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b> &nbsp;|&nbsp; 구장 환경 체급(보정 반영): 공격 <b>{h_atk_color_str}</b> / 방어 <b>{h_def_color_str}</b><br>
         • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{h_atk_shift_str}</b> / 방어 <b>{h_def_shift_str}</b>
         </div>
@@ -957,14 +961,13 @@ with tabs[2]:
         • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b>)<br>
         • 구장별 원본 평균 득점: <b>{s_a_pure_gpg:.2f}골/경기</b> | 구장별 원본 평균 실점: <b>{s_a_pure_cpg:.2f}골/경기</b><br>
         • 특수룰 발동 여부 및 1차 티어: 공격 <b>{s_a_at_raw}</b> / 방어 <b>{s_a_de_raw}</b><br>
-        • 최종 보정 평균 득점: <b>{s_a_gpg_html}</b> (공격 티어: <b>{s_a_at_colored}</b>) / 최종 보정 평균 실점: <b>{s_a_cpg_html}</b> (방어 티어: <b>{s_a_de_colored}</b>)<br>
+        • 최종 보정 평균 득점: <b>{s_a_gpg_html}</b> (공격 티어: {s_a_at_clean}) / 최종 보정 평균 실점: <b>{s_a_cpg_html}</b> (방어 티어: {s_a_de_clean})<br>
         • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급(보정 반영): 공격 <b>{a_atk_color_str}</b> / 방어 <b>{a_def_color_str}</b><br>
         • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> / 방어 <b>{a_def_shift_str}</b>
         </div>
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-
 
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
