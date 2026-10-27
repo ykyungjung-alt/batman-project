@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-27 12:38:53",
+    "last_updated": "2026-10-27 15:45:56",
     "match_details": {
         "3068946": {
             "match_code": "3068946",
@@ -139,7 +139,7 @@
                 "match_time_display": "2026-10-28 03:15",
                 "stadium": "",
                 "home_stadium": "Stadium 974",
-                "weather": "맑음,  30°C"
+                "weather": "맑음,  6℃～7℃"
             },
             "home": "샤말(N)",
             "away": "알 힐랄",
@@ -194,16 +194,16 @@
                 "fixtures": {
                     "home": [
                         {
-                            "league": "AFC 챔피언스리그",
-                            "match_time": "2026-11-03 17:00:00",
-                            "teams": "11.03 2026 vs 에스테갈 F.C. vs 샤말 vs 7 일",
+                            "league": "카타르 스타스리그",
+                            "match_time": "2026-10-30 16:30:00",
+                            "teams": "10.30 2026 vs 알 사드 vs 샤말 vs 3 일",
                             "interval": "시작전"
                         },
                         {
-                            "league": "카타르 스타스리그",
-                            "match_time": "2026-11-07 16:30:00",
-                            "teams": "11.07 2026 vs 알 사드 vs 샤말 vs 11 일",
-                            "interval": "11 일"
+                            "league": "AFC 챔피언스리그",
+                            "match_time": "2026-11-03 17:00:00",
+                            "teams": "11.03 2026 vs 에스테갈 F.C. vs 샤말 vs 7 일",
+                            "interval": "7 일"
                         },
                         {
                             "league": "카타르 스타스리그",
@@ -1040,6 +1040,199 @@
                 }
             }
         },
+        "3007115": {
+            "match_code": "3007115",
+            "head_info": {
+                "league": "잉글랜드 리그 1",
+                "round": "잉글랜드 리그 1·  라운드 8",
+                "match_time_raw": "10/27/2026 7:45:00 PM",
+                "match_time_display": "2026-10-28 04:45",
+                "stadium": "Valley Parade",
+                "home_stadium": "Valley Parade",
+                "weather": ""
+            },
+            "home": "브래드포드 시티",
+            "away": "반슬리",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "3",
+                        "team": "브래드포드 시티",
+                        "played": "12",
+                        "win": "6",
+                        "draw": "4",
+                        "loss": "2",
+                        "goals_for": "10",
+                        "goals_against": "5",
+                        "goal_diff": "5",
+                        "points": "22"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "23",
+                        "team": "반슬리",
+                        "played": "11",
+                        "win": "2",
+                        "draw": "2",
+                        "loss": "7",
+                        "goals_for": "11",
+                        "goals_against": "21",
+                        "goal_diff": "-10",
+                        "points": "8"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "6승 4무 0패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "0.30"
+                    },
+                    "away_summary": {
+                        "recent_record": "0승 2무 8패",
+                        "goals_per_game": "1.30",
+                        "conceded_per_game": "2.90"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (20%)",
+                        "무승부 3 (30%)",
+                        "승 5 (50%)",
+                        "1.20",
+                        "경기당 득점",
+                        "1.50"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG L12026.04.18",
+                                "반슬리",
+                                "2-2",
+                                "브래드포드 시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L12025.10.18",
+                                "브래드포드 시티",
+                                "2-2",
+                                "반슬리"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EFL Trophy2023.11.21",
+                                "브래드포드 시티",
+                                "5-1",
+                                "반슬리"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L12019.01.12",
+                                "반슬리",
+                                "3-0",
+                                "브래드포드 시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EFL Trophy2018.11.13",
+                                "반슬리",
+                                "2-1",
+                                "브래드포드 시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L12018.08.11",
+                                "브래드포드 시티",
+                                "0-2",
+                                "반슬리"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L12016.01.26",
+                                "브래드포드 시티",
+                                "0-1",
+                                "반슬리"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EFL Trophy2015.10.13",
+                                "브래드포드 시티",
+                                "1-2",
+                                "반슬리"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L12015.08.22",
+                                "반슬리",
+                                "0-0",
+                                "브래드포드 시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L12015.04.25",
+                                "브래드포드 시티",
+                                "1-0",
+                                "반슬리"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-10-31 12:30:00",
+                            "teams": "10.31 2026 vs 브래드포드 시티 vs 허더스필드 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "EFL 트로피",
+                            "match_time": "2026-11-10 19:30:00",
+                            "teams": "11.10 2026 vs 브래드포드 시티 vs 요크 시티 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-11-14 15:00:00",
+                            "teams": "11.14 2026 vs 레스터 vs 브래드포드 시티 vs 18 일",
+                            "interval": "18 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-10-31 15:00:00",
+                            "teams": "10.31 2026 vs 반슬리 vs 옥스포드U vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "EFL 트로피",
+                            "match_time": "2026-11-10 19:00:00",
+                            "teams": "11.10 2026 vs 반슬리 vs 올드햄 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-11-14 15:00:00",
+                            "teams": "11.14 2026 vs 위건 vs 반슬리 vs 18 일",
+                            "interval": "18 일"
+                        }
+                    ]
+                }
+            }
+        },
         "3007119": {
             "match_code": "3007119",
             "head_info": {
@@ -1193,6 +1386,199 @@
                 }
             }
         },
+        "3007120": {
+            "match_code": "3007120",
+            "head_info": {
+                "league": "잉글랜드 리그 1",
+                "round": "잉글랜드 리그 1·  라운드 8",
+                "match_time_raw": "10/27/2026 7:45:00 PM",
+                "match_time_display": "2026-10-28 04:45",
+                "stadium": "Field Mill Stadium",
+                "home_stadium": "Field Mill Stadium",
+                "weather": ""
+            },
+            "home": "맨스필드",
+            "away": "레이턴",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "9",
+                        "team": "맨스필드",
+                        "played": "11",
+                        "win": "5",
+                        "draw": "3",
+                        "loss": "3",
+                        "goals_for": "20",
+                        "goals_against": "16",
+                        "goal_diff": "4",
+                        "points": "18"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "15",
+                        "team": "레이턴",
+                        "played": "12",
+                        "win": "4",
+                        "draw": "2",
+                        "loss": "6",
+                        "goals_for": "16",
+                        "goals_against": "14",
+                        "goal_diff": "2",
+                        "points": "14"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "1.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 2무 6패",
+                        "goals_per_game": "0.90",
+                        "conceded_per_game": "1.40"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (20%)",
+                        "무승부 3 (30%)",
+                        "승 5 (50%)",
+                        "1.10",
+                        "경기당 득점",
+                        "1.40"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG L12026.04.14",
+                                "레이턴",
+                                "0-0",
+                                "맨스필드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L12025.08.23",
+                                "맨스필드",
+                                "4-1",
+                                "레이턴"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L12025.04.08",
+                                "맨스필드",
+                                "2-3",
+                                "레이턴"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L12025.02.11",
+                                "레이턴",
+                                "3-0",
+                                "맨스필드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L22023.04.25",
+                                "맨스필드",
+                                "1-2",
+                                "레이턴"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L22022.08.13",
+                                "레이턴",
+                                "1-0",
+                                "맨스필드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L22022.01.29",
+                                "맨스필드",
+                                "2-0",
+                                "레이턴"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L22021.09.25",
+                                "레이턴",
+                                "0-0",
+                                "맨스필드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L22021.04.02",
+                                "맨스필드",
+                                "0-2",
+                                "레이턴"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L22020.09.19",
+                                "레이턴",
+                                "2-2",
+                                "맨스필드"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-10-31 15:00:00",
+                            "teams": "10.31 2026 vs 맨스필드 vs 노츠카운티 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "EFL 트로피",
+                            "match_time": "2026-11-10 19:00:00",
+                            "teams": "11.10 2026 vs 맨스필드 vs 체스터필드 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-11-14 15:00:00",
+                            "teams": "11.14 2026 vs 스티버니지 vs 맨스필드 vs 18 일",
+                            "interval": "18 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-10-31 12:30:00",
+                            "teams": "10.31 2026 vs 레이턴 vs 케임브리지U vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "EFL 트로피",
+                            "match_time": "2026-11-10 19:00:00",
+                            "teams": "11.10 2026 vs 바넷 vs 레이턴 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-11-14 15:00:00",
+                            "teams": "11.14 2026 vs 돈캐스터 vs 레이턴 vs 18 일",
+                            "interval": "18 일"
+                        }
+                    ]
+                }
+            }
+        },
         "3007121": {
             "match_code": "3007121",
             "head_info": {
@@ -1333,6 +1719,134 @@
                             "match_time": "2026-11-14 15:00:00",
                             "teams": "11.14 2026 vs 브롬리 vs 노츠카운티 vs 18 일",
                             "interval": "18 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3007122": {
+            "match_code": "3007122",
+            "head_info": {
+                "league": "잉글랜드 리그 1",
+                "round": "잉글랜드 리그 1·  라운드 8",
+                "match_time_raw": "10/27/2026 7:45:00 PM",
+                "match_time_display": "2026-10-28 04:45",
+                "stadium": "Meadow Lane Stadium",
+                "home_stadium": "Meadow Lane Stadium",
+                "weather": ""
+            },
+            "home": "노츠카운티",
+            "away": "블랙풀",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "19",
+                        "team": "노츠카운티",
+                        "played": "11",
+                        "win": "2",
+                        "draw": "5",
+                        "loss": "4",
+                        "goals_for": "11",
+                        "goals_against": "14",
+                        "goal_diff": "-3",
+                        "points": "11"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "20",
+                        "team": "블랙풀",
+                        "played": "11",
+                        "win": "3",
+                        "draw": "2",
+                        "loss": "6",
+                        "goals_for": "16",
+                        "goals_against": "20",
+                        "goal_diff": "-4",
+                        "points": "11"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 3무 4패",
+                        "goals_per_game": "1.30",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "1승 2무 7패",
+                        "goals_per_game": "1.30",
+                        "conceded_per_game": "2.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (50%)",
+                        "무승부 0 (0%)",
+                        "0.50",
+                        "경기당 득점",
+                        "2.00"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG L22017.04.29",
+                                "노츠카운티",
+                                "1-0",
+                                "블랙풀"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L22016.11.12",
+                                "블랙풀",
+                                "4-0",
+                                "노츠카운티"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-10-31 15:00:00",
+                            "teams": "10.31 2026 vs 맨스필드 vs 노츠카운티 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "EFL 트로피",
+                            "match_time": "2026-11-10 19:00:00",
+                            "teams": "11.10 2026 vs 버튼 vs 노츠카운티 vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-11-14 15:00:00",
+                            "teams": "11.14 2026 vs 브롬리 vs 노츠카운티 vs 18 일",
+                            "interval": "18 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-11-01 14:00:00",
+                            "teams": "11.01 2026 vs 셰필드W vs 블랙풀 vs 5 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-11-14 15:00:00",
+                            "teams": "11.14 2026 vs 윔블던 vs 블랙풀 vs 18 일",
+                            "interval": "18 일"
+                        },
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-11-21 15:00:00",
+                            "teams": "11.21 2026 vs 블랙풀 vs 위건 vs 25 일",
+                            "interval": "25 일"
                         }
                     ]
                 }
