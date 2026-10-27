@@ -640,18 +640,18 @@ with tabs[1]:
                     if my_at in ["Tier A", "Tier E"]:
                         if my_at == "Tier A" and df_name == "Tier E":
                             mult_gf = 0.5
-                            rule_descs.append("🔍 [공격 특수룰 발동] 내 공격 Tier A vs 상대 방어 Tier E (득점 50% 할인)")
+                            rule_descs.append("🔍 [공격 특수룰 발동] 상대 방어 Tier E (득점 50% 할인)")
                         elif my_at == "Tier E" and df_name == "Tier A":
                             mult_gf = 1.5
-                            rule_descs.append("🔍 [공격 특수룰 발동] 내 공격 Tier E vs 상대 방어 Tier A (득점 50% 할증)")
+                            rule_descs.append("🔍 [공격 특수룰 발동] 상대 방어 Tier A (득점 50% 할증)")
 
                     if my_de in ["Tier A", "Tier E"]:
                         if my_de == "Tier A" and at_name == "Tier E":
                             mult_ga = 1.5
-                            rule_descs.append("🔍 [방어 특수룰 발동] 내 방어 Tier A vs 상대 공격 Tier E (실점 50% 할증)")
+                            rule_descs.append("🔍 [방어 특수룰 발동] 상대 공격 Tier E (실점 50% 할증)")
                         elif my_de == "Tier E" and at_name == "Tier A":
                             mult_ga = 0.5
-                            rule_descs.append("🔍 [방어 특수룰 발동] 내 방어 Tier E vs 상대 공격 Tier A (실점 50% 할인)")
+                            rule_descs.append("🔍 [방어 특수룰 발동] 상대 공격 Tier A (실점 50% 할인)")
 
                     if rule_descs:
                         rule_desc = " / ".join(rule_descs)
