@@ -1700,13 +1700,12 @@ with tabs[5]:
         ]
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (2단계 보정 체급 반영 및 상호 교차 7경기 선별 파이프라인)
+        # 📊 [5-2 표] 렌더링 (구장별 + 최근 전적 통합 풀 확장, 중복 제거 및 상호 교차 7경기 선별)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 7경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
 
         # 1. 2단계까지 완료된 최종 보정 체급을 5-2 표의 기준 체급으로 안전하게 연동
-        # (만약 2단계 변수 s_h_at 등이 선언되지 않았다면 1단계 h_at으로 폴백)
         home_my_at = s_h_at if 's_h_at' in locals() else (h_at if 'h_at' in locals() else "Tier C")
         home_my_de = s_h_de if 's_h_de' in locals() else (h_de if 'h_de' in locals() else "Tier C")
         away_my_at = s_a_at if 's_a_at' in locals() else (a_at if 'a_at' in locals() else "Tier C")
@@ -1718,49 +1717,52 @@ with tabs[5]:
         a_opp_at = home_my_at
         a_opp_de = home_my_de
 
-        # 2. 전적 풀 확보 (구장별 전적 및 중립구장 판별 풀 우선 연동)
-        home_raw_pool = []
-        away_raw_pool = []
-        if 's_home_matches' in locals() and s_home_matches:
-            home_raw_pool = s_home_matches
-        else:
-            target_v3_match = v3_details_dict.get(str(match_code), {}) if 'v3_details_dict' in locals() else {}
-            stadium_form_block = target_v3_match.get("meta_details", {}).get("stadium_form", {}) if target_v3_match else {}
-            home_raw_pool = stadium_form_block.get("home_matches", []) if stadium_form_block else []
-        if not home_raw_pool:
-            home_raw_pool = h_matches if 'h_matches' in locals() else []
-
-        if 's_away_matches' in locals() and s_away_matches:
-            away_raw_pool = s_away_matches
-        else:
-            target_v3_match = v3_details_dict.get(str(match_code), {}) if 'v3_details_dict' in locals() else {}
-            stadium_form_block = target_v3_match.get("meta_details", {}).get("stadium_form", {}) if target_v3_match else {}
-            away_raw_pool = stadium_form_block.get("away_matches", []) if stadium_form_block else []
-        if not away_raw_pool:
-            away_raw_pool = a_matches if 'a_matches' in locals() else []
-
-        def get_real_matches_without_friendlies(match_list):
-            if not match_list or not isinstance(match_list, list):
-                return []
-            valid = []
-            for fix in match_list:
-                league_raw = str(fix.get("league", ""))
-                league_lower = league_raw.lower()
-                if any(keyword in league_lower for keyword in ["친선", "friendly", "int cf", "club friendlies", "friendlies"]):
+        # 2. 통합 전적 풀 확보 (구장별 전적 + 최근 전적 결합 및 고유 키 기준 중복 제거)
+        def get_merged_and_deduplicated_pool(stadium_matches, recent_matches, team_label):
+            combined = []
+            seen_set = set()
+            
+            # 구장별 풀과 최근 전적 풀 합치기
+            raw_pool = list(stadium_matches or []) + list(recent_matches or [])
+            
+            for m in raw_pool:
+                # 친선 경기 배제
+                league_raw = str(m.get("league", ""))
+                if any(kw in league_raw.lower() for kw in ["친선", "friendly", "int cf", "club friendlies", "friendlies"]):
                     continue
-                scores_arr = fix.get("ft_scores", [])
-                score_str = str(fix.get("score", "") or fix.get("result", ""))
+                
+                # 유효 스코어 검증
+                scores_arr = m.get("ft_scores", [])
+                score_str = str(m.get("score", "") or m.get("result", ""))
                 if not score_str and (scores_arr and len(scores_arr) >= 2):
                     score_str = f"{scores_arr[0]} : {scores_arr[1]}"
                 if not score_str or (":" not in score_str and "-" not in score_str and not scores_arr):
                     continue
-                valid.append(fix)
-            return valid
 
-        # 3. 상대방 체급(티어 상성)에 가장 부합하는 실전 7경기 선별 함수
+                # 중복 제거를 위한 고유 키 생성 (경기 일시 + 대진 문자열)
+                m_time = str(m.get("match_time", ""))
+                teams_str = str(m.get("teams", ""))
+                unique_key = f"{m_time}_{teams_str}"
+                
+                if unique_key not in seen_set:
+                    seen_set.add(unique_key)
+                    combined.append(m)
+                    
+            return combined
+
+        # 홈/원정 각각 구장별 전적과 최근 전적 풀을 통합하고 중복을 제거한 대전 풀 생성
+        home_merged_pool = get_merged_and_deduplicated_pool(
+            s_home_matches if 's_home_matches' in locals() else [], 
+            h_matches if 'h_matches' in locals() else []
+        )
+        away_merged_pool = get_merged_and_deduplicated_pool(
+            s_away_matches if 's_away_matches' in locals() else [], 
+            a_matches if 'a_matches' in locals() else []
+        )
+
+        # 3. 상대방 티어 상성에 가장 부합하는 실전 7경기 선별 함수
         def filter_matched_tier_games(match_list, target_at_name, target_de_name):
-            valid_pool = get_real_matches_without_friendlies(match_list)
-            if not valid_pool:
+            if not match_list:
                 return []
 
             tier_score_map = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
@@ -1768,10 +1770,10 @@ with tabs[5]:
             t_de_val = tier_score_map.get(target_de_name, 3)
 
             scored_pool = []
-            for m in valid_pool:
+            for m in match_list:
                 tier_info = m.get("opponent_tier_info", "")
                 oa, od = 1.3, 1.2
-                if tier_info and "/" in tier_info:
+                if tier_info:
                     try:
                         atk_match = re.search(r'공격([A-E])\(([\d\.]+)\)', tier_info)
                         def_match = re.search(r'방어([A-E])\(([\d\.]+)\)', tier_info)
@@ -1799,8 +1801,8 @@ with tabs[5]:
                 pass
             return sorted_matches
 
-        home_matched_7 = filter_matched_tier_games(home_raw_pool, h_opp_at, h_opp_de)
-        away_matched_7 = filter_matched_tier_games(away_raw_pool, a_opp_at, a_opp_de)
+        home_matched_7 = filter_matched_tier_games(home_merged_pool, h_opp_at, h_opp_de)
+        away_matched_7 = filter_matched_tier_games(away_merged_pool, a_opp_at, a_opp_de)
 
         # 4. DataFrame 빌드 및 2단계 보정 체급 기준 특수룰 연산 함수
         def build_team_52_dataframe(match_list, team_label, my_corrected_at, my_corrected_de):
@@ -1932,7 +1934,7 @@ with tabs[5]:
         # 원정 팀 5-2 표 출력
         st.markdown(f"##### ✈️ 원정 팀: {away_team} (2단계 보정 체급: 공격 {away_my_at} / 방어 {away_my_de} | 상대 교차 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_agf, a_aga, a_rule_active = build_team_52_dataframe(away_matched_7, away_team, away_my_at, away_my_de)
-        if h_rule_active:
+        if a_rule_active:
             st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {away_team} 팀은 실전 7경기 검증 과정에서 홈 팀의 보정 티어 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
         st.markdown(f"📌 **{away_team} 실전 7경기 총합:** {a_tgf:.1f}득점 / {a_tga:.1f}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골</span>", unsafe_allow_html=True)
