@@ -978,7 +978,7 @@ with tabs[2]:
 
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
-    st.markdown(f"#### [규칙 3번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
+    st.markdown(f"#### [규칙 3-1번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
     st.markdown("""
     <div class="step-box">
         <b>📌 규칙 3번 규격 원칙 및 요약 설명:</b><br>
@@ -1167,7 +1167,7 @@ with tabs[3]:
                 rate = 0.0
             
             # 포지션별 공수 반감 룰 적용
-            is_attacker = any(k in p_pos for k in ["공격수", "FW", "MF"])
+            is_attacker = any(k in p_pos for k in ["공격수", "미드필더", "FW", "MF"])
             is_defender = any(k in p_pos for k in ["수비수", "골키퍼", "DF", "GK"])
 
             if p_type in ["결장", "부상", "징계", "누수", "출전의심/기타"]:
