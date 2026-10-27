@@ -1700,22 +1700,44 @@ with tabs[5]:
         ]
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (5-2 표 내부 자체 원본 평균 산출 ➔ 1차 원본 티어 확정 ➔ 특수룰 검증 규격)
+        # 📊 [5-2 표] 렌더링 (2단계 보정 체급 반영 및 상호 교차 7경기 선별 파이프라인)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 7경기 교차 검증 매트릭스 ({home_team} vs {away_team})")
 
+        # 1. 2단계까지 완료된 최종 보정 체급을 5-2 표의 기준 체급으로 안전하게 연동
+        # (만약 2단계 변수 s_h_at 등이 선언되지 않았다면 1단계 h_at으로 폴백)
+        home_my_at = s_h_at if 's_h_at' in locals() else (h_at if 'h_at' in locals() else "Tier C")
+        home_my_de = s_h_de if 's_h_de' in locals() else (h_de if 'h_de' in locals() else "Tier C")
+        away_my_at = s_a_at if 's_a_at' in locals() else (a_at if 'a_at' in locals() else "Tier C")
+        away_my_de = s_a_de if 's_a_de' in locals() else (a_de if 'a_de' in locals() else "Tier C")
+
+        # 💡 [핵심] 홈 팀은 "원정 팀의 최종 보정 체급"을 상대 티어로 삼고, 원정 팀은 "홈 팀의 최종 보정 체급"을 상대 티어로 삼아 교차 매칭
+        h_opp_at = away_my_at
+        h_opp_de = away_my_de
+        a_opp_at = home_my_at
+        a_opp_de = home_my_de
+
+        # 2. 전적 풀 확보 (구장별 전적 및 중립구장 판별 풀 우선 연동)
         home_raw_pool = []
         away_raw_pool = []
-        target_v3_match = v3_details_dict.get(str(match_code), {}) if 'v3_details_dict' in locals() else {}
-        stadium_form_block = target_v3_match.get("meta_details", {}).get("stadium_form", {}) if target_v3_match else {}
-        if stadium_form_block:
-            home_raw_pool = stadium_form_block.get("home_matches", [])
-            away_raw_pool = stadium_form_block.get("away_matches", [])
+        if 's_home_matches' in locals() and s_home_matches:
+            home_raw_pool = s_home_matches
+        else:
+            target_v3_match = v3_details_dict.get(str(match_code), {}) if 'v3_details_dict' in locals() else {}
+            stadium_form_block = target_v3_match.get("meta_details", {}).get("stadium_form", {}) if target_v3_match else {}
+            home_raw_pool = stadium_form_block.get("home_matches", []) if stadium_form_block else []
         if not home_raw_pool:
-            home_raw_pool = s_home_matches if 's_home_matches' in locals() and s_home_matches else (h_matches if 'h_matches' in locals() else [])
+            home_raw_pool = h_matches if 'h_matches' in locals() else []
+
+        if 's_away_matches' in locals() and s_away_matches:
+            away_raw_pool = s_away_matches
+        else:
+            target_v3_match = v3_details_dict.get(str(match_code), {}) if 'v3_details_dict' in locals() else {}
+            stadium_form_block = target_v3_match.get("meta_details", {}).get("stadium_form", {}) if target_v3_match else {}
+            away_raw_pool = stadium_form_block.get("away_matches", []) if stadium_form_block else []
         if not away_raw_pool:
-            away_raw_pool = s_away_matches if 's_away_matches' in locals() and s_away_matches else (a_matches if 'a_matches' in locals() else [])
+            away_raw_pool = a_matches if 'a_matches' in locals() else []
 
         def get_real_matches_without_friendlies(match_list):
             if not match_list or not isinstance(match_list, list):
@@ -1735,74 +1757,7 @@ with tabs[5]:
                 valid.append(fix)
             return valid
 
-        # 1차 매칭을 위한 대략적인 필터 함수
-        def filter_matched_tier_games_pre(match_list):
-            valid_pool = get_real_matches_without_friendlies(match_list)
-            if not valid_pool:
-                return []
-            # 최신순 정렬 후 상위 7경기 추출
-            try:
-                valid_pool.sort(key=lambda x: str(x.get("match_time", "")), reverse=True)
-            except:
-                pass
-            return valid_pool[:7]
-
-        pre_home_matched = filter_matched_tier_games_pre(home_raw_pool)
-        pre_away_matched = filter_matched_tier_games_pre(away_raw_pool)
-
-        # 💡 [핵심] 5-2 표 전용 자체 원본 평균 산출 및 1차 원본 티어 확정 함수
-        def compute_self_original_tier(match_list, team_label):
-            if not match_list:
-                return "Tier C", "Tier C"
-            tot_s, tot_c = 0.0, 0.0
-            cnt = len(match_list)
-            for m in match_list:
-                scores_arr = m.get("ft_scores", [])
-                m_score = str(m.get("score", "") or m.get("result", "0 : 0"))
-                if scores_arr and len(scores_arr) >= 2:
-                    m_score = f"{scores_arr[0]} : {scores_arr[1]}"
-                
-                teams_str = str(m.get("teams", ""))
-                is_team_home = True
-                if " vs " in teams_str:
-                    t_parts = [p.strip() for p in teams_str.split("vs")]
-                    if len(t_parts) >= 2:
-                        if team_label.strip() in t_parts[1] and team_label.strip() not in t_parts[0]:
-                            is_team_home = False
-                
-                raw_s1, raw_s2 = 0, 0
-                try:
-                    parts = m_score.replace("-", ":").split(":")
-                    if len(parts) >= 2:
-                        raw_s1 = int(parts[0].strip())
-                        raw_s2 = int(parts[1].strip())
-                except:
-                    pass
-
-                if not is_team_home and " vs " in teams_str:
-                    gf, ga = raw_s2, raw_s1
-                else:
-                    gf, ga = raw_s1, raw_s2
-                tot_s += gf
-                tot_c += ga
-
-            avg_g = tot_s / cnt if cnt > 0 else 0.0
-            avg_c = tot_c / cnt if cnt > 0 else 0.0
-            
-            self_at, _ = atk_tier(avg_g)
-            self_de, _ = def_tier(avg_c)
-            return self_at, self_de
-
-        # 각 팀별 5-2 표 자체 원본 티어 산출
-        home_my_at, home_my_de = compute_self_original_tier(pre_home_matched, home_team)
-        away_my_at, away_my_de = compute_self_original_tier(pre_away_matched, away_team)
-
-        h_opp_at = away_my_at
-        h_opp_de = away_my_de
-        a_opp_at = home_my_at
-        a_opp_de = home_my_de
-
-        # 최종 교차 매칭 7경기 선별
+        # 3. 상대방 체급(티어 상성)에 가장 부합하는 실전 7경기 선별 함수
         def filter_matched_tier_games(match_list, target_at_name, target_de_name):
             valid_pool = get_real_matches_without_friendlies(match_list)
             if not valid_pool:
@@ -1818,9 +1773,10 @@ with tabs[5]:
                 oa, od = 1.3, 1.2
                 if tier_info and "/" in tier_info:
                     try:
-                        parts_o = tier_info.split("/")
-                        oa = float(parts_o[0].strip())
-                        od = float(parts_o[1].strip())
+                        atk_match = re.search(r'공격([A-E])\(([\d\.]+)\)', tier_info)
+                        def_match = re.search(r'방어([A-E])\(([\d\.]+)\)', tier_info)
+                        if atk_match: oa = float(atk_match.group(2))
+                        if def_match: od = float(def_match.group(2))
                     except:
                         pass
                 op_at_name = atk_tier_nm(oa)
@@ -1846,8 +1802,8 @@ with tabs[5]:
         home_matched_7 = filter_matched_tier_games(home_raw_pool, h_opp_at, h_opp_de)
         away_matched_7 = filter_matched_tier_games(away_raw_pool, a_opp_at, a_opp_de)
 
-        # DataFrame 빌드 및 자체 원본 티어 기준 특수룰 산출 함수
-        def build_team_52_dataframe(match_list, team_label, my_original_at, my_original_de):
+        # 4. DataFrame 빌드 및 2단계 보정 체급 기준 특수룰 연산 함수
+        def build_team_52_dataframe(match_list, team_label, my_corrected_at, my_corrected_de):
             rows = []
             cnt = len(match_list)
             if cnt == 0:
@@ -1898,15 +1854,19 @@ with tabs[5]:
 
                 oa, od = 1.3, 1.2
                 tier_info = m.get("opponent_tier_info", "")
-                if tier_info and "/" in tier_info:
+                at_name, df_name = "Tier C", "Tier C"
+                if tier_info:
                     try:
-                        parts_o = tier_info.split("/")
-                        oa = float(parts_o[0].strip())
-                        od = float(parts_o[1].strip())
+                        atk_match = re.search(r'공격([A-E])\(([\d\.]+)\)', tier_info)
+                        def_match = re.search(r'방어([A-E])\(([\d\.]+)\)', tier_info)
+                        if atk_match:
+                            at_name = f"Tier {atk_match.group(1)}"
+                            oa = float(atk_match.group(2))
+                        if def_match:
+                            df_name = f"Tier {def_match.group(1)}"
+                            od = float(def_match.group(2))
                     except:
                         pass
-                at_name = atk_tier_nm(oa)
-                df_name = def_tier_nm(od)
                 m_opp_tier = f"{at_name} / {df_name}"
 
                 original_gf = float(gf)
@@ -1915,22 +1875,22 @@ with tabs[5]:
                 mult_ga = 1.0
                 rule_desc = []
 
-                # 💡 [5-2 표 자체 원본 티어 기준 엄격한 특수룰 연산]
-                if my_original_at in ["Tier A", "Tier E"]:
-                    if my_original_at == "Tier A" and df_name == "Tier E":
+                # 💡 [2단계 보정 체급 기준 엄격한 특수룰 연산]
+                if my_corrected_at in ["Tier A", "Tier E"]:
+                    if my_corrected_at == "Tier A" and df_name == "Tier E":
                         mult_gf = 0.5
-                        rule_desc.append(f"자체원본공격({my_original_at}) vs 상대수비({df_name}) ➔ 득점 50% 할인")
-                    elif my_original_at == "Tier E" and df_name == "Tier A":
+                        rule_desc.append(f"보정공격({my_corrected_at}) vs 상대수비({df_name}) ➔ 득점 50% 할인")
+                    elif my_corrected_at == "Tier E" and df_name == "Tier A":
                         mult_gf = 1.5
-                        rule_desc.append(f"자체원본공격({my_original_at}) vs 상대수비({df_name}) ➔ 득점 50% 할증")
+                        rule_desc.append(f"보정공격({my_corrected_at}) vs 상대수비({df_name}) ➔ 득점 50% 할증")
                         
-                if my_original_de in ["Tier A", "Tier E"]:
-                    if my_original_de == "Tier A" and at_name == "Tier E":
+                if my_corrected_de in ["Tier A", "Tier E"]:
+                    if my_corrected_de == "Tier A" and at_name == "Tier E":
                         mult_ga = 1.5
-                        rule_desc.append(f"자체원본방어({my_original_de}) vs 상대공격({at_name}) ➔ 실점 50% 할증")
-                    elif my_original_de == "Tier E" and at_name == "Tier A":
+                        rule_desc.append(f"보정방어({my_corrected_de}) vs 상대공격({at_name}) ➔ 실점 50% 할증")
+                    elif my_corrected_de == "Tier E" and at_name == "Tier A":
                         mult_ga = 0.5
-                        rule_desc.append(f"자체원본방어({my_original_de}) vs 상대공격({at_name}) ➔ 실점 50% 할인")
+                        rule_desc.append(f"보정방어({my_corrected_de}) vs 상대공격({at_name}) ➔ 실점 50% 할인")
 
                 app_gf = original_gf * mult_gf
                 app_ga = original_ga * mult_ga
@@ -1944,12 +1904,11 @@ with tabs[5]:
                 w_l = "승" if app_gf > app_ga else ("패" if app_gf < app_ga else "무")
                 seq_txt = f"{i} (최신)" if i == 1 else (f"{i} (과거)" if i == cnt else str(i))
                 
-                # 💡 결과 및 비고란에 자체 산출된 원본 티어 기준 판정 근거 명시
                 if rule_desc:
                     rule_joined = " / ".join(rule_desc)
-                    note_str = f"{int(original_gf)}득점 / {int(original_ga)}실점 ⚠️ [자체기준: 공격({my_original_at}) / 방어({my_original_de})] [{rule_joined} ➔ 보정산출: {app_gf:.1f}득점 / {app_ga:.1f}실점]"
+                    note_str = f"{int(original_gf)}득점 / {int(original_ga)}실점 ⚠️ [2단계보정기준: 공격({my_corrected_at}) / 방어({my_corrected_de})] [{rule_joined} ➔ 보정산출: {app_gf:.1f}득점 / {app_ga:.1f}실점]"
                 else:
-                    note_str = f"{int(original_gf)}득점 / {int(original_ga)}실점 [자체기준: 공격({my_original_at}) / 방어({my_original_de}) ➔ 특수룰 미해당]"
+                    note_str = f"{int(original_gf)}득점 / {int(original_ga)}실점 [2단계보정기준: 공격({my_corrected_at}) / 방어({my_corrected_de}) ➔ 특수룰 미해당]"
 
                 rows.append({
                     "순서": seq_txt, "경기 일시": m_date, "대회 명칭": m_league, "장소": m_loc, "상대 팀": m_opp,
@@ -1960,23 +1919,25 @@ with tabs[5]:
             avg_ga = total_ga / cnt if cnt > 0 else 0.0
             return pd.DataFrame(rows), total_gf, total_ga, avg_gf, avg_ga, any_rule_applied
 
-        # 홈 팀 출력
-        st.markdown(f"##### 🏠 홈 팀: {home_team} (자체 원본 연동 체급: 공격 {home_my_at} / 방어 {home_my_de} | 상대 연동 체급: 공격 {h_opp_at} / 방어 {h_opp_de})")
+        # 홈 팀 5-2 표 출력
+        st.markdown(f"##### 🏠 홈 팀: {home_team} (2단계 보정 체급: 공격 {home_my_at} / 방어 {home_my_de} | 상대 교차 체급: 공격 {h_opp_at} / 방어 {h_opp_de})")
         h_df_52, h_tgf, h_tga, h_agf, h_aga, h_rule_active = build_team_52_dataframe(home_matched_7, home_team, home_my_at, home_my_de)
         if h_rule_active:
-            st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {home_team} 팀은 실전 7경기 검증 과정에서 상대 공수 티어와의 교차 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
+            st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {home_team} 팀은 실전 7경기 검증 과정에서 원정 팀의 보정 티어 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
         st.dataframe(h_df_52, use_container_width=True, hide_index=True)
-        st.markdown(f"📌 **{home_team} 최근 7경기 총합:** {h_tgf:.1f}득점 / {h_tga:.1f}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span>", unsafe_allow_html=True)
+        st.markdown(f"📌 **{home_team} 실전 7경기 총합:** {h_tgf:.1f}득점 / {h_tga:.1f}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {h_agf:.2f}골 / 평균 실점 {h_aga:.2f}골</span>", unsafe_allow_html=True)
 
         st.markdown("---")
 
-        # 원정 팀 출력
-        st.markdown(f"##### ✈️ 원정 팀: {away_team} (자체 원본 연동 체급: 공격 {away_my_at} / 방어 {away_my_de} | 상대 연동 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
+        # 원정 팀 5-2 표 출력
+        st.markdown(f"##### ✈️ 원정 팀: {away_team} (2단계 보정 체급: 공격 {away_my_at} / 방어 {away_my_de} | 상대 교차 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_agf, a_aga, a_rule_active = build_team_52_dataframe(away_matched_7, away_team, away_my_at, away_my_de)
-        if a_rule_active:
-            st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {away_team} 팀은 실전 7경기 검증 과정에서 상대 공수 티어와의 교차 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
+        if h_rule_active:
+            st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {away_team} 팀은 실전 7경기 검증 과정에서 홈 팀의 보정 티어 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
-        st.markdown(f"📌 **{away_team} 최근 7경기 총합:** {a_tgf:.1f} 득점 / {a_tga:.1f} 실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f} 골 / 평균 실점 {a_aga:.2f} 골</span>", unsafe_allow_html=True)
+        st.markdown(f"📌 **{away_team} 실전 7경기 총합:** {a_tgf:.1f}득점 / {a_tga:.1f}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골</span>", unsafe_allow_html=True)
+     
+        
         # --------------------------------------------------------------------------
         # 📊 [5-3 표] 렌더링
         # --------------------------------------------------------------------------
