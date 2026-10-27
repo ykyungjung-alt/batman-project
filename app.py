@@ -524,7 +524,6 @@ with tabs[1]:
     raw_h_matches = recent_form.get("home_matches", [])
     raw_a_matches = recent_form.get("away_matches", [])
 
-    # 💡 10개 제한 적용
     h_matches = filter_and_supplement_matches(raw_h_matches, 10)
     a_matches = filter_and_supplement_matches(raw_a_matches, 10)
 
@@ -637,21 +636,22 @@ with tabs[1]:
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
                     rule_descs = []
+                    # 💡 돋보기 제거 및 내 공격/방어 생략, 상향(녹색) / 하향(적색) 시각화 적용
                     if my_at in ["Tier A", "Tier E"]:
                         if my_at == "Tier A" and df_name == "Tier E":
                             mult_gf = 0.5
-                            rule_descs.append("🔍 [공격 특수룰 발동] 상대 방어 Tier E (득점 50% 할인)")
+                            rule_descs.append("<span style='color: #c62828; font-weight: bold;'>[공격 특수룰] 상대 방어 Tier E (득점 50% 할인)</span>")
                         elif my_at == "Tier E" and df_name == "Tier A":
                             mult_gf = 1.5
-                            rule_descs.append("🔍 [공격 특수룰 발동] 상대 방어 Tier A (득점 50% 할증)")
+                            rule_descs.append("<span style='color: #2e7d32; font-weight: bold;'>[공격 특수룰] 상대 방어 Tier A (득점 50% 할증)</span>")
 
                     if my_de in ["Tier A", "Tier E"]:
                         if my_de == "Tier A" and at_name == "Tier E":
                             mult_ga = 1.5
-                            rule_descs.append("🔍 [방어 특수룰 발동] 상대 공격 Tier E (실점 50% 할증)")
+                            rule_descs.append("<span style='color: #c62828; font-weight: bold;'>[방어 특수룰] 상대 공격 Tier E (실점 50% 할증)</span>")
                         elif my_de == "Tier E" and at_name == "Tier A":
                             mult_ga = 0.5
-                            rule_descs.append("🔍 [방어 특수룰 발동] 상대 공격 Tier A (실점 50% 할인)")
+                            rule_descs.append("<span style='color: #2e7d32; font-weight: bold;'>[방어 특수룰] 상대 공격 Tier A (실점 50% 할인)</span>")
 
                     if rule_descs:
                         rule_desc = " / ".join(rule_descs)
@@ -667,7 +667,12 @@ with tabs[1]:
             eff_conceded += app_cc
             
             seq = f"최신 ({idx+1})" if idx == 0 else str(idx+1)
-            score_display = f"{s1} : {s2}" + (f" (보정 득실: {app_sc:.1f} : {app_cc:.1f})" if (mult_gf != 1.0 or mult_ga != 1.0) else " (유지)")
+            
+            # 득실 변동 여부에 따른 색상 적용 (상향: 녹색, 하향: 적색)
+            if mult_gf != 1.0 or mult_ga != 1.0:
+                score_display = f"{s1} : {s2} (<span style='color: #d32f2f; font-weight: bold;'>보정 득실: {app_sc:.1f} : {app_cc:.1f}</span>)"
+            else:
+                score_display = f"{s1} : {s2} (유지)"
             
             rows.append({
                 "LIFO 순서": seq,
@@ -711,7 +716,7 @@ with tabs[1]:
     a_de, a_dew = def_tier(a_cpg)
 
     st.markdown(f"##### 홈 팀 ({h_name}) 최근 전적 분석 로그")
-    if not h_df.empty: st.dataframe(h_df, use_container_width=True, hide_index=True)
+    if not h_df.empty: st.markdown(h_df.to_html(escape=False, index=False), unsafe_allow_html=True)
     else: st.info("📋 개별 경기 상세 데이터 없음")
         
     st.markdown(f"""<div class="calc-box">
@@ -726,7 +731,7 @@ with tabs[1]:
     st.markdown("---")
 
     st.markdown(f"##### 원정 팀 ({a_name}) 최근 전적 분석 로그")
-    if not a_df.empty: st.dataframe(a_df, use_container_width=True, hide_index=True)
+    if not a_df.empty: st.markdown(a_df.to_html(escape=False, index=False), unsafe_allow_html=True)
     else: st.info("📋 개별 경기 상세 데이터 없음")
         
     st.markdown(f"""<div class="calc-box">
@@ -767,7 +772,6 @@ with tabs[2]:
         v3_meta_block = target_v3_data.get("meta_details", {}) if 'target_v3_data' in locals() and target_v3_data else {}
         stadium_form = v3_meta_block.get("stadium_form", {}) if isinstance(v3_meta_block, dict) else {}
 
-        # 💡 홈팀 구장별 전적 추출 및 10개 제한 적용
         if is_neutral_venue:
             recent_all_pool = stadium_form.get("recent_matches", []) if isinstance(stadium_form, dict) and "recent_matches" in stadium_form else []
             if not recent_all_pool and 'h_matches' in locals():
@@ -793,7 +797,6 @@ with tabs[2]:
                 raw_s_home = h_matches
             s_home_matches = filter_and_supplement_matches(raw_s_home, 10)
 
-        # 💡 원정팀 구장별 전적 추출 및 10개 제한 적용
         raw_s_away = stadium_form.get("away_matches", []) if isinstance(stadium_form, dict) else []
         if not raw_s_away and 'a_matches' in locals():
             raw_s_away = a_matches
@@ -847,12 +850,12 @@ with tabs[2]:
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
             if is_attack:
-                if s_val > b_val: return "+15%", 15.0
-                elif s_val < b_val: return "-15%", -15.0
+                if s_val > b_val: return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
+                elif s_val < b_val: return "<span style='color: #c62828; font-weight: bold;'>-15%</span>", -15.0
                 else: return "0%", 0.0
             else:
-                if s_val < b_val: return "+15%", 15.0
-                elif s_val > b_val: return "-15%", -15.0
+                if s_val < b_val: return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
+                elif s_val > b_val: return "<span style='color: #c62828; font-weight: bold;'>-15%</span>", -15.0
                 else: return "0%", 0.0
 
         h_atk_shift_str, _ = get_shift_correction(base_h_at, s_h_at, is_attack=True)
@@ -867,7 +870,7 @@ with tabs[2]:
         )
 
         st.markdown(f"##### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증{venue_status_badge}", unsafe_allow_html=True)
-        if not s_h_df.empty: st.dataframe(s_h_df, use_container_width=True, hide_index=True)
+        if not s_h_df.empty: st.markdown(s_h_df.to_html(escape=False, index=False), unsafe_allow_html=True)
         else: st.info("📋 구장별 상세 전적 데이터 없음")
 
         st.markdown(f"""
@@ -885,7 +888,7 @@ with tabs[2]:
         st.markdown("---")
 
         st.markdown(f"##### 원정 팀 ({a_name}) 구장별 전적 및 티어 변동 검증")
-        if not s_a_df.empty: st.dataframe(s_a_df, use_container_width=True, hide_index=True)
+        if not s_a_df.empty: st.markdown(s_a_df.to_html(escape=False, index=False), unsafe_allow_html=True)
         else: st.info("📋 구장별 상세 전적 데이터 없음")
 
         st.markdown(f"""
@@ -901,7 +904,6 @@ with tabs[2]:
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
-
 
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
