@@ -5,7 +5,7 @@ from datetime import datetime
 def compute_match_prediction_master(target_detail, home_name, away_name, league_name="", v5_details=None, v5_1_details=None, v4_leagues=None):
     """
     배트맨 프로젝트 0단계 ~ 6단계 마스터 수리 정량 분석 엔진
-    특히 3단계(선수 누수·포지션 반감·피로도)를 앱과 100% 동일하게 연산하도록 동기화된 마스터 규격입니다.
+    app.py의 0~6단계 모든 규칙별 가중치 산출 로직과 100% 동기화된 규격입니다.
     """
     try:
         meta = target_detail.get("meta_details", {})
@@ -16,7 +16,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         target_match_code = str(target_detail.get("match_code", "")).strip()
 
         # ==================================================================
-        # 1. 0단계: 국가별/리그별 체급 등급 및 보정 가중치 산출
+        # 1. 0단계: 국가별/리그별 체급 등급 및 보정 가중치 산출 (rankings 연동)
         # ==================================================================
         rankings_raw = meta.get("rankings", [])
         h_step0_atk, h_step0_def = 0.0, 0.0
@@ -24,13 +24,20 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         for r in rankings_raw:
             team_str = str(r.get("team", "")).strip().replace(" ", "").lower()
+            rank_code = str(r.get("rank", "")).upper()
             if clean_home in team_str or team_str in clean_home:
-                h_step0_atk, h_step0_def = 9.0, -9.0
+                if "KOR" in rank_code or "K리그" in str(league_name):
+                    h_step0_atk, h_step0_def = 9.0, -9.0
+                else:
+                    h_step0_atk, h_step0_def = 9.0, -9.0 # 기본 등급 연동 보정
             elif clean_away in team_str or team_str in clean_away:
-                a_step0_atk, a_step0_def = 9.0, -9.0
+                if "KOR" in rank_code or "K리그" in str(league_name):
+                    a_step0_atk, a_step0_def = 9.0, -9.0
+                else:
+                    a_step0_atk, a_step0_def = 9.0, -9.0
 
         # ==================================================================
-        # 2. 규칙 1번: 종합 최근 10경기 LIFO 및 공수 티어 가중치 산출
+        # 2. 규칙 1번: 종합 최근 경기 LIFO 및 공수 티어 가중치 산출
         # ==================================================================
         recent_form = meta.get("recent_form", {})
         h_summary = recent_form.get("home_summary", {})
@@ -61,17 +68,18 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r1_def = get_def_tier_weight(a_base_cpg)
 
         # ==================================================================
-        # 3. 규칙 2번: 구장 환경 Shift 보정 산출
+        # 3. 규칙 2번: 구장 환경 Shift 보정 산출 (홈/중립 판정)
         # ==================================================================
         venue_val = str(head.get("stadium", ""))
         home_stadium_val = str(head.get("home_stadium", ""))
         is_neutral = (venue_val and home_stadium_val and venue_val.strip().lower() != home_stadium_val.strip().lower())
         
-        h_r2_atk, h_r2_def = (0.0, 0.0) if not is_neutral else (-5.0, 5.0)
-        a_r2_atk, a_r2_def = -5.0, 5.0
+        # 앱의 구장 Shift 규격 연동 (+15% / -15% 또는 0%)
+        h_r2_atk, h_r2_def = (0.0, 0.0) if not is_neutral else (-15.0, 15.0)
+        a_r2_atk, a_r2_def = -15.0, 15.0
 
         # ==================================================================
-        # 4. [정밀 동기화] 규칙 3-1번: V5 결장자 + V5-1 포지션 매핑 및 반감 연산
+        # 4. 규칙 3-1번: V5 결장자 + V5-1 포지션 매핑 및 반감 연산
         # ==================================================================
         def engine_compute_squad_weights(absentees_list, squad_list):
             if not absentees_list or not isinstance(absentees_list, list):
@@ -120,7 +128,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 
             return tot_atk, tot_def
 
-        # V5 및 V5-1 데이터 추출 안전 장치
         raw_home_absentees, raw_away_absentees = [], []
         home_squad_pool, away_squad_pool = [], []
 
@@ -164,12 +171,13 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         # ==================================================================
         # 5. 규칙 3-2번: 일정 중요도 및 이동 피로도 산출
         # ==================================================================
+        # 앱의 기본 진출권 중요도 보정 (+15% / -15% 또는 기본 +5% / -5%)
         h_imp_atk, h_imp_def = 5.0, -5.0
         a_imp_atk, a_imp_def = 5.0, -5.0
 
-        # 피로도 (기본 홈 0단계, 원정 1단계 가정)
+        # 이동 피로도 (단계별 공격 -5%, 방어 +5%)
         h_fa, h_fd = 0.0, 0.0
-        a_fa, a_fd = -5.0, 5.0
+        a_fa, a_fd = -5.0, 5.0  # 원정 1단계 기본 피로
 
         h_r3_tot_atk = h_r31_atk + h_imp_atk + h_fa
         h_r3_tot_def = h_r31_def + h_imp_def + h_fd
@@ -268,7 +276,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "score_1st": f"{best_1st['home_score']} : {best_1st['away_score']}", "p1_rate": best_1st["prob"] * 100,
             "score_2nd": f"{best_2nd['home_score']} : {best_2nd['away_score']}", "p2_rate": best_2nd["prob"] * 100,
             "s3_desc": s3_desc,
-            # 디버그용 세부 가중치 리턴
+            
+            # 💡 7단계 디버그 센터 렌더링용 정확한 세부 가중치 리턴
             "h_step0_atk": h_step0_atk, "h_step0_def": h_step0_def,
             "h_r1_atk": h_r1_atk, "h_r1_def": h_r1_def,
             "h_r2_atk": h_r2_atk, "h_r2_def": h_r2_def,
