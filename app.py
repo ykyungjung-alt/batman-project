@@ -457,14 +457,32 @@ def filter_and_supplement_matches(match_list, max_count=10):
 
 
 # ==========================================
-# 💡 규칙 1번 탭 (종합 최근 20경기 및 독립 특수룰 파이프라인)
+# 💡 공수 티어 이름 판별 헬퍼 함수 (상단 선언 필수)
+# ==========================================
+def atk_tier_nm(g):
+    if g >= 2.3: return "Tier A"
+    elif g >= 1.7: return "Tier B"
+    elif g >= 1.1: return "Tier C"
+    elif g >= 0.5: return "Tier D"
+    else: return "Tier E"
+
+def def_tier_nm(c):
+    if c < 0.5: return "Tier A"
+    elif c < 0.9: return "Tier B"
+    elif c < 1.3: return "Tier C"
+    elif c < 1.7: return "Tier D"
+    else: return "Tier E"
+
+
+# ==========================================
+# 💡 규칙 1번 탭 (종합 최근 10경기 및 독립 특수룰 파이프라인)
 # ==========================================
 with tabs[1]:
-    st.markdown(f"#### [규칙 1번: 종합 최근 20경기 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
+    st.markdown(f"#### [규칙 1번: 종합 최근 10경기 로그 및 A~E 등급별 공수 티어 산출] - {home_team} vs {away_team}")
     st.markdown("""
         <div class="step-box">
             <b>📌 규격 원칙 및 요약 설명:</b><br>
-            • <b>전수 조사 및 LIFO 방식:</b> 최신순 정렬을 원칙으로 공식 경기를 우선 채택하며, 부족한 경우에만 친선 경기를 보완하여 최대 20경기를 확보합니다.<br>
+            • <b>전수 조사 및 LIFO 방식:</b> 최신순 정렬을 원칙으로 공식 경기를 우선 채택하며, 부족한 경우에만 친선 경기를 보완하여 최대 10경기를 확보합니다.<br>
             • <b>공수 각각 독립 교차 특수 룰:</b> 크롤러가 수집해 온 상대 공수 티어 데이터를 바탕으로, 내 원본 공격/방어 티어가 Tier A 또는 E일 때만 교차 상성에 따라 득실점 50% 할인/할증 보정이 작동합니다.
         </div>
         """, unsafe_allow_html=True,
@@ -506,8 +524,9 @@ with tabs[1]:
     raw_h_matches = recent_form.get("home_matches", [])
     raw_a_matches = recent_form.get("away_matches", [])
 
-    h_matches = filter_and_supplement_matches(raw_h_matches, 20)
-    a_matches = filter_and_supplement_matches(raw_a_matches, 20)
+    # 💡 10개 제한 적용
+    h_matches = filter_and_supplement_matches(raw_h_matches, 10)
+    a_matches = filter_and_supplement_matches(raw_a_matches, 10)
 
     h_sum = recent_form.get("home_summary", {})
     a_sum = recent_form.get("away_summary", {})
@@ -599,7 +618,6 @@ with tabs[1]:
             mult_ga = 1.0
             rule_desc = "보정 없음 / 유지"
             
-            # 💡 [핵심 수정] 크롤러가 수집한 '공격C(1.50)/방어E(1.90)' 포맷을 정규식으로 안전하게 파싱
             tier_info = m.get("opponent_tier_info", "")
             at_name, df_name = "Tier C", "Tier C"
             oa, od = 1.3, 1.2
@@ -619,8 +637,6 @@ with tabs[1]:
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
                     rule_descs = []
-                    
-                    # 💡 [공격 독립 특수룰] 내 원본 공격이 Tier A 또는 E일 때만 발동
                     if my_at in ["Tier A", "Tier E"]:
                         if my_at == "Tier A" and df_name == "Tier E":
                             mult_gf = 0.5
@@ -629,7 +645,6 @@ with tabs[1]:
                             mult_gf = 1.5
                             rule_descs.append("🔍 [공격 특수룰 발동] 내 공격 Tier E vs 상대 방어 Tier A (득점 50% 할증)")
 
-                    # 💡 [방어 독립 특수룰] 내 원본 방어가 Tier A 또는 E일 때만 발동
                     if my_de in ["Tier A", "Tier E"]:
                         if my_de == "Tier A" and at_name == "Tier E":
                             mult_ga = 1.5
@@ -673,14 +688,14 @@ with tabs[1]:
 
     # 1단계 1차 예비 산출
     h_df_pre, h_gpg_pre, h_cpg_pre, h_rec_pre, h_raw_s_pre, h_raw_c_pre = local_make_df(h_matches, h_name, h_gpg_base, h_cpg_base, h_rec_base, "Tier C", "Tier C")
-    h_cnt = len(h_matches) if h_matches else 20
+    h_cnt = len(h_matches) if h_matches else 10
     h_pure_gpg = round(h_raw_s_pre / h_cnt, 2) if h_cnt > 0 else 0.0
     h_pure_cpg = round(h_raw_c_pre / h_cnt, 2) if h_cnt > 0 else 0.0
     h_at_pre, _ = atk_tier(h_pure_gpg)
     h_de_pre, _ = def_tier(h_pure_cpg)
 
     a_df_pre, a_gpg_pre, a_cpg_pre, a_rec_pre, a_raw_s_pre, a_raw_c_pre = local_make_df(a_matches, a_name, a_gpg_base, a_cpg_base, a_rec_base, "Tier C", "Tier C")
-    a_cnt = len(a_matches) if a_matches else 20
+    a_cnt = len(a_matches) if a_matches else 10
     a_pure_gpg = round(a_raw_s_pre / a_cnt, 2) if a_cnt > 0 else 0.0
     a_pure_cpg = round(a_raw_c_pre / a_cnt, 2) if a_cnt > 0 else 0.0
     a_at_pre, _ = atk_tier(a_pure_gpg)
@@ -695,12 +710,9 @@ with tabs[1]:
     a_at, a_atw = atk_tier(a_gpg)
     a_de, a_dew = def_tier(a_cpg)
 
-    # 홈 팀 1단계 출력
     st.markdown(f"##### 홈 팀 ({h_name}) 최근 전적 분석 로그")
-    if not h_df.empty:
-        st.dataframe(h_df, use_container_width=True, hide_index=True)
-    else:
-        st.info("📋 개별 경기 상세 데이터 없음")
+    if not h_df.empty: st.dataframe(h_df, use_container_width=True, hide_index=True)
+    else: st.info("📋 개별 경기 상세 데이터 없음")
         
     st.markdown(f"""<div class="calc-box">
         <b>{h_name} 규칙 1번 상세 산출 내역</b><br>
@@ -713,12 +725,9 @@ with tabs[1]:
 
     st.markdown("---")
 
-    # 원정 팀 1단계 출력
     st.markdown(f"##### 원정 팀 ({a_name}) 최근 전적 분석 로그")
-    if not a_df.empty:
-        st.dataframe(a_df, use_container_width=True, hide_index=True)
-    else:
-        st.info("📋 개별 경기 상세 데이터 없음")
+    if not a_df.empty: st.dataframe(a_df, use_container_width=True, hide_index=True)
+    else: st.info("📋 개별 경기 상세 데이터 없음")
         
     st.markdown(f"""<div class="calc-box">
         <b>{a_name} 규칙 1번 상세 산출 내역</b><br>
@@ -738,7 +747,7 @@ with tabs[2]:
     st.markdown("""
     <div class="step-box">
     <b>📌 규격 원칙 및 요약 설명:</b><br>
-    • <b>구장별 전적(Stadium Form) 분석:</b> 최신순 정렬 기준으로 공식 경기를 우선 채택하며, 표본이 부족할 경우 친선 경기를 보완하여 최대 20경기를 확보합니다.<br>
+    • <b>구장별 전적(Stadium Form) 분석:</b> 최신순 정렬 기준으로 공식 경기를 우선 채택하며, 표본이 부족할 경우 친선 경기를 보완하여 최대 10경기를 확보합니다.<br>
     • <b>연산 파이프라인 규격:</b> 구장별 매치 최신순 LIFO 수집 ➔ 독립 원본 평균 산출 ➔ 1차 원본 티어 확정(특수룰 발동 기준) ➔ 독립 분기 특수룰 교차 보정 및 보정 평균 산출 ➔ 구장 환경 체급 확정 ➔ 1단계 비교 (Shift +15% / -15%)
     </div>
     """, unsafe_allow_html=True)
@@ -758,7 +767,7 @@ with tabs[2]:
         v3_meta_block = target_v3_data.get("meta_details", {}) if 'target_v3_data' in locals() and target_v3_data else {}
         stadium_form = v3_meta_block.get("stadium_form", {}) if isinstance(v3_meta_block, dict) else {}
 
-        # 홈팀 구장별 전적 추출 및 최신순 LIFO 필터 적용 (최대 20개)
+        # 💡 홈팀 구장별 전적 추출 및 10개 제한 적용
         if is_neutral_venue:
             recent_all_pool = stadium_form.get("recent_matches", []) if isinstance(stadium_form, dict) and "recent_matches" in stadium_form else []
             if not recent_all_pool and 'h_matches' in locals():
@@ -777,27 +786,24 @@ with tabs[2]:
             if not neutral_home_away_matches and isinstance(stadium_form, dict):
                 neutral_home_away_matches = stadium_form.get("away_matches", [])
 
-            s_home_matches = filter_and_supplement_matches(neutral_home_away_matches, 20)
+            s_home_matches = filter_and_supplement_matches(neutral_home_away_matches, 10)
         else:
             raw_s_home = stadium_form.get("home_matches", []) if isinstance(stadium_form, dict) else []
             if not raw_s_home and 'h_matches' in locals():
                 raw_s_home = h_matches
-            s_home_matches = filter_and_supplement_matches(raw_s_home, 20)
+            s_home_matches = filter_and_supplement_matches(raw_s_home, 10)
 
-        # 원정팀 구장별 전적 추출 및 최신순 LIFO 필터 적용 (최대 20개)
+        # 💡 원정팀 구장별 전적 추출 및 10개 제한 적용
         raw_s_away = stadium_form.get("away_matches", []) if isinstance(stadium_form, dict) else []
         if not raw_s_away and 'a_matches' in locals():
             raw_s_away = a_matches
-        s_away_matches = filter_and_supplement_matches(raw_s_away, 20)
+        s_away_matches = filter_and_supplement_matches(raw_s_away, 10)
 
-        # --------------------------------------------------------------------------
-        # 💡 [구장별 파이프라인] 원본 및 독립 보정 산출
-        # --------------------------------------------------------------------------
         s_h_df_raw, _, _, s_h_rec, s_h_raw_s, s_h_raw_c = local_make_df(s_home_matches, h_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
         s_a_df_raw, _, _, s_a_rec, s_a_raw_s, s_a_raw_c = local_make_df(s_away_matches, a_name, 0.0, 0.0, "0전 0승 0무 0패", "Tier C", "Tier C")
 
-        s_h_cnt = len(s_home_matches) if s_home_matches else (20 if s_h_raw_s > 0 else 1)
-        s_a_cnt = len(s_away_matches) if s_away_matches else (20 if s_a_raw_s > 0 else 1)
+        s_h_cnt = len(s_home_matches) if s_home_matches else (10 if s_h_raw_s > 0 else 1)
+        s_a_cnt = len(s_away_matches) if s_away_matches else (10 if s_a_raw_s > 0 else 1)
 
         s_h_pure_gpg = round(s_h_raw_s / s_h_cnt, 2) if s_h_cnt > 0 else 0.0
         s_h_pure_cpg = round(s_h_raw_c / s_h_cnt, 2) if s_h_cnt > 0 else 0.0
@@ -861,10 +867,8 @@ with tabs[2]:
         )
 
         st.markdown(f"##### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증{venue_status_badge}", unsafe_allow_html=True)
-        if not s_h_df.empty:
-            st.dataframe(s_h_df, use_container_width=True, hide_index=True)
-        else:
-            st.info("📋 구장별 상세 전적 데이터 없음")
+        if not s_h_df.empty: st.dataframe(s_h_df, use_container_width=True, hide_index=True)
+        else: st.info("📋 구장별 상세 전적 데이터 없음")
 
         st.markdown(f"""
         <div class="calc-box">
@@ -881,10 +885,8 @@ with tabs[2]:
         st.markdown("---")
 
         st.markdown(f"##### 원정 팀 ({a_name}) 구장별 전적 및 티어 변동 검증")
-        if not s_a_df.empty:
-            st.dataframe(s_a_df, use_container_width=True, hide_index=True)
-        else:
-            st.info("📋 구장별 상세 전적 데이터 없음")
+        if not s_a_df.empty: st.dataframe(s_a_df, use_container_width=True, hide_index=True)
+        else: st.info("📋 구장별 상세 전적 데이터 없음")
 
         st.markdown(f"""
         <div class="calc-box">
@@ -899,6 +901,8 @@ with tabs[2]:
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+
+
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"#### [규칙 3번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
