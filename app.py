@@ -457,7 +457,7 @@ def filter_and_supplement_matches(match_list, max_count=10):
 
 
 # ==========================================
-# 💡 공수 티어 이름 판별 헬퍼 함수 (상단 선언 필수)
+# 💡 공수 티어 이름 판별 및 색상 래퍼 헬퍼 함수
 # ==========================================
 def atk_tier_nm(g):
     if g >= 2.3: return "Tier A"
@@ -472,6 +472,23 @@ def def_tier_nm(c):
     elif c < 1.3: return "Tier C"
     elif c < 1.7: return "Tier D"
     else: return "Tier E"
+
+# 티어 및 가중치 문자열에 상향(녹색)/하향(적색) 색상을 동적으로 입혀주는 헬퍼
+def format_tier_with_color(tier_name, weight_str, is_attack=True):
+    # 공격: Tier A, B가 높음(+ 가중치), 방어: Tier A, B가 낮고 우수(- 가중치)
+    # 가중치에 기호(+ 또는 -)가 포함되어 있으므로 이를 기준으로 판정
+    is_positive = "+" in weight_str
+    is_negative = "-" in weight_str
+    
+    color = "#333333"
+    if is_attack:
+        # 공격은 가중치가 플러스(+)면 상향(초록), 마이너스(-)면 하향(적색)
+        color = "#2e7d32" if is_positive else ("#c62828" if is_negative else "#333333")
+    else:
+        # 방어는 가중치가 마이너스(-)면 수비 강화(초록), 플러스(+)면 실점 증가/불리(적색)
+        color = "#2e7d32" if is_negative else ("#c62828" if is_positive else "#333333")
+        
+    return f"<b style='color: {color};'>{tier_name} ({weight_str})</b>"
 
 
 # ==========================================
@@ -627,7 +644,6 @@ with tabs[1]:
             tier_str = "정보 없음"
             mult_gf = 1.0
             mult_ga = 1.0
-            rule_desc = "보정 없음 / 유지"
             
             tier_info = str(m.get("opponent_tier_info", ""))
             at_name, df_name = "Tier C", "Tier C"
@@ -725,14 +741,17 @@ with tabs[1]:
     a_at, a_atw = atk_tier(a_gpg)
     a_de, a_dew = def_tier(a_cpg)
 
-    # 💡 [컬러 헬퍼 함수] 공격은 높을수록 좋고(▲초록), 실점(방어)은 낮을수록 좋음(▼초록) 반영 규격
+    # 색상 적용된 티어 문자열 생성
+    h_at_colored = format_tier_with_color(h_at, h_atw, is_attack=True)
+    h_de_colored = format_tier_with_color(h_de, h_dew, is_attack=False)
+    a_at_colored = format_tier_with_color(a_at, a_atw, is_attack=True)
+    a_de_colored = format_tier_with_color(a_de, a_dew, is_attack=False)
+
     def get_colored_stat_html(val, base_val, is_higher_better=True):
         if val > base_val:
-            # 득점(is_higher_better=True)은 증가 시 초록, 실점(is_higher_better=False)은 증가 시 적색
             color = "#2e7d32" if is_higher_better else "#c62828"
             arrow = "▲" if is_higher_better else "▲"
         elif val < base_val:
-            # 득점은 감소 시 적색, 실점은 감소 시 초록
             color = "#c62828" if is_higher_better else "#2e7d32"
             arrow = "▼" if is_higher_better else "▼"
         else:
@@ -740,9 +759,9 @@ with tabs[1]:
         return f"<b style='color: {color};'>{val:.2f}골/경기 {arrow}</b>"
 
     h_gpg_html = get_colored_stat_html(h_gpg, h_pure_gpg, is_higher_better=True)
-    h_cpg_html = get_colored_stat_html(h_cpg, h_pure_cpg, is_higher_better=False) # 💡 방어(실점)는 낮을수록 좋음
+    h_cpg_html = get_colored_stat_html(h_cpg, h_pure_cpg, is_higher_better=False)
     a_gpg_html = get_colored_stat_html(a_gpg, a_pure_gpg, is_higher_better=True)
-    a_cpg_html = get_colored_stat_html(a_cpg, a_pure_cpg, is_higher_better=False) # 💡 방어(실점)는 낮을수록 좋음
+    a_cpg_html = get_colored_stat_html(a_cpg, a_pure_cpg, is_higher_better=False)
 
     st.markdown(f"##### 홈 팀 ({h_name}) 최근 전적 분석 로그")
     if not h_df.empty: st.dataframe(h_df, use_container_width=True, hide_index=True)
@@ -753,7 +772,7 @@ with tabs[1]:
         • 최근 전적: <b>{h_rec}</b> (총 득점: <b>{h_raw_s:.1f}골</b> / 총 실점: <b>{h_raw_c:.1f}골</b>)<br>
         • 원본 평균 득점: <b>{h_pure_gpg:.2f}골/경기</b> | 원본 평균 실점: <b>{h_pure_cpg:.2f}골/경기</b><br>
         • <b>특수룰 발동 기준 1차 원본 티어: 공격 {h_at_pre} / 방어 {h_de_pre}</b><br>
-        • 최종 보정 평균 득점: <b>{h_gpg_html}</b> (공격 티어: <b>{h_at} ({h_atw})</b>) / 최종 보정 평균 실점: <b>{h_cpg_html}</b> (방어 티어: <b>{h_de} ({h_dew})</b>)<br>
+        • 최종 보정 평균 득점: <b>{h_gpg_html}</b> (공격 티어: <b>{h_at_colored}</b>) / 최종 보정 평균 실점: <b>{h_cpg_html}</b> (방어 티어: <b>{h_de_colored}</b>)<br>
         • <b>공수 독립 교차 보정 및 최종 체급 확정 완료</b>
     </div>""", unsafe_allow_html=True)
 
@@ -768,7 +787,7 @@ with tabs[1]:
         • 최근 전적: <b>{a_rec}</b> (총 득점: <b>{a_raw_s:.1f}골</b> / 총 실점: <b>{a_raw_c:.1f}골</b>)<br>
         • 원본 평균 득점: <b>{a_pure_gpg:.2f}골/경기</b> | 원본 평균 실점: <b>{a_pure_cpg:.2f}골/경기</b><br>
         • <b>특수룰 발동 기준 1차 원본 티어: 공격 {a_at_pre} / 방어 {a_de_pre}</b><br>
-        • 최종 보정 평균 득점: <b>{a_gpg_html}</b> (공격 티어: <b>{a_at} ({a_atw})</b>) / 최종 보정 평균 실점: <b>{a_cpg_html}</b> (방어 티어: <b>{a_de} ({a_dew})</b>)<br>
+        • 최종 보정 평균 득점: <b>{a_gpg_html}</b> (공격 티어: <b>{a_at_colored}</b>) / 최종 보정 평균 실점: <b>{a_cpg_html}</b> (방어 티어: <b>{a_de_colored}</b>)<br>
         • <b>공수 독립 교차 보정 및 최종 체급 확정 완료</b>
     </div>""", unsafe_allow_html=True)
 
@@ -875,7 +894,7 @@ with tabs[2]:
         a_atk_color_str = get_tier_colored_html(base_a_at, s_a_at)
         a_def_color_str = get_tier_colored_html(base_a_de, s_a_de)
 
-        # 💡 방어 Shift 보정치는 낮아질수록(마이너스) 수비 강화(초록색)가 되도록 반대로 판정
+        # 💡 [핵심 수정] 방어 Shift 보정치는 낮아질수록(실점 감소) 수비 강화이므로 초록색(+15%), 높아지면 적색(-15%)
         def get_shift_correction(base_tier, stadium_tier, is_attack=True):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
@@ -884,7 +903,7 @@ with tabs[2]:
                 elif s_val < b_val: return "<span style='color: #c62828; font-weight: bold;'>-15%</span>", -15.0
                 else: return "0%", 0.0
             else:
-                # 방어 티어는 s_val < b_val (실점 감소 티어)가 상향(초록색)
+                # 방어는 순위(Tier 값)가 낮을수록(실점이 적을수록) 우수함 (s_val < b_val 이면 실점 감소 = 수비 강화 = 초록색)
                 if s_val < b_val: return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
                 elif s_val > b_val: return "<span style='color: #c62828; font-weight: bold;'>-15%</span>", -15.0
                 else: return "0%", 0.0
@@ -900,11 +919,15 @@ with tabs[2]:
             else "<span style='color: #2e7d32; font-weight: bold;'> (홈경기)</span>"
         )
 
-        # 규칙 2번 구장별 보정 평균 색상 적용 (방어는 낮을수록 초록색)
         s_h_gpg_html = get_colored_stat_html(s_h_gpg, s_h_pure_gpg, is_higher_better=True)
         s_h_cpg_html = get_colored_stat_html(s_h_cpg, s_h_pure_cpg, is_higher_better=False)
         s_a_gpg_html = get_colored_stat_html(s_a_gpg, s_a_pure_gpg, is_higher_better=True)
         s_a_cpg_html = get_colored_stat_html(s_a_cpg, s_a_pure_cpg, is_higher_better=False)
+
+        s_h_at_colored = format_tier_with_color(s_h_at, s_h_atw, is_attack=True)
+        s_h_de_colored = format_tier_with_color(s_h_de, s_h_dew, is_attack=False)
+        s_a_at_colored = format_tier_with_color(s_a_at, s_a_atw, is_attack=True)
+        s_a_de_colored = format_tier_with_color(s_a_de, s_a_dew, is_attack=False)
 
         st.markdown(f"##### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증{venue_status_badge}", unsafe_allow_html=True)
         if not s_h_df.empty: st.dataframe(s_h_df, use_container_width=True, hide_index=True)
@@ -916,7 +939,7 @@ with tabs[2]:
         • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b>)<br>
         • 구장별 원본 평균 득점: <b>{s_h_pure_gpg:.2f}골/경기</b> | 구장별 원본 평균 실점: <b>{s_h_pure_cpg:.2f}골/경기</b><br>
         • 특수룰 발동 기준 1차 티어: 공격 <b>{s_h_at_raw}</b> / 방어 <b>{s_h_de_raw}</b><br>
-        • 최종 보정 평균 득점: <b>{s_h_gpg_html}</b> (공격 티어: <b>{s_h_at} ({s_h_atw})</b>) / 최종 보정 평균 실점: <b>{s_h_cpg_html}</b> (방어 티어: <b>{s_h_de} ({s_h_dew})</b>)<br>
+        • 최종 보정 평균 득점: <b>{s_h_gpg_html}</b> (공격 티어: <b>{s_h_at_colored}</b>) / 최종 보정 평균 실점: <b>{s_h_cpg_html}</b> (방어 티어: <b>{s_h_de_colored}</b>)<br>
         • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b> &nbsp;|&nbsp; 구장 환경 체급(보정 반영): 공격 <b>{h_atk_color_str}</b> / 방어 <b>{h_def_color_str}</b><br>
         • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{h_atk_shift_str}</b> / 방어 <b>{h_def_shift_str}</b>
         </div>
@@ -934,7 +957,7 @@ with tabs[2]:
         • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b>)<br>
         • 구장별 원본 평균 득점: <b>{s_a_pure_gpg:.2f}골/경기</b> | 구장별 원본 평균 실점: <b>{s_a_pure_cpg:.2f}골/경기</b><br>
         • 특수룰 발동 여부 및 1차 티어: 공격 <b>{s_a_at_raw}</b> / 방어 <b>{s_a_de_raw}</b><br>
-        • 최종 보정 평균 득점: <b>{s_a_gpg_html}</b> (공격 티어: <b>{s_a_at} ({s_a_atw})</b>) / 최종 보정 평균 실점: <b>{s_a_cpg_html}</b> (방어 티어: <b>{s_a_de} ({s_a_dew})</b>)<br>
+        • 최종 보정 평균 득점: <b>{s_a_gpg_html}</b> (공격 티어: <b>{s_a_at_colored}</b>) / 최종 보정 평균 실점: <b>{s_a_cpg_html}</b> (방어 티어: <b>{s_a_de_colored}</b>)<br>
         • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급(보정 반영): 공격 <b>{a_atk_color_str}</b> / 방어 <b>{a_def_color_str}</b><br>
         • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> / 방어 <b>{a_def_shift_str}</b>
         </div>
