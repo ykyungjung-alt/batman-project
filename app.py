@@ -917,11 +917,13 @@ with tabs[2]:
                 else: 
                     return "0%", 0.0
 
-        h_atk_shift_str, _ = get_shift_correction_v3(base_h_at, s_h_at, is_attack=True)
-        h_def_shift_str, _ = get_shift_correction_v3(base_h_de, s_h_de, is_attack=False)
-        a_atk_shift_str, _ = get_shift_correction_v3(base_a_at, s_a_at, is_attack=True)
-        a_def_shift_str, _ = get_shift_correction_v3(base_a_de, s_a_de, is_attack=False)
-
+# 규칙 2번 Shift 보정치 계산 부근 (홈 팀 예시)
+        h_atk_shift_str, h_r2_atk_val = get_shift_correction_v3(base_h_at, s_h_at, is_attack=True)
+        h_def_shift_str, h_r2_def_val = get_shift_correction_v3(base_h_de, s_h_de, is_attack=False)
+        
+        # 원정 팀 예시
+        a_atk_shift_str, a_r2_atk_val = get_shift_correction_v3(base_a_at, s_a_at, is_attack=True)
+        a_def_shift_str, a_r2_def_val = get_shift_correction_v3(base_a_de, s_a_de, is_attack=False)
         venue_status_badge = (
             "<span style='color: #c62828; font-weight: bold;'> (중립경기)</span>" 
             if is_neutral_venue 
@@ -1702,11 +1704,11 @@ with tabs[5]:
         a_r1_atk = parse_pct(a_atw)
         a_r1_def = parse_pct(a_dew)
 
-        # 💡 [확실한 연동] 규칙 2번(구장 Shift 보정치) 누락 방지 매핑
-        h_r2_atk = parse_pct(h_atk_shift_str) if 'h_atk_shift_str' in locals() else (h_r2_atk_val if 'h_r2_atk_val' in locals() else 0.0)
-        h_r2_def = parse_pct(h_def_shift_str) if 'h_def_shift_str' in locals() else (h_r2_def_val if 'h_r2_def_val' in locals() else 0.0)
-        a_r2_atk = parse_pct(a_atk_shift_str) if 'a_atk_shift_str' in locals() else (a_r2_atk_val if 'a_r2_atk_val' in locals() else 0.0)
-        a_r2_def = parse_pct(a_def_shift_str) if 'a_def_shift_str' in locals() else (a_r2_def_val if 'a_r2_def_val' in locals() else 0.0)
+# 💡 [확실한 연동 수정] 규칙 2번(구장 Shift 보정치) 순수 숫자 값 직접 연동
+        h_r2_atk = h_r2_atk_val if 'h_r2_atk_val' in locals() else 0.0
+        h_r2_def = h_r2_def_val if 'h_r2_def_val' in locals() else 0.0
+        a_r2_atk = a_r2_atk_val if 'a_r2_atk_val' in locals() else 0.0
+        a_r2_def = a_r2_def_val if 'a_r2_def_val' in locals() else 0.0
 
         h_r31_atk = h_r31_atk_val if 'h_r31_atk_val' in locals() else 0.0
         h_r31_def = h_r31_def_val if 'h_r31_def_val' in locals() else 0.0
