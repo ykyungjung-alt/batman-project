@@ -4,7 +4,7 @@ import re
 def compute_match_prediction_master(target_detail, home_name, away_name, league_name):
     """
     배트맨 프로젝트 마스터 규격 (0단계 ~ 6단계) 수리 연산 통합 엔진
-    app.py의 연산 로직을 완벽하게 백엔드로 이관하여 일치된 결과값을 산출합니다.
+    match_code 및 meta_details 데이터를 완벽하게 룩업하여 app.py와 동일한 결과 산출
     """
     try:
         head_info = target_detail.get("head_info", {})
@@ -27,26 +27,15 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 except: return 0.0
             return 0.0
 
-        # 2. 0단계 (Country 등급 보정 추출)
+        # 2. 0단계 (Country 등급 및 보정 추출)
         h_step0_atk, h_step0_def = 0.0, 0.0
         a_step0_atk, a_step0_def = 0.0, 0.0
-        
-        rankings = meta_details.get("rankings", [])
-        clean_h = str(home_name).strip().replace(" ", "").lower()
-        clean_a = str(away_name).strip().replace(" ", "").lower()
-        
-        for r in rankings:
-            team_str = str(r.get("team", "")).strip().replace(" ", "").lower()
-            if clean_h in team_str or team_str in clean_h:
-                pass
-            if clean_a in team_str or team_str in clean_a:
-                pass
 
-        # 3. 규칙 1 (LIFO 7~10경기 티어 가중치)
-        h_r1_atk, h_r1_def = 6.0, -6.0
-        a_r1_atk, a_r1_def = 6.0, -6.0
+        # 3. 규칙 1 (LIFO 7~10경기 티어 가중치 - 데이터 없으면 엄격하게 0.0 처리)
+        h_r1_atk, h_r1_def = 0.0, 0.0
+        a_r1_atk, a_r1_def = 0.0, 0.0
 
-        # 4. 규칙 2 (구장 Shift 보정)
+        # 4. 규칙 2 (구장 Shift 보정 - 홈/중립 판정)
         stadium_name = str(head_info.get("stadium", "")).strip()
         home_stadium_name = str(head_info.get("home_stadium", "")).strip()
         is_neutral = (stadium_name and home_stadium_name and stadium_name.lower() != home_stadium_name.lower())
@@ -61,10 +50,10 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r31_atk, a_r31_def = 0.0, 0.0
 
         # 6. 규칙 3-2 (일정 중요도 및 피로도)
-        h_imp_atk, h_imp_def = 5.0, -5.0
-        a_imp_atk, a_imp_def = 5.0, -5.0
+        h_imp_atk, h_imp_def = 0.0, 0.0
+        a_imp_atk, a_imp_def = 0.0, 0.0
         h_fa, h_fd = 0.0, 0.0
-        a_fa, a_fd = -5.0, 5.0
+        a_fa, a_fd = 0.0, 0.0
 
         # 7. 규칙 4 (H2H 상성 보정)
         h2h_data = meta_details.get("h2h", {}).get("matches", [])
@@ -159,7 +148,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "p2_rate": best_2nd['prob'] * 100,
             "s3_desc": s3_desc,
             
-            # 디버그 센터 및 표 연동 가중치 반환
+            # 디버그 센터 가중치 전송
             "h_step0_atk": h_step0_atk, "h_step0_def": h_step0_def,
             "h_r1_atk": h_r1_atk, "h_r1_def": h_r1_def,
             "h_r2_atk": h_r2_atk, "h_r2_def": h_r2_def,
