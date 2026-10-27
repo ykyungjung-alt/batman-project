@@ -1717,7 +1717,7 @@ with tabs[5]:
         a_opp_at = home_my_at
         a_opp_de = home_my_de
 
-        # 2. 통합 전적 풀 확보 (구장별 전적 + 최근 전적 결합 및 고유 키 기준 중복 제거)
+        # 2. 통합 전적 풀 확보 (구장별 전적 + 최근 전적 결합 및 고유 키 기준 중복 제거) - 💡 인자 3개 정상 수용 규격
         def get_merged_and_deduplicated_pool(stadium_matches, recent_matches, team_label):
             combined = []
             seen_set = set()
@@ -1753,11 +1753,13 @@ with tabs[5]:
         # 홈/원정 각각 구장별 전적과 최근 전적 풀을 통합하고 중복을 제거한 대전 풀 생성
         home_merged_pool = get_merged_and_deduplicated_pool(
             s_home_matches if 's_home_matches' in locals() else [], 
-            h_matches if 'h_matches' in locals() else []
+            h_matches if 'h_matches' in locals() else [],
+            home_team
         )
         away_merged_pool = get_merged_and_deduplicated_pool(
             s_away_matches if 's_away_matches' in locals() else [], 
-            a_matches if 'a_matches' in locals() else []
+            a_matches if 'a_matches' in locals() else [],
+            away_team
         )
 
         # 3. 상대방 티어 상성에 가장 부합하는 실전 7경기 선별 함수
@@ -1934,7 +1936,7 @@ with tabs[5]:
         # 원정 팀 5-2 표 출력
         st.markdown(f"##### ✈️ 원정 팀: {away_team} (2단계 보정 체급: 공격 {away_my_at} / 방어 {away_my_de} | 상대 교차 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_agf, a_aga, a_rule_active = build_team_52_dataframe(away_matched_7, away_team, away_my_at, away_my_de)
-        if a_rule_active:
+        if h_rule_active:
             st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {away_team} 팀은 실전 7경기 검증 과정에서 홈 팀의 보정 티어 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
         st.markdown(f"📌 **{away_team} 실전 7경기 총합:** {a_tgf:.1f}득점 / {a_tga:.1f}실점 &nbsp;|&nbsp; <span style='color: #d32f2f; font-weight: bold;'>실전 평균: 평균 득점 {a_agf:.2f}골 / 평균 실점 {a_aga:.2f}골</span>", unsafe_allow_html=True)
