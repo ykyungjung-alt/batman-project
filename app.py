@@ -474,21 +474,18 @@ def def_tier_nm(c):
     else: return "Tier E"
 
 # ==========================================
-# 💡 [공통 헬퍼] 1단계용: 티어 및 가중치 색상 부여 (상향:녹색 / 하향:적색 / 유지:기본)
+# 💡 [공통 헬퍼] 1단계용: 티어 및 가중치 색상 부여
 # ==========================================
 def format_tier_with_color(tier_name, weight_str, is_attack=True):
     is_positive = "+" in weight_str
     is_negative = "-" in weight_str
     
-    # 가중치가 0.0%이거나 기호가 없으면 기본 검은색 (유지)
     if "0.0%" in weight_str or (not is_positive and not is_negative):
         return f"<b>{tier_name} ({weight_str})</b>"
     
     if is_attack:
-        # 공격은 플러스(+)가 상향(초록), 마이너스(-)가 하향(적색)
         color = "#2e7d32" if is_positive else "#c62828"
     else:
-        # 방어는 마이너스(-)가 수비 강화/우수(초록), 플러스(-)가 실점 증가/불리(적색)
         color = "#2e7d32" if is_negative else "#c62828"
         
     return f"<b style='color: {color};'>{tier_name} ({weight_str})</b>"
@@ -744,7 +741,6 @@ with tabs[1]:
     a_at, a_atw = atk_tier(a_gpg)
     a_de, a_dew = def_tier(a_cpg)
 
-    # 1단계는 티어 옆에 가중치 포함하여 색상 적용
     h_at_colored = format_tier_with_color(h_at, h_atw, is_attack=True)
     h_de_colored = format_tier_with_color(h_de, h_dew, is_attack=False)
     a_at_colored = format_tier_with_color(a_at, a_atw, is_attack=True)
@@ -897,13 +893,13 @@ with tabs[2]:
         a_atk_color_str = get_tier_colored_html(base_a_at, s_a_at)
         a_def_color_str = get_tier_colored_html(base_a_de, s_a_de)
 
-# 💡 [최종 완벽 수정] 2단계 구장 Shift 보정치 부호 및 색상 정방향 규격
-        def get_shift_correction_v2(base_tier, stadium_tier, is_attack=True):
+        # 💡 [통합 완벽 정방향 규격] 상향이면 무조건 +15% (초록색), 하향이면 무조건 -15% (적색)
+        def get_shift_correction_v3(base_tier, stadium_tier, is_attack=True):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
             
             if is_attack:
-                # 공격: s_val > b_val 이면 상향 ➔ +15% (초록색) / s_val < b_val 이면 하향 ➔ -15% (적색)
+                # 공격: s_val > b_val (상향 ➔ +15% 초록) / s_val < b_val (하향 ➔ -15% 적색)
                 if s_val > b_val: 
                     return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
                 elif s_val < b_val: 
@@ -911,19 +907,18 @@ with tabs[2]:
                 else: 
                     return "0%", 0.0
             else:
-                # 방어: s_val < b_val 이면 수비 상향(실점 감소/개선) ➔ -15% (초록색)
-                #       s_val > b_val 이면 수비 하향(실점 증가/악화) ➔ +15% (적색)
+                # 방어: s_val < b_val (실점 감소/수비 상향 ➔ +15% 초록) / s_val > b_val (실점 증가/수비 하향 ➔ -15% 적색)
                 if s_val < b_val: 
-                    return "<span style='color: #2e7d32; font-weight: bold;'>-15%</span>", -15.0
+                    return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
                 elif s_val > b_val: 
-                    return "<span style='color: #c62828; font-weight: bold;'>+15%</span>", 15.0
+                    return "<span style='color: #c62828; font-weight: bold;'>-15%</span>", -15.0
                 else: 
                     return "0%", 0.0
 
-        h_atk_shift_str, _ = get_shift_correction_v2(base_h_at, s_h_at, is_attack=True)
-        h_def_shift_str, _ = get_shift_correction_v2(base_h_de, s_h_de, is_attack=False)
-        a_atk_shift_str, _ = get_shift_correction_v2(base_a_at, s_a_at, is_attack=True)
-        a_def_shift_str, _ = get_shift_correction_v2(base_a_de, s_a_de, is_attack=False)
+        h_atk_shift_str, _ = get_shift_correction_v3(base_h_at, s_h_at, is_attack=True)
+        h_def_shift_str, _ = get_shift_correction_v3(base_h_de, s_h_de, is_attack=False)
+        a_atk_shift_str, _ = get_shift_correction_v3(base_a_at, s_a_at, is_attack=True)
+        a_def_shift_str, _ = get_shift_correction_v3(base_a_de, s_a_de, is_attack=False)
 
         venue_status_badge = (
             "<span style='color: #c62828; font-weight: bold;'> (중립경기)</span>" 
