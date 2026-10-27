@@ -873,7 +873,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         over_factor_desc = f"홈 +{int(h_over_factor * 100)}% / 원정 +{int(a_over_factor * 100)}% 가산 반영"
 
-        return {
+return {
             "status": True,
             "home_win_pct": calc_home_win,
             "draw_pct": calc_draw,
@@ -896,6 +896,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "a_gpg": a_base_g,
             "a_cpg": a_base_c,
 
+            # 🏠 홈팀 단계별 보정치
             "h_step0_atk": h_step0_atk, "h_step0_def": h_step0_def,
             "h_r1_atk": h_r1_atk, "h_r1_def": h_r1_def,
             "h_r2_atk": h_r2_atk, "h_r2_def": h_r2_def,
@@ -903,6 +904,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "h_r4_atk": h_r4_atk, "h_r4_def": h_r4_def,
             "h_tot_atk_pct": h_tot_atk_pct, "h_tot_def_pct": h_tot_def_pct,
             
+            # ✈️ 원정팀 단계별 보정치 (누락 방지 완벽 탑재)
             "a_step0_atk": a_step0_atk, "a_step0_def": a_step0_def,
             "a_r1_atk": a_r1_atk, "a_r1_def": a_r1_def,
             "a_r2_atk": a_r2_atk, "a_r2_def": a_r2_def,
