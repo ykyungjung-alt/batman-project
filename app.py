@@ -897,7 +897,7 @@ with tabs[2]:
         a_atk_color_str = get_tier_colored_html(base_a_at, s_a_at)
         a_def_color_str = get_tier_colored_html(base_a_de, s_a_de)
 
-# 💡 [완벽 교정] 2단계 구장 Shift 보정치 부호 및 색상 정방향 규격
+# 💡 [최종 완벽 교정] 2단계 구장 Shift 보정치 부호 및 색상 정방향 규격
         def get_shift_correction(base_tier, stadium_tier, is_attack=True):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
