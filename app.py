@@ -636,8 +636,6 @@ with tabs[1]:
                     tier_str = f"공격 {at_name} ({oa:.2f}) / 방어 {df_name} ({od:.2f})"
                     
                     rule_descs = []
-                    
-                    # 1. 공격 특수룰 (내 공격이 Tier A 또는 E일 때만 작동)
                     if my_at in ["Tier A", "Tier E"]:
                         if my_at == "Tier A" and df_name == "Tier E":
                             mult_gf = 0.5
@@ -646,7 +644,6 @@ with tabs[1]:
                             mult_gf = 1.5
                             rule_descs.append("<span style='color: #2e7d32; font-weight: bold;'>[공격 특수룰] 상대 방어 Tier A (득점 50% 할증)</span>")
 
-                    # 2. 방어 특수룰 (💡 내 방어가 정확히 Tier A 또는 E일 때만 작동하도록 조건 엄격화)
                     if my_de in ["Tier A", "Tier E"]:
                         if my_de == "Tier A" and at_name == "Tier E":
                             mult_ga = 1.5
@@ -716,6 +713,23 @@ with tabs[1]:
     a_at, a_atw = atk_tier(a_gpg)
     a_de, a_dew = def_tier(a_cpg)
 
+    # 💡 [컬러 헬퍼 함수] 원본 대비 상향/하향 색상 동적 부여
+    def get_colored_stat_html(val, base_val, is_higher_better=True):
+        if val > base_val:
+            color = "#2e7d32" if is_higher_better else "#c62828"
+            arrow = "▲"
+        elif val < base_val:
+            color = "#c62828" if is_higher_better else "#2e7d32"
+            arrow = "▼"
+        else:
+            return f"<b>{val:.2f}골/경기</b>"
+        return f"<b style='color: {color};'>{val:.2f}골/경기 {arrow}</b>"
+
+    h_gpg_html = get_colored_stat_html(h_gpg, h_pure_gpg, is_higher_better=True)
+    h_cpg_html = get_colored_stat_html(h_cpg, h_pure_cpg, is_higher_better=False) # 실점은 낮을수록 좋음
+    a_gpg_html = get_colored_stat_html(a_gpg, a_pure_gpg, is_higher_better=True)
+    a_cpg_html = get_colored_stat_html(a_cpg, a_pure_cpg, is_higher_better=False)
+
     st.markdown(f"##### 홈 팀 ({h_name}) 최근 전적 분석 로그")
     if not h_df.empty: st.dataframe(h_df, use_container_width=True, hide_index=True)
     else: st.info("📋 개별 경기 상세 데이터 없음")
@@ -725,7 +739,7 @@ with tabs[1]:
         • 최근 전적: <b>{h_rec}</b> (총 득점: <b>{h_raw_s:.1f}골</b> / 총 실점: <b>{h_raw_c:.1f}골</b>)<br>
         • 원본 평균 득점: <b>{h_pure_gpg:.2f}골/경기</b> | 원본 평균 실점: <b>{h_pure_cpg:.2f}골/경기</b><br>
         • <b>특수룰 발동 기준 1차 원본 티어: 공격 {h_at_pre} / 방어 {h_de_pre}</b><br>
-        • 최종 보정 평균 득점: <b>{h_gpg:.2f}골/경기</b> (공격 티어: <b>{h_at} ({h_atw})</b>) / 최종 보정 평균 실점: <b>{h_cpg:.2f}골/경기</b> (방어 티어: <b>{h_de} ({h_dew})</b>)<br>
+        • 최종 보정 평균 득점: <b>{h_gpg_html}</b> (공격 티어: <b>{h_at} ({h_atw})</b>) / 최종 보정 평균 실점: <b>{h_cpg_html}</b> (방어 티어: <b>{h_de} ({h_dew})</b>)<br>
         • <b>공수 독립 교차 보정 및 최종 체급 확정 완료</b>
     </div>""", unsafe_allow_html=True)
 
@@ -740,7 +754,7 @@ with tabs[1]:
         • 최근 전적: <b>{a_rec}</b> (총 득점: <b>{a_raw_s:.1f}골</b> / 총 실점: <b>{a_raw_c:.1f}골</b>)<br>
         • 원본 평균 득점: <b>{a_pure_gpg:.2f}골/경기</b> | 원본 평균 실점: <b>{a_pure_cpg:.2f}골/경기</b><br>
         • <b>특수룰 발동 기준 1차 원본 티어: 공격 {a_at_pre} / 방어 {a_de_pre}</b><br>
-        • 최종 보정 평균 득점: <b>{a_gpg:.2f}골/경기</b> (공격 티어: <b>{a_at} ({a_atw})</b>) / 최종 보정 평균 실점: <b>{a_cpg:.2f}골/경기</b> (방어 티어: <b>{a_de} ({a_dew})</b>)<br>
+        • 최종 보정 평균 득점: <b>{a_gpg_html}</b> (공격 티어: <b>{a_at} ({a_atw})</b>) / 최종 보정 평균 실점: <b>{a_cpg_html}</b> (방어 티어: <b>{a_de} ({a_dew})</b>)<br>
         • <b>공수 독립 교차 보정 및 최종 체급 확정 완료</b>
     </div>""", unsafe_allow_html=True)
 
@@ -870,6 +884,12 @@ with tabs[2]:
             else "<span style='color: #2e7d32; font-weight: bold;'> (홈경기)</span>"
         )
 
+        # 규칙 2번 구장별 보정 평균 색상 적용
+        s_h_gpg_html = get_colored_stat_html(s_h_gpg, s_h_pure_gpg, is_higher_better=True)
+        s_h_cpg_html = get_colored_stat_html(s_h_cpg, s_h_pure_cpg, is_higher_better=False)
+        s_a_gpg_html = get_colored_stat_html(s_a_gpg, s_a_pure_gpg, is_higher_better=True)
+        s_a_cpg_html = get_colored_stat_html(s_a_cpg, s_a_pure_cpg, is_higher_better=False)
+
         st.markdown(f"##### 홈 팀 ({h_name}) 구장별 전적 및 티어 변동 검증{venue_status_badge}", unsafe_allow_html=True)
         if not s_h_df.empty: st.dataframe(s_h_df, use_container_width=True, hide_index=True)
         else: st.info("📋 구장별 상세 전적 데이터 없음")
@@ -880,7 +900,7 @@ with tabs[2]:
         • 최근 전적: <b>{s_h_rec}</b> (총 득점: <b>{s_h_raw_s:.1f}골</b> / 총 실점: <b>{s_h_raw_c:.1f}골</b>)<br>
         • 구장별 원본 평균 득점: <b>{s_h_pure_gpg:.2f}골/경기</b> | 구장별 원본 평균 실점: <b>{s_h_pure_cpg:.2f}골/경기</b><br>
         • 특수룰 발동 기준 1차 티어: 공격 <b>{s_h_at_raw}</b> / 방어 <b>{s_h_de_raw}</b><br>
-        • 최종 보정 평균 득점: <b>{s_h_gpg:.2f}골/경기</b> (공격 티어: <b>{s_h_at} ({s_h_atw})</b>) / 최종 보정 평균 실점: <b>{s_h_cpg:.2f}골/경기</b> (방어 티어: <b>{s_h_de} ({s_h_dew})</b>)<br>
+        • 최종 보정 평균 득점: <b>{s_h_gpg_html}</b> (공격 티어: <b>{s_h_at} ({s_h_atw})</b>) / 최종 보정 평균 실점: <b>{s_h_cpg_html}</b> (방어 티어: <b>{s_h_de} ({s_h_dew})</b>)<br>
         • 1단계 종합 체급: 공격 <b>{base_h_at}</b> / 방어 <b>{base_h_de}</b> &nbsp;|&nbsp; 구장 환경 체급(보정 반영): 공격 <b>{h_atk_color_str}</b> / 방어 <b>{h_def_color_str}</b><br>
         • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{h_atk_shift_str}</b> / 방어 <b>{h_def_shift_str}</b>
         </div>
@@ -898,13 +918,15 @@ with tabs[2]:
         • 최근 전적: <b>{s_a_rec}</b> (총 득점: <b>{s_a_raw_s:.1f}골</b> / 총 실점: <b>{s_a_raw_c:.1f}골</b>)<br>
         • 구장별 원본 평균 득점: <b>{s_a_pure_gpg:.2f}골/경기</b> | 구장별 원본 평균 실점: <b>{s_a_pure_cpg:.2f}골/경기</b><br>
         • 특수룰 발동 여부 및 1차 티어: 공격 <b>{s_a_at_raw}</b> / 방어 <b>{s_a_de_raw}</b><br>
-        • 최종 보정 평균 득점: <b>{s_a_gpg:.2f}골/경기</b> (공격 티어: <b>{s_a_at} ({s_a_atw})</b>) / 최종 보정 평균 실점: <b>{s_a_cpg:.2f}골/경기</b> (방어 티어: <b>{s_a_de} ({s_a_dew})</b>)<br>
+        • 최종 보정 평균 득점: <b>{s_a_gpg_html}</b> (공격 티어: <b>{s_a_at} ({s_a_atw})</b>) / 최종 보정 평균 실점: <b>{s_a_cpg_html}</b> (방어 티어: <b>{s_a_de} ({s_a_dew})</b>)<br>
         • 1단계 종합 체급: 공격 <b>{base_a_at}</b> / 방어 <b>{base_a_de}</b> &nbsp;|&nbsp; 구장 환경 체급(보정 반영): 공격 <b>{a_atk_color_str}</b> / 방어 <b>{a_def_color_str}</b><br>
         • <b>적용된 구장 Shift 보정치:</b> 공격 <b>{a_atk_shift_str}</b> / 방어 <b>{a_def_shift_str}</b>
         </div>
         """, unsafe_allow_html=True)
     else:
         st.warning("⚠️ 선택하신 경기의 상세 정밀 데이터가 아직 수집되지 않았습니다.")
+
+
 # --- [3단계: 전력누수·피로 매트릭스] ---
 with tabs[3]:
     st.markdown(f"#### [규칙 3번: 선수 전력 누수 및 이동 피로도 분석] - {home_team} vs {away_team}")
