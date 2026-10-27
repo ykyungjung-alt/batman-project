@@ -893,15 +893,15 @@ with tabs[2]:
         a_atk_color_str = get_tier_colored_html(base_a_at, s_a_at)
         a_def_color_str = get_tier_colored_html(base_a_de, s_a_de)
 
-# 💡 [방어 부호 및 색상 완벽 독립 고정 규격]
-        # 방어 상향(실점 감소): 무조건 -15% 및 초록색 (#2e7d32)
-        # 방어 하향(실점 증가): 무조건 +15% 및 적색 (#c62828)
+# 💡 [최종 완벽 정방향 교정] 상향/하향 판정 부등호 및 부호 통합 규격
+        # 공격: stadium > base 이면 상향 (+15%, 초록색) / stadium < base 이면 하향 (-15%, 적색)
+        # 방어: stadium > base 이면 실점 감소/수비 상향 (등급 D➔C 등, -15% 또는 실질 강화 방향, 초록색)
+        #       stadium < base 이면 실점 증가/수비 하향 (등급 C➔D 등, +15%, 적색)
         def get_shift_correction_v3(base_tier, stadium_tier, is_attack=True):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
             
             if is_attack:
-                # 공격: s_val > b_val (상향 ➔ +15% 초록) / s_val < b_val (하향 ➔ -15% 적색)
                 if s_val > b_val: 
                     return "<span style='color: #2e7d32; font-weight: bold;'>+15%</span>", 15.0
                 elif s_val < b_val: 
@@ -909,11 +909,10 @@ with tabs[2]:
                 else: 
                     return "0%", 0.0
             else:
-                # 방어: s_val < b_val (수비 상향/실점 감소 ➔ 무조건 -15% 및 초록색)
-                #       s_val > b_val (수비 하향/실점 증가 ➔ 무조건 +15% 및 적색)
-                if s_val < b_val: 
+                # 방어력은 숫자가 클수록(A, B, C...) 실점이 적고 우수함 (s_val > b_val 이면 수비 상향/개선)
+                if s_val > b_val: 
                     return "<span style='color: #2e7d32; font-weight: bold;'>-15%</span>", -15.0
-                elif s_val > b_val: 
+                elif s_val < b_val: 
                     return "<span style='color: #c62828; font-weight: bold;'>+15%</span>", 15.0
                 else: 
                     return "0%", 0.0
