@@ -505,40 +505,108 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
         a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
-# ======================================================================
-    # 🟢 [규칙 3단계 통합] 선수 전력 누수(3-1) 및 일정 피로도·중요도 (초간단 안전 방어 연산)
-    # ======================================================================
-    try:
-        # 앱(app.py)이나 상위 스코프에 이미 계산된 값이 있으면 가져오고, 없으면 0.0 처리
-        h_r31_atk = locals().get('h_r31_atk_val', 0.0)
-        h_r31_def = locals().get('h_r31_def_val', 0.0)
-        a_r31_atk = locals().get('a_r31_atk_val', 0.0)
-        a_r31_def = locals().get('a_r31_def_val', 0.0)
+# 💡 앱(app.py)과 100% 동일한 방식으로 데이터를 찾아오도록 엔진에 대입하는 헬퍼 함수
+        def compute_single_team_absentee_engine(match_code_str, team_name_str, is_home=True):
+            tot_atk, tot_def = 0.0, 0.0
+            try:
+                v5_lineup_dict = v5_details_dict.get("lineup_details", v5_details_dict) if 'v5_details_dict' in globals() else {}
+                v5_1_squad_dict = v5_1_details_dict.get("squad_details", v5_1_details_dict) if 'v5_1_details_dict' in globals() else {}
+                
+                target_match_code_str = str(match_code_str).strip()
+                clean_target_home = str(home_team).strip().replace(" ", "").lower()
+                clean_target_away = str(away_team).strip().replace(" ", "").lower()
+                clean_target_team = str(team_name_str).strip().replace(" ", "").lower()
+                
+                # 1. 앱과 동일한 V5 결장자 매칭 규격
+                v5_match_data = {}
+                for k, v in v5_lineup_dict.items():
+                    if not isinstance(v, dict): continue
+                    v_code = str(v.get("match_code", k)).strip()
+                    v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
+                    v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
+                    if v_code == target_match_code_str or (clean_target_home in v_h and clean_target_away in v_a):
+                        v5_match_data = v
+                        break
+                
+                raw_absentees = []
+                if v5_match_data:
+                    data_home_name = str(v5_match_data.get("home", "")).strip().replace(" ", "").lower()
+                    if clean_target_home in data_home_name or data_home_name in clean_target_home:
+                        h_raw_list = v5_match_data.get("home_absentees", [])
+                        a_raw_list = v5_match_data.get("away_absentees", [])
+                    else:
+                        h_raw_list = v5_match_data.get("away_absentees", [])
+                        a_raw_list = v5_match_data.get("home_absentees", [])
+                    
+                    target_raw_list = h_raw_list if is_home else a_raw_list
+                    raw_absentees = [p for p in target_raw_list if isinstance(p, dict) and str(p.get("status", "")).strip() in ["결장", "부상", "징계", "누수", "출전의심/기타"] and str(p.get("name", "")).strip()]
 
-        h_imp_atk_val = locals().get('h_imp_atk', 5.0)
-        h_imp_def_val = locals().get('h_imp_def', -5.0)
-        a_imp_atk_val = locals().get('a_imp_atk', 5.0)
-        a_imp_def_val = locals().get('a_imp_def', -5.0)
+                # 2. 앱과 동일한 V5-1 스쿼드 풀 매칭 규격
+                v5_1_match_data = {}
+                for k, v in v5_1_squad_dict.items():
+                    if not isinstance(v, dict): continue
+                    v_code = str(v.get("match_code", k)).strip()
+                    v_h = str(v.get("home", "")).strip().replace(" ", "").lower()
+                    v_a = str(v.get("away", "")).strip().replace(" ", "").lower()
+                    if v_code == target_match_code_str or (clean_target_home in v_h and clean_target_away in v_a):
+                        v5_1_match_data = v
+                        break
+                
+                squad_list = []
+                if v5_1_match_data:
+                    data_squad_home = str(v5_1_match_data.get("home", "")).strip().replace(" ", "").lower()
+                    if clean_target_home in data_squad_home or data_squad_home in clean_target_home:
+                        h_squad_raw = v5_1_match_data.get("home_squad", [])
+                        a_squad_raw = v5_1_match_data.get("away_squad", [])
+                    else:
+                        h_squad_raw = v5_1_match_data.get("away_squad", [])
+                        a_squad_raw = v5_1_match_data.get("home_squad", [])
+                    
+                    squad_list = h_squad_raw if is_home else a_squad_raw
 
-        h_fatigue_stage = locals().get('h_last_fatigue', 0)
-        a_fatigue_stage = locals().get('a_last_fatigue', 1)
+                # 3. 룩업 맵 구성 후 정량 연산 수행
+                squad_pos_map = {}
+                if squad_list and isinstance(squad_list, list):
+                    for p in squad_list:
+                        if not isinstance(p, dict): continue
+                        p_name = str(p.get("name", "")).strip()
+                        p_pos = str(p.get("position", "")).strip()
+                        if p_name and p_pos:
+                            squad_pos_map[p_name] = p_pos
+                            squad_pos_map[p_name.replace(" ", "")] = p_pos
 
-        h_fa = -5.0 * h_fatigue_stage
-        h_fd = 5.0 * h_fatigue_stage
-        a_fa = -5.0 * a_fatigue_stage
-        a_fd = 5.0 * a_fatigue_stage
-
-        # 최종 규칙 3번 토탈 합산
-        h_r3_tot_atk = h_r31_atk + h_imp_atk_val + h_fa
-        h_r3_tot_def = h_r31_def + h_imp_def_val + h_fd
-        a_r3_tot_atk = a_r31_atk + a_imp_atk_val + a_fa
-        a_r3_tot_def = a_r31_def + a_imp_def_val + a_fd
-
-    except Exception:
-        h_r31_atk, h_r31_def, h_imp_atk_val, h_imp_def_val, h_fa, h_fd = 0.0, 0.0, 5.0, -5.0, 0.0, 0.0
-        a_r31_atk, a_r31_def, a_imp_atk_val, a_imp_def_val, a_fa, a_fd = 0.0, 0.0, 5.0, -5.0, -5.0, 5.0
-        h_r3_tot_atk, h_r3_tot_def = 5.0, -5.0
-        a_r3_tot_atk, a_r3_tot_def = 0.0, 0.0
+                for item in raw_absentees:
+                    if not isinstance(item, dict): continue
+                    p_name = str(item.get("name", "-")).strip()
+                    p_pos = squad_pos_map.get(p_name, squad_pos_map.get(p_name.replace(" ", ""), ""))
+                    if not p_pos or p_pos == "-": p_pos = "미드필더"
+                    
+                    p_type = str(item.get("status", "결장")).strip()
+                    stats_dict = item.get("stats", {}) if isinstance(item.get("stats"), dict) else {}
+                    raw_grade = str(stats_dict.get("grade", item.get("grade", "C"))).strip().upper()
+                    
+                    if "A" in raw_grade: rate = 12.0
+                    elif "B" in raw_grade: rate = 8.0
+                    elif "C" in raw_grade: rate = 4.0
+                    else: rate = 0.0
+                    
+                    is_attacker = any(k in p_pos for k in ["공격수", "미드필더", "FW", "MF"])
+                    is_defender = any(k in p_pos for k in ["수비수", "골키퍼", "DF", "GK"])
+                    
+                    if p_type in ["결장", "부상", "징계", "누수", "출전의심/기타"]:
+                        if is_attacker: atk_v, def_v = -rate, rate / 2.0
+                        elif is_defender: atk_v, def_v = -rate / 2.0, rate
+                        else: atk_v, def_v = -rate, rate / 2.0
+                    else:
+                        if is_attacker: atk_v, def_v = rate, -rate / 2.0
+                        elif is_defender: atk_v, def_v = rate / 2.0, -rate
+                        else: atk_v, def_v = rate, -rate / 2.0
+                    
+                    tot_atk += atk_v
+                    tot_def += def_v
+            except Exception:
+                pass
+            return tot_atk, tot_def
        
         
         # ======================================================================
