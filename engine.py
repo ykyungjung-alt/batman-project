@@ -673,7 +673,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         # 3. [3-2] 타임라인 기반 이동 피로도 단계 및 가중치 산출
         fixtures_info = meta_details.get("fixtures", {})
         raw_home_fixes = list(fixtures_info.get("home", []))
-        raw_away_fixes = list(fixtures_info.get("away", []))
+        raw_away_fixes = list(fixtures_info.get("fixtures", {}).get("away", [])) if isinstance(fixtures_info.get("fixtures"), dict) else list(fixtures_info.get("away", []))
         match_date_str = str(target_detail.get("match_time", "2026-06-01"))
 
         def parse_fatigue_stage_strictly_engine(fix_list, recent_list, is_home_team):
