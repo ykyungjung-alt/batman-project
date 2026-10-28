@@ -468,8 +468,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r1_atk = parse_pct(a_atw_str) if 'parse_pct' in globals() else 6.0
         a_r1_def = parse_pct(a_dew_str) if 'parse_pct' in globals() else -6.0
 
-        # ======================================================================
-        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (특수룰 플래그 완벽 연동)
+# ======================================================================
+        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (앱 app.py 100% 동기화 교정 완료)
         # ======================================================================
         head_info = target_detail.get("head_info", {})
         venue_val = str(head_info.get("stadium", "")) or str(head_info.get("venue", ""))
@@ -571,33 +571,44 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         s_a_gpg_base = float(target_detail.get("s_a_gpg", get_base_gpg_cpg(s_away_matches, away_name)[0]))
         s_a_cpg_base = float(target_detail.get("s_a_cpg", get_base_gpg_cpg(s_away_matches, away_name)[1]))
 
-        # 💡 1단계에서 정상 정의된 h_is_triggered와 a_is_triggered가 에러 없이 안전하게 연동됨
+        # 1단계에서 정의된 특수룰 발동 플래그 안전 연동
+        h_is_triggered = h_is_triggered if 'h_is_triggered' in locals() else False
+        a_is_triggered = a_is_triggered if 'a_is_triggered' in locals() else False
+
         s_h_g, s_h_c = compute_adjusted_stats_with_discount(s_home_matches, home_name, s_h_gpg_base, s_h_cpg_base, h_is_triggered)
         s_a_g, s_a_c = compute_adjusted_stats_with_discount(s_away_matches, away_name, s_a_gpg_base, s_a_cpg_base, a_is_triggered)
 
-        s_h_at, _ = engine_atk_tier(s_h_g)
-        s_h_de, _ = engine_def_tier(s_h_c)
-        s_a_at, _ = engine_atk_tier(s_a_g)
-        s_a_de, _ = engine_def_tier(s_a_c)
+        s_h_at, _ = engine_atk_tier(s_h_g) if 'engine_atk_tier' in globals() else ("Tier C", "")
+        s_h_de, _ = engine_def_tier(s_h_c) if 'engine_def_tier' in globals() else ("Tier C", "")
+        s_a_at, _ = engine_atk_tier(s_a_g) if 'engine_atk_tier' in globals() else ("Tier C", "")
+        s_a_de, _ = engine_def_tier(s_a_c) if 'engine_def_tier' in globals() else ("Tier C", "")
 
         tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
         
-        def calc_shift(base_t, stadium_t, is_atk=True):
-            b_v = tier_ranks.get(base_t, 3)
-            s_v = tier_ranks.get(stadium_t, 3)
-            if is_atk:
-                if s_v > b_v: return 15.0
-                elif s_v < b_v: return -15.0
+        # 💡 [앱 app.py 100% 일치] 정방향 Shift 보정치 산출 규격 함수
+        def get_shift_correction_engine_v3(base_tier, stadium_tier, is_attack=True):
+            b_val = tier_ranks.get(base_tier, 3)
+            s_val = tier_ranks.get(stadium_tier, 3)
+            
+            if is_attack:
+                if s_val > b_val: return 15.0       # 공격 상향 (+15%)
+                elif s_val < b_val: return -15.0    # 공격 하향 (-15%)
                 return 0.0
             else:
-                if s_v < b_v: return -15.0
-                elif s_v > b_v: return 15.0
+                # 방어력은 등급 수치가 높을수록(A, B, C...) 실점이 적고 우수함 (s_val > b_val 이면 수비 상향/실점 감소 ➔ -15%)
+                if s_val > b_val: return -15.0
+                elif s_val < b_val: return 15.0
                 return 0.0
 
-        h_r2_atk = calc_shift(base_h_at, s_h_at, True)
-        h_r2_def = calc_shift(base_h_de, s_h_de, False)
-        a_r2_atk = calc_shift(base_a_at, s_a_at, True)
-        a_r2_def = calc_shift(base_a_de, s_a_de, False)
+        base_h_at = base_h_at if 'base_h_at' in locals() else "Tier C"
+        base_h_de = base_h_de if 'base_h_de' in locals() else "Tier C"
+        base_a_at = base_a_at if 'base_a_at' in locals() else "Tier C"
+        base_a_de = base_a_de if 'base_a_de' in locals() else "Tier C"
+
+        h_r2_atk = get_shift_correction_engine_v3(base_h_at, s_h_at, is_attack=True)
+        h_r2_def = get_shift_correction_engine_v3(base_h_de, s_h_de, is_attack=False)
+        a_r2_atk = get_shift_correction_engine_v3(base_a_at, s_a_at, is_attack=True)
+        a_r2_def = get_shift_correction_engine_v3(base_a_de, s_a_de, is_attack=False)
 
 # ======================================================================
         # 🟢 [규칙 3단계 통합] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 정밀 연산 브릿지
