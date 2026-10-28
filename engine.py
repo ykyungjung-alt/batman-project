@@ -560,26 +560,26 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
 
+        # 정방향 Shift 보정치 산출 함수 (수비 강화/실점 감소 시 -15%, 수비 약화/실점 증가 시 +15%)
         def get_shift_correction_engine_v3(base_tier, stadium_tier, is_attack=True):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
             if is_attack:
-                if s_val > b_val: return 15.0       # 공격 상향 (+15%)
-                elif s_val < b_val: return -15.0    # 공격 하향 (-15%)
+                if s_val > b_val: return 15.0
+                elif s_val < b_val: return -15.0
                 return 0.0
             else:
-                # 수비 상향/실점 감소 시 -15%, 수비 약화/실점 증가 시 +15%
                 if s_val > b_val: return -15.0
                 elif s_val < b_val: return 15.0
                 return 0.0
 
-        # 💡 [핵심 안전 확보] 1단계에서 넘어온 기준 체급 변수 확실하게 바인딩
-        base_h_at = h_at if 'h_at' in locals() else ("base_h_at" if 'base_h_at' in locals() else "Tier C")
-        base_h_de = h_de if 'h_de' in locals() else ("base_h_de" if 'base_h_de' in locals() else "Tier C")
-        base_a_at = a_at if 'a_at' in locals() else ("base_a_at" if 'base_a_at' in locals() else "Tier C")
-        base_a_de = a_de if 'a_de' in locals() else ("base_a_de" if 'base_a_de' in locals() else "Tier C")
+        # 1단계 기준 체급 안전 바인딩
+        base_h_at = h_at if 'h_at' in locals() else "Tier C"
+        base_h_de = h_de if 'h_de' in locals() else "Tier C"
+        base_a_at = a_at if 'a_at' in locals() else "Tier C"
+        base_a_de = a_de if 'a_de' in locals() else "Tier C"
 
-        # 💡 [완벽한 홈/원정 독립 매핑] 원정팀 결과(s_a, base_a)가 홈팀 변수로 흘러가지 않도록 철저히 분리
+        # 💡 [핵심 정방향 교정] 홈팀은 홈 결과(base_h, s_h)끼리, 원정팀은 원정 결과(base_a, s_a)끼리 엄격하게 독립 비교
         h_r2_atk = get_shift_correction_engine_v3(base_h_at, s_h_at, is_attack=True)
         h_r2_def = get_shift_correction_engine_v3(base_h_de, s_h_de, is_attack=False)
         a_r2_atk = get_shift_correction_engine_v3(base_a_at, s_a_at, is_attack=True)
