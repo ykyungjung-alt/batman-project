@@ -360,14 +360,16 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             elif c < 1.7: return "Tier D", "-3.0%"
             else: return "Tier E", "0.0%"
 
-        def engine_local_make_df(matches, tname, def_gpg, def_cpg, my_at="Tier C", my_de="Tier C"):
+        # 앱의 local_make_df와 100% 동일한 독립 특수룰 교차 보정 및 플래그 탐지기
+        def engine_local_make_df_with_trigger(matches, tname, def_gpg, def_cpg, my_at="Tier C", my_de="Tier C"):
             if not matches or not isinstance(matches, list):
-                return def_gpg, def_cpg, 0.0, 0.0
+                return def_gpg, def_cpg, 0.0, 0.0, False
             
             eff_scored = 0.0
             eff_conceded = 0.0
             raw_scored_total = 0.0
             raw_conceded_total = 0.0
+            is_triggered_flag = False
             
             for m in matches:
                 if not isinstance(m, dict): continue
@@ -413,12 +415,20 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                         if def_match: df_name = f"Tier {def_match.group(1)}"
                         
                         if my_at in ["Tier A", "Tier E"]:
-                            if my_at == "Tier A" and df_name == "Tier E": mult_gf = 0.5
-                            elif my_at == "Tier E" and df_name == "Tier A": mult_gf = 1.5
+                            if my_at == "Tier A" and df_name == "Tier E":
+                                mult_gf = 0.5
+                                is_triggered_flag = True
+                            elif my_at == "Tier E" and df_name == "Tier A":
+                                mult_gf = 1.5
+                                is_triggered_flag = True
 
                         if my_de in ["Tier A", "Tier E"]:
-                            if my_de == "Tier A" and at_name == "Tier E": mult_ga = 1.5
-                            elif my_de == "Tier E" and at_name == "Tier A": mult_ga = 0.5
+                            if my_de == "Tier A" and at_name == "Tier E":
+                                mult_ga = 1.5
+                                is_triggered_flag = True
+                            elif my_de == "Tier E" and at_name == "Tier A":
+                                mult_ga = 0.5
+                                is_triggered_flag = True
                     except: pass
                         
                 eff_scored += (sc * mult_gf)
@@ -427,26 +437,26 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             cnt = len(matches)
             gpg = round(eff_scored / cnt, 2) if cnt > 0 else def_gpg
             cpg = round(eff_conceded / cnt, 2) if cnt > 0 else def_cpg
-            return gpg, cpg, raw_scored_total, raw_conceded_total
+            return gpg, cpg, raw_scored_total, raw_conceded_total, is_triggered_flag
 
         # 1단계 1차 예비 산출
-        h_gpg_pre, h_cpg_pre, h_raw_s, h_raw_c = engine_local_make_df(h_matches, home_name, h_gpg_base, h_cpg_base, "Tier C", "Tier C")
+        h_gpg_pre, h_cpg_pre, h_raw_s, h_raw_c, _ = engine_local_make_df_with_trigger(h_matches, home_name, h_gpg_base, h_cpg_base, "Tier C", "Tier C")
         h_cnt = len(h_matches) if h_matches else 10
         h_pure_gpg = round(h_raw_s / h_cnt, 2) if h_cnt > 0 else (h_gpg_base if h_gpg_base > 0 else 1.2)
         h_pure_cpg = round(h_raw_c / h_cnt, 2) if h_cnt > 0 else (h_cpg_base if h_cpg_base > 0 else 1.1)
         h_at_pre, _ = engine_atk_tier(h_pure_gpg)
         h_de_pre, _ = engine_def_tier(h_pure_cpg)
 
-        a_gpg_pre, a_cpg_pre, a_raw_s_a, a_raw_c_a = engine_local_make_df(a_matches, away_name, a_gpg_base, a_cpg_base, "Tier C", "Tier C")
+        a_gpg_pre, a_cpg_pre, a_raw_s_a, a_raw_c_a, _ = engine_local_make_df_with_trigger(a_matches, away_name, a_gpg_base, a_cpg_base, "Tier C", "Tier C")
         a_cnt = len(a_matches) if a_matches else 10
         a_pure_gpg = round(a_raw_s_a / a_cnt, 2) if a_cnt > 0 else (a_gpg_base if a_gpg_base > 0 else 1.1)
         a_pure_cpg = round(a_raw_c_a / a_cnt, 2) if a_cnt > 0 else (a_cpg_base if a_cpg_base > 0 else 1.2)
         a_at_pre, _ = engine_atk_tier(a_pure_gpg)
         a_de_pre, _ = engine_def_tier(a_pure_cpg)
 
-        # 1단계 2차 최종 보정 산출
-        h_gpg, h_cpg, _, _ = engine_local_make_df(h_matches, home_name, h_gpg_base, h_cpg_base, h_at_pre, h_de_pre)
-        a_gpg, a_cpg, _, _ = engine_local_make_df(a_matches, away_name, a_gpg_base, a_cpg_base, a_at_pre, a_de_pre)
+        # 1단계 2차 최종 보정 산출 및 특수룰 발동 플래그(h_is_triggered, a_is_triggered) 완벽 확정
+        h_gpg, h_cpg, _, _, h_is_triggered = engine_local_make_df_with_trigger(h_matches, home_name, h_gpg_base, h_cpg_base, h_at_pre, h_de_pre)
+        a_gpg, a_cpg, _, _, a_is_triggered = engine_local_make_df_with_trigger(a_matches, away_name, a_gpg_base, a_cpg_base, a_at_pre, a_de_pre)
 
         base_h_at, h_atw_str = engine_atk_tier(h_gpg)
         base_h_de, h_dew_str = engine_def_tier(h_cpg)
@@ -458,10 +468,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r1_atk = parse_pct(a_atw_str) if 'parse_pct' in globals() else 6.0
         a_r1_def = parse_pct(a_dew_str) if 'parse_pct' in globals() else -6.0
 
-
-        
-# ======================================================================
-        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (APP 규격 100% 동기화 완벽 교정)
+        # ======================================================================
+        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (특수룰 플래그 완벽 연동)
         # ======================================================================
         head_info = target_detail.get("head_info", {})
         venue_val = str(head_info.get("stadium", "")) or str(head_info.get("venue", ""))
@@ -563,31 +571,29 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         s_a_gpg_base = float(target_detail.get("s_a_gpg", get_base_gpg_cpg(s_away_matches, away_name)[0]))
         s_a_cpg_base = float(target_detail.get("s_a_cpg", get_base_gpg_cpg(s_away_matches, away_name)[1]))
 
+        # 💡 1단계에서 정상 정의된 h_is_triggered와 a_is_triggered가 에러 없이 안전하게 연동됨
         s_h_g, s_h_c = compute_adjusted_stats_with_discount(s_home_matches, home_name, s_h_gpg_base, s_h_cpg_base, h_is_triggered)
         s_a_g, s_a_c = compute_adjusted_stats_with_discount(s_away_matches, away_name, s_a_gpg_base, s_a_cpg_base, a_is_triggered)
 
-        s_h_at, _ = get_atk_tier(s_h_g)
-        s_h_de, _ = get_def_tier(s_h_c)
-        s_a_at, _ = get_atk_tier(s_a_g)
-        s_a_de, _ = get_def_tier(s_a_c)
+        s_h_at, _ = engine_atk_tier(s_h_g)
+        s_h_de, _ = engine_def_tier(s_h_c)
+        s_a_at, _ = engine_atk_tier(s_a_g)
+        s_a_de, _ = engine_def_tier(s_a_c)
 
         tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
         
-        # 💡 [APP 규격 완벽 일치] 2단계 구장 Shift 보정치 산출 함수
         def calc_shift(base_t, stadium_t, is_atk=True):
             b_v = tier_ranks.get(base_t, 3)
             s_v = tier_ranks.get(stadium_t, 3)
             if is_atk:
-                if s_v > b_v: return 15.0      # 공격 상향 ➔ +15%
-                elif s_v < b_v: return -15.0   # 공격 하향 ➔ -15%
+                if s_v > b_v: return 15.0
+                elif s_v < b_v: return -15.0
                 return 0.0
             else:
-                # 방어: s_v < b_v (실점 감소/수비 상향, 예: D➔C) 이면 -15%, 악화(s_v > b_v)면 +15%
                 if s_v < b_v: return -15.0
                 elif s_v > b_v: return 15.0
                 return 0.0
 
-        # 💡 [핵심 동기화] 중립구장 여부와 무관하게 APP와 동일하게 보정치 연동 (또는 APP의 중립구장 조건 반영)
         h_r2_atk = calc_shift(base_h_at, s_h_at, True)
         h_r2_def = calc_shift(base_h_de, s_h_de, False)
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
