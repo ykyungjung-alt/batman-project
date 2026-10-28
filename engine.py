@@ -466,7 +466,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r1_def = parse_pct(a_dew_str) if 'parse_pct' in globals() else -6.0
 
 # ======================================================================
-        # 🟢 [2단계 순수 백엔드 연산] 구장 Shift 보정치 산출 (홈/원정 완벽 독립 매핑)
+        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (방어 보정 부호 완벽 교정)
         # ======================================================================
         head_info = target_detail.get("head_info", {})
         venue_val = str(head_info.get("stadium", "")) or str(head_info.get("venue", ""))
@@ -481,19 +481,35 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         def filter_and_supplement_matches_with_sort(match_list, max_count=10):
             if not match_list or not isinstance(match_list, list): return []
-            official_matches = [m for m in match_list if isinstance(m, dict) and not any(k in str(m.get("league", "")).upper() for k in ["CF", "친선", "FRIENDLY"])]
-            friendly_matches = [m for m in match_list if isinstance(m, dict) and m not in official_matches]
+            official_matches = []
+            friendly_matches = []
+            for m in match_list:
+                if not isinstance(m, dict): continue
+                league_str = str(m.get("league", "")).upper()
+                if "CF" in league_str or "친선" in league_str or "FRIENDLY" in league_str:
+                    friendly_matches.append(m)
+                else:
+                    official_matches.append(m)
+            
             combined = list(official_matches)
             if len(combined) < max_count:
                 combined.extend(friendly_matches[:max_count - len(combined)])
+            
             selected = combined[:max_count]
-            try: selected.sort(key=lambda x: str(x.get("match_time", "1970-01-01")), reverse=True)
-            except: pass
+            try:
+                selected.sort(key=lambda x: str(x.get("match_time", "1970-01-01")), reverse=True)
+            except Exception:
+                pass
             return selected
 
         s_home_matches = []
         if is_neutral_venue:
-            recent_all_pool = h_matches if 'h_matches' in locals() and h_matches else stadium_form.get("recent_matches", [])
+            recent_all_pool = []
+            if 'h_matches' in locals() and h_matches:
+                recent_all_pool = h_matches
+            elif stadium_form and "recent_matches" in stadium_form:
+                recent_all_pool = stadium_form.get("recent_matches", [])
+
             neutral_home_away_matches = []
             clean_home_check = str(home_name).strip().lower()
             for m in recent_all_pool:
@@ -505,20 +521,26 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                         neutral_home_away_matches.append(m)
                 elif str(m.get("location", "")) == "원정" or str(m.get("venue_type", "")) == "away":
                     neutral_home_away_matches.append(m)
+            
             if not neutral_home_away_matches:
                 neutral_home_away_matches = stadium_form.get("away_matches", [])
+
             s_home_matches = filter_and_supplement_matches_with_sort(neutral_home_away_matches, 10)
         else:
-            raw_sh = stadium_form.get("home_matches", []) if isinstance(stadium_form, dict) else []
-            if not raw_sh and 'h_matches' in locals(): raw_sh = h_matches
+            raw_sh = stadium_form.get("home_matches", [])
+            if not raw_sh and 'h_matches' in locals():
+                raw_sh = h_matches
             s_home_matches = filter_and_supplement_matches_with_sort(raw_sh, 10)
 
-        raw_sa = stadium_form.get("away_matches", []) if isinstance(stadium_form, dict) else []
-        if not raw_sa and 'a_matches' in locals(): raw_sa = a_matches
+        raw_sa = stadium_form.get("away_matches", [])
+        if not raw_sa and 'a_matches' in locals():
+            raw_sa = a_matches
         s_away_matches = filter_and_supplement_matches_with_sort(raw_sa, 10)
 
-        if not s_home_matches and 'h_matches' in locals(): s_home_matches = filter_and_supplement_matches_with_sort(h_matches, 10)
-        if not s_away_matches and 'a_matches' in locals(): s_away_matches = filter_and_supplement_matches_with_sort(a_matches, 10)
+        if not s_home_matches and 'h_matches' in locals(): 
+            s_home_matches = filter_and_supplement_matches_with_sort(h_matches, 10)
+        if not s_away_matches and 'a_matches' in locals(): 
+            s_away_matches = filter_and_supplement_matches_with_sort(a_matches, 10)
 
         def get_base_gpg_cpg(matches, tname):
             if not matches: return 0.0, 0.0
@@ -528,7 +550,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 if not isinstance(m, dict): continue
                 scores = m.get("ft_scores", ["0", "0"])
                 try: s1, s2 = int(scores[0]), int(scores[1])
-                except: s1 = s2 = 0
+                except Exception: s1 = s2 = 0
                 teams = str(m.get("teams", "")).lower()
                 sc, cc = s1, s2
                 if " vs " in teams:
@@ -546,7 +568,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         s_a_gpg_base = float(target_detail.get("s_a_gpg", get_base_gpg_cpg(s_away_matches, away_name)[0]))
         s_a_cpg_base = float(target_detail.get("s_a_cpg", get_base_gpg_cpg(s_away_matches, away_name)[1]))
 
-        # 특수룰 플래그 안전 연동
         h_is_triggered = h_is_triggered if 'h_is_triggered' in locals() else False
         a_is_triggered = a_is_triggered if 'a_is_triggered' in locals() else False
 
@@ -559,31 +580,30 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         s_a_de, _ = engine_def_tier(s_a_c) if 'engine_def_tier' in globals() else ("Tier C", "")
 
         tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
-
-        # 정방향 Shift 보정치 산출 함수 (수비 강화/실점 감소 시 -15%, 수비 약화/실점 증가 시 +15%)
-        def get_shift_correction_engine_v3(base_tier, stadium_tier, is_attack=True):
-            b_val = tier_ranks.get(base_tier, 3)
-            s_val = tier_ranks.get(stadium_tier, 3)
-            if is_attack:
-                if s_val > b_val: return 15.0
-                elif s_val < b_val: return -15.0
+        
+        # 💡 [핵심 교정] 앱(app.py) get_shift_correction_v3와 부호 100% 동기화
+        def calc_shift(base_t, stadium_t, is_atk=True):
+            b_v = tier_ranks.get(base_t, 3)
+            s_v = tier_ranks.get(stadium_t, 3)
+            if is_atk:
+                if s_v > b_v: return 15.0       # 공격 상향 (+15%)
+                elif s_v < b_v: return -15.0    # 공격 하향 (-15%)
                 return 0.0
             else:
-                if s_val > b_val: return -15.0
-                elif s_val < b_val: return 15.0
+                # 방어 상향(구장 체급 수치가 더 높을 때, 예: C->B)은 실점 감소 혜택이므로 마이너스(-) 보정
+                if s_v > b_v: return -15.0      # 수비 상향/실점 감소 (-15%)
+                elif s_v < b_v: return 15.0     # 수비 하향/실점 증가 (+15%)
                 return 0.0
 
-        # 1단계 기준 체급 안전 바인딩
         base_h_at = h_at if 'h_at' in locals() else "Tier C"
         base_h_de = h_de if 'h_de' in locals() else "Tier C"
         base_a_at = a_at if 'a_at' in locals() else "Tier C"
         base_a_de = a_de if 'a_de' in locals() else "Tier C"
 
-        # 💡 [핵심 정방향 교정] 홈팀은 홈 결과(base_h, s_h)끼리, 원정팀은 원정 결과(base_a, s_a)끼리 엄격하게 독립 비교
-        h_r2_atk = get_shift_correction_engine_v3(base_h_at, s_h_at, is_attack=True)
-        h_r2_def = get_shift_correction_engine_v3(base_h_de, s_h_de, is_attack=False)
-        a_r2_atk = get_shift_correction_engine_v3(base_a_at, s_a_at, is_attack=True)
-        a_r2_def = get_shift_correction_engine_v3(base_a_de, s_a_de, is_attack=False)
+        h_r2_atk = calc_shift(base_h_at, s_h_at, True)
+        h_r2_def = calc_shift(base_h_de, s_h_de, False)
+        a_r2_atk = calc_shift(base_a_at, s_a_at, True)
+        a_r2_def = calc_shift(base_a_de, s_a_de, False)
 
         
         # ======================================================================
