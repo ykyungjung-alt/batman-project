@@ -804,34 +804,84 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             elif away_win_rate >= 50.0: a_r4_atk, a_r4_def = 10.0, -10.0
 
 # ======================================================================
-        # 🟢 [5단계] 5-1(최종 누적 보정 및 1차 기대치)과 5-2(실전 교차 7경기 평균) 완벽 분리 엔진 블록
+        # 🟢 [1단계] 앱(app.py) 100% 동기화: LIFO 7/10경기 원본 평균 및 1차 원본 티어 산출
         # ======================================================================
+        recent_form = meta_details.get("recent_form", {})
+        raw_h_matches = recent_form.get("home_matches", [])
+        raw_a_matches = recent_form.get("away_matches", [])
+
+        def filter_and_supplement_matches_engine(match_list, max_count=10):
+            if not match_list or not isinstance(match_list, list): return []
+            official = [m for m in match_list if isinstance(m, dict) and not any(k in str(m.get("league", "")).upper() for k in ["CF", "친선", "FRIENDLY"])]
+            friendly = [m for m in match_list if isinstance(m, dict) and m not in official]
+            combined = list(official)
+            if len(combined) < max_count:
+                combined.extend(friendly[:max_count - len(combined)])
+            return combined[:max_count]
+
+        h_matches = filter_and_supplement_matches_engine(raw_h_matches, 10)
+        a_matches = filter_and_supplement_matches_engine(raw_a_matches, 10)
+
+        h_sum = recent_form.get("home_summary", {})
+        a_sum = recent_form.get("away_summary", {})
         
-        # 💡 [핵심 연결 부위 수정] 1단계 순수 원본 평균 득실을 5단계 베이스 득실로 확실하게 매핑
-        h_base_g = float(h_pure_gpg) if 'h_pure_gpg' in locals() and h_pure_gpg > 0 else (float(h_base_g) if 'h_base_g' in locals() and h_base_g > 0 else 1.2)
-        h_base_c = float(h_pure_cpg) if 'h_pure_cpg' in locals() and h_pure_cpg > 0 else (float(h_base_c) if 'h_base_c' in locals() and h_base_c > 0 else 1.1)
-        a_base_g = float(a_pure_gpg) if 'a_pure_gpg' in locals() and a_pure_gpg > 0 else (float(a_base_g) if 'a_base_g' in locals() and a_base_g > 0 else 1.1)
-        a_base_c = float(a_pure_cpg) if 'a_pure_cpg' in locals() and a_pure_cpg > 0 else (float(a_base_c) if 'a_base_c' in locals() and a_base_c > 0 else 1.2)
+        h_gpg_base = round(float(h_sum.get("goals_per_game", 0)), 2)
+        h_cpg_base = round(float(h_sum.get("conceded_per_game", 0)), 2)
+        a_gpg_base = round(float(a_sum.get("goals_per_game", 0)), 2)
+        a_cpg_base = round(float(a_sum.get("conceded_per_game", 0)), 2)
 
-        # --------------------------------------------------------------------------
-        # [5-1 파트] 누적 보정치 합산 및 1차 기본 기대 득실점 산출
-        # --------------------------------------------------------------------------
-        h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r3_tot_atk + h_r4_atk
-        h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r3_tot_def + h_r4_def
-        a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk
-        a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def
+        def compute_pure_avg_engine(matches, tname):
+            if not matches or not isinstance(matches, list): return 0.0, 0.0, 0.0, 0.0
+            tot_sc, tot_cc = 0.0, 0.0
+            cnt = len(matches)
+            for m in matches:
+                if not isinstance(m, dict): continue
+                scores = m.get("ft_scores", ["0", "0"])
+                try: s1, s2 = int(scores[0]), int(scores[1])
+                except: s1 = s2 = 0
+                teams = str(m.get("teams", ""))
+                sc, cc = s1, s2
+                if " vs " in teams:
+                    pair = teams.split(" vs ")
+                    if len(pair) == 2:
+                        if tname in pair[0]: sc, cc = s1, s2
+                        elif tname in pair[2] if len(pair) > 2 else tname in pair[1]: sc, cc = s2, s1
+                tot_sc += sc
+                tot_cc += cc
+            p_gpg = tot_sc / cnt if cnt > 0 else 1.2
+            p_cpg = tot_cc / cnt if cnt > 0 else 1.1
+            return p_gpg, p_cpg, tot_sc, tot_cc
 
-        h_max_g = h_base_g * (1 + h_tot_atk_pct / 100.0)
-        h_min_c = h_base_c * (1 + h_tot_def_pct / 100.0)
-        a_max_g = a_base_g * (1 + a_tot_atk_pct / 100.0)
-        a_min_c = a_base_c * (1 + a_tot_def_pct / 100.0)
+        # 앱의 h_pure_gpg, h_pure_cpg와 완벽히 대응되는 순수 원본 평균 산출
+        dir_hg, dir_hc, h_raw_s, h_raw_c = compute_pure_avg_engine(h_matches, home_name)
+        dir_ag, dir_ac, a_raw_s, a_raw_c = compute_pure_avg_engine(a_matches, away_name)
 
-        # 5-1 표의 핵심 결과물: 1차기본기대 득실점
-        h_final_exp_g = max(0.2, (h_max_g + (2.0 - a_min_c)) / 2.0)
-        h_final_exp_c = max(0.2, (h_min_c + (2.0 - a_max_g)) / 2.0)
-        a_final_exp_g = max(0.2, (a_max_g + (2.0 - h_min_c)) / 2.0)
-        a_final_exp_c = max(0.2, (a_min_c + (2.0 - h_max_g)) / 2.0)
+        h_cnt = len(h_matches) if h_matches else 10
+        a_cnt = len(a_matches) if a_matches else 10
 
+        h_pure_gpg = round(h_raw_s / h_cnt, 2) if h_cnt > 0 else (h_gpg_base if h_gpg_base > 0 else dir_hg)
+        h_pure_cpg = round(h_raw_c / h_cnt, 2) if h_cnt > 0 else (h_cpg_base if h_cpg_base > 0 else dir_hc)
+        a_pure_gpg = round(a_raw_s / a_cnt, 2) if a_cnt > 0 else (a_gpg_base if a_gpg_base > 0 else dir_ag)
+        a_pure_cpg = round(a_raw_c / a_cnt, 2) if a_cnt > 0 else (a_cpg_base if a_cpg_base > 0 else dir_ac)
+
+        # 1차 원본 티어 판별 (특수룰 발동 기준)
+        base_h_at, h_atw_str = get_atk_tier(h_pure_gpg)
+        base_h_de, h_dew_str = get_def_tier(h_pure_cpg)
+        base_a_at, a_atw_str = get_atk_tier(a_pure_gpg)
+        base_a_de, a_dew_str = get_def_tier(a_pure_cpg)
+
+        h_r1_atk = parse_pct(h_atw_str)
+        h_r1_def = parse_pct(h_dew_str)
+        a_r1_atk = parse_pct(a_atw_str)
+        a_r1_def = parse_pct(a_dew_str)
+
+        # ======================================================================
+        # 🟢 [5단계] 5-1 표 연동: 앱과 동일한 1단계 순수 원본 평균을 베이스 득실로 확정
+        # ======================================================================
+        h_base_g = h_pure_gpg if h_pure_gpg > 0 else 1.2
+        h_base_c = h_pure_cpg if h_pure_cpg > 0 else 1.1
+        a_base_g = a_pure_gpg if a_pure_gpg > 0 else 1.1
+        a_base_c = a_pure_cpg if a_pure_cpg > 0 else 1.2
         # --------------------------------------------------------------------------
         # [5-2 파트] 동급 티어 실전 7경기 교차 검증 및 보정 후 실전 평균 산출
         # --------------------------------------------------------------------------
