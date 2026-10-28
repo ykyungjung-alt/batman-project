@@ -1077,6 +1077,17 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "over_factor_desc": over_factor_desc,
             "d_prob_val": d_prob_val,
 
+            # 💡 [핵심 연동 추가] 5-1표 1차기본기대 득실점 및 5-2표 실전 평균 명시적 리턴 바인딩
+            "h_final_exp_g": h_final_exp_g if 'h_final_exp_g' in locals() else 0.0,
+            "h_final_exp_c": h_final_exp_c if 'h_final_exp_c' in locals() else 0.0,
+            "a_final_exp_g": a_final_exp_g if 'a_final_exp_g' in locals() else 0.0,
+            "a_final_exp_c": a_final_exp_c if 'a_final_exp_c' in locals() else 0.0,
+            
+            "h_agf": h_agf if 'h_agf' in locals() else 0.0,
+            "h_aga": h_aga if 'h_aga' in locals() else 0.0,
+            "a_agf": a_agf if 'a_agf' in locals() else 0.0,
+            "a_aga": a_aga if 'a_aga' in locals() else 0.0,
+
             "h_gpg": h_base_g if 'h_base_g' in locals() else 0.0,
             "h_cpg": h_base_c if 'h_base_c' in locals() else 0.0,
             "a_gpg": a_base_g if 'a_base_g' in locals() else 0.0,
@@ -1120,7 +1131,3 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             "a_tot_atk_pct": a_tot_atk_pct if 'a_tot_atk_pct' in locals() else 0.0, 
             "a_tot_def_pct": a_tot_def_pct if 'a_tot_def_pct' in locals() else 0.0
         }
-
-    except Exception as e:
-        print(f"[Engine Master Critical Error]: {e}")
-        return {"status": False, "msg": str(e)}
