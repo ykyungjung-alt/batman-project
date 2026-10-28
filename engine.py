@@ -324,7 +324,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         raw_h_matches = recent_form.get("home_matches", [])
         raw_a_matches = recent_form.get("away_matches", [])
 
-        def filter_and_supplement_matches(match_list, max_count=10):
+        def filter_and_supplement_matches_engine(match_list, max_count=10):
             if not match_list or not isinstance(match_list, list): return []
             official = [m for m in match_list if isinstance(m, dict) and not any(k in str(m.get("league", "")).upper() for k in ["CF", "친선", "FRIENDLY"])]
             friendly = [m for m in match_list if isinstance(m, dict) and m not in official]
@@ -333,8 +333,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 combined.extend(friendly[:max_count - len(combined)])
             return combined[:max_count]
 
-        h_matches = filter_and_supplement_matches(raw_h_matches, 10)
-        a_matches = filter_and_supplement_matches(raw_a_matches, 10)
+        h_matches = filter_and_supplement_matches_engine(raw_h_matches, 10)
+        a_matches = filter_and_supplement_matches_engine(raw_a_matches, 10)
 
         h_sum = recent_form.get("home_summary", {})
         a_sum = recent_form.get("away_summary", {})
@@ -344,60 +344,125 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_gpg_base = round(float(a_sum.get("goals_per_game", a_sum.get("gpg", target_detail.get("a_gpg", 0)))), 2)
         a_cpg_base = round(float(a_sum.get("conceded_per_game", a_sum.get("cpg", target_detail.get("a_cpg", 0)))), 2)
 
-        def compute_direct_gpg_cpg(matches, tname):
-            if not matches or not isinstance(matches, list): return 0.0, 0.0, 0.0, 0.0
-            tot_sc, tot_cc = 0.0, 0.0
-            raw_s, raw_c = 0.0, 0.0
-            cnt = len(matches)
+        # APP의 atk_tier / def_tier 규격 완벽 일치
+        def engine_atk_tier(g):
+            if g >= 2.3: return "Tier A", "+12.0%"
+            elif g >= 1.7: return "Tier B", "+9.0%"
+            elif g >= 1.1: return "Tier C", "+6.0%"
+            elif g >= 0.5: return "Tier D", "+3.0%"
+            else: return "Tier E", "0.0%"
+
+        def engine_def_tier(c):
+            if c < 0.5: return "Tier A", "-12.0%"
+            elif c < 0.9: return "Tier B", "-9.0%"
+            elif c < 1.3: return "Tier C", "-6.0%"
+            elif c < 1.7: return "Tier D", "-3.0%"
+            else: return "Tier E", "0.0%"
+
+        # APP의 local_make_df와 동일한 독립 특수룰 교차 보정 연산기
+        def engine_local_make_df(matches, tname, def_gpg, def_cpg, my_at="Tier C", my_de="Tier C"):
+            if not matches or not isinstance(matches, list):
+                return def_gpg, def_cpg, 0.0, 0.0
+            
+            eff_scored = 0.0
+            eff_conceded = 0.0
+            raw_scored_total = 0.0
+            raw_conceded_total = 0.0
+            
             for m in matches:
                 if not isinstance(m, dict): continue
-                scores = m.get("ft_scores", ["0", "0"])
-                try: s1, s2 = int(scores[0]), int(scores[1])
-                except: s1 = s2 = 0
-                teams = str(m.get("teams", ""))
-                sc, cc = s1, s2
-                if " vs " in teams:
-                    pair = teams.split(" vs ")
-                    if len(pair) == 2:
-                        if tname in pair[0]: sc, cc = s1, s2
-                        elif tname in pair[2] if len(pair) > 2 else tname in pair[1]: sc, cc = s2, s1
-                raw_s += sc
-                raw_c += cc
-            p_gpg = raw_s / cnt if cnt > 0 else 1.2
-            p_cpg = raw_c / cnt if cnt > 0 else 1.1
-            return p_gpg, p_cpg, raw_s, raw_c
+                scores_arr = m.get("ft_scores", [])
+                score_str = str(m.get("score", "") or m.get("result", ""))
+                
+                s1, s2 = 0, 0
+                if scores_arr and len(scores_arr) >= 2:
+                    try: s1, s2 = int(scores_arr[0]), int(scores_arr[1])
+                    except: pass
+                elif score_str:
+                    try:
+                        parts_s = score_str.replace("：", ":").replace("-", ":").split(":")
+                        if len(parts_s) >= 2:
+                            s1 = int(parts_s[0].strip())
+                            s2 = int(parts_s[1].strip())
+                    except: pass
+                    
+                teams = str(m.get("teams", "-"))
+                sc, cc = 0, 0
+                pair = teams.split(" vs ")
+                if len(pair) == 2:
+                    t1, t2 = pair[0].strip(), pair[1].strip()
+                    if tname in t1: sc, cc = s1, s2
+                    elif tname in t2: sc, cc = s2, s1
+                    else: sc, cc = s1, s2
+                else:
+                    sc, cc = s1, s2
+                    
+                raw_scored_total += sc
+                raw_conceded_total += cc
+                
+                mult_gf = 1.0
+                mult_ga = 1.0
+                tier_info = str(m.get("opponent_tier_info", ""))
+                at_name, df_name = "Tier C", "Tier C"
+                
+                if tier_info:
+                    try:
+                        atk_match = re.search(r'공격([A-E])\(([\d\.]+)\)', tier_info)
+                        def_match = re.search(r'방어([A-E])\(([\d\.]+)\)', tier_info)
+                        if atk_match: at_name = f"Tier {atk_match.group(1)}"
+                        if def_match: df_name = f"Tier {def_match.group(1)}"
+                        
+                        if my_at in ["Tier A", "Tier E"]:
+                            if my_at == "Tier A" and df_name == "Tier E": mult_gf = 0.5
+                            elif my_at == "Tier E" and df_name == "Tier A": mult_gf = 1.5
 
-        # 1. 순수 원본 평균 득실 우선 산출 (앱의 h_pure_gpg와 완벽 대응)
-        dir_hg, dir_hc, h_raw_s, h_raw_c = compute_direct_gpg_cpg(h_matches, home_name)
-        dir_ag, dir_ac, a_raw_s, a_raw_c = compute_direct_gpg_cpg(a_matches, away_name)
+                        if my_de in ["Tier A", "Tier E"]:
+                            if my_de == "Tier A" and at_name == "Tier E": mult_ga = 1.5
+                            elif my_de == "Tier E" and at_name == "Tier A": mult_ga = 0.5
+                    except: pass
+                        
+                eff_scored += (sc * mult_gf)
+                eff_conceded += (cc * mult_ga)
+                
+            cnt = len(matches)
+            gpg = round(eff_scored / cnt, 2) if cnt > 0 else def_gpg
+            cpg = round(eff_conceded / cnt, 2) if cnt > 0 else def_cpg
+            return gpg, cpg, raw_scored_total, raw_conceded_total
 
-        h_pure_gpg = round(h_raw_s / len(h_matches), 2) if h_matches else (h_gpg_base if h_gpg_base > 0 else dir_hg)
-        h_pure_cpg = round(h_raw_c / len(h_matches), 2) if h_matches else (h_cpg_base if h_cpg_base > 0 else dir_hc)
-        a_pure_gpg = round(a_raw_s / len(a_matches), 2) if a_matches else (a_gpg_base if a_gpg_base > 0 else dir_ag)
-        a_pure_cpg = round(a_raw_c / len(a_matches), 2) if a_matches else (a_cpg_base if a_cpg_base > 0 else dir_ac)
+        # 1. 1단계 1차 예비 산출 (순수 원본 평균 및 1차 원본 티어 확정)
+        h_gpg_pre, h_cpg_pre, h_raw_s, h_raw_c = engine_local_make_df(h_matches, home_name, h_gpg_base, h_cpg_base, "Tier C", "Tier C")
+        h_cnt = len(h_matches) if h_matches else 10
+        h_pure_gpg = round(h_raw_s / h_cnt, 2) if h_cnt > 0 else (h_gpg_base if h_gpg_base > 0 else 1.2)
+        h_pure_cpg = round(h_raw_c / h_cnt, 2) if h_cnt > 0 else (h_cpg_base if h_cpg_base > 0 else 1.1)
+        h_at_pre, _ = engine_atk_tier(h_pure_gpg)
+        h_de_pre, _ = engine_def_tier(h_pure_cpg)
 
-        # 2. 특수룰 발동 기준 1차 원본 티어 확정
-        base_h_at, h_atw_str = get_atk_tier(h_pure_gpg)
-        base_h_de, h_dew_str = get_def_tier(h_pure_cpg)
-        base_a_at, a_atw_str = get_atk_tier(a_pure_gpg)
-        base_a_de, a_dew_str = get_def_tier(a_pure_cpg)
+        a_gpg_pre, a_cpg_pre, a_raw_s_a, a_raw_c_a = engine_local_make_df(a_matches, away_name, a_gpg_base, a_cpg_base, "Tier C", "Tier C")
+        a_cnt = len(a_matches) if a_matches else 10
+        a_pure_gpg = round(a_raw_s_a / a_cnt, 2) if a_cnt > 0 else (a_gpg_base if a_gpg_base > 0 else 1.1)
+        a_pure_cpg = round(a_raw_c_a / a_cnt, 2) if a_cnt > 0 else (a_cpg_base if a_cpg_base > 0 else 1.2)
+        a_at_pre, _ = engine_atk_tier(a_pure_gpg)
+        a_de_pre, _ = engine_def_tier(a_pure_cpg)
 
-        h_r1_atk = parse_pct(h_atw_str)
-        h_r1_def = parse_pct(h_dew_str)
-        a_r1_atk = parse_pct(a_atw_str)
-        a_r1_def = parse_pct(a_dew_str)
+        # 2. 1단계 2차 최종 보정 산출 (APP의 h_gpg, h_cpg와 100% 일치하는 최종 보정 평균 확정)
+        h_gpg, h_cpg, _, _ = engine_local_make_df(h_matches, home_name, h_gpg_base, h_cpg_base, h_at_pre, h_de_pre)
+        a_gpg, a_cpg, _, _ = engine_local_make_df(a_matches, away_name, a_gpg_base, a_cpg_base, a_at_pre, a_de_pre)
 
-        # 3. 특수룰 교차 보정 적용 후 최종 보정 평균 득실 확정 (앱의 h_gpg, h_cpg와 완벽 동기화)
-        h_is_triggered = check_special_rule_trigger(h_matches, home_name, h_pure_gpg, h_pure_cpg)
-        a_is_triggered = check_special_rule_trigger(a_matches, away_name, a_pure_gpg, a_pure_cpg)
+        base_h_at, h_atw_str = engine_atk_tier(h_gpg)
+        base_h_de, h_dew_str = engine_def_tier(h_cpg)
+        base_a_at, a_atw_str = engine_atk_tier(a_gpg)
+        base_a_de, a_dew_str = engine_def_tier(a_cpg)
 
-        calc_h_base_g, calc_h_base_c = compute_adjusted_stats_with_discount(h_matches, home_name, h_pure_gpg, h_pure_cpg, h_is_triggered)
-        calc_a_base_g, calc_a_base_c = compute_adjusted_stats_with_discount(a_matches, away_name, a_pure_gpg, a_pure_cpg, a_is_triggered)
+        h_r1_atk = parse_pct(h_atw_str) if 'parse_pct' in globals() else 6.0
+        h_r1_def = parse_pct(h_dew_str) if 'parse_pct' in globals() else -6.0
+        a_r1_atk = parse_pct(a_atw_str) if 'parse_pct' in globals() else 6.0
+        a_r1_def = parse_pct(a_dew_str) if 'parse_pct' in globals() else -6.0
 
-        h_base_g = calc_h_base_g if calc_h_base_g > 0 else h_pure_gpg
-        h_base_c = calc_h_base_c if calc_h_base_c > 0 else h_pure_cpg
-        a_base_g = calc_a_base_g if calc_a_base_g > 0 else a_pure_gpg
-        a_base_c = calc_a_base_c if calc_a_base_c > 0 else a_pure_cpg
+        # 3. 5단계 5-1 표의 베이스 득실로 곧바로 이어지도록 최종 매핑
+        h_base_g = h_gpg
+        h_base_c = h_cpg
+        a_base_g = a_gpg
+        a_base_c = a_cpg
         
 # ======================================================================
         # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (APP 규격 100% 동기화 완벽 교정)
@@ -803,85 +868,16 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             if home_win_rate >= 50.0: h_r4_atk, h_r4_def = 10.0, -10.0
             elif away_win_rate >= 50.0: a_r4_atk, a_r4_def = 10.0, -10.0
 
+
 # ======================================================================
-        # 🟢 [1단계] 앱(app.py) 100% 동기화: LIFO 7/10경기 원본 평균 및 1차 원본 티어 산출
+        # 🟢 [5단계 동기화] 앱(app.py)과 100% 일치: 1단계 최종 보정 평균 연동
         # ======================================================================
-        recent_form = meta_details.get("recent_form", {})
-        raw_h_matches = recent_form.get("home_matches", [])
-        raw_a_matches = recent_form.get("away_matches", [])
-
-        def filter_and_supplement_matches_engine(match_list, max_count=10):
-            if not match_list or not isinstance(match_list, list): return []
-            official = [m for m in match_list if isinstance(m, dict) and not any(k in str(m.get("league", "")).upper() for k in ["CF", "친선", "FRIENDLY"])]
-            friendly = [m for m in match_list if isinstance(m, dict) and m not in official]
-            combined = list(official)
-            if len(combined) < max_count:
-                combined.extend(friendly[:max_count - len(combined)])
-            return combined[:max_count]
-
-        h_matches = filter_and_supplement_matches_engine(raw_h_matches, 10)
-        a_matches = filter_and_supplement_matches_engine(raw_a_matches, 10)
-
-        h_sum = recent_form.get("home_summary", {})
-        a_sum = recent_form.get("away_summary", {})
         
-        h_gpg_base = round(float(h_sum.get("goals_per_game", 0)), 2)
-        h_cpg_base = round(float(h_sum.get("conceded_per_game", 0)), 2)
-        a_gpg_base = round(float(a_sum.get("goals_per_game", 0)), 2)
-        a_cpg_base = round(float(a_sum.get("conceded_per_game", 0)), 2)
-
-        def compute_pure_avg_engine(matches, tname):
-            if not matches or not isinstance(matches, list): return 0.0, 0.0, 0.0, 0.0
-            tot_sc, tot_cc = 0.0, 0.0
-            cnt = len(matches)
-            for m in matches:
-                if not isinstance(m, dict): continue
-                scores = m.get("ft_scores", ["0", "0"])
-                try: s1, s2 = int(scores[0]), int(scores[1])
-                except: s1 = s2 = 0
-                teams = str(m.get("teams", ""))
-                sc, cc = s1, s2
-                if " vs " in teams:
-                    pair = teams.split(" vs ")
-                    if len(pair) == 2:
-                        if tname in pair[0]: sc, cc = s1, s2
-                        elif tname in pair[2] if len(pair) > 2 else tname in pair[1]: sc, cc = s2, s1
-                tot_sc += sc
-                tot_cc += cc
-            p_gpg = tot_sc / cnt if cnt > 0 else 1.2
-            p_cpg = tot_cc / cnt if cnt > 0 else 1.1
-            return p_gpg, p_cpg, tot_sc, tot_cc
-
-        # 앱의 h_pure_gpg, h_pure_cpg와 완벽히 대응되는 순수 원본 평균 산출
-        dir_hg, dir_hc, h_raw_s, h_raw_c = compute_pure_avg_engine(h_matches, home_name)
-        dir_ag, dir_ac, a_raw_s, a_raw_c = compute_pure_avg_engine(a_matches, away_name)
-
-        h_cnt = len(h_matches) if h_matches else 10
-        a_cnt = len(a_matches) if a_matches else 10
-
-        h_pure_gpg = round(h_raw_s / h_cnt, 2) if h_cnt > 0 else (h_gpg_base if h_gpg_base > 0 else dir_hg)
-        h_pure_cpg = round(h_raw_c / h_cnt, 2) if h_cnt > 0 else (h_cpg_base if h_cpg_base > 0 else dir_hc)
-        a_pure_gpg = round(a_raw_s / a_cnt, 2) if a_cnt > 0 else (a_gpg_base if a_gpg_base > 0 else dir_ag)
-        a_pure_cpg = round(a_raw_c / a_cnt, 2) if a_cnt > 0 else (a_cpg_base if a_cpg_base > 0 else dir_ac)
-
-        # 1차 원본 티어 판별 (특수룰 발동 기준)
-        base_h_at, h_atw_str = get_atk_tier(h_pure_gpg)
-        base_h_de, h_dew_str = get_def_tier(h_pure_cpg)
-        base_a_at, a_atw_str = get_atk_tier(a_pure_gpg)
-        base_a_de, a_dew_str = get_def_tier(a_pure_cpg)
-
-        h_r1_atk = parse_pct(h_atw_str)
-        h_r1_def = parse_pct(h_dew_str)
-        a_r1_atk = parse_pct(a_atw_str)
-        a_r1_def = parse_pct(a_dew_str)
-
-        # ======================================================================
-        # 🟢 [5단계] 5-1 표 연동: 앱과 동일한 1단계 순수 원본 평균을 베이스 득실로 확정
-        # ======================================================================
-        h_base_g = h_pure_gpg if h_pure_gpg > 0 else 1.2
-        h_base_c = h_pure_cpg if h_pure_cpg > 0 else 1.1
-        a_base_g = a_pure_gpg if a_pure_gpg > 0 else 1.1
-        a_base_c = a_pure_cpg if a_pure_cpg > 0 else 1.2
+        # 1. 1단계에서 산출된 최종 보정 평균 득실 안전 확보 (없을 시 순수 원본 또는 기본값 폴백)
+        h_base_g = float(h_gpg) if 'h_gpg' in locals() and h_gpg > 0 else (float(h_pure_gpg) if 'h_pure_gpg' in locals() and h_pure_gpg > 0 else 1.2)
+        h_base_c = float(h_cpg) if 'h_cpg' in locals() and h_cpg > 0 else (float(h_pure_cpg) if 'h_pure_cpg' in locals() and h_pure_cpg > 0 else 1.1)
+        a_base_g = float(a_gpg) if 'a_gpg' in locals() and a_gpg > 0 else (float(a_pure_gpg) if 'a_pure_gpg' in locals() and a_pure_gpg > 0 else 1.1)
+        a_base_c = float(a_cpg) if 'a_cpg' in locals() and a_cpg > 0 else (float(a_pure_cpg) if 'a_pure_cpg' in locals() and a_pure_cpg > 0 else 1.2)
         # --------------------------------------------------------------------------
         # [5-2 파트] 동급 티어 실전 7경기 교차 검증 및 보정 후 실전 평균 산출
         # --------------------------------------------------------------------------
