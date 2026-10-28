@@ -469,7 +469,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r1_def = parse_pct(a_dew_str) if 'parse_pct' in globals() else -6.0
 
 # ======================================================================
-        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (앱 app.py 100% 동기화 교정 완료)
+        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (홈/원정 변수 매핑 완벽 교정)
         # ======================================================================
         head_info = target_detail.get("head_info", {})
         venue_val = str(head_info.get("stadium", "")) or str(head_info.get("venue", ""))
@@ -571,7 +571,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         s_a_gpg_base = float(target_detail.get("s_a_gpg", get_base_gpg_cpg(s_away_matches, away_name)[0]))
         s_a_cpg_base = float(target_detail.get("s_a_cpg", get_base_gpg_cpg(s_away_matches, away_name)[1]))
 
-        # 1단계에서 정의된 특수룰 발동 플래그 안전 연동
+        # 특수룰 발동 플래그 안전 연동
         h_is_triggered = h_is_triggered if 'h_is_triggered' in locals() else False
         a_is_triggered = a_is_triggered if 'a_is_triggered' in locals() else False
 
@@ -585,7 +585,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
         
-        # 💡 [앱 app.py 100% 일치] 정방향 Shift 보정치 산출 규격 함수
+        # 정방향 Shift 보정치 산출 함수 (수비 상향 시 -15%, 하향 시 +15%)
         def get_shift_correction_engine_v3(base_tier, stadium_tier, is_attack=True):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
@@ -595,9 +595,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 elif s_val < b_val: return -15.0    # 공격 하향 (-15%)
                 return 0.0
             else:
-                # 방어력은 등급 수치가 높을수록(A, B, C...) 실점이 적고 우수함 (s_val > b_val 이면 수비 상향/실점 감소 ➔ -15%)
-                if s_val > b_val: return -15.0
-                elif s_val < b_val: return 15.0
+                if s_val > b_val: return -15.0      # 수비 상향/실점 감소 (-15%)
+                elif s_val < b_val: return 15.0     # 수비 하향/실점 증가 (+15%)
                 return 0.0
 
         base_h_at = base_h_at if 'base_h_at' in locals() else "Tier C"
@@ -605,6 +604,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         base_a_at = base_a_at if 'base_a_at' in locals() else "Tier C"
         base_a_de = base_a_de if 'base_a_de' in locals() else "Tier C"
 
+        # 💡 [핵심 교정] 홈팀은 홈팀(s_h) 결과로, 원정팀은 원정팀(s_a) 결과로 정확히 독립 매핑
         h_r2_atk = get_shift_correction_engine_v3(base_h_at, s_h_at, is_attack=True)
         h_r2_def = get_shift_correction_engine_v3(base_h_de, s_h_de, is_attack=False)
         a_r2_atk = get_shift_correction_engine_v3(base_a_at, s_a_at, is_attack=True)
