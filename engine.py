@@ -318,13 +318,13 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     found_away = True
 
 # ======================================================================
-        # 🟢 [1단계] LIFO 최근 경기 득실 산출 및 기본 기대치 실시간 연동 (앱 100% 일치 규격)
+        # 🟢 [1단계] 앱(app.py) 100% 일치: LIFO 최근 10경기 및 독립 특수룰 파이프라인
         # ======================================================================
         recent_form = meta_details.get("recent_form", {})
         raw_h_matches = recent_form.get("home_matches", [])
         raw_a_matches = recent_form.get("away_matches", [])
 
-        def filter_and_supplement_matches_engine(match_list, max_count=10):
+        def filter_and_supplement_matches(match_list, max_count=10):
             if not match_list or not isinstance(match_list, list): return []
             official = [m for m in match_list if isinstance(m, dict) and not any(k in str(m.get("league", "")).upper() for k in ["CF", "친선", "FRIENDLY"])]
             friendly = [m for m in match_list if isinstance(m, dict) and m not in official]
@@ -333,18 +333,19 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 combined.extend(friendly[:max_count - len(combined)])
             return combined[:max_count]
 
-        h_matches = filter_and_supplement_matches_engine(raw_h_matches, 10)
-        a_matches = filter_and_supplement_matches_engine(raw_a_matches, 10)
+        h_matches = filter_and_supplement_matches(raw_h_matches, 10)
+        a_matches = filter_and_supplement_matches(raw_a_matches, 10)
 
         h_sum = recent_form.get("home_summary", {})
         a_sum = recent_form.get("away_summary", {})
+        h_gpg_base = round(float(h_sum.get("goals_per_game", 0)), 2)
+        h_cpg_base = round(float(h_sum.get("conceded_per_game", 0)), 2)
+        h_rec_base = h_sum.get("recent_record", "0전 0승 0무 0패")
         
-        h_gpg_base = round(float(h_sum.get("goals_per_game", h_sum.get("gpg", target_detail.get("h_gpg", 0)))), 2)
-        h_cpg_base = round(float(h_sum.get("conceded_per_game", h_sum.get("cpg", target_detail.get("h_cpg", 0)))), 2)
-        a_gpg_base = round(float(a_sum.get("goals_per_game", a_sum.get("gpg", target_detail.get("a_gpg", 0)))), 2)
-        a_cpg_base = round(float(a_sum.get("conceded_per_game", a_sum.get("cpg", target_detail.get("a_cpg", 0)))), 2)
+        a_gpg_base = round(float(a_sum.get("goals_per_game", 0)), 2)
+        a_cpg_base = round(float(a_sum.get("conceded_per_game", 0)), 2)
+        a_rec_base = a_sum.get("recent_record", "0전 0승 0무 0패")
 
-        # APP의 atk_tier / def_tier 규격 완벽 일치
         def engine_atk_tier(g):
             if g >= 2.3: return "Tier A", "+12.0%"
             elif g >= 1.7: return "Tier B", "+9.0%"
@@ -359,7 +360,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             elif c < 1.7: return "Tier D", "-3.0%"
             else: return "Tier E", "0.0%"
 
-        # APP의 local_make_df와 동일한 독립 특수룰 교차 보정 연산기
         def engine_local_make_df(matches, tname, def_gpg, def_cpg, my_at="Tier C", my_de="Tier C"):
             if not matches or not isinstance(matches, list):
                 return def_gpg, def_cpg, 0.0, 0.0
@@ -429,7 +429,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
             cpg = round(eff_conceded / cnt, 2) if cnt > 0 else def_cpg
             return gpg, cpg, raw_scored_total, raw_conceded_total
 
-        # 1. 1단계 1차 예비 산출 (순수 원본 평균 및 1차 원본 티어 확정)
+        # 1단계 1차 예비 산출
         h_gpg_pre, h_cpg_pre, h_raw_s, h_raw_c = engine_local_make_df(h_matches, home_name, h_gpg_base, h_cpg_base, "Tier C", "Tier C")
         h_cnt = len(h_matches) if h_matches else 10
         h_pure_gpg = round(h_raw_s / h_cnt, 2) if h_cnt > 0 else (h_gpg_base if h_gpg_base > 0 else 1.2)
@@ -444,7 +444,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_at_pre, _ = engine_atk_tier(a_pure_gpg)
         a_de_pre, _ = engine_def_tier(a_pure_cpg)
 
-        # 2. 1단계 2차 최종 보정 산출 (APP의 h_gpg, h_cpg와 100% 일치하는 최종 보정 평균 확정)
+        # 1단계 2차 최종 보정 산출
         h_gpg, h_cpg, _, _ = engine_local_make_df(h_matches, home_name, h_gpg_base, h_cpg_base, h_at_pre, h_de_pre)
         a_gpg, a_cpg, _, _ = engine_local_make_df(a_matches, away_name, a_gpg_base, a_cpg_base, a_at_pre, a_de_pre)
 
@@ -458,11 +458,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r1_atk = parse_pct(a_atw_str) if 'parse_pct' in globals() else 6.0
         a_r1_def = parse_pct(a_dew_str) if 'parse_pct' in globals() else -6.0
 
-        # 3. 5단계 5-1 표의 베이스 득실로 곧바로 이어지도록 최종 매핑
-        h_base_g = h_gpg
-        h_base_c = h_cpg
-        a_base_g = a_gpg
-        a_base_c = a_cpg
+
         
 # ======================================================================
         # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (APP 규격 100% 동기화 완벽 교정)
@@ -870,7 +866,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
 
 # ======================================================================
-        # 🟢 [5단계 동기화] 앱(app.py)과 100% 일치: 1단계 최종 보정 평균 연동
+        # 🟢 [5단계 동기화] 앱(app.py)과 100% 일치: 5-1(최종 보정 및 1차 기대치) & 5-2(실전 7경기) 통합 엔진 블록
         # ======================================================================
         
         # 1. 1단계에서 산출된 최종 보정 평균 득실 안전 확보 (없을 시 순수 원본 또는 기본값 폴백)
@@ -878,6 +874,67 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_base_c = float(h_cpg) if 'h_cpg' in locals() and h_cpg > 0 else (float(h_pure_cpg) if 'h_pure_cpg' in locals() and h_pure_cpg > 0 else 1.1)
         a_base_g = float(a_gpg) if 'a_gpg' in locals() and a_gpg > 0 else (float(a_pure_gpg) if 'a_pure_gpg' in locals() and a_pure_gpg > 0 else 1.1)
         a_base_c = float(a_cpg) if 'a_cpg' in locals() and a_cpg > 0 else (float(a_pure_cpg) if 'a_pure_cpg' in locals() and a_pure_cpg > 0 else 1.2)
+
+        # 2. 5-1 표 누적 보정치 변수 안전 정의 (누락 방지 방어 코드)
+        h_step0_atk = float(h_step0_atk) if 'h_step0_atk' in locals() else 0.0
+        h_step0_def = float(h_step0_def) if 'h_step0_def' in locals() else 0.0
+        a_step0_atk = float(a_step0_atk) if 'a_step0_atk' in locals() else 0.0
+        a_step0_def = float(a_step0_def) if 'a_step0_def' in locals() else 0.0
+
+        h_r1_atk = float(h_r1_atk) if 'h_r1_atk' in locals() else 6.0
+        h_r1_def = float(h_r1_def) if 'h_r1_def' in locals() else -6.0
+        a_r1_atk = float(a_r1_atk) if 'a_r1_atk' in locals() else 6.0
+        a_r1_def = float(a_r1_def) if 'a_r1_def' in locals() else -6.0
+
+        h_r2_atk = float(h_r2_atk_val) if 'h_r2_atk_val' in locals() else (float(h_r2_atk) if 'h_r2_atk' in locals() else 0.0)
+        h_r2_def = float(h_r2_def_val) if 'h_r2_def_val' in locals() else (float(h_r2_def) if 'h_r2_def' in locals() else 0.0)
+        a_r2_atk = float(a_r2_atk_val) if 'a_r2_atk_val' in locals() else (float(a_r2_atk) if 'a_r2_atk' in locals() else 0.0)
+        a_r2_def = float(a_r2_def_val) if 'a_r2_def_val' in locals() else (float(a_r2_def) if 'a_r2_def' in locals() else 0.0)
+
+        h_r31_atk = float(h_r31_atk_val) if 'h_r31_atk_val' in locals() else 0.0
+        h_r31_def = float(h_r31_def_val) if 'h_r31_def_val' in locals() else 0.0
+        a_r31_atk = float(a_r31_atk_val) if 'a_r31_atk_val' in locals() else 0.0
+        a_r31_def = float(a_r31_def_val) if 'a_r31_def_val' in locals() else 0.0
+
+        h_imp_atk_val = float(h_imp_atk) if 'h_imp_atk' in locals() else 0.0
+        h_imp_def_val = float(h_imp_def) if 'h_imp_def' in locals() else 0.0
+        a_imp_atk_val = float(a_imp_atk) if 'a_imp_atk' in locals() else 0.0
+        a_imp_def_val = float(a_imp_def) if 'a_imp_def' in locals() else 0.0
+
+        h_fatigue_stage = int(h_last_fatigue) if 'h_last_fatigue' in locals() else 0
+        a_fatigue_stage = int(a_last_fatigue) if 'a_last_fatigue' in locals() else 0
+        
+        h_r32_atk = (-5.0 * h_fatigue_stage)
+        h_r32_def = (5.0 * h_fatigue_stage)
+        a_r32_atk = (-5.0 * a_fatigue_stage)
+        a_r32_def = (5.0 * a_fatigue_stage)
+
+        h_r3_tot_atk = h_r31_atk + h_imp_atk_val + h_r32_atk
+        h_r3_tot_def = h_r31_def + h_imp_def_val + h_r32_def
+        a_r3_tot_atk = a_r31_atk + a_imp_atk_val + a_r32_atk
+        a_r3_tot_def = a_r31_def + a_imp_def_val + a_r32_def
+
+        h_r4_atk = float(h_r4_atk_val) if 'h_r4_atk_val' in locals() else 0.0
+        h_r4_def = float(h_r4_def_val) if 'h_r4_def_val' in locals() else 0.0
+        a_r4_atk = float(a_r4_atk_val) if 'a_r4_atk_val' in locals() else 0.0
+        a_r4_def = float(a_r4_def_val) if 'a_r4_def_val' in locals() else 0.0
+
+        # 3. 5-1 파트: 최종 누적 보정치 합산 및 1차 기대치 산출
+        h_tot_atk_pct = h_step0_atk + h_r1_atk + h_r2_atk + h_r3_tot_atk + h_r4_atk
+        h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r3_tot_def + h_r4_def
+        a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk
+        a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def
+
+        h_max_g = h_base_g * (1 + h_tot_atk_pct / 100.0)
+        h_min_c = h_base_c * (1 + h_tot_def_pct / 100.0)
+        a_max_g = a_base_g * (1 + a_tot_atk_pct / 100.0)
+        a_min_c = a_base_c * (1 + a_tot_def_pct / 100.0)
+
+        h_final_exp_g = max(0.2, (h_max_g + (2.0 - a_min_c)) / 2.0)
+        h_final_exp_c = max(0.2, (h_min_c + (2.0 - a_max_g)) / 2.0)
+        a_final_exp_g = max(0.2, (a_max_g + (2.0 - h_min_c)) / 2.0)
+        a_final_exp_c = max(0.2, (a_min_c + (2.0 - h_max_g)) / 2.0)
+
         # --------------------------------------------------------------------------
         # [5-2 파트] 동급 티어 실전 7경기 교차 검증 및 보정 후 실전 평균 산출
         # --------------------------------------------------------------------------
@@ -886,8 +943,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_opp_at = s_h_at if 's_h_at' in locals() else (base_h_at if 'base_h_at' in locals() else "Tier C")
         a_opp_de = s_h_de if 's_h_de' in locals() else (base_h_de if 'base_h_de' in locals() else "Tier C")
 
-        home_raw_pool = stadium_form.get("home_matches", []) if stadium_form else []
-        away_raw_pool = stadium_form.get("away_matches", []) if stadium_form else []
+        home_raw_pool = stadium_form.get("home_matches", []) if 'stadium_form' in locals() and stadium_form else []
+        away_raw_pool = stadium_form.get("away_matches", []) if 'stadium_form' in locals() and stadium_form else []
         if not home_raw_pool: home_raw_pool = s_home_matches if 's_home_matches' in locals() else h_matches
         if not away_raw_pool: away_raw_pool = s_away_matches if 's_away_matches' in locals() else a_matches
 
@@ -915,8 +972,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 if tier_info and "/" in tier_info:
                     try: oa, od = map(float, tier_info.split("/")[:2])
                     except: pass
-                op_at_name, _ = get_atk_tier(oa)
-                op_de_name, _ = get_def_tier(od)
+                op_at_name, _ = engine_atk_tier(oa) if 'engine_atk_tier' in globals() else ("Tier C", "")
+                op_de_name, _ = engine_def_tier(od) if 'engine_def_tier' in globals() else ("Tier C", "")
                 match_score = abs(t_at_val - tier_score_map.get(op_at_name, 3)) + abs(t_de_val - tier_score_map.get(op_de_name, 3))
                 scored_pool.append((match_score, m))
 
@@ -963,8 +1020,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 if tier_info and "/" in tier_info:
                     try:
                         oa, od = map(float, tier_info.split("/")[:2])
-                        at_name, _ = get_atk_tier(oa)
-                        df_name, _ = get_def_tier(od)
+                        at_name, _ = engine_atk_tier(oa) if 'engine_atk_tier' in globals() else ("Tier C", "")
+                        df_name, _ = engine_def_tier(od) if 'engine_def_tier' in globals() else ("Tier C", "")
                     except: pass
 
                 mult_gf = 1.0
@@ -1007,6 +1064,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         # --------------------------------------------------------------------------
         # [최종 람다 결합 파트] 다득점 Over Factor 및 5-1/5-2 최종 융합
         # --------------------------------------------------------------------------
+        tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
         h_tier_val = tier_ranks.get(home_my_at, 3)
         a_tier_val = tier_ranks.get(away_my_at, 3)
         tier_diff = abs(h_tier_val - a_tier_val)
