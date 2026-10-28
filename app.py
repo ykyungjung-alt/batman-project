@@ -2041,7 +2041,24 @@ with tabs[5]:
         a_agf_html = get_52_colored_stat(a_app_agf, a_raw_agf, is_higher_better=True)
         a_aga_html = get_52_colored_stat(a_app_aga, a_raw_aga, is_higher_better=False) # 실점은 낮을수록 초록색
         st.markdown(f"📌 **{away_team} 실전 7경기 총합:** {a_tgf:.1f}득점 / {a_tga:.1f}실점 &nbsp;|&nbsp; 실전 평균 (적용 전: 득점 {a_raw_agf:.2f}골 / 실점 {a_raw_aga:.2f}골) ➔ <span style='font-weight: bold;'>보정 후 평균: 득점 {a_agf_html} / 실점 {a_aga_html}</span>", unsafe_allow_html=True)
-     
+
+        # --------------------------------------------------------------------------
+        # 🔗 [5-2 표 ➔ 규칙 6 완벽 연동 규격 블록] (이 코드를 5-2 표 출력 직후에 통째로 배치)
+        # --------------------------------------------------------------------------
+        h_agf = float(h_app_agf) if 'h_app_agf' in locals() and h_app_agf is not None else (h_raw_agf if 'h_raw_agf' in locals() else 1.2)
+        h_aga = float(h_app_aga) if 'h_app_aga' in locals() and h_app_aga is not None else (h_raw_aga if 'h_raw_aga' in locals() else 1.1)
+        a_agf = float(a_app_agf) if 'a_app_agf' in locals() and a_app_agf is not None else (a_raw_agf if 'a_raw_agf' in locals() else 1.1)
+        a_aga = float(a_app_aga) if 'a_app_aga' in locals() and a_app_aga is not None else (a_raw_aga if 'a_raw_aga' in locals() else 1.2)
+
+        # 규칙 6 푸아송 람다 및 1순위 최적합 산출용 표준 변수 강제 동기화
+        h_final_exp_g = h_agf
+        h_final_exp_c = h_aga
+        a_final_exp_g = a_agf
+        a_final_exp_c = a_aga
+        
+        safe_h_final = float(h_final) if 'h_final' in locals() and h_final is not None else h_agf
+        safe_a_final = float(a_final) if 'a_final' in locals() and a_final is not None else a_agf
+        total_expected_goals = safe_h_final + safe_a_final
         
         # --------------------------------------------------------------------------
         # 📊 [5-3 표] 렌더링
