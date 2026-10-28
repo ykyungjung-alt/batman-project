@@ -221,7 +221,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         meta_details = target_detail.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
         
-======================================================================
+        # ======================================================================
         # 🟢 [0단계] Country 등급 및 공격/수비 보정치 산출 (앱 연동 완벽 일치 규격)
         # ======================================================================
         def resolve_country_and_grade(rank_val, team_val, current_league_name="", country_data=None):
