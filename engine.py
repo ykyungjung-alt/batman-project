@@ -221,8 +221,8 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         meta_details = target_detail.get("meta_details", {})
         rankings_raw = meta_details.get("rankings", [])
         
-        # ======================================================================
-        # 🟢 [0단계] Country 등급 및 공격/수비 보정치 산출
+# ======================================================================
+        # 🟢 [0단계] Country 등급 및 공격/수비 보정치 산출 (앱 연동 완벽 일치 규격)
         # ======================================================================
         def resolve_country_and_grade(rank_val, team_val, current_league_name="", country_data=None):
             try:
@@ -233,14 +233,16 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 team_str = str(team_val).strip().lower()
                 clean_league = str(current_league_name).strip().replace(" ", "").lower()
 
+                # 1. 최우선 방어: K리그 또는 KOR 관련 키워드 검출
                 if "k리그" in clean_league or "kor" in rank_str.upper():
                     for c in grades.get("C", []):
                         if c.get("code") == "KOR" or c.get("country_code") == "KOR":
                             return c.get("grade", "C"), parse_pct(c.get("attack_bonus", "+9%")), parse_pct(c.get("defense_bonus", "-9%"))
                     return "C", 9.0, -9.0
 
+                # 2. 1차 시도: 순위표 rank_str에서 국가/리그 코드 토큰 추출 (예: ITA D1, BRA D1 등)
                 extracted_code = ""
-                if rank_str and rank_str != "-":
+                if rank_str and rank_str != "-" and not rank_str.isdigit():
                     token = re.split(r'[\s\-]+', rank_str)[0].strip().upper()
                     if token and not token.isdigit():
                         extracted_code = token
@@ -254,18 +256,43 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                                 c_ccode = str(c.get("country_code", "")).strip().upper()
                                 leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
                                 if (c_code and c_code == extracted_code) or (c_ccode and c_ccode == extracted_code) or any(extracted_code == l.split()[0] for l in leagues_list if l):
-                                    return c.get("grade", "E"), parse_pct(c.get("attack_bonus", "+3%")), parse_pct(c.get("defense_bonus", "-3%"))
+                                    return c.get("grade", grade_key), parse_pct(c.get("attack_bonus", "+3%")), parse_pct(c.get("defense_bonus", "-3%"))
 
+                # 3. 2차 시도: 리그명 그대로 엄격한 분리 대조 (브라질 vs 이탈리아 세리에 A 명확한 구분)
                 for grade_key, countries in grades.items():
                     if grade_key == "F": continue
                     if isinstance(countries, list):
                         for c in countries:
                             kor_league = str(c.get("league_kor_name", "")).strip().replace(" ", "").lower()
+                            c_code = str(c.get("country_code", "")).strip().upper()
                             c_name = str(c.get("name", "")).strip().lower()
-                            if (kor_league and (kor_league == clean_league or f" {kor_league} " in f" {clean_league} ")) or (c_name and (c_name in clean_league or c_name in team_str)):
-                                return c.get("grade", "E"), parse_pct(c.get("attack_bonus", "+3%")), parse_pct(c.get("defense_bonus", "-3%"))
+                            
+                            # 💡 브라질("세리에 a"가 있더라도 리그명에 명시적으로 브라질이 없으면 브라질 매칭 건너뜀)
+                            if c_code == "BRA" and "브라질" not in clean_league:
+                                continue
+                            # 💡 이탈리아(리그명에 '브라질'이 들어가거나 순수 '세리에'가 아니면 이탈리아 매칭 건너뜀)
+                            if c_code == "ITA" and "브라질" in clean_league:
+                                continue
 
-                return "F", 0.0, 0.0
+                            # 완전 일치 또는 포함 관계 검증
+                            match_kor = kor_league and (kor_league == clean_league or clean_league == kor_league or (len(clean_league) >= 4 and clean_league in kor_league))
+                            match_name = c_name and (c_name in clean_league or c_name in team_str)
+
+                            if match_kor or match_name:
+                                return c.get("grade", grade_key), parse_pct(c.get("attack_bonus", "+3%")), parse_pct(c.get("defense_bonus", "-3%"))
+
+                # 4. 3차 시도: 영문 리그 코드 대조
+                for grade_key, countries in grades.items():
+                    if grade_key == "F": continue
+                    if isinstance(countries, list):
+                        for c in countries:
+                            leagues_list = [str(l).strip().lower() for l in c.get("leagues", [])]
+                            if any(l == clean_league or l in clean_league for l in leagues_list if l):
+                                return c.get("grade", grade_key), parse_pct(c.get("attack_bonus", "+3%")), parse_pct(c.get("defense_bonus", "-3%"))
+
+                # 5. 최종 매칭 실패 시 F등급 폴백 처리
+                f_info = grades.get("F", {})
+                return "F", parse_pct(f_info.get("attack_bonus", "0%")), parse_pct(f_info.get("defense_bonus", "0%"))
             except Exception:
                 return "F", 0.0, 0.0
 
@@ -286,7 +313,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 if not found_home and (clean_home_target == clean_row_team or clean_home_target in clean_row_team or clean_row_team in clean_home_target):
                     h_step0_atk, h_step0_def = atk_val, def_val
                     found_home = True
-                elif not found_away and (clean_away_target == clean_row_team or clean_away_target in clean_row_team or clean_row_team in clean_home_target):
+                elif not found_away and (clean_away_target == clean_row_team or clean_away_target in clean_row_team or clean_row_team in clean_away_target):
                     a_step0_atk, a_step0_def = atk_val, def_val
                     found_away = True
 
