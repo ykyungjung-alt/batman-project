@@ -815,6 +815,12 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk
         a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def
 
+        # 1단계 베이스 득실점 실시간 반영 (외래 딕셔너리 강제 오버라이드 원천 방어)
+        h_base_g = h_base_g if 'h_base_g' in locals() and h_base_g > 0 else 1.2
+        h_base_c = h_base_c if 'h_base_c' in locals() and h_base_c > 0 else 1.1
+        a_base_g = a_base_g if 'a_base_g' in locals() and a_base_g > 0 else 1.1
+        a_base_c = a_base_c if 'a_base_c' in locals() and a_base_c > 0 else 1.2
+
         h_max_g = h_base_g * (1 + h_tot_atk_pct / 100.0)
         h_min_c = h_base_c * (1 + h_tot_def_pct / 100.0)
         a_max_g = a_base_g * (1 + a_tot_atk_pct / 100.0)
@@ -905,7 +911,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 gf = raw_s2 if (not is_team_home and " vs " in teams_str) else raw_s1
                 ga = raw_s1 if (not is_team_home and " vs " in teams_str) else raw_s2
                 
-                # 상대 티어 추출
                 oa, od = 1.3, 1.2
                 tier_info = m.get("opponent_tier_info", "")
                 at_name, df_name = "Tier C", "Tier C"
@@ -947,11 +952,11 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_raw_agf, h_raw_aga, h_app_agf, h_app_aga = compute_52_real_avg_with_rules(home_matched_7, home_name, home_my_at, home_my_de)
         a_raw_agf, a_raw_aga, a_app_agf, a_app_aga = compute_52_real_avg_with_rules(away_matched_7, away_name, away_my_at, away_my_de)
         
-        # 5-2 표의 핵심 결과물: 보정 후 실전 평균 (없을 시 5-1 기대치로 안전 폴백)
-        h_agf = float(target_detail.get("h_agf", h_app_agf if h_app_agf > 0 else h_final_exp_g))
-        h_aga = float(target_detail.get("h_aga", h_app_aga if h_app_aga > 0 else h_final_exp_c))
-        a_agf = float(target_detail.get("a_agf", a_app_agf if a_app_agf > 0 else a_final_exp_g))
-        a_aga = float(target_detail.get("a_aga", a_app_aga if a_app_aga > 0 else a_final_exp_c))
+        # 5-2 표의 핵심 결과물: 보정 후 실전 평균 (순수 내부 연산값 우선 확정)
+        h_agf = h_app_agf if h_app_agf > 0 else h_final_exp_g
+        h_aga = h_app_aga if h_app_aga > 0 else h_final_exp_c
+        a_agf = a_app_agf if a_app_agf > 0 else a_final_exp_g
+        a_aga = a_app_aga if a_app_aga > 0 else a_final_exp_c
 
         # --------------------------------------------------------------------------
         # [최종 람다 결합 파트] 다득점 Over Factor 및 5-1/5-2 최종 융합
