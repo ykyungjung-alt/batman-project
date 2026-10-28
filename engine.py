@@ -222,7 +222,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         rankings_raw = meta_details.get("rankings", [])
         
 # ======================================================================
-        # 🟢 [0단계] Country 등급 및 공격/수비 보정치 산출 (앱 app.py 100% 완벽 동기화 규격)
+        # 🟢 [0단계] Country 등급 및 공격/수비 보정치 산출 (앱 app.py 100% 동기화 규격)
         # ======================================================================
         def load_country_data_for_engine():
             if os.path.exists("country.json"):
@@ -232,14 +232,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 except Exception:
                     pass
             return {}
-
-        def parse_pct_val(val_str):
-            if isinstance(val_str, (int, float)): return float(val_str)
-            if isinstance(val_str, str):
-                cleaned = val_str.replace('%', '').replace('+', '').strip()
-                try: return float(cleaned)
-                except: return 0.0
-            return 0.0
 
         country_data_cache = load_country_data_for_engine()
 
@@ -254,7 +246,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 if "k리그" in clean_league or "kor" in rank_str.upper():
                     for c in grades.get("C", []):
                         if c.get("country_code") == "KOR":
-                            return "KOR", rank_str, "C", c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
+                            return c.get("country_code", "KOR"), rank_str, c.get("grade", "C"), c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
                     return "KOR", rank_str, "C", "+9%", "-9%"
 
                 # 2. 1차 시도: 순위표 rank_str에서 국가/리그 코드 토큰 추출 (예: ITA D1, BRA D1 등)
@@ -272,7 +264,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                                 c_code = str(c.get("country_code", "")).strip().upper()
                                 leagues_list = [str(l).strip().upper() for l in c.get("leagues", [])]
                                 if c_code == extracted_code or any(extracted_code == l.split()[0] for l in leagues_list if l):
-                                    return c.get("country_code", "EXT"), rank_str, c.get("grade", grade_key), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                                    return c.get("country_code", "EXT"), rank_str, c.get("grade", grade_key), c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
 
                 # 3. 2차 시도: 리그명 그대로 엄격한 분리 대조 (브라질 vs 이탈리아 세리에 A 명확한 구분)
                 for grade_key, countries in grades.items():
@@ -291,7 +283,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
                             # 완전 일치 또는 포함 관계 검증
                             if kor_league and (kor_league == clean_league or clean_league == kor_league or (len(clean_league) >= 4 and clean_league in kor_league)):
-                                return c.get("country_code", "EXT"), rank_str, c.get("grade", grade_key), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                                return c.get("country_code", "EXT"), rank_str, c.get("grade", grade_key), c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
 
                 # 4. 3차 시도: 영문 리그 코드 대조
                 for grade_key, countries in grades.items():
@@ -300,7 +292,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                         for c in countries:
                             leagues_list = [str(l).strip().lower() for l in c.get("leagues", [])]
                             if any(l == clean_league or l in clean_league for l in leagues_list if l):
-                                return c.get("country_code", "EXT"), rank_str, c.get("grade", grade_key), c.get("attack_bonus", "+3%"), c.get("defense_bonus", "-3%")
+                                return c.get("country_code", "EXT"), rank_str, c.get("grade", grade_key), c.get("attack_bonus", "+9%"), c.get("defense_bonus", "-9%")
 
                 # 5. 최종 매칭 실패 시 F등급 폴백 처리
                 f_info = grades.get("F", {})
@@ -318,16 +310,23 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         rankings_raw = meta_details_block.get("rankings", [])
         engine_league_name = target_detail.get("head_info", {}).get("league", "") if 'target_detail' in locals() and target_detail else tournament_name
 
+        def parse_pct_engine(val_str):
+            if isinstance(val_str, (int, float)): return float(val_str)
+            if isinstance(val_str, str):
+                cleaned = val_str.replace('%', '').replace('+', '').strip()
+                try: return float(cleaned)
+                except: return 0.0
+            return 0.0
+
         if rankings_raw and isinstance(rankings_raw, list):
             for r in rankings_raw:
                 if not isinstance(r, dict): continue
                 r_team = str(r.get("team", "-"))
                 r_code = str(r.get("rank", ""))
                 
-                # 💡 앱과 동일한 5개 반환값(코드, 순위, 등급, 공/수 보정문자열) 수신 후 퍼센트 파싱
                 _, _, grade, atk_b_str, def_b_str = resolve_country_and_grade(r_code, r_team, engine_league_name)
-                atk_val = parse_pct_val(atk_b_str)
-                def_val = parse_pct_val(def_b_str)
+                atk_val = parse_pct_engine(atk_b_str)
+                def_val = parse_pct_engine(def_b_str)
                 
                 clean_row_team = r_team.strip().replace(" ", "").lower()
                 
