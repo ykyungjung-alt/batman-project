@@ -1,1244 +1,6 @@
 {
-    "last_updated": "2026-10-29 04:19:23",
+    "last_updated": "2026-10-29 07:11:24",
     "match_details": {
-        "2993839": {
-            "match_code": "2993839",
-            "head_info": {
-                "league": "세리에 A",
-                "round": ""
-            },
-            "home": "제노아",
-            "away": "유벤투스",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "제노아",
-                    "home_matches": [
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.25",
-                            "teams": "제노아 vs 베네치아",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어E(2.20)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.17",
-                            "teams": "AS 로마 vs 제노아",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어D(1.30)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.10",
-                            "teams": "제노아 vs 피오렌티나",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.60)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.10.02",
-                            "teams": "FC 래피드 부쿠레슈티 vs 제노아",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어B(0.60)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.20",
-                            "teams": "파르마 vs 제노아",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.70)/방어C(1.20)"
-                        },
-                        {
-                            "league": "ITA Cup",
-                            "match_time": "2026.09.15",
-                            "teams": "제노아 vs 수드티롤",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어A(0.40)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.12",
-                            "teams": "제노아 vs 프로시노네",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(1.00)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.04",
-                            "teams": "제노아 vs 코모",
-                            "ft_scores": [
-                                "1",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(1.20)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.30",
-                            "teams": "라치오 vs 제노아",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.50)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.22",
-                            "teams": "제노아 vs 나폴리",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어C(1.00)"
-                        },
-                        {
-                            "league": "ITA Cup",
-                            "match_time": "2026.08.16",
-                            "teams": "제노아 vs 아스콜리",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "제노아 vs 데포르티보",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어B(0.70)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.04",
-                            "teams": "본머스 vs 제노아",
-                            "ft_scores": [
-                                "10",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어C(1.10)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.01",
-                            "teams": "레스터 vs 제노아",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어C(0.90)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.25",
-                            "teams": "제노아 vs L.R. 비첸자",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어D(1.40)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.19",
-                            "teams": "제노아 vs 트렌토",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.50)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.24",
-                            "teams": "레체 vs 제노아",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어D(1.40)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.17",
-                            "teams": "제노아 vs AC 밀란",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어C(1.20)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.10",
-                            "teams": "피오렌티나 vs 제노아",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.02",
-                            "teams": "아탈란타 vs 제노아",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(1.90)"
-                        }
-                    ],
-                    "away_team_name": "유벤투스",
-                    "away_matches": [
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.25",
-                            "teams": "레체 vs 유벤투스",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어D(1.60)"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.10.22",
-                            "teams": "유벤투스 vs 렌",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.60)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.18",
-                            "teams": "유벤투스 vs 라치오",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어C(1.00)"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.10.15",
-                            "teams": "셀타비고 vs 유벤투스",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어B(0.80)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.11",
-                            "teams": "칼리아리 vs 유벤투스",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어B(0.60)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.10.02",
-                            "teams": "유벤투스 vs 크레모네",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어C(0.90)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.20",
-                            "teams": "유벤투스 vs 아탈란타",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어C(0.90)"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.09.17",
-                            "teams": "유벤투스 vs 네이메헌",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(1.90)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.13",
-                            "teams": "사수올로 vs 유벤투스",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어D(1.60)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.06",
-                            "teams": "유벤투스 vs AC 밀란",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어E(1.70)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.29",
-                            "teams": "유벤투스 vs 파르마",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어C(1.10)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.23",
-                            "teams": "프로시노네 vs 유벤투스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어B(0.70)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.11",
-                            "teams": "유벤투스 vs 팔레르모",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.50)/방어C(1.10)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "유벤투스 vs 인터밀란",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어C(1.10)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.05",
-                            "teams": "첼시 vs 유벤투스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(1.80)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.31",
-                            "teams": "유벤투스 vs 니스",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어B(0.80)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.25",
-                            "teams": "St. 리에주 vs 유벤투스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어B(0.70)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.18",
-                            "teams": "바젤 vs 유벤투스",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(2.40)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.24",
-                            "teams": "토리노 vs 유벤투스",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어D(1.40)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.17",
-                            "teams": "유벤투스 vs 피오렌티나",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어C(1.10)"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "제노아",
-                    "home_matches": [
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.25",
-                            "teams": "제노아 vs 베네치아",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어E(2.20)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.10",
-                            "teams": "제노아 vs 피오렌티나",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.60)"
-                        },
-                        {
-                            "league": "ITA Cup",
-                            "match_time": "2026.09.15",
-                            "teams": "제노아 vs 수드티롤",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어A(0.40)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.12",
-                            "teams": "제노아 vs 프로시노네",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(1.00)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.04",
-                            "teams": "제노아 vs 코모",
-                            "ft_scores": [
-                                "1",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(1.20)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.22",
-                            "teams": "제노아 vs 나폴리",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어C(1.00)"
-                        },
-                        {
-                            "league": "ITA Cup",
-                            "match_time": "2026.08.16",
-                            "teams": "제노아 vs 아스콜리",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "제노아 vs 데포르티보",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어B(0.70)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.25",
-                            "teams": "제노아 vs L.R. 비첸자",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어D(1.40)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.19",
-                            "teams": "제노아 vs 트렌토",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.50)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.17",
-                            "teams": "제노아 vs AC 밀란",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어C(1.20)"
-                        }
-                    ],
-                    "away_team_name": "유벤투스",
-                    "away_matches": [
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.25",
-                            "teams": "레체 vs 유벤투스",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어D(1.60)"
-                        },
-                        {
-                            "league": "UEFA EL",
-                            "match_time": "2026.10.15",
-                            "teams": "셀타비고 vs 유벤투스",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어B(0.80)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.11",
-                            "teams": "칼리아리 vs 유벤투스",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어B(0.60)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.13",
-                            "teams": "사수올로 vs 유벤투스",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어D(1.60)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.23",
-                            "teams": "프로시노네 vs 유벤투스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어B(0.70)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.05",
-                            "teams": "첼시 vs 유벤투스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(1.80)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.25",
-                            "teams": "St. 리에주 vs 유벤투스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어B(0.70)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.18",
-                            "teams": "바젤 vs 유벤투스",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(2.40)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.24",
-                            "teams": "토리노 vs 유벤투스",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어D(1.40)"
-                        }
-                    ]
-                }
-            }
-        },
-        "2993840": {
-            "match_code": "2993840",
-            "head_info": {
-                "league": "세리에 A",
-                "round": ""
-            },
-            "home": "몬차",
-            "away": "나폴리",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "몬차",
-                    "home_matches": [
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.23",
-                            "teams": "토리노 vs 몬차",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.19",
-                            "teams": "몬차 vs 칼리아리",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어B(0.70)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.11",
-                            "teams": "라치오 vs 몬차",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어C(0.90)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.10.03",
-                            "teams": "브레스트 vs 몬차",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(1.80)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.09.26",
-                            "teams": "몬차 vs 크레모네",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.80)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.18",
-                            "teams": "몬차 vs 사수올로",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어E(1.70)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.13",
-                            "teams": "레체 vs 몬차",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.06",
-                            "teams": "파르마 vs 몬차",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.70)/방어D(1.30)"
-                        },
-                        {
-                            "league": "ITA Cup",
-                            "match_time": "2026.09.01",
-                            "teams": "토리노 vs 몬차",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.29",
-                            "teams": "몬차 vs 우디네세",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어C(1.20)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.22",
-                            "teams": "인터밀란 vs 몬차",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어B(0.80)"
-                        },
-                        {
-                            "league": "ITA Cup",
-                            "match_time": "2026.08.14",
-                            "teams": "몬차 vs 아벨리노",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(4.20)/방어D(1.30)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.07",
-                            "teams": "몬차 vs 파도바",
-                            "ft_scores": [
-                                "3",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어D(1.40)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.04",
-                            "teams": "몬차 vs AC 밀란 U23",
-                            "ft_scores": [
-                                "4",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어C(0.90)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.30",
-                            "teams": "몬차 vs 아리스",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어B(0.70)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.24",
-                            "teams": "갈라타사라이 vs 몬차",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어D(1.50)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.18",
-                            "teams": "몬차 vs 프로 베르첼리",
-                            "ft_scores": [
-                                "4",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어D(1.60)"
-                        },
-                        {
-                            "league": "ITA D2",
-                            "match_time": "2026.05.29",
-                            "teams": "몬차 vs 카탄자로",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어D(1.60)"
-                        },
-                        {
-                            "league": "ITA D2",
-                            "match_time": "2026.05.24",
-                            "teams": "카탄자로 vs 몬차",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어D(1.50)"
-                        },
-                        {
-                            "league": "ITA D2",
-                            "match_time": "2026.05.19",
-                            "teams": "몬차 vs 유베스타비아",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어C(1.20)"
-                        }
-                    ],
-                    "away_team_name": "나폴리",
-                    "away_matches": [
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.24",
-                            "teams": "나폴리 vs AS 로마",
-                            "ft_scores": [
-                                "3",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어B(0.80)"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.20",
-                            "teams": "나폴리 vs 보되",
-                            "ft_scores": [
-                                "4",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격A(2.70)/방어D(1.50)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.17",
-                            "teams": "베네치아 vs 나폴리",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(2.60)"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.13",
-                            "teams": "비야레알 vs 나폴리",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어E(1.70)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.10",
-                            "teams": "나폴리 vs 프로시노네",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어C(1.10)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.20",
-                            "teams": "피오렌티나 vs 나폴리",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어E(1.80)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.13",
-                            "teams": "나폴리 vs 볼로냐",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어D(1.60)"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.09",
-                            "teams": "나폴리 vs 아스널",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어C(1.10)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.05",
-                            "teams": "인터밀란 vs 나폴리",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어C(0.90)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.30",
-                            "teams": "나폴리 vs 코모",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어C(1.10)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.22",
-                            "teams": "제노아 vs 나폴리",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어C(1.00)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.12",
-                            "teams": "나폴리 vs 아리스",
-                            "ft_scores": [
-                                "6",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.70)/방어C(0.90)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "나폴리 vs 셀타비고",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어C(1.20)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.05",
-                            "teams": "나폴리 vs 오사수나",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어D(1.40)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.26",
-                            "teams": "나폴리 vs 카라네세",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.22",
-                            "teams": "나폴리 vs 아레초",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어C(1.10)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.24",
-                            "teams": "나폴리 vs 우디네세",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.17",
-                            "teams": "피사 vs 나폴리",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.50)/방어E(2.30)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.11",
-                            "teams": "나폴리 vs 볼로냐",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어E(1.70)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.02",
-                            "teams": "코모 vs 나폴리",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "몬차",
-                    "home_matches": [
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.19",
-                            "teams": "몬차 vs 칼리아리",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어B(0.70)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.09.26",
-                            "teams": "몬차 vs 크레모네",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.80)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.18",
-                            "teams": "몬차 vs 사수올로",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어E(1.70)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.29",
-                            "teams": "몬차 vs 우디네세",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어C(1.20)"
-                        },
-                        {
-                            "league": "ITA Cup",
-                            "match_time": "2026.08.14",
-                            "teams": "몬차 vs 아벨리노",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(4.20)/방어D(1.30)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.07",
-                            "teams": "몬차 vs 파도바",
-                            "ft_scores": [
-                                "3",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어D(1.40)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.04",
-                            "teams": "몬차 vs AC 밀란 U23",
-                            "ft_scores": [
-                                "4",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어C(0.90)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.30",
-                            "teams": "몬차 vs 아리스",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어B(0.70)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.18",
-                            "teams": "몬차 vs 프로 베르첼리",
-                            "ft_scores": [
-                                "4",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어D(1.60)"
-                        },
-                        {
-                            "league": "ITA D2",
-                            "match_time": "2026.05.29",
-                            "teams": "몬차 vs 카탄자로",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어D(1.60)"
-                        },
-                        {
-                            "league": "ITA D2",
-                            "match_time": "2026.05.19",
-                            "teams": "몬차 vs 유베스타비아",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어C(1.20)"
-                        }
-                    ],
-                    "away_team_name": "나폴리",
-                    "away_matches": [
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.10.17",
-                            "teams": "베네치아 vs 나폴리",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(2.60)"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.13",
-                            "teams": "비야레알 vs 나폴리",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어E(1.70)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.20",
-                            "teams": "피오렌티나 vs 나폴리",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어E(1.80)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.09.05",
-                            "teams": "인터밀란 vs 나폴리",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어C(0.90)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.08.22",
-                            "teams": "제노아 vs 나폴리",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어C(1.00)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.17",
-                            "teams": "피사 vs 나폴리",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.50)/방어E(2.30)"
-                        },
-                        {
-                            "league": "ITA D1",
-                            "match_time": "2026.05.02",
-                            "teams": "코모 vs 나폴리",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
-                        }
-                    ]
-                }
-            }
-        },
         "3069050": {
             "match_code": "3069050",
             "head_info": {
@@ -5034,7 +3796,7 @@
                                 "3",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격B(1.90)/방어C(1.10)"
+                            "opponent_tier_info": "공격B(1.80)/방어C(1.10)"
                         },
                         {
                             "league": "INT CF",
@@ -5064,7 +3826,7 @@
                                 "1",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(1.00)"
+                            "opponent_tier_info": "공격C(1.20)/방어E(2.30)"
                         },
                         {
                             "league": "ITA D1",
@@ -5104,7 +3866,7 @@
                                 "0",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격B(2.10)/방어B(0.70)"
+                            "opponent_tier_info": "공격C(1.10)/방어B(0.70)"
                         },
                         {
                             "league": "ITA Cup",
@@ -5217,7 +3979,7 @@
                                 "0",
                                 "2"
                             ],
-                            "opponent_tier_info": "공격C(1.50)/방어D(1.60)"
+                            "opponent_tier_info": "공격B(1.70)/방어C(1.20)"
                         },
                         {
                             "league": "ITA D1",
@@ -5257,7 +4019,7 @@
                                 "3",
                                 "2"
                             ],
-                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
+                            "opponent_tier_info": "공격B(2.20)/방어E(1.90)"
                         },
                         {
                             "league": "ITA D1",
@@ -5357,7 +4119,7 @@
                                 "1",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격D(0.90)/방어D(1.40)"
+                            "opponent_tier_info": "공격D(0.90)/방어C(1.10)"
                         },
                         {
                             "league": "ITA D1",
@@ -5463,7 +4225,7 @@
                                 "0",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격B(2.10)/방어B(0.70)"
+                            "opponent_tier_info": "공격C(1.10)/방어B(0.70)"
                         },
                         {
                             "league": "ITA Cup",
@@ -5637,6 +4399,635 @@
                                 "0"
                             ],
                             "opponent_tier_info": "공격D(0.50)/방어D(1.50)"
+                        }
+                    ]
+                }
+            }
+        },
+        "2993837": {
+            "match_code": "2993837",
+            "head_info": {
+                "league": "세리에 A",
+                "round": ""
+            },
+            "home": "피오렌티나",
+            "away": "아탈란타",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "피오렌티나",
+                    "home_matches": [
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.10.25",
+                            "teams": "인터밀란 vs 피오렌티나",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어D(1.40)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.10.18",
+                            "teams": "피오렌티나 vs 코모",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.10.10",
+                            "teams": "제노아 vs 피오렌티나",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(2.40)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.20",
+                            "teams": "피오렌티나 vs 나폴리",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ITA Cup",
+                            "match_time": "2026.09.15",
+                            "teams": "피오렌티나 vs 피사",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어D(1.50)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.11",
+                            "teams": "베네치아 vs 피오렌티나",
+                            "ft_scores": [
+                                "2",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어E(1.90)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.05",
+                            "teams": "피오렌티나 vs 토리노",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.00)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.08.29",
+                            "teams": "피오렌티나 vs 프로시노네",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.08.24",
+                            "teams": "AS 로마 vs 피오렌티나",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어D(1.50)"
+                        },
+                        {
+                            "league": "ITA Cup",
+                            "match_time": "2026.08.14",
+                            "teams": "피오렌티나 vs 베네벤토",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어C(1.10)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.06",
+                            "teams": "피오렌티나 vs 데포르티보",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.70)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.01",
+                            "teams": "레알 마드리드 vs 피오렌티나",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.29",
+                            "teams": "왓포드 vs 피오렌티나",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어E(2.30)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.25",
+                            "teams": "QPR vs 피오렌티나",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.30)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.22",
+                            "teams": "피오렌티나 vs 구비오",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.40)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.19",
+                            "teams": "피오렌티나 vs 피오렌티나 U20",
+                            "ft_scores": [
+                                "8",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.22",
+                            "teams": "피오렌티나 vs 아탈란타",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.17",
+                            "teams": "유벤투스 vs 피오렌티나",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.50)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.10",
+                            "teams": "피오렌티나 vs 제노아",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.10)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.04",
+                            "teams": "AS 로마 vs 피오렌티나",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어E(1.70)"
+                        }
+                    ],
+                    "away_team_name": "아탈란타",
+                    "away_matches": [
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.10.25",
+                            "teams": "아탈란타 vs 프로시노네",
+                            "ft_scores": [
+                                "4",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어D(1.40)"
+                        },
+                        {
+                            "league": "UEFA ECL",
+                            "match_time": "2026.10.22",
+                            "teams": "아약스 vs 아탈란타",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(3.30)/방어E(1.70)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.10.18",
+                            "teams": "AC 밀란 vs 아탈란타",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.20)"
+                        },
+                        {
+                            "league": "UEFA ECL",
+                            "match_time": "2026.10.15",
+                            "teams": "아탈란타 vs 파포스",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(1.00)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.10.12",
+                            "teams": "아탈란타 vs 베네치아",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어E(2.30)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.20",
+                            "teams": "유벤투스 vs 아탈란타",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어B(0.60)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.12",
+                            "teams": "아탈란타 vs 칼리아리",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어B(0.60)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.05",
+                            "teams": "AS 로마 vs 아탈란타",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어D(1.50)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.08.31",
+                            "teams": "아탈란타 vs 볼로냐",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어D(1.60)"
+                        },
+                        {
+                            "league": "UEFA ECL",
+                            "match_time": "2026.08.27",
+                            "teams": "하포엘 텔 아비브 vs 아탈란타",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.08.23",
+                            "teams": "아탈란타 vs 사수올로",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(3.50)/방어E(1.70)"
+                        },
+                        {
+                            "league": "UEFA ECL",
+                            "match_time": "2026.08.20",
+                            "teams": "아탈란타 vs 하포엘 텔 아비브",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(1.10)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.14",
+                            "teams": "아탈란타 vs 아틀레틱 빌바오",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.80)/방어C(1.20)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.08",
+                            "teams": "샬케 vs 아탈란타",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어C(1.10)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.02",
+                            "teams": "페예노르트 vs 아탈란타",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어B(0.70)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.26",
+                            "teams": "아탈란타 vs 아레초",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.22",
+                            "teams": "피오렌티나 vs 아탈란타",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.17",
+                            "teams": "아탈란타 vs 볼로냐",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어E(1.90)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.10",
+                            "teams": "AC 밀란 vs 아탈란타",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어C(1.00)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.02",
+                            "teams": "아탈란타 vs 제노아",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.10)"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "피오렌티나",
+                    "home_matches": [
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.10.18",
+                            "teams": "피오렌티나 vs 코모",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.20",
+                            "teams": "피오렌티나 vs 나폴리",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ITA Cup",
+                            "match_time": "2026.09.15",
+                            "teams": "피오렌티나 vs 피사",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어D(1.50)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.05",
+                            "teams": "피오렌티나 vs 토리노",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.00)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.08.29",
+                            "teams": "피오렌티나 vs 프로시노네",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ITA Cup",
+                            "match_time": "2026.08.14",
+                            "teams": "피오렌티나 vs 베네벤토",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어C(1.10)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.06",
+                            "teams": "피오렌티나 vs 데포르티보",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.70)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.22",
+                            "teams": "피오렌티나 vs 구비오",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.40)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.19",
+                            "teams": "피오렌티나 vs 피오렌티나 U20",
+                            "ft_scores": [
+                                "8",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.22",
+                            "teams": "피오렌티나 vs 아탈란타",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.10",
+                            "teams": "피오렌티나 vs 제노아",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.10)"
+                        }
+                    ],
+                    "away_team_name": "아탈란타",
+                    "away_matches": [
+                        {
+                            "league": "UEFA ECL",
+                            "match_time": "2026.10.22",
+                            "teams": "아약스 vs 아탈란타",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(3.30)/방어E(1.70)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.10.18",
+                            "teams": "AC 밀란 vs 아탈란타",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.20",
+                            "teams": "유벤투스 vs 아탈란타",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어B(0.60)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.09.05",
+                            "teams": "AS 로마 vs 아탈란타",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어D(1.50)"
+                        },
+                        {
+                            "league": "UEFA ECL",
+                            "match_time": "2026.08.27",
+                            "teams": "하포엘 텔 아비브 vs 아탈란타",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.08",
+                            "teams": "샬케 vs 아탈란타",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어C(1.10)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.02",
+                            "teams": "페예노르트 vs 아탈란타",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어B(0.70)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.22",
+                            "teams": "피오렌티나 vs 아탈란타",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ITA D1",
+                            "match_time": "2026.05.10",
+                            "teams": "AC 밀란 vs 아탈란타",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어C(1.00)"
                         }
                     ]
                 }
@@ -8742,6 +8133,695 @@
                                 "0"
                             ],
                             "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
+                        }
+                    ]
+                }
+            }
+        },
+        "3107653": {
+            "match_code": "3107653",
+            "head_info": {
+                "league": "리그 1",
+                "round": ""
+            },
+            "home": "누아디부",
+            "away": "SNIM",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "누아디부",
+                    "home_matches": [
+                        {
+                            "league": "CAF CL",
+                            "match_time": "2026.10.25",
+                            "teams": "누아디부 vs 산 페드로",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
+                        },
+                        {
+                            "league": "CAF CL",
+                            "match_time": "2026.10.17",
+                            "teams": "산 페드로 vs 누아디부",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어B(0.60)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.10.10",
+                            "teams": "누아디부 vs Nouakchott Academy",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어B(0.50)"
+                        },
+                        {
+                            "league": "CAF CL",
+                            "match_time": "2026.09.13",
+                            "teams": "누아디부 vs 바이퍼스",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.60)"
+                        },
+                        {
+                            "league": "CAF CL",
+                            "match_time": "2026.09.05",
+                            "teams": "바이퍼스 vs 누아디부",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어B(0.50)"
+                        },
+                        {
+                            "league": "Mauritania Cup",
+                            "match_time": "2026.06.13",
+                            "teams": "누아디부 vs 폼피어",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어B(0.70)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.23",
+                            "teams": "누아디부 vs 인터 누악쇼트",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(1.90)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.17",
+                            "teams": "누악쇼트 킹스 vs 누아디부",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어B(0.50)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.10",
+                            "teams": "누아디부 vs ASC Police",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어D(1.30)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.04.25",
+                            "teams": "카에디 vs 누아디부",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어C(1.10)"
+                        },
+                        {
+                            "league": "Mauritania Cup",
+                            "match_time": "2026.04.19",
+                            "teams": "누아디부 vs 카에디",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어C(1.10)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.04.10",
+                            "teams": "누아디부 vs 크사르",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.60)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.04.04",
+                            "teams": "Nzeidane vs 누아디부",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.50)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.03.15",
+                            "teams": "누아디부 vs 겐드림",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.60)/방어C(0.90)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.03.02",
+                            "teams": "누아디부 vs 테브라-제이나",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(1.10)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.02.15",
+                            "teams": "누아디부 vs 체말",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(1.20)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.02.10",
+                            "teams": "Nouakchott Academy vs 누아디부",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(0.90)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.01.31",
+                            "teams": "누아디부 vs SNIM",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.50)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.01.27",
+                            "teams": "폼피어 vs 누아디부",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어C(0.90)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.01.20",
+                            "teams": "누아디부 vs 카에디",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.60)"
+                        }
+                    ],
+                    "away_team_name": "SNIM",
+                    "away_matches": [
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.10.11",
+                            "teams": "누악쇼트 킹스 vs SNIM",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어C(1.20)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.24",
+                            "teams": "Nouakchott Academy vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어B(0.50)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.20",
+                            "teams": "테브라-제이나 vs SNIM",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어C(1.10)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.11",
+                            "teams": "SNIM vs 폼피어",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.30)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.06",
+                            "teams": "인터 누악쇼트 vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어E(1.70)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.04.24",
+                            "teams": "SNIM vs Nzeidane",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어D(1.40)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.04.11",
+                            "teams": "SNIM vs 누악쇼트 킹스",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.20)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.04.04",
+                            "teams": "ASC Police vs SNIM",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.20)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.03.08",
+                            "teams": "크사르 vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어E(2.00)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.02.16",
+                            "teams": "겐드림 vs SNIM",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어C(1.00)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.01.31",
+                            "teams": "누아디부 vs SNIM",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.50)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2025.12.29",
+                            "teams": "폼피어 vs SNIM",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어B(0.80)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2025.12.16",
+                            "teams": "누악쇼트 킹스 vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어D(1.60)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2025.12.11",
+                            "teams": "SNIM vs 누아디부",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어B(0.50)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2025.12.06",
+                            "teams": "SNIM vs ASC Police",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어C(0.90)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2025.12.02",
+                            "teams": "드완 vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어E(1.70)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2025.11.01",
+                            "teams": "SNIM vs 겐드림",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.00)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2025.10.03",
+                            "teams": "체말 vs SNIM",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어B(0.60)"
+                        },
+                        {
+                            "league": "CAF Cup",
+                            "match_time": "2025.09.27",
+                            "teams": "SNIM vs 스타드 튀니시엔",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어A(0.30)"
+                        },
+                        {
+                            "league": "CAF Cup",
+                            "match_time": "2025.09.20",
+                            "teams": "스타드 튀니시엔 vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어B(0.80)"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "누아디부",
+                    "home_matches": [
+                        {
+                            "league": "CAF CL",
+                            "match_time": "2026.10.25",
+                            "teams": "누아디부 vs 산 페드로",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.10.10",
+                            "teams": "누아디부 vs Nouakchott Academy",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어B(0.50)"
+                        },
+                        {
+                            "league": "CAF CL",
+                            "match_time": "2026.09.13",
+                            "teams": "누아디부 vs 바이퍼스",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.60)"
+                        },
+                        {
+                            "league": "Mauritania Cup",
+                            "match_time": "2026.06.13",
+                            "teams": "누아디부 vs 폼피어",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어B(0.70)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.23",
+                            "teams": "누아디부 vs 인터 누악쇼트",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(1.90)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.10",
+                            "teams": "누아디부 vs ASC Police",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어D(1.30)"
+                        },
+                        {
+                            "league": "Mauritania Cup",
+                            "match_time": "2026.04.19",
+                            "teams": "누아디부 vs 카에디",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어C(1.10)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.04.10",
+                            "teams": "누아디부 vs 크사르",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.60)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.03.15",
+                            "teams": "누아디부 vs 겐드림",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.60)/방어C(0.90)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.03.02",
+                            "teams": "누아디부 vs 테브라-제이나",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(1.10)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.02.15",
+                            "teams": "누아디부 vs 체말",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(1.20)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.01.31",
+                            "teams": "누아디부 vs SNIM",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.50)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.01.20",
+                            "teams": "누아디부 vs 카에디",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.60)"
+                        }
+                    ],
+                    "away_team_name": "SNIM",
+                    "away_matches": [
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.10.11",
+                            "teams": "누악쇼트 킹스 vs SNIM",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어C(1.20)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.24",
+                            "teams": "Nouakchott Academy vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어B(0.50)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.20",
+                            "teams": "테브라-제이나 vs SNIM",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어C(1.10)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.05.06",
+                            "teams": "인터 누악쇼트 vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어E(1.70)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.04.04",
+                            "teams": "ASC Police vs SNIM",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.20)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.03.08",
+                            "teams": "크사르 vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어E(2.00)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.02.16",
+                            "teams": "겐드림 vs SNIM",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어C(1.00)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2026.01.31",
+                            "teams": "누아디부 vs SNIM",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.50)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2025.12.29",
+                            "teams": "폼피어 vs SNIM",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어B(0.80)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2025.12.16",
+                            "teams": "누악쇼트 킹스 vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어D(1.60)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2025.12.02",
+                            "teams": "드완 vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어E(1.70)"
+                        },
+                        {
+                            "league": "MAU D1",
+                            "match_time": "2025.10.03",
+                            "teams": "체말 vs SNIM",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어B(0.60)"
+                        },
+                        {
+                            "league": "CAF Cup",
+                            "match_time": "2025.09.20",
+                            "teams": "스타드 튀니시엔 vs SNIM",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어B(0.80)"
                         }
                     ]
                 }
