@@ -241,10 +241,11 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 except: return 0.0
             return 0.0
 
+# 💡 [국가 및 등급 정밀 대조 함수 - 이탈리아 세리에 A와 브라질 세리에 A 완벽 분리 규격]
         def resolve_country_and_grade(rank_val, team_val, current_league_name="", country_data=None):
             try:
                 if not country_data:
-                    country_data = load_country_data_for_engine()
+                    country_data = load_country_data() if 'load_country_data' in globals() else {}
                 grades = country_data.get("grades", {})
                 rank_str = str(rank_val).strip()
                 team_str = str(team_val).strip().lower()
@@ -312,7 +313,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 return "F", parse_pct(f_info.get("attack_bonus", "0%")), parse_pct(f_info.get("defense_bonus", "0%"))
             except Exception:
                 return "F", 0.0, 0.0
-
+      
         h_step0_atk, h_step0_def = 0.0, 0.0
         a_step0_atk, a_step0_def = 0.0, 0.0
         clean_home_target = str(home_name).strip().replace(" ", "").lower()
