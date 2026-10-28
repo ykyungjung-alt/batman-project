@@ -222,8 +222,25 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         rankings_raw = meta_details.get("rankings", [])
         
 # ======================================================================
-        # 🟢 [0단계] Country 등급 및 공격/수비 보정치 산출 (앱 연동 완벽 일치 규격)
+        # 🟢 [0단계] Country 등급 및 공격/수비 보정치 산출 (앱 app.py 완벽 동기화 규격)
         # ======================================================================
+        def load_country_data_for_engine():
+            if os.path.exists("country.json"):
+                try:
+                    with open("country.json", "r", encoding="utf-8") as f:
+                        return json.load(f)
+                except Exception:
+                    pass
+            return {}
+
+        def parse_pct(val_str):
+            if isinstance(val_str, (int, float)): return float(val_str)
+            if isinstance(val_str, str):
+                cleaned = val_str.replace('%', '').replace('+', '').strip()
+                try: return float(cleaned)
+                except: return 0.0
+            return 0.0
+
         def resolve_country_and_grade(rank_val, team_val, current_league_name="", country_data=None):
             try:
                 if not country_data:
@@ -301,6 +318,9 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         clean_home_target = str(home_name).strip().replace(" ", "").lower()
         clean_away_target = str(away_name).strip().replace(" ", "").lower()
         found_home = found_away = False
+
+        rankings_raw = target_detail.get("meta_details", {}).get("rankings", [])
+        league_name = target_detail.get("head_info", {}).get("league", "")
 
         if rankings_raw and isinstance(rankings_raw, list):
             for r in rankings_raw:
