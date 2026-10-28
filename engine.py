@@ -469,7 +469,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         a_r1_def = parse_pct(a_dew_str) if 'parse_pct' in globals() else -6.0
 
 # ======================================================================
-        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (홈/원정 변수 매핑 완벽 교정)
+        # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (앱 app.py 100% 독립 동기화)
         # ======================================================================
         head_info = target_detail.get("head_info", {})
         venue_val = str(head_info.get("stadium", "")) or str(head_info.get("venue", ""))
@@ -585,7 +585,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
 
         tier_ranks = {"Tier A": 5, "Tier B": 4, "Tier C": 3, "Tier D": 2, "Tier E": 1}
         
-        # 정방향 Shift 보정치 산출 함수 (수비 상향 시 -15%, 하향 시 +15%)
+        # 💡 [앱 app.py 100% 일치] get_shift_correction_v3 정방향 규격 완벽 이식
         def get_shift_correction_engine_v3(base_tier, stadium_tier, is_attack=True):
             b_val = tier_ranks.get(base_tier, 3)
             s_val = tier_ranks.get(stadium_tier, 3)
@@ -595,21 +595,22 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 elif s_val < b_val: return -15.0    # 공격 하향 (-15%)
                 return 0.0
             else:
-                if s_val > b_val: return -15.0      # 수비 상향/실점 감소 (-15%)
-                elif s_val < b_val: return 15.0     # 수비 하향/실점 증가 (+15%)
+                # 방어: 수비 강화/실점 감소 (s_val > b_val) 이면 -15%, 수비 약화/실점 증가 (s_val < b_val) 이면 +15%
+                if s_val > b_val: return -15.0
+                elif s_val < b_val: return 15.0
                 return 0.0
 
-        base_h_at = base_h_at if 'base_h_at' in locals() else "Tier C"
-        base_h_de = base_h_de if 'base_h_de' in locals() else "Tier C"
-        base_a_at = base_a_at if 'base_a_at' in locals() else "Tier C"
-        base_a_de = base_a_de if 'base_a_de' in locals() else "Tier C"
+        # 1단계 종합 체급 안전 확보 (없을 시 기본 Tier C)
+        base_h_at = h_at if 'h_at' in locals() else ("base_h_at" if 'base_h_at' in locals() else "Tier C")
+        base_h_de = h_de if 'h_de' in locals() else ("base_h_de" if 'base_h_de' in locals() else "Tier C")
+        base_a_at = a_at if 'a_at' in locals() else ("base_a_at" if 'base_a_at' in locals() else "Tier C")
+        base_a_de = a_de if 'a_de' in locals() else ("base_a_de" if 'base_a_de' in locals() else "Tier C")
 
-        # 💡 [핵심 교정] 홈팀은 홈팀(s_h) 결과로, 원정팀은 원정팀(s_a) 결과로 정확히 독립 매핑
+        # 💡 [완벽한 홈/원정 독립 매핑] 뒤바뀜 원천 방어
         h_r2_atk = get_shift_correction_engine_v3(base_h_at, s_h_at, is_attack=True)
         h_r2_def = get_shift_correction_engine_v3(base_h_de, s_h_de, is_attack=False)
         a_r2_atk = get_shift_correction_engine_v3(base_a_at, s_a_at, is_attack=True)
         a_r2_def = get_shift_correction_engine_v3(base_a_de, s_a_de, is_attack=False)
-
 # ======================================================================
         # 🟢 [규칙 3단계 통합] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 정밀 연산 브릿지
         # ======================================================================
