@@ -587,14 +587,15 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                 elif s_v < b_v: return -15.0
                 return 0.0
             else:
-                if s_v < b_v: return -15.0
-                elif s_v > b_v: return 15.0
+                # 💡 방어 보정 부호 교정: 구장 체급이 높을 때(s_v > b_v) 수비 상향/실점 감소이므로 마이너스(-) 보정
+                if s_v > b_v: return -15.0
+                elif s_v < b_v: return 15.0
                 return 0.0
 
         h_r2_atk = calc_shift(base_h_at, s_h_at, True)
         h_r2_def = calc_shift(base_h_de, s_h_de, False)
         a_r2_atk = calc_shift(base_a_at, s_a_at, True)
-        a_r2_def = calc_shift(base_a_de, s_a_de, False) 
+        a_r2_def = calc_shift(base_a_de, s_a_de, False)
         
         # ======================================================================
         # 🟢 [규칙 3단계 통합] 선수 전력 누수(3-1) 및 일정 중요도·피로도(3-2) 정밀 연산 브릿지
