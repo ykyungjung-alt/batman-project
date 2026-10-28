@@ -318,7 +318,7 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     found_away = True
 
 # ======================================================================
-        # 🟢 [1단계] LIFO 최근 경기 득실 산출 및 기본 기대치 실시간 연동 (UI 완벽 일치 교정)
+        # 🟢 [1단계] LIFO 최근 경기 득실 산출 및 기본 기대치 실시간 연동 (앱 100% 일치 규격)
         # ======================================================================
         recent_form = meta_details.get("recent_form", {})
         raw_h_matches = recent_form.get("home_matches", [])
@@ -339,16 +339,15 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_sum = recent_form.get("home_summary", {})
         a_sum = recent_form.get("away_summary", {})
         
-        # UI와 동일한 키 체인 우선 적용 후, 0 이하일 경우 10경기 풀 직접 연산값으로 폴백
         h_gpg_base = round(float(h_sum.get("goals_per_game", h_sum.get("gpg", target_detail.get("h_gpg", 0)))), 2)
         h_cpg_base = round(float(h_sum.get("conceded_per_game", h_sum.get("cpg", target_detail.get("h_cpg", 0)))), 2)
         a_gpg_base = round(float(a_sum.get("goals_per_game", a_sum.get("gpg", target_detail.get("a_gpg", 0)))), 2)
         a_cpg_base = round(float(a_sum.get("conceded_per_game", a_sum.get("cpg", target_detail.get("a_cpg", 0)))), 2)
 
-        # 💡 만약 요약 데이터가 비어있거나 0이라면 실제 h_matches / a_matches 배열을 직접 집계하여 GPG/CPG 산출
         def compute_direct_gpg_cpg(matches, tname):
-            if not matches or not isinstance(matches, list): return 0.0, 0.0
+            if not matches or not isinstance(matches, list): return 0.0, 0.0, 0.0, 0.0
             tot_sc, tot_cc = 0.0, 0.0
+            raw_s, raw_c = 0.0, 0.0
             cnt = len(matches)
             for m in matches:
                 if not isinstance(m, dict): continue
@@ -362,42 +361,43 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
                     if len(pair) == 2:
                         if tname in pair[0]: sc, cc = s1, s2
                         elif tname in pair[2] if len(pair) > 2 else tname in pair[1]: sc, cc = s2, s1
-                tot_sc += sc
-                tot_cc += cc
-            return (tot_sc / cnt if cnt > 0 else 1.2), (tot_cc / cnt if cnt > 0 else 1.1)
+                raw_s += sc
+                raw_c += cc
+            p_gpg = raw_s / cnt if cnt > 0 else 1.2
+            p_cpg = raw_c / cnt if cnt > 0 else 1.1
+            return p_gpg, p_cpg, raw_s, raw_c
 
-        if h_gpg_base <= 0 or h_cpg_base <= 0:
-            dir_hg, dir_hc = compute_direct_gpg_cpg(h_matches, home_name)
-            if h_gpg_base <= 0: h_gpg_base = round(dir_hg, 2)
-            if h_cpg_base <= 0: h_cpg_base = round(dir_hc, 2)
+        # 1. 순수 원본 평균 득실 우선 산출 (앱의 h_pure_gpg와 완벽 대응)
+        dir_hg, dir_hc, h_raw_s, h_raw_c = compute_direct_gpg_cpg(h_matches, home_name)
+        dir_ag, dir_ac, a_raw_s, a_raw_c = compute_direct_gpg_cpg(a_matches, away_name)
 
-        if a_gpg_base <= 0 or a_cpg_base <= 0:
-            dir_ag, dir_ac = compute_direct_gpg_cpg(a_matches, away_name)
-            if a_gpg_base <= 0: a_gpg_base = round(dir_ag, 2)
-            if a_cpg_base <= 0: a_cpg_base = round(dir_ac, 2)
+        h_pure_gpg = round(h_raw_s / len(h_matches), 2) if h_matches else (h_gpg_base if h_gpg_base > 0 else dir_hg)
+        h_pure_cpg = round(h_raw_c / len(h_matches), 2) if h_matches else (h_cpg_base if h_cpg_base > 0 else dir_hc)
+        a_pure_gpg = round(a_raw_s / len(a_matches), 2) if a_matches else (a_gpg_base if a_gpg_base > 0 else dir_ag)
+        a_pure_cpg = round(a_raw_c / len(a_matches), 2) if a_matches else (a_cpg_base if a_cpg_base > 0 else dir_ac)
 
-        # 최후의 안전 방어
-        if h_gpg_base <= 0: h_gpg_base = 1.2
-        if h_cpg_base <= 0: h_cpg_base = 1.1
-        if a_gpg_base <= 0: a_gpg_base = 1.1
-        if a_cpg_base <= 0: a_cpg_base = 1.2
+        # 2. 특수룰 발동 기준 1차 원본 티어 확정
+        base_h_at, h_atw_str = get_atk_tier(h_pure_gpg)
+        base_h_de, h_dew_str = get_def_tier(h_pure_cpg)
+        base_a_at, a_atw_str = get_atk_tier(a_pure_gpg)
+        base_a_de, a_dew_str = get_def_tier(a_pure_cpg)
 
-        h_is_triggered = check_special_rule_trigger(h_matches, home_name, h_gpg_base, h_cpg_base)
-        a_is_triggered = check_special_rule_trigger(a_matches, away_name, a_gpg_base, a_cpg_base)
+        h_r1_atk = parse_pct(h_atw_str)
+        h_r1_def = parse_pct(h_dew_str)
+        a_r1_atk = parse_pct(a_atw_str)
+        a_r1_def = parse_pct(a_dew_str)
 
-        calc_h_base_g, calc_h_base_c = compute_adjusted_stats_with_discount(h_matches, home_name, h_gpg_base, h_cpg_base, h_is_triggered)
-        calc_a_base_g, calc_a_base_c = compute_adjusted_stats_with_discount(a_matches, away_name, a_gpg_base, a_cpg_base, a_is_triggered)
+        # 3. 특수룰 교차 보정 적용 후 최종 보정 평균 득실 확정 (앱의 h_gpg, h_cpg와 완벽 동기화)
+        h_is_triggered = check_special_rule_trigger(h_matches, home_name, h_pure_gpg, h_pure_cpg)
+        a_is_triggered = check_special_rule_trigger(a_matches, away_name, a_pure_gpg, a_pure_cpg)
 
-        # 최종 엔진 베이스 득실 확정
-        h_base_g = calc_h_base_g if calc_h_base_g > 0 else h_gpg_base
-        h_base_c = calc_h_base_c if calc_h_base_c > 0 else h_cpg_base
-        a_base_g = calc_a_base_g if calc_a_base_g > 0 else a_gpg_base
-        a_base_c = calc_a_base_c if calc_a_base_c > 0 else a_cpg_base
+        calc_h_base_g, calc_h_base_c = compute_adjusted_stats_with_discount(h_matches, home_name, h_pure_gpg, h_pure_cpg, h_is_triggered)
+        calc_a_base_g, calc_a_base_c = compute_adjusted_stats_with_discount(a_matches, away_name, a_pure_gpg, a_pure_cpg, a_is_triggered)
 
-        base_h_at, h_r1_atk = get_atk_tier(h_base_g)
-        base_h_de, h_r1_def = get_def_tier(h_base_c)
-        base_a_at, a_r1_atk = get_atk_tier(a_base_g)
-        base_a_de, a_r1_def = get_def_tier(a_base_c)
+        h_base_g = calc_h_base_g if calc_h_base_g > 0 else h_pure_gpg
+        h_base_c = calc_h_base_c if calc_h_base_c > 0 else h_pure_cpg
+        a_base_g = calc_a_base_g if calc_a_base_g > 0 else a_pure_gpg
+        a_base_c = calc_a_base_c if calc_a_base_c > 0 else a_pure_cpg
         
 # ======================================================================
         # 🟢 [2단계] 구장(Stadium Form) Shift 보정 연산 (APP 규격 100% 동기화 완벽 교정)
