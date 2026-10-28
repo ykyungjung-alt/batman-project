@@ -807,6 +807,12 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         # 🟢 [5단계] 5-1(최종 누적 보정 및 1차 기대치)과 5-2(실전 교차 7경기 평균) 완벽 분리 엔진 블록
         # ======================================================================
         
+        # 💡 [핵심 연결 부위 수정] 1단계 순수 원본 평균 득실을 5단계 베이스 득실로 확실하게 매핑
+        h_base_g = float(h_pure_gpg) if 'h_pure_gpg' in locals() and h_pure_gpg > 0 else (float(h_base_g) if 'h_base_g' in locals() and h_base_g > 0 else 1.2)
+        h_base_c = float(h_pure_cpg) if 'h_pure_cpg' in locals() and h_pure_cpg > 0 else (float(h_base_c) if 'h_base_c' in locals() and h_base_c > 0 else 1.1)
+        a_base_g = float(a_pure_gpg) if 'a_pure_gpg' in locals() and a_pure_gpg > 0 else (float(a_base_g) if 'a_base_g' in locals() and a_base_g > 0 else 1.1)
+        a_base_c = float(a_pure_cpg) if 'a_pure_cpg' in locals() and a_pure_cpg > 0 else (float(a_base_c) if 'a_base_c' in locals() and a_base_c > 0 else 1.2)
+
         # --------------------------------------------------------------------------
         # [5-1 파트] 누적 보정치 합산 및 1차 기본 기대 득실점 산출
         # --------------------------------------------------------------------------
@@ -814,12 +820,6 @@ def compute_match_prediction_master(target_detail, home_name, away_name, league_
         h_tot_def_pct = h_step0_def + h_r1_def + h_r2_def + h_r3_tot_def + h_r4_def
         a_tot_atk_pct = a_step0_atk + a_r1_atk + a_r2_atk + a_r3_tot_atk + a_r4_atk
         a_tot_def_pct = a_step0_def + a_r1_def + a_r2_def + a_r3_tot_def + a_r4_def
-
-        # 1단계 베이스 득실점 실시간 반영 (외래 딕셔너리 강제 오버라이드 원천 방어)
-        h_base_g = h_base_g if 'h_base_g' in locals() and h_base_g > 0 else 1.2
-        h_base_c = h_base_c if 'h_base_c' in locals() and h_base_c > 0 else 1.1
-        a_base_g = a_base_g if 'a_base_g' in locals() and a_base_g > 0 else 1.1
-        a_base_c = a_base_c if 'a_base_c' in locals() and a_base_c > 0 else 1.2
 
         h_max_g = h_base_g * (1 + h_tot_atk_pct / 100.0)
         h_min_c = h_base_c * (1 + h_tot_def_pct / 100.0)
