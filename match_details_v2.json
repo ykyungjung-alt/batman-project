@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-29 09:52:44",
+    "last_updated": "2026-10-29 12:47:30",
     "match_details": {
         "2993838": {
             "match_code": "2993838",
@@ -10,7 +10,7 @@
                 "match_time_display": "2026-10-30 02:30",
                 "stadium": "Stadio Matusa",
                 "home_stadium": "Stadio Matusa",
-                "weather": ""
+                "weather": "대체로 맑음,  13℃～14℃"
             },
             "home": "프로시노네",
             "away": "레체",
@@ -19,7 +19,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "7",
+                        "rank": "8",
                         "team": "프로시노네",
                         "played": "8",
                         "win": "4",
@@ -33,7 +33,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "12",
+                        "rank": "14",
                         "team": "레체",
                         "played": "8",
                         "win": "3",
@@ -203,7 +203,7 @@
                 "match_time_display": "2026-10-30 04:45",
                 "stadium": "Stadio Artemio Franchi",
                 "home_stadium": "Stadio Artemio Franchi",
-                "weather": ""
+                "weather": "대체로 맑음,  16℃～17℃"
             },
             "home": "피오렌티나",
             "away": "아탈란타",
@@ -212,7 +212,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "18",
+                        "rank": "19",
                         "team": "피오렌티나",
                         "played": "8",
                         "win": "1",
@@ -226,7 +226,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "11",
+                        "rank": "12",
                         "team": "아탈란타",
                         "played": "8",
                         "win": "3",
@@ -409,8 +409,8 @@
                     },
                     "away_summary": {
                         "recent_record": "1승 5무 4패",
-                        "goals_per_game": "1.00",
-                        "conceded_per_game": "1.30"
+                        "goals_per_game": "1.10",
+                        "conceded_per_game": "1.40"
                     },
                     "matches": []
                 },
@@ -507,7 +507,14 @@
                 },
                 "fixtures": {
                     "home": [],
-                    "away": []
+                    "away": [
+                        {
+                            "league": "리그 1",
+                            "match_time": "2026-11-01 15:30:00",
+                            "teams": "11.01 2026 vs SO 아르메 vs 코로고 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ]
                 }
             }
         },
@@ -632,8 +639,22 @@
                     ]
                 },
                 "fixtures": {
-                    "home": [],
-                    "away": []
+                    "home": [
+                        {
+                            "league": "리그 1",
+                            "match_time": "2026-11-01 18:00:00",
+                            "teams": "11.01 2026 vs ASEC 미모사 vs 산 페드로 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "리그 1",
+                            "match_time": "2026-11-01 15:30:00",
+                            "teams": "11.01 2026 vs SO 아르메 vs 코로고 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ]
                 }
             }
         },
@@ -646,7 +667,7 @@
                 "match_time_display": "2026-10-30 02:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "흐림,  34°C"
             },
             "home": "누악쇼트 킹스",
             "away": "드완",
@@ -772,7 +793,7 @@
                 "match_time_display": "2026-10-30 04:45",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "흐림,  26°C"
             },
             "home": "누아디부",
             "away": "SNIM",
