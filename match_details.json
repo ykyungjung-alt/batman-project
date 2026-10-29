@@ -1,205 +1,6 @@
 {
-    "last_updated": "2026-10-30 00:56:22",
+    "last_updated": "2026-10-30 03:52:18",
     "match_details": {
-        "2993838": {
-            "match_code": "2993838",
-            "head_info": {
-                "league": "세리에 A",
-                "round": "세리에 A·  라운드 9",
-                "match_time_raw": "10/29/2026 5:30:00 PM",
-                "match_time_display": "2026-10-30 02:30",
-                "stadium": "Stadio Matusa",
-                "home_stadium": "Stadio Matusa",
-                "weather": "대체로 맑음,  13℃～14℃"
-            },
-            "home": "프로시노네",
-            "away": "레체",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "8",
-                        "team": "프로시노네",
-                        "played": "8",
-                        "win": "4",
-                        "draw": "2",
-                        "loss": "2",
-                        "goals_for": "17",
-                        "goals_against": "13",
-                        "goal_diff": "4",
-                        "points": "14"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "14",
-                        "team": "레체",
-                        "played": "8",
-                        "win": "3",
-                        "draw": "0",
-                        "loss": "5",
-                        "goals_for": "9",
-                        "goals_against": "14",
-                        "goal_diff": "-5",
-                        "points": "9"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "5승 3무 2패",
-                        "goals_per_game": "2.00",
-                        "conceded_per_game": "1.50"
-                    },
-                    "away_summary": {
-                        "recent_record": "4승 0무 6패",
-                        "goals_per_game": "1.00",
-                        "conceded_per_game": "1.60"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 0 (0%)",
-                        "무승부 5 (50%)",
-                        "승 5 (50%)",
-                        "0.70",
-                        "경기당 득점",
-                        "1.70",
-                        "핸디캡：2승 0무 8패",
-                        "언오버：4오버 0무 6언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "ITA D12024.03.03",
-                                "프로시노네",
-                                "1-1",
-                                "레체"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D12023.12.16",
-                                "레체",
-                                "2-1",
-                                "프로시노네"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D22022.04.02",
-                                "레체",
-                                "1-0",
-                                "프로시노네"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D22021.11.20",
-                                "프로시노네",
-                                "0-0",
-                                "레체"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D22021.03.20",
-                                "프로시노네",
-                                "0-3",
-                                "레체"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D22020.12.12",
-                                "레체",
-                                "2-2",
-                                "프로시노네"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "INT CF2019.07.27",
-                                "레체",
-                                "4-1",
-                                "프로시노네"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA SC2014.06.07",
-                                "프로시노네",
-                                "1-1",
-                                "레체"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA SC2014.06.01",
-                                "레체",
-                                "1-1",
-                                "프로시노네"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA SC2014.04.13",
-                                "레체",
-                                "2-0",
-                                "프로시노네"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "세리에 A",
-                            "match_time": "2026-11-01 14:00:00",
-                            "teams": "11.01 2026 vs 프로시노네 vs 토리노 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "세리에 A",
-                            "match_time": "2026-11-08 17:30:00",
-                            "teams": "11.08 2026 vs 칼리아리 vs 프로시노네 vs 10 일",
-                            "interval": "10 일"
-                        },
-                        {
-                            "league": "세리에 A",
-                            "match_time": "2026-11-22 17:30:00",
-                            "teams": "11.22 2026 vs AC 밀란 vs 프로시노네 vs 24 일",
-                            "interval": "24 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "세리에 A",
-                            "match_time": "2026-11-01 17:00:00",
-                            "teams": "11.01 2026 vs 레체 vs 제노아 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "세리에 A",
-                            "match_time": "2026-11-08 17:30:00",
-                            "teams": "11.08 2026 vs 토리노 vs 레체 vs 10 일",
-                            "interval": "10 일"
-                        },
-                        {
-                            "league": "세리에 A",
-                            "match_time": "2026-11-22 17:30:00",
-                            "teams": "11.22 2026 vs 라치오 vs 레체 vs 24 일",
-                            "interval": "24 일"
-                        }
-                    ]
-                }
-            }
-        },
         "2993837": {
             "match_code": "2993837",
             "head_info": {
@@ -393,6 +194,145 @@
                             "match_time": "2026-11-08 17:30:00",
                             "teams": "11.08 2026 vs 몬차 vs 아탈란타 vs 10 일",
                             "interval": "10 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3105607": {
+            "match_code": "3105607",
+            "head_info": {
+                "league": "리그 1",
+                "round": "",
+                "match_time_raw": "10/29/2026 3:30:00 PM",
+                "match_time_display": "2026-10-30 00:30",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "구름 조금,  30°C"
+            },
+            "home": "스텔라 아다메",
+            "away": "아카데미 드 파드",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 4무 1패",
+                        "goals_per_game": "1.10",
+                        "conceded_per_game": "0.70"
+                    },
+                    "away_summary": {
+                        "recent_record": "3승 5무 2패",
+                        "goals_per_game": "2.00",
+                        "conceded_per_game": "1.10"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 3 (30%)",
+                        "무승부 3 (30%)",
+                        "승 4 (40%)",
+                        "1.00",
+                        "경기당 득점",
+                        "1.10",
+                        "핸디캡：4승 0무 3패",
+                        "언오버：5오버 0무 2언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ICPD D12026.04.04",
+                                "스텔라 아다메",
+                                "1-2",
+                                "아카데미 드 파드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12025.11.05",
+                                "아카데미 드 파드",
+                                "2-0",
+                                "스텔라 아다메"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12025.05.04",
+                                "아카데미 드 파드",
+                                "0-0",
+                                "스텔라 아다메"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12024.12.08",
+                                "스텔라 아다메",
+                                "0-1",
+                                "아카데미 드 파드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12024.05.26",
+                                "아카데미 드 파드",
+                                "1-1",
+                                "스텔라 아다메"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12023.12.04",
+                                "스텔라 아다메",
+                                "3-0",
+                                "아카데미 드 파드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12023.04.07",
+                                "스텔라 아다메",
+                                "1-0",
+                                "아카데미 드 파드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12022.11.06",
+                                "아카데미 드 파드",
+                                "1-1",
+                                "스텔라 아다메"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12022.06.11",
+                                "아카데미 드 파드",
+                                "3-1",
+                                "스텔라 아다메"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12022.02.19",
+                                "스텔라 아다메",
+                                "2-1",
+                                "아카데미 드 파드"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": [
+                        {
+                            "league": "리그 1",
+                            "match_time": "2026-11-01 15:30:00",
+                            "teams": "11.01 2026 vs 아카데미 드 파드 vs Yamoussoukro FC vs 3 일",
+                            "interval": "시작전"
                         }
                     ]
                 }
@@ -682,124 +622,76 @@
                 }
             }
         },
-        "3107656": {
-            "match_code": "3107656",
+        "3105610": {
+            "match_code": "3105610",
             "head_info": {
                 "league": "리그 1",
                 "round": "",
-                "match_time_raw": "10/29/2026 5:00:00 PM",
-                "match_time_display": "2026-10-30 02:00",
+                "match_time_raw": "10/29/2026 6:00:00 PM",
+                "match_time_display": "2026-10-30 03:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "흐림,  34°C"
+                "weather": "구름 조금,  28°C"
             },
-            "home": "누악쇼트 킹스",
-            "away": "드완",
+            "home": "ISCA",
+            "away": "ASEC 미모사",
             "meta_details": {
                 "rankings": [],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "5승 2무 3패",
-                        "goals_per_game": "1.70",
-                        "conceded_per_game": "1.40"
+                        "recent_record": "3승 3무 4패",
+                        "goals_per_game": "0.60",
+                        "conceded_per_game": "0.70"
                     },
                     "away_summary": {
-                        "recent_record": "4승 3무 3패",
-                        "goals_per_game": "1.20",
-                        "conceded_per_game": "1.30"
+                        "recent_record": "2승 4무 4패",
+                        "goals_per_game": "0.90",
+                        "conceded_per_game": "1.00"
                     },
                     "matches": []
                 },
                 "h2h": {
                     "summary": [
                         "승 0 (0%)",
-                        "무승부 4 (40%)",
-                        "승 6 (60%)",
-                        "0.80",
+                        "무승부 1 (25%)",
+                        "승 3 (75%)",
+                        "0.25",
                         "경기당 득점",
                         "1.50",
-                        "핸디캡：3승 0무 6패",
-                        "언오버：4오버 0무 5언더"
+                        "핸디캡：0승 1무 1패",
+                        "언오버：1오버 0무 1언더"
                     ],
                     "matches": [
                         {
                             "row_data": [
-                                "MAU D12026.02.14",
-                                "드완",
+                                "ICPD D12026.05.04",
+                                "ASEC 미모사",
                                 "1-0",
-                                "누악쇼트 킹스"
+                                "ISCA"
                             ]
                         },
                         {
                             "row_data": [
-                                "MAU D12025.11.01",
-                                "누악쇼트 킹스",
-                                "1-2",
-                                "드완"
+                                "ICPD D12025.11.22",
+                                "ISCA",
+                                "0-3",
+                                "ASEC 미모사"
                             ]
                         },
                         {
                             "row_data": [
-                                "Mauritania Cup2025.06.02",
-                                "누악쇼트 킹스",
+                                "ICPD D12025.03.28",
+                                "ISCA",
+                                "0-1",
+                                "ASEC 미모사"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ICPD D12024.11.22",
+                                "ASEC 미모사",
                                 "1-1",
-                                "드완"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12025.03.06",
-                                "드완",
-                                "0-0",
-                                "누악쇼트 킹스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12024.10.29",
-                                "누악쇼트 킹스",
-                                "1-1",
-                                "드완"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "Mauritania Cup2024.05.18",
-                                "드완",
-                                "3-1",
-                                "누악쇼트 킹스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12024.03.10",
-                                "누악쇼트 킹스",
-                                "1-1",
-                                "드완"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12023.10.20",
-                                "드완",
-                                "2-1",
-                                "누악쇼트 킹스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12022.12.03",
-                                "드완",
-                                "2-1",
-                                "누악쇼트 킹스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12022.05.08",
-                                "누악쇼트 킹스",
-                                "1-2",
-                                "드완"
+                                "ISCA"
                             ]
                         }
                     ]
@@ -810,7 +702,14 @@
                 },
                 "fixtures": {
                     "home": [],
-                    "away": []
+                    "away": [
+                        {
+                            "league": "리그 1",
+                            "match_time": "2026-11-01 18:00:00",
+                            "teams": "11.01 2026 vs ASEC 미모사 vs 산 페드로 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ]
                 }
             }
         },
