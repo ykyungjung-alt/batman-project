@@ -1,115 +1,6 @@
 {
-    "last_updated": "2026-10-29 15:55:55",
+    "last_updated": "2026-10-29 18:53:14",
     "match_details": {
-        "3069050": {
-            "match_code": "3069050",
-            "head_info": {
-                "league": "AFC 챔피언스리그 2",
-                "round": "",
-                "match_time_raw": "10/29/2026 7:45:00 AM",
-                "match_time_display": "2026-10-29 16:45",
-                "stadium": "Coopers Stadium",
-                "home_stadium": "Coopers Stadium",
-                "weather": "구름 조금,  19℃～20℃"
-            },
-            "home": "애들레이드 유나이티드",
-            "away": "라이언 시티",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "AUS D1-11",
-                        "team": "애들레이드 유나이티드",
-                        "played": "1",
-                        "win": "0",
-                        "draw": "0",
-                        "loss": "1",
-                        "goals_for": "1",
-                        "goals_against": "2",
-                        "goal_diff": "-1",
-                        "points": "0"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "SIN D1-1",
-                        "team": "라이언 시티",
-                        "played": "5",
-                        "win": "4",
-                        "draw": "1",
-                        "loss": "0",
-                        "goals_for": "18",
-                        "goals_against": "3",
-                        "goal_diff": "15",
-                        "points": "13"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "6승 0무 4패",
-                        "goals_per_game": "2.20",
-                        "conceded_per_game": "1.20"
-                    },
-                    "away_summary": {
-                        "recent_record": "5승 3무 2패",
-                        "goals_per_game": "2.30",
-                        "conceded_per_game": "0.90"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [],
-                    "matches": []
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "호주 A리그",
-                            "match_time": "2026-11-01 08:00:00",
-                            "teams": "11.01 2026 vs 퍼스 글로리 vs 애들레이드 유나이티드 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "AFC 챔피언스리그 2",
-                            "match_time": "2026-11-05 10:00:00",
-                            "teams": "11.05 2026 vs 라이언 시티 vs 애들레이드 유나이티드 vs 7 일",
-                            "interval": "7 일"
-                        },
-                        {
-                            "league": "호주 A리그",
-                            "match_time": "2026-11-08 06:00:00",
-                            "teams": "11.08 2026 vs 애들레이드 유나이티드 vs 멜버른 빅토리 vs 10 일",
-                            "interval": "10 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-01 11:30:00",
-                            "teams": "11.01 2026 vs 발레스티어 켈사 vs 라이언 시티 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "AFC 챔피언스리그 2",
-                            "match_time": "2026-11-05 10:00:00",
-                            "teams": "11.05 2026 vs 라이언 시티 vs 애들레이드 유나이티드 vs 7 일",
-                            "interval": "7 일"
-                        },
-                        {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-22 11:30:00",
-                            "teams": "11.22 2026 vs 라이언 시티 vs 게일랑 vs 24 일",
-                            "interval": "24 일"
-                        }
-                    ]
-                }
-            }
-        },
         "3069062": {
             "match_code": "3069062",
             "head_info": {
@@ -670,6 +561,48 @@
                             "interval": "28 일"
                         }
                     ]
+                }
+            }
+        },
+        "3107979": {
+            "match_code": "3107979",
+            "head_info": {
+                "league": "FIFA World Cup U15",
+                "round": "",
+                "match_time_raw": "10/29/2026 1:00:00 PM",
+                "match_time_display": "2026-10-29 22:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "Kyrgyzstan U15",
+            "away": "China U15",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "0승 0무 0패",
+                        "goals_per_game": "0.00",
+                        "conceded_per_game": "0.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "3승 1무 5패",
+                        "goals_per_game": "1.22",
+                        "conceded_per_game": "1.22"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         }
