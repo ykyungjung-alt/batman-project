@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-29 09:55:42",
+    "last_updated": "2026-10-29 12:49:04",
     "match_details": {
         "3069050": {
             "match_code": "3069050",
@@ -10,7 +10,7 @@
                 "match_time_display": "2026-10-29 16:45",
                 "stadium": "Coopers Stadium",
                 "home_stadium": "Coopers Stadium",
-                "weather": "맑음,  22°C"
+                "weather": "구름 조금,  19℃～20℃"
             },
             "home": "애들레이드 유나이티드",
             "away": "라이언 시티",
@@ -119,7 +119,7 @@
                 "match_time_display": "2026-10-29 19:00",
                 "stadium": "Tampines Stadium",
                 "home_stadium": "Tampines Stadium",
-                "weather": "흐림,  27°C"
+                "weather": "구름 조금,  27℃～28℃"
             },
             "home": "탐파인스",
             "away": "스바이 리엥",
@@ -228,7 +228,7 @@
                 "match_time_display": "2026-10-29 19:00",
                 "stadium": "Gangneung Stadium",
                 "home_stadium": "Gangneung Stadium",
-                "weather": "구름 조금,  12°C"
+                "weather": "이슬비,  10℃～11℃"
             },
             "home": "강원",
             "away": "쿠칭 시티 FC",
@@ -337,7 +337,7 @@
                 "match_time_display": "2026-10-29 21:15",
                 "stadium": "",
                 "home_stadium": "Tai Po Sports Ground",
-                "weather": "맑음,  25°C"
+                "weather": "구름 많음,  26℃～27℃"
             },
             "home": "다푸",
             "away": "빠툼 유나이티드",
@@ -446,7 +446,7 @@
                 "match_time_display": "2026-10-29 21:15",
                 "stadium": "Shanghai Stadium",
                 "home_stadium": "Shanghai Stadium",
-                "weather": "흐림,  19°C"
+                "weather": "이슬비,  17℃～18℃"
             },
             "home": "상하이 선화",
             "away": "마치다",
@@ -573,7 +573,7 @@
                 "match_time_display": "2026-10-29 21:15",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "흐림,  29°C"
+                "weather": "이슬비,  28℃～29℃"
             },
             "home": "프놈펜 크라운",
             "away": "킷지",
@@ -670,6 +670,48 @@
                             "interval": "28 일"
                         }
                     ]
+                }
+            }
+        },
+        "3107894": {
+            "match_code": "3107894",
+            "head_info": {
+                "league": "FIFA World Cup U15",
+                "round": "",
+                "match_time_raw": "10/29/2026 6:15:00 AM",
+                "match_time_display": "2026-10-29 15:15",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "Malaysia U15",
+            "away": "China U15",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "0승 0무 0패",
+                        "goals_per_game": "0.00",
+                        "conceded_per_game": "0.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 1무 5패",
+                        "goals_per_game": "1.00",
+                        "conceded_per_game": "1.25"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         }
