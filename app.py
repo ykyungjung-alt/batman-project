@@ -1799,11 +1799,13 @@ with tabs[5]:
         a_opp_at = home_my_at
         a_opp_de = home_my_de
 
-# 2. 홈/원정 구장 속성에 따른 엄격한 전적 풀 분리 및 중복 제거
+# 2. [40개 풀 전면 활용 규격] 최근 전적 20개 + 구장별 전적 20개 (총 40개) 풀 통합 후 홈/원정 엄격 분리
         def get_directional_pool(stadium_matches, recent_matches, team_label, is_home_side=True):
             combined = []
             seen_set = set()
-            raw_pool = list(stadium_matches or []) + list(recent_matches or [])
+            
+            # 💡 최근 전적 최대 20개와 구장별 전적 최대 20개를 합쳐 총 40개의 방대한 풀 확보
+            raw_pool = list(recent_matches or []) + list(stadium_matches or [])
             
             for m in raw_pool:
                 league_raw = str(m.get("league", ""))
@@ -1817,18 +1819,16 @@ with tabs[5]:
                 if not score_str or (":" not in score_str and "-" not in score_str and not scores_arr):
                     continue
 
-                # 홈/원정 방향성 검증 (teams 문자열 또는 location 기반)
+                # 홈/원정 방향성 검증 (teams 문자열 기준)
                 teams_str = str(m.get("teams", ""))
-                loc_str = str(m.get("location", ""))
-                
                 is_actually_home = True
                 if " vs " in teams_str:
                     t_parts = [p.strip() for p in teams_str.split("vs")]
-                    if len(t_parts) >= 2:
+                    if len(t_parts >= 2):
                         if team_label.strip() in t_parts[1] and team_label.strip() not in t_parts[0]:
                             is_actually_home = False  # 원정 경기
                 
-                # 요청된 방향성(홈 팀은 홈 경기만, 원정 팀은 원정 경기만)과 일치하지 않으면 배제
+                # 홈 팀은 오직 홈 경기만, 원정 팀은 오직 원정 경기만 통과
                 if is_home_side and not is_actually_home:
                     continue
                 if not is_home_side and is_actually_home:
@@ -1843,7 +1843,7 @@ with tabs[5]:
                     
             return combined
 
-        # 홈 팀은 오직 홈 경기 전적 풀만 엄격하게 수집
+        # 홈 팀은 최근 전적(20) + 홈 구장 전적(20) 통합 풀에서 홈 경기만 전수 추출
         home_merged_pool = get_directional_pool(
             s_home_matches if 's_home_matches' in locals() else [], 
             h_matches if 'h_matches' in locals() else [],
@@ -1851,7 +1851,7 @@ with tabs[5]:
             is_home_side=True
         )
         
-        # 원정 팀은 오직 원정 경기 전적 풀만 엄격하게 수집
+        # 원정 팀은 최근 전적(20) + 원정 구장 전적(20) 통합 풀에서 원정 경기만 전수 추출
         away_merged_pool = get_directional_pool(
             s_away_matches if 's_away_matches' in locals() else [], 
             a_matches if 'a_matches' in locals() else [],
@@ -1859,7 +1859,7 @@ with tabs[5]:
             is_home_side=False
         )
 
-# 3. [순서 교정] 상대방 티어 상성에 가장 부합하는 경기를 먼저 선별한 뒤 최신순으로 정렬
+        # 3. [전체 풀 전면 활용 규격] 발췌된 전체 가용 경기들을 자르지 않고 모두 교차 검증에 반영
         def filter_matched_tier_games(match_list, target_at_name, target_de_name):
             if not match_list:
                 return []
@@ -1886,27 +1886,23 @@ with tabs[5]:
                 op_at_val = tier_score_map.get(op_at_name, 3)
                 op_de_val = tier_score_map.get(op_de_name, 3)
 
-                # 티어 일치도 오차 점수 산출 (차이가 적을수록 우수)
                 diff_at = abs(t_at_val - op_at_val)
                 diff_de = abs(t_de_val - op_de_val)
                 match_score = diff_at + diff_de
 
-                # 날짜 파싱 (동점일 경우 최신순 정렬을 위한 보조키 활용)
                 m_date_str = str(m.get("match_time", ""))
-
                 scored_pool.append((match_score, m_date_str, m))
 
-            # 💡 [핵심 순서 교정] 1순위: 티어 오차가 적은 경기 우선 ➔ 2순위: 날짜가 최신인 경기 우선
+            # 💡 자르기(슬라이싱) 없이 티어 적합도순 및 최신순으로 정렬하여 가용한 전체 경기 전면 반영
             scored_pool.sort(key=lambda x: (x[0], str(x[1])), reverse=False)
-            # 단, 날짜 최신순 정렬은 내림차순이어야 하므로 티어 점수순 정렬 후 상위 7개를 뽑아 날짜 기준 최신순으로 재정렬
-            top_7_matches = [item[2] for item in scored_pool[:7]]
+            all_available_matches = [item[2] for item in scored_pool]
             
             try:
-                top_7_matches.sort(key=lambda x: str(x.get("match_time", "")), reverse=True)
+                all_available_matches.sort(key=lambda x: str(x.get("match_time", "")), reverse=True)
             except:
                 pass
                 
-            return top_7_matches
+            return all_available_matches
 
         home_matched_7 = filter_matched_tier_games(home_merged_pool, h_opp_at, h_opp_de)
         away_matched_7 = filter_matched_tier_games(away_merged_pool, a_opp_at, a_opp_de)
