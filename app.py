@@ -1783,7 +1783,7 @@ with tabs[5]:
         ]
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (총 40개 통합 풀 전면 활용, 홈/원정 엄격 분리 및 티어 적합도 최우선 정렬)
+        # 📊 [5-2 표] 렌더링 (총 40개 풀 통합 + 중복 제거 + 구장 엄격 분리 + 티어순 정렬 후 상위 7개 최신순)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 교차 검증 매트릭스 ({home_team} vs {away_team})")
@@ -1799,12 +1799,12 @@ with tabs[5]:
         a_opp_at = home_my_at
         a_opp_de = home_my_de
 
-        # 2. [40개 풀 전면 활용 규격] 최근 전적 20개 + 구장별 전적 20개 통합 후 홈/원정 엄격 분리
-        def get_directional_pool(stadium_matches, recent_matches, team_label, is_home_side=True):
+        # 2. [구장 속성 및 중립 판정 연동 풀 수집 규격 (40개 풀 통합 및 중복 제거)]
+        def get_directional_pool(stadium_matches, recent_matches, team_label, is_home_side=True, target_is_neutral=False):
             combined = []
             seen_set = set()
             
-            # 최근 전적 20개와 구장별 전적 20개를 합쳐 최대 40개의 방대한 풀 확보
+            # 최근 전적 최대 20개와 구장별 전적 최대 20개를 합쳐 총 40개의 방대한 풀 확보
             raw_pool = list(recent_matches or []) + list(stadium_matches or [])
             
             for m in raw_pool:
@@ -1819,7 +1819,7 @@ with tabs[5]:
                 if not score_str or (":" not in score_str and "-" not in score_str and not scores_arr):
                     continue
 
-                # 홈/원정 방향성 검증 (teams 문자열 기준)
+                # 홈/원정 방향성 판별 (teams 문자열 기준)
                 teams_str = str(m.get("teams", ""))
                 is_actually_home = True
                 if " vs " in teams_str:
@@ -1827,12 +1827,18 @@ with tabs[5]:
                     if len(t_parts) >= 2:
                         if team_label.strip() in t_parts[1] and team_label.strip() not in t_parts[0]:
                             is_actually_home = False  # 원정 경기
-                
-                # 홈 팀은 오직 홈 경기만, 원정 팀은 오직 원정 경기만 엄격 통과
-                if is_home_side and not is_actually_home:
-                    continue
-                if not is_home_side and is_actually_home:
-                    continue
+
+                # 💡 [핵심 규칙 적용] 홈 팀이 중립이면 원정 풀 참조, 일반 홈이면 홈 풀 참조 / 원정 팀은 무조건 원정 풀
+                if is_home_side:
+                    if target_is_neutral:
+                        if is_actually_home:
+                            continue
+                    else:
+                        if not is_actually_home:
+                            continue
+                else:
+                    if is_actually_home:
+                        continue
 
                 m_time = str(m.get("match_time", ""))
                 unique_key = f"{m_time}_{teams_str}"
@@ -1843,23 +1849,25 @@ with tabs[5]:
                     
             return combined
 
-        # 홈 팀은 통합 풀에서 홈 경기만 전수 추출
+        # 홈 팀 풀 추출 (중립 판정 여부에 따라 홈 또는 원정 풀 참조)
         home_merged_pool = get_directional_pool(
-            s_home_matches if 's_home_matches' in locals() else [], 
-            h_matches if 'h_matches' in locals() else [],
+            s_away_matches if (is_neutral_venue if 'is_neutral_venue' in locals() else False) else (s_home_matches if 's_home_matches' in locals() else []), 
+            a_matches if (is_neutral_venue if 'is_neutral_venue' in locals() else False) else (h_matches if 'h_matches' in locals() else []),
             home_team,
-            is_home_side=True
+            is_home_side=True,
+            target_is_neutral=is_neutral_venue if 'is_neutral_venue' in locals() else False
         )
         
-        # 원정 팀은 통합 풀에서 원정 경기만 전수 추출
+        # 원정 팀 풀 추출 (오직 원정 경기 전적 기준)
         away_merged_pool = get_directional_pool(
             s_away_matches if 's_away_matches' in locals() else [], 
             a_matches if 'a_matches' in locals() else [],
             away_team,
-            is_home_side=False
+            is_home_side=False,
+            target_is_neutral=False
         )
 
-        # 3. [티어 적합도 우선 정렬 규격] 가용한 전체 경기들을 자르지 않고 티어 일치도순 최우선 반영
+        # 3. [티어 적합도순 정렬 후 상위 7개 추출 및 최신순 재정렬 규격]
         def filter_matched_tier_games(match_list, target_at_name, target_de_name):
             if not match_list:
                 return []
@@ -1890,18 +1898,27 @@ with tabs[5]:
                 diff_de = abs(t_de_val - op_de_val)
                 match_score = diff_at + diff_de  # 낮을수록 티어 일치도가 높음
 
-                scored_pool.append((match_score, m))
+                m_date_str = str(m.get("match_time", ""))
+                scored_pool.append((match_score, m_date_str, m))
 
-            # 💡 [핵심] 슬라이싱 자르기 없이, 오직 티어 오차 점수(x[0])가 낮은 경기 순서대로 전면 정렬
+            # 1단계: 티어 오차 점수(x[0])가 가장 낮은 순서(가장 비슷한 티어)로 우선 정렬
             scored_pool.sort(key=lambda x: x[0], reverse=False)
-            all_available_matches = [item[1] for item in scored_pool]
             
-            return all_available_matches
+            # 2단계: 비슷한 티어 상위 7개만 딱 추려냄
+            top_7_candidates = [item[2] for item in scored_pool[:7]]
+            
+            # 3단계: 최종 추려낸 7개의 경기를 사용자 가독성을 위해 날짜 기준 최신순(내림차순)으로 최종 정렬
+            try:
+                top_7_candidates.sort(key=lambda x: str(x.get("match_time", "")), reverse=True)
+            except:
+                pass
+                
+            return top_7_candidates
 
         home_matched_7 = filter_matched_tier_games(home_merged_pool, h_opp_at, h_opp_de)
         away_matched_7 = filter_matched_tier_games(away_merged_pool, a_opp_at, a_opp_de)
 
-# 4. DataFrame 빌드 및 2단계 보정 체급 기준 특수룰 연산 함수 (비고란 순수 텍스트 규격)
+        # 4. DataFrame 빌드 및 2단계 보정 체급 기준 특수룰 연산 함수 (비고란 순수 텍스트 규격)
         def build_team_52_dataframe(match_list, team_label, my_corrected_at, my_corrected_de):
             rows = []
             cnt = len(match_list)
@@ -2006,7 +2023,6 @@ with tabs[5]:
                 w_l = "승" if app_gf > app_ga else ("패" if app_gf < app_ga else "무")
                 seq_txt = f"{i} (최신)" if i == 1 else (f"{i} (과거)" if i == cnt else str(i))
                 
-                # 💡 원본 득실점 문구를 없애고 특수룰 결과만 순수 텍스트로 구성
                 if rule_desc:
                     rule_joined = " / ".join(rule_desc)
                     note_str = f"⚠️ [{rule_joined} ➔ 보정: {app_gf:.1f}득점 / {app_ga:.1f}실점]"
@@ -2041,12 +2057,12 @@ with tabs[5]:
         st.markdown(f"##### 🏠 홈 팀: {home_team} (2단계 보정 체급: 공격 {home_my_at} / 방어 {home_my_de} | 상대 교차 체급: 공격 {h_opp_at} / 방어 {h_opp_de})")
         h_df_52, h_tgf, h_tga, h_raw_agf, h_raw_aga, h_app_agf, h_app_aga, h_rule_active = build_team_52_dataframe(home_matched_7, home_team, home_my_at, home_my_de)
         if h_rule_active:
-            st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {home_team} 팀은 실전 7경기 검증 과정에서 원정 팀의 보정 티어 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
+            st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {home_team} 팀은 실전 검증 과정에서 상대 팀의 보정 티어 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
         st.dataframe(h_df_52, use_container_width=True, hide_index=True)
         
         h_agf_html = get_52_colored_stat(h_app_agf, h_raw_agf, is_higher_better=True)
-        h_aga_html = get_52_colored_stat(h_app_aga, h_raw_aga, is_higher_better=False) # 실점은 낮을수록 초록색
-        st.markdown(f"📌 **{home_team} 실전 7경기 총합:** {h_tgf:.1f}득점 / {h_tga:.1f}실점 &nbsp;|&nbsp; 실전 평균 (적용 전: 득점 {h_raw_agf:.2f}골 / 실점 {h_raw_aga:.2f}골) ➔ <span style='font-weight: bold;'>보정 후 평균: 득점 {h_agf_html} / 실점 {h_aga_html}</span>", unsafe_allow_html=True)
+        h_aga_html = get_52_colored_stat(h_app_aga, h_raw_aga, is_higher_better=False)
+        st.markdown(f"📌 **{home_team} 실전 교차 검증 총합:** {h_tgf:.1f}득점 / {h_tga:.1f}실점 &nbsp;|&nbsp; 실전 평균 (적용 전: 득점 {h_raw_agf:.2f}골 / 실점 {h_raw_aga:.2f}골) ➔ <span style='font-weight: bold;'>보정 후 평균: 득점 {h_agf_html} / 실점 {h_aga_html}</span>", unsafe_allow_html=True)
 
         st.markdown("---")
 
@@ -2054,12 +2070,12 @@ with tabs[5]:
         st.markdown(f"##### ✈️ 원정 팀: {away_team} (2단계 보정 체급: 공격 {away_my_at} / 방어 {away_my_de} | 상대 교차 체급: 공격 {a_opp_at} / 방어 {a_opp_de})")
         a_df_52, a_tgf, a_tga, a_raw_agf, a_raw_aga, a_app_agf, a_app_aga, a_rule_active = build_team_52_dataframe(away_matched_7, away_team, away_my_at, away_my_de)
         if h_rule_active:
-            st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {away_team} 팀은 실전 7경기 검증 과정에서 홈 팀의 보정 티어 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
+            st.info(f"⚡ **[공수 대칭 교차 보정 안내]** {away_team} 팀은 실전 검증 과정에서 홈 팀의 보정 티어 상성에 따라 **득실점 할인/할증 보정**이 독립 반영되었습니다.")
         st.dataframe(a_df_52, use_container_width=True, hide_index=True)
         
         a_agf_html = get_52_colored_stat(a_app_agf, a_raw_agf, is_higher_better=True)
-        a_aga_html = get_52_colored_stat(a_app_aga, a_raw_aga, is_higher_better=False) # 실점은 낮을수록 초록색
-        st.markdown(f"📌 **{away_team} 실전 7경기 총합:** {a_tgf:.1f}득점 / {a_tga:.1f}실점 &nbsp;|&nbsp; 실전 평균 (적용 전: 득점 {a_raw_agf:.2f}골 / 실점 {a_raw_aga:.2f}골) ➔ <span style='font-weight: bold;'>보정 후 평균: 득점 {a_agf_html} / 실점 {a_aga_html}</span>", unsafe_allow_html=True)
+        a_aga_html = get_52_colored_stat(a_app_aga, a_raw_aga, is_higher_better=False)
+        st.markdown(f"📌 **{away_team} 실전 교차 검증 총합:** {a_tgf:.1f}득점 / {a_tga:.1f}실점 &nbsp;|&nbsp; 실전 평균 (적용 전: 득점 {a_raw_agf:.2f}골 / 실점 {a_raw_aga:.2f}골) ➔ <span style='font-weight: bold;'>보정 후 평균: 득점 {a_agf_html} / 실점 {a_aga_html}</span>", unsafe_allow_html=True)
 
 # --------------------------------------------------------------------------
         # 🔗 [5-2 표 ➔ 규칙 6 완벽 연동 규격 블록] (5-1 변수 오염 원천 차단형)
