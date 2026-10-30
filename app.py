@@ -1824,7 +1824,8 @@ with tabs[5]:
                 is_actually_home = True
                 if " vs " in teams_str:
                     t_parts = [p.strip() for p in teams_str.split("vs")]
-                    if len(t_parts >= 2):
+                    # 💡 [에러 수정 완료] 괄호 위치를 len(t_parts) >= 2 로 정확히 교정
+                    if len(t_parts) >= 2:
                         if team_label.strip() in t_parts[1] and team_label.strip() not in t_parts[0]:
                             is_actually_home = False  # 원정 경기
                 
