@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-30 12:51:20",
+    "last_updated": "2026-10-30 15:58:01",
     "match_details": {
         "3018854": {
             "match_code": "3018854",
@@ -1641,22 +1641,22 @@
                 "fixtures": {
                     "home": [
                         {
+                            "league": "코파델레이",
+                            "match_time": "2026-11-05 18:00:00",
+                            "teams": "11.05 2026 vs Tarancon vs 레반테 vs 5 일",
+                            "interval": "시작전"
+                        },
+                        {
                             "league": "라리가",
                             "match_time": "2026-11-08 17:30:00",
                             "teams": "11.08 2026 vs 셀타비고 vs 레반테 vs 8 일",
-                            "interval": "시작전"
+                            "interval": "8 일"
                         },
                         {
                             "league": "라리가",
                             "match_time": "2026-11-22 16:00:00",
                             "teams": "11.22 2026 vs 레반테 vs 엘체 vs 22 일",
                             "interval": "22 일"
-                        },
-                        {
-                            "league": "라리가",
-                            "match_time": "2026-11-29 16:00:00",
-                            "teams": "11.29 2026 vs 레반테 vs 라싱 산탄데르 vs 29 일",
-                            "interval": "29 일"
                         }
                     ],
                     "away": [
@@ -2746,7 +2746,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "11",
+                        "rank": "12",
                         "team": "볼로냐",
                         "played": "9",
                         "win": "3",
@@ -4562,7 +4562,7 @@
                 "match_time_display": "2026-10-31 21:00",
                 "stadium": "Merck-Stadion am Bollenfalltor",
                 "home_stadium": "Merck-Stadion am Bollenfalltor",
-                "weather": ""
+                "weather": "흐림,  10°C"
             },
             "home": "다름슈타트",
             "away": "마그데부르크",
@@ -4755,7 +4755,7 @@
                 "match_time_display": "2026-10-31 21:00",
                 "stadium": "Fritz Walter Stadion",
                 "home_stadium": "Fritz Walter Stadion",
-                "weather": ""
+                "weather": "구름 조금,  10°C"
             },
             "home": "카이저슬라우테른",
             "away": "헤르타 베를린",
@@ -4948,7 +4948,7 @@
                 "match_time_display": "2026-10-31 21:00",
                 "stadium": "Volkswagen-Arena",
                 "home_stadium": "Volkswagen-Arena",
-                "weather": ""
+                "weather": "흐림,  10°C"
             },
             "home": "볼프스부르크",
             "away": "VfL 오스나브뤼크",
@@ -5149,15 +5149,15 @@
                     "home": [
                         {
                             "league": "라리가2",
-                            "match_time": "2026-11-08 16:00:00",
-                            "teams": "11.08 2026 vs 사바델 vs 레알 소시에다드 B vs 8 일",
+                            "match_time": "2026-11-09 19:30:00",
+                            "teams": "11.09 2026 vs 사바델 vs 레알 소시에다드 B vs 9 일",
                             "interval": "시작전"
                         },
                         {
                             "league": "라리가2",
-                            "match_time": "2026-11-15 16:00:00",
-                            "teams": "11.15 2026 vs 레알 소시에다드 B vs 히혼 vs 15 일",
-                            "interval": "15 일"
+                            "match_time": "2026-11-14 15:15:00",
+                            "teams": "11.14 2026 vs 레알 소시에다드 B vs 히혼 vs 14 일",
+                            "interval": "14 일"
                         },
                         {
                             "league": "라리가2",
@@ -5169,15 +5169,15 @@
                     "away": [
                         {
                             "league": "라리가2",
-                            "match_time": "2026-11-08 16:00:00",
+                            "match_time": "2026-11-08 15:15:00",
                             "teams": "11.08 2026 vs 지로나 vs 알메리아 vs 8 일",
                             "interval": "시작전"
                         },
                         {
                             "league": "라리가2",
-                            "match_time": "2026-11-15 16:00:00",
-                            "teams": "11.15 2026 vs R. 오비에도 vs 지로나 vs 15 일",
-                            "interval": "15 일"
+                            "match_time": "2026-11-14 20:00:00",
+                            "teams": "11.14 2026 vs R. 오비에도 vs 지로나 vs 14 일",
+                            "interval": "14 일"
                         },
                         {
                             "league": "라리가2",
@@ -7047,7 +7047,7 @@
                 "match_time_display": "2026-10-31 04:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  10°C"
+                "weather": "흐림,  10°C"
             },
             "home": "블랙번 U21",
             "away": "사우샘프턴 U21",
@@ -7361,7 +7361,7 @@
                 "match_time_display": "2026-10-31 04:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "맑음,  10°C"
+                "weather": "구름 조금,  10°C"
             },
             "home": "루턴 U21",
             "away": "노팅엄 U21",
@@ -7470,7 +7470,7 @@
                 "match_time_display": "2026-10-31 04:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  9°C"
+                "weather": "구름 조금,  10°C"
             },
             "home": "뉴캐슬 Utd U21",
             "away": "피터버러 U21",
