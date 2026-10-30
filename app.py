@@ -1799,8 +1799,8 @@ with tabs[5]:
         a_opp_at = home_my_at
         a_opp_de = home_my_de
 
-        # 2. 통합 전적 풀 확보 (구장별 전적 + 최근 전적 결합 및 고유 키 기준 중복 제거)
-        def get_merged_and_deduplicated_pool(stadium_matches, recent_matches, team_label):
+# 2. 홈/원정 구장 속성에 따른 엄격한 전적 풀 분리 및 중복 제거
+        def get_directional_pool(stadium_matches, recent_matches, team_label, is_home_side=True):
             combined = []
             seen_set = set()
             raw_pool = list(stadium_matches or []) + list(recent_matches or [])
@@ -1817,8 +1817,24 @@ with tabs[5]:
                 if not score_str or (":" not in score_str and "-" not in score_str and not scores_arr):
                     continue
 
-                m_time = str(m.get("match_time", ""))
+                # 홈/원정 방향성 검증 (teams 문자열 또는 location 기반)
                 teams_str = str(m.get("teams", ""))
+                loc_str = str(m.get("location", ""))
+                
+                is_actually_home = True
+                if " vs " in teams_str:
+                    t_parts = [p.strip() for p in teams_str.split("vs")]
+                    if len(t_parts) >= 2:
+                        if team_label.strip() in t_parts[1] and team_label.strip() not in t_parts[0]:
+                            is_actually_home = False  # 원정 경기
+                
+                # 요청된 방향성(홈 팀은 홈 경기만, 원정 팀은 원정 경기만)과 일치하지 않으면 배제
+                if is_home_side and not is_actually_home:
+                    continue
+                if not is_home_side and is_actually_home:
+                    continue
+
+                m_time = str(m.get("match_time", ""))
                 unique_key = f"{m_time}_{teams_str}"
                 
                 if unique_key not in seen_set:
@@ -1827,18 +1843,23 @@ with tabs[5]:
                     
             return combined
 
-        home_merged_pool = get_merged_and_deduplicated_pool(
+        # 홈 팀은 오직 홈 경기 전적 풀만 엄격하게 수집
+        home_merged_pool = get_directional_pool(
             s_home_matches if 's_home_matches' in locals() else [], 
             h_matches if 'h_matches' in locals() else [],
-            home_team
+            home_team,
+            is_home_side=True
         )
-        away_merged_pool = get_merged_and_deduplicated_pool(
+        
+        # 원정 팀은 오직 원정 경기 전적 풀만 엄격하게 수집
+        away_merged_pool = get_directional_pool(
             s_away_matches if 's_away_matches' in locals() else [], 
             a_matches if 'a_matches' in locals() else [],
-            away_team
+            away_team,
+            is_home_side=False
         )
 
-        # 3. 상대방 티어 상성에 가장 부합하는 실전 7경기 선별 함수
+        # 3. 상대방 티어 상성에 가장 부합하는 실전 7경기 선별 함수 (기존 유지)
         def filter_matched_tier_games(match_list, target_at_name, target_de_name):
             if not match_list:
                 return []
