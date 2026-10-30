@@ -1799,15 +1799,20 @@ with tabs[5]:
         a_opp_at = home_my_at
         a_opp_de = home_my_de
 
-        # 2. [구장 속성 및 중립 판정 연동 풀 수집 규격 (40개 풀 통합 및 중복 제거)]
+# 2. [완벽 교정] 최근 전적 20개 + 구장별 전적 20개 (총 40개) 풀 통합 및 구장 엄격 분리 규격
         def get_directional_pool(stadium_matches, recent_matches, team_label, is_home_side=True, target_is_neutral=False):
             combined = []
             seen_set = set()
             
-            # 최근 전적 최대 20개와 구장별 전적 최대 20개를 합쳐 총 40개의 방대한 풀 확보
-            raw_pool = list(recent_matches or []) + list(stadium_matches or [])
+            # 💡 [핵심 수정] 최근 전적(20개)과 구장별 전적(20개)을 명확한 리스트 형태로 안전하게 병합
+            safe_recent = list(recent_matches) if isinstance(recent_matches, list) else []
+            safe_stadium = list(stadium_matches) if isinstance(stadium_matches, list) else []
+            raw_pool = safe_recent + safe_stadium
             
             for m in raw_pool:
+                if not isinstance(m, dict):
+                    continue
+                
                 league_raw = str(m.get("league", ""))
                 if any(kw in league_raw.lower() for kw in ["친선", "friendly", "int cf", "club friendlies", "friendlies"]):
                     continue
@@ -1828,7 +1833,10 @@ with tabs[5]:
                         if team_label.strip() in t_parts[1] and team_label.strip() not in t_parts[0]:
                             is_actually_home = False  # 원정 경기
 
-                # 💡 [핵심 규칙 적용] 홈 팀이 중립이면 원정 풀 참조, 일반 홈이면 홈 풀 참조 / 원정 팀은 무조건 원정 풀
+                # 💡 [구장 판정 분기 적용] 
+                # - 홈 팀인데 중립 경기일 경우: 원정 경기 기록들만 수집
+                # - 홈 팀인데 일반 홈 경기일 경우: 홈 경기 기록들만 수집
+                # - 원정 팀일 경우: 무조건 원정 경기 기록들만 수집
                 if is_home_side:
                     if target_is_neutral:
                         if is_actually_home:
@@ -1849,7 +1857,7 @@ with tabs[5]:
                     
             return combined
 
-        # 홈 팀 풀 추출 (중립 판정 여부에 따라 홈 또는 원정 풀 참조)
+        # 홈 팀 풀 추출 (최근 20개 + 구장별 20개 통합 풀 장착)
         home_merged_pool = get_directional_pool(
             s_away_matches if (is_neutral_venue if 'is_neutral_venue' in locals() else False) else (s_home_matches if 's_home_matches' in locals() else []), 
             a_matches if (is_neutral_venue if 'is_neutral_venue' in locals() else False) else (h_matches if 'h_matches' in locals() else []),
@@ -1858,7 +1866,7 @@ with tabs[5]:
             target_is_neutral=is_neutral_venue if 'is_neutral_venue' in locals() else False
         )
         
-        # 원정 팀 풀 추출 (오직 원정 경기 전적 기준)
+        # 원정 팀 풀 추출 (최근 20개 + 구장별 20개 통합 풀 장착)
         away_merged_pool = get_directional_pool(
             s_away_matches if 's_away_matches' in locals() else [], 
             a_matches if 'a_matches' in locals() else [],
