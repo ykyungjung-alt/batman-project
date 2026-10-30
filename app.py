@@ -1859,7 +1859,7 @@ with tabs[5]:
             is_home_side=False
         )
 
-        # 3. 상대방 티어 상성에 가장 부합하는 실전 7경기 선별 함수 (기존 유지)
+# 3. [순서 교정] 상대방 티어 상성에 가장 부합하는 경기를 먼저 선별한 뒤 최신순으로 정렬
         def filter_matched_tier_games(match_list, target_at_name, target_de_name):
             if not match_list:
                 return []
@@ -1886,19 +1886,27 @@ with tabs[5]:
                 op_at_val = tier_score_map.get(op_at_name, 3)
                 op_de_val = tier_score_map.get(op_de_name, 3)
 
+                # 티어 일치도 오차 점수 산출 (차이가 적을수록 우수)
                 diff_at = abs(t_at_val - op_at_val)
                 diff_de = abs(t_de_val - op_de_val)
                 match_score = diff_at + diff_de
 
-                scored_pool.append((match_score, m))
+                # 날짜 파싱 (동점일 경우 최신순 정렬을 위한 보조키 활용)
+                m_date_str = str(m.get("match_time", ""))
 
-            scored_pool.sort(key=lambda x: x[0])
-            sorted_matches = [item[1] for item in scored_pool[:7]]
+                scored_pool.append((match_score, m_date_str, m))
+
+            # 💡 [핵심 순서 교정] 1순위: 티어 오차가 적은 경기 우선 ➔ 2순위: 날짜가 최신인 경기 우선
+            scored_pool.sort(key=lambda x: (x[0], str(x[1])), reverse=False)
+            # 단, 날짜 최신순 정렬은 내림차순이어야 하므로 티어 점수순 정렬 후 상위 7개를 뽑아 날짜 기준 최신순으로 재정렬
+            top_7_matches = [item[2] for item in scored_pool[:7]]
+            
             try:
-                sorted_matches.sort(key=lambda x: str(x.get("match_time", "")), reverse=True)
+                top_7_matches.sort(key=lambda x: str(x.get("match_time", "")), reverse=True)
             except:
                 pass
-            return sorted_matches
+                
+            return top_7_matches
 
         home_matched_7 = filter_matched_tier_games(home_merged_pool, h_opp_at, h_opp_de)
         away_matched_7 = filter_matched_tier_games(away_merged_pool, a_opp_at, a_opp_de)
