@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-31 00:56:42",
+    "last_updated": "2026-10-31 03:52:47",
     "match_details": {
         "3018851": {
             "match_code": "3018851",
@@ -8696,7 +8696,7 @@
                 "match_time_raw": "10/31/2026 5:45:00 PM",
                 "match_time_display": "2026-11-01 02:45",
                 "stadium": "Philips Stadion",
-                "home_stadium": "Philips Stadion",
+                "home_stadium": "-",
                 "weather": ""
             },
             "home": "PSV 아인트호벤",
@@ -12824,6 +12824,162 @@
                             "interval": "14 일"
                         }
                     ]
+                }
+            }
+        },
+        "3108289": {
+            "match_code": "3108289",
+            "head_info": {
+                "league": "리그 1",
+                "round": "",
+                "match_time_raw": "10/31/2026 6:00:00 PM",
+                "match_time_display": "2026-11-01 03:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "아르메",
+            "away": "Nzeidane",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 6무 2패",
+                        "goals_per_game": "1.20",
+                        "conceded_per_game": "1.10"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 5무 1패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
+                }
+            }
+        },
+        "3108294": {
+            "match_code": "3108294",
+            "head_info": {
+                "league": "리그 1",
+                "round": "",
+                "match_time_raw": "10/31/2026 7:50:00 PM",
+                "match_time_display": "2026-11-01 04:50",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "ASC Police",
+            "away": "테브라-제이나",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 2무 6패",
+                        "goals_per_game": "0.80",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "1.40"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (11.1%)",
+                        "무승부 3 (33.3%)",
+                        "승 5 (55.6%)",
+                        "0.56",
+                        "경기당 득점",
+                        "1.44"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "MAU D12026.02.17",
+                                "테브라-제이나",
+                                "4-0",
+                                "ASC Police"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12025.11.04",
+                                "ASC Police",
+                                "1-1",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12022.12.21",
+                                "테브라-제이나",
+                                "1-0",
+                                "ASC Police"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12022.01.07",
+                                "ASC Police",
+                                "0-2",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "Mauritania Cup2021.07.10",
+                                "ASC Police",
+                                "1-2",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12021.04.18",
+                                "테브라-제이나",
+                                "1-2",
+                                "ASC Police"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12021.01.15",
+                                "ASC Police",
+                                "0-1",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12020.02.06",
+                                "테브라-제이나",
+                                "0-0",
+                                "ASC Police"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12019.03.16",
+                                "테브라-제이나",
+                                "1-1",
+                                "ASC Police"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         }
