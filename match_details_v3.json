@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-30 16:58:44",
+    "last_updated": "2026-10-30 20:07:03",
     "match_details": {
         "3018854": {
             "match_code": "3018854",
@@ -1838,6 +1838,645 @@
                 }
             }
         },
+        "3107503": {
+            "match_code": "3107503",
+            "head_info": {
+                "league": "K리그 1",
+                "round": ""
+            },
+            "home": "광주",
+            "away": "김천",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "광주",
+                    "home_matches": [
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.10.24",
+                            "teams": "부천 vs 광주",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.10.18",
+                            "teams": "대전 vs 광주",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어E(1.90)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.10.11",
+                            "teams": "광주 vs 울산",
+                            "ft_scores": [
+                                "4",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.20",
+                            "teams": "전북 vs 광주",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.60)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.13",
+                            "teams": "광주 vs 안양",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어E(2.40)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.09",
+                            "teams": "광주 vs 제주",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.06",
+                            "teams": "김천 vs 광주",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.30",
+                            "teams": "광주 vs 서울",
+                            "ft_scores": [
+                                "2",
+                                "5"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.26",
+                            "teams": "강원 vs 광주",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.23",
+                            "teams": "광주 vs 인천",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.08.19",
+                            "teams": "울산시민 vs 광주",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.15",
+                            "teams": "광주 vs 포항",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.40)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.08",
+                            "teams": "부천 vs 광주",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.02",
+                            "teams": "대전 vs 광주",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.29",
+                            "teams": "광주 vs 천안시티FC",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.60)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.26",
+                            "teams": "광주 vs 제주",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.22",
+                            "teams": "광주 vs 김천",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.19",
+                            "teams": "안양 vs 광주",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.11",
+                            "teams": "광주 vs 포항",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.05",
+                            "teams": "광주 vs 울산",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어D(1.60)"
+                        }
+                    ],
+                    "away_team_name": "김천",
+                    "away_matches": [
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.10.24",
+                            "teams": "김천 vs 대전",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.10.18",
+                            "teams": "서울 vs 김천",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.10.10",
+                            "teams": "김천 vs 안양",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어E(2.20)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.19",
+                            "teams": "부천 vs 김천",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.13",
+                            "teams": "김천 vs 강원",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.09",
+                            "teams": "포항 vs 김천",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.60)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.06",
+                            "teams": "김천 vs 광주",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.29",
+                            "teams": "울산 vs 김천",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어D(1.60)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.25",
+                            "teams": "김천 vs 전북",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.22",
+                            "teams": "제주 vs 김천",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.08.19",
+                            "teams": "김포 vs 김천",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.16",
+                            "teams": "인천 vs 김천",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.08",
+                            "teams": "김천 vs 서울",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.01",
+                            "teams": "포항 vs 김천",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.29",
+                            "teams": "김천 vs 수원FC",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.25",
+                            "teams": "김천 vs 대전",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.22",
+                            "teams": "광주 vs 김천",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.18",
+                            "teams": "강원 vs 김천",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어B(0.60)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.11",
+                            "teams": "김천 vs 부천",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.05",
+                            "teams": "김천 vs 제주",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어C(0.90)"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "광주",
+                    "home_matches": [
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.10.11",
+                            "teams": "광주 vs 울산",
+                            "ft_scores": [
+                                "4",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.13",
+                            "teams": "광주 vs 안양",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어E(2.40)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.09",
+                            "teams": "광주 vs 제주",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.30",
+                            "teams": "광주 vs 서울",
+                            "ft_scores": [
+                                "2",
+                                "5"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.23",
+                            "teams": "광주 vs 인천",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.15",
+                            "teams": "광주 vs 포항",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.40)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.29",
+                            "teams": "광주 vs 천안시티FC",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.60)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.26",
+                            "teams": "광주 vs 제주",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.22",
+                            "teams": "광주 vs 김천",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.11",
+                            "teams": "광주 vs 포항",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.05",
+                            "teams": "광주 vs 울산",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어D(1.60)"
+                        }
+                    ],
+                    "away_team_name": "김천",
+                    "away_matches": [
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.10.18",
+                            "teams": "서울 vs 김천",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.19",
+                            "teams": "부천 vs 김천",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.09.09",
+                            "teams": "포항 vs 김천",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.60)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.29",
+                            "teams": "울산 vs 김천",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어D(1.60)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.22",
+                            "teams": "제주 vs 김천",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.08.19",
+                            "teams": "김포 vs 김천",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.16",
+                            "teams": "인천 vs 김천",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.08.01",
+                            "teams": "포항 vs 김천",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.22",
+                            "teams": "광주 vs 김천",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D1",
+                            "match_time": "2026.07.18",
+                            "teams": "강원 vs 김천",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어B(0.60)"
+                        }
+                    ]
+                }
+            }
+        },
         "2925566": {
             "match_code": "2925566",
             "head_info": {
@@ -3101,6 +3740,1214 @@
                                 "0"
                             ],
                             "opponent_tier_info": "공격C(1.50)/방어D(1.30)"
+                        }
+                    ]
+                }
+            }
+        },
+        "2925568": {
+            "match_code": "2925568",
+            "head_info": {
+                "league": "K리그 2",
+                "round": ""
+            },
+            "home": "충남아산",
+            "away": "김포",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "충남아산",
+                    "home_matches": [
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.25",
+                            "teams": "수원FC vs 충남아산",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.80)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.17",
+                            "teams": "경남 vs 충남아산",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.10",
+                            "teams": "김해FC vs 충남아산",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.60)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.19",
+                            "teams": "충남아산 vs 천안시티FC",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.60)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.12",
+                            "teams": "충남아산 vs 충북청주",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.06",
+                            "teams": "수원삼성 vs 충남아산",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.23",
+                            "teams": "충남아산 vs 용인시민축구단",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.08.19",
+                            "teams": "충남아산 vs 대전",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.40)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.16",
+                            "teams": "대구 vs 충남아산",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.07",
+                            "teams": "충남아산 vs 안산",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(2.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.01",
+                            "teams": "충남아산 vs 성남",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.29",
+                            "teams": "충남아산 vs 시흥시민",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.25",
+                            "teams": "화성FC vs 충남아산",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.18",
+                            "teams": "전남 vs 충남아산",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(2.20)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.15",
+                            "teams": "전남 vs 충남아산",
+                            "ft_scores": [
+                                "3",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(1.90)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.12",
+                            "teams": "충남아산 vs 경남",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.05",
+                            "teams": "김포 vs 충남아산",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.06.05",
+                            "teams": "부산 vs 충남아산",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.30",
+                            "teams": "충남아산 vs 수원삼성",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.24",
+                            "teams": "용인시민축구단 vs 충남아산",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어D(1.30)"
+                        }
+                    ],
+                    "away_team_name": "김포",
+                    "away_matches": [
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.24",
+                            "teams": "김포 vs 김해FC",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(2.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.17",
+                            "teams": "김포 vs 파주시민",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.09",
+                            "teams": "김포 vs 서울E",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.19",
+                            "teams": "김포 vs 부산",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.13",
+                            "teams": "전남 vs 김포",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어E(1.90)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.06",
+                            "teams": "김포 vs 성남",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.29",
+                            "teams": "김포 vs 수원삼성",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.08.19",
+                            "teams": "김포 vs 김천",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.16",
+                            "teams": "김포 vs 천안시티FC",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어E(1.80)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.07",
+                            "teams": "김포 vs 충북청주",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어E(1.80)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.02",
+                            "teams": "김포 vs 경남",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.29",
+                            "teams": "인천 vs 김포",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어B(0.60)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.26",
+                            "teams": "김포 vs 용인시민축구단",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.18",
+                            "teams": "김포 vs 대구",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어B(0.80)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.15",
+                            "teams": "남양주시민축구단 vs 김포",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.12",
+                            "teams": "부산 vs 김포",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.40)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.05",
+                            "teams": "김포 vs 충남아산",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.06.07",
+                            "teams": "김포 vs 전남",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어D(1.40)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.30",
+                            "teams": "김해FC vs 김포",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(2.10)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.25",
+                            "teams": "파주시민 vs 김포",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "충남아산",
+                    "home_matches": [
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.19",
+                            "teams": "충남아산 vs 천안시티FC",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.60)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.12",
+                            "teams": "충남아산 vs 충북청주",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.23",
+                            "teams": "충남아산 vs 용인시민축구단",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.08.19",
+                            "teams": "충남아산 vs 대전",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.40)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.07",
+                            "teams": "충남아산 vs 안산",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(2.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.01",
+                            "teams": "충남아산 vs 성남",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.29",
+                            "teams": "충남아산 vs 시흥시민",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.12",
+                            "teams": "충남아산 vs 경남",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.30",
+                            "teams": "충남아산 vs 수원삼성",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
+                        }
+                    ],
+                    "away_team_name": "김포",
+                    "away_matches": [
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.13",
+                            "teams": "전남 vs 김포",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어E(1.90)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.29",
+                            "teams": "인천 vs 김포",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어B(0.60)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.15",
+                            "teams": "남양주시민축구단 vs 김포",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.12",
+                            "teams": "부산 vs 김포",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.40)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.30",
+                            "teams": "김해FC vs 김포",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(2.10)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.25",
+                            "teams": "파주시민 vs 김포",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
+                        }
+                    ]
+                }
+            }
+        },
+        "2925569": {
+            "match_code": "2925569",
+            "head_info": {
+                "league": "K리그 2",
+                "round": ""
+            },
+            "home": "대구",
+            "away": "수원삼성",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "대구",
+                    "home_matches": [
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.24",
+                            "teams": "전남 vs 대구",
+                            "ft_scores": [
+                                "2",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.17",
+                            "teams": "대구 vs 충북청주",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.19",
+                            "teams": "서울E vs 대구",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.12",
+                            "teams": "대구 vs 용인시민축구단",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.04",
+                            "teams": "파주시민 vs 대구",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.28",
+                            "teams": "안산 vs 대구",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(2.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.22",
+                            "teams": "대구 vs 부산",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.16",
+                            "teams": "대구 vs 충남아산",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.07",
+                            "teams": "경남 vs 대구",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.40)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.01",
+                            "teams": "화성FC vs 대구",
+                            "ft_scores": [
+                                "5",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.25",
+                            "teams": "대구 vs 수원FC",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.18",
+                            "teams": "김포 vs 대구",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어B(0.80)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.15",
+                            "teams": "대구 vs 시흥시민",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.11",
+                            "teams": "대구 vs 성남",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.60)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.04",
+                            "teams": "충북청주 vs 대구",
+                            "ft_scores": [
+                                "1",
+                                "5"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.06.05",
+                            "teams": "대구 vs 파주시민",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.40)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.30",
+                            "teams": "용인시민축구단 vs 대구",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.60)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.24",
+                            "teams": "대구 vs 안산",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.17",
+                            "teams": "김해FC vs 대구",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어E(2.30)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.09",
+                            "teams": "수원삼성 vs 대구",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.70)"
+                        }
+                    ],
+                    "away_team_name": "수원삼성",
+                    "away_matches": [
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.25",
+                            "teams": "성남 vs 수원삼성",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.18",
+                            "teams": "수원삼성 vs 화성FC",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어B(0.70)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.11",
+                            "teams": "수원삼성 vs 안산",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(2.00)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.12",
+                            "teams": "서울E vs 수원삼성",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.06",
+                            "teams": "수원삼성 vs 충남아산",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.29",
+                            "teams": "김포 vs 수원삼성",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.22",
+                            "teams": "천안시티FC vs 수원삼성",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(1.80)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.15",
+                            "teams": "수원삼성 vs 수원FC",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.07",
+                            "teams": "수원삼성 vs 김해FC",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.01",
+                            "teams": "충북청주 vs 수원삼성",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.25",
+                            "teams": "부산 vs 수원삼성",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.19",
+                            "teams": "수원삼성 vs 파주시민",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.15",
+                            "teams": "부산교통공사 vs 수원삼성",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.11",
+                            "teams": "안산 vs 수원삼성",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어E(2.00)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.04",
+                            "teams": "수원삼성 vs 성남",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.06.06",
+                            "teams": "화성FC vs 수원삼성",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.30",
+                            "teams": "충남아산 vs 수원삼성",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.25",
+                            "teams": "수원삼성 vs 천안시티FC",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어B(0.80)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.09",
+                            "teams": "수원삼성 vs 대구",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.70)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.03",
+                            "teams": "수원FC vs 수원삼성",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.50)"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "대구",
+                    "home_matches": [
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.17",
+                            "teams": "대구 vs 충북청주",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.12",
+                            "teams": "대구 vs 용인시민축구단",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.22",
+                            "teams": "대구 vs 부산",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(1.20)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.16",
+                            "teams": "대구 vs 충남아산",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.25",
+                            "teams": "대구 vs 수원FC",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.15",
+                            "teams": "대구 vs 시흥시민",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.11",
+                            "teams": "대구 vs 성남",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.60)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.06.05",
+                            "teams": "대구 vs 파주시민",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.40)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.24",
+                            "teams": "대구 vs 안산",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.50)"
+                        }
+                    ],
+                    "away_team_name": "수원삼성",
+                    "away_matches": [
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.10.25",
+                            "teams": "성남 vs 수원삼성",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.50)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.09.12",
+                            "teams": "서울E vs 수원삼성",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.29",
+                            "teams": "김포 vs 수원삼성",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.22",
+                            "teams": "천안시티FC vs 수원삼성",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(1.80)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.08.01",
+                            "teams": "충북청주 vs 수원삼성",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어E(1.70)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.25",
+                            "teams": "부산 vs 수원삼성",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.30)"
+                        },
+                        {
+                            "league": "KFAC",
+                            "match_time": "2026.07.15",
+                            "teams": "부산교통공사 vs 수원삼성",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어C(0.90)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.07.11",
+                            "teams": "안산 vs 수원삼성",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어E(2.00)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.06.06",
+                            "teams": "화성FC vs 수원삼성",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(1.00)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.30",
+                            "teams": "충남아산 vs 수원삼성",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
+                        },
+                        {
+                            "league": "KOR D2",
+                            "match_time": "2026.05.03",
+                            "teams": "수원FC vs 수원삼성",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.50)"
                         }
                     ]
                 }
@@ -9960,6 +11807,635 @@
                                 "2"
                             ],
                             "opponent_tier_info": "공격C(1.40)/방어C(0.90)"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000515": {
+            "match_code": "3000515",
+            "head_info": {
+                "league": "J1 리그",
+                "round": ""
+            },
+            "home": "가시와",
+            "away": "우라와",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "가시와",
+                    "home_matches": [
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.27",
+                            "teams": "라차부리 vs 가시와",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.60)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.24",
+                            "teams": "가시마 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어E(1.70)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.21",
+                            "teams": "FC 도쿄 vs 가시와",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어E(1.90)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.17",
+                            "teams": "가시와 vs 나고야",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어D(1.60)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.14",
+                            "teams": "가시와 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "5",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어E(1.70)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.09",
+                            "teams": "가시와 vs 고베",
+                            "ft_scores": [
+                                "4",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어D(1.60)"
+                        },
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.10.03",
+                            "teams": "가시와 vs 감바 오사카",
+                            "ft_scores": [
+                                "3",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "JE Cup",
+                            "match_time": "2026.09.23",
+                            "teams": "가시와 vs 이마바리",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어E(2.00)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.20",
+                            "teams": "마치다 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어B(0.70)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.09.16",
+                            "teams": "전북 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.11",
+                            "teams": "교토 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어C(1.20)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.06",
+                            "teams": "가시와 vs 요코하마 M.",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(1.10)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.02",
+                            "teams": "세레소 오사카 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어C(1.00)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.29",
+                            "teams": "시미즈 vs 가시와",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어C(1.00)"
+                        },
+                        {
+                            "league": "JE Cup",
+                            "match_time": "2026.08.26",
+                            "teams": "가시와 vs Senshu University",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.00)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.21",
+                            "teams": "가시와 vs V-바렌 나가사키",
+                            "ft_scores": [
+                                "4",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.50)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.14",
+                            "teams": "베르디 vs 가시와",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.60)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.08",
+                            "teams": "가시와 vs 미토",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(1.10)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.01",
+                            "teams": "지바 vs 가시와",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어E(2.00)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.06.06",
+                            "teams": "가시와 vs 교토",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.30)"
+                        }
+                    ],
+                    "away_team_name": "우라와",
+                    "away_matches": [
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.10.28",
+                            "teams": "나고야 vs 우라와",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.25",
+                            "teams": "우라와 vs V-바렌 나가사키",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(1.20)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.21",
+                            "teams": "우라와 vs 지바",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.50)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.17",
+                            "teams": "미토 vs 우라와",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어D(1.40)"
+                        },
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.10.14",
+                            "teams": "요코하마 FC vs 우라와",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.30)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.10",
+                            "teams": "FC 도쿄 vs 우라와",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어E(1.80)"
+                        },
+                        {
+                            "league": "JE Cup",
+                            "match_time": "2026.10.07",
+                            "teams": "우라와 vs 오미야 아르디자",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.10)"
+                        },
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.09.29",
+                            "teams": "도야마 vs 우라와",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어D(1.30)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.19",
+                            "teams": "우라와 vs 베르디",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.40)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.13",
+                            "teams": "우라와 vs 오카야마",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어E(2.20)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.06",
+                            "teams": "가시마 vs 우라와",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어E(2.40)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.02",
+                            "teams": "아비스파 후쿠오카 vs 우라와",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어D(1.50)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.29",
+                            "teams": "우라와 vs 요코하마 M.",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어B(0.80)"
+                        },
+                        {
+                            "league": "JE Cup",
+                            "match_time": "2026.08.26",
+                            "teams": "우라와 vs 야마나시",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(2.60)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.23",
+                            "teams": "마치다 vs 우라와",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어B(0.50)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.15",
+                            "teams": "우라와 vs 산프레체 히로시마",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.60)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.07",
+                            "teams": "감바 오사카 vs 우라와",
+                            "ft_scores": [
+                                "4",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어C(1.00)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.01",
+                            "teams": "우라와 vs 오미야 아르디자",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어E(1.70)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.21",
+                            "teams": "우라와 vs 후지에다 MYFC",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어B(0.70)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.17",
+                            "teams": "류큐 vs 우라와",
+                            "ft_scores": [
+                                "5",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.30)"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "가시와",
+                    "home_matches": [
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.17",
+                            "teams": "가시와 vs 나고야",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어D(1.60)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.14",
+                            "teams": "가시와 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "5",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어E(1.70)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.09",
+                            "teams": "가시와 vs 고베",
+                            "ft_scores": [
+                                "4",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어D(1.60)"
+                        },
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.10.03",
+                            "teams": "가시와 vs 감바 오사카",
+                            "ft_scores": [
+                                "3",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "JE Cup",
+                            "match_time": "2026.09.23",
+                            "teams": "가시와 vs 이마바리",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어E(2.00)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.06",
+                            "teams": "가시와 vs 요코하마 M.",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(1.10)"
+                        },
+                        {
+                            "league": "JE Cup",
+                            "match_time": "2026.08.26",
+                            "teams": "가시와 vs Senshu University",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.00)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.21",
+                            "teams": "가시와 vs V-바렌 나가사키",
+                            "ft_scores": [
+                                "4",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.50)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.08",
+                            "teams": "가시와 vs 미토",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(1.10)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.06.06",
+                            "teams": "가시와 vs 교토",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.30)"
+                        }
+                    ],
+                    "away_team_name": "우라와",
+                    "away_matches": [
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.10.28",
+                            "teams": "나고야 vs 우라와",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.17",
+                            "teams": "미토 vs 우라와",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어D(1.40)"
+                        },
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.10.14",
+                            "teams": "요코하마 FC vs 우라와",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.30)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.10",
+                            "teams": "FC 도쿄 vs 우라와",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어E(1.80)"
+                        },
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.09.29",
+                            "teams": "도야마 vs 우라와",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어D(1.30)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.06",
+                            "teams": "가시마 vs 우라와",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어E(2.40)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.02",
+                            "teams": "아비스파 후쿠오카 vs 우라와",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어D(1.50)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.23",
+                            "teams": "마치다 vs 우라와",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어B(0.50)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.07",
+                            "teams": "감바 오사카 vs 우라와",
+                            "ft_scores": [
+                                "4",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어C(1.00)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.17",
+                            "teams": "류큐 vs 우라와",
+                            "ft_scores": [
+                                "5",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.30)"
                         }
                     ]
                 }
