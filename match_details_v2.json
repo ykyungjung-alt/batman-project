@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-31 12:51:25",
+    "last_updated": "2026-10-31 15:56:36",
     "match_details": {
         "3018851": {
             "match_code": "3018851",
@@ -2332,7 +2332,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "17",
+                        "rank": "18",
                         "team": "헤타페",
                         "played": "10",
                         "win": "2",
@@ -5605,7 +5605,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "11",
+                        "rank": "12",
                         "team": "포츠머스",
                         "played": "12",
                         "win": "5",
@@ -6561,7 +6561,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "10",
+                        "rank": "11",
                         "team": "블랙번",
                         "played": "12",
                         "win": "5",
@@ -7124,7 +7124,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "12",
+                        "rank": "13",
                         "team": "그로이터 퓌르트",
                         "played": "9",
                         "win": "2",
@@ -7138,7 +7138,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "13",
+                        "rank": "14",
                         "team": "홀슈타인 킬",
                         "played": "9",
                         "win": "1",
@@ -7509,7 +7509,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "7",
+                        "rank": "8",
                         "team": "장크트 파울리",
                         "played": "9",
                         "win": "2",
@@ -11628,22 +11628,22 @@
                 "fixtures": {
                     "home": [
                         {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-11-03 19:45:00",
+                            "teams": "11.03 2026 vs 위건 vs 맨스필드 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
                             "league": "EFL 트로피",
                             "match_time": "2026-11-10 19:00:00",
                             "teams": "11.10 2026 vs 크루 vs 위건 vs 10 일",
-                            "interval": "시작전"
+                            "interval": "10 일"
                         },
                         {
                             "league": "잉글랜드 리그 1",
                             "match_time": "2026-11-14 15:00:00",
                             "teams": "11.14 2026 vs 위건 vs 반슬리 vs 14 일",
                             "interval": "14 일"
-                        },
-                        {
-                            "league": "잉글랜드 리그 1",
-                            "match_time": "2026-11-21 15:00:00",
-                            "teams": "11.21 2026 vs 블랙풀 vs 위건 vs 21 일",
-                            "interval": "21 일"
                         }
                     ],
                     "away": [
