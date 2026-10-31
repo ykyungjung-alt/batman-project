@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-01 00:38:09",
+    "last_updated": "2026-11-01 03:43:43",
     "match_details": {
         "3018853": {
             "match_code": "3018853",
@@ -2896,8 +2896,22 @@
                     ]
                 },
                 "fixtures": {
-                    "home": [],
-                    "away": []
+                    "home": [
+                        {
+                            "league": "리그 1",
+                            "match_time": "2026-11-05 18:00:00",
+                            "teams": "11.05 2026 vs ISCA vs ASEC 미모사 vs 4 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "리그 1",
+                            "match_time": "2026-11-05 15:30:00",
+                            "teams": "11.05 2026 vs 산 페드로 vs SO 아르메 vs 4 일",
+                            "interval": "시작전"
+                        }
+                    ]
                 }
             }
         },
@@ -2995,6 +3009,44 @@
                             ]
                         }
                     ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
+                }
+            }
+        },
+        "3108902": {
+            "match_code": "3108902",
+            "head_info": {
+                "league": "리그 1",
+                "round": "",
+                "match_time_raw": "11/1/2026 7:50:00 PM",
+                "match_time_display": "2026-11-02 04:50",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "Nouakchott Academy",
+            "away": "ASC Kedia",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 5무 1패",
+                        "goals_per_game": "1.00",
+                        "conceded_per_game": "0.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 4무 4패",
+                        "goals_per_game": "0.80",
+                        "conceded_per_game": "1.10"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
                 },
                 "fixtures": {
                     "home": [],
