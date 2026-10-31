@@ -1,205 +1,6 @@
 {
-    "last_updated": "2026-11-01 00:42:10",
+    "last_updated": "2026-11-01 03:47:22",
     "match_details": {
-        "3018851": {
-            "match_code": "3018851",
-            "head_info": {
-                "league": "분데스리가",
-                "round": "분데스리가·  라운드 8",
-                "match_time_raw": "10/31/2026 5:30:00 PM",
-                "match_time_display": "2026-11-01 02:30",
-                "stadium": "Allianz Arena",
-                "home_stadium": "Allianz Arena",
-                "weather": "대체로 맑음,  5℃～6℃"
-            },
-            "home": "바이에른 뮌헨",
-            "away": "도르트문트",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "1",
-                        "team": "바이에른 뮌헨",
-                        "played": "7",
-                        "win": "5",
-                        "draw": "2",
-                        "loss": "0",
-                        "goals_for": "25",
-                        "goals_against": "6",
-                        "goal_diff": "19",
-                        "points": "17"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "2",
-                        "team": "도르트문트",
-                        "played": "7",
-                        "win": "5",
-                        "draw": "2",
-                        "loss": "0",
-                        "goals_for": "12",
-                        "goals_against": "4",
-                        "goal_diff": "8",
-                        "points": "17"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "6승 4무 0패",
-                        "goals_per_game": "3.60",
-                        "conceded_per_game": "1.10"
-                    },
-                    "away_summary": {
-                        "recent_record": "7승 2무 1패",
-                        "goals_per_game": "1.80",
-                        "conceded_per_game": "1.00"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 6 (60%)",
-                        "무승부 3 (30%)",
-                        "승 1 (10%)",
-                        "2.30",
-                        "경기당 득점",
-                        "1.40",
-                        "핸디캡：5승 0무 5패",
-                        "언오버：5오버 1무 4언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "GER SC2026.08.22",
-                                "도르트문트",
-                                "1-2",
-                                "바이에른 뮌헨"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "GER D12026.02.28",
-                                "도르트문트",
-                                "2-3",
-                                "바이에른 뮌헨"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "GER D12025.10.18",
-                                "바이에른 뮌헨",
-                                "2-1",
-                                "도르트문트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "GER D12025.04.12",
-                                "바이에른 뮌헨",
-                                "2-2",
-                                "도르트문트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "GER D12024.11.30",
-                                "도르트문트",
-                                "1-1",
-                                "바이에른 뮌헨"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "GER D12024.03.30",
-                                "바이에른 뮌헨",
-                                "0-2",
-                                "도르트문트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "GER D12023.11.04",
-                                "도르트문트",
-                                "0-4",
-                                "바이에른 뮌헨"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "GER D12023.04.01",
-                                "바이에른 뮌헨",
-                                "4-2",
-                                "도르트문트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "GER D12022.10.08",
-                                "도르트문트",
-                                "2-2",
-                                "바이에른 뮌헨"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "GER D12022.04.23",
-                                "바이에른 뮌헨",
-                                "3-1",
-                                "도르트문트"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "챔피언스리그",
-                            "match_time": "2026-11-03 20:00:00",
-                            "teams": "11.03 2026 vs AT 마드리드 vs 바이에른 뮌헨 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "분데스리가",
-                            "match_time": "2026-11-07 14:30:00",
-                            "teams": "11.07 2026 vs 마인츠 vs 바이에른 뮌헨 vs 7 일",
-                            "interval": "7 일"
-                        },
-                        {
-                            "league": "분데스리가",
-                            "match_time": "2026-11-21 14:30:00",
-                            "teams": "11.21 2026 vs 바이에른 뮌헨 vs 쾰른 vs 21 일",
-                            "interval": "21 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "챔피언스리그",
-                            "match_time": "2026-11-04 20:00:00",
-                            "teams": "11.04 2026 vs 도르트문트 vs 베티스 vs 4 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "분데스리가",
-                            "match_time": "2026-11-07 14:30:00",
-                            "teams": "11.07 2026 vs 도르트문트 vs 엘버스베르크 vs 7 일",
-                            "interval": "7 일"
-                        },
-                        {
-                            "league": "분데스리가",
-                            "match_time": "2026-11-21 14:30:00",
-                            "teams": "11.21 2026 vs 묀헨글라트바흐 vs 도르트문트 vs 21 일",
-                            "interval": "21 일"
-                        }
-                    ]
-                }
-            }
-        },
         "3018856": {
             "match_code": "3018856",
             "head_info": {
@@ -398,205 +199,6 @@
                 }
             }
         },
-        "3003938": {
-            "match_code": "3003938",
-            "head_info": {
-                "league": "잉글랜드 프리미어리그",
-                "round": "잉글랜드 프리미어리그·  라운드 9",
-                "match_time_raw": "10/31/2026 5:30:00 PM",
-                "match_time_display": "2026-11-01 02:30",
-                "stadium": "Tottenham Hotspur Stadium",
-                "home_stadium": "Tottenham Hotspur Stadium",
-                "weather": "구름 조금,  10℃～11℃"
-            },
-            "home": "토트넘",
-            "away": "크리스탈팰리스",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "14",
-                        "team": "토트넘",
-                        "played": "8",
-                        "win": "2",
-                        "draw": "3",
-                        "loss": "3",
-                        "goals_for": "8",
-                        "goals_against": "10",
-                        "goal_diff": "-2",
-                        "points": "9"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "17",
-                        "team": "크리스탈팰리스",
-                        "played": "8",
-                        "win": "2",
-                        "draw": "1",
-                        "loss": "5",
-                        "goals_for": "9",
-                        "goals_against": "19",
-                        "goal_diff": "-10",
-                        "points": "7"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "3승 3무 4패",
-                        "goals_per_game": "1.40",
-                        "conceded_per_game": "1.40"
-                    },
-                    "away_summary": {
-                        "recent_record": "3승 2무 5패",
-                        "goals_per_game": "1.40",
-                        "conceded_per_game": "1.80"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 6 (60%)",
-                        "무승부 0 (0%)",
-                        "승 4 (40%)",
-                        "1.50",
-                        "경기당 득점",
-                        "1.10",
-                        "핸디캡：6승 0무 4패",
-                        "언오버：6오버 0무 4언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "ENG PR2026.03.05",
-                                "토트넘",
-                                "1-3",
-                                "크리스탈팰리스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ENG PR2025.12.28",
-                                "크리스탈팰리스",
-                                "0-1",
-                                "토트넘"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ENG PR2025.05.11",
-                                "토트넘",
-                                "0-2",
-                                "크리스탈팰리스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ENG PR2024.10.27",
-                                "크리스탈팰리스",
-                                "1-0",
-                                "토트넘"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ENG PR2024.03.02",
-                                "토트넘",
-                                "3-1",
-                                "크리스탈팰리스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ENG PR2023.10.27",
-                                "크리스탈팰리스",
-                                "1-2",
-                                "토트넘"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ENG PR2023.05.06",
-                                "토트넘",
-                                "1-0",
-                                "크리스탈팰리스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ENG PR2023.01.04",
-                                "크리스탈팰리스",
-                                "0-4",
-                                "토트넘"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ENG PR2021.12.26",
-                                "토트넘",
-                                "3-0",
-                                "크리스탈팰리스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ENG PR2021.09.11",
-                                "크리스탈팰리스",
-                                "3-0",
-                                "토트넘"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "잉글랜드 프리미어리그",
-                            "match_time": "2026-11-07 12:30:00",
-                            "teams": "11.07 2026 vs 리즈 vs 토트넘 vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "잉글랜드 프리미어리그",
-                            "match_time": "2026-11-21 15:00:00",
-                            "teams": "11.21 2026 vs 토트넘 vs 입스위치 vs 21 일",
-                            "interval": "21 일"
-                        },
-                        {
-                            "league": "잉글랜드 프리미어리그",
-                            "match_time": "2026-11-29 14:05:00",
-                            "teams": "11.29 2026 vs 선덜랜드 vs 토트넘 vs 29 일",
-                            "interval": "29 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "유로파리그",
-                            "match_time": "2026-11-05 17:45:00",
-                            "teams": "11.05 2026 vs 크리스탈팰리스 vs 호펜하임 vs 5 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "잉글랜드 프리미어리그",
-                            "match_time": "2026-11-08 14:00:00",
-                            "teams": "11.08 2026 vs 크리스탈팰리스 vs 리버풀 vs 8 일",
-                            "interval": "8 일"
-                        },
-                        {
-                            "league": "잉글랜드 프리미어리그",
-                            "match_time": "2026-11-21 15:00:00",
-                            "teams": "11.21 2026 vs 코번트리 vs 크리스탈팰리스 vs 21 일",
-                            "interval": "21 일"
-                        }
-                    ]
-                }
-            }
-        },
         "3003930": {
             "match_code": "3003930",
             "head_info": {
@@ -790,205 +392,6 @@
                             "league": "잉글랜드 프리미어리그",
                             "match_time": "2026-11-29 14:05:00",
                             "teams": "11.29 2026 vs 풀럼 vs 본머스 vs 29 일",
-                            "interval": "29 일"
-                        }
-                    ]
-                }
-            }
-        },
-        "3013743": {
-            "match_code": "3013743",
-            "head_info": {
-                "league": "라리가",
-                "round": "라리가·  라운드 11",
-                "match_time_raw": "10/31/2026 5:30:00 PM",
-                "match_time_display": "2026-11-01 02:30",
-                "stadium": "Estadio Benito Villamarin",
-                "home_stadium": "Estadio Benito Villamarin",
-                "weather": "대체로 맑음,  19℃～20℃"
-            },
-            "home": "베티스",
-            "away": "말라가",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "4",
-                        "team": "베티스",
-                        "played": "10",
-                        "win": "6",
-                        "draw": "2",
-                        "loss": "2",
-                        "goals_for": "16",
-                        "goals_against": "14",
-                        "goal_diff": "2",
-                        "points": "20"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "20",
-                        "team": "말라가",
-                        "played": "10",
-                        "win": "0",
-                        "draw": "5",
-                        "loss": "5",
-                        "goals_for": "7",
-                        "goals_against": "19",
-                        "goal_diff": "-12",
-                        "points": "5"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "7승 2무 1패",
-                        "goals_per_game": "1.90",
-                        "conceded_per_game": "1.30"
-                    },
-                    "away_summary": {
-                        "recent_record": "1승 5무 4패",
-                        "goals_per_game": "1.00",
-                        "conceded_per_game": "1.70"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 6 (60%)",
-                        "무승부 0 (0%)",
-                        "승 4 (40%)",
-                        "1.50",
-                        "경기당 득점",
-                        "1.10",
-                        "핸디캡：5승 0무 5패",
-                        "언오버：6오버 0무 4언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "INT CF2025.08.09",
-                                "말라가",
-                                "3-1",
-                                "베티스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SPA D12018.04.30",
-                                "베티스",
-                                "2-1",
-                                "말라가"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SPA D12017.12.18",
-                                "말라가",
-                                "0-2",
-                                "베티스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SPA D12017.02.28",
-                                "말라가",
-                                "1-2",
-                                "베티스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SPA D12016.09.23",
-                                "베티스",
-                                "1-0",
-                                "말라가"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SPA D12016.03.19",
-                                "베티스",
-                                "0-1",
-                                "말라가"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SPA D12015.11.07",
-                                "말라가",
-                                "0-1",
-                                "베티스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SPA D12014.03.31",
-                                "베티스",
-                                "1-2",
-                                "말라가"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SPA D12013.11.03",
-                                "말라가",
-                                "3-2",
-                                "베티스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SPA D12013.02.24",
-                                "베티스",
-                                "3-0",
-                                "말라가"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "챔피언스리그",
-                            "match_time": "2026-11-04 20:00:00",
-                            "teams": "11.04 2026 vs 도르트문트 vs 베티스 vs 4 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "라리가",
-                            "match_time": "2026-11-08 13:00:00",
-                            "teams": "11.08 2026 vs 엘체 vs 베티스 vs 8 일",
-                            "interval": "8 일"
-                        },
-                        {
-                            "league": "라리가",
-                            "match_time": "2026-11-22 16:00:00",
-                            "teams": "11.22 2026 vs 세비야 vs 베티스 vs 22 일",
-                            "interval": "22 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "라리가",
-                            "match_time": "2026-11-07 13:00:00",
-                            "teams": "11.07 2026 vs 말라가 vs 라싱 산탄데르 vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "라리가",
-                            "match_time": "2026-11-22 16:00:00",
-                            "teams": "11.22 2026 vs 오사수나 vs 말라가 vs 22 일",
-                            "interval": "22 일"
-                        },
-                        {
-                            "league": "라리가",
-                            "match_time": "2026-11-29 16:00:00",
-                            "teams": "11.29 2026 vs 말라가 vs 아틀레틱 빌바오 vs 29 일",
                             "interval": "29 일"
                         }
                     ]
@@ -2971,205 +2374,6 @@
                 }
             }
         },
-        "2993854": {
-            "match_code": "2993854",
-            "head_info": {
-                "league": "세리에 A",
-                "round": "세리에 A·  라운드 10",
-                "match_time_raw": "10/31/2026 5:00:00 PM",
-                "match_time_display": "2026-11-01 02:00",
-                "stadium": "Stadio Friuli",
-                "home_stadium": "Stadio Friuli",
-                "weather": "대체로 맑음,  9℃～10℃"
-            },
-            "home": "우디네세",
-            "away": "AS 로마",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "17",
-                        "team": "우디네세",
-                        "played": "9",
-                        "win": "1",
-                        "draw": "2",
-                        "loss": "6",
-                        "goals_for": "9",
-                        "goals_against": "18",
-                        "goal_diff": "-9",
-                        "points": "5"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "3",
-                        "team": "AS 로마",
-                        "played": "9",
-                        "win": "6",
-                        "draw": "3",
-                        "loss": "0",
-                        "goals_for": "23",
-                        "goals_against": "8",
-                        "goal_diff": "15",
-                        "points": "21"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "2승 2무 6패",
-                        "goals_per_game": "1.10",
-                        "conceded_per_game": "1.90"
-                    },
-                    "away_summary": {
-                        "recent_record": "5승 4무 1패",
-                        "goals_per_game": "2.30",
-                        "conceded_per_game": "1.30"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 2 (20%)",
-                        "무승부 1 (10%)",
-                        "승 7 (70%)",
-                        "0.90",
-                        "경기당 득점",
-                        "1.70",
-                        "핸디캡：3승 1무 5패",
-                        "언오버：5오버 0무 4언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "ITA D12026.02.02",
-                                "우디네세",
-                                "1-0",
-                                "AS 로마"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D12025.11.09",
-                                "AS 로마",
-                                "2-0",
-                                "우디네세"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D12025.01.26",
-                                "우디네세",
-                                "1-2",
-                                "AS 로마"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D12024.09.22",
-                                "AS 로마",
-                                "3-0",
-                                "우디네세"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D12024.04.25",
-                                "우디네세",
-                                "1-2",
-                                "AS 로마"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D12023.11.26",
-                                "AS 로마",
-                                "3-1",
-                                "우디네세"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D12023.04.16",
-                                "AS 로마",
-                                "3-0",
-                                "우디네세"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D12022.09.04",
-                                "우디네세",
-                                "4-0",
-                                "AS 로마"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D12022.03.13",
-                                "우디네세",
-                                "1-1",
-                                "AS 로마"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ITA D12021.09.23",
-                                "AS 로마",
-                                "1-0",
-                                "우디네세"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "세리에 A",
-                            "match_time": "2026-11-06 19:45:00",
-                            "teams": "11.06 2026 vs 베네치아 vs 우디네세 vs 6 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "세리에 A",
-                            "match_time": "2026-11-22 17:30:00",
-                            "teams": "11.22 2026 vs 볼로냐 vs 우디네세 vs 22 일",
-                            "interval": "22 일"
-                        },
-                        {
-                            "league": "세리에 A",
-                            "match_time": "2026-11-29 17:30:00",
-                            "teams": "11.29 2026 vs 우디네세 vs 피오렌티나 vs 29 일",
-                            "interval": "29 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "챔피언스리그",
-                            "match_time": "2026-11-03 20:00:00",
-                            "teams": "11.03 2026 vs 맨체스터 유나이티드 vs AS 로마 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "세리에 A",
-                            "match_time": "2026-11-07 19:45:00",
-                            "teams": "11.07 2026 vs AS 로마 vs 사수올로 vs 7 일",
-                            "interval": "7 일"
-                        },
-                        {
-                            "league": "세리에 A",
-                            "match_time": "2026-11-22 17:30:00",
-                            "teams": "11.22 2026 vs 파르마 vs AS 로마 vs 22 일",
-                            "interval": "22 일"
-                        }
-                    ]
-                }
-            }
-        },
         "2993845": {
             "match_code": "2993845",
             "head_info": {
@@ -4382,7 +3586,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "17",
+                        "rank": "18",
                         "team": "카를스루어 SC",
                         "played": "9",
                         "win": "2",
@@ -5159,140 +4363,6 @@
                 }
             }
         },
-        "3014145": {
-            "match_code": "3014145",
-            "head_info": {
-                "league": "라리가2",
-                "round": "라리가2·  라운드 12",
-                "match_time_raw": "10/31/2026 5:30:00 PM",
-                "match_time_display": "2026-11-01 02:30",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": "대체로 맑음,  15℃～16℃"
-            },
-            "home": "셀타비고 B",
-            "away": "코르도바",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "16",
-                        "team": "셀타비고 B",
-                        "played": "11",
-                        "win": "3",
-                        "draw": "3",
-                        "loss": "5",
-                        "goals_for": "16",
-                        "goals_against": "21",
-                        "goal_diff": "-5",
-                        "points": "12"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "11",
-                        "team": "코르도바",
-                        "played": "11",
-                        "win": "5",
-                        "draw": "0",
-                        "loss": "6",
-                        "goals_for": "17",
-                        "goals_against": "20",
-                        "goal_diff": "-3",
-                        "points": "15"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "3승 2무 5패",
-                        "goals_per_game": "1.60",
-                        "conceded_per_game": "2.10"
-                    },
-                    "away_summary": {
-                        "recent_record": "4승 0무 6패",
-                        "goals_per_game": "1.40",
-                        "conceded_per_game": "1.90"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 1 (50%)",
-                        "무승부 0 (0%)",
-                        "1.50",
-                        "경기당 득점",
-                        "1.00",
-                        "핸디캡：1승 0무 1패",
-                        "언오버：1오버 1무 0언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "SPA D32023.01.29",
-                                "코르도바",
-                                "0-2",
-                                "셀타비고 B"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SPA D32022.09.11",
-                                "셀타비고 B",
-                                "1-2",
-                                "코르도바"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "라리가2",
-                            "match_time": "2026-11-07 13:00:00",
-                            "teams": "11.07 2026 vs 부르고스 CF vs 셀타비고 B vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "라리가2",
-                            "match_time": "2026-11-16 19:30:00",
-                            "teams": "11.16 2026 vs 알바세테 vs 셀타비고 B vs 16 일",
-                            "interval": "16 일"
-                        },
-                        {
-                            "league": "라리가2",
-                            "match_time": "2026-11-22 16:00:00",
-                            "teams": "11.22 2026 vs 셀타비고 B vs 바야돌리드 vs 22 일",
-                            "interval": "22 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "라리가2",
-                            "match_time": "2026-11-07 17:30:00",
-                            "teams": "11.07 2026 vs 코르도바 vs 세우타 vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "라리가2",
-                            "match_time": "2026-11-14 17:30:00",
-                            "teams": "11.14 2026 vs 마요르카 vs 코르도바 vs 14 일",
-                            "interval": "14 일"
-                        },
-                        {
-                            "league": "라리가2",
-                            "match_time": "2026-11-22 16:00:00",
-                            "teams": "11.22 2026 vs 코르도바 vs R. 오비에도 vs 22 일",
-                            "interval": "22 일"
-                        }
-                    ]
-                }
-            }
-        },
         "3014143": {
             "match_code": "3014143",
             "head_info": {
@@ -5598,602 +4668,6 @@
                             "match_time": "2026-11-22 16:00:00",
                             "teams": "11.22 2026 vs 사바델 vs 그라나다 vs 21 일",
                             "interval": "21 일"
-                        }
-                    ]
-                }
-            }
-        },
-        "2996188": {
-            "match_code": "2996188",
-            "head_info": {
-                "league": "에레디비시",
-                "round": "에레디비시·  라운드 11",
-                "match_time_raw": "10/31/2026 3:30:00 PM",
-                "match_time_display": "2026-11-01 00:30",
-                "stadium": "Feijenoord Stadion",
-                "home_stadium": "Feijenoord Stadion",
-                "weather": "구름 많음,  8℃～9℃"
-            },
-            "home": "페예노르트",
-            "away": "시타르트",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "1",
-                        "team": "페예노르트",
-                        "played": "10",
-                        "win": "7",
-                        "draw": "3",
-                        "loss": "0",
-                        "goals_for": "32",
-                        "goals_against": "11",
-                        "goal_diff": "21",
-                        "points": "24"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "6",
-                        "team": "시타르트",
-                        "played": "10",
-                        "win": "5",
-                        "draw": "3",
-                        "loss": "2",
-                        "goals_for": "17",
-                        "goals_against": "17",
-                        "goal_diff": "0",
-                        "points": "18"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "6승 2무 2패",
-                        "goals_per_game": "2.80",
-                        "conceded_per_game": "1.50"
-                    },
-                    "away_summary": {
-                        "recent_record": "5승 3무 2패",
-                        "goals_per_game": "1.60",
-                        "conceded_per_game": "1.70"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 7 (70%)",
-                        "무승부 3 (30%)",
-                        "승 0 (0%)",
-                        "2.10",
-                        "경기당 득점",
-                        "0.60",
-                        "핸디캡：5승 1무 4패",
-                        "언오버：3오버 1무 6언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "HOL D12026.05.03",
-                                "시타르트",
-                                "1-2",
-                                "페예노르트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12025.09.17",
-                                "페예노르트",
-                                "2-0",
-                                "시타르트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12025.04.12",
-                                "시타르트",
-                                "0-2",
-                                "페예노르트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12024.11.30",
-                                "페예노르트",
-                                "1-1",
-                                "시타르트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12024.04.14",
-                                "시타르트",
-                                "0-1",
-                                "페예노르트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12023.08.13",
-                                "페예노르트",
-                                "0-0",
-                                "시타르트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12023.02.26",
-                                "시타르트",
-                                "2-4",
-                                "페예노르트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12022.10.22",
-                                "페예노르트",
-                                "1-1",
-                                "시타르트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12022.05.01",
-                                "시타르트",
-                                "1-3",
-                                "페예노르트"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12021.12.05",
-                                "페예노르트",
-                                "5-0",
-                                "시타르트"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "챔피언스리그",
-                            "match_time": "2026-11-03 20:00:00",
-                            "teams": "11.03 2026 vs 페예노르트 vs 인터밀란 vs 3 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-08 11:15:00",
-                            "teams": "11.08 2026 vs 헤이렌베인 vs 페예노르트 vs 8 일",
-                            "interval": "8 일"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-22 16:00:00",
-                            "teams": "11.22 2026 vs 페예노르트 vs 엑셀시오르 vs 22 일",
-                            "interval": "22 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-07 15:30:00",
-                            "teams": "11.07 2026 vs 시타르트 vs 텔스타 vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-22 16:00:00",
-                            "teams": "11.22 2026 vs 고 어헤드 이글스 vs 시타르트 vs 22 일",
-                            "interval": "22 일"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-29 16:00:00",
-                            "teams": "11.29 2026 vs 시타르트 vs 헤이렌베인 vs 29 일",
-                            "interval": "29 일"
-                        }
-                    ]
-                }
-            }
-        },
-        "2996189": {
-            "match_code": "2996189",
-            "head_info": {
-                "league": "에레디비시",
-                "round": "에레디비시·  라운드 11",
-                "match_time_raw": "10/31/2026 5:45:00 PM",
-                "match_time_display": "2026-11-01 02:45",
-                "stadium": "Abe Lenstra Stadion",
-                "home_stadium": "Abe Lenstra Stadion",
-                "weather": "맑음,  8℃～9℃"
-            },
-            "home": "헤이렌베인",
-            "away": "네이메헌",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "7",
-                        "team": "헤이렌베인",
-                        "played": "10",
-                        "win": "4",
-                        "draw": "3",
-                        "loss": "3",
-                        "goals_for": "18",
-                        "goals_against": "13",
-                        "goal_diff": "5",
-                        "points": "15"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "12",
-                        "team": "네이메헌",
-                        "played": "10",
-                        "win": "2",
-                        "draw": "5",
-                        "loss": "3",
-                        "goals_for": "17",
-                        "goals_against": "18",
-                        "goal_diff": "-1",
-                        "points": "11"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "4승 3무 3패",
-                        "goals_per_game": "1.90",
-                        "conceded_per_game": "1.30"
-                    },
-                    "away_summary": {
-                        "recent_record": "1승 6무 3패",
-                        "goals_per_game": "1.40",
-                        "conceded_per_game": "2.20"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 3 (30%)",
-                        "무승부 4 (40%)",
-                        "1.10",
-                        "경기당 득점",
-                        "1.40",
-                        "핸디캡：5승 1무 4패",
-                        "언오버：4오버 0무 6언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "HOL D12026.03.22",
-                                "네이메헌",
-                                "2-2",
-                                "헤이렌베인"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12025.09.21",
-                                "헤이렌베인",
-                                "3-2",
-                                "네이메헌"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12025.04.27",
-                                "헤이렌베인",
-                                "1-0",
-                                "네이메헌"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12024.10.19",
-                                "네이메헌",
-                                "3-0",
-                                "헤이렌베인"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12024.03.10",
-                                "네이메헌",
-                                "2-0",
-                                "헤이렌베인"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12023.10.07",
-                                "헤이렌베인",
-                                "1-1",
-                                "네이메헌"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12023.05.06",
-                                "네이메헌",
-                                "2-3",
-                                "헤이렌베인"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12022.09.04",
-                                "헤이렌베인",
-                                "0-0",
-                                "네이메헌"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12022.02.13",
-                                "헤이렌베인",
-                                "0-1",
-                                "네이메헌"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12021.11.06",
-                                "네이메헌",
-                                "1-1",
-                                "헤이렌베인"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-08 11:15:00",
-                            "teams": "11.08 2026 vs 헤이렌베인 vs 페예노르트 vs 8 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-22 16:00:00",
-                            "teams": "11.22 2026 vs 흐로닝언 vs 헤이렌베인 vs 22 일",
-                            "interval": "22 일"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-29 16:00:00",
-                            "teams": "11.29 2026 vs 시타르트 vs 헤이렌베인 vs 29 일",
-                            "interval": "29 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "유로파리그",
-                            "match_time": "2026-11-05 17:45:00",
-                            "teams": "11.05 2026 vs 네이메헌 vs 오모니아 vs 5 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-08 19:00:00",
-                            "teams": "11.08 2026 vs 위트레흐트 vs 네이메헌 vs 8 일",
-                            "interval": "8 일"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-22 16:00:00",
-                            "teams": "11.22 2026 vs 네이메헌 vs PSV 아인트호벤 vs 22 일",
-                            "interval": "22 일"
-                        }
-                    ]
-                }
-            }
-        },
-        "2996190": {
-            "match_code": "2996190",
-            "head_info": {
-                "league": "에레디비시",
-                "round": "에레디비시·  라운드 11",
-                "match_time_raw": "10/31/2026 5:45:00 PM",
-                "match_time_display": "2026-11-01 02:45",
-                "stadium": "Philips Stadion",
-                "home_stadium": "Philips Stadion",
-                "weather": "맑음,  8℃～9℃"
-            },
-            "home": "PSV 아인트호벤",
-            "away": "빌렘 II",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "3",
-                        "team": "PSV 아인트호벤",
-                        "played": "10",
-                        "win": "6",
-                        "draw": "2",
-                        "loss": "2",
-                        "goals_for": "28",
-                        "goals_against": "13",
-                        "goal_diff": "15",
-                        "points": "20"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "18",
-                        "team": "빌렘 II",
-                        "played": "10",
-                        "win": "0",
-                        "draw": "2",
-                        "loss": "8",
-                        "goals_for": "10",
-                        "goals_against": "32",
-                        "goal_diff": "-22",
-                        "points": "2"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "5승 2무 3패",
-                        "goals_per_game": "2.10",
-                        "conceded_per_game": "1.10"
-                    },
-                    "away_summary": {
-                        "recent_record": "1승 2무 7패",
-                        "goals_per_game": "1.30",
-                        "conceded_per_game": "3.10"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 6 (60%)",
-                        "무승부 2 (20%)",
-                        "승 2 (20%)",
-                        "2.10",
-                        "경기당 득점",
-                        "0.80",
-                        "핸디캡：5승 0무 5패",
-                        "언오버：2오버 2무 6언더"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "HOL D12025.02.08",
-                                "PSV 아인트호벤",
-                                "1-1",
-                                "빌렘 II"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12024.09.28",
-                                "빌렘 II",
-                                "0-2",
-                                "PSV 아인트호벤"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12022.05.01",
-                                "PSV 아인트호벤",
-                                "4-2",
-                                "빌렘 II"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12021.09.25",
-                                "빌렘 II",
-                                "2-1",
-                                "PSV 아인트호벤"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12021.05.09",
-                                "빌렘 II",
-                                "0-2",
-                                "PSV 아인트호벤"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12020.11.08",
-                                "PSV 아인트호벤",
-                                "3-0",
-                                "빌렘 II"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "INT CF2020.08.21",
-                                "빌렘 II",
-                                "1-1",
-                                "PSV 아인트호벤"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12020.02.08",
-                                "PSV 아인트호벤",
-                                "3-0",
-                                "빌렘 II"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12019.11.10",
-                                "빌렘 II",
-                                "2-1",
-                                "PSV 아인트호벤"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "HOL D12019.04.25",
-                                "빌렘 II",
-                                "0-3",
-                                "PSV 아인트호벤"
-                            ]
-                        }
-                    ]
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "챔피언스리그",
-                            "match_time": "2026-11-04 20:00:00",
-                            "teams": "11.04 2026 vs PSV 아인트호벤 vs 클럽 브뤼헤 KV vs 4 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-08 15:45:00",
-                            "teams": "11.08 2026 vs 캄뷔르 vs PSV 아인트호벤 vs 8 일",
-                            "interval": "8 일"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-22 16:00:00",
-                            "teams": "11.22 2026 vs 네이메헌 vs PSV 아인트호벤 vs 22 일",
-                            "interval": "22 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-06 19:00:00",
-                            "teams": "11.06 2026 vs 빌렘 II vs 즈볼레 vs 6 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-22 16:00:00",
-                            "teams": "11.22 2026 vs 트벤테 vs 빌렘 II vs 22 일",
-                            "interval": "22 일"
-                        },
-                        {
-                            "league": "에레디비시",
-                            "match_time": "2026-11-29 16:00:00",
-                            "teams": "11.29 2026 vs 흐로닝언 vs 빌렘 II vs 29 일",
-                            "interval": "29 일"
                         }
                     ]
                 }
@@ -8095,6 +6569,130 @@
                             "interval": "27 일"
                         }
                     ]
+                }
+            }
+        },
+        "3108294": {
+            "match_code": "3108294",
+            "head_info": {
+                "league": "리그 1",
+                "round": "",
+                "match_time_raw": "10/31/2026 7:50:00 PM",
+                "match_time_display": "2026-11-01 04:50",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "맑음,  28°C"
+            },
+            "home": "ASC Police",
+            "away": "테브라-제이나",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 2무 6패",
+                        "goals_per_game": "0.80",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "1.40"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (11.1%)",
+                        "무승부 3 (33.3%)",
+                        "승 5 (55.6%)",
+                        "0.56",
+                        "경기당 득점",
+                        "1.44",
+                        "핸디캡：3승 1무 5패",
+                        "언오버：3오버 0무 6언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "MAU D12026.02.17",
+                                "테브라-제이나",
+                                "4-0",
+                                "ASC Police"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12025.11.04",
+                                "ASC Police",
+                                "1-1",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12022.12.21",
+                                "테브라-제이나",
+                                "1-0",
+                                "ASC Police"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12022.01.07",
+                                "ASC Police",
+                                "0-2",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "Mauritania Cup2021.07.10",
+                                "ASC Police",
+                                "1-2",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12021.04.18",
+                                "테브라-제이나",
+                                "1-2",
+                                "ASC Police"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12021.01.15",
+                                "ASC Police",
+                                "0-1",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12020.02.06",
+                                "테브라-제이나",
+                                "0-0",
+                                "ASC Police"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12019.03.16",
+                                "테브라-제이나",
+                                "1-1",
+                                "ASC Police"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         }
