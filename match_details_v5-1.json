@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-10-31 10:05:52",
+    "last_updated": "2026-10-31 12:52:27",
     "squad_details": {
         "3018849": {
             "match_code": "3018849",
@@ -12780,7 +12780,143 @@
             "match_code": "3013743",
             "home": "베티스",
             "away": "말라가",
-            "home_squad": [],
+            "home_squad": [
+                {
+                    "name": "안토니",
+                    "player_number_info": "안토니#7 브라질",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Abde 에잘줄리",
+                    "player_number_info": "Abde 에잘줄리#10 모로코",
+                    "position": "공격수"
+                },
+                {
+                    "name": "트로이 패롯",
+                    "player_number_info": "트로이 패롯#19 아일랜드",
+                    "position": "공격수"
+                },
+                {
+                    "name": "쿠초",
+                    "player_number_info": "쿠초#9 콜롬비아",
+                    "position": "공격수"
+                },
+                {
+                    "name": "로드리고 리켈메",
+                    "player_number_info": "로드리고 리켈메#17 스페인",
+                    "position": "공격수"
+                },
+                {
+                    "name": "아이토르 루이발",
+                    "player_number_info": "아이토르 루이발#24 스페인",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Jose Antonio",
+                    "player_number_info": "Jose Antonio#27 스페인",
+                    "position": "공격수"
+                },
+                {
+                    "name": "파쿤도 베르날",
+                    "player_number_info": "파쿤도 베르날#6 우루과이",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "넬손 데오사",
+                    "player_number_info": "넬손 데오사#18 콜롬비아",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "파블로 포르날스",
+                    "player_number_info": "파블로 포르날스#8 스페인",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "지오바니 로 셀소",
+                    "player_number_info": "지오바니 로 셀소#20 아르헨티나",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Dani 세발로스",
+                    "player_number_info": "Dani 세발로스#25 스페인",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "알바로 피달고",
+                    "player_number_info": "알바로 피달고#15 멕시코",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "마르크 로카",
+                    "player_number_info": "마르크 로카#21 스페인",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "이스코",
+                    "player_number_info": "이스코#22 스페인",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "이케르 로사다",
+                    "player_number_info": "이케르 로사다#14 스페인",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "나탄",
+                    "player_number_info": "나탄#4 브라질",
+                    "position": "수비수"
+                },
+                {
+                    "name": "발렌틴 고메스",
+                    "player_number_info": "발렌틴 고메스#16 아르헨티나",
+                    "position": "수비수"
+                },
+                {
+                    "name": "프란 가르시아",
+                    "player_number_info": "프란 가르시아#11 스페인",
+                    "position": "수비수"
+                },
+                {
+                    "name": "앙헬 오르티즈",
+                    "player_number_info": "앙헬 오르티즈#12 스페인",
+                    "position": "수비수"
+                },
+                {
+                    "name": "주니오르 피르포",
+                    "player_number_info": "주니오르 피르포#23 도미니카공화국",
+                    "position": "수비수"
+                },
+                {
+                    "name": "디에고 요렌테",
+                    "player_number_info": "디에고 요렌테#3 스페인",
+                    "position": "수비수"
+                },
+                {
+                    "name": "헥토르 베예린",
+                    "player_number_info": "헥토르 베예린#2 스페인",
+                    "position": "수비수"
+                },
+                {
+                    "name": "마르크 바르트라",
+                    "player_number_info": "마르크 바르트라#5 스페인",
+                    "position": "수비수"
+                },
+                {
+                    "name": "알바로 발레스",
+                    "player_number_info": "알바로 발레스#1 스페인",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "디에고 콘데",
+                    "player_number_info": "디에고 콘데#13 스페인",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "마누엘 곤잘레스",
+                    "player_number_info": "마누엘 곤잘레스#31 스페인",
+                    "position": "골키퍼"
+                }
+            ],
             "away_squad": [
                 {
                     "name": "Chupe",
@@ -27183,6 +27319,11 @@
                     "position": "골키퍼"
                 },
                 {
+                    "name": "준 이치모리",
+                    "player_number_info": "준 이치모리#22 일본",
+                    "position": "골키퍼"
+                },
+                {
                     "name": "마사아키 히가시구치",
                     "player_number_info": "마사아키 히가시구치#1 일본",
                     "position": "골키퍼"
@@ -29313,128 +29454,7 @@
                     "position": "골키퍼"
                 }
             ],
-            "away_squad": [
-                {
-                    "name": "라파엘 보르게스 로드리게스",
-                    "player_number_info": "라파엘 보르게스 로드리게스#17 호주",
-                    "position": "공격수"
-                },
-                {
-                    "name": "마크 오마호니",
-                    "player_number_info": "마크 오마호니#10 아일랜드",
-                    "position": "공격수"
-                },
-                {
-                    "name": "매튜 데니스",
-                    "player_number_info": "매튜 데니스#19 잉글랜드",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Gbemi Arubi",
-                    "player_number_info": "Gbemi Arubi#9 아일랜드",
-                    "position": "공격수"
-                },
-                {
-                    "name": "케일런 비커스",
-                    "player_number_info": "케일런 비커스#18 잉글랜드",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Kain Adom",
-                    "player_number_info": "Kain Adom#29 잉글랜드",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Zac Scutt",
-                    "player_number_info": "Zac Scutt#40 잉글랜드",
-                    "position": "공격수"
-                },
-                {
-                    "name": "찰리 웹스터",
-                    "player_number_info": "찰리 웹스터#8 잉글랜드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "윌 칼러",
-                    "player_number_info": "윌 칼러#14 잉글랜드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Kgaogelo Chauke",
-                    "player_number_info": "Kgaogelo Chauke#4 남아공",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "조지 에반스",
-                    "player_number_info": "조지 에반스#12 잉글랜드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Sulyman Krubally",
-                    "player_number_info": "Sulyman Krubally#41 스페인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ciaran Gilligan",
-                    "player_number_info": "Ciaran Gilligan#25 아일랜드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Emeka Adiele",
-                    "player_number_info": "Emeka Adiele#23 잉글랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "잭 Armer",
-                    "player_number_info": "잭 Armer#3 스코틀랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "토비 Sibbick",
-                    "player_number_info": "토비 Sibbick#6 우간다",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Kyran Lofthouse",
-                    "player_number_info": "Kyran Lofthouse#15 잉글랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "조 루이스",
-                    "player_number_info": "조 루이스#31 웨일스",
-                    "position": "수비수"
-                },
-                {
-                    "name": "하비 아라우조",
-                    "player_number_info": "하비 아라우조#24 잉글랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "제이슨 Sraha",
-                    "player_number_info": "제이슨 Sraha#20 잉글랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Finn Delap",
-                    "player_number_info": "Finn Delap#26 잉글랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Curtis Tilt",
-                    "player_number_info": "Curtis Tilt#16 자메이카",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Corey Addai",
-                    "player_number_info": "Corey Addai#34 자메이카",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Kamil Dudek",
-                    "player_number_info": "Kamil Dudek#27 폴란드",
-                    "position": "골키퍼"
-                }
-            ]
+            "away_squad": []
         },
         "3007195": {
             "match_code": "3007195",
@@ -35310,6 +35330,55 @@
                     "name": "Koffi Adjoumani",
                     "player_number_info": "Koffi Adjoumani#22",
                     "position": "골키퍼"
+                }
+            ]
+        },
+        "3108667": {
+            "match_code": "3108667",
+            "home": "겐드림",
+            "away": "카에디",
+            "home_squad": [
+                {
+                    "name": "Cheikh Kamara",
+                    "player_number_info": "Cheikh Kamara가나",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Ely Cheikh Voulany",
+                    "player_number_info": "Ely Cheikh Voulany모리타니",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Ahmed Salem Noueive",
+                    "player_number_info": "Ahmed Salem Noueive모리타니",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Cheikh Mbodj",
+                    "player_number_info": "Cheikh Mbodj모리타니",
+                    "position": "미드필더"
+                }
+            ],
+            "away_squad": [
+                {
+                    "name": "Moussa Jeddou",
+                    "player_number_info": "Moussa Jeddou모리타니",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "I Sall",
+                    "player_number_info": "I Sall모리타니",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Cheikhna Koita",
+                    "player_number_info": "Cheikhna Koita모리타니",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Eby Cheikh El Welly",
+                    "player_number_info": "Eby Cheikh El Welly모리타니",
+                    "position": "미드필더"
                 }
             ]
         }
