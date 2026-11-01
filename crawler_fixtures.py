@@ -133,6 +133,7 @@ def run_table_based_crawler():
                                 STADIUM_NAME_MAP = {
                                     "Estadio da Luz": "Estádio do Sport Lisboa e Benfica",
                                     "El Madrigal": "Estadio de la Cerámica",
+                                    "Stadio Olimpico": "Rome Stadio Olimpico",
                                     "Estadio de la Cerámica": "Estadio de la Cerámica",
                                     # 필요에 따라 다른 팀 구장명 예외가 생기면 여기에 추가
                                 }
