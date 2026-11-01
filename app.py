@@ -1783,7 +1783,7 @@ with tabs[5]:
         ]
         st.dataframe(pd.DataFrame(table_data_51), use_container_width=True, hide_index=True)
 # --------------------------------------------------------------------------
-        # 📊 [5-2 표] 렌더링 (최근 전적 + 구장별 전적 총 40개 풀 완벽 통합 및 티어 정렬 후 상위 7개)
+        # 📊 [5-2 표] 렌더링 (v3_files 원천 데이터 직통 40개 풀 통합 + 중복 제거 + 구장 분리 + 티어 정렬 후 상위 7개)
         # --------------------------------------------------------------------------
         st.markdown("---")
         st.markdown(f"##### 📊 [5-2 표] 동급 티어 실전 교차 검증 매트릭스 ({home_team} vs {away_team})")
@@ -1799,16 +1799,68 @@ with tabs[5]:
         a_opp_at = home_my_at
         a_opp_de = home_my_de
 
-        # 2. [완벽 교정] 최근 전적 풀과 구장별 전적 풀을 모두 인자로 받아 총 40개 통합 풀을 구성하는 규격
-        def get_directional_pool(stadium_matches, recent_matches, team_label, is_home_side=True, target_is_neutral=False):
+        # 2. [원천 데이터 직통 수집 함수] v3_files(match_details_v3.json, match_details_v3-1.json 등)에서 팀명을 검색해 최근+구장 전적 40개 풀 구성
+        def get_v3_direct_directional_pool(target_team_name, is_home_side=True, target_is_neutral=False):
             combined = []
             seen_set = set()
             
-            # 💡 [핵심] 규칙 1번 최근 전적(최대 20개)과 규칙 2번 구장별 전적(최대 20개)을 안전하게 병합하여 총 40개 풀 확보
-            safe_recent = list(recent_matches) if isinstance(recent_matches, list) else []
-            safe_stadium = list(stadium_matches) if isinstance(stadium_matches, list) else []
-            raw_pool = safe_recent + safe_stadium
+            # 사용할 원천 데이터 파일 목록 정의
+            v3_target_files = ["match_details_v3.json", "match_details_v3-1.json", "match_details.json"]
             
+            target_data_dict = None
+            for f_name in v3_target_files:
+                if os.path.exists(f_name):
+                    try:
+                        with open(f_name, "r", encoding="utf-8") as f:
+                            loaded_json = json.load(f)
+                            if isinstance(loaded_json, dict):
+                                target_data_dict = loaded_json
+                                break
+                    except:
+                        pass
+            
+            # 파일에서 해당 팀의 최근 전적(20개)과 구장별 전적(20개)을 찾아냄
+            raw_pool = []
+            if target_data_dict and isinstance(target_data_dict, dict):
+                # 데이터 구조 순회하며 해당 팀 데이터 탐색
+                for key, val in target_data_dict.items():
+                    if not isinstance(val, dict):
+                        continue
+                    
+                    # 키 또는 팀명 매칭 확인
+                    teams_info = str(val.get("teams", ""))
+                    if target_team_name in key or target_team_name in teams_info or target_team_name in str(val.get("home_team", "")) or target_team_name in str(val.get("away_team", "")):
+                        meta_det = val.get("meta_details", val)
+                        
+                        # 1) 최근 전적 풀 추출 (recent_form)
+                        recent_form = meta_det.get("recent_form", {})
+                        if isinstance(recent_form, dict):
+                            if is_home_side:
+                                raw_pool.extend(recent_form.get("home_matches", []) or recent_form.get("matches", []))
+                            else:
+                                raw_pool.extend(recent_form.get("away_matches", []) or recent_form.get("matches", []))
+                        elif isinstance(recent_form, list):
+                            raw_pool.extend(recent_form)
+
+                        # 2) 구장별 전적 풀 추출 (stadium_form)
+                        stadium_form = meta_det.get("stadium_form", {})
+                        if isinstance(stadium_form, dict):
+                            if target_is_neutral:
+                                raw_pool.extend(stadium_form.get("away_matches", []) or stadium_form.get("matches", []))
+                            else:
+                                if is_home_side:
+                                    raw_pool.extend(stadium_form.get("home_matches", []) or stadium_form.get("matches", []))
+                                else:
+                                    raw_pool.extend(stadium_form.get("away_matches", []) or stadium_form.get("matches", []))
+
+            # 전역 변수나 기존 로컬 풀이 있다면 예비 백업으로 합산
+            if is_home_side:
+                fallback_pool = list(h_matches or []) + list(s_home_matches or [])
+            else:
+                fallback_pool = list(a_matches or []) + list(s_away_matches or [])
+            raw_pool.extend(fallback_pool)
+
+            # 💡 [구장 엄격 분리 및 중복 제거 필터링]
             for m in raw_pool:
                 if not isinstance(m, dict):
                     continue
@@ -1824,29 +1876,22 @@ with tabs[5]:
                 if not score_str or (":" not in score_str and "-" not in score_str and not scores_arr):
                     continue
 
-                # 홈/원정 방향성 판별 (teams 문자열 기준)
                 teams_str = str(m.get("teams", ""))
                 is_actually_home = True
                 if " vs " in teams_str:
                     t_parts = [p.strip() for p in teams_str.split("vs")]
                     if len(t_parts) >= 2:
-                        if team_label.strip() in t_parts[1] and team_label.strip() not in t_parts[0]:
+                        if target_team_name.strip() in t_parts[1] and target_team_name.strip() not in t_parts[0]:
                             is_actually_home = False  # 원정 경기
 
-                # 💡 [구장 판정 분기 적용]
-                # - 홈 팀인데 중립 경기일 경우: 원정 경기 기록만 수집
-                # - 홈 팀인데 일반 홈 경기일 경우: 홈 경기 기록만 수집
-                # - 원정 팀일 경우: 무조건 원정 경기 기록만 수집
+                # 구장 및 중립 분기 적용
                 if is_home_side:
                     if target_is_neutral:
-                        if is_actually_home:
-                            continue
+                        if is_actually_home: continue
                     else:
-                        if not is_actually_home:
-                            continue
+                        if not is_actually_home: continue
                 else:
-                    if is_actually_home:
-                        continue
+                    if is_actually_home: continue
 
                 m_time = str(m.get("match_time", ""))
                 unique_key = f"{m_time}_{teams_str}"
@@ -1857,25 +1902,12 @@ with tabs[5]:
                     
             return combined
 
-        # 💡 [핵심 수정] 구장별 전적 풀과 규칙 1번의 최근 전적 풀(`h_matches`, `a_matches`)을 모두 빠짐없이 함께 전달
-        home_target_stadium = s_away_matches if (is_neutral_venue if 'is_neutral_venue' in locals() else False) else (s_home_matches if 's_home_matches' in locals() else [])
-        home_target_recent = a_matches if (is_neutral_venue if 'is_neutral_venue' in locals() else False) else (h_matches if 'h_matches' in locals() else [])
+        # 중립 판정 여부 확인
+        is_neutral = st.session_state.get("is_neutral_venue", False) if 'is_neutral_venue' not in locals() else is_neutral_venue
 
-        home_merged_pool = get_directional_pool(
-            home_target_stadium, 
-            home_target_recent,
-            home_team,
-            is_home_side=True,
-            target_is_neutral=is_neutral_venue if 'is_neutral_venue' in locals() else False
-        )
-        
-        away_merged_pool = get_directional_pool(
-            s_away_matches if 's_away_matches' in locals() else [], 
-            a_matches if 'a_matches' in locals() else [],
-            away_team,
-            is_home_side=False,
-            target_is_neutral=False
-        )
+        # 홈 팀과 원정 팀의 전적 풀을 v3 원천 파일에서 직통으로 대량 수집
+        home_merged_pool = get_v3_direct_directional_pool(home_team, is_home_side=True, target_is_neutral=is_neutral)
+        away_merged_pool = get_v3_direct_directional_pool(away_team, is_home_side=False, target_is_neutral=False)
 
         # 3. [티어 적합도순 정렬 후 상위 7개 추출 및 최신순 재정렬 규격]
         def filter_matched_tier_games(match_list, target_at_name, target_de_name):
