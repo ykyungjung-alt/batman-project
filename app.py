@@ -1759,10 +1759,18 @@ with tabs[5]:
         a_max_g = a_base_g * (1 + a_tot_atk_pct / 100.0)
         a_min_c = a_base_c * (1 + a_tot_def_pct / 100.0)
 
-        h_final_exp_g = max(0.2, (h_max_g + (2.0 - a_min_c)) / 2.0)
-        h_final_exp_c = max(0.2, (h_min_c + (2.0 - a_max_g)) / 2.0)
-        a_final_exp_g = max(0.2, (a_max_g + (2.0 - h_min_c)) / 2.0)
-        a_final_exp_c = max(0.2, (a_min_c + (2.0 - h_max_g)) / 2.0)
+# 💡 [정석 교정] 공수 대칭 곱셈 및 교차 상쇄 결합 연산 공식
+        # 내 상한 득점과 상대방의 수비(방어) 보정치/하한실점이 정비례 대칭으로 교차 결합되도록 수정
+        
+        # 상대방의 수비 불안 요인(실점 증가)이 내 득점에 정(+)의 영향(할증)을 주도록 비율 형태로 반영
+        a_def_factor = max(0.2, a_min_c / max(0.1, a_base_c)) if a_base_c > 0 else 1.0
+        h_def_factor = max(0.2, h_min_c / max(0.1, h_base_c)) if h_base_c > 0 else 1.0
+
+        h_final_exp_g = max(0.2, h_max_g * a_def_factor)
+        h_final_exp_c = max(0.2, h_min_c * (a_max_g / max(0.1, a_base_g) if a_base_g > 0 else 1.0))
+        
+        a_final_exp_g = max(0.2, a_max_g * h_def_factor)
+        a_final_exp_c = max(0.2, a_min_c * (h_max_g / max(0.1, h_base_g) if h_base_g > 0 else 1.0))
 
         # --------------------------------------------------------------------------
         # 📊 [5-1 표] 렌더링
