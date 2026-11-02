@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-03 01:02:45",
+    "last_updated": "2026-11-03 03:59:12",
     "match_details": {
         "3073174": {
             "match_code": "3073174",
@@ -5103,6 +5103,84 @@
                             "interval": "77 일"
                         }
                     ]
+                }
+            }
+        },
+        "3109654": {
+            "match_code": "3109654",
+            "head_info": {
+                "league": "리그 1",
+                "round": "",
+                "match_time_raw": "11/3/2026 4:15:00 PM",
+                "match_time_display": "2026-11-04 01:15",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "SNIM",
+            "away": "체말",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 3무 5패",
+                        "goals_per_game": "1.10",
+                        "conceded_per_game": "1.40"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 3무 2패",
+                        "goals_per_game": "1.50",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 3 (75%)",
+                        "승 1 (25%)",
+                        "0.25",
+                        "경기당 득점",
+                        "0.50"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "MAU D12025.10.03",
+                                "체말",
+                                "0-0",
+                                "SNIM"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12024.09.28",
+                                "체말",
+                                "0-0",
+                                "SNIM"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12023.09.25",
+                                "체말",
+                                "1-1",
+                                "SNIM"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12022.12.03",
+                                "체말",
+                                "1-0",
+                                "SNIM"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         }
