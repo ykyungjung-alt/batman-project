@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-02 19:05:26",
+    "last_updated": "2026-11-02 22:05:37",
     "lineup_details": {
         "3059479": {
             "match_code": "3059479",
@@ -62050,29 +62050,7 @@
             "match_code": "3068948",
             "home": "파크타코르",
             "away": "알 나스르",
-            "home_absentees": [
-                {
-                    "number": "27",
-                    "name": "Sardor Sobirkhuzhaev",
-                    "player_id": "121198",
-                    "status": "출전의심/기타",
-                    "stats": {
-                        "player_id": "121198",
-                        "matches_played": 25,
-                        "total_play_time": 2057,
-                        "avg_play_time": 82.3,
-                        "grade": "A",
-                        "important_stats": {
-                            "경기": "25",
-                            "출전시간": "2057",
-                            "경기당 평점": "0",
-                            "득점(PK)": "2(0)",
-                            "도움": "0",
-                            "카드": "0/0"
-                        }
-                    }
-                }
-            ],
+            "home_absentees": [],
             "away_absentees": [
                 {
                     "number": "2",
@@ -62863,17 +62841,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "142073",
-                        "matches_played": 0,
-                        "total_play_time": 0,
-                        "avg_play_time": 0.0,
-                        "grade": "D",
+                        "matches_played": 3,
+                        "total_play_time": 117,
+                        "avg_play_time": 39.0,
+                        "grade": "C",
                         "important_stats": {
-                            "경기": "-",
-                            "출전시간": "-",
-                            "경기당 평점": "-",
-                            "득점(PK)": "-",
-                            "도움": "-",
-                            "카드": "-"
+                            "경기": "3",
+                            "출전시간": "117",
+                            "경기당 평점": "4.30",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
                         }
                     }
                 },
@@ -63142,6 +63120,35 @@
                     }
                 }
             ]
+        },
+        "3069034": {
+            "match_code": "3069034",
+            "home": "이스트 벵골",
+            "away": "알 세브",
+            "home_absentees": [
+                {
+                    "number": "",
+                    "name": "Naorem 싱",
+                    "player_id": "211336",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "211336",
+                        "matches_played": 4,
+                        "total_play_time": 115,
+                        "avg_play_time": 28.8,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "115",
+                            "경기당 평점": "0",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": []
         }
     }
 }
