@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-11-04 09:56:54",
+    "updated_at": "2026-11-04 12:50:47",
     "leagues": {
         "34": {
             "league_id": 34,
@@ -15247,6 +15247,18 @@
                 },
                 {
                     "rank": "12",
+                    "team": "미라솔",
+                    "tag_color": "#00CCFF",
+                    "tag_label": "CON CSA qualifying",
+                    "경기수": "34",
+                    "승": "10",
+                    "무": "14",
+                    "패": "-9",
+                    "득실": "40",
+                    "승점": "40"
+                },
+                {
+                    "rank": "13",
                     "team": "보타포구 RJ",
                     "tag_color": "#00CCFF",
                     "tag_label": "CON CSA qualifying",
@@ -15258,31 +15270,31 @@
                     "승점": "39"
                 },
                 {
-                    "rank": "13",
+                    "rank": "14",
                     "team": "바스코",
-                    "tag_color": "#00CCFF",
-                    "tag_label": "CON CSA qualifying",
+                    "tag_color": "",
+                    "tag_label": "일반",
                     "경기수": "32",
                     "승": "10",
                     "무": "8",
-                    "패": "14",
-                    "득실": "-9",
+                    "패": "-9",
+                    "득실": "38",
                     "승점": "38"
                 },
                 {
-                    "rank": "14",
+                    "rank": "15",
                     "team": "비토리아",
                     "tag_color": "",
                     "tag_label": "일반",
                     "경기수": "33",
                     "승": "10",
                     "무": "8",
-                    "패": "15",
-                    "득실": "-13",
+                    "패": "-13",
+                    "득실": "38",
                     "승점": "38"
                 },
                 {
-                    "rank": "15",
+                    "rank": "16",
                     "team": "그레미우",
                     "tag_color": "",
                     "tag_label": "일반",
@@ -15291,18 +15303,6 @@
                     "무": "10",
                     "패": "14",
                     "득실": "-7",
-                    "승점": "37"
-                },
-                {
-                    "rank": "16",
-                    "team": "미라솔",
-                    "tag_color": "",
-                    "tag_label": "일반",
-                    "경기수": "33",
-                    "승": "9",
-                    "무": "10",
-                    "패": "14",
-                    "득실": "-10",
                     "승점": "37"
                 },
                 {
@@ -15346,11 +15346,11 @@
                     "team": "샤페코엔세-SC",
                     "tag_color": "#B1A7A7",
                     "tag_label": "강등팀",
-                    "경기수": "32",
+                    "경기수": "33",
                     "승": "4",
                     "무": "9",
-                    "패": "19",
-                    "득실": "-34",
+                    "패": "-35",
+                    "득실": "21",
                     "승점": "21"
                 }
             ],
@@ -17600,7 +17600,7 @@
             "league_id": 193,
             "league_name": "디비전 1",
             "league_name_error": null,
-            "active_round": "1/30",
+            "active_round": "9/30",
             "active_round_error": null,
             "total_rounds": 30,
             "standing_legends": [
@@ -18060,7 +18060,7 @@
             "league_id": 292,
             "league_name": "사우디 프로페셔널리그",
             "league_name_error": null,
-            "active_round": "13/34",
+            "active_round": "14/34",
             "active_round_error": null,
             "total_rounds": 34,
             "standing_legends": [
