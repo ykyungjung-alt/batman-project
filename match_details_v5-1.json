@@ -1,624 +1,6 @@
 {
-    "last_updated": "2026-11-05 01:00:18",
+    "last_updated": "2026-11-05 04:01:06",
     "squad_details": {
-        "3073086": {
-            "match_code": "3073086",
-            "home": "AEK",
-            "away": "레알 마드리드",
-            "home_squad": [
-                {
-                    "name": "루카 요비치",
-                    "player_number_info": "루카 요비치#9 세르비아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "올렉산드르 주브코프",
-                    "player_number_info": "올렉산드르 주브코프#10 우크라이나",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Aboubakary 코이타",
-                    "player_number_info": "Aboubakary 코이타#11 모리타니",
-                    "position": "공격수"
-                },
-                {
-                    "name": "바르나바스 바르가",
-                    "player_number_info": "바르나바스 바르가#19 헝가리",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Dereck Kutesa",
-                    "player_number_info": "Dereck Kutesa#7 스위스",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Zini",
-                    "player_number_info": "Zini#90 앙골라",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Frantzdy Pierrot",
-                    "player_number_info": "Frantzdy Pierrot아이티",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Zois Karargyris",
-                    "player_number_info": "Zois Karargyris#39 그리스",
-                    "position": "공격수"
-                },
-                {
-                    "name": "로브로 마예르",
-                    "player_number_info": "로브로 마예르#14 크로아티아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "카안 카이리넨",
-                    "player_number_info": "카안 카이리넨#6 핀란드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "라즈반 마린",
-                    "player_number_info": "라즈반 마린#18 루마니아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "커빈 아리아가",
-                    "player_number_info": "커빈 아리아가#16 온두라스",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "밀란 Vitalis",
-                    "player_number_info": "밀란 Vitalis#27 헝가리",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "디미트리오스 Kaloskamis",
-                    "player_number_info": "디미트리오스 Kaloskamis#17 그리스",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "미야트 가시노비치",
-                    "player_number_info": "미야트 가시노비치#8 세르비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Hakim Sahabo",
-                    "player_number_info": "Hakim Sahabo#80 르완다",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "주앙 마리우",
-                    "player_number_info": "주앙 마리우#23 포르투갈",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Petros 만탈로스",
-                    "player_number_info": "Petros 만탈로스#20 그리스",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Harold Moukoudi",
-                    "player_number_info": "Harold Moukoudi#2 카메룬",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Lazaros Rota",
-                    "player_number_info": "Lazaros Rota#12 그리스",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Filipe Relvas",
-                    "player_number_info": "Filipe Relvas#44 포르투갈",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Stavros Pilios",
-                    "player_number_info": "Stavros Pilios#3 알바니아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Martin Georgiev",
-                    "player_number_info": "Martin Georgiev#15 불가리아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "크리스토스 알렉시우",
-                    "player_number_info": "크리스토스 알렉시우#5 그리스",
-                    "position": "수비수"
-                },
-                {
-                    "name": "샤라람보스 리코지아니스",
-                    "player_number_info": "샤라람보스 리코지아니스#22 그리스",
-                    "position": "수비수"
-                },
-                {
-                    "name": "다마고이 비다",
-                    "player_number_info": "다마고이 비다#21 크로아티아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Spyros Christakopoulos",
-                    "player_number_info": "Spyros Christakopoulos#57 그리스",
-                    "position": "수비수"
-                },
-                {
-                    "name": "토마스 스트라코샤",
-                    "player_number_info": "토마스 스트라코샤#1 알바니아",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "알베르토 브리뇰리",
-                    "player_number_info": "알베르토 브리뇰리#91 이탈리아",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Marios Balamotis",
-                    "player_number_info": "Marios Balamotis#41 그리스",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Georgios Sarakasidis",
-                    "player_number_info": "Georgios Sarakasidis#31 그리스",
-                    "position": "골키퍼"
-                }
-            ],
-            "away_squad": [
-                {
-                    "name": "킬리안 음바페",
-                    "player_number_info": "킬리안 음바페#10 프랑스",
-                    "position": "공격수"
-                },
-                {
-                    "name": "비니시우스",
-                    "player_number_info": "비니시우스#7 브라질",
-                    "position": "공격수"
-                },
-                {
-                    "name": "얀 디오만데",
-                    "player_number_info": "얀 디오만데#25 코트디부아르",
-                    "position": "공격수"
-                },
-                {
-                    "name": "호드리구",
-                    "player_number_info": "호드리구#11 브라질",
-                    "position": "공격수"
-                },
-                {
-                    "name": "엔드리키",
-                    "player_number_info": "엔드리키#9 브라질",
-                    "position": "공격수"
-                },
-                {
-                    "name": "카를로스 에스피",
-                    "player_number_info": "카를로스 에스피#19 스페인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "브라힘 디아즈",
-                    "player_number_info": "브라힘 디아즈#21 모로코",
-                    "position": "공격수"
-                },
-                {
-                    "name": "주드 벨링엄",
-                    "player_number_info": "주드 벨링엄#5 잉글랜드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "아르다 굴러",
-                    "player_number_info": "아르다 굴러#15 터키",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "페데리코 발베르데",
-                    "player_number_info": "페데리코 발베르데#8 우루과이",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "오렐리앵 추아메니",
-                    "player_number_info": "오렐리앵 추아메니#14 프랑스",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "에두아르도 카마빙가",
-                    "player_number_info": "에두아르도 카마빙가#6 프랑스",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "베르나르두 실바",
-                    "player_number_info": "베르나르두 실바#20 포르투갈",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "티아구 피타르치",
-                    "player_number_info": "티아구 피타르치#27 스페인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "딘 하이센",
-                    "player_number_info": "딘 하이센#4 스페인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "트렌트 알렉산더-아놀드",
-                    "player_number_info": "트렌트 알렉산더-아놀드#12 잉글랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "마크 쿠쿠렐라",
-                    "player_number_info": "마크 쿠쿠렐라#17 스페인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "알바로 카레라스",
-                    "player_number_info": "알바로 카레라스#18 스페인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "이브라히마 코나테",
-                    "player_number_info": "이브라히마 코나테#16 프랑스",
-                    "position": "수비수"
-                },
-                {
-                    "name": "덴젤 둠프라이스",
-                    "player_number_info": "덴젤 둠프라이스#24 네덜란드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "라울 아센시오",
-                    "player_number_info": "라울 아센시오#2 스페인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "에데르 밀리탕",
-                    "player_number_info": "에데르 밀리탕#3 브라질",
-                    "position": "수비수"
-                },
-                {
-                    "name": "안토니오 뤼디거",
-                    "player_number_info": "안토니오 뤼디거#22 독일",
-                    "position": "수비수"
-                },
-                {
-                    "name": "펄랜드 멘디",
-                    "player_number_info": "펄랜드 멘디#23 프랑스",
-                    "position": "수비수"
-                },
-                {
-                    "name": "티보 쿠르투아",
-                    "player_number_info": "티보 쿠르투아#1 벨기에",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "안드리 루닌",
-                    "player_number_info": "안드리 루닌#13 우크라이나",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "세르지오 메스트리",
-                    "player_number_info": "세르지오 메스트리#26 스페인",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "하비에르 나바로 히메네스",
-                    "player_number_info": "하비에르 나바로 히메네스#31 스페인",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Illia Voloshyn",
-                    "player_number_info": "Illia Voloshyn#39 우크라이나",
-                    "position": "골키퍼"
-                }
-            ]
-        },
-        "3073121": {
-            "match_code": "3073121",
-            "home": "페네르바체",
-            "away": "리버풀",
-            "home_squad": [
-                {
-                    "name": "메이슨 그린우드",
-                    "player_number_info": "메이슨 그린우드#11 잉글랜드",
-                    "position": "공격수"
-                },
-                {
-                    "name": "도르겔레스 네네",
-                    "player_number_info": "도르겔레스 네네#45 말리",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Kerem 아크튀르콜루",
-                    "player_number_info": "Kerem 아크튀르콜루#7 터키",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Oguz 아이딘",
-                    "player_number_info": "Oguz 아이딘#70 터키",
-                    "position": "공격수"
-                },
-                {
-                    "name": "베다트 무리키",
-                    "player_number_info": "베다트 무리키#19 코소보",
-                    "position": "공격수"
-                },
-                {
-                    "name": "로델루 루카쿠",
-                    "player_number_info": "로델루 루카쿠#9 벨기에",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Amara Diouf",
-                    "player_number_info": "Amara Diouf#30 세네갈",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Çağrı Balta",
-                    "player_number_info": "Çağrı Balta#99 터키",
-                    "position": "공격수"
-                },
-                {
-                    "name": "마테오 귀엥두지",
-                    "player_number_info": "마테오 귀엥두지#6 프랑스",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "이스마일 윅세키",
-                    "player_number_info": "이스마일 윅세키#5 터키",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "마르코 아센시오",
-                    "player_number_info": "마르코 아센시오#10 스페인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "은골로 캉테",
-                    "player_number_info": "은골로 캉테#91 프랑스",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Bartug Elmaz",
-                    "player_number_info": "Bartug Elmaz#28 터키",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Irfan Can 카흐베지",
-                    "player_number_info": "Irfan Can 카흐베지#17 터키",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Mert Yandas",
-                    "player_number_info": "Mert Yandas#8 터키",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Archie 브라운",
-                    "player_number_info": "Archie 브라운#3 잉글랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "제이든 Oosterwolde",
-                    "player_number_info": "제이든 Oosterwolde#24 네덜란드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "코조 페프라",
-                    "player_number_info": "코조 페프라#21 가나",
-                    "position": "수비수"
-                },
-                {
-                    "name": "나단 아케",
-                    "player_number_info": "나단 아케#15 네덜란드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "밀란 슈크리니아르",
-                    "player_number_info": "밀란 슈크리니아르#37 슬로바키아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "메르트 뮐뒤르",
-                    "player_number_info": "메르트 뮐뒤르#18 터키",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Levent Mercan",
-                    "player_number_info": "Levent Mercan#22 터키",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Yigit Efe Demir",
-                    "player_number_info": "Yigit Efe Demir#14 터키",
-                    "position": "수비수"
-                },
-                {
-                    "name": "넬손 세메도",
-                    "player_number_info": "넬손 세메도#27 포르투갈",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ognjen Mimovic",
-                    "player_number_info": "Ognjen Mimovic#77 세르비아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "산타나 데 모라에스",
-                    "player_number_info": "산타나 데 모라에스#31 브라질",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Tarik Cetin",
-                    "player_number_info": "Tarik Cetin#13 터키",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Mert 구노크",
-                    "player_number_info": "Mert 구노크#34 터키",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Kuzey Sapaz",
-                    "player_number_info": "Kuzey Sapaz#75 터키",
-                    "position": "골키퍼"
-                }
-            ],
-            "away_squad": [
-                {
-                    "name": "브래들리 바르콜라",
-                    "player_number_info": "브래들리 바르콜라#29 프랑스",
-                    "position": "공격수"
-                },
-                {
-                    "name": "알렉산데르 이삭",
-                    "player_number_info": "알렉산데르 이삭#9 스웨덴",
-                    "position": "공격수"
-                },
-                {
-                    "name": "위고 에키티케",
-                    "player_number_info": "위고 에키티케#22 프랑스",
-                    "position": "공격수"
-                },
-                {
-                    "name": "코디 각포",
-                    "player_number_info": "코디 각포#18 네덜란드",
-                    "position": "공격수"
-                },
-                {
-                    "name": "리오 은구모하",
-                    "player_number_info": "리오 은구모하#73 잉글랜드",
-                    "position": "공격수"
-                },
-                {
-                    "name": "빅토르 무뇨스",
-                    "player_number_info": "빅토르 무뇨스#23 스페인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "페데리코 치에사",
-                    "player_number_info": "페데리코 치에사#14 이탈리아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Lewis 쿠마스",
-                    "player_number_info": "Lewis 쿠마스#67 웨일스",
-                    "position": "공격수"
-                },
-                {
-                    "name": "도미니크 소보슬라이",
-                    "player_number_info": "도미니크 소보슬라이#8 헝가리",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "플로리안 비르츠",
-                    "player_number_info": "플로리안 비르츠#7 독일",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "라이언 그라벤베르흐",
-                    "player_number_info": "라이언 그라벤베르흐#38 네덜란드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "알렉시스 막알리스테르",
-                    "player_number_info": "알렉시스 막알리스테르#10 아르헨티나",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "트레이 뇨니",
-                    "player_number_info": "트레이 뇨니#42 잉글랜드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "와타루 엔도",
-                    "player_number_info": "와타루 엔도#3 일본",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "제임스 맥코넬",
-                    "player_number_info": "제임스 맥코넬#53 잉글랜드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "마이클 Laffey",
-                    "player_number_info": "마이클 Laffey#94 잉글랜드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "제레미 자케",
-                    "player_number_info": "제레미 자케#5 프랑스",
-                    "position": "수비수"
-                },
-                {
-                    "name": "밀로스 케르케즈",
-                    "player_number_info": "밀로스 케르케즈#6 헝가리",
-                    "position": "수비수"
-                },
-                {
-                    "name": "제레미 프림퐁",
-                    "player_number_info": "제레미 프림퐁#30 네덜란드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "조반니 레오니",
-                    "player_number_info": "조반니 레오니#15 이탈리아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "로날드 아라우호",
-                    "player_number_info": "로날드 아라우호#33 우루과이",
-                    "position": "수비수"
-                },
-                {
-                    "name": "코너 브래들리",
-                    "player_number_info": "코너 브래들리#12 북아일랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "버질 반 다이크",
-                    "player_number_info": "버질 반 다이크#4 네덜란드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "조 고메즈",
-                    "player_number_info": "조 고메즈#2 잉글랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "콘스탄티노스 치미카스",
-                    "player_number_info": "콘스탄티노스 치미카스#21 그리스",
-                    "position": "수비수"
-                },
-                {
-                    "name": "루크 챔버스",
-                    "player_number_info": "루크 챔버스#44 잉글랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "기오르기 마마르다슈빌리",
-                    "player_number_info": "기오르기 마마르다슈빌리#25 조지아",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "알리송",
-                    "player_number_info": "알리송#1 브라질",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "비테슬라프 야로스",
-                    "player_number_info": "비테슬라프 야로스#56 체코",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "프레데릭 우드맨",
-                    "player_number_info": "프레데릭 우드맨#28 잉글랜드",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "하비 데이비스",
-                    "player_number_info": "하비 데이비스#95 잉글랜드",
-                    "position": "골키퍼"
-                }
-            ]
-        },
         "3073091": {
             "match_code": "3073091",
             "home": "RB 라이프치히",
@@ -2932,2226 +2314,6 @@
                 {
                     "name": "Matthew Rowley",
                     "player_number_info": "Matthew Rowley#48 잉글랜드",
-                    "position": "골키퍼"
-                }
-            ]
-        },
-        "3068998": {
-            "match_code": "3068998",
-            "home": "알 와흐다",
-            "away": "알 칼리디야",
-            "home_squad": [
-                {
-                    "name": "Facundo 크루습즈키",
-                    "player_number_info": "Facundo 크루습즈키#11 아르헨티나",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Omar Maher Khribin",
-                    "player_number_info": "Omar Maher Khribin#70 시리아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Geronimo Rivera",
-                    "player_number_info": "Geronimo Rivera#17 아르헨티나",
-                    "position": "공격수"
-                },
-                {
-                    "name": "크리스티안 벤테케",
-                    "player_number_info": "크리스티안 벤테케#20 벨기에",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Brahima 디아라",
-                    "player_number_info": "Brahima 디아라#94 말리",
-                    "position": "공격수"
-                },
-                {
-                    "name": "카이우 카네두",
-                    "player_number_info": "카이우 카네두#7 UAE",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Arnau Pradas",
-                    "player_number_info": "Arnau Pradas#38 스페인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Salem Al-Somhi",
-                    "player_number_info": "Salem Al-SomhiUAE",
-                    "position": "공격수"
-                },
-                {
-                    "name": "아셔 아그비넌",
-                    "player_number_info": "아셔 아그비넌#19 잉글랜드",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Abdulqader Abdullah",
-                    "player_number_info": "Abdulqader Abdullah#80 예멘",
-                    "position": "공격수"
-                },
-                {
-                    "name": "아담 그네즈다 체린",
-                    "player_number_info": "아담 그네즈다 체린#8 슬로베니아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Jadsom",
-                    "player_number_info": "Jadsom#25 브라질",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "모하메드 Ghorbani",
-                    "player_number_info": "모하메드 Ghorbani#6 이란",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "가스톤 알바레즈",
-                    "player_number_info": "가스톤 알바레즈#66 UAE",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "압둘라 하마드",
-                    "player_number_info": "압둘라 하마드#12 UAE",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Louay Trayi",
-                    "player_number_info": "Louay Trayi#27 튀니지",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Mobin Dehghan",
-                    "player_number_info": "Mobin Dehghan#15 이란",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdulaziz Mohammed",
-                    "player_number_info": "Abdulaziz MohammedUAE",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Salmeen Al Menhali",
-                    "player_number_info": "Salmeen Al MenhaliUAE",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdulaziz Mohammed",
-                    "player_number_info": "Abdulaziz MohammedUAE",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdullah Abdulqader",
-                    "player_number_info": "Abdullah AbdulqaderUAE",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdullah Al Menhali",
-                    "player_number_info": "Abdullah Al Menhali#12 UAE",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Thiab Mohamed",
-                    "player_number_info": "Thiab Mohamed#29 사우디아라비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "James Mathius",
-                    "player_number_info": "James Mathius#93 카메룬",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Sam Mark",
-                    "player_number_info": "Sam Mark#97 가나",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "루카스 Pimenta Peres Lopes",
-                    "player_number_info": "루카스 Pimenta Peres Lopes#3 UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "알라에디네 Zouhir",
-                    "player_number_info": "알라에디네 Zouhir#5 UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "무사 디아라",
-                    "player_number_info": "무사 디아라#44 말리",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Lautaro Montenegro",
-                    "player_number_info": "Lautaro Montenegro#4 아르헨티나",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Favour Inyeka Ogbu",
-                    "player_number_info": "Favour Inyeka Ogbu#30 나이지리아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "구가",
-                    "player_number_info": "구가#32 포르투갈",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Renne 리바스",
-                    "player_number_info": "Renne 리바스#22 베네수엘라",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Amanallah Mjahed",
-                    "player_number_info": "Amanallah Mjahed#35 튀니지",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mansour Burghash",
-                    "player_number_info": "Mansour Burghash#2 UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Haza Shebab",
-                    "player_number_info": "Haza Shebab#13 UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Amenallah El Majhed",
-                    "player_number_info": "Amenallah El Majhed#35 튀니지",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Rashed Issam",
-                    "player_number_info": "Rashed Issam#64",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohamed Ali",
-                    "player_number_info": "Mohamed Ali#68 UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Zayid Al Falahi",
-                    "player_number_info": "Zayid Al Falahi#92 UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "파쿤도 Insfran",
-                    "player_number_info": "파쿤도 Insfran#23 파라과이",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Mohamed 모하메드",
-                    "player_number_info": "Mohamed 모하메드#1 UAE",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Zayed 아메드",
-                    "player_number_info": "Zayed 아메드#36 UAE",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Abdullrahman 압둘라만",
-                    "player_number_info": "Abdullrahman 압둘라만#40 UAE",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Hazaa Ammar",
-                    "player_number_info": "Hazaa Ammar#26 UAE",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Mohamed Thiab",
-                    "player_number_info": "Mohamed ThiabUAE",
-                    "position": "골키퍼"
-                }
-            ],
-            "away_squad": [
-                {
-                    "name": "도마고이 드로젝",
-                    "player_number_info": "도마고이 드로젝#25 크로아티아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Fabien Winley",
-                    "player_number_info": "Fabien Winley#77 코트디부아르",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Saifeddine Bouhra",
-                    "player_number_info": "Saifeddine Bouhra#20 모로코",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Mahdi Humaidan",
-                    "player_number_info": "Mahdi Humaidan#9 바레인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "모하메드 알 로마이히",
-                    "player_number_info": "모하메드 알 로마이히#13 바레인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Ismaeel Abdullatif",
-                    "player_number_info": "Ismaeel Abdullatif바레인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Othman Al Haj",
-                    "player_number_info": "Othman Al Haj사우디아라비아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Mohammed Al Rumaihi",
-                    "player_number_info": "Mohammed Al Rumaihi바레인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "알리 Al Sharqawi",
-                    "player_number_info": "알리 Al Sharqawi바레인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Nizar El Otmani",
-                    "player_number_info": "Nizar El Otmani#7 모로코",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Gleison Moreira",
-                    "player_number_info": "Gleison Moreira#9 브라질",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Yaya Hassan",
-                    "player_number_info": "Yaya Hassan#11 차드",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Ali Abdulla",
-                    "player_number_info": "Ali Abdulla#27 바레인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "파트릭 Maswanganyi",
-                    "player_number_info": "파트릭 Maswanganyi#28 남아공",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "아나스 오우아힘",
-                    "player_number_info": "아나스 오우아힘모로코",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Walid Sabbar",
-                    "player_number_info": "Walid Sabbar#6 모로코",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "사예드 디야",
-                    "player_number_info": "사예드 디야#2 바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "아메드 무바라크",
-                    "player_number_info": "아메드 무바라크오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Sidena Dabo",
-                    "player_number_info": "Sidena Dabo#5 세네갈",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "클라이드 오코넬",
-                    "player_number_info": "클라이드 오코넬#8 아일랜드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Mahdi Humaidan",
-                    "player_number_info": "Mahdi Humaidan#10 바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Bader Bashir",
-                    "player_number_info": "Bader Bashir#14 바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Rachid Boumessous",
-                    "player_number_info": "Rachid Boumessous#15 알제리",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Dominique Mendy",
-                    "player_number_info": "Dominique Mendy#21 세네갈",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Fabrice Onana",
-                    "player_number_info": "Fabrice Onana#66 카메룬",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdelhak Assal",
-                    "player_number_info": "Abdelhak Assal#23 모로코",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Oussama Shili",
-                    "player_number_info": "Oussama Shili#30 튀니지",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Darko 벨코스키",
-                    "player_number_info": "Darko 벨코스키#24 북마케도니아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "무사 쿨리발리",
-                    "player_number_info": "무사 쿨리발리말리",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohamed Adel",
-                    "player_number_info": "Mohamed Adel#3 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Sayed Mahdy Baqer",
-                    "player_number_info": "Sayed Mahdy Baqer#44 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Hazza Ali",
-                    "player_number_info": "Hazza Ali#17 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "아뎀 Taous",
-                    "player_number_info": "아뎀 Taous#21 튀니지",
-                    "position": "수비수"
-                },
-                {
-                    "name": "히카르도 실바",
-                    "player_number_info": "히카르도 실바#41 포르투갈",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "압둘라 Al Thawadi",
-                    "player_number_info": "압둘라 Al Thawadi바레인",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Mohammad Alkhalaqi",
-                    "player_number_info": "Mohammad Alkhalaqi#1 바레인",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Hamad Al Doseri",
-                    "player_number_info": "Hamad Al Doseri#12 바레인",
-                    "position": "골키퍼"
-                }
-            ]
-        },
-        "3068999": {
-            "match_code": "3068999",
-            "home": "쿠웨이트",
-            "away": "나사프 카르시",
-            "home_squad": [
-                {
-                    "name": "Ahmed Akaichi",
-                    "player_number_info": "Ahmed Akaichi#90 튀니지",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Taha Yassine 케니시",
-                    "player_number_info": "Taha Yassine 케니시#27 튀니지",
-                    "position": "공격수"
-                },
-                {
-                    "name": "모하마드 다함",
-                    "player_number_info": "모하마드 다함#11 쿠웨이트",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Yousef Nasser",
-                    "player_number_info": "Yousef Nasser#20 쿠웨이트",
-                    "position": "공격수"
-                },
-                {
-                    "name": "아마드 Zanki",
-                    "player_number_info": "아마드 Zanki쿠웨이트",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Salman Al Awadhi",
-                    "player_number_info": "Salman Al Awadhi#39 쿠웨이트",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Abdulaziz Mahran",
-                    "player_number_info": "-",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Abdulfattah Ammouri",
-                    "player_number_info": "Abdulfattah Ammouri이집트",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Khaled Al Kharqawi",
-                    "player_number_info": "Khaled Al Kharqawi쿠웨이트",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Ebrahim Marzouq",
-                    "player_number_info": "Ebrahim Marzouq#7 쿠웨이트",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Amr Abdelfattah",
-                    "player_number_info": "Amr Abdelfattah#10 이집트",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Muhanad Al Mahammed",
-                    "player_number_info": "Muhanad Al Mahammed#28 필리핀",
-                    "position": "공격수"
-                },
-                {
-                    "name": "아마드 Zanki",
-                    "player_number_info": "아마드 Zanki#29 쿠웨이트",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Ahmad Al Saqer",
-                    "player_number_info": "Ahmad Al Saqer#32 쿠웨이트",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Gomaa Said",
-                    "player_number_info": "Gomaa Said#45 쿠웨이트",
-                    "position": "공격수"
-                },
-                {
-                    "name": "모하메드 마르훈",
-                    "player_number_info": "모하메드 마르훈#26 바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "메디 Berrahma",
-                    "player_number_info": "메디 Berrahma#6 모로코",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Redha Hani",
-                    "player_number_info": "Redha Hani#5 쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "아마드 알 데피리",
-                    "player_number_info": "아마드 알 데피리#8 쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "파이살 알 하르비",
-                    "player_number_info": "파이살 알 하르비#9 쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ibrahim Kamil",
-                    "player_number_info": "Ibrahim Kamil이라크",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Talal Al Fadhel",
-                    "player_number_info": "Talal Al Fadhel쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Rogerio De Assis",
-                    "player_number_info": "39",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Fahad Al Enezi",
-                    "player_number_info": "Fahad Al Enezi쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Hamid Mido",
-                    "player_number_info": "33",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Talal Al Mutairi",
-                    "player_number_info": "Talal Al Mutairi쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "후세인 Aly Hakim",
-                    "player_number_info": "-",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Kameel Rahman",
-                    "player_number_info": "Kameel Rahman쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Yassin Al Khanisi",
-                    "player_number_info": "Yassin Al Khanisi쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Yousef Al Khubaizi",
-                    "player_number_info": "Yousef Al Khubaizi쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ali Hussain",
-                    "player_number_info": "Ali Hussain이란",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Redha Hani",
-                    "player_number_info": "Redha Hani#4 쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Radhi Jamal",
-                    "player_number_info": "Radhi Jamal#19 쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Shaheen Al Khamees",
-                    "player_number_info": "Shaheen Al Khamees#22 쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Mohammad Al Azmi",
-                    "player_number_info": "Mohammad Al Azmi#29 쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Othman Al Failakawi",
-                    "player_number_info": "Othman Al Failakawi#56 쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "El Mehdi Barrahma",
-                    "player_number_info": "El Mehdi Barrahma#66 모로코",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Humoud Al Sanousi",
-                    "player_number_info": "Humoud Al Sanousi#72 쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Hady Enezi",
-                    "player_number_info": "Hady Enezi#87 쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdullah Al Qarzaei",
-                    "player_number_info": "Abdullah Al Qarzaei#88 쿠웨이트",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "오우마르 곤잘레스",
-                    "player_number_info": "오우마르 곤잘레스#25 카메룬",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Arsene Zola",
-                    "player_number_info": "Arsene Zola#35 콩고민주공화국",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Fahad Al Rashidi",
-                    "player_number_info": "Fahad Al Rashidi#13 쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "메샤리 알 에네지",
-                    "player_number_info": "메샤리 알 에네지#3 쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "파하드 알 하제리",
-                    "player_number_info": "파하드 알 하제리쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Sami Al Sanea",
-                    "player_number_info": "Sami Al Sanea#2 쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Hussain Ali Baba",
-                    "player_number_info": "Hussain Ali Baba바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Yaqoub Abdullah Al Taher",
-                    "player_number_info": "Yaqoub Abdullah Al Taher쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohammad Al-Rashed",
-                    "player_number_info": "Mohammad Al-Rashed쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohsen Falah",
-                    "player_number_info": "Mohsen Falah쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Fawaz Al Saab",
-                    "player_number_info": "Fawaz Al Saab쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Fahad Hamoud",
-                    "player_number_info": "Fahad Hamoud#13 쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ali Pour Dara",
-                    "player_number_info": "Ali Pour Dara#21 쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohammad Freih",
-                    "player_number_info": "Mohammad Freih#23 쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohammad Al Bathali",
-                    "player_number_info": "Mohammad Al Bathali#35 쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Sultan Al Faraj",
-                    "player_number_info": "Sultan Al Faraj#45 쿠웨이트",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Juma Saeed Fahid Disereh",
-                    "player_number_info": "Juma Saeed Fahid Disereh#59 코트디부아르",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Abdulrahman Kameel",
-                    "player_number_info": "Abdulrahman Kameel#40 쿠웨이트",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "사우드 Al Hoshan",
-                    "player_number_info": "사우드 Al Hoshan#33 쿠웨이트",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "칼레드 알 라시디",
-                    "player_number_info": "칼레드 알 라시디#1 쿠웨이트",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Musab Al Kandari",
-                    "player_number_info": "Musab Al Kandari쿠웨이트",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Fawwaz Al Fadhli",
-                    "player_number_info": "Fawwaz Al Fadhli쿠웨이트",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Hameed Sayyed Youssuf Al Qallaf",
-                    "player_number_info": "Hameed Sayyed Youssuf Al Qallaf쿠웨이트",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Mohammad Al Kandari",
-                    "player_number_info": "Mohammad Al Kandari쿠웨이트",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Abdulrahman Al Hussainan",
-                    "player_number_info": "Abdulrahman Al Hussainan#34 쿠웨이트",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Dari Al Otaibi",
-                    "player_number_info": "Dari Al Otaibi#34 쿠웨이트",
-                    "position": "골키퍼"
-                }
-            ],
-            "away_squad": [
-                {
-                    "name": "Bobur 압두칼리코프",
-                    "player_number_info": "Bobur 압두칼리코프#10 우즈베키스탄",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Sardorbek Bakhromov",
-                    "player_number_info": "Sardorbek Bakhromov#6 우즈베키스탄",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Abbos Gulomov",
-                    "player_number_info": "Abbos Gulomov#70 우즈베키스탄",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Adenis Shala",
-                    "player_number_info": "Adenis Shala#7 코소보",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Paata Ghudushauri",
-                    "player_number_info": "Paata Ghudushauri#77 조지아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Yusuf Otubanjo",
-                    "player_number_info": "Yusuf Otubanjo#20 나이지리아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Davronbek Usmonov",
-                    "player_number_info": "Davronbek Usmonov#80 우즈베키스탄",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Sharof Mukhitdinov",
-                    "player_number_info": "Sharof Mukhitdinov#14 우즈베키스탄",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Oybek Rustamov",
-                    "player_number_info": "Oybek Rustamov#15 우즈베키스탄",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "무로드벡 라크마토프",
-                    "player_number_info": "무로드벡 라크마토프#17 우즈베키스탄",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Bekjon Rahmatov",
-                    "player_number_info": "Bekjon Rahmatov#18 우즈베키스탄",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Dilshod Murtazoyev",
-                    "player_number_info": "Dilshod Murtazoyev#23 우즈베키스탄",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Yashnar Berdirahmonov",
-                    "player_number_info": "Yashnar Berdirahmonov#27 우즈베키스탄",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Kingsley Sokari",
-                    "player_number_info": "Kingsley Sokari#99 나이지리아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Sharof Mukhiddinov",
-                    "player_number_info": "Sharof Mukhiddinov네덜란드",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Bekjon Rahmatov",
-                    "player_number_info": "Bekjon Rahmatov#18 우즈베키스탄",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Asadbek Ramilov",
-                    "player_number_info": "Asadbek Ramilov#34 우즈베키스탄",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Zafar Sadullayev",
-                    "player_number_info": "Zafar Sadullayev#76 우즈베키스탄",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Zafarmurod Abdirakhmatov",
-                    "player_number_info": "Zafarmurod Abdirakhmatov#8 우즈베키스탄",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Golib Gaybullaev",
-                    "player_number_info": "Golib Gaybullaev#5 우즈베키스탄",
-                    "position": "수비수"
-                },
-                {
-                    "name": "우마르 에쉬무로도프",
-                    "player_number_info": "우마르 에쉬무로도프#92 우즈베키스탄",
-                    "position": "수비수"
-                },
-                {
-                    "name": "알리벡 다브로노프",
-                    "player_number_info": "알리벡 다브로노프#2 우즈베키스탄",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Kuvonchbek Khushvaktov",
-                    "player_number_info": "Kuvonchbek Khushvaktov#32 우즈베키스탄",
-                    "position": "수비수"
-                },
-                {
-                    "name": "아크라몬 코밀로프",
-                    "player_number_info": "아크라몬 코밀로프#4 우즈베키스탄",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Diyorbek Abdunazarov",
-                    "player_number_info": "Diyorbek Abdunazarov#22 우즈베키스탄",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mashkhurbek Abdisoliev",
-                    "player_number_info": "Mashkhurbek Abdisoliev#3 우즈베키스탄",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Quvonch Xushvaqtov",
-                    "player_number_info": "Quvonch Xushvaqtov#32 우즈베키스탄",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Bekhruz Soatov",
-                    "player_number_info": "Bekhruz Soatov#40 우즈베키스탄",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Abduvakhid 네마토프",
-                    "player_number_info": "Abduvakhid 네마토프#1 우즈베키스탄",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Samandar Muratbaev",
-                    "player_number_info": "Samandar Muratbaev#21 우즈베키스탄",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Asilbek Numonov",
-                    "player_number_info": "Asilbek Numonov#82 우즈베키스탄",
-                    "position": "골키퍼"
-                }
-            ]
-        },
-        "3069023": {
-            "match_code": "3069023",
-            "home": "알 라얀",
-            "away": "알 나흐다",
-            "home_squad": [
-                {
-                    "name": "알렉산다르 미트로비치",
-                    "player_number_info": "알렉산다르 미트로비치#9 세르비아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "웨슬리",
-                    "player_number_info": "웨슬리#7 브라질",
-                    "position": "공격수"
-                },
-                {
-                    "name": "가브리엘 페레이라",
-                    "player_number_info": "가브리엘 페레이라#11 브라질",
-                    "position": "공격수"
-                },
-                {
-                    "name": "아흐메드 알 가네히",
-                    "player_number_info": "아흐메드 알 가네히#22 카타르",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Ali",
-                    "player_number_info": "Ali#20 카타르",
-                    "position": "공격수"
-                },
-                {
-                    "name": "아메드 알라엘딘",
-                    "player_number_info": "아메드 알라엘딘#30 카타르",
-                    "position": "공격수"
-                },
-                {
-                    "name": "아메드 Al Rawi",
-                    "player_number_info": "아메드 Al Rawi카타르",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Mustafa Asar",
-                    "player_number_info": "Mustafa Asar#27 카타르",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Ali Al-Qahtani",
-                    "player_number_info": "Ali Al-Qahtani#94 카타르",
-                    "position": "공격수"
-                },
-                {
-                    "name": "오타비우",
-                    "player_number_info": "오타비우#25 포르투갈",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "로저 게데스",
-                    "player_number_info": "로저 게데스#10 브라질",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "줄리앙 드 스타르",
-                    "player_number_info": "줄리앙 드 스타르#4 벨기에",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "그레고레",
-                    "player_number_info": "그레고레#40 브라질",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "압둘라지즈 하템",
-                    "player_number_info": "압둘라지즈 하템#6 카타르",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Osamah Al Tairi",
-                    "player_number_info": "Osamah Al Tairi카타르",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Jassem Al Sharshani",
-                    "player_number_info": "Jassem Al Sharshani#16 카타르",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ibrahim Al Hassan",
-                    "player_number_info": "Ibrahim Al Hassan#21 카타르",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "안드레 아마로",
-                    "player_number_info": "안드레 아마로#13 포르투갈",
-                    "position": "수비수"
-                },
-                {
-                    "name": "다비드 가르시아",
-                    "player_number_info": "다비드 가르시아#5 스페인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Jassem 압둘살람",
-                    "player_number_info": "Jassem 압둘살람#8 카타르",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Diogo Amaro",
-                    "player_number_info": "Diogo Amaro#31 포르투갈",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Abdalla Yousif",
-                    "player_number_info": "Abdalla Yousif#2 카타르",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ahmed Al Minhali",
-                    "player_number_info": "Ahmed Al Minhali#12 카타르",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Yousef Aymen",
-                    "player_number_info": "Yousef Aymen#17 카타르",
-                    "position": "수비수"
-                },
-                {
-                    "name": "하젬 아메드",
-                    "player_number_info": "하젬 아메드#3 카타르",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Daouda Diakite",
-                    "player_number_info": "Daouda Diakite#33 말리",
-                    "position": "수비수"
-                },
-                {
-                    "name": "모하메드 살레",
-                    "player_number_info": "모하메드 살레#55 팔레스타인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Hassan Al Ghareeb",
-                    "player_number_info": "Hassan Al Ghareeb#24 카타르",
-                    "position": "수비수"
-                },
-                {
-                    "name": "모스타파 Abouelela",
-                    "player_number_info": "모스타파 Abouelela#15 카타르",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Abdullah Ismail Masoud Hareb Al Ali",
-                    "player_number_info": "Abdullah Ismail Masoud Hareb Al Ali카타르",
-                    "position": "수비수"
-                },
-                {
-                    "name": "모스타파 Essam",
-                    "player_number_info": "모스타파 Essam카타르",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Daoud Soliman",
-                    "player_number_info": "Daoud Soliman말리",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mahmoud Abunada",
-                    "player_number_info": "Mahmoud Abunada#57 카타르",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Sami Beldi",
-                    "player_number_info": "Sami Beldi#23 알제리",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Sami Mazen",
-                    "player_number_info": "Sami Mazen#35 카타르",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Sami Habib",
-                    "player_number_info": "Sami Habib알제리",
-                    "position": "골키퍼"
-                }
-            ],
-            "away_squad": [
-                {
-                    "name": "자밀 알 야마디",
-                    "player_number_info": "자밀 알 야마디#10 오만",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Karim Darwiche",
-                    "player_number_info": "Karim Darwiche#28 레바논",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Al Faraj Al Kiyumi",
-                    "player_number_info": "Al Faraj Al Kiyumi#6 오만",
-                    "position": "공격수"
-                },
-                {
-                    "name": "인테르스 구이",
-                    "player_number_info": "인테르스 구이#81 코트디부아르",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Said Salim Al Razaiqi",
-                    "player_number_info": "Said Salim Al Razaiqi오만",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Ely Cheikh Voullany",
-                    "player_number_info": "-",
-                    "position": "공격수"
-                },
-                {
-                    "name": "압둘라흐만 사미르 주마 알 가사니",
-                    "player_number_info": "압둘라흐만 사미르 주마 알 가사니오만",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Pierre Oloumou",
-                    "player_number_info": "Pierre Oloumou카메룬",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Marwan Taaib",
-                    "player_number_info": "Marwan Taaib오만",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Hamad 알 합시",
-                    "player_number_info": "Hamad 알 합시오만",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Marwan Awlad Wadi",
-                    "player_number_info": "Marwan Awlad Wadi#18 오만",
-                    "position": "공격수"
-                },
-                {
-                    "name": "마르완 Mubarak",
-                    "player_number_info": "마르완 Mubarak#20 오만",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Eshhad Obaid",
-                    "player_number_info": "Eshhad Obaid#77 오만",
-                    "position": "공격수"
-                },
-                {
-                    "name": "발론 아메디",
-                    "player_number_info": "발론 아메디#14 알바니아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Petrus 보우말",
-                    "player_number_info": "Petrus 보우말#24 카메룬",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ahad Al Mashaikhi",
-                    "player_number_info": "Ahad Al Mashaikhi#70 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "모하메드 Al Ghafri",
-                    "player_number_info": "모하메드 Al Ghafri#9 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ahmed Al Kaabi",
-                    "player_number_info": "Ahmed Al Kaabi#47 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Harib 알 사디",
-                    "player_number_info": "Harib 알 사디#23 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Mohamed Al Habsi",
-                    "player_number_info": "Mohamed Al Habsi#21 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Oussama Amar",
-                    "player_number_info": "Oussama Amar알제리",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Issam Al Sabhi",
-                    "player_number_info": "-",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ahmed Khalifa Said Al Kaabi",
-                    "player_number_info": "Ahmed Khalifa Said Al Kaabi오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Aidi Homa",
-                    "player_number_info": "-",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Aboubacar Diarra",
-                    "player_number_info": "Aboubacar Diarra말리",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Junior Ngede",
-                    "player_number_info": "Junior Ngede카메룬",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ali Al Rashidi",
-                    "player_number_info": "-",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdullah Al Abdulsalam",
-                    "player_number_info": "Abdullah Al Abdulsalam오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Mazen Al-Saadi",
-                    "player_number_info": "Mazen Al-Saadi오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "외메르 Al Fazari",
-                    "player_number_info": "외메르 Al Fazari#7 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Al Qasimi Al Sulaimi",
-                    "player_number_info": "Al Qasimi Al Sulaimi#19 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Blarin Kibama",
-                    "player_number_info": "Blarin Kibama#20 콩고",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Yusaif Nasser",
-                    "player_number_info": "Yusaif Nasser#27 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Jamal Al Wahshi",
-                    "player_number_info": "Jamal Al Wahshi#53 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Mohamed Khasib Al-Hosni",
-                    "player_number_info": "Mohamed Khasib Al-Hosni#66 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Entire Oxness",
-                    "player_number_info": "Entire Oxness#81 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdul Aziz Gheilani",
-                    "player_number_info": "Abdul Aziz Gheilani#32 오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "타니 알 루샤이디",
-                    "player_number_info": "타니 알 루샤이디#4 오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ghanem Al Habashi",
-                    "player_number_info": "Ghanem Al Habashi#25 오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Amjad 알 하르티",
-                    "player_number_info": "Amjad 알 하르티#11 오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Abdul Aziz Al Shamousi",
-                    "player_number_info": "Abdul Aziz Al Shamousi#13 오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "자반 안데르손",
-                    "player_number_info": "자반 안데르손#22 수리남",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Assad Al-Marzouqi",
-                    "player_number_info": "Assad Al-Marzouqi오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Abdulaziz Alshmousy",
-                    "player_number_info": "Abdulaziz Alshmousy오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Yusuf Al-Ghaliani",
-                    "player_number_info": "Yusuf Al-Ghaliani오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohammed Al-Rawahi",
-                    "player_number_info": "Mohammed Al-Rawahi#3 오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ali Moosa",
-                    "player_number_info": "Ali Moosa#8 오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ahmed Al Matrooshi",
-                    "player_number_info": "Ahmed Al Matrooshi#16 오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Saeed Al-Alawi",
-                    "player_number_info": "Saeed Al-Alawi#33 오만",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Faiyz Al Rusheidi",
-                    "player_number_info": "Faiyz Al Rusheidi#88 오만",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Abdullah Al Mamari",
-                    "player_number_info": "Abdullah Al Mamari#17 오만",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Matar Al Washahi",
-                    "player_number_info": "Matar Al Washahi#44 오만",
-                    "position": "골키퍼"
-                }
-            ]
-        },
-        "3069011": {
-            "match_code": "3069011",
-            "home": "알 무하라크",
-            "away": "알 자지라",
-            "home_squad": [
-                {
-                    "name": "Ahmed Al Sherooqi",
-                    "player_number_info": "Ahmed Al Sherooqi#7 바레인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Hussein Abdulkarim",
-                    "player_number_info": "Hussein Abdulkarim#18 바레인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Abdul Karim Diarra",
-                    "player_number_info": "Abdul Karim Diarra말리",
-                    "position": "공격수"
-                },
-                {
-                    "name": "파쿤도 Tobares",
-                    "player_number_info": "파쿤도 Tobares#9 아르헨티나",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Soufian Mahrouq",
-                    "player_number_info": "Soufian Mahrouq#11 모로코",
-                    "position": "공격수"
-                },
-                {
-                    "name": "주닝요",
-                    "player_number_info": "주닝요#37 브라질",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Elliot Simoes",
-                    "player_number_info": "Elliot Simoes#99 앙골라",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Ham Abdulaziz",
-                    "player_number_info": "Ham Abdulaziz바레인",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Rijad Kobiljar",
-                    "player_number_info": "Rijad Kobiljar#96 보스니아 헤르체고비나",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Mohammed Al Hardan",
-                    "player_number_info": "Mohammed Al Hardan#8 바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdulwahab Al Malood",
-                    "player_number_info": "Abdulwahab Al Malood#10 바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Hanan",
-                    "player_number_info": "Hanan#15 가나",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Anderson Leite",
-                    "player_number_info": "Anderson Leite#29 브라질",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Arthur Rezende",
-                    "player_number_info": "Arthur Rezende#80 브라질",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdulwahab Hanan",
-                    "player_number_info": "Abdulwahab Hanan가나",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Tariq Zayed Sobh",
-                    "player_number_info": "Tariq Zayed Sobh바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Sami Bassam",
-                    "player_number_info": "Sami Bassam바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "오마르 Saber",
-                    "player_number_info": "오마르 Saber바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdulkareem Madou",
-                    "player_number_info": "Abdulkareem Madou#20 바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Tariq Seyad",
-                    "player_number_info": "Tariq Seyad#39 바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdulla Jamal",
-                    "player_number_info": "Abdulla Jamal#50 바레인",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "아미네 베나디",
-                    "player_number_info": "아미네 베나디#5 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "압둘라 알 칼라시",
-                    "player_number_info": "압둘라 알 칼라시#32 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ahmed Mubarak Bughammar",
-                    "player_number_info": "Ahmed Mubarak Bughammar#73 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "왈리드 알 하얌",
-                    "player_number_info": "왈리드 알 하얌#3 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "후세인 Jameel",
-                    "player_number_info": "후세인 Jameel#2 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Bruno Santos",
-                    "player_number_info": "Bruno Santos#13 브라질",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Lazar 조르제비치",
-                    "player_number_info": "Lazar 조르제비치#14 세르비아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ahmad Khaled Rabeea",
-                    "player_number_info": "Ahmad Khaled Rabeea#17 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Hasan Ali Al Karani",
-                    "player_number_info": "Hasan Ali Al Karani#25 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Gervasio 올리베이라",
-                    "player_number_info": "Gervasio 올리베이라#26 우루과이",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohamed Al Banna",
-                    "player_number_info": "Mohamed Al Banna#27 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohamed Fares",
-                    "player_number_info": "Mohamed Fares바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ahmad Khaled Ali",
-                    "player_number_info": "Ahmad Khaled Ali#16 바레인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "에브라힘 루트팔라",
-                    "player_number_info": "에브라힘 루트팔라#22 바레인",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Sayed Jaffar",
-                    "player_number_info": "Sayed Jaffar#21 바레인",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Vladan Djekic",
-                    "player_number_info": "Vladan Djekic#1 세르비아",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Ashraf Waheed Al Sebaie",
-                    "player_number_info": "Ashraf Waheed Al Sebaie#24 바레인",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Omar Salem Rajab Zayed Omar",
-                    "player_number_info": "-",
-                    "position": "골키퍼"
-                }
-            ],
-            "away_squad": [
-                {
-                    "name": "말콤",
-                    "player_number_info": "말콤#10 브라질",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Milson",
-                    "player_number_info": "Milson#77 앙골라",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Vinicius Mello",
-                    "player_number_info": "Vinicius Mello#99 브라질",
-                    "position": "공격수"
-                },
-                {
-                    "name": "브루노",
-                    "player_number_info": "브루노#80 UAE",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Juan De Los Santos",
-                    "player_number_info": "Juan De Los Santos#29 우루과이",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Mamadou Ndiaye",
-                    "player_number_info": "Mamadou Ndiaye#78 세네갈",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Yasser Zahli",
-                    "player_number_info": "Yasser Zahli#92 모로코",
-                    "position": "공격수"
-                },
-                {
-                    "name": "알리 Al Memari",
-                    "player_number_info": "알리 Al Memari#81 UAE",
-                    "position": "공격수"
-                },
-                {
-                    "name": "크리스티안 아슬라니",
-                    "player_number_info": "크리스티안 아슬라니#23 알바니아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "엠마누엘 Dennis",
-                    "player_number_info": "엠마누엘 Dennis#30 나이지리아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "탈리스카",
-                    "player_number_info": "탈리스카#94 브라질",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "마마두 쿨리발리",
-                    "player_number_info": "마마두 쿨리발리#8 UAE",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Salih Malkocoglu",
-                    "player_number_info": "Salih Malkocoglu#74 터키",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdalla Ramadan",
-                    "player_number_info": "Abdalla Ramadan#7 UAE",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Momodou Jatta",
-                    "player_number_info": "Momodou Jatta#70 감비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Nikola Vukic",
-                    "player_number_info": "Nikola Vukic#22 세르비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Jay-Dee Geusens",
-                    "player_number_info": "Jay-Dee Geusens#25 벨기에",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Mohmed Alwafi",
-                    "player_number_info": "Mohmed Alwafi#88 UAE",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Willyan Rocha",
-                    "player_number_info": "Willyan Rocha#4 브라질",
-                    "position": "수비수"
-                },
-                {
-                    "name": "이고르",
-                    "player_number_info": "이고르#2 브라질",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ruben Amaral",
-                    "player_number_info": "Ruben Amaral#17 UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "마커스 비니시우스 바르보사 멜로니",
-                    "player_number_info": "마커스 비니시우스 바르보사 멜로니#16 UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ravil Tagir",
-                    "player_number_info": "Ravil Tagir#28 터키",
-                    "position": "수비수"
-                },
-                {
-                    "name": "칼리파 알 함마디",
-                    "player_number_info": "칼리파 알 함마디#5 UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohammed Rabii",
-                    "player_number_info": "Mohammed Rabii#15 UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "카림 레키크",
-                    "player_number_info": "카림 레키크네덜란드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "요한 Bangsbo",
-                    "player_number_info": "요한 Bangsbo스웨덴",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Nermin Mujkic",
-                    "player_number_info": "Nermin Mujkic#39 보스니아 헤르체고비나",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohamed Omar Al Attas",
-                    "player_number_info": "Mohamed Omar Al Attas#6 UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Hamdan 압둘라흐만",
-                    "player_number_info": "Hamdan 압둘라흐만UAE",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ersin Destanoglu",
-                    "player_number_info": "Ersin Destanoglu#1 터키",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Ali Khaseif",
-                    "player_number_info": "Ali Khaseif#55 UAE",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Ali Khasif",
-                    "player_number_info": "Ali KhasifUAE",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "압둘라 Al Hammadi",
-                    "player_number_info": "압둘라 Al Hammadi#54 UAE",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Zayed Fadaaq",
-                    "player_number_info": "Zayed Fadaaq#57 UAE",
-                    "position": "골키퍼"
-                }
-            ]
-        },
-        "3069022": {
-            "match_code": "3069022",
-            "home": "알 타원",
-            "away": "알 파이살리 암만",
-            "home_squad": [
-                {
-                    "name": "Parfait Guiagon",
-                    "player_number_info": "Parfait Guiagon#8 코트디부아르",
-                    "position": "공격수"
-                },
-                {
-                    "name": "마린 Petkov",
-                    "player_number_info": "마린 Petkov#88 불가리아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "압데라작 함달라",
-                    "player_number_info": "압데라작 함달라#9 모로코",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Younes El Bahraoui",
-                    "player_number_info": "Younes El Bahraoui#47 모로코",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Mohammed Al Kuwaykibi",
-                    "player_number_info": "Mohammed Al Kuwaykibi#7 사우디아라비아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Saif 모하메드",
-                    "player_number_info": "Saif 모하메드#14 사우디아라비아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Mohammed Saleh Mohammed Al Aqel",
-                    "player_number_info": "Mohammed Saleh Mohammed Al Aqel#17 사우디아라비아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Bassem Al-Arini",
-                    "player_number_info": "Bassem Al-Arini#20 사우디아라비아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "이브라힘 Alzahrani",
-                    "player_number_info": "이브라힘 Alzahrani#85 사우디아라비아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "알리 Sharahili",
-                    "player_number_info": "알리 Sharahili#87 사우디아라비아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Luay Al Mohaimeed",
-                    "player_number_info": "Luay Al Mohaimeed#94 사우디아라비아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Oscar Dorley",
-                    "player_number_info": "Oscar Dorley#19 라이베리아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Aschraf El Mahdioui",
-                    "player_number_info": "Aschraf El Mahdioui#18 모로코",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "네딤 바이라미",
-                    "player_number_info": "네딤 바이라미#10 알바니아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ibrahim Mahnashi",
-                    "player_number_info": "Ibrahim Mahnashi#40 사우디아라비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "압둘라흐만 Hendi",
-                    "player_number_info": "압둘라흐만 Hendi#70 사우디아라비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "파리스 알 감디",
-                    "player_number_info": "파리스 알 감디#16 사우디아라비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Rakan Al Tulayhi",
-                    "player_number_info": "Rakan Al Tulayhi#23 사우디아라비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Mustapha Samb",
-                    "player_number_info": "Mustapha Samb세네갈",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdulmalik Al Harbi",
-                    "player_number_info": "Abdulmalik Al Harbi#31 사우디아라비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "모하메드 Al Saedi",
-                    "player_number_info": "모하메드 Al Saedi#45 사우디아라비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdulrahman Al Harbi",
-                    "player_number_info": "Abdulrahman Al Harbi사우디아라비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ibrahim Mahnashi",
-                    "player_number_info": "Ibrahim Mahnashi#40 사우디아라비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Adel Fallatah",
-                    "player_number_info": "Adel Fallatah#63 사우디아라비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Yafaye Kande",
-                    "player_number_info": "Yafaye Kande#90 세네갈",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Yousef Al Salem",
-                    "player_number_info": "Yousef Al Salem#91 사우디아라비아",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Zineddine 벨라이드",
-                    "player_number_info": "Zineddine 벨라이드#5 알제리",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Muteb Al Mufarrij",
-                    "player_number_info": "Muteb Al Mufarrij#32 사우디아라비아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Bassam Al Hurayji",
-                    "player_number_info": "Bassam Al Hurayji#6 사우디아라비아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Jair Collahuazo",
-                    "player_number_info": "Jair Collahuazo#55 에콰도르",
-                    "position": "수비수"
-                },
-                {
-                    "name": "이브라힘 Al Shuayl",
-                    "player_number_info": "이브라힘 Al Shuayl#26 사우디아라비아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "아운 알 살룰리",
-                    "player_number_info": "아운 알 살룰리#93 사우디아라비아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Nasser Al Haleel",
-                    "player_number_info": "Nasser Al Haleel#4 사우디아라비아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Moustapha Sembene",
-                    "player_number_info": "Moustapha Sembene#24 세네갈",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Adeeb Al-Hassan",
-                    "player_number_info": "Adeeb Al-Hassan#27 사우디아라비아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Nawaf Al Huwayri",
-                    "player_number_info": "Nawaf Al Huwayri#43 사우디아라비아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Abdurahman Al-Ghamdi",
-                    "player_number_info": "Abdurahman Al-Ghamdi#39 사우디아라비아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Nawaf Mazen Al Hawairy",
-                    "player_number_info": "Nawaf Mazen Al Hawairy#43 사우디아라비아",
-                    "position": "수비수"
-                },
-                {
-                    "name": "마유송",
-                    "player_number_info": "마유송#1 브라질",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "압둘라흐만 Al Ghamdi",
-                    "player_number_info": "압둘라흐만 Al Ghamdi#39 사우디아라비아",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Abdullah Al Jadani",
-                    "player_number_info": "Abdullah Al Jadani#30 사우디아라비아",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "압둘라흐만 Al Senaid",
-                    "player_number_info": "압둘라흐만 Al Senaid#25 사우디아라비아",
-                    "position": "골키퍼"
-                }
-            ],
-            "away_squad": [
-                {
-                    "name": "아메드 Ersan",
-                    "player_number_info": "아메드 Ersan#7 요르단",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Mohamad Al Hallaq",
-                    "player_number_info": "Mohamad Al Hallaq시리아",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Anas Hamad",
-                    "player_number_info": "Anas Hamad#15 요르단",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Reziq Bani Hani",
-                    "player_number_info": "Reziq Bani Hani#20 요르단",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Malek Allan",
-                    "player_number_info": "Malek Allan#57 요르단",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Claudio Maradona",
-                    "player_number_info": "Claudio Maradona#9 브라질",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Amin Al Shanaineh",
-                    "player_number_info": "Amin Al Shanaineh#11 요르단",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Qutaiba Al Ajalin",
-                    "player_number_info": "Qutaiba Al Ajalin#77 요르단",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Mohamed Hammadi",
-                    "player_number_info": "Mohamed Hammadi#95 요르단",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Karim Lafi",
-                    "player_number_info": "Karim Lafi요르단",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Anas Al Khob",
-                    "player_number_info": "Anas Al Khob#70 요르단",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Majdi Al-Attar",
-                    "player_number_info": "Majdi Al-Attar#10 요르단",
-                    "position": "공격수"
-                },
-                {
-                    "name": "Hussein Aref",
-                    "player_number_info": "Hussein Aref#24 요르단",
-                    "position": "공격수"
-                },
-                {
-                    "name": "누르 알 라와브데",
-                    "player_number_info": "누르 알 라와브데#8 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "살라 알 야흐야이",
-                    "player_number_info": "살라 알 야흐야이#27 오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Jean Ahoua",
-                    "player_number_info": "Jean Ahoua#18 코트디부아르",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Aon Al Maharmeh",
-                    "player_number_info": "Aon Al Maharmeh#14 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Fadel Haikal",
-                    "player_number_info": "Fadel Haikal#16 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Baha Abdel-Rahman",
-                    "player_number_info": "Baha Abdel-Rahman#8 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ghaith Al-Madadha",
-                    "player_number_info": "Ghaith Al-Madadha#17 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Waseem Al Riyalat",
-                    "player_number_info": "Waseem Al Riyalat#30 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Qusay Al-Mansoori",
-                    "player_number_info": "Qusay Al-Mansoori#90 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Mohammad Al-Majali",
-                    "player_number_info": "Mohammad Al-Majali#55 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Hatem Al Roshidi",
-                    "player_number_info": "Hatem Al Roshidi오만",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abu Sohib Hashhash",
-                    "player_number_info": "Abu Sohib Hashhash요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Abdallah Awad",
-                    "player_number_info": "-",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ahmed Yassin",
-                    "player_number_info": "-",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ahmed Al-Arsa",
-                    "player_number_info": "Ahmed Al-Arsa요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ahmad Al-Awawdeh",
-                    "player_number_info": "Ahmad Al-Awawdeh요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ahmad Abd Rabbo",
-                    "player_number_info": "Ahmad Abd Rabbo#4 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Youssef Jalbosh",
-                    "player_number_info": "Youssef Jalbosh#6 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Ghaith Al Madadha",
-                    "player_number_info": "Ghaith Al Madadha#17 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Jean Charles Ahoua",
-                    "player_number_info": "Jean Charles Ahoua#18 코트디부아르",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Karim Faraj",
-                    "player_number_info": "Karim Faraj#80 요르단",
-                    "position": "미드필더"
-                },
-                {
-                    "name": "Husam Abudahab",
-                    "player_number_info": "Husam Abudahab#5 요르단",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ehsan Manel Farhan 하다드",
-                    "player_number_info": "Ehsan Manel Farhan 하다드#23 요르단",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohannad Alsouliman",
-                    "player_number_info": "Mohannad Alsouliman#3 요르단",
-                    "position": "수비수"
-                },
-                {
-                    "name": "바라 마리",
-                    "player_number_info": "바라 마리요르단",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Saidou Simpore",
-                    "player_number_info": "Saidou Simpore#6 부르키나파소",
-                    "position": "수비수"
-                },
-                {
-                    "name": "아나스 왈리드 칼레드 바니 야신",
-                    "player_number_info": "아나스 왈리드 칼레드 바니 야신#19 요르단",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Anas Badawi",
-                    "player_number_info": "Anas Badawi#21 요르단",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Nathan Mavila",
-                    "player_number_info": "Nathan Mavila#3 잉글랜드",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohamad Haddad",
-                    "player_number_info": "Mohamad Haddad#12 요르단",
-                    "position": "수비수"
-                },
-                {
-                    "name": "카밀로 Saldana",
-                    "player_number_info": "카밀로 Saldana#24 팔레스타인",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Mohamed Hamrouni",
-                    "player_number_info": "Mohamed Hamrouni튀니지",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Ahmad Abu Koush",
-                    "player_number_info": "Ahmad Abu Koush#94 요르단",
-                    "position": "수비수"
-                },
-                {
-                    "name": "Noureddin Bani Attiah",
-                    "player_number_info": "Noureddin Bani Attiah#1 요르단",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "압둘라 라에드 마흐무드 알 파코리",
-                    "player_number_info": "압둘라 라에드 마흐무드 알 파코리#99 요르단",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Mehdi Khalil",
-                    "player_number_info": "Mehdi Khalil#21 레바논",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Abdel Rahman Mohammad",
-                    "player_number_info": "Abdel Rahman Mohammad#22 요르단",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Abdel Al Talalga",
-                    "player_number_info": "Abdel Al Talalga#22 요르단",
-                    "position": "골키퍼"
-                },
-                {
-                    "name": "Hasan Issam Ahmad Nenaah",
-                    "player_number_info": "Hasan Issam Ahmad Nenaah#78 요르단",
                     "position": "골키퍼"
                 }
             ]
@@ -13440,8 +10602,285 @@
             "match_code": "3073830",
             "home": "아탈란타",
             "away": "카이랏 알마티",
-            "home_squad": [],
-            "away_squad": []
+            "home_squad": [
+                {
+                    "name": "존 로우",
+                    "player_number_info": "존 로우#11 잉글랜드",
+                    "position": "공격수"
+                },
+                {
+                    "name": "니콜라 크르스토비치",
+                    "player_number_info": "니콜라 크르스토비치#90 몬테네그로",
+                    "position": "공격수"
+                },
+                {
+                    "name": "잔루카 스카마카",
+                    "player_number_info": "잔루카 스카마카#9 이탈리아",
+                    "position": "공격수"
+                },
+                {
+                    "name": "자코모 라스파도리",
+                    "player_number_info": "자코모 라스파도리#18 이탈리아",
+                    "position": "공격수"
+                },
+                {
+                    "name": "카말딘 술레마나",
+                    "player_number_info": "카말딘 술레마나#7 가나",
+                    "position": "공격수"
+                },
+                {
+                    "name": "산타나 데 모라에스",
+                    "player_number_info": "산타나 데 모라에스#13 브라질",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "샤를 드 카텔라에",
+                    "player_number_info": "샤를 드 카텔라에#17 벨기에",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "니콜라 잘레브스키",
+                    "player_number_info": "니콜라 잘레브스키#59 폴란드",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "라자르 사마르지치",
+                    "player_number_info": "라자르 사마르지치#10 세르비아",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "엘리프 엘마스",
+                    "player_number_info": "엘리프 엘마스#99 북마케도니아",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "프랑크 케시에",
+                    "player_number_info": "프랑크 케시에#19 코트디부아르",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "지안루카 가에타노",
+                    "player_number_info": "지안루카 가에타노#70 이탈리아",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "마리오 파살리치",
+                    "player_number_info": "마리오 파살리치#8 크로아티아",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Sergej Levak",
+                    "player_number_info": "Sergej Levak#46 크로아티아",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Digne Kaelas Pounga",
+                    "player_number_info": "Digne Kaelas Pounga#45 콩고",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "조르지오 스칼비니",
+                    "player_number_info": "조르지오 스칼비니#42 이탈리아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "아이작 히엔",
+                    "player_number_info": "아이작 히엔#4 스웨덴",
+                    "position": "수비수"
+                },
+                {
+                    "name": "로렌조 베르나스코니",
+                    "player_number_info": "로렌조 베르나스코니#47 이탈리아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "토마스 크리스텐센",
+                    "player_number_info": "토마스 크리스텐센#31 덴마크",
+                    "position": "수비수"
+                },
+                {
+                    "name": "오딜롱 코수누",
+                    "player_number_info": "오딜롱 코수누#3 코트디부아르",
+                    "position": "수비수"
+                },
+                {
+                    "name": "라울 벨라노바",
+                    "player_number_info": "라울 벨라노바#16 이탈리아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "세아드 콜라시나치",
+                    "player_number_info": "세아드 콜라시나치#23 보스니아 헤르체고비나",
+                    "position": "수비수"
+                },
+                {
+                    "name": "다비데 자파코스타",
+                    "player_number_info": "다비데 자파코스타#77 이탈리아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "렐리야 오브리치",
+                    "player_number_info": "렐리야 오브리치#40 슬로베니아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Javison Idele",
+                    "player_number_info": "Javison Idele#41 이탈리아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Matteo Plaia",
+                    "player_number_info": "Matteo Plaia#53 이탈리아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "마르코 카르네세키",
+                    "player_number_info": "마르코 카르네세키#29 이탈리아",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "마르코 스포르티엘로",
+                    "player_number_info": "마르코 스포르티엘로#57 이탈리아",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Thomas Pompei",
+                    "player_number_info": "Thomas Pompei#22 이탈리아",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Mattia Sonzogni",
+                    "player_number_info": "Mattia Sonzogni#51 이탈리아",
+                    "position": "골키퍼"
+                }
+            ],
+            "away_squad": [
+                {
+                    "name": "호르지뉴",
+                    "player_number_info": "호르지뉴#7 포르투갈",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Oiva Jukkola",
+                    "player_number_info": "Oiva Jukkola#19 핀란드",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Edmilson Santos",
+                    "player_number_info": "Edmilson Santos#9 브라질",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Marc Gual",
+                    "player_number_info": "Marc Gual#28 스페인",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Ismail Bekbolat",
+                    "player_number_info": "Ismail Bekbolat#81 카자흐스탄",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Mansur Birkurmanov",
+                    "player_number_info": "Mansur Birkurmanov#15 카자흐스탄",
+                    "position": "공격수"
+                },
+                {
+                    "name": "야코 오크사넨",
+                    "player_number_info": "야코 오크사넨#13 핀란드",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Damir Kasabulat",
+                    "player_number_info": "Damir Kasabulat#4 카자흐스탄",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "구스타보 레오",
+                    "player_number_info": "구스타보 레오#22 포르투갈",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Adilet Sadybekov",
+                    "player_number_info": "Adilet Sadybekov#6 카자흐스탄",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "아자마트 Tuyakbaev",
+                    "player_number_info": "아자마트 Tuyakbaev#17 카자흐스탄",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Olzhas Baybek",
+                    "player_number_info": "Olzhas Baybek#8 카자흐스탄",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "카림 Makhametzhan",
+                    "player_number_info": "카림 Makhametzhan#71 카자흐스탄",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "루이스 카를로스 마타",
+                    "player_number_info": "루이스 카를로스 마타#3 포르투갈",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Alexander Mrynskiy",
+                    "player_number_info": "Alexander Mrynskiy#24 카자흐스탄",
+                    "position": "수비수"
+                },
+                {
+                    "name": "알렉산드르 Shirobokov",
+                    "player_number_info": "알렉산드르 Shirobokov#25 카자흐스탄",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Lucas Africo",
+                    "player_number_info": "Lucas Africo#44 브라질",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Erkin Tapalov",
+                    "player_number_info": "Erkin Tapalov#20 카자흐스탄",
+                    "position": "수비수"
+                },
+                {
+                    "name": "알렉산드르 마르티노비치",
+                    "player_number_info": "알렉산드르 마르티노비치#14 벨라루스",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Lev Kurgin",
+                    "player_number_info": "Lev Kurgin#5 카자흐스탄",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Adlan Nurgaliev",
+                    "player_number_info": "Adlan Nurgaliev#32 카자흐스탄",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Temirlan Anarbekov",
+                    "player_number_info": "Temirlan Anarbekov#1 카자흐스탄",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Sherkhan Kalmurza",
+                    "player_number_info": "Sherkhan Kalmurza#82 카자흐스탄",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Danila Buch",
+                    "player_number_info": "Danila Buch#30 카자흐스탄",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Serkhan Kalmyrza",
+                    "player_number_info": "Serkhan Kalmyrza#82 카자흐스탄",
+                    "position": "골키퍼"
+                }
+            ]
         },
         "3073836": {
             "match_code": "3073836",
@@ -13766,7 +11205,163 @@
             "match_code": "3073838",
             "home": "미트윌란",
             "away": "아약스",
-            "home_squad": [],
+            "home_squad": [
+                {
+                    "name": "다비드 마르티네스",
+                    "player_number_info": "다비드 마르티네스#98 베네수엘라",
+                    "position": "공격수"
+                },
+                {
+                    "name": "미켈 고고르사",
+                    "player_number_info": "미켈 고고르사#41 덴마크",
+                    "position": "공격수"
+                },
+                {
+                    "name": "규성 조규성",
+                    "player_number_info": "규성 조규성#10 대한민국",
+                    "position": "공격수"
+                },
+                {
+                    "name": "미카엘 우레",
+                    "player_number_info": "미카엘 우레#17 덴마크",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Mileta Rajovic",
+                    "player_number_info": "Mileta Rajovic#9 덴마크",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Friday Etim",
+                    "player_number_info": "Friday Etim#90 나이지리아",
+                    "position": "공격수"
+                },
+                {
+                    "name": "주니오르 브루마도",
+                    "player_number_info": "주니오르 브루마도#74 브라질",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Stanley Iheanacho",
+                    "player_number_info": "Stanley Iheanacho#18 나이지리아",
+                    "position": "공격수"
+                },
+                {
+                    "name": "줄리우스 Emefile",
+                    "player_number_info": "줄리우스 Emefile#38 덴마크",
+                    "position": "공격수"
+                },
+                {
+                    "name": "데닐 카스티요",
+                    "player_number_info": "데닐 카스티요#21 에콰도르",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "필립 빌링",
+                    "player_number_info": "필립 빌링#8 덴마크",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "페드로 브라보",
+                    "player_number_info": "페드로 브라보#19 콜롬비아",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "현석 홍현석",
+                    "player_number_info": "현석 홍현석#20 대한민국",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "켈 뵈텐",
+                    "player_number_info": "켈 뵈텐#29 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Sofus Johannesen",
+                    "player_number_info": "Sofus Johannesen#27 덴마크",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Alamara Djabi",
+                    "player_number_info": "Alamara Djabi#33 기니비사우",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Joseph Okuaghare",
+                    "player_number_info": "Joseph Okuaghare#39 나이지리아",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "우스만 디아오",
+                    "player_number_info": "우스만 디아오#4 세네갈",
+                    "position": "수비수"
+                },
+                {
+                    "name": "라스무스 크리스텐슨",
+                    "player_number_info": "라스무스 크리스텐슨#5 덴마크",
+                    "position": "수비수"
+                },
+                {
+                    "name": "매즈 베크 쇠렌센",
+                    "player_number_info": "매즈 베크 쇠렌센#22 덴마크",
+                    "position": "수비수"
+                },
+                {
+                    "name": "마르틴 에를리치",
+                    "player_number_info": "마르틴 에를리치#6 크로아티아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "빅토르 백",
+                    "player_number_info": "빅토르 백#55 덴마크",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Andreas 막소",
+                    "player_number_info": "Andreas 막소#2 덴마크",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Magnus Jensen",
+                    "player_number_info": "Magnus Jensen#3 덴마크",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Bi Dje Beni Junior Dje",
+                    "player_number_info": "Bi Dje Beni Junior Dje코트디부아르",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Abdou Ndiaye",
+                    "player_number_info": "Abdou Ndiaye#34 세네갈",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Dje Beni",
+                    "player_number_info": "Dje Beni#15 코트디부아르",
+                    "position": "수비수"
+                },
+                {
+                    "name": "엘리아스 올라프손",
+                    "player_number_info": "엘리아스 올라프손#1 아이슬란드",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "노르딘 바커",
+                    "player_number_info": "노르딘 바커#25 네덜란드",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Ovie Ejeheri",
+                    "player_number_info": "Ovie Ejeheri#30 잉글랜드",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "마크 Ugboh",
+                    "player_number_info": "마크 Ugboh#60 나이지리아",
+                    "position": "골키퍼"
+                }
+            ],
             "away_squad": [
                 {
                     "name": "시몬 아딩그라",
@@ -19102,6 +16697,599 @@
                 {
                     "name": "Ruben Yélo",
                     "player_number_info": "Ruben Yélo#16 코트디부아르",
+                    "position": "골키퍼"
+                }
+            ]
+        },
+        "3019183": {
+            "match_code": "3019183",
+            "home": "브라운슈바이크",
+            "away": "에네르기 코트부스",
+            "home_squad": [
+                {
+                    "name": "요반 미야토비치",
+                    "player_number_info": "요반 미야토비치#11 세르비아",
+                    "position": "공격수"
+                },
+                {
+                    "name": "얀 슈투름",
+                    "player_number_info": "얀 슈투름#7 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Junior Ze",
+                    "player_number_info": "Junior Ze#19 스위스",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Aaron Opoku",
+                    "player_number_info": "Aaron Opoku#17 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "얀 우르비흐",
+                    "player_number_info": "얀 우르비흐#27 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "시디 사네",
+                    "player_number_info": "시디 사네#24 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "막시밀리안 Entrup",
+                    "player_number_info": "막시밀리안 Entrup#9 오스트리아",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Max Marie",
+                    "player_number_info": "Max Marie#15 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "사무엘레 디 베네데토",
+                    "player_number_info": "사무엘레 디 베네데토#10 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "플로리안 플리크",
+                    "player_number_info": "플로리안 플리크#6 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Lino Tempelmann",
+                    "player_number_info": "Lino Tempelmann#20 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Robin Heusser",
+                    "player_number_info": "Robin Heusser#30 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "시드니 Raebiger",
+                    "player_number_info": "시드니 Raebiger#37 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Tristan Wagner",
+                    "player_number_info": "Tristan Wagner#26 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Mehmet 아이딘",
+                    "player_number_info": "Mehmet 아이딘#8 터키",
+                    "position": "수비수"
+                },
+                {
+                    "name": "케빈 Ehlers",
+                    "player_number_info": "케빈 Ehlers#21 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Fabio Di Michele Sanchez",
+                    "player_number_info": "Fabio Di Michele Sanchez#22 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Lukas Frenkert",
+                    "player_number_info": "Lukas Frenkert#29 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Andi Hoti",
+                    "player_number_info": "Andi Hoti#4 코소보",
+                    "position": "수비수"
+                },
+                {
+                    "name": "노아 카터바흐",
+                    "player_number_info": "노아 카터바흐#3 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "프레데릭 야켈",
+                    "player_number_info": "프레데릭 야켈#5 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Damjan Kovacevic",
+                    "player_number_info": "Damjan Kovacevic#43 오스트리아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Isidoros Koutsidis",
+                    "player_number_info": "Isidoros Koutsidis#23 그리스",
+                    "position": "수비수"
+                },
+                {
+                    "name": "사누시 바",
+                    "player_number_info": "사누시 바#25 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "론토르벤 호프만",
+                    "player_number_info": "론토르벤 호프만#1 독일",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "벤야민 야민 우프호프",
+                    "player_number_info": "벤야민 야민 우프호프#32 독일",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Nick Bodon",
+                    "player_number_info": "Nick Bodon#33 독일",
+                    "position": "골키퍼"
+                }
+            ],
+            "away_squad": [
+                {
+                    "name": "드미트로 보그다노프",
+                    "player_number_info": "드미트로 보그다노프#13 우크라이나",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Lucas Copado",
+                    "player_number_info": "Lucas Copado#9 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "에릭 엥겔하르트",
+                    "player_number_info": "에릭 엥겔하르트#18 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "모리츠 Hannemann",
+                    "player_number_info": "모리츠 Hannemann#11 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "주스틴 Butler",
+                    "player_number_info": "주스틴 Butler#31 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Christian Kinsombi",
+                    "player_number_info": "Christian Kinsombi#7 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Lukas Michelbrink",
+                    "player_number_info": "Lukas Michelbrink#8 리투아니아",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "레오나르도 비텐쿠르트",
+                    "player_number_info": "레오나르도 비텐쿠르트#32 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "톨차이 치게르치",
+                    "player_number_info": "톨차이 치게르치#10 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Jannis Boziaris",
+                    "player_number_info": "Jannis Boziaris#19 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Dominik Pelivan",
+                    "player_number_info": "Dominik Pelivan#5 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Julian Guttau",
+                    "player_number_info": "Julian Guttau#17 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Jonas 호프만",
+                    "player_number_info": "Jonas 호프만#6 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Aaron Reschke",
+                    "player_number_info": "Aaron Reschke#43 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Fabian Balg",
+                    "player_number_info": "Fabian Balg#22 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "루카 Erlein",
+                    "player_number_info": "루카 Erlein#21 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "King Samuel Manu",
+                    "player_number_info": "King Samuel Manu#2 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Fousseny 둠비아",
+                    "player_number_info": "Fousseny 둠비아#23 말리",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Henry Rorig",
+                    "player_number_info": "Henry Rorig#3 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Jannis Zaydan",
+                    "player_number_info": "Jannis Zaydan#42 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "팀 Campulka",
+                    "player_number_info": "팀 Campulka#4 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Axel 보르그만",
+                    "player_number_info": "Axel 보르그만#20 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "안데르손-렌다 루코키",
+                    "player_number_info": "안데르손-렌다 루코키#24 앙골라",
+                    "position": "수비수"
+                },
+                {
+                    "name": "라이언 말론",
+                    "player_number_info": "라이언 말론#16 미국",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Leon Guwara",
+                    "player_number_info": "Leon Guwara#25 감비아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Joey Taubeneck",
+                    "player_number_info": "Joey Taubeneck#47 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "마르셀 로트카",
+                    "player_number_info": "마르셀 로트카#1 독일",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Kevin Kratzsch",
+                    "player_number_info": "Kevin Kratzsch#29 독일",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Max Bohnke",
+                    "player_number_info": "Max Bohnke#30 독일",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Malte Wilke",
+                    "player_number_info": "Malte Wilke#40 독일",
+                    "position": "골키퍼"
+                }
+            ]
+        },
+        "3019189": {
+            "match_code": "3019189",
+            "home": "SG 디나모 드레스덴",
+            "away": "그로이터 퓌르트",
+            "home_squad": [
+                {
+                    "name": "벤 보브시엔",
+                    "player_number_info": "벤 보브시엔#20 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Kennedy Okpala",
+                    "player_number_info": "Kennedy Okpala#7 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "Kaan Inanoglu",
+                    "player_number_info": "Kaan Inanoglu#11 터키",
+                    "position": "공격수"
+                },
+                {
+                    "name": "야콥 Lemmer",
+                    "player_number_info": "야콥 Lemmer#10 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "크리스토프 다페르너",
+                    "player_number_info": "크리스토프 다페르너#33 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "빈센트 베르메이",
+                    "player_number_info": "빈센트 베르메이#9 네덜란드",
+                    "position": "공격수"
+                },
+                {
+                    "name": "닐스 프롤링",
+                    "player_number_info": "닐스 프롤링#16 스웨덴",
+                    "position": "공격수"
+                },
+                {
+                    "name": "파트리스 초비치",
+                    "player_number_info": "파트리스 초비치#24 크로아티아",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "로버트 바그너",
+                    "player_number_info": "로버트 바그너#18 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "니콜라이 라프",
+                    "player_number_info": "니콜라이 라프#6 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Niklas Hauptmann",
+                    "player_number_info": "Niklas Hauptmann#27 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "토비아스 Raschl",
+                    "player_number_info": "토비아스 Raschl#21 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "루카 헤르만",
+                    "player_number_info": "루카 헤르만#8 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Quentin Enold",
+                    "player_number_info": "Quentin Enold독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Friedrich Muller",
+                    "player_number_info": "Friedrich Muller#42 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "토마스 켈러",
+                    "player_number_info": "토마스 켈러#39 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Kenneth Schmidt",
+                    "player_number_info": "Kenneth Schmidt#4 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "요나스 스터너",
+                    "player_number_info": "요나스 스터너#32 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Ahmet Muhamedbegovic",
+                    "player_number_info": "Ahmet Muhamedbegovic#17 오스트리아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "알렉산데르 로시팔",
+                    "player_number_info": "알렉산데르 로시팔#19 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "틸 나이닝거",
+                    "player_number_info": "틸 나이닝거#34 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "루카스 보에더",
+                    "player_number_info": "루카스 보에더#29 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "라르스 Bunning",
+                    "player_number_info": "라르스 Bunning#23 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Simon Straudi",
+                    "player_number_info": "Simon Straudi#44 이탈리아",
+                    "position": "수비수"
+                },
+                {
+                    "name": "브루클린 Ezeh",
+                    "player_number_info": "브루클린 Ezeh#14 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "팀 Schreiber",
+                    "player_number_info": "팀 Schreiber#1 독일",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Elias Bethke",
+                    "player_number_info": "Elias Bethke#40 독일",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "레나르트 그릴",
+                    "player_number_info": "레나르트 그릴#22 독일",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "다니엘 메센횔러",
+                    "player_number_info": "다니엘 메센횔러#37 독일",
+                    "position": "골키퍼"
+                }
+            ],
+            "away_squad": [
+                {
+                    "name": "Jordan 시바츄",
+                    "player_number_info": "Jordan 시바츄#9 미국",
+                    "position": "공격수"
+                },
+                {
+                    "name": "오마르 Sillah",
+                    "player_number_info": "오마르 Sillah#42 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "데니스 스르베니",
+                    "player_number_info": "데니스 스르베니#7 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "벤자민 Zank",
+                    "player_number_info": "벤자민 Zank#19 독일",
+                    "position": "공격수"
+                },
+                {
+                    "name": "신타 아펠캄프",
+                    "player_number_info": "신타 아펠캄프#8 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "올레 폴만",
+                    "player_number_info": "올레 폴만#10 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "아론 Keller",
+                    "player_number_info": "아론 Keller#11 스위스",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Mika Wallentowitz",
+                    "player_number_info": "Mika Wallentowitz#21 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Faton Ademi",
+                    "player_number_info": "Faton Ademi#37 코소보",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Sacha Banse",
+                    "player_number_info": "Sacha Banse#6 부르키나파소",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "파울 빌",
+                    "player_number_info": "파울 빌#13 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Doni Arifi",
+                    "player_number_info": "Doni Arifi#28 핀란드",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "펠릭스 클라우스",
+                    "player_number_info": "펠릭스 클라우스#30 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Philipp Muller",
+                    "player_number_info": "Philipp Muller#36 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "오마르 메게트",
+                    "player_number_info": "오마르 메게트#18 이집트",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Mehmet Avlayici",
+                    "player_number_info": "Mehmet Avlayici#44 독일",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Olgherto Balliu",
+                    "player_number_info": "Olgherto Balliu#45 알바니아",
+                    "position": "미드필더"
+                },
+                {
+                    "name": "Lukas Reich",
+                    "player_number_info": "Lukas Reich#2 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "헨드리 블랭크",
+                    "player_number_info": "헨드리 블랭크#34 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Jannis Heuer",
+                    "player_number_info": "Jannis Heuer#22 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "지안-루카 이터",
+                    "player_number_info": "지안-루카 이터#27 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Krisztian Keresztes",
+                    "player_number_info": "Krisztian Keresztes#29 헝가리",
+                    "position": "수비수"
+                },
+                {
+                    "name": "야니크 뎀",
+                    "player_number_info": "야니크 뎀#23 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "엘리아스 벤카라",
+                    "player_number_info": "엘리아스 벤카라#4 알제리",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Loris Giandomenico",
+                    "player_number_info": "Loris Giandomenico#20 스위스",
+                    "position": "수비수"
+                },
+                {
+                    "name": "막심 달",
+                    "player_number_info": "막심 달#5 독일",
+                    "position": "수비수"
+                },
+                {
+                    "name": "Florian Hellstern",
+                    "player_number_info": "Florian Hellstern#1 독일",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "Silas Prufrock",
+                    "player_number_info": "Silas Prufrock#43 독일",
+                    "position": "골키퍼"
+                },
+                {
+                    "name": "크리스티안 오르타그",
+                    "player_number_info": "크리스티안 오르타그#39 독일",
                     "position": "골키퍼"
                 }
             ]
