@@ -1,600 +1,640 @@
 {
-    "last_updated": "2026-11-04 21:55:05",
+    "last_updated": "2026-11-05 00:52:37",
     "match_details": {
-        "3069010": {
-            "match_code": "3069010",
+        "3073086": {
+            "match_code": "3073086",
             "head_info": {
-                "league": "AFC 챔피언스리그 2",
+                "league": "챔피언스리그",
                 "round": ""
             },
-            "home": "아르카닥",
-            "away": "시리안",
+            "home": "AEK",
+            "away": "레알 마드리드",
             "meta_details": {
                 "recent_form": {
                     "form_title": "최근 전적",
-                    "home_team_name": "아르카닥",
+                    "home_team_name": "AEK",
                     "home_matches": [
                         {
-                            "league": "ACL2",
+                            "league": "GRE D1",
+                            "match_time": "2026.11.01",
+                            "teams": "파나시나이코스 vs AEK",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어B(0.60)"
+                        },
+                        {
+                            "league": "GRE Cup",
                             "match_time": "2026.10.28",
-                            "teams": "시리안 vs 아르카닥",
+                            "teams": "PAOK vs AEK",
                             "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어C(1.10)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.10.14",
-                            "teams": "알 자지라 vs 아르카닥",
-                            "ft_scores": [
-                                "2",
+                                "3",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격C(1.50)/방어B(0.60)"
+                            "opponent_tier_info": "공격C(1.40)/방어C(1.10)"
                         },
                         {
-                            "league": "TKM D1",
-                            "match_time": "2026.09.28",
-                            "teams": "아할 vs 아르카닥",
+                            "league": "GRE D1",
+                            "match_time": "2026.10.24",
+                            "teams": "AEK vs 파네톨리코스",
                             "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격A(2.80)/방어D(1.30)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.09.24",
-                            "teams": "메르 vs 아르카닥",
-                            "ft_scores": [
-                                "0",
-                                "5"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(2.30)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.09.20",
-                            "teams": "코펫닥 아시가바트 vs 아르카닥",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어D(1.60)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.09.15",
-                            "teams": "아르카닥 vs 알 무하라크",
-                            "ft_scores": [
-                                "1",
+                                "5",
                                 "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.09.05",
-                            "teams": "네비치 vs 아르카닥",
-                            "ft_scores": [
-                                "2",
-                                "4"
                             ],
                             "opponent_tier_info": "공격C(1.10)/방어E(1.80)"
                         },
                         {
-                            "league": "TKM D1",
-                            "match_time": "2026.08.30",
-                            "teams": "사가담 vs 아르카닥",
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.20",
+                            "teams": "맨체스터 시티 vs AEK",
                             "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.50)/방어D(1.50)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.08.22",
-                            "teams": "알틴 아시르 vs 아르카닥",
-                            "ft_scores": [
-                                "2",
-                                "5"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어E(1.70)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.08.16",
-                            "teams": "아르카닥 vs 아할",
-                            "ft_scores": [
-                                "2",
+                                "5",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격A(2.50)/방어C(1.10)"
+                            "opponent_tier_info": "공격A(2.80)/방어C(1.10)"
                         },
                         {
-                            "league": "ACL2",
-                            "match_time": "2026.08.12",
-                            "teams": "아르카닥 vs 고아",
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.14",
+                            "teams": "샤흐타르 vs AEK",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어A(0.40)"
+                        },
+                        {
+                            "league": "GRE D1",
+                            "match_time": "2026.10.10",
+                            "teams": "AEK vs OFI 크레타",
                             "ft_scores": [
                                 "3",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격C(1.10)/방어C(1.00)"
+                            "opponent_tier_info": "공격B(1.80)/방어A(0.40)"
                         },
                         {
-                            "league": "TKM D1",
-                            "match_time": "2026.08.06",
-                            "teams": "아르카닥 vs 메르",
+                            "league": "INT CF",
+                            "match_time": "2026.10.04",
+                            "teams": "AEK vs 파네톨리코스",
                             "ft_scores": [
-                                "7",
+                                "2",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(2.50)"
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.60)"
                         },
                         {
-                            "league": "TKM D1",
-                            "match_time": "2026.06.20",
-                            "teams": "아르카닥 vs 코펫닥 아시가바트",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(1.80)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.06.13",
-                            "teams": "FC 아시가바트 vs 아르카닥",
+                            "league": "GRE D1",
+                            "match_time": "2026.09.20",
+                            "teams": "볼로스 vs AEK",
                             "ft_scores": [
                                 "1",
-                                "7"
+                                "2"
                             ],
-                            "opponent_tier_info": "공격C(1.10)/방어D(1.50)"
+                            "opponent_tier_info": "공격C(1.40)/방어E(1.90)"
                         },
                         {
-                            "league": "TKM D1",
-                            "match_time": "2026.06.07",
-                            "teams": "아르카닥 vs 네비치",
+                            "league": "GRE Cup",
+                            "match_time": "2026.09.17",
+                            "teams": "AEK vs 판세라이코스",
                             "ft_scores": [
-                                "4",
+                                "8",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격D(0.60)/방어C(1.10)"
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.40)"
                         },
                         {
-                            "league": "TKM D1",
-                            "match_time": "2026.05.30",
-                            "teams": "사가담 vs 아르카닥",
+                            "league": "GRE D1",
+                            "match_time": "2026.09.13",
+                            "teams": "아스테라스 트리폴리스 vs AEK",
                             "ft_scores": [
                                 "1",
-                                "4"
+                                "1"
                             ],
-                            "opponent_tier_info": "공격D(0.80)/방어C(0.90)"
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.30)"
                         },
                         {
-                            "league": "TKM D1",
-                            "match_time": "2026.05.23",
-                            "teams": "아르카닥 vs 알틴 아시르",
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.08",
+                            "teams": "AEK vs LASK",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(3.40)/방어B(0.70)"
+                        },
+                        {
+                            "league": "GRE D1",
+                            "match_time": "2026.09.05",
+                            "teams": "AEK vs 아리스",
                             "ft_scores": [
                                 "5",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격C(1.60)/방어B(0.80)"
+                            "opponent_tier_info": "공격A(2.70)/방어D(1.40)"
                         },
                         {
-                            "league": "TKM D1",
-                            "match_time": "2026.05.20",
-                            "teams": "아할 vs 아르카닥",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어B(0.70)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.05.16",
-                            "teams": "메르 vs 아르카닥",
-                            "ft_scores": [
-                                "0",
-                                "7"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(2.40)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.05.10",
-                            "teams": "코펫닥 아시가바트 vs 아르카닥",
-                            "ft_scores": [
-                                "1",
-                                "7"
-                            ],
-                            "opponent_tier_info": "공격D(0.50)/방어E(2.40)"
-                        }
-                    ],
-                    "away_team_name": "시리안",
-                    "away_matches": [
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.10.28",
-                            "teams": "시리안 vs 아르카닥",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어C(1.10)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.10.23",
-                            "teams": "시리안 vs 케이바르 코라마바드",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어D(1.30)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.10.19",
-                            "teams": "에스테갈 F.C. vs 시리안",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어A(0.30)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.10.14",
-                            "teams": "알 무하라크 vs 시리안",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어C(1.00)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.10.08",
-                            "teams": "시리안 vs 에스테그랄 쿠제스탄",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.70)/방어C(1.20)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.09.15",
-                            "teams": "시리안 vs 알 자지라",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어C(1.10)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.09.10",
-                            "teams": "샴스 아자르 카즈빈 vs 시리안",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어C(1.20)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.09.05",
-                            "teams": "트락토르 vs 시리안",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.60)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.09.01",
-                            "teams": "시리안 vs 알루미늄 아라크",
+                            "league": "GRE Cup",
+                            "match_time": "2026.09.02",
+                            "teams": "크리소우폴리스 vs AEK",
                             "ft_scores": [
                                 "0",
                                 "2"
                             ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.80)"
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.50)"
                         },
                         {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.28",
-                            "teams": "세파한 vs 시리안",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어C(0.90)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.24",
-                            "teams": "시리안 vs 차도르말루",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어B(0.60)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.18",
-                            "teams": "파이칸 vs 시리안",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격E(0.40)/방어B(0.80)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.14",
-                            "teams": "시리안 vs 나사지 마잔다란",
+                            "league": "GRE D1",
+                            "match_time": "2026.08.30",
+                            "teams": "키피시아스 vs AEK",
                             "ft_scores": [
                                 "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어B(0.60)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.06.29",
-                            "teams": "시리안 vs 차도르말루",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어B(0.70)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.26",
-                            "teams": "트락토르 vs 시리안",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어B(0.60)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.20",
-                            "teams": "차도르말루 vs 시리안",
-                            "ft_scores": [
-                                "5",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격D(0.70)/방어B(0.70)"
+                            "opponent_tier_info": "공격B(1.70)/방어E(1.80)"
                         },
                         {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.14",
-                            "teams": "시리안 vs 페르세폴리스",
+                            "league": "UEFA CL",
+                            "match_time": "2026.08.26",
+                            "teams": "AEK vs 레브스키 소피아",
                             "ft_scores": [
-                                "3",
-                                "1"
+                                "4",
+                                "0"
                             ],
-                            "opponent_tier_info": "공격D(0.90)/방어B(0.80)"
+                            "opponent_tier_info": "공격B(2.00)/방어A(0.40)"
                         },
                         {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.08",
-                            "teams": "풀라드 vs 시리안",
+                            "league": "GRE D1",
+                            "match_time": "2026.08.22",
+                            "teams": "AEK vs 이라클리스 1908",
                             "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.80)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.03",
-                            "teams": "시리안 vs 말라반",
-                            "ft_scores": [
-                                "1",
+                                "4",
                                 "0"
                             ],
                             "opponent_tier_info": "공격D(1.00)/방어C(0.90)"
                         },
                         {
-                            "league": "IRN PR",
-                            "match_time": "2026.01.28",
-                            "teams": "세파한 vs 시리안",
+                            "league": "UEFA CL",
+                            "match_time": "2026.08.18",
+                            "teams": "레브스키 소피아 vs AEK",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어B(0.50)"
+                        },
+                        {
+                            "league": "GRE S CUP",
+                            "match_time": "2026.08.12",
+                            "teams": "AEK vs OFI 크레타",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어E(2.10)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.08",
+                            "teams": "AEK vs 아테네 칼리테아",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어B(0.50)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.02",
+                            "teams": "AEK vs 신트 트라위던",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어B(0.70)"
+                        }
+                    ],
+                    "away_team_name": "레알 마드리드",
+                    "away_matches": [
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.11.01",
+                            "teams": "라싱 산탄데르 vs 레알 마드리드",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어E(2.40)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.10.25",
+                            "teams": "바르셀로나 vs 레알 마드리드",
                             "ft_scores": [
                                 "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(4.30)/방어D(1.50)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.21",
+                            "teams": "레알 마드리드 vs RB 라이프치히",
+                            "ft_scores": [
+                                "4",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격C(1.30)/방어B(0.70)"
+                            "opponent_tier_info": "공격A(2.50)/방어E(1.80)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.10.18",
+                            "teams": "레알 마드리드 vs 세비야",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어E(1.70)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.14",
+                            "teams": "AS 로마 vs 레알 마드리드",
+                            "ft_scores": [
+                                "3",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어C(1.00)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.10.10",
+                            "teams": "레알 마드리드 vs 비야레알",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어D(1.60)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.09.20",
+                            "teams": "AT 마드리드 vs 레알 마드리드",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어D(1.40)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.09.15",
+                            "teams": "엘체 vs 레알 마드리드",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어E(1.80)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.09.12",
+                            "teams": "레알 마드리드 vs 라요 바예카노",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어E(2.00)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.08",
+                            "teams": "레알 마드리드 vs 인터밀란",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.10)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.09.04",
+                            "teams": "베티스 vs 레알 마드리드",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.00)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.08.30",
+                            "teams": "레알 마드리드 vs 말라가",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.60)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.08.26",
+                            "teams": "레알 마드리드 vs 레알소시에다드",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어E(1.80)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.08.22",
+                            "teams": "에스파뇰 vs 레알 마드리드",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어C(1.10)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.16",
+                            "teams": "샬케 vs 레알 마드리드",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.30)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.12",
+                            "teams": "데포르티보 vs 레알 마드리드",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어B(0.60)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.08",
+                            "teams": "페렌크바로스 vs 레알 마드리드",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(0.90)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.01",
+                            "teams": "레알 마드리드 vs 피오렌티나",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어C(1.00)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.28",
+                            "teams": "레알 마드리드 vs 레가네스",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.60)/방어D(1.30)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.05.23",
+                            "teams": "레알 마드리드 vs 아틀레틱 빌바오",
+                            "ft_scores": [
+                                "4",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어E(1.70)"
                         }
                     ]
                 },
                 "stadium_form": {
                     "form_title": "구장별 전적",
-                    "home_team_name": "아르카닥",
+                    "home_team_name": "AEK",
                     "home_matches": [
                         {
-                            "league": "ACL2",
-                            "match_time": "2026.09.15",
-                            "teams": "아르카닥 vs 알 무하라크",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.08.16",
-                            "teams": "아르카닥 vs 아할",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.50)/방어C(1.10)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.08.12",
-                            "teams": "아르카닥 vs 고아",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어C(1.00)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.08.06",
-                            "teams": "아르카닥 vs 메르",
-                            "ft_scores": [
-                                "7",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(2.50)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.06.20",
-                            "teams": "아르카닥 vs 코펫닥 아시가바트",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(1.80)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.06.07",
-                            "teams": "아르카닥 vs 네비치",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어C(1.10)"
-                        },
-                        {
-                            "league": "TKM D1",
-                            "match_time": "2026.05.23",
-                            "teams": "아르카닥 vs 알틴 아시르",
+                            "league": "GRE D1",
+                            "match_time": "2026.10.24",
+                            "teams": "AEK vs 파네톨리코스",
                             "ft_scores": [
                                 "5",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격C(1.60)/방어B(0.80)"
-                        }
-                    ],
-                    "away_team_name": "시리안",
-                    "away_matches": [
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.10.19",
-                            "teams": "에스테갈 F.C. vs 시리안",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어A(0.30)"
+                            "opponent_tier_info": "공격C(1.10)/방어E(1.80)"
                         },
                         {
-                            "league": "ACL2",
-                            "match_time": "2026.10.14",
-                            "teams": "알 무하라크 vs 시리안",
+                            "league": "GRE D1",
+                            "match_time": "2026.10.10",
+                            "teams": "AEK vs OFI 크레타",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어A(0.40)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.10.04",
+                            "teams": "AEK vs 파네톨리코스",
                             "ft_scores": [
                                 "2",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격C(1.30)/방어C(1.00)"
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.60)"
                         },
                         {
-                            "league": "IRN PR",
-                            "match_time": "2026.09.10",
-                            "teams": "샴스 아자르 카즈빈 vs 시리안",
+                            "league": "GRE Cup",
+                            "match_time": "2026.09.17",
+                            "teams": "AEK vs 판세라이코스",
+                            "ft_scores": [
+                                "8",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.40)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.08",
+                            "teams": "AEK vs LASK",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(3.40)/방어B(0.70)"
+                        },
+                        {
+                            "league": "GRE D1",
+                            "match_time": "2026.09.05",
+                            "teams": "AEK vs 아리스",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.70)/방어D(1.40)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.08.26",
+                            "teams": "AEK vs 레브스키 소피아",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어A(0.40)"
+                        },
+                        {
+                            "league": "GRE D1",
+                            "match_time": "2026.08.22",
+                            "teams": "AEK vs 이라클리스 1908",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어C(0.90)"
+                        },
+                        {
+                            "league": "GRE S CUP",
+                            "match_time": "2026.08.12",
+                            "teams": "AEK vs OFI 크레타",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어E(2.10)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.08",
+                            "teams": "AEK vs 아테네 칼리테아",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어B(0.50)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.02",
+                            "teams": "AEK vs 신트 트라위던",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어B(0.70)"
+                        }
+                    ],
+                    "away_team_name": "레알 마드리드",
+                    "away_matches": [
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.11.01",
+                            "teams": "라싱 산탄데르 vs 레알 마드리드",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어E(2.40)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.10.25",
+                            "teams": "바르셀로나 vs 레알 마드리드",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(4.30)/방어D(1.50)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.14",
+                            "teams": "AS 로마 vs 레알 마드리드",
+                            "ft_scores": [
+                                "3",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어C(1.00)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.09.20",
+                            "teams": "AT 마드리드 vs 레알 마드리드",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어D(1.40)"
+                        },
+                        {
+                            "league": "SPA D1",
+                            "match_time": "2026.09.15",
+                            "teams": "엘체 vs 레알 마드리드",
                             "ft_scores": [
                                 "2",
                                 "3"
                             ],
-                            "opponent_tier_info": "공격D(0.60)/방어C(1.20)"
+                            "opponent_tier_info": "공격C(1.50)/방어E(1.80)"
                         },
                         {
-                            "league": "IRN PR",
-                            "match_time": "2026.09.05",
-                            "teams": "트락토르 vs 시리안",
+                            "league": "SPA D1",
+                            "match_time": "2026.09.04",
+                            "teams": "베티스 vs 레알 마드리드",
                             "ft_scores": [
                                 "1",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.60)"
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.00)"
                         },
                         {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.28",
-                            "teams": "세파한 vs 시리안",
+                            "league": "SPA D1",
+                            "match_time": "2026.08.22",
+                            "teams": "에스파뇰 vs 레알 마드리드",
                             "ft_scores": [
-                                "2",
-                                "0"
+                                "1",
+                                "2"
                             ],
-                            "opponent_tier_info": "공격D(0.90)/방어C(0.90)"
+                            "opponent_tier_info": "공격B(2.20)/방어C(1.10)"
                         },
                         {
-                            "league": "IRN PR",
-                            "match_time": "2026.08.18",
-                            "teams": "파이칸 vs 시리안",
+                            "league": "INT CF",
+                            "match_time": "2026.08.16",
+                            "teams": "샬케 vs 레알 마드리드",
                             "ft_scores": [
                                 "0",
-                                "0"
+                                "3"
                             ],
-                            "opponent_tier_info": "공격E(0.40)/방어B(0.80)"
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.30)"
                         },
                         {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.26",
-                            "teams": "트락토르 vs 시리안",
+                            "league": "INT CF",
+                            "match_time": "2026.08.12",
+                            "teams": "데포르티보 vs 레알 마드리드",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어B(0.60)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.08",
+                            "teams": "페렌크바로스 vs 레알 마드리드",
                             "ft_scores": [
                                 "1",
-                                "0"
+                                "2"
                             ],
-                            "opponent_tier_info": "공격D(1.00)/방어B(0.60)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.20",
-                            "teams": "차도르말루 vs 시리안",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.70)/방어B(0.70)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.02.08",
-                            "teams": "풀라드 vs 시리안",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.80)"
-                        },
-                        {
-                            "league": "IRN PR",
-                            "match_time": "2026.01.28",
-                            "teams": "세파한 vs 시리안",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어B(0.70)"
+                            "opponent_tier_info": "공격B(1.70)/방어C(0.90)"
                         }
                     ]
                 }
