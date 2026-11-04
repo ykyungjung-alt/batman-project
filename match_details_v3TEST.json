@@ -1,241 +1,48 @@
 {
-    "last_updated": "2026-11-05 00:52:37",
+    "last_updated": "2026-11-05 03:52:40",
     "match_details": {
-        "3073086": {
-            "match_code": "3073086",
+        "3073091": {
+            "match_code": "3073091",
             "head_info": {
                 "league": "챔피언스리그",
                 "round": ""
             },
-            "home": "AEK",
-            "away": "레알 마드리드",
+            "home": "RB 라이프치히",
+            "away": "맨체스터 시티",
             "meta_details": {
                 "recent_form": {
                     "form_title": "최근 전적",
-                    "home_team_name": "AEK",
+                    "home_team_name": "RB 라이프치히",
                     "home_matches": [
                         {
-                            "league": "GRE D1",
-                            "match_time": "2026.11.01",
-                            "teams": "파나시나이코스 vs AEK",
+                            "league": "GER D1",
+                            "match_time": "2026.10.31",
+                            "teams": "샬케 vs RB 라이프치히",
                             "ft_scores": [
-                                "2",
-                                "0"
+                                "0",
+                                "2"
                             ],
-                            "opponent_tier_info": "공격A(2.40)/방어B(0.60)"
+                            "opponent_tier_info": "공격D(1.00)/방어C(1.10)"
                         },
                         {
-                            "league": "GRE Cup",
-                            "match_time": "2026.10.28",
-                            "teams": "PAOK vs AEK",
+                            "league": "GERC",
+                            "match_time": "2026.10.27",
+                            "teams": "RW 에쎈 vs RB 라이프치히",
                             "ft_scores": [
-                                "3",
-                                "1"
+                                "1",
+                                "2"
                             ],
-                            "opponent_tier_info": "공격C(1.40)/방어C(1.10)"
+                            "opponent_tier_info": "공격B(1.80)/방어C(1.00)"
                         },
                         {
-                            "league": "GRE D1",
+                            "league": "GER D1",
                             "match_time": "2026.10.24",
-                            "teams": "AEK vs 파네톨리코스",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(1.80)"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.20",
-                            "teams": "맨체스터 시티 vs AEK",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.80)/방어C(1.10)"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.14",
-                            "teams": "샤흐타르 vs AEK",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어A(0.40)"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.10.10",
-                            "teams": "AEK vs OFI 크레타",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어A(0.40)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.10.04",
-                            "teams": "AEK vs 파네톨리코스",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어D(1.60)"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.09.20",
-                            "teams": "볼로스 vs AEK",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(1.90)"
-                        },
-                        {
-                            "league": "GRE Cup",
-                            "match_time": "2026.09.17",
-                            "teams": "AEK vs 판세라이코스",
-                            "ft_scores": [
-                                "8",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어D(1.40)"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.09.13",
-                            "teams": "아스테라스 트리폴리스 vs AEK",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어D(1.30)"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.08",
-                            "teams": "AEK vs LASK",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(3.40)/방어B(0.70)"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.09.05",
-                            "teams": "AEK vs 아리스",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "GRE Cup",
-                            "match_time": "2026.09.02",
-                            "teams": "크리소우폴리스 vs AEK",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어B(0.50)"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.08.30",
-                            "teams": "키피시아스 vs AEK",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어E(1.80)"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.08.26",
-                            "teams": "AEK vs 레브스키 소피아",
+                            "teams": "RB 라이프치히 vs 엘버스베르크",
                             "ft_scores": [
                                 "4",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격B(2.00)/방어A(0.40)"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.08.22",
-                            "teams": "AEK vs 이라클리스 1908",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어C(0.90)"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.08.18",
-                            "teams": "레브스키 소피아 vs AEK",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어B(0.50)"
-                        },
-                        {
-                            "league": "GRE S CUP",
-                            "match_time": "2026.08.12",
-                            "teams": "AEK vs OFI 크레타",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(2.10)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "AEK vs 아테네 칼리테아",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.50)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.02",
-                            "teams": "AEK vs 신트 트라위던",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어B(0.70)"
-                        }
-                    ],
-                    "away_team_name": "레알 마드리드",
-                    "away_matches": [
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.11.01",
-                            "teams": "라싱 산탄데르 vs 레알 마드리드",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어E(2.40)"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.25",
-                            "teams": "바르셀로나 vs 레알 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(4.30)/방어D(1.50)"
+                            "opponent_tier_info": "공격A(2.50)/방어D(1.60)"
                         },
                         {
                             "league": "UEFA CL",
@@ -245,396 +52,529 @@
                                 "4",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격A(2.50)/방어E(1.80)"
+                            "opponent_tier_info": "공격A(2.70)/방어C(1.20)"
                         },
                         {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.18",
-                            "teams": "레알 마드리드 vs 세비야",
+                            "league": "GER D1",
+                            "match_time": "2026.10.17",
+                            "teams": "바이에른 뮌헨 vs RB 라이프치히",
+                            "ft_scores": [
+                                "6",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(3.40)/방어C(1.10)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.13",
+                            "teams": "RB 라이프치히 vs PSV 아인트호벤",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.70)/방어D(1.50)"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.10.10",
+                            "teams": "RB 라이프치히 vs 프랑크푸르트",
+                            "ft_scores": [
+                                "6",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(3.20)/방어E(1.80)"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.09.20",
+                            "teams": "레버쿠젠 vs RB 라이프치히",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어C(0.90)"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.09.13",
+                            "teams": "RB 라이프치히 vs 함부르크 SV",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어E(1.90)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.10",
+                            "teams": "코모 vs RB 라이프치히",
                             "ft_scores": [
                                 "4",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격C(1.50)/방어E(1.70)"
+                            "opponent_tier_info": "공격B(1.70)/방어C(1.20)"
                         },
                         {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.14",
-                            "teams": "AS 로마 vs 레알 마드리드",
+                            "league": "GER D1",
+                            "match_time": "2026.09.05",
+                            "teams": "베르더 브레멘 vs RB 라이프치히",
                             "ft_scores": [
                                 "3",
-                                "4"
+                                "1"
                             ],
-                            "opponent_tier_info": "공격B(2.10)/방어C(1.00)"
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.40)"
                         },
                         {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.10",
-                            "teams": "레알 마드리드 vs 비야레알",
+                            "league": "GER D1",
+                            "match_time": "2026.08.29",
+                            "teams": "RB 라이프치히 vs 묀헨글라트바흐",
                             "ft_scores": [
-                                "1",
+                                "3",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격B(1.80)/방어D(1.60)"
+                            "opponent_tier_info": "공격A(3.80)/방어B(0.80)"
                         },
                         {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.20",
-                            "teams": "AT 마드리드 vs 레알 마드리드",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어D(1.40)"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.15",
-                            "teams": "엘체 vs 레알 마드리드",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어E(1.80)"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.12",
-                            "teams": "레알 마드리드 vs 라요 바예카노",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(2.00)"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.09.08",
-                            "teams": "레알 마드리드 vs 인터밀란",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어C(1.10)"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.04",
-                            "teams": "베티스 vs 레알 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어C(1.00)"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.30",
-                            "teams": "레알 마드리드 vs 말라가",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어D(1.60)"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.26",
-                            "teams": "레알 마드리드 vs 레알소시에다드",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(1.80)"
-                        },
-                        {
-                            "league": "SPA D1",
+                            "league": "GERC",
                             "match_time": "2026.08.22",
-                            "teams": "에스파뇰 vs 레알 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어C(1.10)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.16",
-                            "teams": "샬케 vs 레알 마드리드",
+                            "teams": "아인트라흐트 트리어 vs RB 라이프치히",
                             "ft_scores": [
                                 "0",
-                                "3"
+                                "6"
                             ],
-                            "opponent_tier_info": "공격B(2.00)/방어D(1.30)"
+                            "opponent_tier_info": "공격B(1.80)/방어C(1.20)"
                         },
                         {
-                            "league": "INT CF",
-                            "match_time": "2026.08.12",
-                            "teams": "데포르티보 vs 레알 마드리드",
+                            "league": "Ger LTC",
+                            "match_time": "2026.08.15",
+                            "teams": "바이에른 뮌헨 vs RB 라이프치히",
                             "ft_scores": [
-                                "0",
+                                "3",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격C(1.50)/방어B(0.60)"
+                            "opponent_tier_info": "공격A(2.60)/방어E(1.70)"
                         },
                         {
                             "league": "INT CF",
                             "match_time": "2026.08.08",
-                            "teams": "페렌크바로스 vs 레알 마드리드",
+                            "teams": "리즈 vs RB 라이프치히",
                             "ft_scores": [
-                                "1",
-                                "2"
+                                "2",
+                                "0"
                             ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(0.90)"
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.30)"
                         },
                         {
                             "league": "INT CF",
                             "match_time": "2026.08.01",
-                            "teams": "레알 마드리드 vs 피오렌티나",
+                            "teams": "RB 라이프치히 vs 페얼",
                             "ft_scores": [
-                                "2",
-                                "2"
+                                "4",
+                                "0"
                             ],
-                            "opponent_tier_info": "공격C(1.60)/방어C(1.00)"
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.00)"
                         },
                         {
                             "league": "INT CF",
-                            "match_time": "2026.07.28",
-                            "teams": "레알 마드리드 vs 레가네스",
+                            "match_time": "2026.07.25",
+                            "teams": "RB 라이프치히 vs 잉골슈타트",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.40)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.18",
+                            "teams": "알트글리에니케 vs RB 라이프치히",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어B(0.60)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.05.29",
+                            "teams": "마멜로디 선다운스 vs RB 라이프치히",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어C(1.00)"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.05.16",
+                            "teams": "프라이부르크 vs RB 라이프치히",
                             "ft_scores": [
                                 "4",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격D(0.60)/방어D(1.30)"
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.40)"
+                        }
+                    ],
+                    "away_team_name": "맨체스터 시티",
+                    "away_matches": [
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.10.31",
+                            "teams": "맨체스터 시티 vs 브라이튼",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어B(0.70)"
                         },
                         {
-                            "league": "SPA D1",
-                            "match_time": "2026.05.23",
-                            "teams": "레알 마드리드 vs 아틀레틱 빌바오",
+                            "league": "ENG LC",
+                            "match_time": "2026.10.28",
+                            "teams": "맨체스터 시티 vs 브라이튼",
                             "ft_scores": [
-                                "4",
+                                "2",
                                 "2"
                             ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(1.70)"
+                            "opponent_tier_info": "공격A(2.60)/방어C(0.90)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.10.24",
+                            "teams": "아스톤 빌라 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어C(1.10)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.20",
+                            "teams": "맨체스터 시티 vs AEK",
+                            "ft_scores": [
+                                "5",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어B(0.70)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.10.17",
+                            "teams": "맨체스터 시티 vs 입스위치",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어E(1.90)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.14",
+                            "teams": "맨체스터 시티 vs 파리생제르망",
+                            "ft_scores": [
+                                "2",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.10.11",
+                            "teams": "리버풀 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어C(0.90)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.09.20",
+                            "teams": "맨체스터 시티 vs 선덜랜드",
+                            "ft_scores": [
+                                "5",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(0.90)"
+                        },
+                        {
+                            "league": "ENG LC",
+                            "match_time": "2026.09.17",
+                            "teams": "맨체스터 시티 vs 노르위치",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어D(1.50)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.09.13",
+                            "teams": "맨체스터 유나이티드 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어D(1.40)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.09.08",
+                            "teams": "FC 포르투 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어A(0.40)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.09.05",
+                            "teams": "맨체스터 시티 vs 코번트리",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.08.28",
+                            "teams": "크리스탈팰리스 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.50)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.08.23",
+                            "teams": "맨체스터 시티 vs 본머스",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(3.00)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ENG FACS",
+                            "match_time": "2026.08.16",
+                            "teams": "아스널 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(1.00)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.09",
+                            "teams": "맨체스터 시티 vs AT 마드리드",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어D(1.40)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.05",
+                            "teams": "K리그 올스타 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(2.17)/방어E(2.67)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.01",
+                            "teams": "맨체스터 시티 vs 인터밀란",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.05.24",
+                            "teams": "맨체스터 시티 vs 아스톤 빌라",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.05.19",
+                            "teams": "본머스 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어B(0.70)"
                         }
                     ]
                 },
                 "stadium_form": {
                     "form_title": "구장별 전적",
-                    "home_team_name": "AEK",
+                    "home_team_name": "RB 라이프치히",
                     "home_matches": [
                         {
-                            "league": "GRE D1",
+                            "league": "GER D1",
                             "match_time": "2026.10.24",
-                            "teams": "AEK vs 파네톨리코스",
+                            "teams": "RB 라이프치히 vs 엘버스베르크",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어D(1.60)"
+                        },
+                        {
+                            "league": "UEFA CL",
+                            "match_time": "2026.10.13",
+                            "teams": "RB 라이프치히 vs PSV 아인트호벤",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.70)/방어D(1.50)"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.10.10",
+                            "teams": "RB 라이프치히 vs 프랑크푸르트",
+                            "ft_scores": [
+                                "6",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(3.20)/방어E(1.80)"
+                        },
+                        {
+                            "league": "GER D1",
+                            "match_time": "2026.09.13",
+                            "teams": "RB 라이프치히 vs 함부르크 SV",
                             "ft_scores": [
                                 "5",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(1.80)"
+                            "opponent_tier_info": "공격B(1.70)/방어E(1.90)"
                         },
                         {
-                            "league": "GRE D1",
-                            "match_time": "2026.10.10",
-                            "teams": "AEK vs OFI 크레타",
+                            "league": "GER D1",
+                            "match_time": "2026.08.29",
+                            "teams": "RB 라이프치히 vs 묀헨글라트바흐",
                             "ft_scores": [
                                 "3",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격B(1.80)/방어A(0.40)"
+                            "opponent_tier_info": "공격A(3.80)/방어B(0.80)"
                         },
                         {
                             "league": "INT CF",
-                            "match_time": "2026.10.04",
-                            "teams": "AEK vs 파네톨리코스",
+                            "match_time": "2026.08.01",
+                            "teams": "RB 라이프치히 vs 페얼",
                             "ft_scores": [
-                                "2",
+                                "4",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격C(1.20)/방어D(1.60)"
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.00)"
                         },
                         {
-                            "league": "GRE Cup",
-                            "match_time": "2026.09.17",
-                            "teams": "AEK vs 판세라이코스",
+                            "league": "INT CF",
+                            "match_time": "2026.07.25",
+                            "teams": "RB 라이프치히 vs 잉골슈타트",
                             "ft_scores": [
-                                "8",
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.40)"
+                        }
+                    ],
+                    "away_team_name": "맨체스터 시티",
+                    "away_matches": [
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.10.24",
+                            "teams": "아스톤 빌라 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "2",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격D(0.90)/방어D(1.40)"
+                            "opponent_tier_info": "공격A(2.50)/방어C(1.10)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.10.11",
+                            "teams": "리버풀 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어C(0.90)"
+                        },
+                        {
+                            "league": "ENG PR",
+                            "match_time": "2026.09.13",
+                            "teams": "맨체스터 유나이티드 vs 맨체스터 시티",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어D(1.40)"
                         },
                         {
                             "league": "UEFA CL",
                             "match_time": "2026.09.08",
-                            "teams": "AEK vs LASK",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(3.40)/방어B(0.70)"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.09.05",
-                            "teams": "AEK vs 아리스",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "UEFA CL",
-                            "match_time": "2026.08.26",
-                            "teams": "AEK vs 레브스키 소피아",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어A(0.40)"
-                        },
-                        {
-                            "league": "GRE D1",
-                            "match_time": "2026.08.22",
-                            "teams": "AEK vs 이라클리스 1908",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어C(0.90)"
-                        },
-                        {
-                            "league": "GRE S CUP",
-                            "match_time": "2026.08.12",
-                            "teams": "AEK vs OFI 크레타",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(2.10)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "AEK vs 아테네 칼리테아",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.50)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.02",
-                            "teams": "AEK vs 신트 트라위던",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어B(0.70)"
-                        }
-                    ],
-                    "away_team_name": "레알 마드리드",
-                    "away_matches": [
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.11.01",
-                            "teams": "라싱 산탄데르 vs 레알 마드리드",
+                            "teams": "FC 포르투 vs 맨체스터 시티",
                             "ft_scores": [
                                 "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어E(2.40)"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.10.25",
-                            "teams": "바르셀로나 vs 레알 마드리드",
-                            "ft_scores": [
-                                "1",
                                 "2"
                             ],
-                            "opponent_tier_info": "공격A(4.30)/방어D(1.50)"
+                            "opponent_tier_info": "공격B(1.70)/방어A(0.40)"
                         },
                         {
-                            "league": "UEFA CL",
-                            "match_time": "2026.10.14",
-                            "teams": "AS 로마 vs 레알 마드리드",
+                            "league": "ENG PR",
+                            "match_time": "2026.08.28",
+                            "teams": "크리스탈팰리스 vs 맨체스터 시티",
                             "ft_scores": [
-                                "3",
+                                "1",
                                 "4"
                             ],
-                            "opponent_tier_info": "공격B(2.10)/방어C(1.00)"
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.50)"
                         },
                         {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.20",
-                            "teams": "AT 마드리드 vs 레알 마드리드",
+                            "league": "ENG FACS",
+                            "match_time": "2026.08.16",
+                            "teams": "아스널 vs 맨체스터 시티",
                             "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어D(1.40)"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.15",
-                            "teams": "엘체 vs 레알 마드리드",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어E(1.80)"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.09.04",
-                            "teams": "베티스 vs 레알 마드리드",
-                            "ft_scores": [
-                                "1",
+                                "3",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격C(1.50)/방어C(1.00)"
-                        },
-                        {
-                            "league": "SPA D1",
-                            "match_time": "2026.08.22",
-                            "teams": "에스파뇰 vs 레알 마드리드",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어C(1.10)"
+                            "opponent_tier_info": "공격B(1.70)/방어C(1.00)"
                         },
                         {
                             "league": "INT CF",
-                            "match_time": "2026.08.16",
-                            "teams": "샬케 vs 레알 마드리드",
+                            "match_time": "2026.08.05",
+                            "teams": "K리그 올스타 vs 맨체스터 시티",
                             "ft_scores": [
-                                "0",
+                                "1",
                                 "3"
                             ],
-                            "opponent_tier_info": "공격B(2.00)/방어D(1.30)"
+                            "opponent_tier_info": "공격B(2.17)/방어E(2.67)"
                         },
                         {
-                            "league": "INT CF",
-                            "match_time": "2026.08.12",
-                            "teams": "데포르티보 vs 레알 마드리드",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어B(0.60)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.08",
-                            "teams": "페렌크바로스 vs 레알 마드리드",
+                            "league": "ENG PR",
+                            "match_time": "2026.05.19",
+                            "teams": "본머스 vs 맨체스터 시티",
                             "ft_scores": [
                                 "1",
-                                "2"
+                                "1"
                             ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(0.90)"
+                            "opponent_tier_info": "공격C(1.30)/방어B(0.70)"
                         }
                     ]
                 }
