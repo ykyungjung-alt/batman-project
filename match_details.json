@@ -1,79 +1,339 @@
 {
-    "last_updated": "2026-11-04 22:02:46",
+    "last_updated": "2026-11-05 00:59:14",
     "match_details": {
-        "3069010": {
-            "match_code": "3069010",
+        "3073086": {
+            "match_code": "3073086",
             "head_info": {
-                "league": "AFC 챔피언스리그 2",
+                "league": "챔피언스리그",
                 "round": "",
-                "match_time_raw": "11/4/2026 1:45:00 PM",
-                "match_time_display": "2026-11-04 22:45",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": "흐림,  20℃～21℃"
+                "match_time_raw": "11/4/2026 5:45:00 PM",
+                "match_time_display": "2026-11-05 02:45",
+                "stadium": "Agia Sofia Stadium",
+                "home_stadium": "Agia Sofia Stadium",
+                "weather": "맑음,  18℃～19℃"
             },
-            "home": "아르카닥",
-            "away": "시리안",
+            "home": "AEK",
+            "away": "레알 마드리드",
             "meta_details": {
                 "rankings": [
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "TKM D1-1",
-                        "team": "아르카닥",
-                        "played": "23",
-                        "win": "22",
-                        "draw": "1",
-                        "loss": "0",
-                        "goals_for": "87",
-                        "goals_against": "10",
-                        "goal_diff": "77",
-                        "points": "67"
+                        "rank": "GRE D1-4",
+                        "team": "AEK",
+                        "played": "8",
+                        "win": "5",
+                        "draw": "2",
+                        "loss": "1",
+                        "goals_for": "21",
+                        "goals_against": "5",
+                        "goal_diff": "16",
+                        "points": "17"
                     },
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "IRN PR-10",
-                        "team": "시리안",
-                        "played": "10",
-                        "win": "4",
-                        "draw": "1",
-                        "loss": "5",
-                        "goals_for": "10",
-                        "goals_against": "9",
-                        "goal_diff": "1",
-                        "points": "13"
+                        "rank": "SPA D1-3",
+                        "team": "레알 마드리드",
+                        "played": "11",
+                        "win": "9",
+                        "draw": "0",
+                        "loss": "2",
+                        "goals_for": "28",
+                        "goals_against": "10",
+                        "goal_diff": "18",
+                        "points": "27"
                     }
                 ],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "8승 1무 1패",
-                        "goals_per_game": "2.60",
-                        "conceded_per_game": "0.70"
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "2.40",
+                        "conceded_per_game": "1.60"
                     },
                     "away_summary": {
-                        "recent_record": "2승 2무 6패",
-                        "goals_per_game": "0.60",
-                        "conceded_per_game": "1.10"
+                        "recent_record": "9승 0무 1패",
+                        "goals_per_game": "2.80",
+                        "conceded_per_game": "1.20"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "그리스 슈퍼리그",
+                            "match_time": "2026-11-08 15:00:00",
+                            "teams": "11.08 2026 vs AEK vs 레바디아코스 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "그리스 슈퍼리그",
+                            "match_time": "2026-11-21 17:30:00",
+                            "teams": "11.21 2026 vs 칼라마타 vs AEK vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs 코모 vs AEK vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "라리가",
+                            "match_time": "2026-11-07 20:00:00",
+                            "teams": "11.07 2026 vs 발렌시아 vs 레알 마드리드 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "라리가",
+                            "match_time": "2026-11-21 20:00:00",
+                            "teams": "11.21 2026 vs 레알 마드리드 vs 셀타비고 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs 레알 마드리드 vs PSV 아인트호벤 vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3073121": {
+            "match_code": "3073121",
+            "head_info": {
+                "league": "챔피언스리그",
+                "round": "",
+                "match_time_raw": "11/4/2026 5:45:00 PM",
+                "match_time_display": "2026-11-05 02:45",
+                "stadium": "Sukru Saracoglu Stadium",
+                "home_stadium": "Sukru Saracoglu Stadium",
+                "weather": "이슬비,  14℃～15℃"
+            },
+            "home": "페네르바체",
+            "away": "리버풀",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "TUR D1-6",
+                        "team": "페네르바체",
+                        "played": "10",
+                        "win": "5",
+                        "draw": "1",
+                        "loss": "4",
+                        "goals_for": "24",
+                        "goals_against": "10",
+                        "goal_diff": "14",
+                        "points": "16"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "ENG PR-5",
+                        "team": "리버풀",
+                        "played": "9",
+                        "win": "4",
+                        "draw": "3",
+                        "loss": "2",
+                        "goals_for": "11",
+                        "goals_against": "9",
+                        "goal_diff": "2",
+                        "points": "15"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "2.10",
+                        "conceded_per_game": "1.30"
+                    },
+                    "away_summary": {
+                        "recent_record": "6승 2무 2패",
+                        "goals_per_game": "1.90",
+                        "conceded_per_game": "1.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "쉬페르리그",
+                            "match_time": "2026-11-08 13:00:00",
+                            "teams": "11.08 2026 vs 초룸 vs 페네르바체 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "쉬페르리그",
+                            "match_time": "2026-11-21 16:00:00",
+                            "teams": "11.21 2026 vs 코자엘리스포르 vs 페네르바체 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-25 20:00:00",
+                            "teams": "11.25 2026 vs 샤흐타르 vs 페네르바체 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-08 14:00:00",
+                            "teams": "11.08 2026 vs 크리스탈팰리스 vs 리버풀 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-22 16:30:00",
+                            "teams": "11.22 2026 vs 리버풀 vs 맨체스터 유나이티드 vs 18 일",
+                            "interval": "18 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-25 20:00:00",
+                            "teams": "11.25 2026 vs 클럽 브뤼헤 KV vs 리버풀 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3073091": {
+            "match_code": "3073091",
+            "head_info": {
+                "league": "챔피언스리그",
+                "round": "",
+                "match_time_raw": "11/4/2026 8:00:00 PM",
+                "match_time_display": "2026-11-05 05:00",
+                "stadium": "Red Bull Arena",
+                "home_stadium": "Red Bull Arena",
+                "weather": "구름 조금,  5℃～6℃"
+            },
+            "home": "RB 라이프치히",
+            "away": "맨체스터 시티",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "GER D1-4",
+                        "team": "RB 라이프치히",
+                        "played": "8",
+                        "win": "5",
+                        "draw": "0",
+                        "loss": "3",
+                        "goals_for": "22",
+                        "goals_against": "11",
+                        "goal_diff": "11",
+                        "points": "15"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "ENG PR-2",
+                        "team": "맨체스터 시티",
+                        "played": "9",
+                        "win": "7",
+                        "draw": "0",
+                        "loss": "2",
+                        "goals_for": "20",
+                        "goals_against": "10",
+                        "goal_diff": "10",
+                        "points": "21"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "6승 0무 4패",
+                        "goals_per_game": "2.30",
+                        "conceded_per_game": "1.70"
+                    },
+                    "away_summary": {
+                        "recent_record": "6승 1무 3패",
+                        "goals_per_game": "2.70",
+                        "conceded_per_game": "1.50"
                     },
                     "matches": []
                 },
                 "h2h": {
                     "summary": [
-                        "승 0 (0%)",
-                        "무승부 1 (100%)",
-                        "0.00",
+                        "승 1 (16.7%)",
+                        "무승부 1 (16.7%)",
+                        "승 4 (66.7%)",
+                        "1.50",
                         "경기당 득점",
-                        "핸디캡：1승 0무 0패",
-                        "언오버：0오버 0무 1언더"
+                        "3.50",
+                        "핸디캡：3승 0무 3패",
+                        "언오버：4오버 1무 1언더"
                     ],
                     "matches": [
                         {
                             "row_data": [
-                                "ACL22026.10.28",
-                                "시리안",
-                                "0-0",
-                                "아르카닥"
+                                "UEFA CL2023.11.28",
+                                "맨체스터 시티",
+                                "3-2",
+                                "RB 라이프치히"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA CL2023.10.04",
+                                "RB 라이프치히",
+                                "1-3",
+                                "맨체스터 시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA CL2023.03.14",
+                                "맨체스터 시티",
+                                "7-0",
+                                "RB 라이프치히"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA CL2023.02.22",
+                                "RB 라이프치히",
+                                "1-1",
+                                "맨체스터 시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA CL2021.12.07",
+                                "RB 라이프치히",
+                                "2-1",
+                                "맨체스터 시티"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA CL2021.09.15",
+                                "맨체스터 시티",
+                                "6-3",
+                                "RB 라이프치히"
                             ]
                         }
                     ]
@@ -85,42 +345,2702 @@
                 "fixtures": {
                     "home": [
                         {
-                            "league": "요카리 리가",
-                            "match_time": "2026-11-08 14:00:00",
-                            "teams": "11.08 2026 vs 아르카닥 vs 네비치 vs 4 일",
+                            "league": "분데스리가",
+                            "match_time": "2026-11-07 14:30:00",
+                            "teams": "11.07 2026 vs RB 라이프치히 vs 아우크스부르크 vs 3 일",
                             "interval": "시작전"
                         },
                         {
-                            "league": "요카리 리가",
-                            "match_time": "2026-11-11 14:00:00",
-                            "teams": "11.11 2026 vs 아르카닥 vs 알틴 아시르 vs 7 일",
-                            "interval": "7 일"
+                            "league": "분데스리가",
+                            "match_time": "2026-11-21 14:30:00",
+                            "teams": "11.21 2026 vs 우니온 베를린 vs RB 라이프치히 vs 17 일",
+                            "interval": "17 일"
                         },
                         {
-                            "league": "요카리 리가",
-                            "match_time": "2026-11-20 14:00:00",
-                            "teams": "11.20 2026 vs FC 아시가바트 vs 아르카닥 vs 16 일",
-                            "interval": "16 일"
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs RB 라이프치히 vs 랑스 vs 20 일",
+                            "interval": "20 일"
                         }
                     ],
                     "away": [
                         {
-                            "league": "페르시안 걸프 프로리그",
-                            "match_time": "2026-11-08 12:45:00",
-                            "teams": "11.08 2026 vs 시리안 vs 조브 아한 vs 4 일",
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-07 17:30:00",
+                            "teams": "11.07 2026 vs 노팅엄 vs 맨체스터 시티 vs 3 일",
                             "interval": "시작전"
                         },
                         {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-21 12:30:00",
+                            "teams": "11.21 2026 vs 맨체스터 시티 vs 풀럼 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs 맨체스터 시티 vs 나폴리 vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3073128": {
+            "match_code": "3073128",
+            "head_info": {
+                "league": "챔피언스리그",
+                "round": "",
+                "match_time_raw": "11/4/2026 8:00:00 PM",
+                "match_time_display": "2026-11-05 05:00",
+                "stadium": "Eden Arena",
+                "home_stadium": "Eden Arena",
+                "weather": "구름 많음,  6℃～7℃"
+            },
+            "home": "슬라비아 프라하",
+            "away": "아스널",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "CZE D1-1",
+                        "team": "슬라비아 프라하",
+                        "played": "13",
+                        "win": "9",
+                        "draw": "4",
+                        "loss": "0",
+                        "goals_for": "32",
+                        "goals_against": "7",
+                        "goal_diff": "25",
+                        "points": "31"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "ENG PR-1",
+                        "team": "아스널",
+                        "played": "9",
+                        "win": "8",
+                        "draw": "0",
+                        "loss": "1",
+                        "goals_for": "14",
+                        "goals_against": "5",
+                        "goal_diff": "9",
+                        "points": "24"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "6승 3무 1패",
+                        "goals_per_game": "2.20",
+                        "conceded_per_game": "0.70"
+                    },
+                    "away_summary": {
+                        "recent_record": "7승 2무 1패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "0.90"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 2 (40%)",
+                        "승 3 (60%)",
+                        "0.20",
+                        "경기당 득점",
+                        "3.00",
+                        "핸디캡：2승 0무 3패",
+                        "언오버：1오버 1무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "UEFA CL2025.11.04",
+                                "슬라비아 프라하",
+                                "0-3",
+                                "아스널"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA EL2021.04.15",
+                                "슬라비아 프라하",
+                                "0-4",
+                                "아스널"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA EL2021.04.08",
+                                "아스널",
+                                "1-1",
+                                "슬라비아 프라하"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA CL2007.11.07",
+                                "슬라비아 프라하",
+                                "0-0",
+                                "아스널"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA CL2007.10.23",
+                                "아스널",
+                                "7-0",
+                                "슬라비아 프라하"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "1. 리가",
+                            "match_time": "2026-11-08 14:00:00",
+                            "teams": "11.08 2026 vs 슬라비아 프라하 vs Artis Brno vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "1. 리가",
+                            "match_time": "2026-11-21 16:00:00",
+                            "teams": "11.21 2026 vs 시그마 올로모우츠 vs 슬라비아 프라하 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-25 17:45:00",
+                            "teams": "11.25 2026 vs 슬라비아 프라하 vs 비야레알 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-07 15:00:00",
+                            "teams": "11.07 2026 vs 아스널 vs 헐시티 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "잉글랜드 프리미어리그",
+                            "match_time": "2026-11-21 17:30:00",
+                            "teams": "11.21 2026 vs 뉴캐슬 Utd vs 아스널 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs 아스널 vs 도르트문트 vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3073136": {
+            "match_code": "3073136",
+            "head_info": {
+                "league": "챔피언스리그",
+                "round": "",
+                "match_time_raw": "11/4/2026 8:00:00 PM",
+                "match_time_display": "2026-11-05 05:00",
+                "stadium": "Philips Stadion",
+                "home_stadium": "Philips Stadion",
+                "weather": "구름 많음,  8℃～9℃"
+            },
+            "home": "PSV 아인트호벤",
+            "away": "클럽 브뤼헤 KV",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "HOL D1-3",
+                        "team": "PSV 아인트호벤",
+                        "played": "11",
+                        "win": "7",
+                        "draw": "2",
+                        "loss": "2",
+                        "goals_for": "35",
+                        "goals_against": "13",
+                        "goal_diff": "22",
+                        "points": "23"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "BEL D1-1",
+                        "team": "클럽 브뤼헤 KV",
+                        "played": "10",
+                        "win": "9",
+                        "draw": "0",
+                        "loss": "1",
+                        "goals_for": "26",
+                        "goals_against": "8",
+                        "goal_diff": "18",
+                        "points": "27"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 2무 3패",
+                        "goals_per_game": "2.20",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "9승 0무 1패",
+                        "goals_per_game": "2.80",
+                        "conceded_per_game": "1.20"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (33.3%)",
+                        "무승부 1 (33.3%)",
+                        "1.33",
+                        "경기당 득점",
+                        "핸디캡：1승 0무 1패",
+                        "언오버：1오버 0무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "INT CF2024.07.13",
+                                "PSV 아인트호벤",
+                                "1-1",
+                                "클럽 브뤼헤 KV"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT CF2020.01.09",
+                                "PSV 아인트호벤",
+                                "1-2",
+                                "클럽 브뤼헤 KV"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT CF2019.01.11",
+                                "PSV 아인트호벤",
+                                "2-1",
+                                "클럽 브뤼헤 KV"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "에레디비시",
+                            "match_time": "2026-11-08 15:45:00",
+                            "teams": "11.08 2026 vs 캄뷔르 vs PSV 아인트호벤 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "에레디비시",
+                            "match_time": "2026-11-21 15:30:00",
+                            "teams": "11.21 2026 vs 네이메헌 vs PSV 아인트호벤 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs 레알 마드리드 vs PSV 아인트호벤 vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "쥬필러 리그",
+                            "match_time": "2026-11-08 12:30:00",
+                            "teams": "11.08 2026 vs 클럽 브뤼헤 KV vs 안더레흐트 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "쥬필러 리그",
+                            "match_time": "2026-11-21 16:00:00",
+                            "teams": "11.21 2026 vs KV 메헬렌 vs 클럽 브뤼헤 KV vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-25 20:00:00",
+                            "teams": "11.25 2026 vs 클럽 브뤼헤 KV vs 리버풀 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3073137": {
+            "match_code": "3073137",
+            "head_info": {
+                "league": "챔피언스리그",
+                "round": "",
+                "match_time_raw": "11/4/2026 8:00:00 PM",
+                "match_time_display": "2026-11-05 05:00",
+                "stadium": "Signal Iduna Park",
+                "home_stadium": "Signal Iduna Park",
+                "weather": "구름 조금,  7℃～8℃"
+            },
+            "home": "도르트문트",
+            "away": "베티스",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "GER D1-2",
+                        "team": "도르트문트",
+                        "played": "8",
+                        "win": "5",
+                        "draw": "3",
+                        "loss": "0",
+                        "goals_for": "14",
+                        "goals_against": "6",
+                        "goal_diff": "8",
+                        "points": "18"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "SPA D1-4",
+                        "team": "베티스",
+                        "played": "11",
+                        "win": "7",
+                        "draw": "2",
+                        "loss": "2",
+                        "goals_for": "18",
+                        "goals_against": "15",
+                        "goal_diff": "3",
+                        "points": "23"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "6승 3무 1패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "7승 2무 1패",
+                        "goals_per_game": "2.00",
+                        "conceded_per_game": "1.40"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (100%)",
+                        "무승부 0 (0%)",
+                        "승 0 (0%)",
+                        "2.00",
+                        "경기당 득점",
+                        "0.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：0오버 0무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "INT CF2015.08.01",
+                                "도르트문트",
+                                "2-0",
+                                "베티스"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "분데스리가",
+                            "match_time": "2026-11-07 14:30:00",
+                            "teams": "11.07 2026 vs 도르트문트 vs 엘버스베르크 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "분데스리가",
+                            "match_time": "2026-11-21 14:30:00",
+                            "teams": "11.21 2026 vs 묀헨글라트바흐 vs 도르트문트 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs 아스널 vs 도르트문트 vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "라리가",
+                            "match_time": "2026-11-08 13:00:00",
+                            "teams": "11.08 2026 vs 엘체 vs 베티스 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "라리가",
+                            "match_time": "2026-11-21 17:30:00",
+                            "teams": "11.21 2026 vs 세비야 vs 베티스 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs 슬로반 브라티슬라바 vs 베티스 vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3073152": {
+            "match_code": "3073152",
+            "head_info": {
+                "league": "챔피언스리그",
+                "round": "",
+                "match_time_raw": "11/4/2026 8:00:00 PM",
+                "match_time_display": "2026-11-05 05:00",
+                "stadium": "Dragon Stadium",
+                "home_stadium": "Dragon Stadium",
+                "weather": "맑음,  16℃～17℃"
+            },
+            "home": "FC 포르투",
+            "away": "나폴리",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "POR D1-1",
+                        "team": "FC 포르투",
+                        "played": "10",
+                        "win": "10",
+                        "draw": "0",
+                        "loss": "0",
+                        "goals_for": "25",
+                        "goals_against": "4",
+                        "goal_diff": "21",
+                        "points": "30"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "ITA D1-8",
+                        "team": "나폴리",
+                        "played": "10",
+                        "win": "4",
+                        "draw": "2",
+                        "loss": "4",
+                        "goals_for": "17",
+                        "goals_against": "13",
+                        "goal_diff": "4",
+                        "points": "14"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "7승 0무 3패",
+                        "goals_per_game": "2.00",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 2무 4패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "1.50"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (50%)",
+                        "무승부 2 (50%)",
+                        "승 0 (0%)",
+                        "1.50",
+                        "경기당 득점",
+                        "0.75",
+                        "핸디캡：3승 0무 1패",
+                        "언오버：2오버 0무 2언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "INT CF2015.08.08",
+                                "FC 포르투",
+                                "0-0",
+                                "나폴리"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA EL2014.03.20",
+                                "나폴리",
+                                "2-2",
+                                "FC 포르투"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA EL2014.03.13",
+                                "FC 포르투",
+                                "1-0",
+                                "나폴리"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "Emirates C2013.08.04",
+                                "나폴리",
+                                "1-3",
+                                "FC 포르투"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "리가 포르투갈",
+                            "match_time": "2026-11-08 18:00:00",
+                            "teams": "11.08 2026 vs 비토리아 기마랑이스 vs FC 포르투 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs 페예노르트 vs FC 포르투 vs 20 일",
+                            "interval": "20 일"
+                        },
+                        {
+                            "league": "리가 포르투갈",
+                            "match_time": "2026-11-29 20:30:00",
+                            "teams": "11.29 2026 vs FC 포르투 vs 스포르팅 vs 25 일",
+                            "interval": "25 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "세리에 A",
+                            "match_time": "2026-11-08 11:30:00",
+                            "teams": "11.08 2026 vs 나폴리 vs 라치오 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "세리에 A",
+                            "match_time": "2026-11-21 19:45:00",
+                            "teams": "11.21 2026 vs 나폴리 vs 토리노 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs 맨체스터 시티 vs 나폴리 vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3073207": {
+            "match_code": "3073207",
+            "head_info": {
+                "league": "챔피언스리그",
+                "round": "",
+                "match_time_raw": "11/4/2026 8:00:00 PM",
+                "match_time_display": "2026-11-05 05:00",
+                "stadium": "Felix-Bollaert Stade",
+                "home_stadium": "Felix-Bollaert Stade",
+                "weather": "맑음,  7℃～8℃"
+            },
+            "home": "랑스",
+            "away": "코모",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "FRA D1-9",
+                        "team": "랑스",
+                        "played": "9",
+                        "win": "4",
+                        "draw": "1",
+                        "loss": "4",
+                        "goals_for": "16",
+                        "goals_against": "13",
+                        "goal_diff": "3",
+                        "points": "13"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "ITA D1-4",
+                        "team": "코모",
+                        "played": "10",
+                        "win": "7",
+                        "draw": "2",
+                        "loss": "1",
+                        "goals_for": "18",
+                        "goals_against": "8",
+                        "goal_diff": "10",
+                        "points": "23"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "1.50",
+                        "conceded_per_game": "1.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "7승 1무 2패",
+                        "goals_per_game": "2.10",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "프랑스 리그 1",
+                            "match_time": "2026-11-08 19:45:00",
+                            "teams": "11.08 2026 vs 랑스 vs 마르세유 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프랑스 리그 1",
+                            "match_time": "2026-11-21 19:45:00",
+                            "teams": "11.21 2026 vs 랑스 vs 툴루즈 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs RB 라이프치히 vs 랑스 vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "세리에 A",
+                            "match_time": "2026-11-08 17:00:00",
+                            "teams": "11.08 2026 vs 인터밀란 vs 코모 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "세리에 A",
+                            "match_time": "2026-11-21 14:00:00",
+                            "teams": "11.21 2026 vs 코모 vs 칼리아리 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-24 20:00:00",
+                            "teams": "11.24 2026 vs 코모 vs AEK vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3073210": {
+            "match_code": "3073210",
+            "head_info": {
+                "league": "챔피언스리그",
+                "round": "",
+                "match_time_raw": "11/4/2026 8:00:00 PM",
+                "match_time_display": "2026-11-05 05:00",
+                "stadium": "Viking Stadion",
+                "home_stadium": "Viking Stadion",
+                "weather": "구름 조금,  7℃～8℃"
+            },
+            "home": "바이킹",
+            "away": "사바 바쿠",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "NOR D1-1",
+                        "team": "바이킹",
+                        "played": "25",
+                        "win": "19",
+                        "draw": "2",
+                        "loss": "4",
+                        "goals_for": "64",
+                        "goals_against": "26",
+                        "goal_diff": "38",
+                        "points": "59"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "AZE D1-2",
+                        "team": "사바 바쿠",
+                        "played": "9",
+                        "win": "6",
+                        "draw": "2",
+                        "loss": "1",
+                        "goals_for": "20",
+                        "goals_against": "4",
+                        "goal_diff": "16",
+                        "points": "20"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "6승 1무 3패",
+                        "goals_per_game": "2.90",
+                        "conceded_per_game": "1.60"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 2무 3패",
+                        "goals_per_game": "2.00",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "엘리테세리엔",
+                            "match_time": "2026-11-08 16:00:00",
+                            "teams": "11.08 2026 vs 바이킹 vs KFUM 오슬로 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "엘리테세리엔",
+                            "match_time": "2026-11-21 13:00:00",
+                            "teams": "11.21 2026 vs 트롬쇠 vs 바이킹 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "엘리테세리엔",
+                            "match_time": "2026-11-21 16:00:00",
+                            "teams": "11.21 2026 vs 바이킹 vs 볼라렝가 vs 17 일",
+                            "interval": "17 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-08 13:30:00",
+                            "teams": "11.08 2026 vs 사바 바쿠 vs 샤마흐 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-20 15:00:00",
+                            "teams": "11.20 2026 vs 숨가이트 vs 사바 바쿠 vs 16 일",
+                            "interval": "16 일"
+                        },
+                        {
+                            "league": "챔피언스리그",
+                            "match_time": "2026-11-25 17:45:00",
+                            "teams": "11.25 2026 vs 사바 바쿠 vs 바르셀로나 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3007062": {
+            "match_code": "3007062",
+            "head_info": {
+                "league": "잉글랜드 리그 1",
+                "round": "잉글랜드 리그 1·  라운드 3",
+                "match_time_raw": "11/4/2026 7:45:00 PM",
+                "match_time_display": "2026-11-05 04:45",
+                "stadium": "Kassem Stadium",
+                "home_stadium": "Kassem Stadium",
+                "weather": "구름 조금,  8℃～9℃"
+            },
+            "home": "옥스포드U",
+            "away": "레딩",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "4",
+                        "team": "옥스포드U",
+                        "played": "12",
+                        "win": "6",
+                        "draw": "5",
+                        "loss": "1",
+                        "goals_for": "20",
+                        "goals_against": "11",
+                        "goal_diff": "9",
+                        "points": "23"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "6",
+                        "team": "레딩",
+                        "played": "13",
+                        "win": "6",
+                        "draw": "4",
+                        "loss": "3",
+                        "goals_for": "25",
+                        "goals_against": "13",
+                        "goal_diff": "12",
+                        "points": "22"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 5무 0패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "0.70"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 2 (50%)",
+                        "승 2 (50%)",
+                        "0.75",
+                        "경기당 득점",
+                        "1.75",
+                        "핸디캡：0승 1무 1패",
+                        "언오버：0오버 0무 2언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ENG L12024.02.03",
+                                "옥스포드U",
+                                "1-1",
+                                "레딩"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG L12023.12.12",
+                                "레딩",
+                                "1-1",
+                                "옥스포드U"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LC2004.08.25",
+                                "옥스포드U",
+                                "0-2",
+                                "레딩"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ENG LC2003.09.24",
+                                "옥스포드U",
+                                "1-3",
+                                "레딩"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "잉글랜드 FA 컵",
+                            "match_time": "2026-11-07 15:00:00",
+                            "teams": "11.07 2026 vs 옥스포드U vs 스티버니지 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "EFL 트로피",
+                            "match_time": "2026-11-10 19:00:00",
+                            "teams": "11.10 2026 vs 옥스포드U vs 첼트넘 vs 6 일",
+                            "interval": "6 일"
+                        },
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-11-14 15:00:00",
+                            "teams": "11.14 2026 vs 피터버러 vs 옥스포드U vs 10 일",
+                            "interval": "10 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "잉글랜드 FA 컵",
+                            "match_time": "2026-11-07 20:00:00",
+                            "teams": "11.07 2026 vs 피터버러 vs 레딩 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "EFL 트로피",
+                            "match_time": "2026-11-10 19:00:00",
+                            "teams": "11.10 2026 vs 브리스톨 vs 레딩 vs 6 일",
+                            "interval": "6 일"
+                        },
+                        {
+                            "league": "잉글랜드 리그 1",
+                            "match_time": "2026-11-14 15:00:00",
+                            "teams": "11.14 2026 vs 스톡포트 vs 레딩 vs 10 일",
+                            "interval": "10 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3068998": {
+            "match_code": "3068998",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "match_time_raw": "11/4/2026 4:00:00 PM",
+                "match_time_display": "2026-11-05 01:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "맑음,  33℃～34℃"
+            },
+            "home": "알 와흐다",
+            "away": "알 칼리디야",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "UAE LP-5",
+                        "team": "알 와흐다",
+                        "played": "6",
+                        "win": "4",
+                        "draw": "0",
+                        "loss": "2",
+                        "goals_for": "9",
+                        "goals_against": "7",
+                        "goal_diff": "2",
+                        "points": "12"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "BHR D1-2",
+                        "team": "알 칼리디야",
+                        "played": "7",
+                        "win": "4",
+                        "draw": "3",
+                        "loss": "0",
+                        "goals_for": "18",
+                        "goals_against": "8",
+                        "goal_diff": "10",
+                        "points": "15"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "8승 0무 2패",
+                        "goals_per_game": "1.60",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 4무 2패",
+                        "goals_per_game": "2.00",
+                        "conceded_per_game": "1.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (100%)",
+                        "무승부 0 (0%)",
+                        "승 0 (0%)",
+                        "2.00",
+                        "경기당 득점",
+                        "1.00",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：1오버 0무 0언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ACL22026.10.28",
+                                "알 칼리디야",
+                                "1-2",
+                                "알 와흐다"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "UAE 리그",
+                            "match_time": "2026-11-08 15:30:00",
+                            "teams": "11.08 2026 vs 알 와흐다 vs 알 아인 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "UAE 리그",
+                            "match_time": "2026-11-21 15:25:00",
+                            "teams": "11.21 2026 vs 유나이티드 FC vs 알 와흐다 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-25 18:15:00",
+                            "teams": "11.25 2026 vs 쿠웨이트 vs 알 와흐다 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-25 13:45:00",
+                            "teams": "11.25 2026 vs 나사프 카르시 vs 알 칼리디야 vs 21 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-29 15:00:00",
+                            "teams": "11.29 2026 vs 알 하드 vs 알 칼리디야 vs 25 일",
+                            "interval": "25 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-12-09 17:00:00",
+                            "teams": "12.09 2026 vs 알 칼리디야 vs 쿠웨이트 vs 35 일",
+                            "interval": "35 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3068999": {
+            "match_code": "3068999",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "match_time_raw": "11/4/2026 4:00:00 PM",
+                "match_time_display": "2026-11-05 01:00",
+                "stadium": "",
+                "home_stadium": "Kazma SC Stadium",
+                "weather": "맑음,  31℃～32℃"
+            },
+            "home": "쿠웨이트",
+            "away": "나사프 카르시",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "KUW D1-1",
+                        "team": "쿠웨이트",
+                        "played": "6",
+                        "win": "5",
+                        "draw": "1",
+                        "loss": "0",
+                        "goals_for": "25",
+                        "goals_against": "6",
+                        "goal_diff": "19",
+                        "points": "16"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "UZB D1-5",
+                        "team": "나사프 카르시",
+                        "played": "26",
+                        "win": "11",
+                        "draw": "9",
+                        "loss": "6",
+                        "goals_for": "38",
+                        "goals_against": "24",
+                        "goal_diff": "14",
+                        "points": "42"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "7승 1무 2패",
+                        "goals_per_game": "3.10",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 3무 2패",
+                        "goals_per_game": "1.90",
+                        "conceded_per_game": "0.90"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (50%)",
+                        "무승부 1 (25%)",
+                        "승 1 (25%)",
+                        "1.00",
+                        "경기당 득점",
+                        "0.75",
+                        "핸디캡：2승 0무 2패",
+                        "언오버：2오버 0무 2언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ACL22026.10.28",
+                                "나사프 카르시",
+                                "0-1",
+                                "쿠웨이트"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ACL22024.11.27",
+                                "나사프 카르시",
+                                "1-2",
+                                "쿠웨이트"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ACL22024.09.18",
+                                "쿠웨이트",
+                                "0-0",
+                                "나사프 카르시"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ACL22011.10.29",
+                                "나사프 카르시",
+                                "2-1",
+                                "쿠웨이트"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "프리미어 리그",
+                            "match_time": "2026-11-08 16:40:00",
+                            "teams": "11.08 2026 vs 알 사헬 vs 쿠웨이트 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어 리그",
+                            "match_time": "2026-11-20 18:45:00",
+                            "teams": "11.20 2026 vs 쿠웨이트 vs 알 살미야 vs 16 일",
+                            "interval": "16 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-25 18:15:00",
+                            "teams": "11.25 2026 vs 쿠웨이트 vs 알 와흐다 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "슈퍼리그",
+                            "match_time": "2026-11-08 11:00:00",
+                            "teams": "11.08 2026 vs 부하라 vs 나사프 카르시 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "슈퍼리그",
+                            "match_time": "2026-11-20 16:00:00",
+                            "teams": "11.20 2026 vs 나사프 카르시 vs 마샬 무보라크 vs 16 일",
+                            "interval": "16 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-25 13:45:00",
+                            "teams": "11.25 2026 vs 나사프 카르시 vs 알 칼리디야 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3069023": {
+            "match_code": "3069023",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "match_time_raw": "11/4/2026 4:00:00 PM",
+                "match_time_display": "2026-11-05 01:00",
+                "stadium": "Ahmad Bin Ali Stadium",
+                "home_stadium": "Ahmad Bin Ali Stadium",
+                "weather": "구름 많음,  8℃～9℃"
+            },
+            "home": "알 라얀",
+            "away": "알 나흐다",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "QAT D1-2",
+                        "team": "알 라얀",
+                        "played": "8",
+                        "win": "5",
+                        "draw": "3",
+                        "loss": "0",
+                        "goals_for": "16",
+                        "goals_against": "3",
+                        "goal_diff": "13",
+                        "points": "18"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "OMA PL-1",
+                        "team": "알 나흐다",
+                        "played": "5",
+                        "win": "4",
+                        "draw": "1",
+                        "loss": "0",
+                        "goals_for": "11",
+                        "goals_against": "4",
+                        "goal_diff": "7",
+                        "points": "13"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 4무 1패",
+                        "goals_per_game": "2.40",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 4무 2패",
+                        "goals_per_game": "1.50",
+                        "conceded_per_game": "1.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 4 (80%)",
+                        "무승부 1 (20%)",
+                        "승 0 (0%)",
+                        "2.60",
+                        "경기당 득점",
+                        "1.00",
+                        "핸디캡：3승 1무 1패",
+                        "언오버：3오버 0무 2언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ACL22026.10.28",
+                                "알 나흐다",
+                                "1-4",
+                                "알 라얀"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "GCC2026.02.17",
+                                "알 라얀",
+                                "3-1",
+                                "알 나흐다"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "GCC2025.10.22",
+                                "알 나흐다",
+                                "1-1",
+                                "알 라얀"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ACL22010.04.28",
+                                "알 나흐다",
+                                "0-2",
+                                "알 라얀"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ACL22010.03.16",
+                                "알 라얀",
+                                "3-2",
+                                "알 나흐다"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "카타르 스타스리그",
+                            "match_time": "2026-11-08 16:30:00",
+                            "teams": "11.08 2026 vs 알 사드 vs 알 라얀 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "카타르 스타스리그",
+                            "match_time": "2026-11-27 16:00:00",
+                            "teams": "11.27 2026 vs 알 사하니야 vs 알 라얀 vs 23 일",
+                            "interval": "23 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-29 17:00:00",
+                            "teams": "11.29 2026 vs 알 파이살리 암만 vs 알 라얀 vs 25 일",
+                            "interval": "25 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-29 18:15:00",
+                            "teams": "11.29 2026 vs 알 타원 vs 알 나흐다 vs 25 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프로페셔널 리그",
+                            "match_time": "2026-12-04 15:10:00",
+                            "teams": "12.04 2026 vs 소하르 vs 알 나흐다 vs 30 일",
+                            "interval": "30 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-12-09 17:00:00",
+                            "teams": "12.09 2026 vs 알 나흐다 vs 알 파이살리 암만 vs 35 일",
+                            "interval": "35 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3069011": {
+            "match_code": "3069011",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "match_time_raw": "11/4/2026 6:15:00 PM",
+                "match_time_display": "2026-11-05 03:15",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "맑음,  31℃～32℃"
+            },
+            "home": "알 무하라크",
+            "away": "알 자지라",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "BHR D1-4",
+                        "team": "알 무하라크",
+                        "played": "7",
+                        "win": "4",
+                        "draw": "2",
+                        "loss": "1",
+                        "goals_for": "14",
+                        "goals_against": "5",
+                        "goal_diff": "9",
+                        "points": "14"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "UAE LP-1",
+                        "team": "알 자지라",
+                        "played": "6",
+                        "win": "4",
+                        "draw": "2",
+                        "loss": "0",
+                        "goals_for": "13",
+                        "goals_against": "4",
+                        "goal_diff": "9",
+                        "points": "14"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 2무 3패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "6승 4무 0패",
+                        "goals_per_game": "1.60",
+                        "conceded_per_game": "0.70"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 0 (0%)",
+                        "승 1 (100%)",
+                        "2.00",
+                        "경기당 득점",
+                        "4.00",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：1오버 0무 0언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ACL22026.10.28",
+                                "알 자지라",
+                                "4-2",
+                                "알 무하라크"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
                             "league": "AFC 챔피언스리그 2",
                             "match_time": "2026-11-25 17:00:00",
-                            "teams": "11.25 2026 vs 알 자지라 vs 시리안 vs 21 일",
-                            "interval": "21 일"
+                            "teams": "11.25 2026 vs 알 무하라크 vs 아르카닥 vs 21 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-29 15:00:00",
+                            "teams": "11.29 2026 vs 알-나즈마 vs 알 무하라크 vs 25 일",
+                            "interval": "25 일"
                         },
                         {
                             "league": "AFC 챔피언스리그 2",
                             "match_time": "2026-12-09 13:45:00",
                             "teams": "12.09 2026 vs 시리안 vs 알 무하라크 vs 35 일",
                             "interval": "35 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "UAE 리그",
+                            "match_time": "2026-11-08 12:55:00",
+                            "teams": "11.08 2026 vs 알 자지라 vs 알 와슬 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "UAE 리그",
+                            "match_time": "2026-11-21 12:45:00",
+                            "teams": "11.21 2026 vs 코르팍칸 vs 알 자지라 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-25 17:00:00",
+                            "teams": "11.25 2026 vs 알 자지라 vs 시리안 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3069022": {
+            "match_code": "3069022",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "match_time_raw": "11/4/2026 6:15:00 PM",
+                "match_time_display": "2026-11-05 03:15",
+                "stadium": "King Abdullah",
+                "home_stadium": "King Abdullah",
+                "weather": "구름 조금,  32℃～33℃"
+            },
+            "home": "알 타원",
+            "away": "알 파이살리 암만",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "SPL-17",
+                        "team": "알 타원",
+                        "played": "12",
+                        "win": "0",
+                        "draw": "5",
+                        "loss": "7",
+                        "goals_for": "6",
+                        "goals_against": "20",
+                        "goal_diff": "-14",
+                        "points": "5"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "JOR D1-1",
+                        "team": "알 파이살리 암만",
+                        "played": "7",
+                        "win": "4",
+                        "draw": "2",
+                        "loss": "1",
+                        "goals_for": "13",
+                        "goals_against": "4",
+                        "goal_diff": "9",
+                        "points": "14"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 3무 5패",
+                        "goals_per_game": "0.80",
+                        "conceded_per_game": "1.70"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 2무 3패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (100%)",
+                        "무승부 0 (0%)",
+                        "승 0 (0%)",
+                        "2.00",
+                        "경기당 득점",
+                        "0.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：0오버 0무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ACL22026.10.28",
+                                "알 파이살리 암만",
+                                "0-2",
+                                "알 타원"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "사우디 프로페셔널리그",
+                            "match_time": "2026-11-20 17:00:00",
+                            "teams": "11.20 2026 vs 알 타원 vs 아브하 vs 16 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "사우디 프로페셔널리그",
+                            "match_time": "2026-11-26 17:00:00",
+                            "teams": "11.26 2026 vs 네옴 SC vs 알 타원 vs 22 일",
+                            "interval": "22 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-29 18:15:00",
+                            "teams": "11.29 2026 vs 알 타원 vs 알 나흐다 vs 25 일",
+                            "interval": "25 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-08 15:00:00",
+                            "teams": "11.08 2026 vs 알 파이살리 암만 vs 샤밥 알 오르돈 vs 4 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-28 14:00:00",
+                            "teams": "11.28 2026 vs 알 아라비 어비드 vs 알 파이살리 암만 vs 24 일",
+                            "interval": "24 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-29 17:00:00",
+                            "teams": "11.29 2026 vs 알 파이살리 암만 vs 알 라얀 vs 25 일",
+                            "interval": "25 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3069052": {
+            "match_code": "3069052",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "match_time_raw": "11/5/2026 10:00:00 AM",
+                "match_time_display": "2026-11-05 19:00",
+                "stadium": "Clementi Stadium",
+                "home_stadium": "Clementi Stadium",
+                "weather": "이슬비,  29°C"
+            },
+            "home": "라이언 시티",
+            "away": "애들레이드 유나이티드",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "SIN D1-1",
+                        "team": "라이언 시티",
+                        "played": "6",
+                        "win": "5",
+                        "draw": "1",
+                        "loss": "0",
+                        "goals_for": "22",
+                        "goals_against": "3",
+                        "goal_diff": "19",
+                        "points": "16"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "AUS D1-12",
+                        "team": "애들레이드 유나이티드",
+                        "played": "2",
+                        "win": "0",
+                        "draw": "0",
+                        "loss": "2",
+                        "goals_for": "1",
+                        "goals_against": "6",
+                        "goal_diff": "-5",
+                        "points": "0"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "7승 2무 1패",
+                        "goals_per_game": "2.60",
+                        "conceded_per_game": "0.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 0무 6패",
+                        "goals_per_game": "1.50",
+                        "conceded_per_game": "1.80"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (100%)",
+                        "무승부 0 (0%)",
+                        "승 0 (0%)",
+                        "2.00",
+                        "경기당 득점",
+                        "0.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：0오버 0무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ACL22026.10.29",
+                                "애들레이드 유나이티드",
+                                "0-2",
+                                "라이언 시티"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-22 11:30:00",
+                            "teams": "11.22 2026 vs 라이언 시티 vs 게일랑 vs 17 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-26 12:15:00",
+                            "teams": "11.26 2026 vs 빠툼 유나이티드 vs 라이언 시티 vs 21 일",
+                            "interval": "21 일"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-29 11:30:00",
+                            "teams": "11.29 2026 vs 영 라이온스 vs 라이언 시티 vs 24 일",
+                            "interval": "24 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "호주 A리그",
+                            "match_time": "2026-11-08 06:00:00",
+                            "teams": "11.08 2026 vs 애들레이드 유나이티드 vs 멜버른 빅토리 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "호주 A리그",
+                            "match_time": "2026-11-20 08:40:00",
+                            "teams": "11.20 2026 vs 웨스턴 시드니 vs 애들레이드 유나이티드 vs 15 일",
+                            "interval": "15 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-26 12:15:00",
+                            "teams": "11.26 2026 vs 다푸 vs 애들레이드 유나이티드 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3069064": {
+            "match_code": "3069064",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "match_time_raw": "11/5/2026 10:00:00 AM",
+                "match_time_display": "2026-11-05 19:00",
+                "stadium": "Machida Athletic Stadium",
+                "home_stadium": "Machida Athletic Stadium",
+                "weather": "구름 조금,  16°C"
+            },
+            "home": "마치다",
+            "away": "상하이 선화",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "JPN D1-3",
+                        "team": "마치다",
+                        "played": "13",
+                        "win": "8",
+                        "draw": "4",
+                        "loss": "1",
+                        "goals_for": "30",
+                        "goals_against": "10",
+                        "goal_diff": "20",
+                        "points": "28"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "CHA CSL-8",
+                        "team": "상하이 선화",
+                        "played": "29",
+                        "win": "14",
+                        "draw": "5",
+                        "loss": "10",
+                        "goals_for": "63",
+                        "goals_against": "50",
+                        "goal_diff": "13",
+                        "points": "47"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "6승 3무 1패",
+                        "goals_per_game": "1.50",
+                        "conceded_per_game": "0.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 2무 4패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "1.10"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (100%)",
+                        "무승부 0 (0%)",
+                        "승 0 (0%)",
+                        "1.50",
+                        "경기당 득점",
+                        "0.00",
+                        "핸디캡：2승 0무 0패",
+                        "언오버：0오버 0무 2언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ACL22026.10.29",
+                                "상하이 선화",
+                                "0-1",
+                                "마치다"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "ACLE2026.02.10",
+                                "상하이 선화",
+                                "0-2",
+                                "마치다"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-08 05:00:00",
+                            "teams": "11.08 2026 vs 마치다 vs 산프레체 히로시마 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J1 리그",
+                            "match_time": "2026-11-21 05:00:00",
+                            "teams": "11.21 2026 vs 마치다 vs V-바렌 나가사키 vs 16 일",
+                            "interval": "16 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-26 12:15:00",
+                            "teams": "11.26 2026 vs 스바이 리엥 vs 마치다 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "중국 슈퍼리그",
+                            "match_time": "2026-11-08 07:30:00",
+                            "teams": "11.08 2026 vs 상하이 선화 vs 칭다오 서해안 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-26 10:00:00",
+                            "teams": "11.26 2026 vs 탐파인스 vs 상하이 선화 vs 21 일",
+                            "interval": "21 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-12-03 10:00:00",
+                            "teams": "12.03 2026 vs 상하이 선화 vs 스바이 리엥 vs 28 일",
+                            "interval": "28 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3069076": {
+            "match_code": "3069076",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "match_time_raw": "11/5/2026 10:00:00 AM",
+                "match_time_display": "2026-11-05 19:00",
+                "stadium": "",
+                "home_stadium": "Mong Kok Stadium",
+                "weather": "맑음,  26°C"
+            },
+            "home": "킷지(N)",
+            "away": "프놈펜 크라운",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "HK PR-2",
+                        "team": "킷지",
+                        "played": "6",
+                        "win": "5",
+                        "draw": "1",
+                        "loss": "0",
+                        "goals_for": "19",
+                        "goals_against": "5",
+                        "goal_diff": "14",
+                        "points": "16"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "CPL-7",
+                        "team": "프놈펜 크라운",
+                        "played": "5",
+                        "win": "1",
+                        "draw": "3",
+                        "loss": "1",
+                        "goals_for": "7",
+                        "goals_against": "7",
+                        "goal_diff": "0",
+                        "points": "6"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "2.00",
+                        "conceded_per_game": "1.30"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 5무 1패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 0 (0%)",
+                        "승 1 (100%)",
+                        "0.00",
+                        "경기당 득점",
+                        "2.00",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：0오버 0무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ACL22026.10.29",
+                                "프놈펜 크라운",
+                                "2-0",
+                                "킷지"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "홍콩 프리미어리그",
+                            "match_time": "2026-11-21 07:00:00",
+                            "teams": "11.21 2026 vs 다푸 vs 킷지 vs 16 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-26 10:00:00",
+                            "teams": "11.26 2026 vs 강원 vs 킷지 vs 21 일",
+                            "interval": "21 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-12-03 12:15:00",
+                            "teams": "12.03 2026 vs 킷지 vs 쿠칭 시티 FC vs 28 일",
+                            "interval": "28 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "CPL",
+                            "match_time": "2026-11-08 11:00:00",
+                            "teams": "11.08 2026 vs 보응 켓 vs 프놈펜 크라운 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026-11-22 12:00:00",
+                            "teams": "11.22 2026 vs 프놈펜 크라운 vs Kirivong Sok Sen Chey vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-26 10:00:00",
+                            "teams": "11.26 2026 vs 쿠칭 시티 FC vs 프놈펜 크라운 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3069053": {
+            "match_code": "3069053",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "match_time_raw": "11/5/2026 12:15:00 PM",
+                "match_time_display": "2026-11-05 21:15",
+                "stadium": "",
+                "home_stadium": "Mee Suwan Stadium",
+                "weather": "흐림,  28°C"
+            },
+            "home": "빠툼 유나이티드",
+            "away": "다푸",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "THA PR-10",
+                        "team": "빠툼 유나이티드",
+                        "played": "7",
+                        "win": "2",
+                        "draw": "3",
+                        "loss": "2",
+                        "goals_for": "9",
+                        "goals_against": "8",
+                        "goal_diff": "1",
+                        "points": "9"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "HK PR-4",
+                        "team": "다푸",
+                        "played": "6",
+                        "win": "3",
+                        "draw": "1",
+                        "loss": "2",
+                        "goals_for": "13",
+                        "goals_against": "10",
+                        "goal_diff": "3",
+                        "points": "10"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 3무 4패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "2.00",
+                        "conceded_per_game": "1.80"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (100%)",
+                        "무승부 0 (0%)",
+                        "승 0 (0%)",
+                        "3.00",
+                        "경기당 득점",
+                        "0.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：0오버 1무 0언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ACL22026.10.29",
+                                "다푸",
+                                "0-3",
+                                "빠툼 유나이티드"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "타이리그 1",
+                            "match_time": "2026-11-08 11:00:00",
+                            "teams": "11.08 2026 vs 빠툼 유나이티드 vs 라용 FC vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-26 12:15:00",
+                            "teams": "11.26 2026 vs 빠툼 유나이티드 vs 라이언 시티 vs 21 일",
+                            "interval": "21 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-12-03 10:00:00",
+                            "teams": "12.03 2026 vs 애들레이드 유나이티드 vs 빠툼 유나이티드 vs 28 일",
+                            "interval": "28 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "홍콩 프리미어리그",
+                            "match_time": "2026-11-08 11:00:00",
+                            "teams": "11.08 2026 vs 이스턴 디스트릭트 vs 다푸 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "홍콩 프리미어리그",
+                            "match_time": "2026-11-21 07:00:00",
+                            "teams": "11.21 2026 vs 다푸 vs 킷지 vs 16 일",
+                            "interval": "16 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-26 12:15:00",
+                            "teams": "11.26 2026 vs 다푸 vs 애들레이드 유나이티드 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3069065": {
+            "match_code": "3069065",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "match_time_raw": "11/5/2026 12:15:00 PM",
+                "match_time_display": "2026-11-05 21:15",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "구름 조금,  29°C"
+            },
+            "home": "스바이 리엥",
+            "away": "탐파인스",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "CPL-3",
+                        "team": "스바이 리엥",
+                        "played": "5",
+                        "win": "3",
+                        "draw": "2",
+                        "loss": "0",
+                        "goals_for": "14",
+                        "goals_against": "4",
+                        "goal_diff": "10",
+                        "points": "11"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "SIN D1-3",
+                        "team": "탐파인스",
+                        "played": "6",
+                        "win": "4",
+                        "draw": "1",
+                        "loss": "1",
+                        "goals_for": "13",
+                        "goals_against": "5",
+                        "goal_diff": "8",
+                        "points": "13"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 3무 2패",
+                        "goals_per_game": "2.10",
+                        "conceded_per_game": "1.40"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 2무 4패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "1.50"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (100%)",
+                        "무승부 0 (0%)",
+                        "승 0 (0%)",
+                        "5.00",
+                        "경기당 득점",
+                        "1.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：1오버 0무 0언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ACL22026.10.29",
+                                "탐파인스",
+                                "1-5",
+                                "스바이 리엥"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "CPL",
+                            "match_time": "2026-11-08 11:00:00",
+                            "teams": "11.08 2026 vs 스바이 리엥 vs NagaWorld vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "ASEAN 클럽선수권",
+                            "match_time": "2026-11-19 11:00:00",
+                            "teams": "11.19 2026 vs 스바이 리엥 vs 포트 MTI FC vs 14 일",
+                            "interval": "14 일"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026-11-21 12:00:00",
+                            "teams": "11.21 2026 vs Angkor Tiger vs 스바이 리엥 vs 16 일",
+                            "interval": "16 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "ASEAN 클럽선수권",
+                            "match_time": "2026-11-18 11:00:00",
+                            "teams": "11.18 2026 vs 탐파인스 vs 라차부리 vs 13 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "프리미어리그",
+                            "match_time": "2026-11-22 11:30:00",
+                            "teams": "11.22 2026 vs 호우강 vs 탐파인스 vs 17 일",
+                            "interval": "17 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-26 10:00:00",
+                            "teams": "11.26 2026 vs 탐파인스 vs 상하이 선화 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3069077": {
+            "match_code": "3069077",
+            "head_info": {
+                "league": "AFC 챔피언스리그 2",
+                "round": "",
+                "match_time_raw": "11/5/2026 12:15:00 PM",
+                "match_time_display": "2026-11-05 21:15",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "쿠칭 시티 FC",
+            "away": "강원",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "MAS SL-3",
+                        "team": "쿠칭 시티 FC",
+                        "played": "6",
+                        "win": "4",
+                        "draw": "0",
+                        "loss": "2",
+                        "goals_for": "17",
+                        "goals_against": "7",
+                        "goal_diff": "10",
+                        "points": "12"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "KOR D1-5",
+                        "team": "강원",
+                        "played": "33",
+                        "win": "11",
+                        "draw": "15",
+                        "loss": "7",
+                        "goals_for": "40",
+                        "goals_against": "30",
+                        "goal_diff": "10",
+                        "points": "48"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 3무 4패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "1.40"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 5무 3패",
+                        "goals_per_game": "0.90",
+                        "conceded_per_game": "0.90"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 0 (0%)",
+                        "승 1 (100%)",
+                        "0.00",
+                        "경기당 득점",
+                        "1.00",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：0오버 0무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "ACL22026.10.29",
+                                "강원",
+                                "1-0",
+                                "쿠칭 시티 FC"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "말레이시아 FA 컵",
+                            "match_time": "2026-11-08 11:45:00",
+                            "teams": "11.08 2026 vs 쿠칭 시티 FC vs 셀랑고르 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "말레이시아 슈퍼리그",
+                            "match_time": "2026-11-20 08:45:00",
+                            "teams": "11.20 2026 vs MS 매트릭스 vs 쿠칭 시티 FC vs 15 일",
+                            "interval": "15 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-26 10:00:00",
+                            "teams": "11.26 2026 vs 쿠칭 시티 FC vs 프놈펜 크라운 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "K리그 1",
+                            "match_time": "2026-11-08 07:30:00",
+                            "teams": "11.08 2026 vs 강원 vs 전북 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "K리그 1",
+                            "match_time": "2026-11-21 07:30:00",
+                            "teams": "11.21 2026 vs 강원 vs 대전 vs 16 일",
+                            "interval": "16 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-26 10:00:00",
+                            "teams": "11.26 2026 vs 강원 vs 킷지 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3108780": {
+            "match_code": "3108780",
+            "head_info": {
+                "league": "SAFF 챔피언쉽",
+                "round": "",
+                "match_time_raw": "11/5/2026 9:30:00 AM",
+                "match_time_display": "2026-11-05 18:30",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "구름 조금,  29°C"
+            },
+            "home": "파키스탄",
+            "away": "인도",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 3무 4패",
+                        "goals_per_game": "1.30",
+                        "conceded_per_game": "1.80"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 2무 6패",
+                        "goals_per_game": "1.20",
+                        "conceded_per_game": "2.10"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 0 (0%)",
+                        "승 5 (100%)",
+                        "0.60",
+                        "경기당 득점",
+                        "2.60",
+                        "핸디캡：0승 0무 3패",
+                        "언오버：2오버 0무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "SAFF2023.06.21",
+                                "인도",
+                                "4-0",
+                                "파키스탄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SAFF2018.09.12",
+                                "인도",
+                                "3-1",
+                                "파키스탄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SAFF2013.09.01",
+                                "인도",
+                                "1-0",
+                                "파키스탄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "AFC CC2011.03.23",
+                                "파키스탄",
+                                "1-3",
+                                "인도"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SAFF2008.06.05",
+                                "파키스탄",
+                                "1-2",
+                                "인도"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "SAFF 챔피언쉽",
+                            "match_time": "2026-11-08 09:30:00",
+                            "teams": "11.08 2026 vs 몰디브 vs 파키스탄 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "SAFF 챔피언쉽",
+                            "match_time": "2026-11-11 09:30:00",
+                            "teams": "11.11 2026 vs 인도 vs 몰디브 vs 6 일",
+                            "interval": "시작전"
+                        }
+                    ]
+                }
+            }
+        },
+        "3108777": {
+            "match_code": "3108777",
+            "head_info": {
+                "league": "SAFF 챔피언쉽",
+                "round": "",
+                "match_time_raw": "11/5/2026 2:00:00 PM",
+                "match_time_display": "2026-11-05 23:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "부탄",
+            "away": "방글라데시",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "1승 1무 8패",
+                        "goals_per_game": "0.60",
+                        "conceded_per_game": "3.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 2무 6패",
+                        "goals_per_game": "1.10",
+                        "conceded_per_game": "2.50"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (20%)",
+                        "무승부 1 (10%)",
+                        "승 7 (70%)",
+                        "0.60",
+                        "경기당 득점",
+                        "1.80",
+                        "핸디캡：4승 0무 5패",
+                        "언오버：2오버 2무 5언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "INT FRL2025.06.04",
+                                "방글라데시",
+                                "2-0",
+                                "부탄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT FRL2024.09.08",
+                                "부탄",
+                                "1-0",
+                                "방글라데시"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT FRL2024.09.05",
+                                "부탄",
+                                "0-1",
+                                "방글라데시"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SAFF2023.06.28",
+                                "부탄",
+                                "1-3",
+                                "방글라데시"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT FRL2019.10.03",
+                                "방글라데시",
+                                "2-0",
+                                "부탄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT FRL2019.09.29",
+                                "방글라데시",
+                                "4-1",
+                                "부탄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SAFF2018.09.04",
+                                "방글라데시",
+                                "2-0",
+                                "부탄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "AFC2016.10.10",
+                                "부탄",
+                                "3-1",
+                                "방글라데시"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "AFC2016.09.06",
+                                "방글라데시",
+                                "0-0",
+                                "부탄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SAFF2015.12.28",
+                                "부탄",
+                                "0-3",
+                                "방글라데시"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "SAFF 챔피언쉽",
+                            "match_time": "2026-11-08 14:00:00",
+                            "teams": "11.08 2026 vs 스리랑카 vs 부탄 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "SAFF 챔피언쉽",
+                            "match_time": "2026-11-11 14:00:00",
+                            "teams": "11.11 2026 vs 방글라데시 vs 스리랑카 vs 6 일",
+                            "interval": "시작전"
                         }
                     ]
                 }
