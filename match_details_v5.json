@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-05 10:08:05",
+    "last_updated": "2026-11-05 13:02:40",
     "lineup_details": {
         "3059479": {
             "match_code": "3059479",
@@ -72309,17 +72309,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "112167",
-                        "matches_played": 22,
-                        "total_play_time": 1888,
-                        "avg_play_time": 85.8,
-                        "grade": "A",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
                         "important_stats": {
-                            "경기": "22",
-                            "출전시간": "1888",
-                            "경기당 평점": "6.89",
-                            "득점(PK)": "0(0)",
-                            "도움": "0",
-                            "카드": "0/2"
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
                         }
                     }
                 },
@@ -72507,27 +72507,6 @@
             "away": "프놈펜 크라운",
             "home_absentees": [
                 {
-                    "number": "5",
-                    "name": "아시에르 일라라멘디",
-                    "player_id": "78918",
-                    "status": "결장",
-                    "stats": {
-                        "player_id": "78918",
-                        "matches_played": 0,
-                        "total_play_time": 0,
-                        "avg_play_time": 0.0,
-                        "grade": "D",
-                        "important_stats": {
-                            "경기": "-",
-                            "출전시간": "-",
-                            "경기당 평점": "-",
-                            "득점(PK)": "-",
-                            "도움": "-",
-                            "카드": "-"
-                        }
-                    }
-                },
-                {
                     "number": "20",
                     "name": "두두",
                     "player_id": "152492",
@@ -72612,7 +72591,29 @@
                     }
                 }
             ],
-            "away_absentees": []
+            "away_absentees": [
+                {
+                    "number": "10",
+                    "name": "Moses 다이어",
+                    "player_id": "153619",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "153619",
+                        "matches_played": 20,
+                        "total_play_time": 1586,
+                        "avg_play_time": 79.3,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "20",
+                            "출전시간": "1586",
+                            "경기당 평점": "0",
+                            "득점(PK)": "10(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ]
         },
         "3069053": {
             "match_code": "3069053",
@@ -74840,7 +74841,7 @@
                         "important_stats": {
                             "경기": "7",
                             "출전시간": "580",
-                            "경기당 평점": "0",
+                            "경기당 평점": "1.01",
                             "득점(PK)": "0(0)",
                             "도움": "0",
                             "카드": "0/0"
@@ -76111,17 +76112,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "117471",
-                        "matches_played": 0,
-                        "total_play_time": 0,
-                        "avg_play_time": 0.0,
-                        "grade": "D",
+                        "matches_played": 3,
+                        "total_play_time": 218,
+                        "avg_play_time": 72.7,
+                        "grade": "A",
                         "important_stats": {
-                            "경기": "-",
-                            "출전시간": "-",
-                            "경기당 평점": "-",
-                            "득점(PK)": "-",
-                            "도움": "-",
-                            "카드": "-"
+                            "경기": "3",
+                            "출전시간": "218",
+                            "경기당 평점": "7.10",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/1"
                         }
                     }
                 },
@@ -77012,23 +77013,44 @@
                     }
                 },
                 {
+                    "number": "11",
+                    "name": "Viktor 트시간코프",
+                    "player_id": "147750",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "147750",
+                        "matches_played": 6,
+                        "total_play_time": 251,
+                        "avg_play_time": 41.8,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "251",
+                            "경기당 평점": "6.87",
+                            "득점(PK)": "1(0)",
+                            "도움": "1",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
                     "number": "20",
                     "name": "올리버 에드바르드센",
                     "player_id": "180395",
                     "status": "결장",
                     "stats": {
                         "player_id": "180395",
-                        "matches_played": 4,
-                        "total_play_time": 107,
-                        "avg_play_time": 26.8,
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
                         "grade": "D",
                         "important_stats": {
-                            "경기": "4",
-                            "출전시간": "107",
-                            "경기당 평점": "6.55",
-                            "득점(PK)": "0(0)",
-                            "도움": "0",
-                            "카드": "0/0"
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
                         }
                     }
                 },
@@ -78218,27 +78240,6 @@
                     }
                 },
                 {
-                    "number": "21",
-                    "name": "네라이쇼 카산위르조",
-                    "player_id": "184435",
-                    "status": "출전의심/기타",
-                    "stats": {
-                        "player_id": "184435",
-                        "matches_played": 7,
-                        "total_play_time": 532,
-                        "avg_play_time": 76.0,
-                        "grade": "A",
-                        "important_stats": {
-                            "경기": "7",
-                            "출전시간": "532",
-                            "경기당 평점": "7.03",
-                            "득점(PK)": "0(0)",
-                            "도움": "0",
-                            "카드": "0/2"
-                        }
-                    }
-                },
-                {
                     "number": "4",
                     "name": "Nana Boakye",
                     "player_id": "293478",
@@ -78641,6 +78642,27 @@
             "home": "FC 코펜하겐",
             "away": "이베리아 1999",
             "home_absentees": [
+                {
+                    "number": "2",
+                    "name": "Felix Beijmo",
+                    "player_id": "133264",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "133264",
+                        "matches_played": 13,
+                        "total_play_time": 1142,
+                        "avg_play_time": 87.8,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "13",
+                            "출전시간": "1142",
+                            "경기당 평점": "7.15",
+                            "득점(PK)": "2(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
                 {
                     "number": "21",
                     "name": "마즈 마드센",
