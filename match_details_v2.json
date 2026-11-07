@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-08 02:46:09",
+    "last_updated": "2026-11-08 06:46:44",
     "match_details": {
         "3018860": {
             "match_code": "3018860",
@@ -2870,6 +2870,199 @@
                 }
             }
         },
+        "3014159": {
+            "match_code": "3014159",
+            "head_info": {
+                "league": "라리가2",
+                "round": "라리가2·  라운드 13",
+                "match_time_raw": "11/8/2026 4:00:00 PM",
+                "match_time_display": "2026-11-09 01:00",
+                "stadium": "Estadio Nuevo Los Carmenes",
+                "home_stadium": "Estadio Nuevo Los Carmenes",
+                "weather": ""
+            },
+            "home": "그라나다",
+            "away": "테네리페",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "5",
+                        "team": "그라나다",
+                        "played": "12",
+                        "win": "7",
+                        "draw": "2",
+                        "loss": "3",
+                        "goals_for": "20",
+                        "goals_against": "14",
+                        "goal_diff": "6",
+                        "points": "23"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "14",
+                        "team": "테네리페",
+                        "played": "11",
+                        "win": "3",
+                        "draw": "5",
+                        "loss": "3",
+                        "goals_for": "13",
+                        "goals_against": "15",
+                        "goal_diff": "-2",
+                        "points": "14"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "6승 1무 3패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "1.30"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 5무 3패",
+                        "goals_per_game": "1.00",
+                        "conceded_per_game": "1.40"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 6 (60%)",
+                        "무승부 2 (20%)",
+                        "승 2 (20%)",
+                        "1.70",
+                        "경기당 득점",
+                        "1.00"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "SPA CUP2025.12.04",
+                                "테네리페",
+                                "0-1",
+                                "그라나다"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22025.03.28",
+                                "테네리페",
+                                "2-1",
+                                "그라나다"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22024.10.19",
+                                "그라나다",
+                                "4-0",
+                                "테네리페"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22023.02.10",
+                                "그라나다",
+                                "2-0",
+                                "테네리페"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22022.10.16",
+                                "테네리페",
+                                "2-0",
+                                "그라나다"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22019.05.10",
+                                "그라나다",
+                                "2-1",
+                                "테네리페"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22018.12.21",
+                                "테네리페",
+                                "1-1",
+                                "그라나다"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22018.02.03",
+                                "그라나다",
+                                "2-1",
+                                "테네리페"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22017.09.10",
+                                "테네리페",
+                                "2-2",
+                                "그라나다"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22011.05.01",
+                                "그라나다",
+                                "2-1",
+                                "테네리페"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-15 15:15:00",
+                            "teams": "11.15 2026 vs 그라나다 vs 라스팔마스 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-21 13:00:00",
+                            "teams": "11.21 2026 vs 사바델 vs 그라나다 vs 13 일",
+                            "interval": "13 일"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-29 16:00:00",
+                            "teams": "11.29 2026 vs 그라나다 vs 세우타 vs 21 일",
+                            "interval": "21 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "코파델레이",
+                            "match_time": "2026-11-10 19:00:00",
+                            "teams": "11.10 2026 vs CD 바다호스 vs 테네리페 vs 2 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-15 13:00:00",
+                            "teams": "11.15 2026 vs 테네리페 vs 세우타 vs 7 일",
+                            "interval": "7 일"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-21 20:00:00",
+                            "teams": "11.21 2026 vs 테네리페 vs 마요르카 vs 13 일",
+                            "interval": "13 일"
+                        }
+                    ]
+                }
+            }
+        },
         "3014161": {
             "match_code": "3014161",
             "head_info": {
@@ -4034,679 +4227,6 @@
                             "interval": "12 일"
                         }
                     ]
-                }
-            }
-        },
-        "3110334": {
-            "match_code": "3110334",
-            "head_info": {
-                "league": "리그 1",
-                "round": "",
-                "match_time_raw": "11/8/2026 3:30:00 PM",
-                "match_time_display": "2026-11-09 00:30",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "아카데미 드 파드",
-            "away": "ISCA",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "2승 6무 2패",
-                        "goals_per_game": "1.30",
-                        "conceded_per_game": "1.00"
-                    },
-                    "away_summary": {
-                        "recent_record": "2승 4무 4패",
-                        "goals_per_game": "0.50",
-                        "conceded_per_game": "0.70"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 3 (75%)",
-                        "무승부 0 (0%)",
-                        "승 1 (25%)",
-                        "1.75",
-                        "경기당 득점",
-                        "0.50"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "ICPD D12026.02.14",
-                                "ISCA",
-                                "0-3",
-                                "아카데미 드 파드"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12025.08.30",
-                                "아카데미 드 파드",
-                                "1-0",
-                                "ISCA"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12025.05.18",
-                                "아카데미 드 파드",
-                                "2-0",
-                                "ISCA"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12024.12.31",
-                                "ISCA",
-                                "2-1",
-                                "아카데미 드 파드"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
-                }
-            }
-        },
-        "3110335": {
-            "match_code": "3110335",
-            "head_info": {
-                "league": "리그 1",
-                "round": "",
-                "match_time_raw": "11/8/2026 3:30:00 PM",
-                "match_time_display": "2026-11-09 00:30",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "코로고",
-            "away": "ASEC 미모사",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "1승 4무 5패",
-                        "goals_per_game": "0.90",
-                        "conceded_per_game": "1.50"
-                    },
-                    "away_summary": {
-                        "recent_record": "2승 5무 3패",
-                        "goals_per_game": "1.00",
-                        "conceded_per_game": "1.00"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 1 (10%)",
-                        "무승부 4 (40%)",
-                        "승 5 (50%)",
-                        "0.60",
-                        "경기당 득점",
-                        "1.70"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "LCC2026.08.06",
-                                "ASEC 미모사",
-                                "2-0",
-                                "코로고"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12026.03.22",
-                                "코로고",
-                                "0-5",
-                                "ASEC 미모사"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12025.10.12",
-                                "ASEC 미모사",
-                                "2-3",
-                                "코로고"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12025.02.02",
-                                "코로고",
-                                "1-1",
-                                "ASEC 미모사"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12024.09.25",
-                                "ASEC 미모사",
-                                "3-1",
-                                "코로고"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12024.04.25",
-                                "코로고",
-                                "0-0",
-                                "ASEC 미모사"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12023.11.04",
-                                "ASEC 미모사",
-                                "2-0",
-                                "코로고"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12023.06.11",
-                                "ASEC 미모사",
-                                "0-0",
-                                "코로고"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12022.12.21",
-                                "코로고",
-                                "1-1",
-                                "ASEC 미모사"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12022.06.19",
-                                "코로고",
-                                "0-1",
-                                "ASEC 미모사"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
-                }
-            }
-        },
-        "3110336": {
-            "match_code": "3110336",
-            "head_info": {
-                "league": "리그 1",
-                "round": "",
-                "match_time_raw": "11/8/2026 3:30:00 PM",
-                "match_time_display": "2026-11-09 00:30",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "SO 아르메",
-            "away": "OFC Adiake",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "4승 4무 2패",
-                        "goals_per_game": "1.10",
-                        "conceded_per_game": "0.80"
-                    },
-                    "away_summary": {
-                        "recent_record": "2승 1무 3패",
-                        "goals_per_game": "1.17",
-                        "conceded_per_game": "1.17"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [],
-                    "matches": []
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
-                }
-            }
-        },
-        "3110337": {
-            "match_code": "3110337",
-            "head_info": {
-                "league": "리그 1",
-                "round": "",
-                "match_time_raw": "11/8/2026 3:30:00 PM",
-                "match_time_display": "2026-11-09 00:30",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "스타드 다비장",
-            "away": "브와케",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "4승 3무 3패",
-                        "goals_per_game": "1.40",
-                        "conceded_per_game": "1.20"
-                    },
-                    "away_summary": {
-                        "recent_record": "4승 1무 5패",
-                        "goals_per_game": "0.90",
-                        "conceded_per_game": "1.10"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 2 (25%)",
-                        "무승부 4 (50%)",
-                        "0.75",
-                        "경기당 득점",
-                        "1.25"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "ICPD D12026.04.13",
-                                "브와케",
-                                "0-1",
-                                "스타드 다비장"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12025.11.01",
-                                "스타드 다비장",
-                                "2-2",
-                                "브와케"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12025.04.13",
-                                "브와케",
-                                "0-1",
-                                "스타드 다비장"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12024.12.01",
-                                "스타드 다비장",
-                                "0-2",
-                                "브와케"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12024.04.27",
-                                "스타드 다비장",
-                                "0-4",
-                                "브와케"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12023.11.12",
-                                "브와케",
-                                "2-2",
-                                "스타드 다비장"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12023.02.04",
-                                "브와케",
-                                "0-0",
-                                "스타드 다비장"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12022.09.10",
-                                "스타드 다비장",
-                                "0-0",
-                                "브와케"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
-                }
-            }
-        },
-        "3110338": {
-            "match_code": "3110338",
-            "head_info": {
-                "league": "리그 1",
-                "round": "",
-                "match_time_raw": "11/8/2026 6:00:00 PM",
-                "match_time_display": "2026-11-09 03:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "스텔라 아다메",
-            "away": "산 페드로",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "5승 4무 1패",
-                        "goals_per_game": "1.10",
-                        "conceded_per_game": "0.70"
-                    },
-                    "away_summary": {
-                        "recent_record": "4승 2무 4패",
-                        "goals_per_game": "1.10",
-                        "conceded_per_game": "1.00"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 2 (20%)",
-                        "무승부 3 (30%)",
-                        "승 5 (50%)",
-                        "0.70",
-                        "경기당 득점",
-                        "1.10"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "ICPD D12026.03.08",
-                                "스텔라 아다메",
-                                "0-0",
-                                "산 페드로"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12025.10.05",
-                                "산 페드로",
-                                "2-1",
-                                "스텔라 아다메"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12025.03.02",
-                                "산 페드로",
-                                "2-0",
-                                "스텔라 아다메"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12024.10.26",
-                                "스텔라 아다메",
-                                "1-0",
-                                "산 페드로"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12024.04.28",
-                                "스텔라 아다메",
-                                "0-1",
-                                "산 페드로"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12023.11.12",
-                                "산 페드로",
-                                "3-0",
-                                "스텔라 아다메"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12023.03.01",
-                                "스텔라 아다메",
-                                "3-0",
-                                "산 페드로"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12022.10.08",
-                                "산 페드로",
-                                "1-1",
-                                "스텔라 아다메"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12022.03.18",
-                                "산 페드로",
-                                "0-0",
-                                "스텔라 아다메"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "ICPD D12021.11.21",
-                                "스텔라 아다메",
-                                "1-2",
-                                "산 페드로"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
-                }
-            }
-        },
-        "3111115": {
-            "match_code": "3111115",
-            "head_info": {
-                "league": "리그 1",
-                "round": "",
-                "match_time_raw": "11/8/2026 4:30:00 PM",
-                "match_time_display": "2026-11-09 01:30",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "카에디",
-            "away": "SNIM",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "2승 1무 7패",
-                        "goals_per_game": "0.70",
-                        "conceded_per_game": "1.90"
-                    },
-                    "away_summary": {
-                        "recent_record": "2승 3무 5패",
-                        "goals_per_game": "0.90",
-                        "conceded_per_game": "1.20"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 0 (0%)",
-                        "무승부 2 (66.7%)",
-                        "승 1 (33.3%)",
-                        "0.33",
-                        "경기당 득점",
-                        "0.67"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "MAU D12022.04.01",
-                                "SNIM",
-                                "1-1",
-                                "카에디"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12021.01.13",
-                                "SNIM",
-                                "0-0",
-                                "카에디"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "Mauritania Cup2020.09.18",
-                                "SNIM",
-                                "1-0",
-                                "카에디"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
-                }
-            }
-        },
-        "3111053": {
-            "match_code": "3111053",
-            "head_info": {
-                "league": "리그 1",
-                "round": "",
-                "match_time_raw": "11/8/2026 5:00:00 PM",
-                "match_time_display": "2026-11-09 02:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "누악쇼트 킹스",
-            "away": "누아디부",
-            "meta_details": {
-                "rankings": [],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "4승 2무 4패",
-                        "goals_per_game": "1.90",
-                        "conceded_per_game": "2.00"
-                    },
-                    "away_summary": {
-                        "recent_record": "5승 3무 2패",
-                        "goals_per_game": "1.20",
-                        "conceded_per_game": "0.80"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 2 (20%)",
-                        "무승부 4 (40%)",
-                        "승 4 (40%)",
-                        "1.10",
-                        "경기당 득점",
-                        "1.30"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "MAU D12026.05.17",
-                                "누악쇼트 킹스",
-                                "3-2",
-                                "누아디부"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12026.01.06",
-                                "누아디부",
-                                "1-1",
-                                "누악쇼트 킹스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12025.04.13",
-                                "누악쇼트 킹스",
-                                "1-1",
-                                "누아디부"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12024.12.06",
-                                "누아디부",
-                                "1-0",
-                                "누악쇼트 킹스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12024.04.13",
-                                "누아디부",
-                                "2-1",
-                                "누악쇼트 킹스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12023.11.10",
-                                "누악쇼트 킹스",
-                                "0-1",
-                                "누아디부"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12022.12.21",
-                                "누악쇼트 킹스",
-                                "2-1",
-                                "누아디부"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "Mauritania Cup2022.07.16",
-                                "누악쇼트 킹스",
-                                "2-2",
-                                "누아디부"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12022.04.09",
-                                "누아디부",
-                                "1-1",
-                                "누악쇼트 킹스"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "MAU D12021.10.31",
-                                "누악쇼트 킹스",
-                                "0-1",
-                                "누아디부"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
                 }
             }
         },
