@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-09 09:47:04",
+    "last_updated": "2026-11-09 20:20:01",
     "lineup_details": {
         "3059479": {
             "match_code": "3059479",
@@ -97040,6 +97040,120 @@
                             "득점(PK)": "0(0)",
                             "도움": "0",
                             "카드": "0/1"
+                        }
+                    }
+                }
+            ]
+        },
+        "3014162": {
+            "match_code": "3014162",
+            "home": "사바델",
+            "away": "레알 소시에다드 B",
+            "home_absentees": [
+                {
+                    "number": "16",
+                    "name": "니콜라스 조아키니",
+                    "player_id": "181473",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "181473",
+                        "matches_played": 5,
+                        "total_play_time": 309,
+                        "avg_play_time": 61.8,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "309",
+                            "경기당 평점": "7.00",
+                            "득점(PK)": "3(0)",
+                            "도움": "0",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "29",
+                    "name": "파트릭 누아마",
+                    "player_id": "228596",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "228596",
+                        "matches_played": 28,
+                        "total_play_time": 839,
+                        "avg_play_time": 30.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "28",
+                            "출전시간": "839",
+                            "경기당 평점": "0",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "14",
+                    "name": "Oscar Sanz",
+                    "player_id": "245822",
+                    "status": "출전의심/기타",
+                    "stats": {
+                        "player_id": "245822",
+                        "matches_played": 12,
+                        "total_play_time": 980,
+                        "avg_play_time": 81.7,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "12",
+                            "출전시간": "980",
+                            "경기당 평점": "7.28",
+                            "득점(PK)": "2(0)",
+                            "도움": "0",
+                            "카드": "0/5"
+                        }
+                    }
+                },
+                {
+                    "number": "30",
+                    "name": "사비에르 모레노",
+                    "player_id": "247726",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "247726",
+                        "matches_played": 2,
+                        "total_play_time": 49,
+                        "avg_play_time": 24.5,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "2",
+                            "출전시간": "49",
+                            "경기당 평점": "6.35",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "9",
+                    "name": "Ekain Orobengoa",
+                    "player_id": "246243",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "246243",
+                        "matches_played": 2,
+                        "total_play_time": 36,
+                        "avg_play_time": 18.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "2",
+                            "출전시간": "36",
+                            "경기당 평점": "3.10",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
                         }
                     }
                 }
