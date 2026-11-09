@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-09 10:22:53",
+    "last_updated": "2026-11-09 21:05:16",
     "match_details": {
         "3012834": {
             "match_code": "3012834",
@@ -644,6 +644,16 @@
                     "home_team_name": "스톡포트",
                     "home_matches": [
                         {
+                            "league": "ENG FAC",
+                            "match_time": "2026.11.08",
+                            "teams": "크레이 원더러스 vs 스톡포트",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어B(0.80)"
+                        },
+                        {
                             "league": "ENG L1",
                             "match_time": "2026.10.31",
                             "teams": "스톡포트 vs 윔블던",
@@ -832,16 +842,6 @@
                                 "1"
                             ],
                             "opponent_tier_info": "공격C(1.50)/방어E(1.90)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.17",
-                            "teams": "스톡포트 vs 브리스톨시티",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어D(1.30)"
                         }
                     ],
                     "away_team_name": "트랜미어",
@@ -1151,16 +1151,6 @@
                                 "0"
                             ],
                             "opponent_tier_info": "공격C(1.50)/방어E(2.10)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.17",
-                            "teams": "스톡포트 vs 브리스톨시티",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어D(1.30)"
                         }
                     ],
                     "away_team_name": "트랜미어",
@@ -9490,6 +9480,16 @@
                     "home_team_name": "크롤리",
                     "home_matches": [
                         {
+                            "league": "ENG FAC",
+                            "match_time": "2026.11.08",
+                            "teams": "윔본 vs 크롤리",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어B(0.80)"
+                        },
+                        {
                             "league": "ENG L2",
                             "match_time": "2026.10.31",
                             "teams": "올드햄 vs 크롤리",
@@ -9678,16 +9678,6 @@
                                 "1"
                             ],
                             "opponent_tier_info": "공격C(1.20)/방어E(2.10)"
-                        },
-                        {
-                            "league": "ENG L2",
-                            "match_time": "2026.05.02",
-                            "teams": "크롤리 vs 살포드",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어B(0.50)"
                         }
                     ],
                     "away_team_name": "브렌트포드 U21",
@@ -9977,16 +9967,6 @@
                                 "1"
                             ],
                             "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
-                        },
-                        {
-                            "league": "ENG L2",
-                            "match_time": "2026.05.02",
-                            "teams": "크롤리 vs 살포드",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어B(0.50)"
                         }
                     ],
                     "away_team_name": "브렌트포드 U21",
@@ -10749,6 +10729,625 @@
                                 "3"
                             ],
                             "opponent_tier_info": "공격C(1.10)/방어E(2.90)"
+                        }
+                    ]
+                }
+            }
+        },
+        "3108782": {
+            "match_code": "3108782",
+            "head_info": {
+                "league": "SAFF 챔피언쉽",
+                "round": ""
+            },
+            "home": "인도",
+            "away": "몰디브",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "인도",
+                    "home_matches": [
+                        {
+                            "league": "SAFF",
+                            "match_time": "2026.11.05",
+                            "teams": "파키스탄 vs 인도",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(1.80)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.10.06",
+                            "teams": "인도 vs 우루과이",
+                            "ft_scores": [
+                                "1",
+                                "6"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.50)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.10.03",
+                            "teams": "인도 vs 브라질",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어C(1.10)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.09.25",
+                            "teams": "인도 vs 파나마",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어E(1.70)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.06.09",
+                            "teams": "타지키스탄 vs 인도",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어C(0.90)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.06.05",
+                            "teams": "타지키스탄 vs 인도",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어B(0.80)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.05.30",
+                            "teams": "짐바브웨 vs 인도",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.30)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.05.27",
+                            "teams": "자메이카 vs 인도",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어A(0.30)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2026.03.31",
+                            "teams": "인도 vs 홍콩",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.60)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.11.18",
+                            "teams": "방글라데시 vs 인도",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.20)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2025.11.13",
+                            "teams": "인도 vs 부탄",
+                            "ft_scores": [
+                                "6",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어E(1.90)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.10.14",
+                            "teams": "인도 vs 싱가포르",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어C(1.20)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.10.09",
+                            "teams": "싱가포르 vs 인도",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.50)"
+                        },
+                        {
+                            "league": "CEB AC",
+                            "match_time": "2025.09.08",
+                            "teams": "오만 vs 인도",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(0.90)"
+                        },
+                        {
+                            "league": "CEB AC",
+                            "match_time": "2025.09.04",
+                            "teams": "아프가니스탄 vs 인도",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어E(1.70)"
+                        },
+                        {
+                            "league": "CEB AC",
+                            "match_time": "2025.09.01",
+                            "teams": "이란 vs 인도",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어C(0.90)"
+                        },
+                        {
+                            "league": "CEB AC",
+                            "match_time": "2025.08.29",
+                            "teams": "타지키스탄 vs 인도",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.40)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.06.10",
+                            "teams": "홍콩 vs 인도",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.70)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2025.06.04",
+                            "teams": "태국 vs 인도",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.70)/방어C(1.20)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.03.25",
+                            "teams": "인도 vs 방글라데시",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어E(1.90)"
+                        }
+                    ],
+                    "away_team_name": "몰디브",
+                    "away_matches": [
+                        {
+                            "league": "SAFF",
+                            "match_time": "2026.11.08",
+                            "teams": "몰디브 vs 파키스탄",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어E(2.00)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.10.01",
+                            "teams": "몰디브 vs 레바논",
+                            "ft_scores": [
+                                "0",
+                                "6"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.50)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.09.28",
+                            "teams": "키르기스스탄 vs 몰디브",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(1.70)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.09.24",
+                            "teams": "중국 vs 몰디브",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.20)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.06.07",
+                            "teams": "몰디브 vs 방글라데시 U23",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어C(1.00)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.06.04",
+                            "teams": "몰디브 vs 파키스탄",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격E(0.20)/방어E(2.40)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.06.01",
+                            "teams": "몰디브 vs 아프가니스탄",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어E(1.80)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2026.03.31",
+                            "teams": "몰디브 vs 동티모르",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.60)/방어E(3.50)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.11.18",
+                            "teams": "몰디브 vs 필리핀",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어C(1.10)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.10.14",
+                            "teams": "몰디브 vs 타지키스탄",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어D(1.30)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.10.09",
+                            "teams": "타지키스탄 vs 몰디브",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.60)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2025.09.09",
+                            "teams": "스리랑카 vs 몰디브",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.10)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2025.09.06",
+                            "teams": "스리랑카 vs 몰디브",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어B(0.80)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.06.10",
+                            "teams": "동티모르 vs 몰디브",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(2.60)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2025.06.05",
+                            "teams": "싱가포르 vs 몰디브",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.60)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.03.25",
+                            "teams": "필리핀 vs 몰디브",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2025.03.19",
+                            "teams": "인도 vs 몰디브",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어D(1.30)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2024.11.16",
+                            "teams": "방글라데시 vs 몰디브",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격E(0.20)/방어E(2.50)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2024.11.13",
+                            "teams": "방글라데시 vs 몰디브",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어E(2.50)"
+                        },
+                        {
+                            "league": "FIFA WCQL",
+                            "match_time": "2023.10.17",
+                            "teams": "방글라데시 vs 몰디브",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어B(0.70)"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "인도",
+                    "home_matches": [
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.10.06",
+                            "teams": "인도 vs 우루과이",
+                            "ft_scores": [
+                                "1",
+                                "6"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.50)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.10.03",
+                            "teams": "인도 vs 브라질",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어C(1.10)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.09.25",
+                            "teams": "인도 vs 파나마",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어E(1.70)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2026.03.31",
+                            "teams": "인도 vs 홍콩",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.60)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2025.11.13",
+                            "teams": "인도 vs 부탄",
+                            "ft_scores": [
+                                "6",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어E(1.90)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.10.14",
+                            "teams": "인도 vs 싱가포르",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어C(1.20)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.03.25",
+                            "teams": "인도 vs 방글라데시",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어E(1.90)"
+                        }
+                    ],
+                    "away_team_name": "몰디브",
+                    "away_matches": [
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.09.28",
+                            "teams": "키르기스스탄 vs 몰디브",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어E(1.70)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.09.24",
+                            "teams": "중국 vs 몰디브",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.20)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.10.09",
+                            "teams": "타지키스탄 vs 몰디브",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.60)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2025.09.09",
+                            "teams": "스리랑카 vs 몰디브",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.10)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2025.09.06",
+                            "teams": "스리랑카 vs 몰디브",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어B(0.80)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.06.10",
+                            "teams": "동티모르 vs 몰디브",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(2.60)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2025.06.05",
+                            "teams": "싱가포르 vs 몰디브",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.60)"
+                        },
+                        {
+                            "league": "AFC",
+                            "match_time": "2025.03.25",
+                            "teams": "필리핀 vs 몰디브",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2025.03.19",
+                            "teams": "인도 vs 몰디브",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어D(1.30)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2024.11.16",
+                            "teams": "방글라데시 vs 몰디브",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격E(0.20)/방어E(2.50)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2024.11.13",
+                            "teams": "방글라데시 vs 몰디브",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어E(2.50)"
+                        },
+                        {
+                            "league": "FIFA WCQL",
+                            "match_time": "2023.10.17",
+                            "teams": "방글라데시 vs 몰디브",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어B(0.70)"
                         }
                     ]
                 }
