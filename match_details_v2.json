@@ -1,6 +1,111 @@
 {
-    "last_updated": "2026-11-09 09:46:07",
+    "last_updated": "2026-11-09 20:19:58",
     "match_details": {
+        "3014161": {
+            "match_code": "3014161",
+            "head_info": {
+                "league": "라리가2",
+                "round": "라리가2·  라운드 13",
+                "match_time_raw": "11/9/2026 7:30:00 PM",
+                "match_time_display": "2026-11-10 04:30",
+                "stadium": "Estadio de Gran Canaria",
+                "home_stadium": "Estadio de Gran Canaria",
+                "weather": "구름 조금,  17℃～18℃"
+            },
+            "home": "라스팔마스",
+            "away": "엘덴세",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "13",
+                        "team": "라스팔마스",
+                        "played": "12",
+                        "win": "5",
+                        "draw": "2",
+                        "loss": "5",
+                        "goals_for": "17",
+                        "goals_against": "21",
+                        "goal_diff": "-4",
+                        "points": "17"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "15",
+                        "team": "엘덴세",
+                        "played": "12",
+                        "win": "4",
+                        "draw": "2",
+                        "loss": "6",
+                        "goals_for": "13",
+                        "goals_against": "17",
+                        "goal_diff": "-4",
+                        "points": "14"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "3승 3무 4패",
+                        "goals_per_game": "1.20",
+                        "conceded_per_game": "1.60"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "1.20",
+                        "conceded_per_game": "1.10"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-15 15:15:00",
+                            "teams": "11.15 2026 vs 그라나다 vs 라스팔마스 vs 6 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-22 15:15:00",
+                            "teams": "11.22 2026 vs 히혼 vs 라스팔마스 vs 13 일",
+                            "interval": "13 일"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-29 16:00:00",
+                            "teams": "11.29 2026 vs 라스팔마스 vs FC 안도라 vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-15 17:30:00",
+                            "teams": "11.15 2026 vs 엘덴세 vs 사바델 vs 6 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-21 17:30:00",
+                            "teams": "11.21 2026 vs 카스테욘 vs 엘덴세 vs 12 일",
+                            "interval": "12 일"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-29 16:00:00",
+                            "teams": "11.29 2026 vs 엘덴세 vs 지로나 vs 20 일",
+                            "interval": "20 일"
+                        }
+                    ]
+                }
+            }
+        },
         "3014162": {
             "match_code": "3014162",
             "head_info": {
@@ -10,7 +115,7 @@
                 "match_time_display": "2026-11-10 04:30",
                 "stadium": "Estadi de la Nova Creu Alta",
                 "home_stadium": "Estadi de la Nova Creu Alta",
-                "weather": "구름 조금,  16°C"
+                "weather": "구름 조금,  17℃～18℃"
             },
             "home": "사바델",
             "away": "레알 소시에다드 B",
@@ -155,7 +260,7 @@
                 "match_time_display": "2026-11-10 04:30",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "이슬비,  12°C"
+                "weather": "맑음,  12℃～13℃"
             },
             "home": "플리머스 파크웨이",
             "away": "베르켐스티드",
