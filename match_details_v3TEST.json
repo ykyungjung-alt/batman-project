@@ -1,640 +1,600 @@
 {
-    "last_updated": "2026-11-12 15:22:35",
+    "last_updated": "2026-11-13 02:28:18",
     "match_details": {
-        "3110487": {
-            "match_code": "3110487",
+        "2981458": {
+            "match_code": "2981458",
             "head_info": {
-                "league": "UEFA U-21 축구 선수권 대회",
+                "league": "UEFA 네이션스리그",
                 "round": ""
             },
-            "home": "아이슬란드 U21",
-            "away": "그리스 U21",
+            "home": "이탈리아",
+            "away": "프랑스",
             "meta_details": {
                 "recent_form": {
                     "form_title": "최근 전적",
-                    "home_team_name": "아이슬란드 U21",
+                    "home_team_name": "이탈리아",
                     "home_matches": [
                         {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.10.06",
-                            "teams": "페로제도 U21 vs 아이슬란드 U21",
+                            "league": "UEFA NL",
+                            "match_time": "2026.10.05",
+                            "teams": "이탈리아 vs 터키",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.40)"
+                        },
+                        {
+                            "league": "UEFA NL",
+                            "match_time": "2026.10.02",
+                            "teams": "프랑스 vs 이탈리아",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어C(1.00)"
+                        },
+                        {
+                            "league": "UEFA NL",
+                            "match_time": "2026.09.28",
+                            "teams": "터키 vs 이탈리아",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(0.90)"
+                        },
+                        {
+                            "league": "UEFA NL",
+                            "match_time": "2026.09.25",
+                            "teams": "이탈리아 vs 벨기에",
                             "ft_scores": [
                                 "0",
                                 "2"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어C(1.00)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.06.07",
+                            "teams": "그리스 vs 이탈리아",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.50)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.06.03",
+                            "teams": "룩셈부르크 vs 이탈리아",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.60)/방어D(1.40)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2026.03.31",
+                            "teams": "보스니아 헤르체고비나 vs 이탈리아",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어C(1.10)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2026.03.26",
+                            "teams": "이탈리아 vs 북아일랜드",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.40)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2025.11.16",
+                            "teams": "이탈리아 vs 노르웨이",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격A(4.00)/방어B(0.50)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2025.11.13",
+                            "teams": "몰도바 vs 이탈리아",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어E(3.10)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2025.10.14",
+                            "teams": "이탈리아 vs 이스라엘",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어E(2.00)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2025.10.11",
+                            "teams": "에스토니아 vs 이탈리아",
+                            "ft_scores": [
+                                "1",
+                                "3"
                             ],
                             "opponent_tier_info": "공격D(0.80)/방어E(1.80)"
                         },
                         {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.09.29",
-                            "teams": "아이슬란드 U21 vs 스위스 U21",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어B(0.80)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.09.25",
-                            "teams": "아이슬란드 U21 vs 프랑스 U21",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(3.10)/방어C(1.00)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.03.30",
-                            "teams": "프랑스 U21 vs 아이슬란드 U21",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(3.20)/방어C(1.10)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.03.26",
-                            "teams": "아이슬란드 U21 vs 에스토니아 U21",
-                            "ft_scores": [
-                                "6",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(2.60)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.11.13",
-                            "teams": "룩셈부르크 U21 vs 아이슬란드 U21",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.70)/방어E(1.90)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.10.14",
-                            "teams": "아이슬란드 U21 vs 룩셈부르크 U21",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(2.00)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.10.10",
-                            "teams": "스위스 U21 vs 아이슬란드 U21",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어D(1.40)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
+                            "league": "WCPEU",
                             "match_time": "2025.09.08",
-                            "teams": "에스토니아 U21 vs 아이슬란드 U21",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(2.60)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.09.04",
-                            "teams": "아이슬란드 U21 vs 페로제도 U21",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(2.30)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2025.06.08",
-                            "teams": "콜롬비아 U20 vs 아이슬란드 U21",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어B(0.70)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2025.06.05",
-                            "teams": "브라질 U20 vs 아이슬란드 U21",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2025.03.25",
-                            "teams": "스코틀랜드 U21 vs 아이슬란드 U21",
-                            "ft_scores": [
-                                "1",
-                                "6"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.50)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2025.03.21",
-                            "teams": "아이슬란드 U21 vs 헝가리 U21",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.70)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2024.11.17",
-                            "teams": "아이슬란드 U21 vs 폴란드 U21",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어D(1.40)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.10.15",
-                            "teams": "덴마크 U21 vs 아이슬란드 U21",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어D(1.50)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.10.10",
-                            "teams": "아이슬란드 U21 vs 리투아니아 U21",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(1.90)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.09.10",
-                            "teams": "아이슬란드 U21 vs 웨일스 U21",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어C(1.00)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.09.06",
-                            "teams": "아이슬란드 U21 vs 덴마크 U21",
+                            "teams": "이스라엘 vs 이탈리아",
                             "ft_scores": [
                                 "4",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.03.26",
-                            "teams": "체코 U21 vs 아이슬란드 U21",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어C(0.90)"
-                        }
-                    ],
-                    "away_team_name": "그리스 U21",
-                    "away_matches": [
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.10.06",
-                            "teams": "북아일랜드 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어D(1.60)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.10.01",
-                            "teams": "그리스 U21 vs 라트비아 U21",
-                            "ft_scores": [
-                                "4",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.70)/방어E(1.90)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.09.26",
-                            "teams": "조지아 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(1.70)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2026.05.30",
-                            "teams": "크로아티아 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어B(0.60)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2026.05.27",
-                            "teams": "그리스 U21 vs 카타르 (U21)",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.50)/방어E(2.50)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.03.31",
-                            "teams": "그리스 U21 vs 독일 U21",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.90)/방어B(0.80)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.03.27",
-                            "teams": "그리스 U21 vs 몰타 U21",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.50)/방어E(2.90)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.11.18",
-                            "teams": "그리스 U21 vs 북아일랜드 U21",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어B(0.70)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.11.14",
-                            "teams": "그리스 U21 vs 조지아 U21",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어E(1.70)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.10.14",
-                            "teams": "라트비아 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어E(1.70)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.10.10",
-                            "teams": "독일 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격A(2.70)/방어B(0.80)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.09.09",
-                            "teams": "몰타 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "0",
                                 "5"
                             ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(2.50)"
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.60)"
                         },
                         {
-                            "league": "INT FRL",
-                            "match_time": "2025.06.04",
-                            "teams": "세르비아 U21 vs 그리스 U21",
+                            "league": "WCPEU",
+                            "match_time": "2025.09.05",
+                            "teams": "이탈리아 vs 에스토니아",
                             "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어C(1.10)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2025.03.25",
-                            "teams": "불가리아 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어B(0.80)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2025.03.21",
-                            "teams": "그리스 U21 vs 알바니아 U21",
-                            "ft_scores": [
-                                "0",
+                                "5",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격C(1.50)/방어C(1.10)"
+                            "opponent_tier_info": "공격D(0.80)/방어E(1.70)"
                         },
                         {
-                            "league": "INT FRL",
-                            "match_time": "2024.11.19",
-                            "teams": "그리스 U21 vs 헝가리 U21",
+                            "league": "WCPEU",
+                            "match_time": "2025.06.09",
+                            "teams": "이탈리아 vs 몰도바",
                             "ft_scores": [
-                                "1",
-                                "1"
+                                "2",
+                                "0"
                             ],
-                            "opponent_tier_info": "공격D(1.00)/방어B(0.70)"
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.60)"
                         },
                         {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.10.15",
-                            "teams": "크로아티아 U21 vs 그리스 U21",
+                            "league": "WCPEU",
+                            "match_time": "2025.06.06",
+                            "teams": "노르웨이 vs 이탈리아",
                             "ft_scores": [
                                 "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.80)/방어C(1.20)"
+                        },
+                        {
+                            "league": "UEFA NL",
+                            "match_time": "2025.03.23",
+                            "teams": "독일 vs 이탈리아",
+                            "ft_scores": [
+                                "3",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어B(0.70)"
+                        },
+                        {
+                            "league": "UEFA NL",
+                            "match_time": "2025.03.20",
+                            "teams": "이탈리아 vs 독일",
+                            "ft_scores": [
+                                "1",
                                 "2"
                             ],
-                            "opponent_tier_info": "공격B(1.70)/방어E(1.80)"
+                            "opponent_tier_info": "공격A(2.40)/방어B(0.60)"
+                        },
+                        {
+                            "league": "UEFA NL",
+                            "match_time": "2024.11.17",
+                            "teams": "이탈리아 vs 프랑스",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어B(0.80)"
+                        },
+                        {
+                            "league": "UEFA NL",
+                            "match_time": "2024.11.14",
+                            "teams": "벨기에 vs 이탈리아",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어C(0.90)"
+                        }
+                    ],
+                    "away_team_name": "프랑스",
+                    "away_matches": [
+                        {
+                            "league": "UEFA NL",
+                            "match_time": "2026.10.05",
+                            "teams": "프랑스 vs 벨기에",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어B(0.80)"
+                        },
+                        {
+                            "league": "UEFA NL",
+                            "match_time": "2026.10.02",
+                            "teams": "프랑스 vs 이탈리아",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어C(1.00)"
+                        },
+                        {
+                            "league": "UEFA NL",
+                            "match_time": "2026.09.28",
+                            "teams": "벨기에 vs 프랑스",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어B(0.80)"
+                        },
+                        {
+                            "league": "UEFA NL",
+                            "match_time": "2026.09.25",
+                            "teams": "터키 vs 프랑스",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(0.90)"
+                        },
+                        {
+                            "league": "World Cup",
+                            "match_time": "2026.07.18",
+                            "teams": "프랑스 vs 잉글랜드",
+                            "ft_scores": [
+                                "4",
+                                "6"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(0.90)"
+                        },
+                        {
+                            "league": "World Cup",
+                            "match_time": "2026.07.14",
+                            "teams": "프랑스 vs 스페인",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어A(0.30)"
+                        },
+                        {
+                            "league": "World Cup",
+                            "match_time": "2026.07.09",
+                            "teams": "프랑스 vs 모로코",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어B(0.70)"
+                        },
+                        {
+                            "league": "World Cup",
+                            "match_time": "2026.07.04",
+                            "teams": "파라과이 vs 프랑스",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
+                        },
+                        {
+                            "league": "World Cup",
+                            "match_time": "2026.06.30",
+                            "teams": "프랑스 vs 스웨덴",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어E(2.10)"
+                        },
+                        {
+                            "league": "World Cup",
+                            "match_time": "2026.06.26",
+                            "teams": "노르웨이 vs 프랑스",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어C(1.00)"
+                        },
+                        {
+                            "league": "World Cup",
+                            "match_time": "2026.06.22",
+                            "teams": "프랑스 vs 이라크",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.30)"
+                        },
+                        {
+                            "league": "World Cup",
+                            "match_time": "2026.06.16",
+                            "teams": "프랑스 vs 세네갈",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어C(0.90)"
                         },
                         {
                             "league": "INT FRL",
-                            "match_time": "2024.10.11",
-                            "teams": "슬로바키아 U21 vs 그리스 U21",
+                            "match_time": "2026.06.08",
+                            "teams": "프랑스 vs 북아일랜드",
                             "ft_scores": [
-                                "2",
+                                "3",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격A(2.50)/방어C(1.20)"
+                            "opponent_tier_info": "공격D(1.00)/방어C(0.90)"
                         },
                         {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.09.10",
-                            "teams": "페로제도 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(2.20)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.03.26",
-                            "teams": "그리스 U21 vs 안도라 U21",
+                            "league": "INT FRL",
+                            "match_time": "2026.06.04",
+                            "teams": "프랑스 vs 코트디부아르",
                             "ft_scores": [
                                 "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어B(0.70)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.03.29",
+                            "teams": "콜롬비아 vs 프랑스",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어C(0.90)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.03.26",
+                            "teams": "브라질 vs 프랑스",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(1.00)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2025.11.16",
+                            "teams": "아제르바이잔 vs 프랑스",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격E(0.30)/방어E(2.60)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2025.11.13",
+                            "teams": "프랑스 vs 우크라이나",
+                            "ft_scores": [
+                                "4",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격E(0.40)/방어E(2.20)"
+                            "opponent_tier_info": "공격B(1.80)/방어E(1.80)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2025.10.13",
+                            "teams": "아이슬란드 vs 프랑스",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어E(2.20)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2025.10.10",
+                            "teams": "프랑스 vs 아제르바이잔",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어E(2.50)"
                         }
                     ]
                 },
                 "stadium_form": {
                     "form_title": "구장별 전적",
-                    "home_team_name": "아이슬란드 U21",
+                    "home_team_name": "이탈리아",
                     "home_matches": [
                         {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.09.29",
-                            "teams": "아이슬란드 U21 vs 스위스 U21",
+                            "league": "UEFA NL",
+                            "match_time": "2026.10.05",
+                            "teams": "이탈리아 vs 터키",
                             "ft_scores": [
-                                "5",
+                                "3",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격B(1.90)/방어B(0.80)"
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.40)"
                         },
                         {
-                            "league": "UEFA U21Q",
+                            "league": "UEFA NL",
                             "match_time": "2026.09.25",
-                            "teams": "아이슬란드 U21 vs 프랑스 U21",
+                            "teams": "이탈리아 vs 벨기에",
                             "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(3.10)/방어C(1.00)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.03.26",
-                            "teams": "아이슬란드 U21 vs 에스토니아 U21",
-                            "ft_scores": [
-                                "6",
+                                "0",
                                 "2"
                             ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(2.60)"
+                            "opponent_tier_info": "공격A(2.60)/방어C(1.00)"
                         },
                         {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.10.14",
-                            "teams": "아이슬란드 U21 vs 룩셈부르크 U21",
+                            "league": "WCPEU",
+                            "match_time": "2026.03.26",
+                            "teams": "이탈리아 vs 북아일랜드",
                             "ft_scores": [
                                 "2",
-                                "1"
+                                "0"
                             ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(2.00)"
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.40)"
                         },
                         {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.09.04",
-                            "teams": "아이슬란드 U21 vs 페로제도 U21",
+                            "league": "WCPEU",
+                            "match_time": "2025.11.16",
+                            "teams": "이탈리아 vs 노르웨이",
                             "ft_scores": [
                                 "1",
-                                "2"
+                                "4"
                             ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(2.30)"
+                            "opponent_tier_info": "공격A(4.00)/방어B(0.50)"
                         },
                         {
-                            "league": "INT FRL",
-                            "match_time": "2025.03.21",
-                            "teams": "아이슬란드 U21 vs 헝가리 U21",
+                            "league": "WCPEU",
+                            "match_time": "2025.10.14",
+                            "teams": "이탈리아 vs 이스라엘",
                             "ft_scores": [
                                 "3",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.70)"
+                            "opponent_tier_info": "공격B(1.80)/방어E(2.00)"
                         },
                         {
-                            "league": "INT FRL",
-                            "match_time": "2024.11.17",
-                            "teams": "아이슬란드 U21 vs 폴란드 U21",
+                            "league": "WCPEU",
+                            "match_time": "2025.09.05",
+                            "teams": "이탈리아 vs 에스토니아",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(1.70)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2025.06.09",
+                            "teams": "이탈리아 vs 몰도바",
                             "ft_scores": [
                                 "2",
-                                "1"
+                                "0"
                             ],
-                            "opponent_tier_info": "공격A(2.30)/방어D(1.40)"
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.60)"
                         },
                         {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.10.10",
-                            "teams": "아이슬란드 U21 vs 리투아니아 U21",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(1.90)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.09.10",
-                            "teams": "아이슬란드 U21 vs 웨일스 U21",
+                            "league": "UEFA NL",
+                            "match_time": "2025.03.20",
+                            "teams": "이탈리아 vs 독일",
                             "ft_scores": [
                                 "1",
                                 "2"
                             ],
-                            "opponent_tier_info": "공격B(1.90)/방어C(1.00)"
+                            "opponent_tier_info": "공격A(2.40)/방어B(0.60)"
                         },
                         {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.09.06",
-                            "teams": "아이슬란드 U21 vs 덴마크 U21",
+                            "league": "UEFA NL",
+                            "match_time": "2024.11.17",
+                            "teams": "이탈리아 vs 프랑스",
                             "ft_scores": [
-                                "4",
-                                "2"
+                                "1",
+                                "3"
                             ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.40)"
+                            "opponent_tier_info": "공격C(1.20)/방어B(0.80)"
                         }
                     ],
-                    "away_team_name": "그리스 U21",
+                    "away_team_name": "프랑스",
                     "away_matches": [
                         {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.10.06",
-                            "teams": "북아일랜드 U21 vs 그리스 U21",
+                            "league": "UEFA NL",
+                            "match_time": "2026.09.28",
+                            "teams": "벨기에 vs 프랑스",
                             "ft_scores": [
                                 "0",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격C(1.30)/방어D(1.60)"
+                            "opponent_tier_info": "공격A(2.30)/방어B(0.80)"
                         },
                         {
-                            "league": "UEFA U21Q",
-                            "match_time": "2026.09.26",
-                            "teams": "조지아 U21 vs 그리스 U21",
+                            "league": "UEFA NL",
+                            "match_time": "2026.09.25",
+                            "teams": "터키 vs 프랑스",
                             "ft_scores": [
                                 "0",
-                                "3"
+                                "1"
                             ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(1.70)"
+                            "opponent_tier_info": "공격B(1.90)/방어C(0.90)"
                         },
                         {
-                            "league": "INT FRL",
-                            "match_time": "2026.05.30",
-                            "teams": "크로아티아 U21 vs 그리스 U21",
+                            "league": "World Cup",
+                            "match_time": "2026.07.04",
+                            "teams": "파라과이 vs 프랑스",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
+                        },
+                        {
+                            "league": "World Cup",
+                            "match_time": "2026.06.26",
+                            "teams": "노르웨이 vs 프랑스",
                             "ft_scores": [
                                 "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어B(0.60)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.10.14",
-                            "teams": "라트비아 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어E(1.70)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.10.10",
-                            "teams": "독일 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격A(2.70)/방어B(0.80)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2025.09.09",
-                            "teams": "몰타 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "0",
-                                "5"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(2.50)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2025.06.04",
-                            "teams": "세르비아 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어C(1.10)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2025.03.25",
-                            "teams": "불가리아 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어B(0.80)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.10.15",
-                            "teams": "크로아티아 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어E(1.80)"
-                        },
-                        {
-                            "league": "INT FRL",
-                            "match_time": "2024.10.11",
-                            "teams": "슬로바키아 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.50)/방어C(1.20)"
-                        },
-                        {
-                            "league": "UEFA U21Q",
-                            "match_time": "2024.09.10",
-                            "teams": "페로제도 U21 vs 그리스 U21",
-                            "ft_scores": [
-                                "0",
                                 "4"
                             ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(2.20)"
+                            "opponent_tier_info": "공격A(2.60)/방어C(1.00)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.03.29",
+                            "teams": "콜롬비아 vs 프랑스",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어C(0.90)"
+                        },
+                        {
+                            "league": "INT FRL",
+                            "match_time": "2026.03.26",
+                            "teams": "브라질 vs 프랑스",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(1.00)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2025.11.16",
+                            "teams": "아제르바이잔 vs 프랑스",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격E(0.30)/방어E(2.60)"
+                        },
+                        {
+                            "league": "WCPEU",
+                            "match_time": "2025.10.13",
+                            "teams": "아이슬란드 vs 프랑스",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어E(2.20)"
                         }
                     ]
                 }
