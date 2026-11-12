@@ -1,60 +1,124 @@
 {
-    "last_updated": "2026-11-12 16:02:06",
+    "last_updated": "2026-11-13 02:32:17",
     "match_details": {
-        "3110487": {
-            "match_code": "3110487",
+        "2981458": {
+            "match_code": "2981458",
             "head_info": {
-                "league": "UEFA U-21 축구 선수권 대회",
+                "league": "UEFA 네이션스리그",
                 "round": "",
-                "match_time_raw": "11/12/2026 1:00:00 PM",
-                "match_time_display": "2026-11-12 22:00",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": "흐림,  0℃～1℃"
+                "match_time_raw": "11/12/2026 7:45:00 PM",
+                "match_time_display": "2026-11-13 04:45",
+                "stadium": "Giuseppe Meazza",
+                "home_stadium": "Giuseppe Meazza",
+                "weather": "구름 많음,  18℃～19℃"
             },
-            "home": "아이슬란드 U21",
-            "away": "그리스 U21",
+            "home": "이탈리아",
+            "away": "프랑스",
             "meta_details": {
                 "rankings": [],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "5승 3무 2패",
-                        "goals_per_game": "2.20",
-                        "conceded_per_game": "1.10"
+                        "recent_record": "6승 2무 2패",
+                        "goals_per_game": "1.60",
+                        "conceded_per_game": "1.00"
                     },
                     "away_summary": {
                         "recent_record": "7승 1무 2패",
-                        "goals_per_game": "2.30",
-                        "conceded_per_game": "0.70"
+                        "goals_per_game": "2.10",
+                        "conceded_per_game": "1.10"
                     },
                     "matches": []
                 },
                 "h2h": {
                     "summary": [
-                        "승 0 (0%)",
-                        "무승부 1 (50%)",
-                        "승 1 (50%)",
-                        "0.50",
+                        "승 2 (20%)",
+                        "무승부 3 (30%)",
+                        "승 5 (50%)",
+                        "1.20",
                         "경기당 득점",
-                        "1.00",
-                        "핸디캡：1승 0무 1패",
-                        "언오버：0오버 0무 2언더"
+                        "1.70",
+                        "핸디캡：3승 1무 6패",
+                        "언오버：5오버 0무 1언더"
                     ],
                     "matches": [
                         {
                             "row_data": [
-                                "UEFA U21Q2021.11.16",
-                                "그리스 U21",
-                                "1-0",
-                                "아이슬란드 U21"
+                                "UEFA NL2026.10.02",
+                                "프랑스",
+                                "1-1",
+                                "이탈리아"
                             ]
                         },
                         {
                             "row_data": [
-                                "UEFA U21Q2021.09.07",
-                                "아이슬란드 U21",
+                                "UEFA NL2024.11.17",
+                                "이탈리아",
+                                "1-3",
+                                "프랑스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA NL2024.09.06",
+                                "프랑스",
+                                "1-3",
+                                "이탈리아"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT FRL2018.06.01",
+                                "프랑스",
+                                "3-1",
+                                "이탈리아"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT FRL2016.09.01",
+                                "이탈리아",
+                                "1-3",
+                                "프랑스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT CF2012.11.14",
+                                "이탈리아",
+                                "1-2",
+                                "프랑스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EURO Cup2008.06.17",
+                                "프랑스",
+                                "0-2",
+                                "이탈리아"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EURO Cup2007.09.08",
+                                "이탈리아",
+                                "0-0",
+                                "프랑스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EURO Cup2006.09.06",
+                                "프랑스",
+                                "3-1",
+                                "이탈리아"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "World Cup2006.07.09",
+                                "이탈리아",
                                 "1-1",
-                                "그리스 U21"
+                                "프랑스"
                             ]
                         }
                     ]
@@ -66,17 +130,547 @@
                 "fixtures": {
                     "home": [
                         {
-                            "league": "UEFA U-21 축구 선수권 대회",
-                            "match_time": "2026-11-16 17:00:00",
-                            "teams": "11.16 2026 vs 그리스 U21 vs 아이슬란드 U21 vs 4 일",
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 19:45:00",
+                            "teams": "11.15 2026 vs 벨기에 vs 이탈리아 vs 3 일",
                             "interval": "시작전"
                         }
                     ],
                     "away": [
                         {
-                            "league": "UEFA U-21 축구 선수권 대회",
-                            "match_time": "2026-11-16 17:00:00",
-                            "teams": "11.16 2026 vs 그리스 U21 vs 아이슬란드 U21 vs 4 일",
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 19:45:00",
+                            "teams": "11.15 2026 vs 프랑스 vs 터키 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ]
+                }
+            }
+        },
+        "2981459": {
+            "match_code": "2981459",
+            "head_info": {
+                "league": "UEFA 네이션스리그",
+                "round": "",
+                "match_time_raw": "11/12/2026 7:45:00 PM",
+                "match_time_display": "2026-11-13 04:45",
+                "stadium": "Sinobo Stadium",
+                "home_stadium": "Sinobo Stadium",
+                "weather": "이슬비,  9℃～10℃"
+            },
+            "home": "체코",
+            "away": "스페인",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 2무 6패",
+                        "goals_per_game": "1.00",
+                        "conceded_per_game": "1.90"
+                    },
+                    "away_summary": {
+                        "recent_record": "9승 1무 0패",
+                        "goals_per_game": "2.10",
+                        "conceded_per_game": "0.60"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 1 (16.7%)",
+                        "승 5 (83.3%)",
+                        "0.67",
+                        "경기당 득점",
+                        "2.00",
+                        "핸디캡：3승 0무 3패",
+                        "언오버：3오버 0무 3언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "UEFA NL2026.10.03",
+                                "스페인",
+                                "3-1",
+                                "체코"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA NL2022.06.12",
+                                "스페인",
+                                "2-0",
+                                "체코"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA NL2022.06.05",
+                                "체코",
+                                "2-2",
+                                "스페인"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EURO Cup2016.06.13",
+                                "스페인",
+                                "1-0",
+                                "체코"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EURO Cup2011.10.07",
+                                "체코",
+                                "0-2",
+                                "스페인"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EURO Cup2011.03.25",
+                                "스페인",
+                                "2-1",
+                                "체코"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 19:45:00",
+                            "teams": "11.15 2026 vs 크로아티아 vs 체코 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 19:45:00",
+                            "teams": "11.15 2026 vs 스페인 vs 잉글랜드 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ]
+                }
+            }
+        },
+        "2981460": {
+            "match_code": "2981460",
+            "head_info": {
+                "league": "UEFA 네이션스리그",
+                "round": "",
+                "match_time_raw": "11/12/2026 7:45:00 PM",
+                "match_time_display": "2026-11-13 04:45",
+                "stadium": "Wembley Stadium",
+                "home_stadium": "Wembley Stadium",
+                "weather": "맑음,  5℃～6℃"
+            },
+            "home": "잉글랜드",
+            "away": "크로아티아",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "7승 1무 2패",
+                        "goals_per_game": "2.90",
+                        "conceded_per_game": "1.30"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 0무 6패",
+                        "goals_per_game": "1.20",
+                        "conceded_per_game": "2.40"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 6 (60%)",
+                        "무승부 2 (20%)",
+                        "승 2 (20%)",
+                        "2.60",
+                        "경기당 득점",
+                        "1.10",
+                        "핸디캡：6승 0무 4패",
+                        "언오버：4오버 1무 2언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "UEFA NL2026.10.03",
+                                "크로아티아",
+                                "0-7",
+                                "잉글랜드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "World Cup2026.06.17",
+                                "잉글랜드",
+                                "4-2",
+                                "크로아티아"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EURO Cup2021.06.13",
+                                "잉글랜드",
+                                "1-0",
+                                "크로아티아"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA NL2018.11.18",
+                                "잉글랜드",
+                                "2-1",
+                                "크로아티아"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA NL2018.10.12",
+                                "크로아티아",
+                                "0-0",
+                                "잉글랜드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "World Cup2018.07.11",
+                                "크로아티아",
+                                "1-1",
+                                "잉글랜드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "WCPEU2009.09.09",
+                                "잉글랜드",
+                                "5-1",
+                                "크로아티아"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "WCPEU2008.09.10",
+                                "크로아티아",
+                                "1-4",
+                                "잉글랜드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EURO Cup2007.11.21",
+                                "잉글랜드",
+                                "2-3",
+                                "크로아티아"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EURO Cup2006.10.11",
+                                "크로아티아",
+                                "2-0",
+                                "잉글랜드"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 19:45:00",
+                            "teams": "11.15 2026 vs 스페인 vs 잉글랜드 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 19:45:00",
+                            "teams": "11.15 2026 vs 크로아티아 vs 체코 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ]
+                }
+            }
+        },
+        "2981556": {
+            "match_code": "2981556",
+            "head_info": {
+                "league": "UEFA 네이션스리그",
+                "round": "",
+                "match_time_raw": "11/12/2026 7:45:00 PM",
+                "match_time_display": "2026-11-13 04:45",
+                "stadium": "Air Albania Stadium",
+                "home_stadium": "Air Albania Stadium",
+                "weather": "구름 조금,  19℃～20℃"
+            },
+            "home": "알바니아",
+            "away": "핀란드",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 0무 6패",
+                        "goals_per_game": "1.00",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "4승 2무 4패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 0 (0%)",
+                        "승 1 (100%)",
+                        "1.00",
+                        "경기당 득점",
+                        "2.00",
+                        "핸디캡：0승 0무 1패",
+                        "언오버：1오버 0무 0언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "UEFA NL2026.10.03",
+                                "핀란드",
+                                "2-1",
+                                "알바니아"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 17:00:00",
+                            "teams": "11.15 2026 vs 벨라루스 vs 알바니아 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 17:00:00",
+                            "teams": "11.15 2026 vs 핀란드 vs 산마리노 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ]
+                }
+            }
+        },
+        "2981557": {
+            "match_code": "2981557",
+            "head_info": {
+                "league": "UEFA 네이션스리그",
+                "round": "",
+                "match_time_raw": "11/12/2026 7:45:00 PM",
+                "match_time_display": "2026-11-13 04:45",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "이슬비,  19℃～20℃"
+            },
+            "home": "산마리노",
+            "away": "벨라루스",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "0승 1무 9패",
+                        "goals_per_game": "0.50",
+                        "conceded_per_game": "3.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 4무 1패",
+                        "goals_per_game": "1.60",
+                        "conceded_per_game": "0.80"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 0 (0%)",
+                        "승 3 (100%)",
+                        "0.00",
+                        "경기당 득점",
+                        "3.67",
+                        "핸디캡：1승 0무 2패",
+                        "언오버：2오버 0무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "UEFA NL2026.10.03",
+                                "벨라루스",
+                                "4-0",
+                                "산마리노"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA NL2018.11.18",
+                                "산마리노",
+                                "0-2",
+                                "벨라루스"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "UEFA NL2018.09.08",
+                                "벨라루스",
+                                "5-0",
+                                "산마리노"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 17:00:00",
+                            "teams": "11.15 2026 vs 핀란드 vs 산마리노 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 17:00:00",
+                            "teams": "11.15 2026 vs 벨라루스 vs 알바니아 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ]
+                }
+            }
+        },
+        "2981558": {
+            "match_code": "2981558",
+            "head_info": {
+                "league": "UEFA 네이션스리그",
+                "round": "",
+                "match_time_raw": "11/12/2026 7:45:00 PM",
+                "match_time_display": "2026-11-13 04:45",
+                "stadium": "Podgorica City Stadium",
+                "home_stadium": "Podgorica City Stadium",
+                "weather": "구름 많음,  16℃～17℃"
+            },
+            "home": "몬테네그로",
+            "away": "라트비아",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "6승 2무 2패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "1.30"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 3무 5패",
+                        "goals_per_game": "0.60",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 3 (60%)",
+                        "무승부 2 (40%)",
+                        "승 0 (0%)",
+                        "1.40",
+                        "경기당 득점",
+                        "0.60",
+                        "핸디캡：3승 0무 2패",
+                        "언오버：2오버 0무 3언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "UEFA NL2026.10.02",
+                                "라트비아",
+                                "1-2",
+                                "몬테네그로"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "WCPEU2021.09.07",
+                                "몬테네그로",
+                                "0-0",
+                                "라트비아"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "WCPEU2021.03.24",
+                                "라트비아",
+                                "1-2",
+                                "몬테네그로"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT FRL2020.10.07",
+                                "몬테네그로",
+                                "1-1",
+                                "라트비아"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT CF2012.08.15",
+                                "몬테네그로",
+                                "2-0",
+                                "라트비아"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 14:00:00",
+                            "teams": "11.15 2026 vs 키프로스 vs 몬테네그로 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-15 14:00:00",
+                            "teams": "11.15 2026 vs 라트비아 vs 아르메니아 vs 3 일",
                             "interval": "시작전"
                         }
                     ]
