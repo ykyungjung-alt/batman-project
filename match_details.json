@@ -1,4 +1,1166 @@
 {
-    "last_updated": "2026-11-14 02:08:27",
-    "match_details": {}
+    "last_updated": "2026-11-14 08:29:41",
+    "match_details": {
+        "3014174": {
+            "match_code": "3014174",
+            "head_info": {
+                "league": "라리가2",
+                "round": "라리가2·  라운드 14",
+                "match_time_raw": "11/14/2026 1:00:00 PM",
+                "match_time_display": "2026-11-14 22:00",
+                "stadium": "Nuevo Jose Zorrilla",
+                "home_stadium": "Nuevo Jose Zorrilla",
+                "weather": ""
+            },
+            "home": "바야돌리드",
+            "away": "카스테욘",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "12",
+                        "team": "바야돌리드",
+                        "played": "13",
+                        "win": "5",
+                        "draw": "3",
+                        "loss": "5",
+                        "goals_for": "22",
+                        "goals_against": "20",
+                        "goal_diff": "2",
+                        "points": "18"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "2",
+                        "team": "카스테욘",
+                        "played": "12",
+                        "win": "8",
+                        "draw": "3",
+                        "loss": "1",
+                        "goals_for": "23",
+                        "goals_against": "5",
+                        "goal_diff": "18",
+                        "points": "27"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 3무 2패",
+                        "goals_per_game": "2.30",
+                        "conceded_per_game": "1.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "7승 2무 1패",
+                        "goals_per_game": "2.30",
+                        "conceded_per_game": "0.40"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 3 (50%)",
+                        "무승부 1 (16.7%)",
+                        "승 2 (33.3%)",
+                        "0.67",
+                        "경기당 득점",
+                        "1.00",
+                        "핸디캡：3승 0무 3패",
+                        "언오버：1오버 0무 1언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "SPA D22026.02.08",
+                                "바야돌리드",
+                                "0-4",
+                                "카스테욘"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22025.08.22",
+                                "카스테욘",
+                                "0-1",
+                                "바야돌리드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22007.05.20",
+                                "카스테욘",
+                                "2-1",
+                                "바야돌리드"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22006.12.16",
+                                "바야돌리드",
+                                "1-0",
+                                "카스테욘"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22006.03.19",
+                                "바야돌리드",
+                                "1-0",
+                                "카스테욘"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SPA D22005.10.15",
+                                "카스테욘",
+                                "0-0",
+                                "바야돌리드"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-22 17:30:00",
+                            "teams": "11.22 2026 vs 셀타비고 B vs 바야돌리드 vs 8 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-29 16:00:00",
+                            "teams": "11.29 2026 vs 바야돌리드 vs 레알 소시에다드 B vs 15 일",
+                            "interval": "15 일"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-12-06 16:00:00",
+                            "teams": "12.06 2026 vs 지로나 vs 바야돌리드 vs 22 일",
+                            "interval": "22 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-21 17:30:00",
+                            "teams": "11.21 2026 vs 카스테욘 vs 엘덴세 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-11-29 16:00:00",
+                            "teams": "11.29 2026 vs 마요르카 vs 카스테욘 vs 15 일",
+                            "interval": "15 일"
+                        },
+                        {
+                            "league": "라리가2",
+                            "match_time": "2026-12-06 16:00:00",
+                            "teams": "12.06 2026 vs 카스테욘 vs 알메리아 vs 22 일",
+                            "interval": "22 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "2981509": {
+            "match_code": "2981509",
+            "head_info": {
+                "league": "UEFA 네이션스리그",
+                "round": "",
+                "match_time_raw": "11/14/2026 2:00:00 PM",
+                "match_time_display": "2026-11-14 23:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "코소보",
+            "away": "이스라엘",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "1.10"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 4무 4패",
+                        "goals_per_game": "0.90",
+                        "conceded_per_game": "1.80"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 1 (33.3%)",
+                        "무승부 2 (66.7%)",
+                        "승 0 (0%)",
+                        "0.67",
+                        "경기당 득점",
+                        "0.33",
+                        "핸디캡：2승 1무 0패",
+                        "언오버：0오버 0무 3언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "UEFA NL2026.10.01",
+                                "이스라엘",
+                                "0-0",
+                                "코소보"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EURO Cup2023.11.12",
+                                "코소보",
+                                "1-0",
+                                "이스라엘"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "EURO Cup2023.03.25",
+                                "이스라엘",
+                                "1-1",
+                                "코소보"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-17 19:45:00",
+                            "teams": "11.17 2026 vs 아일랜드 vs 코소보 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "UEFA 네이션스리그",
+                            "match_time": "2026-11-17 19:45:00",
+                            "teams": "11.17 2026 vs 이스라엘 vs 오스트리아 vs 3 일",
+                            "interval": "시작전"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000173": {
+            "match_code": "3000173",
+            "head_info": {
+                "league": "J2 리그",
+                "round": "J2 리그·  라운드 17",
+                "match_time_raw": "11/14/2026 5:00:00 AM",
+                "match_time_display": "2026-11-14 14:00",
+                "stadium": "Tohoku Denryoku Big Swan Stadium",
+                "home_stadium": "Tohoku Denryoku Big Swan Stadium",
+                "weather": "흐림,  18°C"
+            },
+            "home": "알비렉스 니가타",
+            "away": "미야자키",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "1",
+                        "team": "알비렉스 니가타",
+                        "played": "16",
+                        "win": "10",
+                        "draw": "2",
+                        "loss": "4",
+                        "goals_for": "23",
+                        "goals_against": "24",
+                        "goal_diff": "-1",
+                        "points": "32"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "6",
+                        "team": "미야자키",
+                        "played": "16",
+                        "win": "8",
+                        "draw": "5",
+                        "loss": "3",
+                        "goals_for": "26",
+                        "goals_against": "17",
+                        "goal_diff": "9",
+                        "points": "29"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 2무 3패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "1.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "6승 3무 1패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "0.90"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-21 05:00:00",
+                            "teams": "11.21 2026 vs 도치기 시티 vs 알비렉스 니가타 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-25 09:30:00",
+                            "teams": "11.25 2026 vs 반라우레 vs 알비렉스 니가타 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-29 05:00:00",
+                            "teams": "11.29 2026 vs 알비렉스 니가타 vs 고후 vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-21 05:00:00",
+                            "teams": "11.21 2026 vs 미야자키 vs 이와키 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-25 09:30:00",
+                            "teams": "11.25 2026 vs 이마바리 vs 미야자키 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-29 05:00:00",
+                            "teams": "11.29 2026 vs 미야자키 vs 사간도스 vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000174": {
+            "match_code": "3000174",
+            "head_info": {
+                "league": "J2 리그",
+                "round": "J2 리그·  라운드 17",
+                "match_time_raw": "11/14/2026 5:00:00 AM",
+                "match_time_display": "2026-11-14 14:00",
+                "stadium": "Fujieda Sports Complex Park",
+                "home_stadium": "Fujieda Sports Complex Park",
+                "weather": "흐림,  21°C"
+            },
+            "home": "후지에다 MYFC",
+            "away": "고후",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "16",
+                        "team": "후지에다 MYFC",
+                        "played": "16",
+                        "win": "3",
+                        "draw": "7",
+                        "loss": "6",
+                        "goals_for": "17",
+                        "goals_against": "21",
+                        "goal_diff": "-4",
+                        "points": "16"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "20",
+                        "team": "고후",
+                        "played": "16",
+                        "win": "3",
+                        "draw": "3",
+                        "loss": "10",
+                        "goals_for": "12",
+                        "goals_against": "34",
+                        "goal_diff": "-22",
+                        "points": "12"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "0승 5무 5패",
+                        "goals_per_game": "0.70",
+                        "conceded_per_game": "1.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "1승 2무 7패",
+                        "goals_per_game": "0.80",
+                        "conceded_per_game": "2.70"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (22.2%)",
+                        "무승부 3 (33.3%)",
+                        "승 4 (44.4%)",
+                        "1.22",
+                        "경기당 득점",
+                        "1.89",
+                        "핸디캡：3승 1무 5패",
+                        "언오버：6오버 0무 3언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D22026.04.18",
+                                "고후",
+                                "0-1",
+                                "후지에다 MYFC"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22026.02.21",
+                                "후지에다 MYFC",
+                                "1-1",
+                                "고후"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22025.10.25",
+                                "후지에다 MYFC",
+                                "1-1",
+                                "고후"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN LC2025.03.26",
+                                "고후",
+                                "2-1",
+                                "후지에다 MYFC"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22025.03.09",
+                                "고후",
+                                "3-3",
+                                "후지에다 MYFC"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22024.08.10",
+                                "고후",
+                                "3-0",
+                                "후지에다 MYFC"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22024.06.01",
+                                "후지에다 MYFC",
+                                "2-1",
+                                "고후"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22023.07.09",
+                                "후지에다 MYFC",
+                                "1-4",
+                                "고후"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22023.03.11",
+                                "고후",
+                                "2-1",
+                                "후지에다 MYFC"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-21 05:00:00",
+                            "teams": "11.21 2026 vs 후지에다 MYFC vs 이마바리 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-25 10:00:00",
+                            "teams": "11.25 2026 vs 삿포로 vs 후지에다 MYFC vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-29 04:00:00",
+                            "teams": "11.29 2026 vs 반라우레 vs 후지에다 MYFC vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-21 05:00:00",
+                            "teams": "11.21 2026 vs 고후 vs 반라우레 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-25 10:00:00",
+                            "teams": "11.25 2026 vs 쇼난 vs 고후 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-29 05:00:00",
+                            "teams": "11.29 2026 vs 알비렉스 니가타 vs 고후 vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000177": {
+            "match_code": "3000177",
+            "head_info": {
+                "league": "J2 리그",
+                "round": "J2 리그·  라운드 17",
+                "match_time_raw": "11/14/2026 5:00:00 AM",
+                "match_time_display": "2026-11-14 14:00",
+                "stadium": "Showa Denko Dome Oita",
+                "home_stadium": "Oita Stadium",
+                "weather": "흐림,  19°C"
+            },
+            "home": "오이타",
+            "away": "도치기 시티",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "11",
+                        "team": "오이타",
+                        "played": "16",
+                        "win": "5",
+                        "draw": "7",
+                        "loss": "4",
+                        "goals_for": "19",
+                        "goals_against": "14",
+                        "goal_diff": "5",
+                        "points": "22"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "18",
+                        "team": "도치기 시티",
+                        "played": "16",
+                        "win": "3",
+                        "draw": "3",
+                        "loss": "10",
+                        "goals_for": "21",
+                        "goals_against": "31",
+                        "goal_diff": "-10",
+                        "points": "12"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 4무 2패",
+                        "goals_per_game": "1.40",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "0승 2무 8패",
+                        "goals_per_game": "0.70",
+                        "conceded_per_game": "2.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-21 05:00:00",
+                            "teams": "11.21 2026 vs 도야마 vs 오이타 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-25 10:00:00",
+                            "teams": "11.25 2026 vs 사간도스 vs 오이타 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-29 05:00:00",
+                            "teams": "11.29 2026 vs 오이타 vs 도쿠시마 vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-21 05:00:00",
+                            "teams": "11.21 2026 vs 도치기 시티 vs 알비렉스 니가타 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-25 10:00:00",
+                            "teams": "11.25 2026 vs 도치기 시티 vs 블라우블리츠 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-29 05:00:00",
+                            "teams": "11.29 2026 vs 주빌로 이와타 vs 도치기 시티 vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000178": {
+            "match_code": "3000178",
+            "head_info": {
+                "league": "J2 리그",
+                "round": "J2 리그·  라운드 17",
+                "match_time_raw": "11/14/2026 5:00:00 AM",
+                "match_time_display": "2026-11-14 14:00",
+                "stadium": "Nack5 Stadium Omiya",
+                "home_stadium": "Nack5 Stadium Omiya",
+                "weather": "흐림,  20°C"
+            },
+            "home": "오미야 아르디자",
+            "away": "몬테디오 야마가타",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "5",
+                        "team": "오미야 아르디자",
+                        "played": "16",
+                        "win": "8",
+                        "draw": "6",
+                        "loss": "2",
+                        "goals_for": "30",
+                        "goals_against": "18",
+                        "goal_diff": "12",
+                        "points": "30"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "14",
+                        "team": "몬테디오 야마가타",
+                        "played": "16",
+                        "win": "6",
+                        "draw": "1",
+                        "loss": "9",
+                        "goals_for": "14",
+                        "goals_against": "16",
+                        "goal_diff": "-2",
+                        "points": "19"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 2무 3패",
+                        "goals_per_game": "2.10",
+                        "conceded_per_game": "1.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "3승 1무 6패",
+                        "goals_per_game": "0.70",
+                        "conceded_per_game": "1.20"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 2 (20%)",
+                        "무승부 5 (50%)",
+                        "승 3 (30%)",
+                        "1.30",
+                        "경기당 득점",
+                        "1.60",
+                        "핸디캡：5승 0무 5패",
+                        "언오버：6오버 0무 4언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D22025.10.26",
+                                "몬테디오 야마가타",
+                                "2-2",
+                                "오미야 아르디자"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22025.02.15",
+                                "오미야 아르디자",
+                                "2-1",
+                                "몬테디오 야마가타"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22023.09.03",
+                                "몬테디오 야마가타",
+                                "1-1",
+                                "오미야 아르디자"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22023.04.08",
+                                "오미야 아르디자",
+                                "2-1",
+                                "몬테디오 야마가타"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22022.10.05",
+                                "오미야 아르디자",
+                                "1-1",
+                                "몬테디오 야마가타"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22022.04.23",
+                                "몬테디오 야마가타",
+                                "2-0",
+                                "오미야 아르디자"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22021.11.14",
+                                "몬테디오 야마가타",
+                                "2-2",
+                                "오미야 아르디자"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22021.07.03",
+                                "오미야 아르디자",
+                                "1-3",
+                                "몬테디오 야마가타"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22020.11.11",
+                                "몬테디오 야마가타",
+                                "2-1",
+                                "오미야 아르디자"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22020.09.13",
+                                "오미야 아르디자",
+                                "1-1",
+                                "몬테디오 야마가타"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-21 05:00:00",
+                            "teams": "11.21 2026 vs 주빌로 이와타 vs 오미야 아르디자 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-25 10:00:00",
+                            "teams": "11.25 2026 vs 오미야 아르디자 vs 도쿠시마 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-28 05:00:00",
+                            "teams": "11.28 2026 vs 오미야 아르디자 vs 이마바리 vs 14 일",
+                            "interval": "14 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-21 05:00:00",
+                            "teams": "11.21 2026 vs 블라우블리츠 vs 몬테디오 야마가타 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-25 10:00:00",
+                            "teams": "11.25 2026 vs 몬테디오 야마가타 vs 주빌로 이와타 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-29 05:00:00",
+                            "teams": "11.29 2026 vs 베갈타 센다이 vs 몬테디오 야마가타 vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3000179": {
+            "match_code": "3000179",
+            "head_info": {
+                "league": "J2 리그",
+                "round": "J2 리그·  라운드 17",
+                "match_time_raw": "11/14/2026 5:00:00 AM",
+                "match_time_display": "2026-11-14 14:00",
+                "stadium": "Lemon gas stadium Hiratsuka",
+                "home_stadium": "Lemon gas stadium Hiratsuka",
+                "weather": "흐림,  19°C"
+            },
+            "home": "쇼난",
+            "away": "요코하마 FC",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "10",
+                        "team": "쇼난",
+                        "played": "16",
+                        "win": "5",
+                        "draw": "8",
+                        "loss": "3",
+                        "goals_for": "16",
+                        "goals_against": "15",
+                        "goal_diff": "1",
+                        "points": "23"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "2",
+                        "team": "요코하마 FC",
+                        "played": "16",
+                        "win": "9",
+                        "draw": "4",
+                        "loss": "3",
+                        "goals_for": "32",
+                        "goals_against": "17",
+                        "goal_diff": "15",
+                        "points": "31"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 5무 3패",
+                        "goals_per_game": "0.90",
+                        "conceded_per_game": "1.30"
+                    },
+                    "away_summary": {
+                        "recent_record": "6승 2무 2패",
+                        "goals_per_game": "1.70",
+                        "conceded_per_game": "1.00"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 4 (40%)",
+                        "무승부 2 (20%)",
+                        "1.00",
+                        "경기당 득점",
+                        "핸디캡：4승 1무 5패",
+                        "언오버：3오버 0무 7언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "JPN D22026.05.10",
+                                "쇼난",
+                                "0-1",
+                                "요코하마 FC"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D22026.03.28",
+                                "요코하마 FC",
+                                "1-3",
+                                "쇼난"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.09.28",
+                                "요코하마 FC",
+                                "1-0",
+                                "쇼난"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12025.05.17",
+                                "쇼난",
+                                "0-1",
+                                "요코하마 FC"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.11.25",
+                                "요코하마 FC",
+                                "0-1",
+                                "쇼난"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12023.02.24",
+                                "쇼난",
+                                "2-2",
+                                "요코하마 FC"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12021.10.23",
+                                "쇼난",
+                                "2-1",
+                                "요코하마 FC"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN D12021.05.15",
+                                "요코하마 FC",
+                                "2-0",
+                                "쇼난"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN LC2021.05.05",
+                                "요코하마 FC",
+                                "1-1",
+                                "쇼난"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "JPN LC2021.03.27",
+                                "쇼난",
+                                "1-0",
+                                "요코하마 FC"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-22 05:00:00",
+                            "teams": "11.22 2026 vs 도쿠시마 vs 쇼난 vs 8 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-25 10:00:00",
+                            "teams": "11.25 2026 vs 쇼난 vs 고후 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-29 05:00:00",
+                            "teams": "11.29 2026 vs 쇼난 vs 도야마 vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-21 05:00:00",
+                            "teams": "11.21 2026 vs 요코하마 FC vs 삿포로 vs 7 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-25 10:00:00",
+                            "teams": "11.25 2026 vs 요코하마 FC vs 베갈타 센다이 vs 11 일",
+                            "interval": "11 일"
+                        },
+                        {
+                            "league": "J2 리그",
+                            "match_time": "2026-11-29 05:00:00",
+                            "teams": "11.29 2026 vs 블라우블리츠 vs 요코하마 FC vs 15 일",
+                            "interval": "15 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3112500": {
+            "match_code": "3112500",
+            "head_info": {
+                "league": "SAFF 챔피언쉽",
+                "round": "",
+                "match_time_raw": "11/14/2026 9:00:00 AM",
+                "match_time_display": "2026-11-14 18:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": ""
+            },
+            "home": "인도",
+            "away": "부탄",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "2승 2무 6패",
+                        "goals_per_game": "0.80",
+                        "conceded_per_game": "2.50"
+                    },
+                    "away_summary": {
+                        "recent_record": "1승 1무 8패",
+                        "goals_per_game": "0.80",
+                        "conceded_per_game": "3.30"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 4 (80%)",
+                        "무승부 1 (20%)",
+                        "승 0 (0%)",
+                        "3.60",
+                        "경기당 득점",
+                        "0.40",
+                        "핸디캡：1승 0무 0패",
+                        "언오버：1오버 0무 0언더"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "INT FRL2025.11.13",
+                                "인도",
+                                "6-1",
+                                "부탄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "INT CF2016.08.13",
+                                "부탄",
+                                "0-3",
+                                "인도"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SAFF2011.12.05",
+                                "인도",
+                                "5-0",
+                                "부탄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SAFF2008.06.11",
+                                "인도",
+                                "1-1",
+                                "부탄"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "SAFF2005.12.10",
+                                "인도",
+                                "3-0",
+                                "부탄"
+                            ]
+                        }
+                    ]
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "국제 친선경기",
+                            "match_time": "2026-11-15 03:00:00",
+                            "teams": "11.15 2026 vs 뉴질랜드 vs 인도 vs 1 일",
+                            "interval": "시작전"
+                        }
+                    ],
+                    "away": []
+                }
+            }
+        }
+    }
 }
