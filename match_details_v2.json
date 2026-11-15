@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-15 07:18:03",
+    "last_updated": "2026-11-15 15:14:42",
     "match_details": {
         "3014168": {
             "match_code": "3014168",
@@ -10,7 +10,7 @@
                 "match_time_display": "2026-11-16 00:15",
                 "stadium": "Estadio Nuevo Los Carmenes",
                 "home_stadium": "Estadio Nuevo Los Carmenes",
-                "weather": ""
+                "weather": "구름 많음,  13℃～14℃"
             },
             "home": "그라나다",
             "away": "라스팔마스",
@@ -19,7 +19,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "5",
+                        "rank": "6",
                         "team": "그라나다",
                         "played": "12",
                         "win": "7",
@@ -33,7 +33,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "10",
+                        "rank": "11",
                         "team": "라스팔마스",
                         "played": "13",
                         "win": "6",
@@ -203,7 +203,7 @@
                 "match_time_display": "2026-11-16 02:30",
                 "stadium": "Ipurua",
                 "home_stadium": "Ipurua",
-                "weather": ""
+                "weather": "구름 조금,  10℃～11℃"
             },
             "home": "에이바르",
             "away": "카디스",
@@ -212,7 +212,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "4",
+                        "rank": "5",
                         "team": "에이바르",
                         "played": "12",
                         "win": "7",
@@ -396,7 +396,7 @@
                 "match_time_display": "2026-11-16 02:30",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "구름 조금,  10℃～11℃"
             },
             "home": "엘덴세",
             "away": "사바델",
@@ -573,7 +573,7 @@
                 "match_time_display": "2026-11-16 02:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "구름 많음,  4℃～5℃"
             },
             "home": "핀란드",
             "away": "산마리노",
@@ -659,7 +659,7 @@
                 "match_time_display": "2026-11-16 02:00",
                 "stadium": "",
                 "home_stadium": "Fisht Stadium",
-                "weather": ""
+                "weather": "맑음,  1℃～2℃"
             },
             "home": "벨라루스(N)",
             "away": "알바니아",
@@ -769,7 +769,7 @@
                 "match_time_display": "2026-11-16 04:45",
                 "stadium": "Stade de France",
                 "home_stadium": "Stade de France",
-                "weather": ""
+                "weather": "이슬비,  8℃～9℃"
             },
             "home": "프랑스",
             "away": "터키",
@@ -846,7 +846,7 @@
                 "match_time_display": "2026-11-16 04:45",
                 "stadium": "STADION DEN DREEF",
                 "home_stadium": "STADION DEN DREEF",
-                "weather": ""
+                "weather": "구름 많음,  6℃～7℃"
             },
             "home": "벨기에",
             "away": "이탈리아",
@@ -956,7 +956,7 @@
                 "match_time_display": "2026-11-16 04:45",
                 "stadium": "Stadion HNK Rijeka",
                 "home_stadium": "Stadion HNK Rijeka",
-                "weather": ""
+                "weather": "맑음,  5℃～6℃"
             },
             "home": "크로아티아",
             "away": "체코",
@@ -1050,7 +1050,7 @@
                 "match_time_display": "2026-11-16 04:45",
                 "stadium": "Estadio La Cartuja de Sevilla",
                 "home_stadium": "New carlostier Stadium",
-                "weather": ""
+                "weather": "구름 조금,  10℃～11℃"
             },
             "home": "스페인",
             "away": "잉글랜드",
@@ -1205,161 +1205,6 @@
                 }
             }
         },
-        "3112627": {
-            "match_code": "3112627",
-            "head_info": {
-                "league": "리그 1",
-                "round": "리그 1·  라운드 5",
-                "match_time_raw": "11/15/2026 4:30:00 PM",
-                "match_time_display": "2026-11-16 01:30",
-                "stadium": "",
-                "home_stadium": "-",
-                "weather": ""
-            },
-            "home": "링게",
-            "away": "카사",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "16",
-                        "team": "링게",
-                        "played": "3",
-                        "win": "0",
-                        "draw": "1",
-                        "loss": "2",
-                        "goals_for": "0",
-                        "goals_against": "3",
-                        "goal_diff": "-3",
-                        "points": "1"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "12",
-                        "team": "카사",
-                        "played": "4",
-                        "win": "0",
-                        "draw": "3",
-                        "loss": "1",
-                        "goals_for": "3",
-                        "goals_against": "5",
-                        "goal_diff": "-2",
-                        "points": "3"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "0승 6무 4패",
-                        "goals_per_game": "0.40",
-                        "conceded_per_game": "0.90"
-                    },
-                    "away_summary": {
-                        "recent_record": "2승 5무 3패",
-                        "goals_per_game": "0.90",
-                        "conceded_per_game": "0.90"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [
-                        "승 2 (20%)",
-                        "무승부 4 (40%)",
-                        "승 4 (40%)",
-                        "1.00",
-                        "경기당 득점",
-                        "1.20"
-                    ],
-                    "matches": [
-                        {
-                            "row_data": [
-                                "SEN D12026.05.03",
-                                "링게",
-                                "0-0",
-                                "카사"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SEN D12026.01.07",
-                                "카사",
-                                "3-2",
-                                "링게"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SEN D12025.04.23",
-                                "링게",
-                                "4-3",
-                                "카사"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SEN D12024.11.24",
-                                "카사",
-                                "0-0",
-                                "링게"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SEN D12024.02.25",
-                                "링게",
-                                "1-0",
-                                "카사"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SEN D12023.10.29",
-                                "카사",
-                                "2-2",
-                                "링게"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SEN D12023.04.30",
-                                "카사",
-                                "1-0",
-                                "링게"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SEN D12022.11.19",
-                                "링게",
-                                "0-1",
-                                "카사"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SEN D12022.04.16",
-                                "링게",
-                                "1-1",
-                                "카사"
-                            ]
-                        },
-                        {
-                            "row_data": [
-                                "SEN D12021.12.22",
-                                "카사",
-                                "1-0",
-                                "링게"
-                            ]
-                        }
-                    ]
-                },
-                "fixtures": {
-                    "home": [],
-                    "away": []
-                }
-            }
-        },
         "3112628": {
             "match_code": "3112628",
             "head_info": {
@@ -1369,7 +1214,7 @@
                 "match_time_display": "2026-11-16 01:30",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "맑음,  30°C"
             },
             "home": "피키네",
             "away": "우아캄",
@@ -1392,7 +1237,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "14",
+                        "rank": "15",
                         "team": "우아캄",
                         "played": "4",
                         "win": "1",
@@ -1500,7 +1345,7 @@
                 "match_time_display": "2026-11-16 02:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "맑음,  30°C"
             },
             "home": "자라프",
             "away": "퉁게스",
@@ -1509,7 +1354,7 @@
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "3",
+                        "rank": "5",
                         "team": "자라프",
                         "played": "4",
                         "win": "2",
@@ -1523,7 +1368,7 @@
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "8",
+                        "rank": "10",
                         "team": "퉁게스",
                         "played": "3",
                         "win": "1",
