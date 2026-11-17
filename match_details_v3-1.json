@@ -1,1863 +1,6 @@
 {
-    "last_updated": "2026-11-17 12:52:11",
+    "last_updated": "2026-11-18 01:03:24",
     "match_details": {
-        "3061619": {
-            "match_code": "3061619",
-            "head_info": {
-                "league": "ASEAN 클럽선수권",
-                "round": ""
-            },
-            "home": "호치민",
-            "away": "부리람",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "호치민",
-                    "home_matches": [
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.11.07",
-                            "teams": "공안 vs 호치민",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.11.01",
-                            "teams": "호치민 vs 다낭",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어D(1.40)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.10.25",
-                            "teams": "푸동닌빈 vs 호치민",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어C(1.10)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.10.19",
-                            "teams": "호치민 vs 비에텔",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어C(1.20)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.10.11",
-                            "teams": "송람 응에안 vs 호치민",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(1.70)"
-                        },
-                        {
-                            "league": "ASEAN CC",
-                            "match_time": "2026.10.07",
-                            "teams": "라차부리 vs 호치민",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.09.11",
-                            "teams": "Bac Ninh vs 호치민",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.50)/방어D(1.30)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.09.05",
-                            "teams": "호치민 vs 하노이 FC",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
-                        },
-                        {
-                            "league": "VSC",
-                            "match_time": "2026.08.30",
-                            "teams": "공안 vs 호치민",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어B(0.80)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.23",
-                            "teams": "빈즈엉 vs 호치민",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어E(1.70)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.19",
-                            "teams": "동탑 vs 호치민",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어B(0.60)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.16",
-                            "teams": "호치민 vs 롱안",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격E(0.30)/방어D(1.30)"
-                        },
-                        {
-                            "league": "VIE Cup",
-                            "match_time": "2026.06.14",
-                            "teams": "푸동닌빈 vs 호치민",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어C(0.90)"
-                        },
-                        {
-                            "league": "VIE Cup",
-                            "match_time": "2026.06.11",
-                            "teams": "남딘 vs 호치민",
-                            "ft_scores": [
-                                "2",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어D(1.40)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.06.07",
-                            "teams": "하노이 FC vs 호치민",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어C(1.10)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.05.31",
-                            "teams": "호치민 vs 비에텔",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어B(0.60)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.05.23",
-                            "teams": "푸동닌빈 vs 호치민",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어D(1.30)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.05.15",
-                            "teams": "호치민 vs 다낭",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(2.00)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.05.10",
-                            "teams": "호치민 vs 송람 응에안",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어D(1.40)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.05.01",
-                            "teams": "남딘 vs 호치민",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어C(0.90)"
-                        }
-                    ],
-                    "away_team_name": "부리람",
-                    "away_matches": [
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.11.08",
-                            "teams": "라차부리 vs 부리람",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어D(1.30)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.11.04",
-                            "teams": "부리람 vs 가시마",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.90)/방어C(1.10)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.28",
-                            "teams": "감바 오사카 vs 부리람",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어D(1.50)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.10.24",
-                            "teams": "부리람 vs 시사켓 유나이티드",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어D(1.30)"
-                        },
-                        {
-                            "league": "TH FC",
-                            "match_time": "2026.10.21",
-                            "teams": "부리람 vs DPU Thayang FC",
-                            "ft_scores": [
-                                "8",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격E(0.00)/방어A(0.00)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.10.18",
-                            "teams": "빠타니 vs 부리람",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어D(1.30)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.13",
-                            "teams": "부리람 vs 베이징 궈안",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.60)/방어C(0.90)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.10.10",
-                            "teams": "부리람 vs 라용 FC",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어E(2.00)"
-                        },
-                        {
-                            "league": "ASEAN CC",
-                            "match_time": "2026.10.07",
-                            "teams": "부리람 vs 보르네오",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(1.00)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.09.20",
-                            "teams": "촌부리 vs 부리람",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어D(1.40)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.09.15",
-                            "teams": "조호르 DT vs 부리람",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(4.60)/방어B(0.60)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.09.11",
-                            "teams": "부리람 vs 치앙그라이 Utd",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어B(0.60)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.09.06",
-                            "teams": "수코타이 vs 부리람",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(1.80)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.29",
-                            "teams": "부리람 vs 포트 MTI FC",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어C(0.90)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.28",
-                            "teams": "부리람 vs 시사켓 유나이티드",
-                            "ft_scores": [
-                                "3",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어C(1.20)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.23",
-                            "teams": "아유타야 Utd vs 부리람",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어E(2.40)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.26",
-                            "teams": "빠툼 유나이티드 vs 부리람",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어A(0.40)"
-                        },
-                        {
-                            "league": "TH FC",
-                            "match_time": "2026.05.31",
-                            "teams": "부리람 vs 쁘라쭈압",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어C(1.00)"
-                        },
-                        {
-                            "league": "ASEAN CC",
-                            "match_time": "2026.05.27",
-                            "teams": "부리람 vs 셀랑고르",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.50)/방어B(0.70)"
-                        },
-                        {
-                            "league": "ASEAN CC",
-                            "match_time": "2026.05.20",
-                            "teams": "셀랑고르 vs 부리람",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.90)/방어B(0.60)"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "호치민",
-                    "home_matches": [
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.11.01",
-                            "teams": "호치민 vs 다낭",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어D(1.40)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.10.19",
-                            "teams": "호치민 vs 비에텔",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어C(1.20)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.09.05",
-                            "teams": "호치민 vs 하노이 FC",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.16",
-                            "teams": "호치민 vs 롱안",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격E(0.30)/방어D(1.30)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.05.31",
-                            "teams": "호치민 vs 비에텔",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어B(0.60)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.05.15",
-                            "teams": "호치민 vs 다낭",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(2.00)"
-                        },
-                        {
-                            "league": "VIE D1",
-                            "match_time": "2026.05.10",
-                            "teams": "호치민 vs 송람 응에안",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어D(1.40)"
-                        }
-                    ],
-                    "away_team_name": "부리람",
-                    "away_matches": [
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.11.08",
-                            "teams": "라차부리 vs 부리람",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어D(1.30)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.28",
-                            "teams": "감바 오사카 vs 부리람",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어D(1.50)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.10.18",
-                            "teams": "빠타니 vs 부리람",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어D(1.30)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.09.20",
-                            "teams": "촌부리 vs 부리람",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어D(1.40)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.09.15",
-                            "teams": "조호르 DT vs 부리람",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(4.60)/방어B(0.60)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.09.06",
-                            "teams": "수코타이 vs 부리람",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(1.80)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.23",
-                            "teams": "아유타야 Utd vs 부리람",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어E(2.40)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.26",
-                            "teams": "빠툼 유나이티드 vs 부리람",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어A(0.40)"
-                        },
-                        {
-                            "league": "ASEAN CC",
-                            "match_time": "2026.05.20",
-                            "teams": "셀랑고르 vs 부리람",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.90)/방어B(0.60)"
-                        }
-                    ]
-                }
-            }
-        },
-        "3006566": {
-            "match_code": "3006566",
-            "head_info": {
-                "league": "ASEAN 클럽선수권",
-                "round": ""
-            },
-            "home": "탐파인스",
-            "away": "라차부리",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "탐파인스",
-                    "home_matches": [
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.11.05",
-                            "teams": "스바이 리엥 vs 탐파인스",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어D(1.40)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.11.01",
-                            "teams": "탐파인스 vs 게일랑",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어D(1.60)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.10.29",
-                            "teams": "탐파인스 vs 스바이 리엥",
-                            "ft_scores": [
-                                "1",
-                                "5"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.10.25",
-                            "teams": "알비렉스 니가타 vs 탐파인스",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어B(0.60)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.10.18",
-                            "teams": "탐파인스 vs 영 라이온스",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어E(3.30)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.10.15",
-                            "teams": "탐파인스 vs 마치다",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(0.90)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.10.11",
-                            "teams": "탄종 파가르 vs 탐파인스",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(2.70)"
-                        },
-                        {
-                            "league": "ASEAN CC",
-                            "match_time": "2026.10.07",
-                            "teams": "쿠칭 시티 FC vs 탐파인스",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어C(0.90)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.09.17",
-                            "teams": "상하이 선화 vs 탐파인스",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어E(1.90)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.09.11",
-                            "teams": "탐파인스 vs 발레스티어 켈사",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어D(1.60)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.09.06",
-                            "teams": "라이언 시티 vs 탐파인스",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어B(0.70)"
-                        },
-                        {
-                            "league": "IDN PC",
-                            "match_time": "2026.07.31",
-                            "teams": "페르시브 반둥 vs 탐파인스",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어B(0.80)"
-                        },
-                        {
-                            "league": "IDN PC",
-                            "match_time": "2026.07.28",
-                            "teams": "탐파인스 vs 아레마 말랑",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(1.20)"
-                        },
-                        {
-                            "league": "IDN PC",
-                            "match_time": "2026.07.25",
-                            "teams": "DPMM vs 탐파인스",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(2.30)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.05.17",
-                            "teams": "탐파인스 vs 라이언 시티",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어B(0.70)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.05.10",
-                            "teams": "호우강 vs 탐파인스",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어D(1.60)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.05.03",
-                            "teams": "탐파인스 vs 라이언 시티",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(3.30)/방어B(0.50)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.04.30",
-                            "teams": "알비렉스 니가타 vs 탐파인스",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어C(1.10)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.04.24",
-                            "teams": "탐파인스 vs 영 라이온스",
-                            "ft_scores": [
-                                "8",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격E(0.30)/방어E(2.10)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.04.17",
-                            "teams": "탐파인스 vs 발레스티어 켈사",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어E(2.10)"
-                        }
-                    ],
-                    "away_team_name": "라차부리",
-                    "away_matches": [
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.11.08",
-                            "teams": "라차부리 vs 부리람",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어D(1.30)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.11.03",
-                            "teams": "고베 vs 라차부리",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어B(0.80)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.10.30",
-                            "teams": "시사켓 유나이티드 vs 라차부리",
-                            "ft_scores": [
-                                "2",
-                                "5"
-                            ],
-                            "opponent_tier_info": "공격A(2.60)/방어D(1.50)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.27",
-                            "teams": "라차부리 vs 가시와",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.80)/방어E(1.70)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.10.24",
-                            "teams": "라차부리 vs 촌부리",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어E(1.90)"
-                        },
-                        {
-                            "league": "TH FC",
-                            "match_time": "2026.10.21",
-                            "teams": "라차부리 vs 빠타니",
-                            "ft_scores": [
-                                "4",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어D(1.30)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.10.18",
-                            "teams": "치앙그라이 Utd vs 라차부리",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어B(0.70)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.13",
-                            "teams": "교토 vs 라차부리",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어C(1.00)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.10.09",
-                            "teams": "라차부리 vs 수코타이",
-                            "ft_scores": [
-                                "6",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어D(1.40)"
-                        },
-                        {
-                            "league": "ASEAN CC",
-                            "match_time": "2026.10.07",
-                            "teams": "라차부리 vs 호치민",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.09.20",
-                            "teams": "라용 FC vs 라차부리",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어E(2.00)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.09.15",
-                            "teams": "라차부리 vs 상하이 하이강",
-                            "ft_scores": [
-                                "4",
-                                "6"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어B(0.80)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.09.11",
-                            "teams": "라차부리 vs 방콕 Utd",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어D(1.50)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.09.06",
-                            "teams": "아유타야 Utd vs 라차부리",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.70)/방어E(2.50)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.29",
-                            "teams": "라차부리 vs 방콕 FC",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어C(1.10)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.05",
-                            "teams": "라차부리 vs 이스턴 AA",
-                            "ft_scores": [
-                                "6",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어D(1.30)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.05.10",
-                            "teams": "깐짜나부리 vs 라차부리",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어E(2.00)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.05.03",
-                            "teams": "라차부리 vs 라용 FC",
-                            "ft_scores": [
-                                "6",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어E(1.80)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.04.29",
-                            "teams": "치앙그라이 Utd vs 라차부리",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어D(1.30)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.04.24",
-                            "teams": "수코타이 vs 라차부리",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어E(1.80)"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "탐파인스",
-                    "home_matches": [
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.11.01",
-                            "teams": "탐파인스 vs 게일랑",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어D(1.60)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.10.29",
-                            "teams": "탐파인스 vs 스바이 리엥",
-                            "ft_scores": [
-                                "1",
-                                "5"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.10.18",
-                            "teams": "탐파인스 vs 영 라이온스",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어E(3.30)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.10.15",
-                            "teams": "탐파인스 vs 마치다",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(0.90)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.09.11",
-                            "teams": "탐파인스 vs 발레스티어 켈사",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어D(1.60)"
-                        },
-                        {
-                            "league": "IDN PC",
-                            "match_time": "2026.07.28",
-                            "teams": "탐파인스 vs 아레마 말랑",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(1.20)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.05.17",
-                            "teams": "탐파인스 vs 라이언 시티",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어B(0.70)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.05.03",
-                            "teams": "탐파인스 vs 라이언 시티",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(3.30)/방어B(0.50)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.04.24",
-                            "teams": "탐파인스 vs 영 라이온스",
-                            "ft_scores": [
-                                "8",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격E(0.30)/방어E(2.10)"
-                        },
-                        {
-                            "league": "SIN D1",
-                            "match_time": "2026.04.17",
-                            "teams": "탐파인스 vs 발레스티어 켈사",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어E(2.10)"
-                        }
-                    ],
-                    "away_team_name": "라차부리",
-                    "away_matches": [
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.11.03",
-                            "teams": "고베 vs 라차부리",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어B(0.80)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.10.30",
-                            "teams": "시사켓 유나이티드 vs 라차부리",
-                            "ft_scores": [
-                                "2",
-                                "5"
-                            ],
-                            "opponent_tier_info": "공격A(2.60)/방어D(1.50)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.10.18",
-                            "teams": "치앙그라이 Utd vs 라차부리",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어B(0.70)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.13",
-                            "teams": "교토 vs 라차부리",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어C(1.00)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.09.20",
-                            "teams": "라용 FC vs 라차부리",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어E(2.00)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.09.06",
-                            "teams": "아유타야 Utd vs 라차부리",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.70)/방어E(2.50)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.05.10",
-                            "teams": "깐짜나부리 vs 라차부리",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어E(2.00)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.04.29",
-                            "teams": "치앙그라이 Utd vs 라차부리",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어D(1.30)"
-                        },
-                        {
-                            "league": "THA PR",
-                            "match_time": "2026.04.24",
-                            "teams": "수코타이 vs 라차부리",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어E(1.80)"
-                        }
-                    ]
-                }
-            }
-        },
-        "3091480": {
-            "match_code": "3091480",
-            "head_info": {
-                "league": "ASEAN 클럽선수권",
-                "round": ""
-            },
-            "home": "보르네오",
-            "away": "마닐라 디거",
-            "meta_details": {
-                "recent_form": {
-                    "form_title": "최근 전적",
-                    "home_team_name": "보르네오",
-                    "home_matches": [
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.11.07",
-                            "teams": "보르네오 vs PSM 마카사르",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어D(1.50)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.11.01",
-                            "teams": "PSIM 족자카르타 vs 보르네오",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어D(1.50)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.10.27",
-                            "teams": "PSS 슬레만 vs 보르네오",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.50)"
-                        },
-                        {
-                            "league": "ACGL",
-                            "match_time": "2026.10.21",
-                            "teams": "대만철강 vs 보르네오",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어C(1.00)"
-                        },
-                        {
-                            "league": "ACGL",
-                            "match_time": "2026.10.18",
-                            "teams": "보르네오 vs 양곤 Utd",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.50)/방어B(0.70)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.10.11",
-                            "teams": "말루트 유나이티드 vs 보르네오",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어E(2.30)"
-                        },
-                        {
-                            "league": "ASEAN CC",
-                            "match_time": "2026.10.07",
-                            "teams": "부리람 vs 보르네오",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어C(1.00)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.09.20",
-                            "teams": "보르네오 vs 발리 유나이티드",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어D(1.30)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.09.16",
-                            "teams": "보르네오 vs 데와 유나이티드",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어B(0.70)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.09.12",
-                            "teams": "페르시압 제파라 vs 보르네오",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어B(0.60)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.09.05",
-                            "teams": "보르네오 vs 페르시자 자카르타",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어C(1.00)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.26",
-                            "teams": "보르네오 vs 마두라 유나이티드",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어D(1.60)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.05.23",
-                            "teams": "보르네오 vs 말루트 유나이티드",
-                            "ft_scores": [
-                                "7",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어E(1.80)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.05.17",
-                            "teams": "페르시압 제파라 vs 보르네오",
-                            "ft_scores": [
-                                "0",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어B(0.60)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.05.11",
-                            "teams": "발리 유나이티드 vs 보르네오",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어D(1.60)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.05.05",
-                            "teams": "보르네오 vs 페르시타",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어C(1.00)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.04.29",
-                            "teams": "페르시크 케디리 vs 보르네오",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어E(1.80)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.04.25",
-                            "teams": "보르네오 vs 세멘 파당",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어D(1.50)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.04.18",
-                            "teams": "PSM 마카사르 vs 보르네오",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(1.70)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.04.11",
-                            "teams": "보르네오 vs PSBS 비악 넘포",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(2.10)"
-                        }
-                    ],
-                    "away_team_name": "마닐라 디거",
-                    "away_matches": [
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.11.08",
-                            "teams": "마할리카 vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어C(1.20)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.11.04",
-                            "teams": "마닐라 디거 vs 툴로이",
-                            "ft_scores": [
-                                "6",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어E(3.40)"
-                        },
-                        {
-                            "league": "ACGL",
-                            "match_time": "2026.10.24",
-                            "teams": "마닐라 디거 vs 샨 유나이티드",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어B(0.70)"
-                        },
-                        {
-                            "league": "ACGL",
-                            "match_time": "2026.10.21",
-                            "teams": "항유엔 vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어B(0.50)"
-                        },
-                        {
-                            "league": "ACGL",
-                            "match_time": "2026.10.18",
-                            "teams": "마닐라 디거 vs 카수카",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.90)/방어E(2.20)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.10.11",
-                            "teams": "카야 vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어C(1.10)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.10.04",
-                            "teams": "마닐라 디거 vs 세부 FC",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어D(1.60)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.09.27",
-                            "teams": "마닐라 디거 vs Azkals",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.50)/방어E(2.80)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.09.20",
-                            "teams": "스탈리온 vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어E(1.70)"
-                        },
-                        {
-                            "league": "ASEAN CC",
-                            "match_time": "2026.09.12",
-                            "teams": "카수카 vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격A(3.60)/방어E(2.10)"
-                        },
-                        {
-                            "league": "ASEAN CC",
-                            "match_time": "2026.09.04",
-                            "teams": "마닐라 디거 vs 카수카",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(3.60)/방어E(1.70)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.08.31",
-                            "teams": "페르시브 반둥 vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어B(0.60)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.05.30",
-                            "teams": "마닐라 디거 vs 원 타기그",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어C(1.10)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.05.27",
-                            "teams": "카야 vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어C(1.00)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.05.23",
-                            "teams": "마닐라 디거 vs 스탈리온",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.60)/방어E(1.70)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.05.16",
-                            "teams": "세부 FC vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(3.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.05.09",
-                            "teams": "다바오 아길라스 vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어D(1.60)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.05.02",
-                            "teams": "스탈리온 vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "5"
-                            ],
-                            "opponent_tier_info": "공격A(3.10)/방어C(0.90)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.04.29",
-                            "teams": "원 타기그 vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격A(3.80)/방어A(0.40)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.04.25",
-                            "teams": "세부 FC vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격A(3.70)/방어D(1.60)"
-                        }
-                    ]
-                },
-                "stadium_form": {
-                    "form_title": "구장별 전적",
-                    "home_team_name": "보르네오",
-                    "home_matches": [
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.11.07",
-                            "teams": "보르네오 vs PSM 마카사르",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어D(1.50)"
-                        },
-                        {
-                            "league": "ACGL",
-                            "match_time": "2026.10.18",
-                            "teams": "보르네오 vs 양곤 Utd",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.50)/방어B(0.70)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.09.20",
-                            "teams": "보르네오 vs 발리 유나이티드",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어D(1.30)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.09.16",
-                            "teams": "보르네오 vs 데와 유나이티드",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어B(0.70)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.09.05",
-                            "teams": "보르네오 vs 페르시자 자카르타",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어C(1.00)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.26",
-                            "teams": "보르네오 vs 마두라 유나이티드",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어D(1.60)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.05.23",
-                            "teams": "보르네오 vs 말루트 유나이티드",
-                            "ft_scores": [
-                                "7",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어E(1.80)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.05.05",
-                            "teams": "보르네오 vs 페르시타",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어C(1.00)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.04.25",
-                            "teams": "보르네오 vs 세멘 파당",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어D(1.50)"
-                        },
-                        {
-                            "league": "IDN ISL",
-                            "match_time": "2026.04.11",
-                            "teams": "보르네오 vs PSBS 비악 넘포",
-                            "ft_scores": [
-                                "5",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.10)/방어E(2.10)"
-                        }
-                    ],
-                    "away_team_name": "마닐라 디거",
-                    "away_matches": [
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.11.08",
-                            "teams": "마할리카 vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어C(1.20)"
-                        },
-                        {
-                            "league": "ACGL",
-                            "match_time": "2026.10.21",
-                            "teams": "항유엔 vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어B(0.50)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.10.11",
-                            "teams": "카야 vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어C(1.10)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.09.20",
-                            "teams": "스탈리온 vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어E(1.70)"
-                        },
-                        {
-                            "league": "ASEAN CC",
-                            "match_time": "2026.09.12",
-                            "teams": "카수카 vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격A(3.60)/방어E(2.10)"
-                        },
-                        {
-                            "league": "ACL2",
-                            "match_time": "2026.08.31",
-                            "teams": "페르시브 반둥 vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어B(0.60)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.05.27",
-                            "teams": "카야 vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어C(1.00)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.05.16",
-                            "teams": "세부 FC vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(3.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.05.09",
-                            "teams": "다바오 아길라스 vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.10)/방어D(1.60)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.05.02",
-                            "teams": "스탈리온 vs 마닐라 디거",
-                            "ft_scores": [
-                                "1",
-                                "5"
-                            ],
-                            "opponent_tier_info": "공격A(3.10)/방어C(0.90)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.04.29",
-                            "teams": "원 타기그 vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격A(3.80)/방어A(0.40)"
-                        },
-                        {
-                            "league": "PH UFL",
-                            "match_time": "2026.04.25",
-                            "teams": "세부 FC vs 마닐라 디거",
-                            "ft_scores": [
-                                "0",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격A(3.70)/방어D(1.60)"
-                        }
-                    ]
-                }
-            }
-        },
         "3062674": {
             "match_code": "3062674",
             "head_info": {
@@ -2482,6 +625,1963 @@
                                 "0"
                             ],
                             "opponent_tier_info": "공격D(0.50)/방어E(1.80)"
+                        }
+                    ]
+                }
+            }
+        },
+        "3006578": {
+            "match_code": "3006578",
+            "head_info": {
+                "league": "ASEAN 클럽선수권",
+                "round": ""
+            },
+            "home": "스바이 리엥",
+            "away": "포트 MTI FC",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "스바이 리엥",
+                    "home_matches": [
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.11.08",
+                            "teams": "스바이 리엥 vs NagaWorld",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어E(1.80)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.11.05",
+                            "teams": "스바이 리엥 vs 탐파인스",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.50)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.29",
+                            "teams": "탐파인스 vs 스바이 리엥",
+                            "ft_scores": [
+                                "1",
+                                "5"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.30)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.10.24",
+                            "teams": "스바이 리엥 vs 비사카",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(3.00)/방어C(1.10)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.10.18",
+                            "teams": "스바이 리엥 vs 보응 켓",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어E(1.70)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.15",
+                            "teams": "스바이 리엥 vs 상하이 선화",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어D(1.50)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.10.08",
+                            "teams": "조호르 DT vs 스바이 리엥",
+                            "ft_scores": [
+                                "6",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(5.00)/방어B(0.70)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.09.20",
+                            "teams": "Dangkor vs 스바이 리엥",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어E(1.70)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.09.17",
+                            "teams": "마치다 vs 스바이 리엥",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어B(0.70)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.09.12",
+                            "teams": "스바이 리엥 vs Tiffy Army",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어E(3.20)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.09.06",
+                            "teams": "Kirivong Sok Sen Chey vs 스바이 리엥",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어E(1.80)"
+                        },
+                        {
+                            "league": "CS Cup",
+                            "match_time": "2026.08.30",
+                            "teams": "스바이 리엥 vs 비사카",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.90)/방어B(0.70)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.18",
+                            "teams": "스바이 리엥 vs 이스턴 디스트릭트",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.60)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.12",
+                            "teams": "스바이 리엥 vs 게일랑",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어E(2.20)"
+                        },
+                        {
+                            "league": "CB Cup",
+                            "match_time": "2026.05.24",
+                            "teams": "스바이 리엥 vs 비사카",
+                            "ft_scores": [
+                                "3",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(3.00)/방어A(0.40)"
+                        },
+                        {
+                            "league": "CB Cup",
+                            "match_time": "2026.05.20",
+                            "teams": "스바이 리엥 vs 보응 켓",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.20)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.05.17",
+                            "teams": "스바이 리엥 vs 프놈펜 크라운",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.60)"
+                        },
+                        {
+                            "league": "ACGL",
+                            "match_time": "2026.05.13",
+                            "teams": "쿠웨이트 vs 스바이 리엥",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어C(1.10)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.05.07",
+                            "teams": "스바이 리엥 vs 보응 켓",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어B(0.80)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.05.03",
+                            "teams": "Angkor Tiger vs 스바이 리엥",
+                            "ft_scores": [
+                                "4",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어D(1.30)"
+                        }
+                    ],
+                    "away_team_name": "포트 MTI FC",
+                    "away_matches": [
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.11.07",
+                            "teams": "포트 MTI FC vs 촌부리",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(1.80)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.11.03",
+                            "teams": "포트 MTI FC vs 베이징 궈안",
+                            "ft_scores": [
+                                "7",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어C(1.10)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.27",
+                            "teams": "조호르 DT vs 포트 MTI FC",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(4.10)/방어A(0.40)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.10.24",
+                            "teams": "포트 MTI FC vs 라용 FC",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.60)"
+                        },
+                        {
+                            "league": "TH FC",
+                            "match_time": "2026.10.21",
+                            "teams": "라시살라이 Utd vs 포트 MTI FC",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어E(2.10)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.10.18",
+                            "teams": "방콕 Utd vs 포트 MTI FC",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.40)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.14",
+                            "teams": "가시와 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "5",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어D(1.60)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.10.11",
+                            "teams": "포트 MTI FC vs 빠타니",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.00)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.10.08",
+                            "teams": "포트 MTI FC vs 페르시브 반둥",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어B(0.80)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.09.20",
+                            "teams": "수코타이 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.40)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.09.16",
+                            "teams": "포트 MTI FC vs 고베",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(0.90)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.09.11",
+                            "teams": "포트 MTI FC vs 람푼 워리어",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어D(1.30)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.09.05",
+                            "teams": "라시살라이 Utd vs 포트 MTI FC",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어C(1.00)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.29",
+                            "teams": "부리람 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어B(0.80)"
+                        },
+                        {
+                            "league": "IDN PC",
+                            "match_time": "2026.08.01",
+                            "teams": "페르세바야 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.70)/방어A(0.40)"
+                        },
+                        {
+                            "league": "IDN PC",
+                            "match_time": "2026.07.29",
+                            "teams": "포트 MTI FC vs 페르시자 자카르타",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어B(0.80)"
+                        },
+                        {
+                            "league": "IDN PC",
+                            "match_time": "2026.07.26",
+                            "teams": "PSMS 메단 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
+                        },
+                        {
+                            "league": "THA LC",
+                            "match_time": "2026.05.24",
+                            "teams": "빠툼 유나이티드 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.70)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.05.10",
+                            "teams": "아유타야 Utd vs 포트 MTI FC",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격D(0.60)/방어E(1.70)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.05.02",
+                            "teams": "포트 MTI FC vs 부리람",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.00)"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "스바이 리엥",
+                    "home_matches": [
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.11.08",
+                            "teams": "스바이 리엥 vs NagaWorld",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어E(1.80)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.11.05",
+                            "teams": "스바이 리엥 vs 탐파인스",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.50)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.10.24",
+                            "teams": "스바이 리엥 vs 비사카",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(3.00)/방어C(1.10)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.10.18",
+                            "teams": "스바이 리엥 vs 보응 켓",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어E(1.70)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.15",
+                            "teams": "스바이 리엥 vs 상하이 선화",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어D(1.50)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.09.12",
+                            "teams": "스바이 리엥 vs Tiffy Army",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어E(3.20)"
+                        },
+                        {
+                            "league": "CS Cup",
+                            "match_time": "2026.08.30",
+                            "teams": "스바이 리엥 vs 비사카",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.90)/방어B(0.70)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.18",
+                            "teams": "스바이 리엥 vs 이스턴 디스트릭트",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어D(1.60)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.12",
+                            "teams": "스바이 리엥 vs 게일랑",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어E(2.20)"
+                        },
+                        {
+                            "league": "CB Cup",
+                            "match_time": "2026.05.24",
+                            "teams": "스바이 리엥 vs 비사카",
+                            "ft_scores": [
+                                "3",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(3.00)/방어A(0.40)"
+                        },
+                        {
+                            "league": "CB Cup",
+                            "match_time": "2026.05.20",
+                            "teams": "스바이 리엥 vs 보응 켓",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.20)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.05.17",
+                            "teams": "스바이 리엥 vs 프놈펜 크라운",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.60)"
+                        },
+                        {
+                            "league": "CPL",
+                            "match_time": "2026.05.07",
+                            "teams": "스바이 리엥 vs 보응 켓",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어B(0.80)"
+                        }
+                    ],
+                    "away_team_name": "포트 MTI FC",
+                    "away_matches": [
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.27",
+                            "teams": "조호르 DT vs 포트 MTI FC",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(4.10)/방어A(0.40)"
+                        },
+                        {
+                            "league": "TH FC",
+                            "match_time": "2026.10.21",
+                            "teams": "라시살라이 Utd vs 포트 MTI FC",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어E(2.10)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.10.18",
+                            "teams": "방콕 Utd vs 포트 MTI FC",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.40)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.14",
+                            "teams": "가시와 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "5",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어D(1.60)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.09.20",
+                            "teams": "수코타이 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어D(1.40)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.09.05",
+                            "teams": "라시살라이 Utd vs 포트 MTI FC",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어C(1.00)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.29",
+                            "teams": "부리람 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어B(0.80)"
+                        },
+                        {
+                            "league": "IDN PC",
+                            "match_time": "2026.08.01",
+                            "teams": "페르세바야 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.70)/방어A(0.40)"
+                        },
+                        {
+                            "league": "IDN PC",
+                            "match_time": "2026.07.26",
+                            "teams": "PSMS 메단 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
+                        },
+                        {
+                            "league": "THA LC",
+                            "match_time": "2026.05.24",
+                            "teams": "빠툼 유나이티드 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.70)"
+                        },
+                        {
+                            "league": "THA PR",
+                            "match_time": "2026.05.10",
+                            "teams": "아유타야 Utd vs 포트 MTI FC",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격D(0.60)/방어E(1.70)"
+                        }
+                    ]
+                }
+            }
+        },
+        "3113124": {
+            "match_code": "3113124",
+            "head_info": {
+                "league": "ASEAN 클럽선수권",
+                "round": ""
+            },
+            "home": "페르시브 반둥",
+            "away": "샨 유나이티드",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "페르시브 반둥",
+                    "home_matches": [
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.11.08",
+                            "teams": "말루트 유나이티드 vs 페르시브 반둥",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어E(1.70)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.11.04",
+                            "teams": "멜버른 빅토리 vs 페르시브 반둥",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어B(0.70)"
+                        },
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.11.01",
+                            "teams": "페르시브 반둥 vs 아댜크사",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.28",
+                            "teams": "페르시브 반둥 vs 멜버른 빅토리",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어B(0.50)"
+                        },
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.10.25",
+                            "teams": "가루다약사 vs 페르시브 반둥",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어E(1.70)"
+                        },
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.10.22",
+                            "teams": "마두라 유나이티드 vs 페르시브 반둥",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어D(1.30)"
+                        },
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.10.18",
+                            "teams": "페르시브 반둥 vs 페르시크 케디리",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어E(1.70)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.14",
+                            "teams": "페르시브 반둥 vs 비에텔",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
+                        },
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.10.11",
+                            "teams": "페르시브 반둥 vs 데와 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어B(0.60)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.10.08",
+                            "teams": "포트 MTI FC vs 페르시브 반둥",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어B(0.80)"
+                        },
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.09.20",
+                            "teams": "페르시압 제파라 vs 페르시브 반둥",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어B(0.70)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.09.16",
+                            "teams": "서울 vs 페르시브 반둥",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어B(0.80)"
+                        },
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.09.12",
+                            "teams": "페르시자 자카르타 vs 페르시브 반둥",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어C(1.00)"
+                        },
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.09.06",
+                            "teams": "페르시브 반둥 vs PSM 마카사르",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(1.80)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.08.31",
+                            "teams": "페르시브 반둥 vs 마닐라 디거",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어B(0.80)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.18",
+                            "teams": "발리 유나이티드 vs 페르시브 반둥",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어D(1.30)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.15",
+                            "teams": "페르시브 반둥 vs 사바흐",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어B(0.70)"
+                        },
+                        {
+                            "league": "IDN PC",
+                            "match_time": "2026.08.06",
+                            "teams": "페르시브 반둥 vs 페르세바야",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.70)/방어A(0.30)"
+                        },
+                        {
+                            "league": "IDN PC",
+                            "match_time": "2026.08.04",
+                            "teams": "페르시브 반둥 vs 페르시자 자카르타",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어B(0.80)"
+                        },
+                        {
+                            "league": "IDN PC",
+                            "match_time": "2026.07.31",
+                            "teams": "페르시브 반둥 vs 탐파인스",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어D(1.60)"
+                        }
+                    ],
+                    "away_team_name": "샨 유나이티드",
+                    "away_matches": [
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.10.31",
+                            "teams": "샨 유나이티드 vs 다곤",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어C(1.10)"
+                        },
+                        {
+                            "league": "ACGL",
+                            "match_time": "2026.10.24",
+                            "teams": "마닐라 디거 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어B(0.50)"
+                        },
+                        {
+                            "league": "ACGL",
+                            "match_time": "2026.10.21",
+                            "teams": "카수카 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어E(2.70)"
+                        },
+                        {
+                            "league": "ACGL",
+                            "match_time": "2026.10.18",
+                            "teams": "샨 유나이티드 vs 항유엔",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어B(0.50)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.10.11",
+                            "teams": "한타와디 유나이티드 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.09.14",
+                            "teams": "샨 유나이티드 vs 에즈라",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.09.11",
+                            "teams": "에즈라 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.30)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.09.05",
+                            "teams": "미야와디 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어C(0.90)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.08.30",
+                            "teams": "Yangon City vs 샨 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(2.70)/방어C(0.90)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.03.18",
+                            "teams": "샨 유나이티드 vs 한타와디 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.40)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.03.12",
+                            "teams": "샨 유나이티드 vs 마하르 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어E(2.00)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.03.08",
+                            "teams": "샨 유나이티드 vs Yarmanya United",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(3.30)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.03.02",
+                            "teams": "라킨 유나이티드 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "6"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(1.70)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.02.25",
+                            "teams": "이스페 FC vs 샨 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "6"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어E(2.50)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.02.20",
+                            "teams": "양곤 Utd vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(3.10)/방어A(0.30)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.02.14",
+                            "teams": "야다나르본 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(2.00)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.02.10",
+                            "teams": "아예야와디 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어C(1.00)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.02.05",
+                            "teams": "방콕 Utd vs 샨 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.01.29",
+                            "teams": "조호르 DT vs 샨 유나이티드",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(3.10)/방어B(0.50)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.01.23",
+                            "teams": "다곤 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.50)"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "페르시브 반둥",
+                    "home_matches": [
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.11.01",
+                            "teams": "페르시브 반둥 vs 아댜크사",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.28",
+                            "teams": "페르시브 반둥 vs 멜버른 빅토리",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어B(0.50)"
+                        },
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.10.18",
+                            "teams": "페르시브 반둥 vs 페르시크 케디리",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어E(1.70)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.10.14",
+                            "teams": "페르시브 반둥 vs 비에텔",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
+                        },
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.10.11",
+                            "teams": "페르시브 반둥 vs 데와 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어B(0.60)"
+                        },
+                        {
+                            "league": "IDN ISL",
+                            "match_time": "2026.09.06",
+                            "teams": "페르시브 반둥 vs PSM 마카사르",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(1.80)"
+                        },
+                        {
+                            "league": "ACL2",
+                            "match_time": "2026.08.31",
+                            "teams": "페르시브 반둥 vs 마닐라 디거",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어B(0.80)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.15",
+                            "teams": "페르시브 반둥 vs 사바흐",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어B(0.70)"
+                        },
+                        {
+                            "league": "IDN PC",
+                            "match_time": "2026.08.06",
+                            "teams": "페르시브 반둥 vs 페르세바야",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.70)/방어A(0.30)"
+                        },
+                        {
+                            "league": "IDN PC",
+                            "match_time": "2026.08.04",
+                            "teams": "페르시브 반둥 vs 페르시자 자카르타",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어B(0.80)"
+                        },
+                        {
+                            "league": "IDN PC",
+                            "match_time": "2026.07.31",
+                            "teams": "페르시브 반둥 vs 탐파인스",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어D(1.60)"
+                        }
+                    ],
+                    "away_team_name": "샨 유나이티드",
+                    "away_matches": [
+                        {
+                            "league": "ACGL",
+                            "match_time": "2026.10.24",
+                            "teams": "마닐라 디거 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어B(0.50)"
+                        },
+                        {
+                            "league": "ACGL",
+                            "match_time": "2026.10.21",
+                            "teams": "카수카 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어E(2.70)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.10.11",
+                            "teams": "한타와디 유나이티드 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.09.11",
+                            "teams": "에즈라 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.30)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.09.05",
+                            "teams": "미야와디 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어C(0.90)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.08.30",
+                            "teams": "Yangon City vs 샨 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격A(2.70)/방어C(0.90)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.03.02",
+                            "teams": "라킨 유나이티드 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "6"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(1.70)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.02.25",
+                            "teams": "이스페 FC vs 샨 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "6"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어E(2.50)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.02.20",
+                            "teams": "양곤 Utd vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(3.10)/방어A(0.30)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.02.14",
+                            "teams": "야다나르본 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어E(2.00)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.02.10",
+                            "teams": "아예야와디 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.70)/방어C(1.00)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.02.05",
+                            "teams": "방콕 Utd vs 샨 유나이티드",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.01.29",
+                            "teams": "조호르 DT vs 샨 유나이티드",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(3.10)/방어B(0.50)"
+                        },
+                        {
+                            "league": "MYA D1",
+                            "match_time": "2026.01.23",
+                            "teams": "다곤 vs 샨 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.50)"
+                        }
+                    ]
+                }
+            }
+        },
+        "3006577": {
+            "match_code": "3006577",
+            "head_info": {
+                "league": "ASEAN 클럽선수권",
+                "round": ""
+            },
+            "home": "공안",
+            "away": "조호르 DT",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "공안",
+                    "home_matches": [
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.11.07",
+                            "teams": "공안 vs 호치민",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.11.03",
+                            "teams": "공안 vs 교토",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.10)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.10.31",
+                            "teams": "송람 응에안 vs 공안",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.27",
+                            "teams": "상하이 하이강 vs 공안",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어C(1.00)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.10.22",
+                            "teams": "공안 vs 타인호아",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(1.80)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.10.18",
+                            "teams": "공안 vs 하노이 FC",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어D(1.50)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.13",
+                            "teams": "공안 vs 가시마",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어D(1.40)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.10.08",
+                            "teams": "라이언 시티 vs 공안",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(1.00)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.09.20",
+                            "teams": "Truong Tuoi Dong Nai vs 공안",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어B(0.70)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.09.15",
+                            "teams": "감바 오사카 vs 공안",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.30)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.09.10",
+                            "teams": "비에텔 vs 공안",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.00)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.09.05",
+                            "teams": "공안 vs 홍린하띤",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어C(1.20)"
+                        },
+                        {
+                            "league": "VSC",
+                            "match_time": "2026.08.30",
+                            "teams": "공안 vs 호치민",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.08.11",
+                            "teams": "애들레이드 유나이티드 vs 공안",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.06.07",
+                            "teams": "비에텔 vs 공안",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.70)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.05.31",
+                            "teams": "공안 vs 빈즈엉",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어E(1.90)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.05.24",
+                            "teams": "홍린하띤 vs 공안",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어C(1.10)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.05.17",
+                            "teams": "공안 vs 타인호아",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.05.10",
+                            "teams": "공안 vs 남딘",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어C(0.90)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.05.02",
+                            "teams": "하이퐁 vs 공안",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어C(1.20)"
+                        }
+                    ],
+                    "away_team_name": "조호르 DT",
+                    "away_matches": [
+                        {
+                            "league": "MAS FAC",
+                            "match_time": "2026.11.08",
+                            "teams": "조호르 DT vs DPMM",
+                            "ft_scores": [
+                                "6",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어E(1.70)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.11.03",
+                            "teams": "전북 vs 조호르 DT",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.50)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.27",
+                            "teams": "조호르 DT vs 포트 MTI FC",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(4.10)/방어A(0.40)"
+                        },
+                        {
+                            "league": "MAS FAC",
+                            "match_time": "2026.10.23",
+                            "teams": "DPMM vs 조호르 DT",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어D(1.60)"
+                        },
+                        {
+                            "league": "MAS SL",
+                            "match_time": "2026.10.18",
+                            "teams": "테렝가누 vs 조호르 DT",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어D(1.60)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.13",
+                            "teams": "포항 vs 조호르 DT",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.60)"
+                        },
+                        {
+                            "league": "MAS FAC",
+                            "match_time": "2026.10.09",
+                            "teams": "조호르 DT vs 페낭",
+                            "ft_scores": [
+                                "4",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어D(1.60)"
+                        },
+                        {
+                            "league": "ASEAN CC",
+                            "match_time": "2026.10.08",
+                            "teams": "조호르 DT vs 스바이 리엥",
+                            "ft_scores": [
+                                "6",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(5.00)/방어B(0.70)"
+                        },
+                        {
+                            "league": "MAS FAC",
+                            "match_time": "2026.09.20",
+                            "teams": "페낭 vs 조호르 DT",
+                            "ft_scores": [
+                                "2",
+                                "7"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.09.15",
+                            "teams": "조호르 DT vs 부리람",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어B(0.70)"
+                        },
+                        {
+                            "league": "MAS SL",
+                            "match_time": "2026.09.11",
+                            "teams": "조호르 DT vs MS 매트릭스",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.60)"
+                        },
+                        {
+                            "league": "MAS FAC",
+                            "match_time": "2026.09.08",
+                            "teams": "조호르 DT vs 다만사라",
+                            "ft_scores": [
+                                "10",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어E(1.70)"
+                        },
+                        {
+                            "league": "MAS SL",
+                            "match_time": "2026.09.04",
+                            "teams": "DPMM vs 조호르 DT",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.60)"
+                        },
+                        {
+                            "league": "MAS FAC",
+                            "match_time": "2026.09.01",
+                            "teams": "다만사라 vs 조호르 DT",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어D(1.30)"
+                        },
+                        {
+                            "league": "MAS SL",
+                            "match_time": "2026.08.29",
+                            "teams": "조호르 DT vs Star City",
+                            "ft_scores": [
+                                "7",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.30)"
+                        },
+                        {
+                            "league": "MAS SL",
+                            "match_time": "2026.08.26",
+                            "teams": "조호르 DT vs Kelantan Red Warrior",
+                            "ft_scores": [
+                                "9",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격A(2.40)/방어C(0.90)"
+                        },
+                        {
+                            "league": "MAS SL",
+                            "match_time": "2026.08.21",
+                            "teams": "조호르 DT vs 쿠칭 시티 FC",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어B(0.80)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.08.09",
+                            "teams": "조호르 DT vs 첼시",
+                            "ft_scores": [
+                                "3",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.50)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.31",
+                            "teams": "카르타헤나 vs 조호르 DT",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.30",
+                            "teams": "조호르 DT vs 카타르 SC",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어D(1.60)"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "공안",
+                    "home_matches": [
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.11.07",
+                            "teams": "공안 vs 호치민",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.11.03",
+                            "teams": "공안 vs 교토",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.10)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.10.22",
+                            "teams": "공안 vs 타인호아",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어E(1.80)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.10.18",
+                            "teams": "공안 vs 하노이 FC",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어D(1.50)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.13",
+                            "teams": "공안 vs 가시마",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어D(1.40)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.09.05",
+                            "teams": "공안 vs 홍린하띤",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격E(0.40)/방어C(1.20)"
+                        },
+                        {
+                            "league": "VSC",
+                            "match_time": "2026.08.30",
+                            "teams": "공안 vs 호치민",
+                            "ft_scores": [
+                                "5",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.30)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.05.31",
+                            "teams": "공안 vs 빈즈엉",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어E(1.90)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.05.17",
+                            "teams": "공안 vs 타인호아",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
+                        },
+                        {
+                            "league": "VIE D1",
+                            "match_time": "2026.05.10",
+                            "teams": "공안 vs 남딘",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어C(0.90)"
+                        }
+                    ],
+                    "away_team_name": "조호르 DT",
+                    "away_matches": [
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.11.03",
+                            "teams": "전북 vs 조호르 DT",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.50)"
+                        },
+                        {
+                            "league": "MAS FAC",
+                            "match_time": "2026.10.23",
+                            "teams": "DPMM vs 조호르 DT",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어D(1.60)"
+                        },
+                        {
+                            "league": "MAS SL",
+                            "match_time": "2026.10.18",
+                            "teams": "테렝가누 vs 조호르 DT",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어D(1.60)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.13",
+                            "teams": "포항 vs 조호르 DT",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어D(1.60)"
+                        },
+                        {
+                            "league": "MAS FAC",
+                            "match_time": "2026.09.20",
+                            "teams": "페낭 vs 조호르 DT",
+                            "ft_scores": [
+                                "2",
+                                "7"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.30)"
+                        },
+                        {
+                            "league": "MAS SL",
+                            "match_time": "2026.09.04",
+                            "teams": "DPMM vs 조호르 DT",
+                            "ft_scores": [
+                                "0",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어D(1.60)"
+                        },
+                        {
+                            "league": "MAS FAC",
+                            "match_time": "2026.09.01",
+                            "teams": "다만사라 vs 조호르 DT",
+                            "ft_scores": [
+                                "1",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격A(2.50)/방어D(1.30)"
+                        },
+                        {
+                            "league": "INT CF",
+                            "match_time": "2026.07.31",
+                            "teams": "카르타헤나 vs 조호르 DT",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.20)"
                         }
                     ]
                 }
