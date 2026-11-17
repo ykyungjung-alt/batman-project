@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-17 12:44:05",
+    "last_updated": "2026-11-18 00:55:04",
     "lineup_details": {
         "3059479": {
             "match_code": "3059479",
@@ -105540,6 +105540,27 @@
                     }
                 },
                 {
+                    "number": "",
+                    "name": "Isaak Davies",
+                    "player_id": "204769",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "204769",
+                        "matches_played": 34,
+                        "total_play_time": 2424,
+                        "avg_play_time": 71.3,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "34",
+                            "출전시간": "2424",
+                            "경기당 평점": "6.52",
+                            "득점(PK)": "12(0)",
+                            "도움": "0",
+                            "카드": "0/3"
+                        }
+                    }
+                },
+                {
                     "number": "17",
                     "name": "조던 제임스",
                     "player_id": "219904",
@@ -105622,6 +105643,27 @@
                             "득점(PK)": "2(1)",
                             "도움": "0",
                             "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "",
+                    "name": "누노 타바레스",
+                    "player_id": "177443",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "177443",
+                        "matches_played": 11,
+                        "total_play_time": 758,
+                        "avg_play_time": 68.9,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "11",
+                            "출전시간": "758",
+                            "경기당 평점": "7.19",
+                            "득점(PK)": "1(0)",
+                            "도움": "3",
+                            "카드": "0/0"
                         }
                     }
                 }
@@ -105722,7 +105764,7 @@
         },
         "2981519": {
             "match_code": "2981519",
-            "home": "이스라엘",
+            "home": "이스라엘(N)",
             "away": "오스트리아",
             "home_absentees": [],
             "away_absentees": [
@@ -105733,17 +105775,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "135993",
-                        "matches_played": 10,
-                        "total_play_time": 758,
-                        "avg_play_time": 75.8,
-                        "grade": "A",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
                         "important_stats": {
-                            "경기": "10",
-                            "출전시간": "758",
-                            "경기당 평점": "6.77",
-                            "득점(PK)": "0(0)",
-                            "도움": "1",
-                            "카드": "0/1"
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
                         }
                     }
                 },
@@ -105988,17 +106030,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "117558",
-                        "matches_played": 0,
-                        "total_play_time": 0,
-                        "avg_play_time": 0.0,
-                        "grade": "D",
+                        "matches_played": 9,
+                        "total_play_time": 596,
+                        "avg_play_time": 66.2,
+                        "grade": "B",
                         "important_stats": {
-                            "경기": "-",
-                            "출전시간": "-",
-                            "경기당 평점": "-",
-                            "득점(PK)": "-",
-                            "도움": "-",
-                            "카드": "-"
+                            "경기": "9",
+                            "출전시간": "596",
+                            "경기당 평점": "6.06",
+                            "득점(PK)": "1(0)",
+                            "도움": "2",
+                            "카드": "0/2"
                         }
                     }
                 },
