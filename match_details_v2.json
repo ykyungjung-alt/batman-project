@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-18 00:54:12",
+    "last_updated": "2026-11-18 09:55:22",
     "match_details": {
         "3062674": {
             "match_code": "3062674",
@@ -10,7 +10,7 @@
                 "match_time_display": "2026-11-19 04:00",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": ""
+                "weather": "구름 조금,  8°C"
             },
             "home": "노팅엄 U21",
             "away": "뉴캐슬 Utd U21",
@@ -166,6 +166,185 @@
                             "interval": "25 일"
                         }
                     ]
+                }
+            }
+        },
+        "3114387": {
+            "match_code": "3114387",
+            "head_info": {
+                "league": "리그 1",
+                "round": "",
+                "match_time_raw": "11/18/2026 5:00:00 PM",
+                "match_time_display": "2026-11-19 02:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "흐림,  33°C"
+            },
+            "home": "Nouakchott Academy",
+            "away": "Nzeidane",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "5승 5무 0패",
+                        "goals_per_game": "0.90",
+                        "conceded_per_game": "0.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "5승 3무 2패",
+                        "goals_per_game": "1.50",
+                        "conceded_per_game": "0.80"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 0 (0%)",
+                        "무승부 1 (50%)",
+                        "승 1 (50%)",
+                        "0.50",
+                        "경기당 득점",
+                        "1.00"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "MAU D12026.04.29",
+                                "Nzeidane",
+                                "0-0",
+                                "Nouakchott Academy"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12025.11.22",
+                                "Nouakchott Academy",
+                                "1-2",
+                                "Nzeidane"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
+                }
+            }
+        },
+        "3114386": {
+            "match_code": "3114386",
+            "head_info": {
+                "league": "리그 1",
+                "round": "",
+                "match_time_raw": "11/18/2026 7:50:00 PM",
+                "match_time_display": "2026-11-19 04:50",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "흐림,  29°C"
+            },
+            "home": "겐드림",
+            "away": "테브라-제이나",
+            "meta_details": {
+                "rankings": [],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 5무 1패",
+                        "goals_per_game": "1.20",
+                        "conceded_per_game": "1.00"
+                    },
+                    "away_summary": {
+                        "recent_record": "2승 5무 3패",
+                        "goals_per_game": "1.10",
+                        "conceded_per_game": "1.20"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [
+                        "승 4 (44.4%)",
+                        "무승부 2 (22.2%)",
+                        "승 3 (33.3%)",
+                        "0.78",
+                        "경기당 득점"
+                    ],
+                    "matches": [
+                        {
+                            "row_data": [
+                                "MAU D12026.04.13",
+                                "겐드림",
+                                "1-1",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12025.12.13",
+                                "테브라-제이나",
+                                "1-2",
+                                "겐드림"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "Mauritania Cup2025.06.01",
+                                "겐드림",
+                                "0-0",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12025.02.20",
+                                "테브라-제이나",
+                                "0-1",
+                                "겐드림"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12024.10.01",
+                                "겐드림",
+                                "2-0",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12024.04.14",
+                                "테브라-제이나",
+                                "2-0",
+                                "겐드림"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12023.11.12",
+                                "겐드림",
+                                "1-0",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12023.04.03",
+                                "겐드림",
+                                "0-2",
+                                "테브라-제이나"
+                            ]
+                        },
+                        {
+                            "row_data": [
+                                "MAU D12022.11.18",
+                                "테브라-제이나",
+                                "1-0",
+                                "겐드림"
+                            ]
+                        }
+                    ]
+                },
+                "fixtures": {
+                    "home": [],
+                    "away": []
                 }
             }
         },
