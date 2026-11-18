@@ -1,60 +1,60 @@
 {
-    "last_updated": "2026-11-18 20:30:38",
+    "last_updated": "2026-11-19 05:25:11",
     "match_details": {
-        "3006566": {
-            "match_code": "3006566",
+        "3006578": {
+            "match_code": "3006578",
             "head_info": {
                 "league": "ASEAN 클럽선수권",
                 "round": "",
-                "match_time_raw": "11/18/2026 11:30:00 AM",
-                "match_time_display": "2026-11-18 20:30",
-                "stadium": "Tampines Stadium",
-                "home_stadium": "Tampines Stadium",
-                "weather": "이슬비,  27°C"
+                "match_time_raw": "11/19/2026 12:00:00 PM",
+                "match_time_display": "2026-11-19 21:00",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "구름 조금,  30°C"
             },
-            "home": "탐파인스",
-            "away": "라차부리",
+            "home": "스바이 리엥",
+            "away": "포트 MTI FC",
             "meta_details": {
                 "rankings": [
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "SIN D1-3",
-                        "team": "탐파인스",
+                        "rank": "CPL-2",
+                        "team": "스바이 리엥",
                         "played": "6",
                         "win": "4",
-                        "draw": "1",
-                        "loss": "1",
-                        "goals_for": "13",
+                        "draw": "2",
+                        "loss": "0",
+                        "goals_for": "17",
                         "goals_against": "5",
-                        "goal_diff": "8",
-                        "points": "13"
+                        "goal_diff": "12",
+                        "points": "14"
                     },
                     {
                         "team_type": "원정팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "THA PR-6",
-                        "team": "라차부리",
-                        "played": "8",
-                        "win": "4",
+                        "rank": "THA PR-1",
+                        "team": "포트 MTI FC",
+                        "played": "7",
+                        "win": "5",
                         "draw": "1",
-                        "loss": "3",
-                        "goals_for": "18",
-                        "goals_against": "10",
-                        "goal_diff": "8",
-                        "points": "13"
+                        "loss": "1",
+                        "goals_for": "15",
+                        "goals_against": "8",
+                        "goal_diff": "7",
+                        "points": "16"
                     }
                 ],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "4승 2무 4패",
-                        "goals_per_game": "1.70",
-                        "conceded_per_game": "1.50"
+                        "recent_record": "5승 3무 2패",
+                        "goals_per_game": "2.10",
+                        "conceded_per_game": "1.40"
                     },
                     "away_summary": {
-                        "recent_record": "4승 2무 4패",
-                        "goals_per_game": "2.20",
-                        "conceded_per_game": "1.40"
+                        "recent_record": "5승 1무 4패",
+                        "goals_per_game": "2.30",
+                        "conceded_per_game": "2.20"
                     },
                     "matches": []
                 },
@@ -69,87 +69,101 @@
                 "fixtures": {
                     "home": [
                         {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-22 11:30:00",
-                            "teams": "11.22 2026 vs 호우강 vs 탐파인스 vs 4 일",
+                            "league": "CPL",
+                            "match_time": "2026-11-22 11:00:00",
+                            "teams": "11.22 2026 vs Angkor Tiger vs 스바이 리엥 vs 3 일",
                             "interval": "시작전"
                         },
                         {
                             "league": "AFC 챔피언스리그 2",
-                            "match_time": "2026-11-26 10:00:00",
-                            "teams": "11.26 2026 vs 탐파인스 vs 상하이 선화 vs 8 일",
-                            "interval": "8 일"
+                            "match_time": "2026-11-26 12:15:00",
+                            "teams": "11.26 2026 vs 스바이 리엥 vs 마치다 vs 7 일",
+                            "interval": "7 일"
                         },
                         {
-                            "league": "프리미어리그",
-                            "match_time": "2026-11-29 11:30:00",
-                            "teams": "11.29 2026 vs 탐파인스 vs 알비렉스 니가타 vs 11 일",
-                            "interval": "11 일"
+                            "league": "CPL",
+                            "match_time": "2026-11-29 12:00:00",
+                            "teams": "11.29 2026 vs 스바이 리엥 vs 프놈펜 크라운 vs 10 일",
+                            "interval": "10 일"
                         }
                     ],
                     "away": [
                         {
-                            "league": "타이리그 1",
-                            "match_time": "2026-11-21 12:30:00",
-                            "teams": "11.21 2026 vs 라차부리 vs 쁘라쭈압 vs 3 일",
+                            "league": "AFC 챔피언스리그",
+                            "match_time": "2026-11-25 10:00:00",
+                            "teams": "11.25 2026 vs 감바 오사카 vs 포트 MTI FC vs 6 일",
                             "interval": "시작전"
                         },
                         {
-                            "league": "AFC 챔피언스리그",
-                            "match_time": "2026-11-24 12:15:00",
-                            "teams": "11.24 2026 vs 라차부리 vs 조호르 DT vs 6 일",
-                            "interval": "6 일"
+                            "league": "타이리그 1",
+                            "match_time": "2026-11-29 12:00:00",
+                            "teams": "11.29 2026 vs 포트 MTI FC vs 쁘라쭈압 vs 10 일",
+                            "interval": "10 일"
                         },
                         {
                             "league": "AFC 챔피언스리그",
-                            "match_time": "2026-12-01 12:15:00",
-                            "teams": "12.01 2026 vs 베이징 궈안 vs 라차부리 vs 13 일",
+                            "match_time": "2026-12-02 12:15:00",
+                            "teams": "12.02 2026 vs 포트 MTI FC vs 가시마 vs 13 일",
                             "interval": "13 일"
                         }
                     ]
                 }
             }
         },
-        "3091480": {
-            "match_code": "3091480",
+        "3113124": {
+            "match_code": "3113124",
             "head_info": {
                 "league": "ASEAN 클럽선수권",
                 "round": "",
-                "match_time_raw": "11/18/2026 12:00:00 PM",
-                "match_time_display": "2026-11-18 21:00",
-                "stadium": "Stadion Segiri",
-                "home_stadium": "Stadion Segiri",
-                "weather": "흐림,  28°C"
+                "match_time_raw": "11/19/2026 12:00:00 PM",
+                "match_time_display": "2026-11-19 21:00",
+                "stadium": "Stadion Gelora Bandung Lautan Api",
+                "home_stadium": "Stadion Gelora Bandung Lautan Api",
+                "weather": "이슬비,  22°C"
             },
-            "home": "보르네오",
-            "away": "마닐라 디거",
+            "home": "페르시브 반둥",
+            "away": "샨 유나이티드",
             "meta_details": {
                 "rankings": [
                     {
                         "team_type": "홈팀 리그전적",
                         "sub_category": "최근전적",
-                        "rank": "IDN ISL-11",
-                        "team": "보르네오",
-                        "played": "8",
+                        "rank": "IDN ISL-5",
+                        "team": "페르시브 반둥",
+                        "played": "9",
+                        "win": "5",
+                        "draw": "1",
+                        "loss": "3",
+                        "goals_for": "16",
+                        "goals_against": "10",
+                        "goal_diff": "6",
+                        "points": "16"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "MYA D1-3",
+                        "team": "샨 유나이티드",
+                        "played": "4",
                         "win": "3",
                         "draw": "1",
-                        "loss": "4",
-                        "goals_for": "8",
-                        "goals_against": "10",
-                        "goal_diff": "-2",
+                        "loss": "0",
+                        "goals_for": "9",
+                        "goals_against": "2",
+                        "goal_diff": "7",
                         "points": "10"
                     }
                 ],
                 "recent_form": {
                     "home_summary": {
-                        "recent_record": "5승 2무 3패",
-                        "goals_per_game": "1.30",
-                        "conceded_per_game": "1.00"
+                        "recent_record": "7승 1무 2패",
+                        "goals_per_game": "1.80",
+                        "conceded_per_game": "0.80"
                     },
                     "away_summary": {
-                        "recent_record": "9승 1무 0패",
-                        "goals_per_game": "3.10",
-                        "conceded_per_game": "0.20"
+                        "recent_record": "6승 2무 2패",
+                        "goals_per_game": "1.60",
+                        "conceded_per_game": "1.00"
                     },
                     "matches": []
                 },
@@ -165,41 +179,150 @@
                     "home": [
                         {
                             "league": "인도네시아 리가 1",
-                            "match_time": "2026-11-22 08:30:00",
-                            "teams": "11.22 2026 vs 아댜크사 vs 보르네오 vs 4 일",
+                            "match_time": "2026-11-22 12:00:00",
+                            "teams": "11.22 2026 vs 페르시브 반둥 vs 발리 유나이티드 vs 3 일",
                             "interval": "시작전"
                         },
                         {
-                            "league": "인도네시아 리가 1",
-                            "match_time": "2026-11-26 08:30:00",
-                            "teams": "11.26 2026 vs 보르네오 vs 페르시타 vs 8 일",
-                            "interval": "8 일"
+                            "league": "AFC 챔피언스리그 2",
+                            "match_time": "2026-11-25 12:15:00",
+                            "teams": "11.25 2026 vs 페르시브 반둥 vs 서울 vs 6 일",
+                            "interval": "6 일"
                         },
                         {
                             "league": "인도네시아 리가 1",
                             "match_time": "2026-11-29 12:00:00",
-                            "teams": "11.29 2026 vs 보르네오 vs 페르시크 케디리 vs 11 일",
-                            "interval": "11 일"
+                            "teams": "11.29 2026 vs 페르시타 vs 페르시브 반둥 vs 10 일",
+                            "interval": "10 일"
                         }
                     ],
                     "away": [
                         {
-                            "league": "PFL",
-                            "match_time": "2026-12-02 07:00:00",
-                            "teams": "12.02 2026 vs 마닐라 디거 vs 멘디올라 FC 1991 vs 14 일",
+                            "league": "내셔널리그",
+                            "match_time": "2026-11-25 09:00:00",
+                            "teams": "11.25 2026 vs 샨 유나이티드 vs 팃사르 아르만 vs 6 일",
                             "interval": "시작전"
                         },
                         {
-                            "league": "ASEAN 클럽선수권",
-                            "match_time": "2026-12-09 12:00:00",
-                            "teams": "12.09 2026 vs 라차부리 vs 마닐라 디거 vs 21 일",
-                            "interval": "21 일"
+                            "league": "내셔널리그",
+                            "match_time": "2026-11-28 09:00:00",
+                            "teams": "11.28 2026 vs 샨 유나이티드 vs 마하르 유나이티드 vs 9 일",
+                            "interval": "9 일"
                         },
                         {
-                            "league": "ASEAN 클럽선수권",
-                            "match_time": "2026-12-16 13:00:00",
-                            "teams": "12.16 2026 vs 마닐라 디거 vs 부리람 vs 28 일",
-                            "interval": "28 일"
+                            "league": "내셔널리그",
+                            "match_time": "2026-12-03 09:00:00",
+                            "teams": "12.03 2026 vs 이스페 FC vs 샨 유나이티드 vs 14 일",
+                            "interval": "14 일"
+                        }
+                    ]
+                }
+            }
+        },
+        "3006577": {
+            "match_code": "3006577",
+            "head_info": {
+                "league": "ASEAN 클럽선수권",
+                "round": "",
+                "match_time_raw": "11/19/2026 12:30:00 PM",
+                "match_time_display": "2026-11-19 21:30",
+                "stadium": "",
+                "home_stadium": "-",
+                "weather": "흐림,  20°C"
+            },
+            "home": "공안",
+            "away": "조호르 DT",
+            "meta_details": {
+                "rankings": [
+                    {
+                        "team_type": "홈팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "VIE D1-2",
+                        "team": "공안",
+                        "played": "7",
+                        "win": "4",
+                        "draw": "2",
+                        "loss": "1",
+                        "goals_for": "11",
+                        "goals_against": "5",
+                        "goal_diff": "6",
+                        "points": "14"
+                    },
+                    {
+                        "team_type": "원정팀 리그전적",
+                        "sub_category": "최근전적",
+                        "rank": "MAS SL-1",
+                        "team": "조호르 DT",
+                        "played": "6",
+                        "win": "6",
+                        "draw": "0",
+                        "loss": "0",
+                        "goals_for": "28",
+                        "goals_against": "0",
+                        "goal_diff": "28",
+                        "points": "18"
+                    }
+                ],
+                "recent_form": {
+                    "home_summary": {
+                        "recent_record": "4승 3무 3패",
+                        "goals_per_game": "1.30",
+                        "conceded_per_game": "1.20"
+                    },
+                    "away_summary": {
+                        "recent_record": "8승 1무 1패",
+                        "goals_per_game": "3.40",
+                        "conceded_per_game": "0.70"
+                    },
+                    "matches": []
+                },
+                "h2h": {
+                    "summary": [],
+                    "matches": []
+                },
+                "lineup_summary": {
+                    "home": [],
+                    "away": []
+                },
+                "fixtures": {
+                    "home": [
+                        {
+                            "league": "AFC 챔피언스리그",
+                            "match_time": "2026-11-24 12:15:00",
+                            "teams": "11.24 2026 vs 공안 vs 고베 vs 5 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "V-리그",
+                            "match_time": "2026-11-27 11:00:00",
+                            "teams": "11.27 2026 vs 남딘 vs 공안 vs 8 일",
+                            "interval": "8 일"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그",
+                            "match_time": "2026-12-01 10:00:00",
+                            "teams": "12.01 2026 vs 가시와 vs 공안 vs 12 일",
+                            "interval": "12 일"
+                        }
+                    ],
+                    "away": [
+                        {
+                            "league": "AFC 챔피언스리그",
+                            "match_time": "2026-11-24 12:15:00",
+                            "teams": "11.24 2026 vs 라차부리 vs 조호르 DT vs 5 일",
+                            "interval": "시작전"
+                        },
+                        {
+                            "league": "AFC 챔피언스리그",
+                            "match_time": "2026-12-01 12:15:00",
+                            "teams": "12.01 2026 vs 조호르 DT vs 대전 vs 12 일",
+                            "interval": "12 일"
+                        },
+                        {
+                            "league": "말레이시아 슈퍼리그",
+                            "match_time": "2026-12-06 12:15:00",
+                            "teams": "12.06 2026 vs 조호르 DT vs 콸라룸푸르 시티 vs 17 일",
+                            "interval": "17 일"
                         }
                     ]
                 }
