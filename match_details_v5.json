@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-20 11:23:11",
+    "last_updated": "2026-11-20 20:31:21",
     "lineup_details": {
         "3059479": {
             "match_code": "3059479",
@@ -107808,17 +107808,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "148979",
-                        "matches_played": 4,
-                        "total_play_time": 159,
-                        "avg_play_time": 39.8,
-                        "grade": "C",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
                         "important_stats": {
-                            "경기": "4",
-                            "출전시간": "159",
-                            "경기당 평점": "6.52",
-                            "득점(PK)": "0(0)",
-                            "도움": "1",
-                            "카드": "0/0"
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
                         }
                     }
                 },
@@ -108197,6 +108197,27 @@
             "home": "트루아",
             "away": "르아브르",
             "home_absentees": [
+                {
+                    "number": "5",
+                    "name": "Paolo Gozzi Iweru",
+                    "player_id": "175074",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "175074",
+                        "matches_played": 4,
+                        "total_play_time": 310,
+                        "avg_play_time": 77.5,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "310",
+                            "경기당 평점": "6.38",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
                 {
                     "number": "",
                     "name": "미셸 주니오르 디아스",
@@ -109516,6 +109537,579 @@
                             "경기": "1",
                             "출전시간": "29",
                             "경기당 평점": "6.10",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ]
+        },
+        "3000535": {
+            "match_code": "3000535",
+            "home": "가시마",
+            "away": "시미즈",
+            "home_absentees": [
+                {
+                    "number": "2",
+                    "name": "고키 안자이",
+                    "player_id": "121358",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "121358",
+                        "matches_played": 11,
+                        "total_play_time": 792,
+                        "avg_play_time": 72.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "11",
+                            "출전시간": "792",
+                            "경기당 평점": "6.93",
+                            "득점(PK)": "1(0)",
+                            "도움": "1",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "40",
+                    "name": "유마 스즈키",
+                    "player_id": "129855",
+                    "status": "출전의심/기타",
+                    "stats": {
+                        "player_id": "129855",
+                        "matches_played": 14,
+                        "total_play_time": 1173,
+                        "avg_play_time": 83.8,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "14",
+                            "출전시간": "1173",
+                            "경기당 평점": "6.69",
+                            "득점(PK)": "1(0)",
+                            "도움": "5",
+                            "카드": "0/4"
+                        }
+                    }
+                },
+                {
+                    "number": "14",
+                    "name": "유타 히구치",
+                    "player_id": "172995",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "172995",
+                        "matches_played": 2,
+                        "total_play_time": 104,
+                        "avg_play_time": 52.0,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "2",
+                            "출전시간": "104",
+                            "경기당 평점": "6.60",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "3",
+                    "name": "태현 김태현",
+                    "player_id": "175968",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "175968",
+                        "matches_played": 7,
+                        "total_play_time": 584,
+                        "avg_play_time": 83.4,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "584",
+                            "경기당 평점": "6.83",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "22",
+                    "name": "게이 이시카와",
+                    "player_id": "97637",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "97637",
+                        "matches_played": 1,
+                        "total_play_time": 90,
+                        "avg_play_time": 90.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "1",
+                            "출전시간": "90",
+                            "경기당 평점": "7.00",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "4",
+                    "name": "소다이 하스카와",
+                    "player_id": "200709",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "200709",
+                        "matches_played": 6,
+                        "total_play_time": 312,
+                        "avg_play_time": 52.0,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "312",
+                            "경기당 평점": "6.63",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ]
+        },
+        "3000536": {
+            "match_code": "3000536",
+            "home": "가시와",
+            "away": "지바",
+            "home_absentees": [
+                {
+                    "number": "17",
+                    "name": "고헤이 데즈카",
+                    "player_id": "142066",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "142066",
+                        "matches_played": 2,
+                        "total_play_time": 40,
+                        "avg_play_time": 20.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "2",
+                            "출전시간": "40",
+                            "경기당 평점": "6.65",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "6",
+                    "name": "유토 야마다",
+                    "player_id": "172467",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "172467",
+                        "matches_played": 25,
+                        "total_play_time": 1847,
+                        "avg_play_time": 73.9,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "25",
+                            "출전시간": "1847",
+                            "경기당 평점": "7.10",
+                            "득점(PK)": "2(0)",
+                            "도움": "2",
+                            "카드": "0/6"
+                        }
+                    }
+                },
+                {
+                    "number": "88",
+                    "name": "세이야 바바",
+                    "player_id": "184758",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "184758",
+                        "matches_played": 8,
+                        "total_play_time": 238,
+                        "avg_play_time": 29.8,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "8",
+                            "출전시간": "238",
+                            "경기당 평점": "5.15",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "14",
+                    "name": "도모아키 오쿠보",
+                    "player_id": "185566",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "185566",
+                        "matches_played": 6,
+                        "total_play_time": 141,
+                        "avg_play_time": 23.5,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "141",
+                            "경기당 평점": "5.38",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "27",
+                    "name": "고키 구마사카",
+                    "player_id": "260832",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "260832",
+                        "matches_played": 8,
+                        "total_play_time": 613,
+                        "avg_play_time": 76.6,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "8",
+                            "출전시간": "613",
+                            "경기당 평점": "6.91",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "55",
+                    "name": "히나타 키다",
+                    "player_id": "153567",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "153567",
+                        "matches_played": 3,
+                        "total_play_time": 64,
+                        "avg_play_time": 21.3,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "64",
+                            "경기당 평점": "6.83",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "24",
+                    "name": "고지 도리우미",
+                    "player_id": "162532",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "162532",
+                        "matches_played": 4,
+                        "total_play_time": 338,
+                        "avg_play_time": 84.5,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "338",
+                            "경기당 평점": "6.28",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "25",
+                    "name": "마테우스 인디우",
+                    "player_id": "217642",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "217642",
+                        "matches_played": 10,
+                        "total_play_time": 714,
+                        "avg_play_time": 71.4,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "714",
+                            "경기당 평점": "6.37",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "26",
+                    "name": "유타 우에다",
+                    "player_id": "223237",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "223237",
+                        "matches_played": 3,
+                        "total_play_time": 196,
+                        "avg_play_time": 65.3,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "196",
+                            "경기당 평점": "0",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ]
+        },
+        "3000542": {
+            "match_code": "3000542",
+            "home": "고베",
+            "away": "미토",
+            "home_absentees": [
+                {
+                    "number": "6",
+                    "name": "다카히로 오기하라",
+                    "player_id": "76059",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "76059",
+                        "matches_played": 8,
+                        "total_play_time": 655,
+                        "avg_play_time": 81.9,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "8",
+                            "출전시간": "655",
+                            "경기당 평점": "7.15",
+                            "득점(PK)": "3(3)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "13",
+                    "name": "다이즈 사사키",
+                    "player_id": "162845",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "162845",
+                        "matches_played": 3,
+                        "total_play_time": 142,
+                        "avg_play_time": 47.3,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "142",
+                            "경기당 평점": "6.83",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "35",
+                    "name": "니이나 토미나가",
+                    "player_id": "225449",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "225449",
+                        "matches_played": 1,
+                        "total_play_time": 1,
+                        "avg_play_time": 1.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "1",
+                            "출전시간": "1",
+                            "경기당 평점": "0",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "28",
+                    "name": "겐토 하마사키",
+                    "player_id": "286863",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "286863",
+                        "matches_played": 2,
+                        "total_play_time": 34,
+                        "avg_play_time": 17.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "2",
+                            "출전시간": "34",
+                            "경기당 평점": "6.50",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "4",
+                    "name": "아키나리 가와즈라",
+                    "player_id": "152684",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "152684",
+                        "matches_played": 6,
+                        "total_play_time": 283,
+                        "avg_play_time": 47.2,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "283",
+                            "경기당 평점": "6.48",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "11",
+                    "name": "요시키 도리카이",
+                    "player_id": "206182",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "206182",
+                        "matches_played": 9,
+                        "total_play_time": 647,
+                        "avg_play_time": 71.9,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "9",
+                            "출전시간": "647",
+                            "경기당 평점": "6.67",
+                            "득점(PK)": "1(0)",
+                            "도움": "2",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "6",
+                    "name": "가즈마 오카모토",
+                    "player_id": "223039",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "223039",
+                        "matches_played": 1,
+                        "total_play_time": 90,
+                        "avg_play_time": 90.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "1",
+                            "출전시간": "90",
+                            "경기당 평점": "6.20",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "18",
+                    "name": "고타로 우치노",
+                    "player_id": "228549",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "228549",
+                        "matches_played": 9,
+                        "total_play_time": 601,
+                        "avg_play_time": 66.8,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "9",
+                            "출전시간": "601",
+                            "경기당 평점": "6.11",
+                            "득점(PK)": "1(1)",
+                            "도움": "0",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "37",
+                    "name": "Minato Kamiyama",
+                    "player_id": "283718",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "283718",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
+                        }
+                    }
+                },
+                {
+                    "number": "5",
+                    "name": "히로시 Iwasaki",
+                    "player_id": "318466",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "318466",
+                        "matches_played": 15,
+                        "total_play_time": 1260,
+                        "avg_play_time": 84.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "15",
+                            "출전시간": "1260",
+                            "경기당 평점": "6.85",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/5"
+                        }
+                    }
+                },
+                {
+                    "number": "41",
+                    "name": "Kishin Shimatani",
+                    "player_id": "366823",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "366823",
+                        "matches_played": 2,
+                        "total_play_time": 151,
+                        "avg_play_time": 75.5,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "2",
+                            "출전시간": "151",
+                            "경기당 평점": "0",
                             "득점(PK)": "0(0)",
                             "도움": "0",
                             "카드": "0/0"
