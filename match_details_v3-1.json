@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-21 07:02:30",
+    "last_updated": "2026-11-21 13:22:03",
     "match_details": {
         "3018867": {
             "match_code": "3018867",
@@ -25455,6 +25455,265 @@
                                 "0"
                             ],
                             "opponent_tier_info": "공격C(1.20)/방어B(0.60)"
+                        }
+                    ]
+                }
+            }
+        },
+        "3115497": {
+            "match_code": "3115497",
+            "head_info": {
+                "league": "리그 1",
+                "round": ""
+            },
+            "home": "드래곤즈",
+            "away": "FC 로토",
+            "meta_details": {
+                "recent_form": {
+                    "form_title": "최근 전적",
+                    "home_team_name": "드래곤즈",
+                    "home_matches": [
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2026.11.14",
+                            "teams": "에스쁘아 vs 드래곤즈",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.50)/방어C(1.00)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2026.10.03",
+                            "teams": "AS 코토누 vs 드래곤즈",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2026.04.05",
+                            "teams": "드래곤즈 vs Sobemap",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격E(0.00)/방어A(0.00)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2026.03.28",
+                            "teams": "드래곤즈 vs AS 코토누",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2022.05.19",
+                            "teams": "아지자 vs 드래곤즈",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.86)/방어E(1.71)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2022.01.30",
+                            "teams": "드래곤즈 vs 아브랑쿠 옴니스뽀흐",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.63)/방어C(1.13)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2021.06.24",
+                            "teams": "디나모 파라쿠 vs 드래곤즈",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격D(0.80)/방어C(0.90)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2021.05.13",
+                            "teams": "드래곤즈 vs 디나모 파라쿠",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격E(0.14)/방어C(1.00)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2021.05.05",
+                            "teams": "드래곤즈 vs 호디오",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어A(0.00)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2021.04.28",
+                            "teams": "뷔플 뒤 보르구 vs 드래곤즈",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.90)/방어C(0.90)"
+                        }
+                    ],
+                    "away_team_name": "FC 로토",
+                    "away_matches": [
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2026.03.29",
+                            "teams": "크라케 vs FC 로토",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격E(0.30)/방어C(1.00)"
+                        },
+                        {
+                            "league": "CAF Cup",
+                            "match_time": "2023.08.27",
+                            "teams": "FC 로토 vs FUS 라바트",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어B(0.50)"
+                        },
+                        {
+                            "league": "CAF Cup",
+                            "match_time": "2023.08.20",
+                            "teams": "FUS 라바트 vs FC 로토",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어B(0.60)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2022.03.09",
+                            "teams": "Ofmas-Sad vs FC 로토",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.50)"
+                        }
+                    ]
+                },
+                "stadium_form": {
+                    "form_title": "구장별 전적",
+                    "home_team_name": "드래곤즈",
+                    "home_matches": [
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2026.04.05",
+                            "teams": "드래곤즈 vs Sobemap",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격E(0.00)/방어A(0.00)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2026.03.28",
+                            "teams": "드래곤즈 vs AS 코토누",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.40)/방어B(0.80)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2022.01.30",
+                            "teams": "드래곤즈 vs 아브랑쿠 옴니스뽀흐",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격D(0.63)/방어C(1.13)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2021.05.13",
+                            "teams": "드래곤즈 vs 디나모 파라쿠",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격E(0.14)/방어C(1.00)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2021.05.05",
+                            "teams": "드래곤즈 vs 호디오",
+                            "ft_scores": [
+                                "3",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어A(0.00)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2019.05.05",
+                            "teams": "드래곤즈 vs ASOS",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(0.67)/방어B(0.67)"
+                        }
+                    ],
+                    "away_team_name": "FC 로토",
+                    "away_matches": [
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2026.03.29",
+                            "teams": "크라케 vs FC 로토",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격E(0.30)/방어C(1.00)"
+                        },
+                        {
+                            "league": "CAF Cup",
+                            "match_time": "2023.08.20",
+                            "teams": "FUS 라바트 vs FC 로토",
+                            "ft_scores": [
+                                "3",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어B(0.60)"
+                        },
+                        {
+                            "league": "BEN L1",
+                            "match_time": "2022.03.09",
+                            "teams": "Ofmas-Sad vs FC 로토",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.50)"
                         }
                     ]
                 }
