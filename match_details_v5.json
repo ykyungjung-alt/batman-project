@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-22 04:21:36",
+    "last_updated": "2026-11-22 10:18:58",
     "lineup_details": {
         "3059479": {
             "match_code": "3059479",
@@ -113744,6 +113744,27 @@
             "away": "비야레알",
             "home_absentees": [
                 {
+                    "number": "15",
+                    "name": "안드레아스 크리스텐센",
+                    "player_id": "113160",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "113160",
+                        "matches_played": 7,
+                        "total_play_time": 431,
+                        "avg_play_time": 61.6,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "431",
+                            "경기당 평점": "6.98",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
                     "number": "21",
                     "name": "프렌키 데 용",
                     "player_id": "132234",
@@ -113807,6 +113828,27 @@
                     }
                 },
                 {
+                    "number": "5",
+                    "name": "파우 쿠바르시",
+                    "player_id": "241897",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "241897",
+                        "matches_played": 9,
+                        "total_play_time": 782,
+                        "avg_play_time": 86.9,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "9",
+                            "출전시간": "782",
+                            "경기당 평점": "7.40",
+                            "득점(PK)": "0(0)",
+                            "도움": "2",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
                     "number": "12",
                     "name": "샤비 에스파르트",
                     "player_id": "294906",
@@ -113829,6 +113871,69 @@
                 }
             ],
             "away_absentees": [
+                {
+                    "number": "7",
+                    "name": "게라르드 모레노",
+                    "player_id": "110043",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "110043",
+                        "matches_played": 10,
+                        "total_play_time": 434,
+                        "avg_play_time": 43.4,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "434",
+                            "경기당 평점": "6.93",
+                            "득점(PK)": "2(1)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "8",
+                    "name": "후안 포이스",
+                    "player_id": "157060",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "157060",
+                        "matches_played": 6,
+                        "total_play_time": 482,
+                        "avg_play_time": 80.3,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "482",
+                            "경기당 평점": "6.95",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/3"
+                        }
+                    }
+                },
+                {
+                    "number": "11",
+                    "name": "일리아스 아코마흐",
+                    "player_id": "220466",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "220466",
+                        "matches_played": 9,
+                        "total_play_time": 389,
+                        "avg_play_time": 43.2,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "9",
+                            "출전시간": "389",
+                            "경기당 평점": "7.01",
+                            "득점(PK)": "0(0)",
+                            "도움": "2",
+                            "카드": "0/1"
+                        }
+                    }
+                },
                 {
                     "number": "5",
                     "name": "알라사네 디아타",
@@ -114020,17 +114125,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "85544",
-                        "matches_played": 9,
-                        "total_play_time": 629,
-                        "avg_play_time": 69.9,
-                        "grade": "B",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
                         "important_stats": {
-                            "경기": "9",
-                            "출전시간": "629",
-                            "경기당 평점": "6.89",
-                            "득점(PK)": "1(0)",
-                            "도움": "0",
-                            "카드": "0/0"
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
                         }
                     }
                 },
@@ -114190,17 +114295,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "85073",
-                        "matches_played": 2,
-                        "total_play_time": 63,
-                        "avg_play_time": 31.5,
-                        "grade": "C",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
                         "important_stats": {
-                            "경기": "2",
-                            "출전시간": "63",
-                            "경기당 평점": "6.30",
-                            "득점(PK)": "0(0)",
-                            "도움": "0",
-                            "카드": "0/0"
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
                         }
                     }
                 },
@@ -114253,14 +114358,14 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "217585",
-                        "matches_played": 9,
-                        "total_play_time": 599,
-                        "avg_play_time": 66.6,
+                        "matches_played": 10,
+                        "total_play_time": 639,
+                        "avg_play_time": 63.9,
                         "grade": "B",
                         "important_stats": {
-                            "경기": "9",
-                            "출전시간": "599",
-                            "경기당 평점": "6.88",
+                            "경기": "10",
+                            "출전시간": "639",
+                            "경기당 평점": "6.84",
                             "득점(PK)": "1(0)",
                             "도움": "3",
                             "카드": "0/2"
@@ -114355,48 +114460,6 @@
                             "득점(PK)": "1(0)",
                             "도움": "0",
                             "카드": "0/0"
-                        }
-                    }
-                },
-                {
-                    "number": "2",
-                    "name": "제키 셀릭",
-                    "player_id": "156296",
-                    "status": "결장",
-                    "stats": {
-                        "player_id": "156296",
-                        "matches_played": 8,
-                        "total_play_time": 599,
-                        "avg_play_time": 74.9,
-                        "grade": "A",
-                        "important_stats": {
-                            "경기": "8",
-                            "출전시간": "599",
-                            "경기당 평점": "6.78",
-                            "득점(PK)": "0(0)",
-                            "도움": "1",
-                            "카드": "0/1"
-                        }
-                    }
-                },
-                {
-                    "number": "11",
-                    "name": "에돈 제그로바",
-                    "player_id": "161649",
-                    "status": "결장",
-                    "stats": {
-                        "player_id": "161649",
-                        "matches_played": 9,
-                        "total_play_time": 246,
-                        "avg_play_time": 27.3,
-                        "grade": "D",
-                        "important_stats": {
-                            "경기": "9",
-                            "출전시간": "246",
-                            "경기당 평점": "6.98",
-                            "득점(PK)": "2(0)",
-                            "도움": "2",
-                            "카드": "0/1"
                         }
                     }
                 },
@@ -114599,23 +114662,44 @@
                     }
                 },
                 {
-                    "number": "28",
-                    "name": "니콜로 캄비아기",
-                    "player_id": "175501",
+                    "number": "14",
+                    "name": "토르비욤 리사케르 헤겜",
+                    "player_id": "174787",
                     "status": "결장",
                     "stats": {
-                        "player_id": "175501",
-                        "matches_played": 11,
-                        "total_play_time": 799,
-                        "avg_play_time": 72.6,
+                        "player_id": "174787",
+                        "matches_played": 7,
+                        "total_play_time": 524,
+                        "avg_play_time": 74.9,
                         "grade": "A",
                         "important_stats": {
-                            "경기": "11",
-                            "출전시간": "799",
-                            "경기당 평점": "6.87",
+                            "경기": "7",
+                            "출전시간": "524",
+                            "경기당 평점": "6.52",
                             "득점(PK)": "0(0)",
-                            "도움": "3",
-                            "카드": "0/1"
+                            "도움": "0",
+                            "카드": "0/3"
+                        }
+                    }
+                },
+                {
+                    "number": "17",
+                    "name": "오우사마 엘 아조우지",
+                    "player_id": "218636",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "218636",
+                        "matches_played": 3,
+                        "total_play_time": 122,
+                        "avg_play_time": 40.7,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "122",
+                            "경기당 평점": "6.65",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/2"
                         }
                     }
                 },
@@ -114639,6 +114723,27 @@
                             "카드": "0/0"
                         }
                     }
+                },
+                {
+                    "number": "72",
+                    "name": "Ukko Happonen",
+                    "player_id": "342244",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "342244",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
+                        }
+                    }
                 }
             ],
             "away_absentees": [
@@ -114660,6 +114765,27 @@
                             "득점(PK)": "0(0)",
                             "도움": "0",
                             "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "13",
+                    "name": "니콜로 베르톨라",
+                    "player_id": "213282",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "213282",
+                        "matches_played": 5,
+                        "total_play_time": 145,
+                        "avg_play_time": 29.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "145",
+                            "경기당 평점": "6.26",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/2"
                         }
                     }
                 },
@@ -114774,6 +114900,27 @@
                             "카드": "0/1"
                         }
                     }
+                },
+                {
+                    "number": "17",
+                    "name": "바실리예 아지치",
+                    "player_id": "247808",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "247808",
+                        "matches_played": 9,
+                        "total_play_time": 448,
+                        "avg_play_time": 49.8,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "9",
+                            "출전시간": "448",
+                            "경기당 평점": "6.67",
+                            "득점(PK)": "3(0)",
+                            "도움": "1",
+                            "카드": "0/0"
+                        }
+                    }
                 }
             ],
             "away_absentees": [
@@ -114793,6 +114940,27 @@
                             "출전시간": "831",
                             "경기당 평점": "6.65",
                             "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "17",
+                    "name": "엘리아스 하벨",
+                    "player_id": "206604",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "206604",
+                        "matches_played": 30,
+                        "total_play_time": 2314,
+                        "avg_play_time": 77.1,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "30",
+                            "출전시간": "2314",
+                            "경기당 평점": "0",
+                            "득점(PK)": "13(0)",
                             "도움": "0",
                             "카드": "0/0"
                         }
@@ -115178,17 +115346,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "206135",
-                        "matches_played": 10,
-                        "total_play_time": 599,
-                        "avg_play_time": 59.9,
-                        "grade": "B",
+                        "matches_played": 1,
+                        "total_play_time": 72,
+                        "avg_play_time": 72.0,
+                        "grade": "A",
                         "important_stats": {
-                            "경기": "10",
-                            "출전시간": "599",
-                            "경기당 평점": "6.61",
-                            "득점(PK)": "1(0)",
+                            "경기": "1",
+                            "출전시간": "72",
+                            "경기당 평점": "6.62",
+                            "득점(PK)": "0(0)",
                             "도움": "0",
-                            "카드": "0/1"
+                            "카드": "0/0"
                         }
                     }
                 },
@@ -115199,14 +115367,14 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "209408",
-                        "matches_played": 5,
-                        "total_play_time": 384,
-                        "avg_play_time": 76.8,
-                        "grade": "A",
+                        "matches_played": 6,
+                        "total_play_time": 415,
+                        "avg_play_time": 69.2,
+                        "grade": "B",
                         "important_stats": {
-                            "경기": "5",
-                            "출전시간": "384",
-                            "경기당 평점": "6.62",
+                            "경기": "6",
+                            "출전시간": "415",
+                            "경기당 평점": "6.59",
                             "득점(PK)": "1(0)",
                             "도움": "1",
                             "카드": "0/0"
@@ -115241,14 +115409,14 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "229908",
-                        "matches_played": 5,
-                        "total_play_time": 439,
-                        "avg_play_time": 87.8,
+                        "matches_played": 6,
+                        "total_play_time": 457,
+                        "avg_play_time": 76.2,
                         "grade": "A",
                         "important_stats": {
-                            "경기": "5",
-                            "출전시간": "439",
-                            "경기당 평점": "7.28",
+                            "경기": "6",
+                            "출전시간": "457",
+                            "경기당 평점": "7.13",
                             "득점(PK)": "1(0)",
                             "도움": "0",
                             "카드": "0/0"
@@ -115306,14 +115474,14 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "236901",
-                        "matches_played": 10,
-                        "total_play_time": 882,
-                        "avg_play_time": 88.2,
+                        "matches_played": 11,
+                        "total_play_time": 972,
+                        "avg_play_time": 88.4,
                         "grade": "A",
                         "important_stats": {
-                            "경기": "10",
-                            "출전시간": "882",
-                            "경기당 평점": "6.86",
+                            "경기": "11",
+                            "출전시간": "972",
+                            "경기당 평점": "6.85",
                             "득점(PK)": "3(0)",
                             "도움": "1",
                             "카드": "0/1"
@@ -115355,14 +115523,14 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "161842",
-                        "matches_played": 4,
-                        "total_play_time": 227,
-                        "avg_play_time": 56.8,
+                        "matches_played": 5,
+                        "total_play_time": 271,
+                        "avg_play_time": 54.2,
                         "grade": "B",
                         "important_stats": {
-                            "경기": "4",
-                            "출전시간": "227",
-                            "경기당 평점": "7.00",
+                            "경기": "5",
+                            "출전시간": "271",
+                            "경기당 평점": "6.84",
                             "득점(PK)": "2(0)",
                             "도움": "0",
                             "카드": "0/0"
@@ -115744,17 +115912,17 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "242903",
-                        "matches_played": 7,
-                        "total_play_time": 548,
-                        "avg_play_time": 78.3,
-                        "grade": "A",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
                         "important_stats": {
-                            "경기": "7",
-                            "출전시간": "548",
-                            "경기당 평점": "6.61",
-                            "득점(PK)": "0(0)",
-                            "도움": "1",
-                            "카드": "0/2"
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
                         }
                     }
                 }
@@ -115793,14 +115961,14 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "201398",
-                        "matches_played": 10,
-                        "total_play_time": 900,
+                        "matches_played": 11,
+                        "total_play_time": 990,
                         "avg_play_time": 90.0,
                         "grade": "A",
                         "important_stats": {
-                            "경기": "10",
-                            "출전시간": "900",
-                            "경기당 평점": "6.78",
+                            "경기": "11",
+                            "출전시간": "990",
+                            "경기당 평점": "6.66",
                             "득점(PK)": "0(0)",
                             "도움": "0",
                             "카드": "0/1"
@@ -115919,14 +116087,14 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "311721",
-                        "matches_played": 8,
-                        "total_play_time": 478,
-                        "avg_play_time": 59.8,
+                        "matches_played": 9,
+                        "total_play_time": 568,
+                        "avg_play_time": 63.1,
                         "grade": "B",
                         "important_stats": {
-                            "경기": "8",
-                            "출전시간": "478",
-                            "경기당 평점": "5.35",
+                            "경기": "9",
+                            "출전시간": "568",
+                            "경기당 평점": "5.51",
                             "득점(PK)": "0(0)",
                             "도움": "0",
                             "카드": "0/1"
@@ -116108,6 +116276,27 @@
                             "경기당 평점": "6.75",
                             "득점(PK)": "2(1)",
                             "도움": "2",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "36",
+                    "name": "Bané Diatta",
+                    "player_id": "369349",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "369349",
+                        "matches_played": 5,
+                        "total_play_time": 123,
+                        "avg_play_time": 24.6,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "123",
+                            "경기당 평점": "5.12",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
                             "카드": "0/0"
                         }
                     }
@@ -119309,14 +119498,14 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "212074",
-                        "matches_played": 12,
-                        "total_play_time": 1080,
+                        "matches_played": 13,
+                        "total_play_time": 1170,
                         "avg_play_time": 90.0,
                         "grade": "A",
                         "important_stats": {
-                            "경기": "12",
-                            "출전시간": "1080",
-                            "경기당 평점": "6.72",
+                            "경기": "13",
+                            "출전시간": "1170",
+                            "경기당 평점": "6.70",
                             "득점(PK)": "0(0)",
                             "도움": "1",
                             "카드": "0/0"
@@ -119393,14 +119582,14 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "301362",
-                        "matches_played": 10,
-                        "total_play_time": 813,
-                        "avg_play_time": 81.3,
+                        "matches_played": 11,
+                        "total_play_time": 887,
+                        "avg_play_time": 80.6,
                         "grade": "A",
                         "important_stats": {
-                            "경기": "10",
-                            "출전시간": "813",
-                            "경기당 평점": "7.23",
+                            "경기": "11",
+                            "출전시간": "887",
+                            "경기당 평점": "7.18",
                             "득점(PK)": "2(0)",
                             "도움": "3",
                             "카드": "0/3"
@@ -119414,14 +119603,14 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "359849",
-                        "matches_played": 2,
-                        "total_play_time": 14,
-                        "avg_play_time": 7.0,
+                        "matches_played": 3,
+                        "total_play_time": 24,
+                        "avg_play_time": 8.0,
                         "grade": "D",
                         "important_stats": {
-                            "경기": "2",
-                            "출전시간": "14",
-                            "경기당 평점": "3.30",
+                            "경기": "3",
+                            "출전시간": "24",
+                            "경기당 평점": "4.43",
                             "득점(PK)": "0(0)",
                             "도움": "0",
                             "카드": "0/0"
@@ -119443,13 +119632,13 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "218529",
-                        "matches_played": 9,
-                        "total_play_time": 559,
-                        "avg_play_time": 62.1,
+                        "matches_played": 10,
+                        "total_play_time": 567,
+                        "avg_play_time": 56.7,
                         "grade": "B",
                         "important_stats": {
-                            "경기": "9",
-                            "출전시간": "559",
+                            "경기": "10",
+                            "출전시간": "567",
                             "경기당 평점": "6.36",
                             "득점(PK)": "1(0)",
                             "도움": "0",
@@ -119464,14 +119653,14 @@
                     "status": "결장",
                     "stats": {
                         "player_id": "239938",
-                        "matches_played": 8,
-                        "total_play_time": 597,
-                        "avg_play_time": 74.6,
+                        "matches_played": 9,
+                        "total_play_time": 630,
+                        "avg_play_time": 70.0,
                         "grade": "A",
                         "important_stats": {
-                            "경기": "8",
-                            "출전시간": "597",
-                            "경기당 평점": "6.72",
+                            "경기": "9",
+                            "출전시간": "630",
+                            "경기당 평점": "6.73",
                             "득점(PK)": "0(0)",
                             "도움": "0",
                             "카드": "0/2"
@@ -125415,6 +125604,48 @@
             "away": "SG 디나모 드레스덴",
             "home_absentees": [
                 {
+                    "number": "7",
+                    "name": "말론 리터",
+                    "player_id": "114793",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "114793",
+                        "matches_played": 10,
+                        "total_play_time": 499,
+                        "avg_play_time": 49.9,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "499",
+                            "경기당 평점": "6.12",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "37",
+                    "name": "Leon Robinson",
+                    "player_id": "285174",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "285174",
+                        "matches_played": 7,
+                        "total_play_time": 203,
+                        "avg_play_time": 29.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "203",
+                            "경기당 평점": "4.57",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
                     "number": "40",
                     "name": "Enis Kamga",
                     "player_id": "333789",
@@ -125572,6 +125803,2007 @@
                 }
             ],
             "away_absentees": []
+        },
+        "3018875": {
+            "match_code": "3018875",
+            "home": "베르더 브레멘",
+            "away": "함부르크 SV",
+            "home_absentees": [
+                {
+                    "number": "8",
+                    "name": "미첼 바이처",
+                    "player_id": "84382",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "84382",
+                        "matches_played": 6,
+                        "total_play_time": 173,
+                        "avg_play_time": 28.8,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "173",
+                            "경기당 평점": "5.90",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "6",
+                    "name": "옌스 스타게",
+                    "player_id": "143101",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "143101",
+                        "matches_played": 29,
+                        "total_play_time": 2468,
+                        "avg_play_time": 85.1,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "29",
+                            "출전시간": "2468",
+                            "경기당 평점": "6.89",
+                            "득점(PK)": "10(0)",
+                            "도움": "2",
+                            "카드": "0/5"
+                        }
+                    }
+                },
+                {
+                    "number": "14",
+                    "name": "센느 리넨",
+                    "player_id": "164808",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "164808",
+                        "matches_played": 3,
+                        "total_play_time": 130,
+                        "avg_play_time": 43.3,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "130",
+                            "경기당 평점": "6.37",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "27",
+                    "name": "펠릭스 아구",
+                    "player_id": "168540",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "168540",
+                        "matches_played": 11,
+                        "total_play_time": 747,
+                        "avg_play_time": 67.9,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "11",
+                            "출전시간": "747",
+                            "경기당 평점": "6.47",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "17",
+                    "name": "마르코 그륄",
+                    "player_id": "173709",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "173709",
+                        "matches_played": 9,
+                        "total_play_time": 782,
+                        "avg_play_time": 86.9,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "9",
+                            "출전시간": "782",
+                            "경기당 평점": "7.68",
+                            "득점(PK)": "2(0)",
+                            "도움": "6",
+                            "카드": "0/3"
+                        }
+                    }
+                },
+                {
+                    "number": "16",
+                    "name": "무사 은디아예",
+                    "player_id": "200825",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "200825",
+                        "matches_played": 3,
+                        "total_play_time": 71,
+                        "avg_play_time": 23.7,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "71",
+                            "경기당 평점": "6.87",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "9",
+                    "name": "케케 토프",
+                    "player_id": "220677",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "220677",
+                        "matches_played": 20,
+                        "total_play_time": 631,
+                        "avg_play_time": 31.6,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "20",
+                            "출전시간": "631",
+                            "경기당 평점": "6.20",
+                            "득점(PK)": "1(0)",
+                            "도움": "1",
+                            "카드": "0/4"
+                        }
+                    }
+                },
+                {
+                    "number": "28",
+                    "name": "스켈리 알베로",
+                    "player_id": "228218",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "228218",
+                        "matches_played": 2,
+                        "total_play_time": 32,
+                        "avg_play_time": 16.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "2",
+                            "출전시간": "32",
+                            "경기당 평점": "6.38",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "29",
+                    "name": "Salim Musah",
+                    "player_id": "275550",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "275550",
+                        "matches_played": 3,
+                        "total_play_time": 47,
+                        "avg_play_time": 15.7,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "47",
+                            "경기당 평점": "6.08",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "15",
+                    "name": "유수프 풀센",
+                    "player_id": "102053",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "102053",
+                        "matches_played": 7,
+                        "total_play_time": 274,
+                        "avg_play_time": 39.1,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "274",
+                            "경기당 평점": "5.86",
+                            "득점(PK)": "2(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "23",
+                    "name": "요르단 토루나리가",
+                    "player_id": "150413",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "150413",
+                        "matches_played": 5,
+                        "total_play_time": 398,
+                        "avg_play_time": 79.6,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "398",
+                            "경기당 평점": "6.51",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "6",
+                    "name": "알베르 삼비 로콘가",
+                    "player_id": "161507",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "161507",
+                        "matches_played": 7,
+                        "total_play_time": 513,
+                        "avg_play_time": 73.3,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "513",
+                            "경기당 평점": "6.43",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "4",
+                    "name": "빌랄 나딜",
+                    "player_id": "217092",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "217092",
+                        "matches_played": 4,
+                        "total_play_time": 209,
+                        "avg_play_time": 52.2,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "209",
+                            "경기당 평점": "6.42",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "21",
+                    "name": "니콜라이 렘버그",
+                    "player_id": "219757",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "219757",
+                        "matches_played": 5,
+                        "total_play_time": 401,
+                        "avg_play_time": 80.2,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "401",
+                            "경기당 평점": "6.27",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ]
+        },
+        "3003955": {
+            "match_code": "3003955",
+            "home": "리버풀",
+            "away": "맨체스터 유나이티드",
+            "home_absentees": [
+                {
+                    "number": "4",
+                    "name": "버질 반 다이크",
+                    "player_id": "82022",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "82022",
+                        "matches_played": 10,
+                        "total_play_time": 900,
+                        "avg_play_time": 90.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "900",
+                            "경기당 평점": "7.26",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/3"
+                        }
+                    }
+                },
+                {
+                    "number": "38",
+                    "name": "라이언 그라벤베르흐",
+                    "player_id": "169765",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "169765",
+                        "matches_played": 7,
+                        "total_play_time": 344,
+                        "avg_play_time": 49.1,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "344",
+                            "경기당 평점": "5.54",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "1/1"
+                        }
+                    }
+                },
+                {
+                    "number": "30",
+                    "name": "제레미 프림퐁",
+                    "player_id": "181010",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "181010",
+                        "matches_played": 5,
+                        "total_play_time": 200,
+                        "avg_play_time": 40.0,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "200",
+                            "경기당 평점": "5.06",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "22",
+                    "name": "위고 에키티케",
+                    "player_id": "201001",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "201001",
+                        "matches_played": 28,
+                        "total_play_time": 1811,
+                        "avg_play_time": 64.7,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "28",
+                            "출전시간": "1811",
+                            "경기당 평점": "6.92",
+                            "득점(PK)": "11(0)",
+                            "도움": "4",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "56",
+                    "name": "비테슬라프 야로스",
+                    "player_id": "201132",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "201132",
+                        "matches_played": 1,
+                        "total_play_time": 11,
+                        "avg_play_time": 11.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "1",
+                            "출전시간": "11",
+                            "경기당 평점": "6.45",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "12",
+                    "name": "코너 브래들리",
+                    "player_id": "213682",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "213682",
+                        "matches_played": 15,
+                        "total_play_time": 935,
+                        "avg_play_time": 62.3,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "15",
+                            "출전시간": "935",
+                            "경기당 평점": "6.60",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/5"
+                        }
+                    }
+                },
+                {
+                    "number": "15",
+                    "name": "조반니 레오니",
+                    "player_id": "258704",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "258704",
+                        "matches_played": 17,
+                        "total_play_time": 1204,
+                        "avg_play_time": 70.8,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "17",
+                            "출전시간": "1204",
+                            "경기당 평점": "6.51",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "1/3"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "12",
+                    "name": "칼 달로우",
+                    "player_id": "34558",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "34558",
+                        "matches_played": 22,
+                        "total_play_time": 1980,
+                        "avg_play_time": 90.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "22",
+                            "출전시간": "1980",
+                            "경기당 평점": "6.67",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "5",
+                    "name": "해리 맥과이어",
+                    "player_id": "79850",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "79850",
+                        "matches_played": 10,
+                        "total_play_time": 856,
+                        "avg_play_time": 85.6,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "856",
+                            "경기당 평점": "6.52",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/4"
+                        }
+                    }
+                },
+                {
+                    "number": "23",
+                    "name": "루크 쇼",
+                    "player_id": "95977",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "95977",
+                        "matches_played": 5,
+                        "total_play_time": 427,
+                        "avg_play_time": 85.4,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "427",
+                            "경기당 평점": "6.78",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "9",
+                    "name": "마커스 래시포드",
+                    "player_id": "139273",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "139273",
+                        "matches_played": 6,
+                        "total_play_time": 355,
+                        "avg_play_time": 59.2,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "355",
+                            "경기당 평점": "5.75",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "25",
+                    "name": "마누엘 우가르테",
+                    "player_id": "159763",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "159763",
+                        "matches_played": 22,
+                        "total_play_time": 879,
+                        "avg_play_time": 40.0,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "22",
+                            "출전시간": "879",
+                            "경기당 평점": "6.40",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "30",
+                    "name": "벤자민 셰슈코",
+                    "player_id": "178693",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "178693",
+                        "matches_played": 4,
+                        "total_play_time": 76,
+                        "avg_play_time": 19.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "76",
+                            "경기당 평점": "6.55",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "20",
+                    "name": "카를로스 발레바",
+                    "player_id": "224696",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "224696",
+                        "matches_played": 4,
+                        "total_play_time": 235,
+                        "avg_play_time": 58.8,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "235",
+                            "경기당 평점": "6.38",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "26",
+                    "name": "에이든 헤븐",
+                    "player_id": "244629",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "244629",
+                        "matches_played": 5,
+                        "total_play_time": 224,
+                        "avg_play_time": 44.8,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "224",
+                            "경기당 평점": "5.11",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/2"
+                        }
+                    }
+                }
+            ]
+        },
+        "3013768": {
+            "match_code": "3013768",
+            "home": "라싱 산탄데르",
+            "away": "레알소시에다드",
+            "home_absentees": [
+                {
+                    "number": "3",
+                    "name": "아론 마틴",
+                    "player_id": "146748",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "146748",
+                        "matches_played": 7,
+                        "total_play_time": 246,
+                        "avg_play_time": 35.1,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "246",
+                            "경기당 평점": "3.43",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "11",
+                    "name": "안드레스 마틴",
+                    "player_id": "170460",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "170460",
+                        "matches_played": 6,
+                        "total_play_time": 379,
+                        "avg_play_time": 63.2,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "379",
+                            "경기당 평점": "6.85",
+                            "득점(PK)": "1(1)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "14",
+                    "name": "Maguette Gueye",
+                    "player_id": "227512",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "227512",
+                        "matches_played": 7,
+                        "total_play_time": 153,
+                        "avg_play_time": 21.9,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "153",
+                            "경기당 평점": "3.83",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "2",
+                    "name": "Alvaro Mantilla",
+                    "player_id": "228294",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "228294",
+                        "matches_played": 10,
+                        "total_play_time": 812,
+                        "avg_play_time": 81.2,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "812",
+                            "경기당 평점": "6.51",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/3"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "20",
+                    "name": "알바로 오드리오졸라",
+                    "player_id": "143727",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "143727",
+                        "matches_played": 5,
+                        "total_play_time": 201,
+                        "avg_play_time": 40.2,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "201",
+                            "경기당 평점": "6.53",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "7",
+                    "name": "안데르 바레네체아",
+                    "player_id": "174990",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "174990",
+                        "matches_played": 11,
+                        "total_play_time": 628,
+                        "avg_play_time": 57.1,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "11",
+                            "출전시간": "628",
+                            "경기당 평점": "6.79",
+                            "득점(PK)": "2(0)",
+                            "도움": "2",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "19",
+                    "name": "마마두 사르",
+                    "player_id": "231615",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "231615",
+                        "matches_played": 6,
+                        "total_play_time": 508,
+                        "avg_play_time": 84.7,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "508",
+                            "경기당 평점": "6.90",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/2"
+                        }
+                    }
+                }
+            ]
+        },
+        "3013767": {
+            "match_code": "3013767",
+            "home": "오사수나",
+            "away": "말라가",
+            "home_absentees": [
+                {
+                    "number": "13",
+                    "name": "아이토르 페르난데스",
+                    "player_id": "119240",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "119240",
+                        "matches_played": 6,
+                        "total_play_time": 540,
+                        "avg_play_time": 90.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "540",
+                            "경기당 평점": "6.53",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "23",
+                    "name": "아벨 브레토네스",
+                    "player_id": "228556",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "228556",
+                        "matches_played": 12,
+                        "total_play_time": 978,
+                        "avg_play_time": 81.5,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "12",
+                            "출전시간": "978",
+                            "경기당 평점": "6.43",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/2"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "24",
+                    "name": "훌렌 로베테",
+                    "player_id": "183764",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "183764",
+                        "matches_played": 1,
+                        "total_play_time": 5,
+                        "avg_play_time": 5.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "1",
+                            "출전시간": "5",
+                            "경기당 평점": "6.50",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "16",
+                    "name": "디에고 무리요",
+                    "player_id": "202304",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "202304",
+                        "matches_played": 40,
+                        "total_play_time": 3429,
+                        "avg_play_time": 85.7,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "40",
+                            "출전시간": "3429",
+                            "경기당 평점": "0",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "39",
+                    "name": "아담 아즈노우",
+                    "player_id": "242989",
+                    "status": "출전의심/기타",
+                    "stats": {
+                        "player_id": "242989",
+                        "matches_played": 5,
+                        "total_play_time": 294,
+                        "avg_play_time": 58.8,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "294",
+                            "경기당 평점": "6.06",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "1/2"
+                        }
+                    }
+                },
+                {
+                    "number": "35",
+                    "name": "Aaron Ochoa",
+                    "player_id": "252832",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "252832",
+                        "matches_played": 28,
+                        "total_play_time": 822,
+                        "avg_play_time": 29.4,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "28",
+                            "출전시간": "822",
+                            "경기당 평점": "0",
+                            "득점(PK)": "2(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "31",
+                    "name": "Rafael Garrido Hierro",
+                    "player_id": "347854",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "347854",
+                        "matches_played": 12,
+                        "total_play_time": 945,
+                        "avg_play_time": 78.8,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "12",
+                            "출전시간": "945",
+                            "경기당 평점": "6.76",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/2"
+                        }
+                    }
+                }
+            ]
+        },
+        "3013765": {
+            "match_code": "3013765",
+            "home": "헤타페",
+            "away": "AT 마드리드",
+            "home_absentees": [
+                {
+                    "number": "",
+                    "name": "후안미",
+                    "player_id": "70113",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "70113",
+                        "matches_played": 8,
+                        "total_play_time": 171,
+                        "avg_play_time": 21.4,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "8",
+                            "출전시간": "171",
+                            "경기당 평점": "6.11",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "8",
+                    "name": "네마냐 구델리",
+                    "player_id": "164498",
+                    "status": "출전의심/기타",
+                    "stats": {
+                        "player_id": "164498",
+                        "matches_played": 10,
+                        "total_play_time": 824,
+                        "avg_play_time": 82.4,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "824",
+                            "경기당 평점": "6.41",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/5"
+                        }
+                    }
+                },
+                {
+                    "number": "12",
+                    "name": "크리스탄투스 우체",
+                    "player_id": "243647",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "243647",
+                        "matches_played": 3,
+                        "total_play_time": 270,
+                        "avg_play_time": 90.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "270",
+                            "경기당 평점": "7.05",
+                            "득점(PK)": "1(0)",
+                            "도움": "1",
+                            "카드": "0/1"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "11",
+                    "name": "아데몰라 루크먼",
+                    "player_id": "139073",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "139073",
+                        "matches_played": 11,
+                        "total_play_time": 614,
+                        "avg_play_time": 55.8,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "11",
+                            "출전시간": "614",
+                            "경기당 평점": "6.70",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "21",
+                    "name": "크리스티안 로메로",
+                    "player_id": "140566",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "140566",
+                        "matches_played": 6,
+                        "total_play_time": 435,
+                        "avg_play_time": 72.5,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "435",
+                            "경기당 평점": "7.65",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "18",
+                    "name": "마르크 푸빌",
+                    "player_id": "221016",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "221016",
+                        "matches_played": 10,
+                        "total_play_time": 764,
+                        "avg_play_time": 76.4,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "764",
+                            "경기당 평점": "7.09",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/4"
+                        }
+                    }
+                }
+            ]
+        },
+        "2993865": {
+            "match_code": "2993865",
+            "home": "AC 밀란",
+            "away": "프로시노네",
+            "home_absentees": [
+                {
+                    "number": "1",
+                    "name": "Pietro 테라키아노",
+                    "player_id": "96486",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "96486",
+                        "matches_played": 2,
+                        "total_play_time": 124,
+                        "avg_play_time": 62.0,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "2",
+                            "출전시간": "124",
+                            "경기당 평점": "6.82",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "8",
+                    "name": "루벤 로프터스-치크",
+                    "player_id": "128363",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "128363",
+                        "matches_played": 7,
+                        "total_play_time": 242,
+                        "avg_play_time": 34.6,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "242",
+                            "경기당 평점": "6.47",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "21",
+                    "name": "사무엘 추쿠에제",
+                    "player_id": "138944",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "138944",
+                        "matches_played": 7,
+                        "total_play_time": 526,
+                        "avg_play_time": 75.1,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "526",
+                            "경기당 평점": "7.03",
+                            "득점(PK)": "0(0)",
+                            "도움": "2",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "23",
+                    "name": "피카요 토모리",
+                    "player_id": "143780",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "143780",
+                        "matches_played": 3,
+                        "total_play_time": 125,
+                        "avg_play_time": 41.7,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "125",
+                            "경기당 평점": "4.87",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "46",
+                    "name": "마테오 가비아",
+                    "player_id": "153141",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "153141",
+                        "matches_played": 3,
+                        "total_play_time": 37,
+                        "avg_play_time": 12.3,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "37",
+                            "경기당 평점": "6.21",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "56",
+                    "name": "알렉시스 살레마키어스",
+                    "player_id": "164379",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "164379",
+                        "matches_played": 4,
+                        "total_play_time": 186,
+                        "avg_play_time": 46.5,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "186",
+                            "경기당 평점": "6.82",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "27",
+                    "name": "플로리안 그릴리치",
+                    "player_id": "125005",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "125005",
+                        "matches_played": 1,
+                        "total_play_time": 8,
+                        "avg_play_time": 8.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "1",
+                            "출전시간": "8",
+                            "경기당 평점": "5.87",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "9",
+                    "name": "안토니오 라이몬도",
+                    "player_id": "212382",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "212382",
+                        "matches_played": 10,
+                        "total_play_time": 764,
+                        "avg_play_time": 76.4,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "764",
+                            "경기당 평점": "7.17",
+                            "득점(PK)": "8(0)",
+                            "도움": "0",
+                            "카드": "0/3"
+                        }
+                    }
+                },
+                {
+                    "number": "79",
+                    "name": "가브리엘레 Bracaglia",
+                    "player_id": "228759",
+                    "status": "출전의심/기타",
+                    "stats": {
+                        "player_id": "228759",
+                        "matches_played": 10,
+                        "total_play_time": 769,
+                        "avg_play_time": 76.9,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "769",
+                            "경기당 평점": "6.99",
+                            "득점(PK)": "1(0)",
+                            "도움": "1",
+                            "카드": "0/5"
+                        }
+                    }
+                }
+            ]
+        },
+        "2993866": {
+            "match_code": "2993866",
+            "home": "아탈란타",
+            "away": "인터밀란",
+            "home_absentees": [
+                {
+                    "number": "70",
+                    "name": "지안루카 가에타노",
+                    "player_id": "159222",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "159222",
+                        "matches_played": 8,
+                        "total_play_time": 451,
+                        "avg_play_time": 56.4,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "8",
+                            "출전시간": "451",
+                            "경기당 평점": "6.53",
+                            "득점(PK)": "1(0)",
+                            "도움": "1",
+                            "카드": "1/0"
+                        }
+                    }
+                },
+                {
+                    "number": "16",
+                    "name": "라울 벨라노바",
+                    "player_id": "161571",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "161571",
+                        "matches_played": 7,
+                        "total_play_time": 468,
+                        "avg_play_time": 66.9,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "468",
+                            "경기당 평점": "6.72",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "3",
+                    "name": "오딜롱 코수누",
+                    "player_id": "173404",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "173404",
+                        "matches_played": 4,
+                        "total_play_time": 360,
+                        "avg_play_time": 90.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "360",
+                            "경기당 평점": "6.31",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "4",
+                    "name": "아이작 히엔",
+                    "player_id": "208299",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "208299",
+                        "matches_played": 28,
+                        "total_play_time": 1964,
+                        "avg_play_time": 70.1,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "28",
+                            "출전시간": "1964",
+                            "경기당 평점": "6.70",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/5"
+                        }
+                    }
+                },
+                {
+                    "number": "31",
+                    "name": "토마스 크리스텐센",
+                    "player_id": "215280",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "215280",
+                        "matches_played": 5,
+                        "total_play_time": 364,
+                        "avg_play_time": 72.8,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "364",
+                            "경기당 평점": "5.18",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "22",
+                    "name": "Thomas Pompei",
+                    "player_id": "304105",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "304105",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "25",
+                    "name": "마누엘 아카니",
+                    "player_id": "125994",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "125994",
+                        "matches_played": 10,
+                        "total_play_time": 817,
+                        "avg_play_time": 81.7,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "817",
+                            "경기당 평점": "7.37",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "14",
+                    "name": "앙게-요안 보니",
+                    "player_id": "201268",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "201268",
+                        "matches_played": 10,
+                        "total_play_time": 245,
+                        "avg_play_time": 24.5,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "245",
+                            "경기당 평점": "5.48",
+                            "득점(PK)": "2(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "5",
+                    "name": "알렉산다르 스탄코비치",
+                    "player_id": "249743",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "249743",
+                        "matches_played": 4,
+                        "total_play_time": 90,
+                        "avg_play_time": 22.5,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "90",
+                            "경기당 평점": "4.98",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ]
+        },
+        "2995400": {
+            "match_code": "2995400",
+            "home": "로리앙",
+            "away": "렌",
+            "home_absentees": [
+                {
+                    "number": "95",
+                    "name": "아이작 투레",
+                    "player_id": "199474",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "199474",
+                        "matches_played": 5,
+                        "total_play_time": 429,
+                        "avg_play_time": 85.8,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "429",
+                            "경기당 평점": "7.57",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "7",
+                    "name": "Bandiougou Fadiga",
+                    "player_id": "199772",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "199772",
+                        "matches_played": 10,
+                        "total_play_time": 97,
+                        "avg_play_time": 9.7,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "97",
+                            "경기당 평점": "6.09",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "9",
+                    "name": "모하메드 밤바",
+                    "player_id": "201545",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "201545",
+                        "matches_played": 18,
+                        "total_play_time": 678,
+                        "avg_play_time": 37.7,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "18",
+                            "출전시간": "678",
+                            "경기당 평점": "6.22",
+                            "득점(PK)": "1(0)",
+                            "도움": "2",
+                            "카드": "0/3"
+                        }
+                    }
+                },
+                {
+                    "number": "72",
+                    "name": "노아 음밤바",
+                    "player_id": "206588",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "206588",
+                        "matches_played": 4,
+                        "total_play_time": 153,
+                        "avg_play_time": 38.2,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "153",
+                            "경기당 평점": "6.73",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "18",
+                    "name": "Ibrahima Balde",
+                    "player_id": "216988",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "216988",
+                        "matches_played": 7,
+                        "total_play_time": 377,
+                        "avg_play_time": 53.9,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "377",
+                            "경기당 평점": "6.31",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "77",
+                    "name": "파노스 카세리스",
+                    "player_id": "239623",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "239623",
+                        "matches_played": 5,
+                        "total_play_time": 177,
+                        "avg_play_time": 35.4,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "177",
+                            "경기당 평점": "7.04",
+                            "득점(PK)": "0(0)",
+                            "도움": "3",
+                            "카드": "0/1"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "95",
+                    "name": "프셰미스와프 프란콥스키",
+                    "player_id": "117558",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "117558",
+                        "matches_played": 9,
+                        "total_play_time": 596,
+                        "avg_play_time": 66.2,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "9",
+                            "출전시간": "596",
+                            "경기당 평점": "6.06",
+                            "득점(PK)": "1(0)",
+                            "도움": "2",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "9",
+                    "name": "에스테반 르폴",
+                    "player_id": "226078",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "226078",
+                        "matches_played": 7,
+                        "total_play_time": 543,
+                        "avg_play_time": 77.6,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "543",
+                            "경기당 평점": "7.37",
+                            "득점(PK)": "7(4)",
+                            "도움": "0",
+                            "카드": "0/2"
+                        }
+                    }
+                }
+            ]
+        },
+        "2995401": {
+            "match_code": "2995401",
+            "home": "마르세유",
+            "away": "르망",
+            "home_absentees": [
+                {
+                    "number": "33",
+                    "name": "에메르손",
+                    "player_id": "99225",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "99225",
+                        "matches_played": 9,
+                        "total_play_time": 733,
+                        "avg_play_time": 81.4,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "9",
+                            "출전시간": "733",
+                            "경기당 평점": "6.96",
+                            "득점(PK)": "0(0)",
+                            "도움": "3",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "13",
+                    "name": "데렉 코넬리우스",
+                    "player_id": "158938",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "158938",
+                        "matches_played": 3,
+                        "total_play_time": 26,
+                        "avg_play_time": 8.7,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "26",
+                            "경기당 평점": "4.33",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "19",
+                    "name": "지브릴 시디베",
+                    "player_id": "96635",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "96635",
+                        "matches_played": 5,
+                        "total_play_time": 278,
+                        "avg_play_time": 55.6,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "278",
+                            "경기당 평점": "5.46",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "1/2"
+                        }
+                    }
+                },
+                {
+                    "number": "17",
+                    "name": "Samuel Yohou",
+                    "player_id": "139616",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "139616",
+                        "matches_played": 8,
+                        "total_play_time": 646,
+                        "avg_play_time": 80.8,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "8",
+                            "출전시간": "646",
+                            "경기당 평점": "6.75",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "21",
+                    "name": "테오 Eyoum",
+                    "player_id": "247012",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "247012",
+                        "matches_played": 2,
+                        "total_play_time": 180,
+                        "avg_play_time": 90.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "2",
+                            "출전시간": "180",
+                            "경기당 평점": "6.15",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "27",
+                    "name": "Martin Rossignol",
+                    "player_id": "266172",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "266172",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
+                        }
+                    }
+                },
+                {
+                    "number": "11",
+                    "name": "Adil Bourabaa",
+                    "player_id": "341000",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "341000",
+                        "matches_played": 5,
+                        "total_play_time": 398,
+                        "avg_play_time": 79.6,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "5",
+                            "출전시간": "398",
+                            "경기당 평점": "7.16",
+                            "득점(PK)": "3(0)",
+                            "도움": "2",
+                            "카드": "0/1"
+                        }
+                    }
+                }
+            ]
+        },
+        "2996208": {
+            "match_code": "2996208",
+            "home": "고 어헤드 이글스",
+            "away": "시타르트",
+            "home_absentees": [
+                {
+                    "number": "22",
+                    "name": "닉 마르스만",
+                    "player_id": "78137",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "78137",
+                        "matches_played": 20,
+                        "total_play_time": 1711,
+                        "avg_play_time": 85.5,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "20",
+                            "출전시간": "1711",
+                            "경기당 평점": "6.87",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "28",
+                    "name": "Pim Saathof",
+                    "player_id": "228270",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "228270",
+                        "matches_played": 1,
+                        "total_play_time": 78,
+                        "avg_play_time": 78.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "1",
+                            "출전시간": "78",
+                            "경기당 평점": "5.69",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "20",
+                    "name": "Eus Waayers",
+                    "player_id": "244805",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "244805",
+                        "matches_played": 1,
+                        "total_play_time": 31,
+                        "avg_play_time": 31.0,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "1",
+                            "출전시간": "31",
+                            "경기당 평점": "6.00",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "24",
+                    "name": "댈리 싱크하벤",
+                    "player_id": "119135",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "119135",
+                        "matches_played": 4,
+                        "total_play_time": 59,
+                        "avg_play_time": 14.8,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "59",
+                            "경기당 평점": "4.83",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "10",
+                    "name": "Ole ter Haar Romeny",
+                    "player_id": "164810",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "164810",
+                        "matches_played": 6,
+                        "total_play_time": 359,
+                        "avg_play_time": 59.8,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "6",
+                            "출전시간": "359",
+                            "경기당 평점": "5.98",
+                            "득점(PK)": "1(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "3",
+                    "name": "Rodrigo Guth",
+                    "player_id": "194956",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "194956",
+                        "matches_played": 9,
+                        "total_play_time": 666,
+                        "avg_play_time": 74.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "9",
+                            "출전시간": "666",
+                            "경기당 평점": "6.87",
+                            "득점(PK)": "1(0)",
+                            "도움": "1",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "20",
+                    "name": "Edouard Michut",
+                    "player_id": "203653",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "203653",
+                        "matches_played": 10,
+                        "total_play_time": 785,
+                        "avg_play_time": 78.5,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "785",
+                            "경기당 평점": "7.14",
+                            "득점(PK)": "1(0)",
+                            "도움": "2",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "25",
+                    "name": "Lequincio Zeefuik",
+                    "player_id": "214098",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "214098",
+                        "matches_played": 10,
+                        "total_play_time": 697,
+                        "avg_play_time": 69.7,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "10",
+                            "출전시간": "697",
+                            "경기당 평점": "6.63",
+                            "득점(PK)": "3(0)",
+                            "도움": "1",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "",
+                    "name": "Ramazan Bayram",
+                    "player_id": "274994",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "274994",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
+                        }
+                    }
+                }
+            ]
         }
     }
 }
