@@ -1,226 +1,406 @@
 {
-    "last_updated": "2026-11-23 21:00:33",
+    "last_updated": "2026-11-24 08:37:02",
     "match_details": {
-        "3068956": {
-            "match_code": "3068956",
+        "3068889": {
+            "match_code": "3068889",
             "head_info": {
                 "league": "AFC 챔피언스리그",
                 "round": ""
             },
-            "home": "네프치 파르고나",
-            "away": "알 힐랄",
+            "home": "뉴캐슬 제츠(N)",
+            "away": "가시와",
             "meta_details": {
                 "recent_form": {
                     "form_title": "최근 전적",
-                    "home_team_name": "네프치 파르고나",
+                    "home_team_name": "뉴캐슬 제츠(N)",
                     "home_matches": [
                         {
-                            "league": "UZB D1",
-                            "match_time": "2026.11.20",
-                            "teams": "나브바허르 나만간 vs 네프치 파르고나",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(1.90)/방어C(0.90)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.11.14",
-                            "teams": "네프치 파르고나 vs 분요드코르",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(1.80)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.11.08",
-                            "teams": "네프치 파르고나 vs OKMK",
+                            "league": "AUS D1",
+                            "match_time": "2026.11.07",
+                            "teams": "퍼스 글로리 vs 뉴캐슬 제츠",
                             "ft_scores": [
                                 "2",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격C(1.50)/방어C(0.90)"
+                            "opponent_tier_info": "공격C(1.30)/방어E(3.00)"
                         },
                         {
                             "league": "ACLE",
-                            "match_time": "2026.11.02",
-                            "teams": "트락토르 vs 네프치 파르고나",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어B(0.50)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.26",
-                            "teams": "네프치 파르고나 vs 알 이티하드 FC",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.10.23",
-                            "teams": "파크타코르 vs 네프치 파르고나",
-                            "ft_scores": [
-                                "1",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어B(0.80)"
-                        },
-                        {
-                            "league": "UzbC",
-                            "match_time": "2026.10.20",
-                            "teams": "네프치 파르고나 vs Lok. 타슈켄트",
+                            "match_time": "2026.11.03",
+                            "teams": "뉴캐슬 제츠 vs 상하이 하이강",
                             "ft_scores": [
                                 "2",
                                 "4"
                             ],
-                            "opponent_tier_info": "공격B(1.80)/방어C(0.90)"
+                            "opponent_tier_info": "공격A(2.50)/방어C(1.20)"
                         },
                         {
-                            "league": "UZB D1",
-                            "match_time": "2026.10.16",
-                            "teams": "코칸드 1912 vs 네프치 파르고나",
-                            "ft_scores": [
-                                "2",
-                                "4"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어C(0.90)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.12",
-                            "teams": "알 나스르 vs 네프치 파르고나",
-                            "ft_scores": [
-                                "3",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어C(1.20)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.10.07",
-                            "teams": "네프치 파르고나 vs 호레즘 우르겐치",
-                            "ft_scores": [
-                                "2",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어E(1.70)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.09.20",
-                            "teams": "Lok. 타슈켄트 vs 네프치 파르고나",
-                            "ft_scores": [
-                                "0",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격B(2.20)/방어C(1.20)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.09.14",
-                            "teams": "네프치 파르고나 vs 알 쿠와 알 자위야",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.09.09",
-                            "teams": "네프치 파르고나 vs 테르메즈 수르콘",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어C(0.90)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.09.04",
-                            "teams": "나사프 카르시 vs 네프치 파르고나",
-                            "ft_scores": [
-                                "6",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.20)/방어B(0.80)"
-                        },
-                        {
-                            "league": "UzbC",
-                            "match_time": "2026.08.29",
-                            "teams": "네프치 파르고나 vs 파크타코르",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어B(0.60)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.08.23",
-                            "teams": "네프치 파르고나 vs 소그디아나",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어D(1.50)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.08.18",
-                            "teams": "부하라 vs 네프치 파르고나",
-                            "ft_scores": [
-                                "4",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어D(1.30)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.08.13",
-                            "teams": "안디잔 vs 네프치 파르고나",
+                            "league": "AUS D1",
+                            "match_time": "2026.10.31",
+                            "teams": "뉴캐슬 제츠 vs 웰링턴 피닉스",
                             "ft_scores": [
                                 "0",
                                 "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.27",
+                            "teams": "교토 vs 뉴캐슬 제츠",
+                            "ft_scores": [
+                                "5",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어E(2.10)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.10.24",
+                            "teams": "뉴캐슬 제츠 vs 맥아서 FC",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어D(1.50)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.10.17",
+                            "teams": "센트럴 코스트 vs 뉴캐슬 제츠",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어E(2.20)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.13",
+                            "teams": "뉴캐슬 제츠 vs 감바 오사카",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.09.15",
+                            "teams": "가시마 vs 뉴캐슬 제츠",
+                            "ft_scores": [
+                                "7",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어D(1.50)"
+                        },
+                        {
+                            "league": "AUS CUP",
+                            "match_time": "2026.07.21",
+                            "teams": "프레스턴 라이온즈 vs 뉴캐슬 제츠",
+                            "ft_scores": [
+                                "3",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어C(1.20)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.05.16",
+                            "teams": "뉴캐슬 제츠 vs 시드니 FC",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어B(0.80)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.05.09",
+                            "teams": "시드니 FC vs 뉴캐슬 제츠",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(1.80)/방어C(1.10)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.04.25",
+                            "teams": "뉴캐슬 제츠 vs 센트럴 코스트",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.50)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.04.17",
+                            "teams": "멜버른 빅토리 vs 뉴캐슬 제츠",
+                            "ft_scores": [
+                                "2",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.20)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.04.11",
+                            "teams": "뉴캐슬 제츠 vs 애들레이드 유나이티드",
+                            "ft_scores": [
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.30)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.04.02",
+                            "teams": "맥아서 FC vs 뉴캐슬 제츠",
+                            "ft_scores": [
+                                "3",
+                                "2"
                             ],
                             "opponent_tier_info": "공격B(2.20)/방어C(1.00)"
                         },
                         {
-                            "league": "UZB D1",
-                            "match_time": "2026.08.08",
-                            "teams": "네프치 파르고나 vs 키질쿰 자라프션",
+                            "league": "AUS D1",
+                            "match_time": "2026.03.22",
+                            "teams": "시드니 FC vs 뉴캐슬 제츠",
                             "ft_scores": [
-                                "5",
-                                "0"
+                                "1",
+                                "2"
                             ],
-                            "opponent_tier_info": "공격D(1.00)/방어D(1.30)"
+                            "opponent_tier_info": "공격B(2.10)/방어C(0.90)"
                         },
                         {
-                            "league": "UZB D1",
-                            "match_time": "2026.08.03",
-                            "teams": "Din. 사마르칸드 vs 네프치 파르고나",
+                            "league": "AUS D1",
+                            "match_time": "2026.03.14",
+                            "teams": "뉴캐슬 제츠 vs 오클랜드 FC",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.00)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.03.07",
+                            "teams": "뉴캐슬 제츠 vs 웨스턴 시드니",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어D(1.60)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.02.28",
+                            "teams": "센트럴 코스트 vs 뉴캐슬 제츠",
                             "ft_scores": [
                                 "0",
                                 "0"
                             ],
-                            "opponent_tier_info": "공격A(2.30)/방어E(2.00)"
+                            "opponent_tier_info": "공격A(2.70)/방어C(1.20)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.02.22",
+                            "teams": "뉴캐슬 제츠 vs 맥아서 FC",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어E(1.80)"
                         }
                     ],
-                    "away_team_name": "알 힐랄",
+                    "away_team_name": "가시와",
                     "away_matches": [
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.11.20",
+                            "teams": "가시와 vs 지바",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.30)/방어D(1.40)"
+                        },
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.11.15",
+                            "teams": "가시와 vs 가와사키",
+                            "ft_scores": [
+                                "5",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.40)"
+                        },
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.11.11",
+                            "teams": "가와사키 vs 가시와",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어C(1.20)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.11.07",
+                            "teams": "가시와 vs 가와사키",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어D(1.30)"
+                        },
                         {
                             "league": "ACLE",
                             "match_time": "2026.11.03",
-                            "teams": "알 힐랄 vs 알 알리 두바이",
+                            "teams": "가시와 vs 대전",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.10)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.31",
+                            "teams": "가시와 vs 우라와",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.30)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.27",
+                            "teams": "라차부리 vs 가시와",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.60)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.24",
+                            "teams": "가시마 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어D(1.40)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.21",
+                            "teams": "FC 도쿄 vs 가시와",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어A(0.20)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.17",
+                            "teams": "가시와 vs 나고야",
+                            "ft_scores": [
+                                "1",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어E(1.90)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.14",
+                            "teams": "가시와 vs 포트 MTI FC",
+                            "ft_scores": [
+                                "5",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어E(1.70)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.09",
+                            "teams": "가시와 vs 고베",
+                            "ft_scores": [
+                                "4",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어B(0.70)"
+                        },
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.10.03",
+                            "teams": "가시와 vs 감바 오사카",
+                            "ft_scores": [
+                                "3",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어C(1.20)"
+                        },
+                        {
+                            "league": "JE Cup",
+                            "match_time": "2026.09.23",
+                            "teams": "가시와 vs 이마바리",
+                            "ft_scores": [
+                                "4",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어E(2.00)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.20",
+                            "teams": "마치다 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어B(0.70)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.09.16",
+                            "teams": "전북 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.20)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.11",
+                            "teams": "교토 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어E(2.10)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.06",
+                            "teams": "가시와 vs 요코하마 M.",
+                            "ft_scores": [
+                                "0",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(1.70)/방어C(1.10)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.02",
+                            "teams": "세레소 오사카 vs 가시와",
                             "ft_scores": [
                                 "2",
                                 "0"
@@ -228,403 +408,213 @@
                             "opponent_tier_info": "공격C(1.60)/방어C(1.10)"
                         },
                         {
-                            "league": "SPL",
-                            "match_time": "2026.10.31",
-                            "teams": "알 힐랄 vs 알 파테",
+                            "league": "JPN D1",
+                            "match_time": "2026.08.29",
+                            "teams": "시미즈 vs 가시와",
                             "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어E(2.00)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.27",
-                            "teams": "샤말 vs 알 힐랄",
-                            "ft_scores": [
-                                "3",
+                                "0",
                                 "1"
                             ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.50)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.10.23",
-                            "teams": "알 카디시야 vs 알 힐랄",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어C(0.90)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.10.19",
-                            "teams": "알 힐랄 vs 알 하즘",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어D(1.50)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.13",
-                            "teams": "알 사드 vs 알 힐랄",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.70)/방어D(1.50)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.10.10",
-                            "teams": "알 힐랄 vs 알 이티하드 FC",
-                            "ft_scores": [
-                                "3",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어B(0.80)"
-                        },
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.09.15",
-                            "teams": "알 힐랄 vs 알 가라파",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어D(1.60)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.09.12",
-                            "teams": "알 타원 vs 알 힐랄",
-                            "ft_scores": [
-                                "0",
-                                "6"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어C(0.90)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.09.07",
-                            "teams": "알 힐랄 vs 네옴 SC",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어B(0.80)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.09.04",
-                            "teams": "알 샤밥 vs 알 힐랄",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어C(1.20)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.09.01",
-                            "teams": "알 힐랄 vs 알 아흘리 SC",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어D(1.50)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.08.28",
-                            "teams": "알 칼리지 vs 알 힐랄",
-                            "ft_scores": [
-                                "1",
-                                "5"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(1.90)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.08.20",
-                            "teams": "알 파이하 vs 알 힐랄",
-                            "ft_scores": [
-                                "0",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격D(0.90)/방어E(2.00)"
-                        },
-                        {
-                            "league": "SK CUP",
-                            "match_time": "2026.08.17",
-                            "teams": "알 라에드 vs 알 힐랄",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어D(1.50)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.08.14",
-                            "teams": "알 힐랄 vs 알 파이살리",
-                            "ft_scores": [
-                                "4",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.50)/방어B(0.50)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.08.03",
-                            "teams": "알 아흘리 도하 vs 알 힐랄",
-                            "ft_scores": [
-                                "3",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격B(1.80)/방어E(1.90)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.29",
-                            "teams": "알 힐랄 vs MC 알제르",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어C(1.00)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.24",
-                            "teams": "알 힐랄 vs 마멜로디 선다운스",
-                            "ft_scores": [
-                                "2",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어C(1.10)"
-                        },
-                        {
-                            "league": "INT CF",
-                            "match_time": "2026.07.19",
-                            "teams": "슈투름 그라즈 II vs 알 힐랄",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어E(2.10)"
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.00)"
                         }
                     ]
                 },
                 "stadium_form": {
                     "form_title": "구장별 전적",
-                    "home_team_name": "네프치 파르고나",
+                    "home_team_name": "뉴캐슬 제츠(N)",
                     "home_matches": [
                         {
-                            "league": "UZB D1",
-                            "match_time": "2026.11.14",
-                            "teams": "네프치 파르고나 vs 분요드코르",
-                            "ft_scores": [
-                                "4",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(1.80)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.11.08",
-                            "teams": "네프치 파르고나 vs OKMK",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격C(1.50)/방어C(0.90)"
-                        },
-                        {
                             "league": "ACLE",
-                            "match_time": "2026.10.26",
-                            "teams": "네프치 파르고나 vs 알 이티하드 FC",
-                            "ft_scores": [
-                                "1",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격B(2.00)/방어C(1.20)"
-                        },
-                        {
-                            "league": "UzbC",
-                            "match_time": "2026.10.20",
-                            "teams": "네프치 파르고나 vs Lok. 타슈켄트",
+                            "match_time": "2026.11.03",
+                            "teams": "뉴캐슬 제츠 vs 상하이 하이강",
                             "ft_scores": [
                                 "2",
                                 "4"
                             ],
-                            "opponent_tier_info": "공격B(1.80)/방어C(0.90)"
+                            "opponent_tier_info": "공격A(2.50)/방어C(1.20)"
                         },
                         {
-                            "league": "UZB D1",
-                            "match_time": "2026.10.07",
-                            "teams": "네프치 파르고나 vs 호레즘 우르겐치",
+                            "league": "AUS D1",
+                            "match_time": "2026.10.31",
+                            "teams": "뉴캐슬 제츠 vs 웰링턴 피닉스",
                             "ft_scores": [
-                                "2",
-                                "2"
+                                "0",
+                                "3"
                             ],
-                            "opponent_tier_info": "공격D(0.90)/방어E(1.70)"
+                            "opponent_tier_info": "공격C(1.20)/방어C(1.10)"
                         },
                         {
-                            "league": "ACLE",
-                            "match_time": "2026.09.14",
-                            "teams": "네프치 파르고나 vs 알 쿠와 알 자위야",
+                            "league": "AUS D1",
+                            "match_time": "2026.10.24",
+                            "teams": "뉴캐슬 제츠 vs 맥아서 FC",
                             "ft_scores": [
                                 "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격B(1.70)/방어D(1.40)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.09.09",
-                            "teams": "네프치 파르고나 vs 테르메즈 수르콘",
-                            "ft_scores": [
-                                "2",
-                                "1"
-                            ],
-                            "opponent_tier_info": "공격D(0.60)/방어C(0.90)"
-                        },
-                        {
-                            "league": "UzbC",
-                            "match_time": "2026.08.29",
-                            "teams": "네프치 파르고나 vs 파크타코르",
-                            "ft_scores": [
-                                "1",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격C(1.40)/방어B(0.60)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.08.23",
-                            "teams": "네프치 파르고나 vs 소그디아나",
-                            "ft_scores": [
-                                "3",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격A(2.30)/방어D(1.50)"
-                        },
-                        {
-                            "league": "UZB D1",
-                            "match_time": "2026.08.08",
-                            "teams": "네프치 파르고나 vs 키질쿰 자라프션",
-                            "ft_scores": [
-                                "5",
-                                "0"
-                            ],
-                            "opponent_tier_info": "공격D(1.00)/방어D(1.30)"
-                        }
-                    ],
-                    "away_team_name": "알 힐랄",
-                    "away_matches": [
-                        {
-                            "league": "ACLE",
-                            "match_time": "2026.10.27",
-                            "teams": "샤말 vs 알 힐랄",
-                            "ft_scores": [
-                                "3",
                                 "1"
                             ],
                             "opponent_tier_info": "공격B(1.70)/방어D(1.50)"
                         },
                         {
-                            "league": "SPL",
-                            "match_time": "2026.10.23",
-                            "teams": "알 카디시야 vs 알 힐랄",
-                            "ft_scores": [
-                                "2",
-                                "3"
-                            ],
-                            "opponent_tier_info": "공격A(2.40)/방어C(0.90)"
-                        },
-                        {
                             "league": "ACLE",
                             "match_time": "2026.10.13",
-                            "teams": "알 사드 vs 알 힐랄",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격A(2.70)/방어D(1.50)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.09.12",
-                            "teams": "알 타원 vs 알 힐랄",
-                            "ft_scores": [
-                                "0",
-                                "6"
-                            ],
-                            "opponent_tier_info": "공격C(1.30)/방어C(0.90)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.09.04",
-                            "teams": "알 샤밥 vs 알 힐랄",
-                            "ft_scores": [
-                                "0",
-                                "2"
-                            ],
-                            "opponent_tier_info": "공격C(1.60)/방어C(1.20)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.08.28",
-                            "teams": "알 칼리지 vs 알 힐랄",
+                            "teams": "뉴캐슬 제츠 vs 감바 오사카",
                             "ft_scores": [
                                 "1",
-                                "5"
-                            ],
-                            "opponent_tier_info": "공격D(0.80)/방어E(1.90)"
-                        },
-                        {
-                            "league": "SPL",
-                            "match_time": "2026.08.20",
-                            "teams": "알 파이하 vs 알 힐랄",
-                            "ft_scores": [
-                                "0",
                                 "3"
                             ],
-                            "opponent_tier_info": "공격D(0.90)/방어E(2.00)"
+                            "opponent_tier_info": "공격C(1.60)/방어D(1.30)"
                         },
                         {
-                            "league": "SK CUP",
-                            "match_time": "2026.08.17",
-                            "teams": "알 라에드 vs 알 힐랄",
+                            "league": "AUS D1",
+                            "match_time": "2026.05.16",
+                            "teams": "뉴캐슬 제츠 vs 시드니 FC",
                             "ft_scores": [
-                                "0",
-                                "2"
+                                "1",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격D(1.00)/방어B(0.80)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.04.25",
+                            "teams": "뉴캐슬 제츠 vs 센트럴 코스트",
+                            "ft_scores": [
+                                "4",
+                                "0"
                             ],
                             "opponent_tier_info": "공격C(1.60)/방어D(1.50)"
                         },
                         {
-                            "league": "INT CF",
-                            "match_time": "2026.08.03",
-                            "teams": "알 아흘리 도하 vs 알 힐랄",
+                            "league": "AUS D1",
+                            "match_time": "2026.04.11",
+                            "teams": "뉴캐슬 제츠 vs 애들레이드 유나이티드",
                             "ft_scores": [
-                                "3",
-                                "3"
+                                "1",
+                                "1"
                             ],
-                            "opponent_tier_info": "공격B(1.80)/방어E(1.90)"
+                            "opponent_tier_info": "공격B(2.00)/방어D(1.30)"
                         },
                         {
-                            "league": "INT CF",
-                            "match_time": "2026.07.19",
-                            "teams": "슈투름 그라즈 II vs 알 힐랄",
+                            "league": "AUS D1",
+                            "match_time": "2026.03.14",
+                            "teams": "뉴캐슬 제츠 vs 오클랜드 FC",
                             "ft_scores": [
                                 "1",
                                 "2"
                             ],
-                            "opponent_tier_info": "공격D(1.00)/방어E(2.10)"
+                            "opponent_tier_info": "공격B(1.90)/방어C(1.00)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.03.07",
+                            "teams": "뉴캐슬 제츠 vs 웨스턴 시드니",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.50)/방어D(1.60)"
+                        },
+                        {
+                            "league": "AUS D1",
+                            "match_time": "2026.02.22",
+                            "teams": "뉴캐슬 제츠 vs 맥아서 FC",
+                            "ft_scores": [
+                                "1",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(1.90)/방어E(1.80)"
+                        }
+                    ],
+                    "away_team_name": "가시와",
+                    "away_matches": [
+                        {
+                            "league": "JPN LC",
+                            "match_time": "2026.11.11",
+                            "teams": "가와사키 vs 가시와",
+                            "ft_scores": [
+                                "1",
+                                "2"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어C(1.20)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.10.27",
+                            "teams": "라차부리 vs 가시와",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.10)/방어D(1.60)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.24",
+                            "teams": "가시마 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격A(2.30)/방어D(1.40)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.10.21",
+                            "teams": "FC 도쿄 vs 가시와",
+                            "ft_scores": [
+                                "0",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격B(2.20)/방어A(0.20)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.20",
+                            "teams": "마치다 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "4"
+                            ],
+                            "opponent_tier_info": "공격A(2.60)/방어B(0.70)"
+                        },
+                        {
+                            "league": "ACLE",
+                            "match_time": "2026.09.16",
+                            "teams": "전북 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.20)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.11",
+                            "teams": "교토 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "3"
+                            ],
+                            "opponent_tier_info": "공격C(1.20)/방어E(2.10)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.09.02",
+                            "teams": "세레소 오사카 vs 가시와",
+                            "ft_scores": [
+                                "2",
+                                "0"
+                            ],
+                            "opponent_tier_info": "공격C(1.60)/방어C(1.10)"
+                        },
+                        {
+                            "league": "JPN D1",
+                            "match_time": "2026.08.29",
+                            "teams": "시미즈 vs 가시와",
+                            "ft_scores": [
+                                "0",
+                                "1"
+                            ],
+                            "opponent_tier_info": "공격C(1.10)/방어C(1.00)"
                         }
                     ]
                 }
