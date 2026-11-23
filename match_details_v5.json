@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-23 10:38:03",
+    "last_updated": "2026-11-23 21:17:34",
     "lineup_details": {
         "3059479": {
             "match_code": "3059479",
@@ -129787,6 +129787,27 @@
                     }
                 },
                 {
+                    "number": "17",
+                    "name": "안토니 밀람보",
+                    "player_id": "217418",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "217418",
+                        "matches_played": 1,
+                        "total_play_time": 46,
+                        "avg_play_time": 46.0,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "1",
+                            "출전시간": "46",
+                            "경기당 평점": "6.12",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
                     "number": "47",
                     "name": "Kaye Furo",
                     "player_id": "259521",
@@ -130058,6 +130079,455 @@
                     }
                 }
             ]
+        },
+        "3068956": {
+            "match_code": "3068956",
+            "home": "네프치 파르고나",
+            "away": "알 힐랄",
+            "home_absentees": [],
+            "away_absentees": [
+                {
+                    "number": "27",
+                    "name": "술탄 만다쉬",
+                    "player_id": "200468",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "200468",
+                        "matches_played": 11,
+                        "total_play_time": 572,
+                        "avg_play_time": 52.0,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "11",
+                            "출전시간": "572",
+                            "경기당 평점": "6.72",
+                            "득점(PK)": "3(0)",
+                            "도움": "3",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "2",
+                    "name": "Mohammed Mahzari",
+                    "player_id": "239707",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "239707",
+                        "matches_played": 11,
+                        "total_play_time": 948,
+                        "avg_play_time": 86.2,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "11",
+                            "출전시간": "948",
+                            "경기당 평점": "7.22",
+                            "득점(PK)": "0(0)",
+                            "도움": "2",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "70",
+                    "name": "사이몬 부아브레",
+                    "player_id": "251130",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "251130",
+                        "matches_played": 1,
+                        "total_play_time": 67,
+                        "avg_play_time": 67.0,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "1",
+                            "출전시간": "67",
+                            "경기당 평점": "6.60",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ]
+        },
+        "3068957": {
+            "match_code": "3068957",
+            "home": "알 아인",
+            "away": "에스테갈 F.C.",
+            "home_absentees": [],
+            "away_absentees": [
+                {
+                    "number": "20",
+                    "name": "알리레자 쿠시키",
+                    "player_id": "221235",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "221235",
+                        "matches_played": 3,
+                        "total_play_time": 98,
+                        "avg_play_time": 32.7,
+                        "grade": "C",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "98",
+                            "경기당 평점": "4.00",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/1"
+                        }
+                    }
+                },
+                {
+                    "number": "22",
+                    "name": "Saman Touranian",
+                    "player_id": "288949",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "288949",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
+                        }
+                    }
+                },
+                {
+                    "number": "30",
+                    "name": "Abolfazl Norouzi",
+                    "player_id": "387988",
+                    "status": "출전의심/기타",
+                    "stats": {
+                        "player_id": "387988",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
+                        }
+                    }
+                }
+            ]
+        },
+        "3068958": {
+            "match_code": "3068958",
+            "home": "트락토르(N)",
+            "away": "알 와슬",
+            "home_absentees": [
+                {
+                    "number": "9",
+                    "name": "메흐디 토라비",
+                    "player_id": "136442",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "136442",
+                        "matches_played": 1,
+                        "total_play_time": 24,
+                        "avg_play_time": 24.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "1",
+                            "출전시간": "24",
+                            "경기당 평점": "6.27",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "8",
+                    "name": "Igor Postonjski",
+                    "player_id": "153246",
+                    "status": "출전의심/기타",
+                    "stats": {
+                        "player_id": "153246",
+                        "matches_played": 2,
+                        "total_play_time": 180,
+                        "avg_play_time": 90.0,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "2",
+                            "출전시간": "180",
+                            "경기당 평점": "7.15",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "33",
+                    "name": "Farshad 파라지",
+                    "player_id": "183798",
+                    "status": "출전의심/기타",
+                    "stats": {
+                        "player_id": "183798",
+                        "matches_played": 3,
+                        "total_play_time": 241,
+                        "avg_play_time": 80.3,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "3",
+                            "출전시간": "241",
+                            "경기당 평점": "5.87",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "1/0"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": []
+        },
+        "3068959": {
+            "match_code": "3068959",
+            "home": "샤말(N)",
+            "away": "알 아흘리 SC",
+            "home_absentees": [
+                {
+                    "number": "",
+                    "name": "Ibrahima Coulibaly",
+                    "player_id": "380836",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "380836",
+                        "matches_played": 0,
+                        "total_play_time": 0,
+                        "avg_play_time": 0.0,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "-",
+                            "출전시간": "-",
+                            "경기당 평점": "-",
+                            "득점(PK)": "-",
+                            "도움": "-",
+                            "카드": "-"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "47",
+                    "name": "Saleh Abu Al Shamat",
+                    "player_id": "234842",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "234842",
+                        "matches_played": 7,
+                        "total_play_time": 198,
+                        "avg_play_time": 28.3,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "198",
+                            "경기당 평점": "6.21",
+                            "득점(PK)": "0(0)",
+                            "도움": "1",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ]
+        },
+        "3068960": {
+            "match_code": "3068960",
+            "home": "알 이티하드 FC",
+            "away": "파크타코르",
+            "home_absentees": [
+                {
+                    "number": "20",
+                    "name": "Ahmed 샤라힐리",
+                    "player_id": "142584",
+                    "status": "출전의심/기타",
+                    "stats": {
+                        "player_id": "142584",
+                        "matches_played": 17,
+                        "total_play_time": 1004,
+                        "avg_play_time": 59.1,
+                        "grade": "B",
+                        "important_stats": {
+                            "경기": "17",
+                            "출전시간": "1004",
+                            "경기당 평점": "6.05",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/3"
+                        }
+                    }
+                },
+                {
+                    "number": "15",
+                    "name": "하산 카디쉬",
+                    "player_id": "148499",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "148499",
+                        "matches_played": 7,
+                        "total_play_time": 522,
+                        "avg_play_time": 74.6,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "7",
+                            "출전시간": "522",
+                            "경기당 평점": "7.01",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/3"
+                        }
+                    }
+                },
+                {
+                    "number": "80",
+                    "name": "하메드 알 감디",
+                    "player_id": "176159",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "176159",
+                        "matches_played": 8,
+                        "total_play_time": 134,
+                        "avg_play_time": 16.8,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "8",
+                            "출전시간": "134",
+                            "경기당 평점": "5.79",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "7",
+                    "name": "호제르",
+                    "player_id": "217276",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "217276",
+                        "matches_played": 15,
+                        "total_play_time": 1165,
+                        "avg_play_time": 77.7,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "15",
+                            "출전시간": "1165",
+                            "경기당 평점": "6.64",
+                            "득점(PK)": "2(0)",
+                            "도움": "2",
+                            "카드": "0/2"
+                        }
+                    }
+                },
+                {
+                    "number": "17",
+                    "name": "Mahamadou 둠비아",
+                    "player_id": "256929",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "256929",
+                        "matches_played": 14,
+                        "total_play_time": 1117,
+                        "avg_play_time": 79.8,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "14",
+                            "출전시간": "1117",
+                            "경기당 평점": "6.81",
+                            "득점(PK)": "1(0)",
+                            "도움": "2",
+                            "카드": "0/3"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": [
+                {
+                    "number": "27",
+                    "name": "Sardor Sobirkhuzhaev",
+                    "player_id": "121198",
+                    "status": "출전의심/기타",
+                    "stats": {
+                        "player_id": "121198",
+                        "matches_played": 25,
+                        "total_play_time": 2057,
+                        "avg_play_time": 82.3,
+                        "grade": "A",
+                        "important_stats": {
+                            "경기": "25",
+                            "출전시간": "2057",
+                            "경기당 평점": "0",
+                            "득점(PK)": "2(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                },
+                {
+                    "number": "5",
+                    "name": "모르테자 푸랄리간지",
+                    "player_id": "127600",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "127600",
+                        "matches_played": 4,
+                        "total_play_time": 115,
+                        "avg_play_time": 28.8,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "115",
+                            "경기당 평점": "0",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ]
+        },
+        "3069036": {
+            "match_code": "3069036",
+            "home": "이스트 벵골",
+            "away": "알 후세인",
+            "home_absentees": [
+                {
+                    "number": "",
+                    "name": "Naorem 싱",
+                    "player_id": "211336",
+                    "status": "결장",
+                    "stats": {
+                        "player_id": "211336",
+                        "matches_played": 4,
+                        "total_play_time": 115,
+                        "avg_play_time": 28.8,
+                        "grade": "D",
+                        "important_stats": {
+                            "경기": "4",
+                            "출전시간": "115",
+                            "경기당 평점": "0",
+                            "득점(PK)": "0(0)",
+                            "도움": "0",
+                            "카드": "0/0"
+                        }
+                    }
+                }
+            ],
+            "away_absentees": []
         }
     }
 }
