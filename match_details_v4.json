@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-11-24 11:06:46",
+    "updated_at": "2026-11-24 22:31:30",
     "leagues": {
         "34": {
             "league_id": 34,
@@ -15099,7 +15099,7 @@
             "league_id": 4,
             "league_name": "세리에 A 베타노",
             "league_name_error": null,
-            "active_round": "36/38",
+            "active_round": "37/38",
             "active_round_error": null,
             "total_rounds": 38,
             "standing_legends": [
@@ -15223,11 +15223,11 @@
                     "team": "산투스",
                     "tag_color": "#52B2F5",
                     "tag_label": "CON CSA Play-offs",
-                    "경기수": "35",
+                    "경기수": "36",
                     "승": "13",
                     "무": "11",
-                    "패": "2",
-                    "득실": "50",
+                    "패": "12",
+                    "득실": "0",
                     "승점": "50"
                 },
                 {
@@ -15292,21 +15292,33 @@
                 },
                 {
                     "rank": "15",
+                    "team": "그레미우",
+                    "tag_color": "",
+                    "tag_label": "일반",
+                    "경기수": "36",
+                    "승": "10",
+                    "무": "11",
+                    "패": "-7",
+                    "득실": "41",
+                    "승점": "41"
+                },
+                {
+                    "rank": "16",
                     "team": "미라솔",
                     "tag_color": "",
                     "tag_label": "일반",
                     "경기수": "36",
                     "승": "10",
                     "무": "11",
-                    "패": "-10",
-                    "득실": "41",
+                    "패": "15",
+                    "득실": "-10",
                     "승점": "41"
                 },
                 {
-                    "rank": "16",
+                    "rank": "17",
                     "team": "코린티안스",
-                    "tag_color": "",
-                    "tag_label": "일반",
+                    "tag_color": "#B1A7A7",
+                    "tag_label": "강등팀",
                     "경기수": "35",
                     "승": "10",
                     "무": "15",
@@ -15315,7 +15327,7 @@
                     "승점": "40"
                 },
                 {
-                    "rank": "17",
+                    "rank": "18",
                     "team": "인테르나시오나우",
                     "tag_color": "#B1A7A7",
                     "tag_label": "강등팀",
@@ -15324,18 +15336,6 @@
                     "무": "11",
                     "패": "16",
                     "득실": "-8",
-                    "승점": "38"
-                },
-                {
-                    "rank": "18",
-                    "team": "그레미우",
-                    "tag_color": "#B1A7A7",
-                    "tag_label": "강등팀",
-                    "경기수": "35",
-                    "승": "9",
-                    "무": "11",
-                    "패": "15",
-                    "득실": "-9",
                     "승점": "38"
                 },
                 {
@@ -17443,9 +17443,9 @@
             "league_id": 273,
             "league_name": "호주 A리그",
             "league_name_error": null,
-            "active_round": "6/28",
+            "active_round": "5/26",
             "active_round_error": null,
-            "total_rounds": 28,
+            "total_rounds": 26,
             "standing_legends": [
                 {
                     "color": "#51AB8D",
@@ -17609,7 +17609,7 @@
             "league_id": 193,
             "league_name": "디비전 1",
             "league_name_error": null,
-            "active_round": "6/30",
+            "active_round": "11/30",
             "active_round_error": null,
             "total_rounds": 30,
             "standing_legends": [
