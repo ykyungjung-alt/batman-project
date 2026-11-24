@@ -1,115 +1,6 @@
 {
-    "last_updated": "2026-11-24 11:09:58",
+    "last_updated": "2026-11-24 22:33:40",
     "match_details": {
-        "3068889": {
-            "match_code": "3068889",
-            "head_info": {
-                "league": "AFC 챔피언스리그",
-                "round": "",
-                "match_time_raw": "11/24/2026 7:45:00 AM",
-                "match_time_display": "2026-11-24 16:45",
-                "stadium": "",
-                "home_stadium": "Hunter International Sports Centre",
-                "weather": "이슬비,  19°C"
-            },
-            "home": "뉴캐슬 제츠(N)",
-            "away": "가시와",
-            "meta_details": {
-                "rankings": [
-                    {
-                        "team_type": "홈팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "AUS D1-11",
-                        "team": "뉴캐슬 제츠",
-                        "played": "4",
-                        "win": "0",
-                        "draw": "2",
-                        "loss": "2",
-                        "goals_for": "4",
-                        "goals_against": "8",
-                        "goal_diff": "-4",
-                        "points": "2"
-                    },
-                    {
-                        "team_type": "원정팀 리그전적",
-                        "sub_category": "최근전적",
-                        "rank": "JPN D1-3",
-                        "team": "가시와",
-                        "played": "15",
-                        "win": "10",
-                        "draw": "1",
-                        "loss": "4",
-                        "goals_for": "31",
-                        "goals_against": "21",
-                        "goal_diff": "10",
-                        "points": "31"
-                    }
-                ],
-                "recent_form": {
-                    "home_summary": {
-                        "recent_record": "0승 3무 7패",
-                        "goals_per_game": "1.30",
-                        "conceded_per_game": "3.10"
-                    },
-                    "away_summary": {
-                        "recent_record": "6승 2무 2패",
-                        "goals_per_game": "1.90",
-                        "conceded_per_game": "1.20"
-                    },
-                    "matches": []
-                },
-                "h2h": {
-                    "summary": [],
-                    "matches": []
-                },
-                "lineup_summary": {
-                    "home": [],
-                    "away": []
-                },
-                "fixtures": {
-                    "home": [
-                        {
-                            "league": "AFC 챔피언스리그",
-                            "match_time": "2026-12-01 10:00:00",
-                            "teams": "12.01 2026 vs 고베 vs 뉴캐슬 제츠 vs 7 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "호주 A리그",
-                            "match_time": "2026-12-12 08:40:00",
-                            "teams": "12.12 2026 vs 멜버른 빅토리 vs 뉴캐슬 제츠 vs 18 일",
-                            "interval": "18 일"
-                        },
-                        {
-                            "league": "호주 A리그",
-                            "match_time": "2026-12-20 06:00:00",
-                            "teams": "12.20 2026 vs 애들레이드 유나이티드 vs 뉴캐슬 제츠 vs 26 일",
-                            "interval": "26 일"
-                        }
-                    ],
-                    "away": [
-                        {
-                            "league": "J1 리그",
-                            "match_time": "2026-11-28 07:00:00",
-                            "teams": "11.28 2026 vs 가시와 vs 산프레체 히로시마 vs 4 일",
-                            "interval": "시작전"
-                        },
-                        {
-                            "league": "AFC 챔피언스리그",
-                            "match_time": "2026-12-01 10:00:00",
-                            "teams": "12.01 2026 vs 가시와 vs 공안 vs 7 일",
-                            "interval": "7 일"
-                        },
-                        {
-                            "league": "J1 리그",
-                            "match_time": "2026-12-06 07:00:00",
-                            "teams": "12.06 2026 vs 가시와 vs 아비스파 후쿠오카 vs 12 일",
-                            "interval": "12 일"
-                        }
-                    ]
-                }
-            }
-        },
         "3068890": {
             "match_code": "3068890",
             "head_info": {
@@ -117,9 +8,9 @@
                 "round": "",
                 "match_time_raw": "11/24/2026 10:00:00 AM",
                 "match_time_display": "2026-11-24 19:00",
-                "stadium": "Sanga Stadium by Kyocera",
+                "stadium": "",
                 "home_stadium": "Sanga Stadium by Kyocera",
-                "weather": "구름 조금,  8°C"
+                "weather": ""
             },
             "home": "교토",
             "away": "포항",
@@ -226,9 +117,9 @@
                 "round": "",
                 "match_time_raw": "11/24/2026 10:00:00 AM",
                 "match_time_display": "2026-11-24 19:00",
-                "stadium": "Daejeon World Cup Stadium",
+                "stadium": "",
                 "home_stadium": "Daejeon World Cup Stadium",
-                "weather": "구름 조금,  0°C"
+                "weather": ""
             },
             "home": "대전",
             "away": "베이징 궈안",
@@ -337,7 +228,7 @@
                 "match_time_display": "2026-11-24 21:15",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "구름 조금,  29°C"
+                "weather": "구름 조금,  29℃～30℃"
             },
             "home": "라차부리",
             "away": "조호르 DT",
@@ -472,7 +363,7 @@
                 "match_time_display": "2026-11-24 21:15",
                 "stadium": "",
                 "home_stadium": "-",
-                "weather": "흐림,  20°C"
+                "weather": "구름 많음,  18℃～19℃"
             },
             "home": "공안",
             "away": "고베",
@@ -581,7 +472,7 @@
                 "match_time_display": "2026-11-24 21:15",
                 "stadium": "Shanghai Pudong Football Stadium",
                 "home_stadium": "Shanghai Pudong Football Stadium",
-                "weather": "맑음,  8°C"
+                "weather": "구름 많음,  9℃～10℃"
             },
             "home": "상하이 하이강",
             "away": "부리람",
