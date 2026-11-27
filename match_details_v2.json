@@ -1,5 +1,5 @@
 {
-    "last_updated": "2026-11-27 10:43:44",
+    "last_updated": "2026-11-27 21:04:14",
     "match_details": {
         "3018884": {
             "match_code": "3018884",
@@ -10,7 +10,7 @@
                 "match_time_display": "2026-11-28 04:30",
                 "stadium": "Weserstadion",
                 "home_stadium": "Weserstadion",
-                "weather": "구름 조금,  -1°C"
+                "weather": "구름 조금,  -1℃～0℃"
             },
             "home": "베르더 브레멘",
             "away": "묀헨글라트바흐",
@@ -918,7 +918,7 @@
                 "match_time_display": "2026-11-28 05:00",
                 "stadium": "City Ground",
                 "home_stadium": "City Ground",
-                "weather": "이슬비,  3°C"
+                "weather": "대체로 맑음,  0℃～1℃"
             },
             "home": "노팅엄",
             "away": "첼시",
@@ -1111,7 +1111,7 @@
                 "match_time_display": "2026-11-28 05:00",
                 "stadium": "Ciutat de Valencia",
                 "home_stadium": "Ciutat de Valencia",
-                "weather": "맑음,  12°C"
+                "weather": "구름 많음,  7℃～8℃"
             },
             "home": "레반테",
             "away": "라싱 산탄데르",
@@ -1446,42 +1446,42 @@
                 "fixtures": {
                     "home": [
                         {
+                            "league": "코파델레이",
+                            "match_time": "2026-12-01 20:00:00",
+                            "teams": "12.01 2026 vs CD 엑스트레마두라 vs 베티스 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
                             "league": "라리가",
                             "match_time": "2026-12-06 20:00:00",
                             "teams": "12.06 2026 vs AT 마드리드 vs 베티스 vs 8 일",
-                            "interval": "시작전"
+                            "interval": "8 일"
                         },
                         {
                             "league": "챔피언스리그",
                             "match_time": "2026-12-09 17:45:00",
                             "teams": "12.09 2026 vs 베티스 vs 코모 vs 11 일",
                             "interval": "11 일"
-                        },
-                        {
-                            "league": "라리가",
-                            "match_time": "2026-12-13 16:00:00",
-                            "teams": "12.13 2026 vs 베티스 vs 라싱 산탄데르 vs 15 일",
-                            "interval": "15 일"
                         }
                     ],
                     "away": [
                         {
+                            "league": "코파델레이",
+                            "match_time": "2026-12-01 20:00:00",
+                            "teams": "12.01 2026 vs CE 유로파 vs 라요 바예카노 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
                             "league": "라리가",
                             "match_time": "2026-12-05 15:15:00",
                             "teams": "12.05 2026 vs 라요 바예카노 vs 레반테 vs 7 일",
-                            "interval": "시작전"
+                            "interval": "7 일"
                         },
                         {
                             "league": "라리가",
                             "match_time": "2026-12-13 16:00:00",
                             "teams": "12.13 2026 vs 비야레알 vs 라요 바예카노 vs 15 일",
                             "interval": "15 일"
-                        },
-                        {
-                            "league": "라리가",
-                            "match_time": "2026-12-20 16:00:00",
-                            "teams": "12.20 2026 vs 라요 바예카노 vs 말라가 vs 22 일",
-                            "interval": "22 일"
                         }
                     ]
                 }
@@ -1682,7 +1682,7 @@
                 "match_time_display": "2026-11-28 14:00",
                 "stadium": "",
                 "home_stadium": "Anyang Stadium",
-                "weather": "구름 조금,  9°C"
+                "weather": "구름 조금,  8°C"
             },
             "home": "안양",
             "away": "제주",
@@ -1851,7 +1851,7 @@
                 "match_time_display": "2026-11-28 16:30",
                 "stadium": "",
                 "home_stadium": "Fuchuan Stadium",
-                "weather": ""
+                "weather": "구름 조금,  6°C"
             },
             "home": "부천",
             "away": "김천",
@@ -2020,7 +2020,7 @@
                 "match_time_display": "2026-11-28 16:30",
                 "stadium": "Pohang Steelyard Stadium",
                 "home_stadium": "Pohang Steelyard Stadium",
-                "weather": ""
+                "weather": "맑음,  9°C"
             },
             "home": "포항",
             "away": "광주",
@@ -2292,7 +2292,7 @@
                 "match_time_display": "2026-11-28 14:00",
                 "stadium": "",
                 "home_stadium": "Yong-In main stadium",
-                "weather": "구름 조금,  9°C"
+                "weather": "구름 조금,  8°C"
             },
             "home": "용인시민축구단",
             "away": "파주시민",
@@ -2375,7 +2375,7 @@
                 "match_time_display": "2026-11-28 04:45",
                 "stadium": "Stadio Pierluigi Penzo",
                 "home_stadium": "Stadio Pierluigi Penzo",
-                "weather": "구름 조금,  7°C"
+                "weather": "구름 많음,  5℃～6℃"
             },
             "home": "베네치아",
             "away": "볼로냐",
@@ -2712,7 +2712,7 @@
                 "match_time_display": "2026-11-28 04:45",
                 "stadium": "Stade Francis-Le Ble",
                 "home_stadium": "Stade Francis-Le Ble",
-                "weather": "이슬비,  10°C"
+                "weather": "구름 많음,  5℃～6℃"
             },
             "home": "브레스트",
             "away": "파리 FC",
@@ -2905,7 +2905,7 @@
                 "match_time_display": "2026-11-28 05:00",
                 "stadium": "St Marys Stadium",
                 "home_stadium": "St Marys Stadium",
-                "weather": "이슬비,  9°C"
+                "weather": "구름 많음,  0℃～1℃"
             },
             "home": "사우샘프턴",
             "away": "미들스브로",
@@ -3588,7 +3588,7 @@
                 "match_time_display": "2026-11-28 02:30",
                 "stadium": "Ruhrstadion",
                 "home_stadium": "Ruhrstadion",
-                "weather": "맑음,  -1°C"
+                "weather": "구름 많음,  -5℃～-4℃"
             },
             "home": "보훔",
             "away": "다름슈타트",
@@ -3781,7 +3781,7 @@
                 "match_time_display": "2026-11-28 02:30",
                 "stadium": "Voith-Arena",
                 "home_stadium": "Voith-Arena",
-                "weather": "흐림,  -1°C"
+                "weather": "구름 조금,  -2℃～-1℃"
             },
             "home": "하이덴하임",
             "away": "뉘른베르크",
@@ -3973,7 +3973,7 @@
                 "match_time_display": "2026-11-28 21:00",
                 "stadium": "Olympiastadion Berlin",
                 "home_stadium": "Olympiastadion Berlin",
-                "weather": ""
+                "weather": "구름 조금,  0°C"
             },
             "home": "헤르타 베를린",
             "away": "카를스루어 SC",
@@ -4166,7 +4166,7 @@
                 "match_time_display": "2026-11-28 21:00",
                 "stadium": "Holstein Stadium",
                 "home_stadium": "Holstein Stadium",
-                "weather": ""
+                "weather": "흐림,  0°C"
             },
             "home": "홀슈타인 킬",
             "away": "카이저슬라우테른",
@@ -4343,7 +4343,7 @@
                 "match_time_display": "2026-11-28 21:00",
                 "stadium": "Rudolf Harbig Stadion",
                 "home_stadium": "Rudolf Harbig Stadion",
-                "weather": ""
+                "weather": "맑음,  1°C"
             },
             "home": "SG 디나모 드레스덴",
             "away": "장크트 파울리",
@@ -4536,7 +4536,7 @@
                 "match_time_display": "2026-11-28 04:30",
                 "stadium": "Estadio Municipal de Butarque",
                 "home_stadium": "Estadio Municipal de Butarque",
-                "weather": "맑음,  8°C"
+                "weather": "구름 조금,  2℃～3℃"
             },
             "home": "레가네스",
             "away": "사바델",
@@ -4775,42 +4775,42 @@
                 "fixtures": {
                     "home": [
                         {
+                            "league": "코파델레이",
+                            "match_time": "2026-12-01 19:00:00",
+                            "teams": "12.01 2026 vs 알바세테 vs 라스팔마스 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
                             "league": "라리가2",
                             "match_time": "2026-12-07 17:30:00",
                             "teams": "12.07 2026 vs 코르도바 vs 라스팔마스 vs 9 일",
-                            "interval": "시작전"
+                            "interval": "9 일"
                         },
                         {
                             "league": "라리가2",
                             "match_time": "2026-12-13 16:00:00",
                             "teams": "12.13 2026 vs 라스팔마스 vs 셀타비고 B vs 15 일",
                             "interval": "15 일"
-                        },
-                        {
-                            "league": "라리가2",
-                            "match_time": "2026-12-20 16:00:00",
-                            "teams": "12.20 2026 vs 사바델 vs 라스팔마스 vs 22 일",
-                            "interval": "22 일"
                         }
                     ],
                     "away": [
                         {
+                            "league": "코파델레이",
+                            "match_time": "2026-12-01 19:00:00",
+                            "teams": "12.01 2026 vs 폰페라디나 vs FC 안도라 vs 3 일",
+                            "interval": "시작전"
+                        },
+                        {
                             "league": "라리가2",
                             "match_time": "2026-12-05 17:30:00",
                             "teams": "12.05 2026 vs FC 안도라 vs R. 오비에도 vs 7 일",
-                            "interval": "시작전"
+                            "interval": "7 일"
                         },
                         {
                             "league": "라리가2",
                             "match_time": "2026-12-13 16:00:00",
                             "teams": "12.13 2026 vs 엘덴세 vs FC 안도라 vs 15 일",
                             "interval": "15 일"
-                        },
-                        {
-                            "league": "라리가2",
-                            "match_time": "2026-12-20 16:00:00",
-                            "teams": "12.20 2026 vs FC 안도라 vs 카디스 vs 22 일",
-                            "interval": "22 일"
                         }
                     ]
                 }
@@ -4825,7 +4825,7 @@
                 "match_time_display": "2026-11-28 04:00",
                 "stadium": "Euroborg",
                 "home_stadium": "Euroborg",
-                "weather": "흐림,  -3°C"
+                "weather": "구름 많음,  -5℃～-4℃"
             },
             "home": "흐로닝언",
             "away": "빌렘 II",
@@ -5018,7 +5018,7 @@
                 "match_time_display": "2026-11-28 14:00",
                 "stadium": "Sanga Stadium by Kyocera",
                 "home_stadium": "Sanga Stadium by Kyocera",
-                "weather": "맑음,  18°C"
+                "weather": "맑음,  17°C"
             },
             "home": "교토",
             "away": "세레소 오사카",
@@ -5211,7 +5211,7 @@
                 "match_time_display": "2026-11-28 14:00",
                 "stadium": "Nihondaira Stadium",
                 "home_stadium": "Nihondaira Stadium",
-                "weather": "맑음,  20°C"
+                "weather": "구름 조금,  19°C"
             },
             "home": "시미즈",
             "away": "우라와",
@@ -5734,7 +5734,7 @@
                 "match_time_display": "2026-11-28 16:00",
                 "stadium": "Sankyo Frontier Kashiwa Stadium",
                 "home_stadium": "Hitachi Kashiwa Soccer Stadium",
-                "weather": ""
+                "weather": "구름 조금,  18°C"
             },
             "home": "가시와",
             "away": "산프레체 히로시마",
